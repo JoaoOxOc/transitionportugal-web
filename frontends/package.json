@@ -1,0 +1,17 @@
+{
+    "name": "@transitionpt/root",
+    "version": "1.0.0",
+    "private": true,
+    "author": "Joao Almeida",
+    "license": "MIT",
+    "workspaces": [
+        "packages/*"
+    ],
+    "devDependencies": {
+        "lerna": "^4.0.0"
+    },
+    "scripts": {
+        "run:home:dev": "lerna run --scope @transitionpt/home --stream dev",
+        "run:backoffice:dev": "lerna run --scope @transitionpt/backoffice --stream dev"
+    }
+}
