@@ -3,7 +3,7 @@ website and web services of transition network in Portugal
 
 
 ## How to run it
-
+### for micro frontend's monorepo
 - First, explanation of frontend's root folder `package.json`:
 	- `npm run bootstrap` (on the frontend's root folder): triggers the command `lerna bootstrap --hoist` responsible for moving all package dependencies to the root `node_modules` folder
 	- `npm run tsc` (on the frontend's root folder): it triggers the command `lerna run tsc --stream` compiling every monorepo package built with typescript
