@@ -11,7 +11,10 @@
         "lerna": "^4.0.0"
     },
     "scripts": {
-        "run:home:dev": "lerna run --scope @transitionpt/home --stream dev",
-        "run:backoffice:dev": "lerna run --scope @transitionpt/backoffice --stream dev"
+        "bootstrap": "lerna bootstrap --hoist",
+        "tsc": "lerna run tsc --stream",
+        "watch": "tsc --watch",
+        "run:home:dev": "lerna run tsc --stream && lerna run --scope @transitionpt/home --stream dev",
+        "run:backoffice:dev": "lerna run tsc --stream && lerna run --scope @transitionpt/backoffice --stream dev"
     }
 }

@@ -1,10 +1,25 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
+import React, { useEffect, useState } from "react";
 
 import { Header } from '@transitionpt/generic_header';
+import { i18nextCommon } from "@transitionpt/translations";
 
 export default function Home() {
+  const [currentLang, setLang] = useState("pt");
+  i18nextCommon.changeLanguage(currentLang);
+
+  useEffect(() => {
+      const handleNewMessage = (event) => {
+        //setMessages((currentMessages) => currentMessages.concat(event.detail));
+        console.log(event)
+        setLang(event.detail);
+      };
+            
+      window.addEventListener('newLang', handleNewMessage);
+  });
+
   return (
     <div className={styles.container}>
       <Head>
@@ -16,7 +31,7 @@ export default function Home() {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
+          Welcome to <a href="https://nextjs.org">Next.js! { i18nextCommon.t('Notification.DOWNLOAD.success') }</a>
         </h1>
 
         <p className={styles.description}>
