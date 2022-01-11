@@ -14,3 +14,7 @@ website and web services of transition network in Portugal
 	- first, run "bootstrap" command just to verify all the dependencies
 	- just run "home" or "backoffice" commands, depending on which project you want to start
 	
+- How to install packages in a specific project:
+	- example: `lerna add styled-components --scope=@transitionpt/generic_header`
+	- last, run `npm run bootstrap` to remove duplicated NPM packages
+	
