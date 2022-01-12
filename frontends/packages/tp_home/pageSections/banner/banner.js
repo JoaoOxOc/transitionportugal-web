@@ -11,7 +11,7 @@ import {bannerStyles as styles } from './banner.styles';
 
 import { BannerDataAction } from '../../contexts/banner/banner.provider';
 
-// import { useTranslation } from 'next-i18next';
+import { i18nextCommon } from "@transitionpt/translations";
 
 export default function Banner() {
 //   const { t } = useTranslation('header');
@@ -40,7 +40,7 @@ export default function Banner() {
           {bannerData.bannerData.bannerSubtitle}
           </Text>
           <Text as="p" variant="heroSecondary">
-          {bannerData.bannerData.bannerSubtitleSignature}
+          {bannerData.bannerData.bannerSubtitleSignature} { i18nextCommon.t('Notification.DOWNLOAD.success') }
           </Text>
           <Flex>
             <Button variant="whiteButton" aria-label="Get Started">

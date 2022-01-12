@@ -3,6 +3,7 @@ import { jsx } from 'theme-ui';
 import React, { useState } from 'react';
 import Sticky from 'react-stickynode';
 import Header from '../components/header/header';
+import TopBar from '../components/header/topbar';
 
 
 export default function Layout({ children }) {
@@ -19,7 +20,8 @@ export default function Layout({ children }) {
   
   return (
     <React.Fragment>
-      <Sticky innerZ={1001} top={0} onStateChange={handleStateChange}>
+      <TopBar/>
+      <Sticky innerZ={101} top={0} onStateChange={handleStateChange}>
         <Header className={`${isSticky ? 'sticky' : 'unSticky'}`} />
       </Sticky>
       <main
