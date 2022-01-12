@@ -15,6 +15,7 @@
         "tsc": "lerna run tsc --stream",
         "watch": "tsc --watch",
         "run:home:dev": "lerna run tsc --stream && lerna run --scope @transitionpt/home --stream dev",
+        "run:home:prod": "lerna run tsc --stream && lerna run --scope @transitionpt/home --stream build",
         "run:backoffice:dev": "lerna run tsc --stream && lerna run --scope @transitionpt/backoffice --stream dev"
     }
 }
