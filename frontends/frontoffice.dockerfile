@@ -1,39 +1,56 @@
 FROM node:14 as base
-COPY ./package.json ./
+#COPY ./package.json ./
+#COPY ./lerna.json ./
+COPY ./package.json /app/
 RUN npm install
-COPY ./lerna.json ./
+COPY ./lerna.json /app/
 
-# Package @transitionpt/translations
-FROM base as transitionpt_translations-build
-WORKDIR /app/packages/tp_translations
 
-COPY  packages/tp_translations/package.json packages/tp_translations/ 
 
-WORKDIR /app/
-RUN npx lerna bootstrap --hoist --scope=@transitionpt/translations --includeDependencies
-WORKDIR /app/packages/tp_translations
 
-RUN npm run tsc
-
-# Package @transitionpt/home
+# Package @transitionpt/home and it's dependencies
 FROM base as transitionpt_home-build
-WORKDIR /app/packages/tp_home
-
-COPY  packages/tp_home/package.json packages/tp_home/ 
-
 WORKDIR /app/
+
+# tp_translations is a dependency in tp_home, install it's dependencies
+COPY  packages/tp_translations/package.json /app/packages/tp_translations/package.json
+COPY  packages/tp_translations/ /app/packages/tp_translations/ 
+RUN npx lerna bootstrap --scope=@transitionpt/translations --includeDependencies
+
+# compile tp_translations
+RUN npx lerna run tsc --stream
+
+# install tp_home dependencies
+COPY  packages/tp_home/package.json /app/packages/tp_home/package.json
+COPY  packages/tp_home/ /app/packages/tp_home/ 
+
 RUN npx lerna bootstrap --hoist --scope=@transitionpt/home --includeDependencies
+
+# WORKAROUND: lerna compiles tp_translations as a symlink in node_modules, which will not work with next start command
+RUN rm -rf /app/packages/tp_home/node_modules/@transitionpt/
+
+
+
+
+
+# final stage
+FROM base as final-transitionpt_home-build-stage
+
+COPY --from=transitionpt_home-build /app/packages/tp_home /app/packages/tp_home
+COPY --from=transitionpt_home-build /app/packages/tp_translations /app/packages/tp_translations
+# WORKAROUND: lerna compiles tp_translations as a symlink in node_modules, which will not work with next start command. Full compiled folder is needed
+copy --from=transitionpt_home-build /app/packages/tp_translations /app/packages/tp_home/node_modules/@transitionpt/translations/
+copy --from=transitionpt_home-build /app/node_modules /app/node_modules
+
 WORKDIR /app/packages/tp_home
 
 RUN npm run build
 
-# final stage
-FROM base
-COPY --from=transitionpt_translations-build /app/packages/tp_translations /app/packages/tp_translations
-COPY --from=transitionpt_home-build /app/packages/tp_home /app/packages/tp_home
+
+
 
 # Production image, copy all the files and run next
-FROM node:14 AS runner
+FROM node:16-alpine AS runner
 WORKDIR /app/packages/tp_home
 
 ENV NODE_ENV production
@@ -42,11 +59,15 @@ RUN addgroup -g 1001 -S nodejs
 RUN adduser -S nextjs -u 1001
 
 # You only need to copy next.config.js if you are NOT using the default configuration
-# COPY --from=builder /app/packages/tp_home/next.config.js ./
-COPY --from=builder /app/packages/tp_home/public ./public
-COPY --from=builder --chown=nextjs:nodejs /app/packages/tp_home/.next ./.next
-COPY --from=builder /app/packages/tp_home/node_modules ./node_modules
-COPY --from=builder /app/packages/tp_home/package.json ./package.json
+COPY --from=transitionpt_home-build /app/packages/tp_home/next.config.js ./
+COPY --from=transitionpt_home-build /app/packages/tp_home/assets ./assets
+COPY --from=transitionpt_home-build /app/packages/tp_home/public ./public
+COPY --from=transitionpt_home-build --chown=nextjs:nodejs /app/packages/tp_home/.next ./.next
+COPY --from=transitionpt_home-build /app/packages/tp_home/package.json ./package.json
+
+# import needed packages
+COPY --from=transitionpt_home-build /app/node_modules ./node_modules
+copy --from=transitionpt_home-build /app/packages/tp_translations ./node_modules/@transitionpt/translations
 
 USER nextjs
 
@@ -59,4 +80,4 @@ ENV PORT 3000
 # Uncomment the following line in case you want to disable telemetry.
 # ENV NEXT_TELEMETRY_DISABLED 1
 
-CMD ["node_modules/.bin/next", "start"]
+CMD ["npm", "run", "start"]
