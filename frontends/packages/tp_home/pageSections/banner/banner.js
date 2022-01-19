@@ -33,13 +33,13 @@ export default function Banner() {
     }} id="home">
       <Container sx={styles.banner.container}>
         <Box sx={styles.banner.contentBox}>
-          <Heading as="h1" variant="heroPrimary">
+          <Heading as="h1" variant="tpPrimary">
           {bannerData.bannerData.bannerTitle}
           </Heading>
-          <Text as="p" variant="heroSecondary">
+          <Text as="p" variant="tpSecondary">
           {bannerData.bannerData.bannerSubtitle}
           </Text>
-          <Text as="p" variant="heroSecondary">
+          <Text as="p" variant="tpSecondary">
           {bannerData.bannerData.bannerSubtitleSignature} { i18nextCommon.t('Notification.DOWNLOAD.success') }
           </Text>
           <Flex>

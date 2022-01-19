@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-anonymous-default-export
 export default {
     // example colors with dark mode
     colors: {
@@ -161,6 +162,30 @@ export default {
       },
       heroSecondary: {
         color: 'white',
+        fontSize: [2, 3, 4, '17px', null, 3, '19px', 4],
+        lineHeight: [2, null, null, null, 2.2],
+        fontWeight: 'body',
+        pr: [0, null, null, null, null, '100px', null, '125px'],
+        mb: ['35px', null, null, null, '40px', null, null, 7],
+      },
+      tpPrimary: {
+        color: '#5AADB5',
+        fontSize: [
+          '40px',
+          '52px',
+          '60px',
+          '48px',
+          '52px',
+          '60px',
+          '66px',
+          '78px',
+        ],
+        lineHeight: 1.2,
+        fontWeight: 700,
+        mb: [5, null, null, null, '30px'],
+      },
+      tpSecondary: {
+        color: '#5AADB5',
         fontSize: [2, 3, 4, '17px', null, 3, '19px', 4],
         lineHeight: [2, null, null, null, 2.2],
         fontWeight: 'body',

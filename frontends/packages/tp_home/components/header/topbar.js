@@ -12,6 +12,20 @@ import {topBarStyles as styles } from './topbar.style';
 //import * as FontAwesome from 'react-icons/fa';
 
 export default function TopBar({className}) {
+
+    const [currentLang, setLang] = useState("pt");
+    i18nextHeader.changeLanguage(currentLang);
+
+    useEffect(() => {
+        const handleNewMessage = (event) => {
+            //setMessages((currentMessages) => currentMessages.concat(event.detail));
+            console.log(event);
+            setLang(event.detail);
+        };
+                
+        window.addEventListener('newLang', handleNewMessage);
+    });
+
     // const mdIcon = FontAwesome['FaBeer'];
     // console.log(React.createElement(mdIcon))
 

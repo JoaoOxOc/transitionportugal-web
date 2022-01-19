@@ -15,7 +15,7 @@ const positionAnim = keyframes`
 
 export const headerStyles = {
     header: {
-      color: 'white',
+      color: 'black',
       fontWeight: 'normal',
       py: 4,
       width: '100%',
@@ -73,8 +73,8 @@ export const headerStyles = {
         display: 'block',
       },
       a: {
-        fontSize: '16px',
-        fontWeight: '400',
+        fontSize: '18px',
+        fontWeight: '600',
         px: 25,
         cursor: 'pointer',
         lineHeight: '1.2',

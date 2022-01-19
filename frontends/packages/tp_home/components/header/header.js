@@ -4,21 +4,35 @@ import React, { useEffect, useState } from "react";
 import { Link } from 'react-scroll';
 
 import { DrawerProvider } from '../../contexts/drawer/drawer.provider';
+import MobileDrawer from './mobile-drawer';
 
 import {headerStyles as styles } from './header.style';
 
 import menuItems from './header.data';
 
-import { i18nextCommon } from "@transitionpt/translations";
+import { i18nextHeader } from "@transitionpt/translations";
 
 export default function Header({className}) {
+    console.log(menuItems)
+    const [currentLang, setLang] = useState("pt");
+    i18nextHeader.changeLanguage(currentLang);
+  
+    useEffect(() => {
+        const handleNewMessage = (event) => {
+          //setMessages((currentMessages) => currentMessages.concat(event.detail));
+          console.log(event);
+          setLang(event.detail);
+        };
+              
+        window.addEventListener('newLang', handleNewMessage);
+    });
 
     return (
         <DrawerProvider>
             <header sx={styles.header} className={className} id="header">
                 <Container sx={styles.container}>
                   <Flex as="nav" sx={styles.nav}>
-                    {menuItems.map(({ path, label }, i) => (
+                    {menuItems.map(({ path, label, icon }, i) => (
                       <Link
                         activeClass="active"
                         to={path}
@@ -28,7 +42,7 @@ export default function Header({className}) {
                         duration={500}
                         key={i}
                       >
-                        {label}
+                        {icon} { i18nextHeader.t(label) }
                       </Link>
                     ))}
                   </Flex>
@@ -70,7 +84,7 @@ export default function Header({className}) {
                       Get Started
                   </Button> */}
 
-                  {/* <MobileDrawer /> */}
+                  <MobileDrawer />
                 </Container>
             </header>
         </DrawerProvider>

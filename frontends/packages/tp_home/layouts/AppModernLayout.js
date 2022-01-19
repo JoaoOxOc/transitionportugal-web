@@ -10,7 +10,6 @@ export default function Layout({ children }) {
   const [isSticky, setIsSticky] = useState(false);
 
   const handleStateChange = (status) => {
-    console.log(status)
     if (status.status === Sticky.STATUS_FIXED) {
       setIsSticky(true);
     } else if (status.status === Sticky.STATUS_ORIGINAL) {

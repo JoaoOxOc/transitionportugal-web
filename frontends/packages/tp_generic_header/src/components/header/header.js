@@ -13,7 +13,6 @@ export default function Header(menuOptionsJson, className) {
      * https://medium.com/@sisosys7/a-monorepo-setup-with-lerna-react-and-typescript-7b912fb48622
      */
     function changeHeaderLanguage() {
-        //i18nextCommon.changeLanguage("en");
         setLang("en");
         const customEvent = new CustomEvent('newLang', { detail: "en" });
         window.dispatchEvent(customEvent)
