@@ -6,10 +6,18 @@ import ReactCountryFlag from "react-country-flag"
 // import local libraries
 import {GenericDropdown} from '../generic/dropdown';
 import { i18nextHeader } from "@transitionpt/translations";
+import Logo from '../logo';
+import UserBanner from '../user/UserBanner';
+import LinkBar from '../../components/social/linkbar'
 
 // import styles
 import {topBarStyles as styles } from './topbar.style';
 //import * as FontAwesome from 'react-icons/fa';
+
+//import images and icons
+import LogoDark from '../../public/tn-logo.svg';
+//import LogoWhite from '../../assets/logo.svg';
+import UserLogoDark from '../../public/user_icon.svg';
 
 export default function TopBar({className}) {
 
@@ -43,18 +51,32 @@ export default function TopBar({className}) {
     return (
         <div sx={styles.container}>
             <Container sx={styles.innerContainer}>
-                <Grid gap={2} columns={[2, null, 0]}>
+                <Grid gap={2} columns={[3, null, '1fr 1fr 1fr']}>
                     <Box sx={styles.gridBox}>
-                        <p><span className='fa fa-arrow-left'></span>test { i18nextHeader.t('Header.TOPBAR.welcome', { username: 'Joao' }) }</p>
+                        <LinkBar/>
                     </Box>
-                    <Box sx={styles.gridBox}>
-                        <div sx={styles.smallboxRight}>
-                        <GenericDropdown onChangedOption={handleLanguage} items={langOptions} defaultOption={<>{langOptions[1].icon} {langOptions[1].label}</>} ariaLabel="select your language" name="select-language-drop" className={'selectbox-right'}/>
-                        </div>
+                    <Box>
+                        <Container sx={styles.boxContainer}>
+                            <div sx={styles.boxContainer.boxInnerContainer}>
+                                <Logo src={LogoDark} />
+                            </div>
+                        </Container>
+                    </Box>
+                    <Box sx={Object.assign({}, styles.gridBox, styles.moveNegativeLeft, styles.moveNegativeRight)}>
+                        <Grid columns={[2, null, 0]}  sx={Object.assign({}, styles.subGrid)}>
+                            <Box sx={Object.assign({}, styles.subGridBox)}>
+                                <div sx={Object.assign({}, styles.smallboxRight)}>
+                                    <GenericDropdown onChangedOption={handleLanguage} items={langOptions} defaultOption={<>{langOptions[1].icon} {langOptions[1].label}</>} ariaLabel="select your language" name="select-language-drop" className={'selectbox-right'}/>
+                                </div>
+                            </Box>
+                            <Box sx={styles.subGridBox}>
+                                <div sx={Object.assign({}, styles.loginBox)}>
+                                    <UserBanner src={UserLogoDark} className={ 'block' }/>
+                                </div>
+                            </Box>
+                        </Grid>
                     </Box>
                 </Grid>
-            
-            
             </Container>
         </div>
     );

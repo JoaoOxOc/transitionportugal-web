@@ -13,6 +13,12 @@ const positionAnim = keyframes`
 `;
 
 
+const colors = {
+  nav_hover: '#0F5137',
+  border_top: '#000000',
+  border_bottom: '#000000'
+};
+
 export const headerStyles = {
     header: {
       color: 'black',
@@ -20,7 +26,7 @@ export const headerStyles = {
       py: 4,
       width: '100%',
       position: 'absolute',
-      top: '32px',//change for topbar height
+      //top: '32px',//change for topbar height
       left: 0,
       backgroundColor: 'transparent',
       transition: 'all 0.5s ease',
@@ -34,7 +40,7 @@ export const headerStyles = {
         position: 'fixed',
         backgroundColor: 'background',
         color: '#000000',
-        boxShadow: '0 1px 2px rgba(0, 0, 0, 0.06)',
+        boxShadow: '1px 3px 3px rgba(0, 0, 0, 0.6)',
         py: 3,
         'nev > a': {
           color: 'text',
@@ -47,6 +53,9 @@ export const headerStyles = {
             backgroundColor: 'primary',
             color: 'white',
           },
+        },
+        bottomLine: {
+          boxShadow: '5px 10px #888888'
         },
       },
       '.profile__menu': {
@@ -61,10 +70,35 @@ export const headerStyles = {
         }
       },
     },
+    topLine: {
+      //position: 'absolute',
+      width: '70%',
+      margin: '-15px auto auto auto',
+      paddingTop: '12px',
+      borderTop: "3px solid " + colors.border_top,
+    },
+    bottomLine: {
+      position: 'absolute',
+      width: '100%',
+      paddingBottom: '15px',
+      borderBottom: "1px solid " + colors.border_bottom,
+    },
     container: {
       display: 'flex',
       alignItems: 'center',
-      justifyContent: 'space-between',
+      justifyContent: 'space-between'
+    },
+    stickyLogo: {
+      img: {
+        height: '40px !important',
+        transition: '1.25s',
+      }
+    },
+    stickyBanner: {
+      img: {
+        height: '20px !important',
+        transition: '1.25s',
+      }
     },
     nav: {
       mx: 'auto',
@@ -73,17 +107,50 @@ export const headerStyles = {
         display: 'block',
       },
       a: {
-        fontSize: '18px',
+        fontSize: '16px',
         fontWeight: '600',
         px: 25,
         cursor: 'pointer',
         lineHeight: '1.2',
         '&.active': {
-          color: 'secondary',
+          color: colors.nav_hover,
+          span: {
+            '&::before': {
+              opacity: '1',
+              bottom: '-1px',
+              backgroundColor: colors.nav_hover,
+            },
+          }
         },
+        '&:hover': {
+          color: colors.nav_hover + ' !important',
+          span: {
+            '&::before': {
+              opacity: '1',
+              bottom: '-1px',
+              backgroundColor: colors.nav_hover,
+            },
+          }
+        },
+        span: {
+          position: 'relative',
+          svg: {
+            marginTop: '-5px'
+          },
+          '&::before': {
+            content: '""',
+            position: 'absolute',
+            bottom: '-5px',
+            opacity: '0',
+            width: '100%',
+            height: '1px',
+            backgroundColor: 'black',
+            transition: '.25s',
+          },
+        }
       },
       div: {
           display: 'block',
-      },
+      }
     },
   };
