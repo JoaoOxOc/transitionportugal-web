@@ -19,10 +19,24 @@ export const UserBannerStyles = {
             height: '40px',
             alignItems: 'center',
             justifyContent: 'center',
+            paddingLeft: '50px',
             p: {
                 color: '#111',
                 paddingTop: '15px',
                 fontSize: '14px'
+            }
+        },
+        userSidemenu: {
+            display: 'block',
+            width: '100%',
+            height: '70px',
+            alignItems: 'center',
+            justifyContent: 'center',
+            paddingTop: '10px',
+            textAlign: 'center',
+            borderBottom: '1px solid #ccc',
+            p: {
+                color: '#111'
             }
         },
         userImage: {

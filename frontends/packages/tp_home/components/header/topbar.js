@@ -8,7 +8,7 @@ import {GenericDropdown} from '../generic/dropdown';
 import { i18nextHeader } from "@transitionpt/translations";
 import Logo from '../logo';
 import UserBanner from '../user/UserBanner';
-import LinkBar from '../../components/social/linkbar'
+import SocialLinkBar from '../../components/social/linkbar'
 
 // import styles
 import {topBarStyles as styles } from './topbar.style';
@@ -53,7 +53,7 @@ export default function TopBar({className}) {
             <Container sx={styles.innerContainer}>
                 <Grid gap={2} columns={[3, null, '1fr 1fr 1fr']}>
                     <Box sx={styles.gridBox}>
-                        <LinkBar/>
+                        <SocialLinkBar/>
                     </Box>
                     <Box>
                         <Container sx={styles.boxContainer}>

@@ -13,7 +13,7 @@ const positionAnim = keyframes`
 `;
 
 
-const colors = {
+export const colors = {
   nav_hover: '#0F5137',
   border_top: '#000000',
   border_bottom: '#000000'
@@ -42,7 +42,7 @@ export const headerStyles = {
         color: '#000000',
         boxShadow: '1px 3px 3px rgba(0, 0, 0, 0.6)',
         py: 3,
-        'nev > a': {
+        'nav > a': {
           color: 'text',
         },
         '.donate__btn': {
@@ -70,9 +70,19 @@ export const headerStyles = {
         }
       },
     },
+    displayMobile: {
+      '@media screen and (min-width: 1024px)': {
+        display: 'none',
+      },
+    },
+    displayBig: {
+      '@media screen and (max-width: 1024px)': {
+        display: 'none',
+      },
+    },
     topLine: {
       //position: 'absolute',
-      width: '70%',
+      width: '80%',
       margin: '-15px auto auto auto',
       paddingTop: '12px',
       borderTop: "3px solid " + colors.border_top,
@@ -105,49 +115,6 @@ export const headerStyles = {
       display: 'none',
       '@media screen and (min-width: 1024px)': {
         display: 'block',
-      },
-      a: {
-        fontSize: '16px',
-        fontWeight: '600',
-        px: 25,
-        cursor: 'pointer',
-        lineHeight: '1.2',
-        '&.active': {
-          color: colors.nav_hover,
-          span: {
-            '&::before': {
-              opacity: '1',
-              bottom: '-1px',
-              backgroundColor: colors.nav_hover,
-            },
-          }
-        },
-        '&:hover': {
-          color: colors.nav_hover + ' !important',
-          span: {
-            '&::before': {
-              opacity: '1',
-              bottom: '-1px',
-              backgroundColor: colors.nav_hover,
-            },
-          }
-        },
-        span: {
-          position: 'relative',
-          svg: {
-            marginTop: '-5px'
-          },
-          '&::before': {
-            content: '""',
-            position: 'absolute',
-            bottom: '-5px',
-            opacity: '0',
-            width: '100%',
-            height: '1px',
-            backgroundColor: 'black',
-            transition: '.25s',
-          },
-        }
       },
       div: {
           display: 'block',

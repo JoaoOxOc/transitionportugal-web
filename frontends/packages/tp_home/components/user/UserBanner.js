@@ -11,8 +11,8 @@ import {UserBannerStyles as styles } from './UserBanner.style';
 import {BiCaretDown} from 'react-icons/bi';
 
 export default function UserBanner({ src, className, ...rest }) {
-    console.log(className)
-    const innerContain = className === 'inlineBlock' ? styles.userContainer.userInlineBlock : styles.userContainer.userBlock;
+    const innerContain = className === 'inlineBlock' ? styles.userContainer.userInlineBlock 
+                            : (className === 'sidemenu' ? styles.userContainer.userSidemenu : styles.userContainer.userBlock);
 
     const [currentLang, setLang] = useState("pt");
     i18nextHeader.changeLanguage(currentLang);
