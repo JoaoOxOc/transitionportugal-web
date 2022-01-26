@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
@@ -23,10 +23,22 @@ import SocialLinkBar from '../social/linkbar';
 import UserLogoDark from '../../public/user_icon.svg';
 
 function ResponsiveDrawer() {
-    const dummyCategories = ['Hokusai', 'Hiroshige', 'Utamaro', 'Kuniyoshi', 'Yoshitoshi']
     const classes = useStyles();
     const theme = useTheme();
-    const [mobileOpen, setMobileOpen] = React.useState(false);
+    const [mobileOpen, setMobileOpen] = useState(false);
+    const [windowSize, setWindowSizeVar] = useState(0);
+
+    useEffect(() => {
+        setWindowSizeVar(window.innerWidth);
+        window.addEventListener('resize', function() {
+            if (window.innerWidth <= 1024 && windowSize > 1024) {
+                setWindowSizeVar(window.innerWidth);
+            }
+            else if (window.innerWidth >= 1024 && windowSize < 1024) {
+              setWindowSizeVar(window.innerWidth);
+            }
+        });
+    }, [windowSize]);
 
     function handleDrawerToggle() {
         setMobileOpen(!mobileOpen)
@@ -36,8 +48,13 @@ function ResponsiveDrawer() {
         <div>
             <SimpleBar autoHide={true}>
                 <div className={classes.sidemenuContent}>
+                    <div className={classes.sidemenuUserWrapper}></div>
                     <UserBanner src={UserLogoDark} className={ 'sidemenu' }/>
-                    <MainMenu displayType={'displayGrid'}/>
+                    { windowSize < 1024 &&
+                        <div className={classes.sidemenuSection}>
+                            <MainMenu displayType={'displayGrid'}/>
+                        </div>
+                    }
                     <SubMenu displayType={'displayGrid'}/>
                 </div>
                 <div className={classes.sidemenuFooter}>

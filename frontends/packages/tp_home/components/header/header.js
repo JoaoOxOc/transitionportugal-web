@@ -22,10 +22,10 @@ export default function Header({className}) {
     useEffect(() => {
         setWindowSizeVar(window.innerWidth);
         window.addEventListener('resize', function() {
-            if (window.innerWidth < 1024 && windowSize > 1024) {
+            if (window.innerWidth <= 1024 && windowSize > 1024) {
                 setWindowSizeVar(window.innerWidth);
             }
-            else if (window.innerWidth > 1024 && windowSize < 1024) {
+            else if (window.innerWidth >= 1024 && windowSize < 1024) {
               setWindowSizeVar(window.innerWidth);
             }
         });
@@ -34,20 +34,20 @@ export default function Header({className}) {
     return (
         <DrawerProvider>
             <header sx={styles.header} className={className} id="header">
-                  <div sx={styles.topLine}/>
+                <div sx={styles.topLine}/>
                 <Container sx={styles.container}>
-                  {className === 'sticky' 
-                    ? <Logo sx={styles.stickyLogo} src={LogoDark} />
-                    : <></>
-                  }
-                  <Flex as="nav" sx={styles.nav}>
-                      <MainMenu displayType={'displayBlock'}/>
-                  </Flex>
-                  <ResponsiveDrawer/>
-                  {className === 'sticky' && windowSize > 1219
-                    ? <UserBanner src={UserLogoDark} className={ 'inlineBlock' } />
-                    : <></>
-                  }
+                    {className === 'sticky' 
+                      ? <Logo sx={styles.stickyLogo} src={LogoDark} />
+                      : <></>
+                    }
+                    <Flex as="nav" sx={styles.nav}>
+                        <MainMenu displayType={'displayBlock'}/>
+                    </Flex>
+                    <ResponsiveDrawer/>
+                    {className === 'sticky' && windowSize > 1219
+                      ? <UserBanner src={UserLogoDark} className={ 'inlineBlock' } />
+                      : <></>
+                    }
                 </Container>
                 <div sx={styles.bottomLine}/>
             </header>

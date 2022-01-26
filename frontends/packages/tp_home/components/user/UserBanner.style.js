@@ -34,7 +34,6 @@ export const UserBannerStyles = {
             justifyContent: 'center',
             paddingTop: '10px',
             textAlign: 'center',
-            borderBottom: '1px solid #ccc',
             p: {
                 color: '#111'
             }

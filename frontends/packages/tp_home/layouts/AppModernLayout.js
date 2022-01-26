@@ -17,10 +17,10 @@ export default function Layout({ children }) {
     }
 
     window.addEventListener('resize', function() {
-        if (window.innerWidth < 1024 && windowSize > 1024) {
+        if (window.innerWidth <= 1024 && windowSize > 1024) {
             setWindowSizeVar(window.innerWidth);
         }
-        else if (window.innerWidth > 1024 && windowSize < 1024) {
+        else if (window.innerWidth >= 1024 && windowSize < 1024) {
           setWindowSizeVar(window.innerWidth);
         }
     });
@@ -38,7 +38,7 @@ export default function Layout({ children }) {
   
   return (
     <React.Fragment>
-      { windowSize > 1024 &&
+      { windowSize >= 1024 &&
         <TopBar/>
       }
       <Sticky innerZ={101} top={0} onStateChange={handleStateChange}>
