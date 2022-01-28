@@ -1,4 +1,4 @@
-import {colors as HeaderColors } from '../header/header.style';
+import { COLORS as colors } from '../../theme/parameters';
 
 export const MainMenuStyles = {
     mainMenuContainer: {
@@ -9,22 +9,22 @@ export const MainMenuStyles = {
             cursor: 'pointer',
             lineHeight: '1.2',
             '&.active': {
-              color: HeaderColors.nav_hover,
+              color: colors.nav_hover,
               span: {
                 '&::before': {
                   opacity: '1',
                   bottom: '-1px',
-                  backgroundColor: HeaderColors.nav_hover,
+                  backgroundColor: colors.nav_hover,
                 },
               }
             },
             '&:hover': {
-              color: HeaderColors.nav_hover + ' !important',
+              color: colors.nav_hover + ' !important',
               span: {
                 '&::before': {
                   opacity: '1',
                   bottom: '-1px',
-                  backgroundColor: HeaderColors.nav_hover,
+                  backgroundColor: colors.nav_hover,
                 },
               }
             },
@@ -40,7 +40,7 @@ export const MainMenuStyles = {
                 opacity: '0',
                 width: '100%',
                 height: '1px',
-                backgroundColor: 'black',
+                backgroundColor: colors.nav_menu_underline_bg_color,
                 transition: '.25s',
               },
             }

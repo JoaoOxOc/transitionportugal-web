@@ -1,24 +1,29 @@
 export const bannerStyles = {
     banner: {
-      overflow: ['hidden', 'initial', null, 'hidden'],
+      // overflow: ['hidden', 'initial', null, 'hidden'],
+      position: 'relative',
       // backgroundImage: `url(${BannerBG})`,
       backgroundRepeat: `no-repeat`,
-      backgroundPosition: 'center',
+      backgroundPosition: 'center bottom',
+      //backgroundAttachment: 'fixed',
       backgroundSize: 'auto',
-      borderBottomRightRadius: [100, 150, null, null, null, 200],
-      pt: ['150px', null, null, null, null, null, '140px', '118px'],
-      pb: ['100px', null, null, '110px', null, 10, '150px'],
+      //borderBottomRightRadius: [100, 150, null, null, null, 200],
+      paddingTop: '140px',
+      minHeight: '600px',
+      height: ['100vh','100vh', '100vh', '100vh','calc(100vh - 70px)'],
+      // pt: ['150px', null, null, null, null, null, '140px', '118px'],
+      // pb: ['100px', null, null, '110px', null, 10, '150px'],
       backgroundColor: '#EFFAFC',
       container: {
         display: 'flex',
       },
       contentBox: {
-        width: ['100%', null, '85%', '55%', '50%', '55%'],
+        width: ['100%', null, '75%', '55%', '50%', '50%'],
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-start',
         flexShrink: 0,
-        pt: [0, null, null, null, null, null, 5, 7],
+        // pt: [0, null, null, null, null, null, 5, 7],
         color: '#5AADB5',
       },
       imageBox: {
@@ -32,6 +37,10 @@ export const bannerStyles = {
         textAlign: 'right',
         width: '100%',
       },
+      p: {
+        width: '100%',
+        marginBottom: '10px'
+      }
     },
     sponsorTitle: {
       color: 'white',

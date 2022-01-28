@@ -1,8 +1,10 @@
+import { COLORS as colors } from '../../theme/parameters';
+
 export const topBarStyles = {
     container: {
         position: 'relative',
-        backgroundColor: '#EFFAFC',
-        color: '#111',
+        backgroundColor: colors.topbar_bg_color,
+        color: colors.topbar_text_color,
         width: '100%',
         height: '70px',
         fontSize: '0.875em',

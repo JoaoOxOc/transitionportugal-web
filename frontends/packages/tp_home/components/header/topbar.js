@@ -1,11 +1,10 @@
 /** @jsx jsx */ /** @jsxRuntime classic */
-import { jsx, Container, Flex, Button, Select, Grid, Box } from 'theme-ui';
+import { jsx, Container, Grid, Box } from 'theme-ui';
 import React, { useEffect, useState } from "react";
-import ReactCountryFlag from "react-country-flag"
 
 // import local libraries
-import {GenericDropdown} from '../generic/dropdown';
 import { i18nextHeader } from "@transitionpt/translations";
+import Language from '../../components/language/language';
 import Logo from '../logo';
 import UserBanner from '../user/UserBanner';
 import SocialLinkBar from '../../components/social/linkbar'
@@ -37,17 +36,6 @@ export default function TopBar({className}) {
     // const mdIcon = FontAwesome['FaBeer'];
     // console.log(React.createElement(mdIcon))
 
-    const langOptions = [
-        {label: "United States", key: "en", icon: <ReactCountryFlag className="emojiFlag" countryCode="US" svg/>},
-        {label: "Portugal", key: "pt", icon: <ReactCountryFlag className="emojiFlag" countryCode="PT" svg/>},
-    ];
-
-    const handleLanguage = (langValue) => {
-        console.log(langValue);
-        const customEvent = new CustomEvent('newLang', { detail: langValue });
-        window.dispatchEvent(customEvent);
-    }
-
     return (
         <div sx={styles.container}>
             <Container sx={styles.innerContainer}>
@@ -66,7 +54,7 @@ export default function TopBar({className}) {
                         <Grid columns={[2, null, 0]}  sx={Object.assign({}, styles.subGrid)}>
                             <Box sx={Object.assign({}, styles.subGridBox)}>
                                 <div sx={Object.assign({}, styles.smallboxRight)}>
-                                    <GenericDropdown onChangedOption={handleLanguage} items={langOptions} defaultOption={<>{langOptions[1].icon} {langOptions[1].label}</>} ariaLabel="select your language" name="select-language-drop" className={'selectbox-right'}/>
+                                    <Language/>
                                 </div>
                             </Box>
                             <Box sx={styles.subGridBox}>

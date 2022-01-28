@@ -1,5 +1,7 @@
 import { keyframes } from '@emotion/react';
 
+import { COLORS as colors } from '../../theme/parameters';
+
 const positionAnim = keyframes`
   from {
     position: fixed;
@@ -11,13 +13,6 @@ const positionAnim = keyframes`
     transition: all 0.4s ease;
   }
 `;
-
-
-export const colors = {
-  nav_hover: '#0F5137',
-  border_top: '#000000',
-  border_bottom: '#000000'
-};
 
 export const headerStyles = {
     header: {
@@ -38,9 +33,13 @@ export const headerStyles = {
       },
       '&.sticky': {
         position: 'fixed',
-        backgroundColor: 'background',
+        //backgroundColor: 'background',
         color: '#000000',
-        boxShadow: '1px 3px 3px rgba(0, 0, 0, 0.6)',
+        //boxShadow: '1px 3px 3px rgba(0, 0, 0, 0.6)',
+        background: 'rgba(255, 255, 255, 0.92)',
+        boxShadow: '1px 4px 3px rgb(0 0 0 / 0.3)',
+        backdropFilter: 'blur(5px)',
+        border: '1px solid rgba(255, 255, 255, 0.3)',
         py: 3,
         'nav > a': {
           color: 'text',
@@ -85,13 +84,13 @@ export const headerStyles = {
       width: '80%',
       margin: '-15px auto auto auto',
       paddingTop: '12px',
-      borderTop: "3px solid " + colors.border_top,
+      borderTop: "3px solid " + colors.nav_border_top,
     },
     bottomLine: {
       position: 'absolute',
       width: '100%',
       paddingBottom: '15px',
-      borderBottom: "1px solid " + colors.border_bottom,
+      borderBottom: "1px solid " + colors.nav_border_bottom,
     },
     container: {
       display: 'flex',

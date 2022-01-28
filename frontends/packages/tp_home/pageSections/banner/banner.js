@@ -13,6 +13,9 @@ import { BannerDataAction } from '../../contexts/banner/banner.provider';
 
 import { i18nextCommon } from "@transitionpt/translations";
 
+import EcoMap from '../../components/bannerInteraction/ecomap';
+import GlassCarousel from '../../components/glassCarousel/glasscarousel';
+
 export default function Banner() {
 //   const { t } = useTranslation('header');
 //   console.log('translations ',t('description'));
@@ -33,19 +36,19 @@ export default function Banner() {
     }} id="home">
       <Container sx={styles.banner.container}>
         <Box sx={styles.banner.contentBox}>
-          <Heading as="h1" variant="tpPrimary">
-          {bannerData.bannerData.bannerTitle}
-          </Heading>
-          <Text as="p" variant="tpSecondary">
-          {bannerData.bannerData.bannerSubtitle}
-          </Text>
-          <Text as="p" variant="tpSecondary">
-          {bannerData.bannerData.bannerSubtitleSignature} { i18nextCommon.t('Notification.DOWNLOAD.success') }
-          </Text>
+          {/* <Heading as="h1" variant="tpPrimary">
+            Interaja com este espaço e descubra a transição
+          </Heading> */}
+          {/* <Text as="p" variant="tpSecondary">
+            Interaja com este espaço e descubra a transição
+          </Text> */}
           <Flex>
-            <Button variant="whiteButton" aria-label="Get Started">
+            <GlassCarousel/>
+          </Flex>
+          {/* <Flex> */}
+            {/* <Button variant="whiteButton" aria-label="Get Started">
               Get Started
-            </Button>
+            </Button> */}
             {/* <>
               <ModalVideo
                 channel="youtube"
@@ -61,8 +64,8 @@ export default function Banner() {
                 <FaPlayCircle /> Watch Video
               </Button>
             </> */}
-          </Flex>
-          <Flex sx={styles.sponsorBox}>
+          {/* </Flex> */}
+          {/* <Flex sx={styles.sponsorBox}>
             <Text sx={styles.sponsorTitle}>Sponsored by:</Text>
             <Box sx={styles.sponsorBox.sponsor}>
               {bannerData.bannerData.bannerSponsors.map((item, index) => (
@@ -71,13 +74,11 @@ export default function Banner() {
                 </Link>
               ))}
             </Box>
-          </Flex>
-        </Box>
-
-        <Box sx={styles.banner.imageBox}>
-          <Image src={bannerData.bannerData.bannerThumb} alt="banner" />
+          </Flex> */}
         </Box>
       </Container>
+
+      <EcoMap />
     </section>
   );
 }

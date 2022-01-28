@@ -1,4 +1,4 @@
-import {colors as HeaderColors } from '../header/header.style';
+import { COLORS as colors } from '../../theme/parameters';
 
 export const SubMenuStyles = {
     subMenuSection: {
@@ -8,7 +8,7 @@ export const SubMenuStyles = {
         paddingBottom: '20px',
         '&::before': {
             content: '""',
-            backgroundColor: '#5AADB5',
+            backgroundColor: colors.sidemenu_section_separator_dot_color,
             width: '6px',
             height: '6px',
             borderRadius: '50%',

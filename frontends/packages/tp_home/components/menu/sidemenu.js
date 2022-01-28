@@ -13,7 +13,7 @@ import 'simplebar/dist/simplebar.min.css';
 
 import { SidemenuStyles as useStyles} from './sidemenu.style';
 
-
+import Language from '../../components/language/language';
 import UserBanner from '../user/UserBanner';
 import MainMenu from './mainmenu';
 import SubMenu from './submenu';
@@ -53,6 +53,9 @@ function ResponsiveDrawer() {
                     { windowSize < 1024 &&
                         <div className={classes.sidemenuSection}>
                             <MainMenu displayType={'displayGrid'}/>
+                            <div className={classes.sidemenuLanguage}>
+                                <Language/>
+                            </div>
                         </div>
                     }
                     <SubMenu displayType={'displayGrid'}/>

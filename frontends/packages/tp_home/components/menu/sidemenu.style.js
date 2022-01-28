@@ -1,5 +1,7 @@
 import { makeStyles } from '@material-ui/core/styles';
 
+import { COLORS as colors } from '../../theme/parameters';
+
 const drawerWidth = 320;
 
 export const SidemenuStyles = makeStyles(theme => ({
@@ -58,7 +60,7 @@ export const SidemenuStyles = makeStyles(theme => ({
       paddingBottom: '10px',
       '&::before': {
           content: '""',
-          backgroundColor: '#5AADB5',
+          backgroundColor: colors.sidemenu_section_separator_dot_color,
           width: '6px',
           height: '6px',
           borderRadius: '50%',
@@ -81,6 +83,10 @@ export const SidemenuStyles = makeStyles(theme => ({
           background: '-moz-linear-gradient(left,#e0e0e0 0,#e0e0e0 35%,#e0e0e0 65%,#fff 100%)',
           background: '-webkit-gradient(linear,left top,right top,color-stop(0%,#e0e0e0),color-stop(35%,#e0e0e0),color-stop(65%,#e0e0e0),color-stop(100%,#fff))'
       }
+    },
+    sidemenuLanguage: {
+      padding: '10px',
+      margin: '10px',
     },
     sidemenuUserWrapper: {
         height: '80px',

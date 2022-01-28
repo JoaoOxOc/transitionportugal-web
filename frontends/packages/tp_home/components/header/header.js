@@ -37,7 +37,7 @@ export default function Header({className}) {
                 <div sx={styles.topLine}/>
                 <Container sx={styles.container}>
                     {className === 'sticky' 
-                      ? <Logo sx={styles.stickyLogo} src={LogoDark} />
+                      ? <Logo sx={styles.stickyLogo} src={LogoDark} path={'home'}/>
                       : <></>
                     }
                     <Flex as="nav" sx={styles.nav}>

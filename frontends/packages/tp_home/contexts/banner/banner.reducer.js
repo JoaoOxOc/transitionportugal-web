@@ -1,7 +1,6 @@
 
 
 import BannerBG from '../../public/banner/homepage-hero.gif';
-import BannerThumb from '../../assets/banner-thumb.png';
 
 import client1 from '../../assets/sponsor/paypal.svg';
 import client2 from '../../assets/sponsor/google.svg';
@@ -12,7 +11,7 @@ export const initialState = {
     isError: false,
     bannerData: {
         bannerImage: BannerBG,
-        bannerThumb: BannerThumb,
+        bannerThumb: '',
         bannerTitle: 'Transição Portugal',
         bannerSubtitle: '"Descobrir é um estado permanente naquele que é curioso"',
         bannerSubtitleSignature: 'João P. Almeida',

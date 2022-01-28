@@ -8,6 +8,7 @@ import dynamic from "next/dynamic";
 
 // page sections
 const BannerDynamic = dynamic(() => import("../pageSections/banner/banner"));
+const AboutDynamic = dynamic(() => import("../pageSections/about/about"));
 
 export default function Home() {
 
@@ -16,6 +17,7 @@ export default function Home() {
       <StickyProvider>
         <Layout>
           <BannerDynamic/>
+          <AboutDynamic/>
         </Layout>
       </StickyProvider>
     </ThemeProvider>
