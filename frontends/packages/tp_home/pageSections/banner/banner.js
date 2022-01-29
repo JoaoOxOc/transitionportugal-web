@@ -14,7 +14,8 @@ import { BannerDataAction } from '../../contexts/banner/banner.provider';
 import { i18nextCommon } from "@transitionpt/translations";
 
 import EcoMap from '../../components/bannerInteraction/ecomap';
-import GlassCarousel from '../../components/glassCarousel/glasscarousel';
+
+const GlassCarouselDynamic = dynamic(() => import("../../components/glassCarousel/glasscarousel"));
 
 export default function Banner() {
 //   const { t } = useTranslation('header');
@@ -43,7 +44,7 @@ export default function Banner() {
             Interaja com este espaço e descubra a transição
           </Text> */}
           <Flex>
-            <GlassCarousel/>
+            <GlassCarouselDynamic/>
           </Flex>
           {/* <Flex> */}
             {/* <Button variant="whiteButton" aria-label="Get Started">

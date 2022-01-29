@@ -1,7 +1,7 @@
 export const GlassCarouselStyles = {
     carouselCard: {
         height: '320px',
-        width: ['300px','350px','400px','500px','600px'],
+        width: ['100%','100%','400px','500px','600px'],
         bottom: 0,
         //right: 0,
         margin: '0 auto',
