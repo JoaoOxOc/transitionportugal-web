@@ -1,4 +1,6 @@
-export const SwipeableViewStyles = {
+import makeStyles from '@mui/styles/makeStyles';
+
+export const SwipeableViewStyles = makeStyles((theme) => ({
     SwipeableSteppers: {
         background: 'transparent !important',
         position: 'absolute',
@@ -25,4 +27,4 @@ export const SwipeableViewStyles = {
             paddingRight: 0
         }
     },
-}
+}));
