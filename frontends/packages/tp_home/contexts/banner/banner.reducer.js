@@ -1,7 +1,6 @@
 
 
-import BannerBG from '../../assets/bannerBg.png';
-import BannerThumb from '../../assets/banner-thumb.png';
+import BannerBG from '../../public/banner/homepage-hero.gif';
 
 import client1 from '../../assets/sponsor/paypal.svg';
 import client2 from '../../assets/sponsor/google.svg';
@@ -12,8 +11,8 @@ export const initialState = {
     isError: false,
     bannerData: {
         bannerImage: BannerBG,
-        bannerThumb: BannerThumb,
-        bannerTitle: 'Cooperativa Integral Terra de Lafões',
+        bannerThumb: '',
+        bannerTitle: 'Transição Portugal',
         bannerSubtitle: '"Descobrir é um estado permanente naquele que é curioso"',
         bannerSubtitleSignature: 'João P. Almeida',
         bannerSponsors: [
