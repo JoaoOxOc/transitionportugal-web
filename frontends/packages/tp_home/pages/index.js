@@ -9,6 +9,9 @@ import dynamic from "next/dynamic";
 // page sections
 const BannerDynamic = dynamic(() => import("../pageSections/banner/banner"));
 const AboutDynamic = dynamic(() => import("../pageSections/about/about"));
+const AccessibilityDynamic = dynamic(() => import("../pageSections/sidebars/accessibility"));
+const DonationDynamic = dynamic(() => import("../pageSections/sidebars/donations"));
+const NewsDynamic = dynamic(() => import("../pageSections/sidebars/news"));
 
 export default function Home() {
 
@@ -16,6 +19,9 @@ export default function Home() {
     <ThemeProvider theme={theme}>
       <StickyProvider>
         <Layout>
+          <AccessibilityDynamic posRight={'0'} posTop={'200px'}/>
+          <DonationDynamic posLeft={'0'} posTop={'200px'}/>
+          <NewsDynamic posLeft={'0'} posTop={'300px'}/>
           <BannerDynamic/>
           <AboutDynamic/>
         </Layout>
