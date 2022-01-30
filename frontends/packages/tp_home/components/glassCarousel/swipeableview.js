@@ -96,7 +96,7 @@ function SwipeableTextMobileStepper() {
       </AutoPlaySwipeableViews>
       <MobileStepper
         steps={maxSteps}
-        position="absolute"
+        position="static"
         activeStep={activeStep}
         sx={styles.SwipeableSteppers}
         // nextButton={
