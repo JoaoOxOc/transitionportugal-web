@@ -1,4 +1,5 @@
-FROM node:14 as base
+FROM node:16 as base
+WORKDIR /app/
 #COPY ./package.json ./
 #COPY ./lerna.json ./
 COPY ./package.json /app/
@@ -59,15 +60,15 @@ RUN addgroup -g 1001 -S nodejs
 RUN adduser -S nextjs -u 1001
 
 # You only need to copy next.config.js if you are NOT using the default configuration
-COPY --from=transitionpt_home-build /app/packages/tp_home/next.config.js ./
-COPY --from=transitionpt_home-build /app/packages/tp_home/assets ./assets
-COPY --from=transitionpt_home-build /app/packages/tp_home/public ./public
-COPY --from=transitionpt_home-build --chown=nextjs:nodejs /app/packages/tp_home/.next ./.next
-COPY --from=transitionpt_home-build /app/packages/tp_home/package.json ./package.json
+COPY --from=final-transitionpt_home-build-stage /app/packages/tp_home/next.config.js ./
+COPY --from=final-transitionpt_home-build-stage /app/packages/tp_home/assets ./assets
+COPY --from=final-transitionpt_home-build-stage /app/packages/tp_home/public ./public
+COPY --from=final-transitionpt_home-build-stage --chown=nextjs:nodejs /app/packages/tp_home/.next ./.next
+COPY --from=final-transitionpt_home-build-stage /app/packages/tp_home/package.json ./package.json
 
 # import needed packages
-COPY --from=transitionpt_home-build /app/node_modules ./node_modules
-copy --from=transitionpt_home-build /app/packages/tp_translations ./node_modules/@transitionpt/translations
+COPY --from=final-transitionpt_home-build-stage /app/node_modules ./node_modules
+copy --from=final-transitionpt_home-build-stage /app/packages/tp_translations ./node_modules/@transitionpt/translations
 
 USER nextjs
 
