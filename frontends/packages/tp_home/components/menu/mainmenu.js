@@ -38,7 +38,7 @@ export default function MainMenu({displayType}) {
                     key={i}
                     style={{padding: '10px'}}
                     >
-                    <span>{icon} { i18nextHeader.t(label) }</span>
+                    <span aria-label={ i18nextHeader.t(label) }>{icon} { i18nextHeader.t(label) }</span>
                 </Link>
             ))}
         </div>

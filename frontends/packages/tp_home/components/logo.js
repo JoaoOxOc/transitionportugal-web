@@ -10,6 +10,7 @@ export default function Logo({ src, path, ...rest }) {
     return (
       <ScrollLink
           activeClass="active"
+          aria-label='Transição Portugal Logo'
           to={path}
           spy={true}
           smooth={true}
@@ -32,6 +33,7 @@ export default function Logo({ src, path, ...rest }) {
     return (
       <PageLink
           path={linkPath}
+          aria-label='Transição Portugal Logo'
           sx={{
             variant: 'links.logo',
             display: 'flex',

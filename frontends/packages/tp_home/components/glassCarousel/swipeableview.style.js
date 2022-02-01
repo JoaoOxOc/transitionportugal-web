@@ -1,6 +1,8 @@
 import makeStyles from '@mui/styles/makeStyles';
 
-export const SwipeableViewStyles = makeStyles((theme) => ({
+import { COLORS as colors } from '../../theme/parameters';
+
+export const SwipeableViewStyles = {
     SwipeableSteppers: {
         background: 'transparent !important',
         position: 'absolute',
@@ -15,6 +17,17 @@ export const SwipeableViewStyles = makeStyles((theme) => ({
             width: '14px'
         }
     },
+    SwipeableTitle: {
+        fontSize: '24px',
+        fontWeight: 'bold',
+        color: colors.text
+    },
+    SwipeableText: {
+        paddingLeft: '20px',
+        width: '100%',
+        fontSize: '18px',
+        //color: colors.text
+    },
     carouselBox: {
         width: '100%',
         display: 'flex',
@@ -27,4 +40,4 @@ export const SwipeableViewStyles = makeStyles((theme) => ({
             paddingRight: 0
         }
     },
-}));
+};

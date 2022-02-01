@@ -6,6 +6,8 @@ import { StickyProvider } from '../contexts/app/app.provider';
 import Layout from '../layouts/AppModernLayout';
 import dynamic from "next/dynamic";
 
+import SEO from '../components/seo';
+
 // page sections
 const BannerDynamic = dynamic(() => import("../pageSections/banner/banner"));
 const AboutDynamic = dynamic(() => import("../pageSections/about/about"));
@@ -19,9 +21,10 @@ export default function Home() {
     <ThemeProvider theme={theme}>
       <StickyProvider>
         <Layout>
-          <AccessibilityDynamic posRight={'0'} posTop={'200px'}/>
-          <DonationDynamic posLeft={'0'} posTop={'200px'}/>
-          <NewsDynamic posLeft={'0'} posTop={'300px'}/>
+          <SEO title="Transição Portugal" />
+          <AccessibilityDynamic posRight={'0px'} posTop={'200px'}/>
+          <DonationDynamic posRight={'0px'} posTop={'300px'}/>
+          <NewsDynamic posRight={'0px'} posTop={'400px'}/>
           <BannerDynamic/>
           <AboutDynamic/>
         </Layout>

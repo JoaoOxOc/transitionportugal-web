@@ -21,7 +21,7 @@ import SlackLogo from '../../public/social/slack_logo.svg';
 
 import useSocialData from '../../hooks/useSocialData';
 
-export default function SocialLinkBar({ className, dataJson, ...rest }) {
+const SocialLinkBar = React.memo(function SocialLinkBar({ className, dataJson, ...rest }) {
     const {data,loading,error} = useSocialData('https://localhost:4000');
     console.log(data)
 
@@ -54,6 +54,8 @@ export default function SocialLinkBar({ className, dataJson, ...rest }) {
                     path={jsonItem.url}
                     sx={styles.socialLink}
                     target='_blank'
+                    aria-label={ jsonItem.name }
+                    rel='noopener'
                     {...rest}
                 >
                     <span sx={Object.assign({}, styles.socialLink.icon, socialIconStyle)}>{icon}</span>
@@ -73,4 +75,6 @@ export default function SocialLinkBar({ className, dataJson, ...rest }) {
         }
         </>
     );
-}
+});
+
+export default SocialLinkBar;

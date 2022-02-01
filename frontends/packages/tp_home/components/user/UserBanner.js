@@ -35,7 +35,7 @@ export default function UserBanner({ src, className, ...rest }) {
                             <Image src={src} alt="User" />
                         </div>
                         <div>
-                            <p>{ i18nextHeader.t('Header.TOPBAR.welcome', { username: 'Joao' }) }<BiCaretDown/></p>
+                            <p aria-label='username welcome'>{ i18nextHeader.t('Header.TOPBAR.welcome', { username: 'Joao' }) }<BiCaretDown/></p>
                         </div>
                 </div>
             </div>
@@ -46,7 +46,7 @@ export default function UserBanner({ src, className, ...rest }) {
         return (
             <div sx={styles.userContainer}>
                 <div sx={innerContain}>
-                    <p>{ i18nextHeader.t('Header.TOPBAR.welcome', { username: 'Joao' }) }<BiCaretDown/></p> 
+                    <p aria-label='username welcome'>{ i18nextHeader.t('Header.TOPBAR.welcome', { username: 'Joao' }) }<BiCaretDown/></p> 
                     <div sx={styles.userContainer.userInlineImage}>
                         <Image src={src} alt="User" />
                     </div>
