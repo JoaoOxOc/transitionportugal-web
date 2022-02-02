@@ -10,6 +10,7 @@ export const MainMenuStyles = {
             lineHeight: '1.2',
             '&.active': {
               color: colors.nav_hover,
+              textDecoration: 'none',
               span: {
                 '&::before': {
                   opacity: '1',

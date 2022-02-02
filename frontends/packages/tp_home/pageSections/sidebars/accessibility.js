@@ -2,20 +2,7 @@
 import { jsx } from 'theme-ui';
 import React, { useState } from 'react';
 
-import {
-    ProSidebar,
-    Menu,
-    MenuItem,
-    SidebarHeader,
-    SidebarFooter,
-    SidebarContent,
-  } from "react-pro-sidebar";
-
 import { AccessibilityStyles as styles } from './accessibility.style';
-
-//import sidebar css from react-pro-sidebar module
-import "react-pro-sidebar/dist/css/styles.css";
-import "./sidebar.module.css";
 
 import { IoAccessibilityOutline } from 'react-icons/io5';
 

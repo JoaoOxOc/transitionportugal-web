@@ -4,24 +4,26 @@ import { Container, Flex, Box, Heading, Text, Image, Button } from 'theme-ui';
 import React, { useState } from 'react';
 import Carousel from "react-multi-carousel";
 import SwipeButtonGroup from '../../components/events/swipebuttongroup';
-import { ThemeProvider } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
-import theme from '../../theme/muitheme';
+import EventCard from '../../components/events/eventcard';
 
-import { GlassCarouselStyles as styles } from './glasscarousel.style';
-import { CarouselStyles as useStyles } from './glasscarousel.style';
-import { CarouselResponsive as responsive } from './glasscarousel.style';
+import useEventsBannerData from '../../hooks/useEventsBannerData';
+
+import { CarouselStyles as useStyles } from './events.style';
+import { EventsStyles as styles } from './events.style';
+import { CarouselResponsive as responsive } from './events.style';
 
 import "react-multi-carousel/lib/styles.css";
 
-import SwipeableTextMobileStepper from './swipeableview';
-
-export default function GlassCarousel() {
+export default function Events() {
     const classes = useStyles();
+    const {data, loading, error} = useEventsBannerData('');
+    console.log(data)
+
     return (
-        <div sx={styles.carouselCard}>
-            <Box sx={styles.carouselBox}>
-            <Carousel
+        <section id="events" sx={styles.events}>
+            <Container sx={styles.eventsContainer}>
+                { data != null &&
+                    <Carousel
                         swipeable={true}
                         draggable={true}
                         showDots={false}
@@ -45,24 +47,22 @@ export default function GlassCarousel() {
                         customButtonGroup={<SwipeButtonGroup />}
                         minimumTouchDrag={80}
                     >
-                    <div>item1</div>
-                    <div>item2</div>
-                    <div>item2</div>
-                    <div>item2</div>
-                    <div>item2</div>
+                    { data.map(({id, title, picture, orgName, date, tag, place},i) => (
+                        <EventCard
+                            key={i}
+                            src={picture}
+                            alt={title}
+                            postLink={'/event/'+id}
+                            title={title}
+                            orgName={orgName}
+                            date={date}
+                            tag={tag}
+                            place={place}
+                        />
+                    ))}
                 </Carousel>
-                {/* <ThemeProvider theme={theme}>
-                    {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-                    {/* <CssBaseline />
-                    <SwipeableTextMobileStepper/>
-                </ThemeProvider> */}
-                {/* <Heading as="h1" variant="tpPrimary">
-                    test
-                </Heading>
-                <Text as="p" variant="tpSecondary">
-                    Info sobre estrela clicada
-                </Text> */}
-            </Box>
-        </div>
+                }
+            </Container>
+        </section>
     );
 }
