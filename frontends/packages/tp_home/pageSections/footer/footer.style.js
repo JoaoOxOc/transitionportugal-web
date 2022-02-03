@@ -1,33 +1,162 @@
-
+import { COLORS as colors } from '../../theme/parameters';
 
 export const FooterStyles = {
   footer: {
+    backgroundColor: '#EFFAFC',
+    // backdropFilter: 'blur(10px)',
+    // boxShadow: 'inset 0 0 0 3000px rgb(90 173 181 / 19%)',
     container: {
       width: '100%',
       alignItems: 'stretch',
     },
     footerTopArea: {
-      borderTop: '1px solid',
+      boxSizing: 'border-box',
+      minWidth: 0,
+      gap: ['50px'],
+      paddingTop: '100px',
+      marginBottom: '50px',
+      display: 'grid',
+      gridTemplateColumns: ['repeat(1,1fr)','repeat(1,1fr)','repeat(2,1fr)','repeat(2,1fr)','repeat(2,1fr)','repeat(3,1fr)']
+    },
+    footerBottomArea: {
+      borderTop: '2px solid',
       borderTopColor: 'border_color',
+      display: ['block','block','flex'],
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      padding: '35px 0 40px'
+    },
+    footerBottomTrademark: {
+      boxSizing: 'border-box',
+      margin: 0,
+      minWidth: 0,
       display: 'flex',
-      flexWrap: 'wrap',
-      pt: [7, null, 8],
-      pb: ['10px', null, null, '20px'],
-      px: [0, null, null, null, 4],
+      alignItems: 'center',
+      flexDirection: ['column','column','column','column','row'],
+      img: {
+        height: '40px !important',
+        transition: '1.25s',
+      }
+    },
+    footerBottomSpan: {
+      fontSize: '14px',
+      lineHeight: '1.29',
+      color: 'rgba(15,33,55,0.6)',
+      marginTop: ['18px', '18px', '7px']
     },
     menus: {
-      width: ['50%', null, null, '25%'],
+      width: ['100%', '100%', '100%', '100%'],
       display: 'flex',
       flexDirection: 'column',
-      mb: ['40px', null, null, '60px'],
+      nav: {
+        // display: 'flex',
+        // alignItems: 'center',
+        // justifyContent: 'center',
+        margin: '0 auto',
+        // flexWrap: 'wrap',
+        a: {
+          ':hover': {
+            color: '#0F5137',
+            transition: 'all 0.35s',
+            span: {
+              '&::before': {
+                opacity: '1',
+                bottom: '-1px',
+                // backgroundColor: colors.nav_hover,
+              },
+            }
+          },
+        },
+        span: {
+          position: 'relative',
+          svg: {
+            marginTop: '-5px'
+          },
+          '&::before': {
+            content: '""',
+            position: 'absolute',
+            bottom: '-5px',
+            opacity: '0',
+            width: '100%',
+            height: '1px',
+            backgroundColor: colors.nav_menu_underline_bg_color,
+            transition: '.25s',
+          },
+        }
+      },
+    },
+    bottomMenus: {
+      mt: [3, 4],
+      mb: 2,
+      nav: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexWrap: 'wrap',
+      },
+    },
+    bottomLink: {
+      fontSize: [1, '15px'],
+      color: 'text',
+      fontWeight: '400',
+      mb: 2,
+      cursor: 'pointer',
+      transition: 'all 0.35s',
+      display: 'block',
+      textDecoration: 'none',
+      lineHeight: [1.5, null, 1.8],
+      px: [2, null, 4],
+      ':hover': {
+        color: '#0F5137',
+        transition: 'all 0.35s',
+        span: {
+          '&::before': {
+            opacity: '1',
+            bottom: '-1px',
+            // backgroundColor: colors.nav_hover,
+          },
+        }
+      },
+      span: {
+        position: 'relative',
+        svg: {
+          marginTop: '-5px'
+        },
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          bottom: '-5px',
+          opacity: '0',
+          width: '100%',
+          height: '1px',
+          backgroundColor: colors.nav_menu_underline_bg_color,
+          transition: '.25s',
+        },
+      }
     },
 
     heading: {
       fontSize: [3, null, null, 4],
       color: 'text_secondary',
+      textAlign: 'center',
       fontWeight: '500',
       mb: [3, 4, 5, null, 6],
       lineHeight: '1.35',
+      figure: {
+        // backgroundColor: 'white',
+        // boxShadow: '0px 8px 24px rgb(53 95 158 / 30%)',
+        height: '90px',
+        width: '90px',
+        minWidth: '90px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        // borderRadius: '50%',
+        margin: ['0 auto 30px','0 auto 30px','0 auto 30px','0 auto 30px','0 auto 0'],
+        img: {
+            maxWidth: '70px'
+        }
+      }
     },
 
     link: {

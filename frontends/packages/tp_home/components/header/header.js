@@ -12,7 +12,7 @@ import ResponsiveDrawer from '../menu/sidemenu';
 import {headerStyles as styles } from './header.style';
 
 //import images
-import LogoDark from '../../public/tn-logo.svg';
+import LogoDark from '../../public/logotipo_transicaoportugal.svg';
 //import LogoWhite from '../../assets/logo.svg';
 import UserLogoDark from '../../public/user_icon.svg';
 

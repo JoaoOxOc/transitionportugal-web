@@ -19,7 +19,9 @@ export default function useBannerData(url) {
                           paragraphs: [
                               'Um movimento pela transformação interior e do que nos rodeia',
                               'new to'
-                          ]
+                          ],
+                          imgPath:
+                            'https://images.unsplash.com/photo-1538032746644-0212e812a9e7?auto=format&fit=crop&w=400&h=250&q=60',
                         },
                         {
                           label: 'Bird',

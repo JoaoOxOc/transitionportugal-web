@@ -14,7 +14,7 @@ import {topBarStyles as styles } from './topbar.style';
 //import * as FontAwesome from 'react-icons/fa';
 
 //import images and icons
-import LogoDark from '../../public/tn-logo.svg';
+import LogoDark from '../../public/logotipo_transicaoportugal.svg';
 //import LogoWhite from '../../assets/logo.svg';
 import UserLogoDark from '../../public/user_icon.svg';
 

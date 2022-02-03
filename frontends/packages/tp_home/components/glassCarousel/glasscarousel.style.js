@@ -1,30 +1,18 @@
-import { makeStyles } from '@material-ui/core/styles';
-
-export const CarouselStyles = makeStyles(theme => ({
-    carouselContainer: {
-        marginLeft: 'auto',
-        maxWidth: 'calc(50% + 865px)',
-        overflow: 'hidden !important',
-    },
-    sliderImageItem: {
-        padding: '20px 0 20px 20px'
-    }
-}));
 
 export const CarouselResponsive = {
     television: {
       breakpoint: { min: 1920 },
-      items: 4,
-      slidesToSlide: 4 // optional, default to 1.
+      items: 1,
+      slidesToSlide: 1 // optional, default to 1.
     },
     desktop: {
       breakpoint: { max: 1920, min: 1024 },
-      items: 3,
-      slidesToSlide: 3 // optional, default to 1.
+      items: 1,
+      slidesToSlide: 1 // optional, default to 1.
     },
     tablet: {
       breakpoint: { max: 1024, min: 480 },
-      items: 2,
+      items: 1,
       slidesToSlide: 1 // optional, default to 1.
     },
     mobile: {
@@ -53,6 +41,7 @@ export const GlassCarouselStyles = {
     },
     carouselBox: {
         width: '100%',
+        height: '100%',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-start',
@@ -63,4 +52,11 @@ export const GlassCarouselStyles = {
             paddingRight: 0
         }
     },
+    carouselList: {
+      width: '100%',
+        height: '100%',
+        marginLeft: 'auto',
+        maxWidth: 'calc(50% + 865px)',
+        overflow: 'hidden !important',
+    }
 }

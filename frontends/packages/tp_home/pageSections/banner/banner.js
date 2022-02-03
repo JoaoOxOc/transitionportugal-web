@@ -43,7 +43,7 @@ export default function Banner() {
           {/* <Text as="p" variant="tpSecondary">
             Interaja com este espaço e descubra a transição
           </Text> */}
-          <Flex>
+          <Flex style={{width: '100%'}}>
             <GlassCarouselDynamic/>
           </Flex>
           {/* <Flex> */}

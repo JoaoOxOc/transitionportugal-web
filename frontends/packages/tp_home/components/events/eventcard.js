@@ -12,7 +12,6 @@ export default function EventCard({
   place,
 }) {
     const eventDate = new Date(date);
-    const months = ["Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"];
     var monthDateOptions = { month: 'short' };
     var fullDateOptions = { year: 'numeric', month: 'long', day: 'numeric' }; // weekday: 'long', 
 
@@ -57,8 +56,15 @@ const styles = {
       boxShadow: '0px 5px 20px rgba(38,78,118,0.15)',
     },
   },
-
   thumbnail: {
+    borderRadius: '7px 7px 0 0',
+    overflow: 'hidden',
+    display: 'flex',
+    img: {
+      width: '100%'
+    },
+  },
+  thumbnailonly: {
     borderRadius: '7px 7px 0 0',
     overflow: 'hidden',
     display: 'flex',

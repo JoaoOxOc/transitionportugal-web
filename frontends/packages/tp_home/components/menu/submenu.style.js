@@ -5,6 +5,7 @@ export const SubMenuStyles = {
         position: 'relative',
         paddingTop: '30px',
         paddingLeft: '20px',
+        paddingRight: '20px',
         paddingBottom: '20px',
         '&::before': {
             content: '""',
