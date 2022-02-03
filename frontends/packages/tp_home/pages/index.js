@@ -25,9 +25,9 @@ export default function Home() {
       <StickyProvider>
         <Layout>
           <SEO title="Transição Portugal" />
-          <AccessibilityDynamic posRight={'0px'} posTop={'200px'}/>
-          <DonationDynamic posRight={'0px'} posTop={'300px'}/>
-          <NewsDynamic posRight={'0px'} posTop={'400px'}/>
+          <AccessibilityDynamic posRight={'0px'} posTop={'170px'}/>
+          <DonationDynamic posRight={'0px'} posTop={'250px'}/>
+          <NewsDynamic posRight={'0px'} posTop={'320px'}/>
           <BannerDynamic/>
           <AboutDynamic/>
           <EventsDynamic/>

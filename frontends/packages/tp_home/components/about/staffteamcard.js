@@ -15,11 +15,10 @@ export default function StaffTeamCard({
 
     return (
         <div sx={styles.staffteamCard}>
-            <Container sx={styles.staffteamContainer}>
-                <Flex sx={styles.staffteamContainerRow}>
+            <Image src={'/about/member-2-512957d04e371f8313a454253ffae88f.png'} alt={'John Carter'}/>
+            <div>
 
-                </Flex>
-            </Container>
+            </div>
         </div>
     );
 }

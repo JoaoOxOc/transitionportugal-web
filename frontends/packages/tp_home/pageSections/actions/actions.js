@@ -26,6 +26,17 @@ export default function Actions() {
                     <Button sx={styles.actionsCenterBox.actionsCenterContent} aria-label="Regista-te">Regista-te</Button>
                 </Box>
             </Flex>
+            <Flex sx={styles.actionsBigBanner}>
+                { data != null &&
+                <div sx={styles.actionsBigBannerContainer}>
+                    <h3>{data.donationTitle}</h3>
+                    <p sx={styles.actionsBigBannerMessage}>{data.donationDescription}</p>
+                </div>
+                }
+                <Box sx={styles.actionsCenterBox}>
+                    <Button sx={styles.actionsCenterBox.actionsCenterContent} aria-label="Ver Donativos">Ver Donativos</Button>
+                </Box>
+            </Flex>
             <StaffTeam/>
             <Partners/>
         </section>

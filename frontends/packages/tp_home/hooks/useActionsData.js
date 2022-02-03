@@ -16,6 +16,8 @@ export default function useAboutData(url) {
                     const response = {
                             title: 'Torna-te membro do Transição Portugal',
                             description: 'Enquanto membro, fortaleces não só o teu movimento com o nosso apoio, como todos os outros movimentos que já pertencem ao nosso círculo.',
+                            donationTitle: 'Donativos que fazem a Diferença',
+                            donationDescription: 'Participe com um simples donativo. Pode doar ao Transição Portugal ou a qualquer um dos nossos parceiros listados',
                           members: [
                               {
                                 title: 'Inner Transition',
