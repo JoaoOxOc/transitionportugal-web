@@ -193,5 +193,10 @@ export const FooterStyles = {
         },
       },
     },
+    navWrapper: {
+      div: {
+        margin: '0 auto'
+      }
+    }
   },
 };

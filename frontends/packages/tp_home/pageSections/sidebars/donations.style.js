@@ -38,6 +38,25 @@ export const DonationStyles = (props) => {
                 height: ['20px','20px','20px','30px'],
                 width: ['20px','20px','20px','30px']
             }
-        }
+        },
+        donationInnerContainer: {
+            top: props.posTop,
+            bottom: props.posBottom,
+            backgroundColor: 'white',
+            width: '200px',
+            height: '300px',
+        },
+        donationInnerContainerHidden: {
+            position: 'fixed',
+            right: props.posRight != null ? '-200px': null,
+            left: props.posLeft != null ? '-200px' : null,
+            transition: props.posLeft != null ? 'left' : 'right' + ' 1s'
+        },
+        donationInnerContainerToggled: {
+            position: 'fixed',
+            right: props.posRight,
+            left: props.posLeft,
+            transition: props.posLeft != null ? 'left' : 'right' + ' 1s'
+        },
     }
 }

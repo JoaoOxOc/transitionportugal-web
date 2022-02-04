@@ -1,7 +1,7 @@
 /** @jsx jsx */ /** @jsxRuntime classic */
 import { jsx } from 'theme-ui';
-import { Container, Flex, Box, Heading, Text, Image, Button } from 'theme-ui';
-import React, { useState } from 'react';
+import { Container, Box } from 'theme-ui';
+import { Slide } from "react-awesome-reveal";
 import PartnerCard from './partnercard';
 
 import usePartnerData from '../../hooks/usePartnerData';
@@ -14,19 +14,25 @@ export default function Partners() {
     return (
         <div sx={styles.partners}>
             <Box sx={styles.partnerTitle}>
-                <h2>Os nossos parceiros</h2>
+                <Slide direction='down'>
+                    <div>
+                        <h2>Os nossos parceiros</h2>
+                    </div>
+                </Slide>
             </Box>
             <Container sx={styles.partnerContainer}>
                     <Box sx={styles.partnerContainerRow}>
                         { data != null && data.map(({id, name, picture, link, description},i) => (
                             <Box key={i}>
-                                <PartnerCard
-                                    src={picture}
-                                    alt={name}
-                                    name={name}
-                                    link={link}
-                                    description={description}
-                                />
+                                <Slide direction='right'>
+                                    <PartnerCard
+                                        src={picture}
+                                        alt={name}
+                                        name={name}
+                                        link={link}
+                                        description={description}
+                                    />
+                                </Slide>
                             </Box>
 
                         ))}

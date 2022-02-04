@@ -1,7 +1,7 @@
 /** @jsx jsx */ /** @jsxRuntime classic */
 import { jsx } from 'theme-ui';
-import { Container, Flex, Box, Heading, Text, Image, Button } from 'theme-ui';
-import React, { useState } from 'react';
+import { Container, Box } from 'theme-ui';
+import { Slide } from "react-awesome-reveal";
 import StaffTeamCard from './staffteamcard';
 
 import useStaffteamData from '../../hooks/useStaffteamData';
@@ -14,19 +14,25 @@ export default function StaffTeam() {
     return (
         <div sx={styles.staffteam}>
             <Box sx={styles.staffteamTitle}>
-                <h2>A nossa Equipa</h2>
+                <Slide direction='down'>
+                <div>
+                    <h2>A nossa Equipa</h2>
+                </div>
+                </Slide>
             </Box>
             <Container sx={styles.staffteamContainer}>
                     <Box sx={styles.staffteamContainerRow}>
                         { data != null && data.map(({id, name, picture, job, description},i) => (
                             <Box key={i}>
-                                <StaffTeamCard
-                                    src={picture}
-                                    alt={name}
-                                    name={name}
-                                    job={job}
-                                    description={description}
-                                />
+                                <Slide direction='right'>
+                                    <StaffTeamCard
+                                        src={picture}
+                                        alt={name}
+                                        name={name}
+                                        job={job}
+                                        description={description}
+                                    />
+                                </Slide>
                             </Box>
 
                         ))}

@@ -6,6 +6,7 @@ import dynamic from 'next/dynamic';
 //const ModalVideo = dynamic(() => import('react-modal-video'), { ssr: false });
 import { Link } from '../../components/generic/link';
 //import { FaPlayCircle } from 'react-icons/fa';
+import { Slide } from "react-awesome-reveal";
 
 import {bannerStyles as styles } from './banner.styles';
 
@@ -44,7 +45,9 @@ export default function Banner() {
             Interaja com este espaço e descubra a transição
           </Text> */}
           <Flex style={{width: '100%'}}>
+          <Slide>
             <GlassCarouselDynamic/>
+          </Slide>
           </Flex>
           {/* <Flex> */}
             {/* <Button variant="whiteButton" aria-label="Get Started">

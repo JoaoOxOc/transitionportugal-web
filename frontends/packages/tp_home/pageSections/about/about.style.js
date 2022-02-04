@@ -100,6 +100,9 @@ export const AboutStyles = {
         textAlign: ['center','center','center','center','left'],
         aboutCenterContent: {
             margin: '0 auto',
+        },
+        div: {
+            margin: '0 auto'
         }
     },
     aboutBigBanner: {

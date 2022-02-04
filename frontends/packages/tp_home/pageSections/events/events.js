@@ -2,6 +2,7 @@
 import { jsx } from 'theme-ui';
 import { Container, Flex, Box, Heading, Text, Image, Button } from 'theme-ui';
 import React, { useState } from 'react';
+import { Slide } from "react-awesome-reveal";
 import Carousel from "react-multi-carousel";
 import SwipeButtonGroup from '../../components/events/swipebuttongroup';
 import EventCard from '../../components/events/eventcard';
@@ -23,6 +24,7 @@ export default function Events() {
         <section id="events" sx={styles.events}>
             <Container sx={styles.eventsContainer}>
                 { data != null &&
+                    <Slide direction='left'>
                     <Carousel
                         swipeable={true}
                         draggable={true}
@@ -48,19 +50,20 @@ export default function Events() {
                         minimumTouchDrag={80}
                     >
                     { data.map(({id, title, picture, orgName, date, tag, place},i) => (
-                        <EventCard
-                            key={i}
-                            src={picture}
-                            alt={title}
-                            postLink={'/event/'+id}
-                            title={title}
-                            orgName={orgName}
-                            date={date}
-                            tag={tag}
-                            place={place}
-                        />
+                            <EventCard
+                                key={i}
+                                src={picture}
+                                alt={title}
+                                postLink={'/event/'+id}
+                                title={title}
+                                orgName={orgName}
+                                date={date}
+                                tag={tag}
+                                place={place}
+                            />
                     ))}
                 </Carousel>
+                </Slide>
                 }
             </Container>
         </section>

@@ -43,6 +43,9 @@ export const ActionsStyles = {
         actionsCenterContent: {
             margin: '0 auto',
         },
+        div: {
+            margin: '0 auto',
+        },
         button: {
             backgroundColor: '#C99700'
         }
