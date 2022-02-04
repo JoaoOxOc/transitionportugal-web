@@ -10,25 +10,27 @@ import { StaffTeamStyles as styles } from './staffteam.style';
 
 export default function StaffTeam() {
     const {data, loading, error} = useStaffteamData('');
-    console.log(data)
 
     return (
         <div sx={styles.staffteam}>
+            <Box sx={styles.staffteamTitle}>
+                <h2>A nossa Equipa</h2>
+            </Box>
             <Container sx={styles.staffteamContainer}>
-                <Flex sx={styles.staffteamContainerRow}>
-                    { data != null && data.map(({id, name, picture, job, description},i) => (
-                        <Box key={i}>
-                            <StaffTeamCard
-                                src={picture}
-                                alt={name}
-                                name={name}
-                                job={job}
-                                description={description}
-                            />
-                        </Box>
+                    <Box sx={styles.staffteamContainerRow}>
+                        { data != null && data.map(({id, name, picture, job, description},i) => (
+                            <Box key={i}>
+                                <StaffTeamCard
+                                    src={picture}
+                                    alt={name}
+                                    name={name}
+                                    job={job}
+                                    description={description}
+                                />
+                            </Box>
 
-                    ))}
-                </Flex>
+                        ))}
+                    </Box>
             </Container>
         </div>
     );
