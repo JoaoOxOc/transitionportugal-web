@@ -36,7 +36,7 @@ jobs:
       run: doctl registry login --expiry-seconds 6000
       
     - name: Build frontoffice container image
-      run: docker build -t "$REGISTRY_HOSTNAME/$IMAGE_NAME"  ./frontends/
+      run: docker build -t "$REGISTRY_HOSTNAME/$IMAGE_NAME" -f /frontends/frontoffice.dockerfile ./frontends/
     
     - name: Push frontoffice image to DigitalOcean Container Registry
       run: docker push "$REGISTRY_HOSTNAME/$IMAGE_NAME":latest
