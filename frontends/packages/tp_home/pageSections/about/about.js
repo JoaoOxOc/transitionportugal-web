@@ -1,8 +1,9 @@
 /** @jsx jsx */ /** @jsxRuntime classic */
 import { jsx } from 'theme-ui';
 import { Container, Flex, Box, Heading, Text, Image, Button } from 'theme-ui';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Slide, Fade, Pulse } from "react-awesome-reveal";
+import { i18nextAbout } from "@transitionpt/translations";
 
 import useAboutData from '../../hooks/useAboutData';
 
@@ -11,8 +12,19 @@ import { AboutStyles as styles } from './about.style';
 import AboutMainimage from '../../public/about/about-mainimage.jpg';
 
 export default function About() {
+    const [currentLang, setLang] = useState("pt");
+    i18nextAbout.changeLanguage(currentLang);
+
     const {data, loading, error} = useAboutData('');
     console.log(data)
+
+    useEffect(() => {
+        const handleNewMessage = (event) => {
+          setLang(event.detail);
+        };
+              
+        window.addEventListener('newLang', handleNewMessage);
+    }, []);
 
     return (
         <section id="about" sx={styles.about}>
@@ -32,7 +44,7 @@ export default function About() {
                     </Fade>
                     <Box sx={styles.aboutGridImageBox}>
                         <Slide direction='right'>
-                            <Image src={AboutMainimage} alt='community image'/>
+                            <Image src={AboutMainimage} alt={i18nextAbout.t('ABOUT.community_image')}/>
                         </Slide>
                     </Box>
                 </Flex>
@@ -56,7 +68,7 @@ export default function About() {
                 <Flex sx={styles.aboutCenterBox}>
                     <Slide direction='up'>
                         <div>
-                            <Button sx={styles.aboutCenterBox.aboutCenterContent} aria-label="Veja a nossa linha do tempo">Veja a nossa linha do tempo</Button>
+                            <Button sx={styles.aboutCenterBox.aboutCenterContent} aria-label={i18nextAbout.t('ABOUT.timeline')}>{i18nextAbout.t('ABOUT.timeline')}</Button>
                         </div>
                     </Slide>
                 </Flex>

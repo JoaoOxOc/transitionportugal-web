@@ -195,7 +195,10 @@ export const FooterStyles = {
     },
     navWrapper: {
       div: {
-        margin: '0 auto'
+        margin: '0 auto',
+      },
+      nav: {
+        display: 'grid'
       }
     }
   },

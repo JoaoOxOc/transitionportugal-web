@@ -98,7 +98,6 @@ export default function Footer() {
           </Box>
         </Box>
       </Container>
-      <Slide direction='up'>
         <Container>
           <Box sx={styles.footer.footerBottomArea}>
               <div sx={styles.footer.footerBottomTrademark}>
@@ -137,7 +136,6 @@ export default function Footer() {
             </Box>
           </Box>
         </Container>
-      </Slide>
     </footer>
   );
 }
