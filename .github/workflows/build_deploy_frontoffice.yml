@@ -8,27 +8,52 @@ on:
   push:
     branches: [ deployfront ]
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+env:
+  GITHUB_SHA: ${{ github.sha }}
+  GITHUB_REPOSITORY: joaooxoc/transitionportugal-web
+  REGISTRY_HOSTNAME: registry.digitalocean.com/photosapi
+  IMAGE_NAME: tp_frontoffice
+  DO_CLUSTER: do-lon1-k8s-photos
+  DIGITALOCEAN_ACCESS_TOKEN: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+  FRONTOFFICE_DEPLOYMENT_FILE_NAME: frontoffice_kubernetes.yml
+
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
+    name: Build docker images and deploy to DO kubernetes
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
+    - name: Checkout
+      uses: actions/checkout@v1
 
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+    - name: Install doctl
+      uses: digitalocean/action-doctl@v2.1.0
+      with:
+        token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+    
+    - name: Log in to DigitalOcean Container Registry with short-lived credentials
+      run: doctl registry login --expiry-seconds 6000
+      
+    - name: Build frontoffice container image
+      run: docker build "$REGISTRY_HOSTNAME/$IMAGE_NAME" -f ./frontends/frontoffice.dockerfile
+    
+    - name: Push frontoffice image to DigitalOcean Container Registry
+      run: docker push "$REGISTRY_HOSTNAME/$IMAGE_NAME":latest
+      
+    
+    - name: authenticate to DO
+      run: doctl auth init
+
+    - name: Save DigitalOcean kubeconfig
+      run: doctl -t $DIGITALOCEAN_ACCESS_TOKEN k8s cluster config save $DO_CLUSTER
+
+    - name: Update deployment file with gateway image registry name
+      run: TAG=$(echo $GITHUB_SHA | head -c7) && sed -i "s|<FRONTOFFICE_IMAGE>|$REGISTRY_HOSTNAME/$IMAGE_NAME:latest|" $GITHUB_WORKSPACE/$FRONTOFFICE_DEPLOYMENT_FILE_NAME
+      
+
+    - name: Deploy to DigitalOcean Kubernetes
+      run: kubectl apply -f $GITHUB_WORKSPACE/$FRONTOFFICE_DEPLOYMENT_FILE_NAME
+
+    - name: Verify deployment
+      run: kubectl rollout status deployment/$IMAGE_NAME
