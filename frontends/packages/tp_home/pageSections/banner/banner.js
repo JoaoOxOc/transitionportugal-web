@@ -26,7 +26,6 @@ export default function Banner() {
     'https://hn.algolia.com/api/v1/search?query=redux',
     { hits: [] },
   );
-  console.log('banner data', bannerData);
   const handleClick = (e) => {
     e.preventDefault();
     setVideoOpen(true);

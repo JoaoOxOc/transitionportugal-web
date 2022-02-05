@@ -20,6 +20,8 @@ export default function usePartnerData(url) {
                                 picture: '/tn-logo.svg',
                                 link: 'https://transitionnetwork.org',
                                 description: 'Movimento raíz do Transição Portugal',
+                                lat: 40.21270083837954,
+                                long: -8.411976302535853,
                               },
                               {
                                 id: '2',
@@ -27,6 +29,8 @@ export default function usePartnerData(url) {
                                 picture: '/tn-logo.svg',
                                 link: 'https://transitionnetwork.org',
                                 description: 'Movimento raíz do Transição Portugal',
+                                lat: 39.75814185749746,
+                                long: -8.812977251759657,
                               },
                               {
                                 id: '3',
@@ -34,6 +38,8 @@ export default function usePartnerData(url) {
                                 picture: '/tn-logo.svg',
                                 link: 'https://transitionnetwork.org',
                                 description: 'Movimento raíz do Transição Portugal',
+                                lat: 38.65360930777786,
+                                long: -8.216968999476505,
                               },
                           ];
                     setData(response)

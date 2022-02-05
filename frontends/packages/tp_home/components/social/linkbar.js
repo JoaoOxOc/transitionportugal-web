@@ -23,7 +23,6 @@ import useSocialData from '../../hooks/useSocialData';
 
 const SocialLinkBar = React.memo(function SocialLinkBar({ className, dataJson, ...rest }) {
     const {data,loading,error} = useSocialData('https://localhost:4000');
-    console.log(data)
 
     const buildSocialLink = (jsonItem) => {
         const socialIconStyle = {};

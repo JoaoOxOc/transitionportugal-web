@@ -16,7 +16,6 @@ export default function Actions() {
     i18nextActions.changeLanguage(currentLang);
 
     const {data, loading, error} = useActionsData('');
-    console.log(data)
 
     useEffect(() => {
         const handleNewMessage = (event) => {

@@ -18,7 +18,6 @@ import "react-multi-carousel/lib/styles.css";
 export default function Events() {
     const classes = useStyles();
     const {data, loading, error} = useEventsBannerData('');
-    console.log(data)
 
     return (
         <section id="events" sx={styles.events}>

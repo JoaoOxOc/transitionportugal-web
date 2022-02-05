@@ -16,7 +16,6 @@ export default function About() {
     i18nextAbout.changeLanguage(currentLang);
 
     const {data, loading, error} = useAboutData('');
-    console.log(data)
 
     useEffect(() => {
         const handleNewMessage = (event) => {
