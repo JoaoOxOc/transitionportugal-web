@@ -6,6 +6,7 @@ import dynamic from 'next/dynamic';
 //const ModalVideo = dynamic(() => import('react-modal-video'), { ssr: false });
 import { Link } from '../../components/generic/link';
 //import { FaPlayCircle } from 'react-icons/fa';
+import { Slide } from "react-awesome-reveal";
 
 import {bannerStyles as styles } from './banner.styles';
 
@@ -25,7 +26,6 @@ export default function Banner() {
     'https://hn.algolia.com/api/v1/search?query=redux',
     { hits: [] },
   );
-  console.log('banner data', bannerData);
   const handleClick = (e) => {
     e.preventDefault();
     setVideoOpen(true);
@@ -43,8 +43,10 @@ export default function Banner() {
           {/* <Text as="p" variant="tpSecondary">
             Interaja com este espaço e descubra a transição
           </Text> */}
-          <Flex>
+          <Flex style={{width: '100%'}}>
+          <Slide>
             <GlassCarouselDynamic/>
+          </Slide>
           </Flex>
           {/* <Flex> */}
             {/* <Button variant="whiteButton" aria-label="Get Started">

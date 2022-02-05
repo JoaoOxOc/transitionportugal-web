@@ -1,3 +1,27 @@
+
+export const CarouselResponsive = {
+    television: {
+      breakpoint: { min: 1920 },
+      items: 1,
+      slidesToSlide: 1 // optional, default to 1.
+    },
+    desktop: {
+      breakpoint: { max: 1920, min: 1024 },
+      items: 1,
+      slidesToSlide: 1 // optional, default to 1.
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 480 },
+      items: 1,
+      slidesToSlide: 1 // optional, default to 1.
+    },
+    mobile: {
+      breakpoint: { max: 480, min: 0 },
+      items: 1,
+      slidesToSlide: 1 // optional, default to 1.
+    }
+  };
+
 export const GlassCarouselStyles = {
     carouselCard: {
         height: '320px',
@@ -17,6 +41,7 @@ export const GlassCarouselStyles = {
     },
     carouselBox: {
         width: '100%',
+        height: '100%',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-start',
@@ -27,4 +52,11 @@ export const GlassCarouselStyles = {
             paddingRight: 0
         }
     },
+    carouselList: {
+      width: '100%',
+        height: '100%',
+        marginLeft: 'auto',
+        maxWidth: 'calc(50% + 865px)',
+        overflow: 'hidden !important',
+    }
 }

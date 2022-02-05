@@ -1,0 +1,1 @@
+{"version":3,"file":"contacts.js","sourceRoot":"","sources":["../../../../../../src/consts/Translations/pt/home/Components/contacts.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,UAAU,MAAM,aAAa,CAAC;AAE1C,MAAM,CAAC,IAAM,qBAAqB,GAAG,UAAU,CAAC;IAC5C,QAAQ,EAAE;QACN,iBAAiB,EAAE,OAAO;QAC1B,gBAAgB,EAAE,wDAAwD;QAC1E,uBAAuB,EAAE,eAAe;QACxC,gBAAgB,EAAE,WAAW;KAChC;CACK,CAAC,CAAC"}

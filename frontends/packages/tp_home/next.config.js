@@ -11,5 +11,9 @@ module.exports = withPlugins([optimizedImages, withTM], {
     images: {
       disableStaticImages: true
     },
+    experimental: {
+      // Enables the styled-components SWC transform
+      styledComponents: true
+    }
   }
 )

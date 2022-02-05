@@ -8,8 +8,10 @@ export const MainMenuStyles = {
             px: 25,
             cursor: 'pointer',
             lineHeight: '1.2',
+            transition: 'all 0.35s',
             '&.active': {
               color: colors.nav_hover,
+              textDecoration: 'none',
               span: {
                 '&::before': {
                   opacity: '1',
