@@ -19,6 +19,14 @@ export function Link({ path, label, children, ...rest }) {
   );
 }
 
+export function TraditionalLink({ path, label, children, ...rest }) {
+  return (
+    <A {...rest} href={path}>
+      {children ? children : label}
+    </A>
+  );
+}
+
 export const CustomLink = ({ path, children, ...rest }) => {
     const router = useRouter()
 

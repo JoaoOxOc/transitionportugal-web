@@ -2,7 +2,7 @@
 import { Image } from 'theme-ui';
 import React from "react";
 
-import { Link } from '../../components/generic/link';
+import { TraditionalLink } from '../../components/generic/link';
 
 // import styles
 import {LinkBarStyles as styles } from './linkbar.style';
@@ -49,7 +49,7 @@ const SocialLinkBar = React.memo(function SocialLinkBar({ className, dataJson, .
         }
         return (
             <div key={jsonItem.code} sx={styles.socialLinkItem}>
-                <Link
+                <TraditionalLink
                     path={jsonItem.url}
                     sx={styles.socialLink}
                     target='_blank'
@@ -58,7 +58,7 @@ const SocialLinkBar = React.memo(function SocialLinkBar({ className, dataJson, .
                     {...rest}
                 >
                     <span sx={Object.assign({}, styles.socialLink.icon, socialIconStyle)}>{icon}</span>
-                </Link>
+                </TraditionalLink>
             </div>
         )
     }
