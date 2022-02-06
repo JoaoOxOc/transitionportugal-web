@@ -40,7 +40,7 @@ export default function Layout({ children }) {
       { windowSize >= 1024 &&
         <TopBar/>
       }
-      <Sticky innerZ={1001} top={0} onStateChange={handleStateChange}>
+      <Sticky innerZ={101} top={0} onStateChange={handleStateChange}>
         <Header className={`${isSticky ? 'sticky' : 'unSticky'}`} />
       </Sticky>
       <main

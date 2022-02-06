@@ -42,9 +42,9 @@ export default function About() {
                         </Box>
                     </Fade>
                     <Box sx={styles.aboutGridImageBox}>
-                        <Slide direction='right'>
+                        <Fade>
                             <Image src={AboutMainimage} alt={i18nextAbout.t('ABOUT.community_image')}/>
-                        </Slide>
+                        </Fade>
                     </Box>
                 </Flex>
                 <Flex sx={styles.aboutTopicsGrid}>

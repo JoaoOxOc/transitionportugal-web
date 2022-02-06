@@ -2,6 +2,7 @@
 
 import { Container, Flex, Box, Heading, Text, Image, Button } from 'theme-ui';
 import React, { useState } from 'react';
+import { Slide } from "react-awesome-reveal";
 import Carousel from "react-multi-carousel";
 // import SwipeButtonGroup from '../../components/events/swipebuttongroup';
 // import { ThemeProvider } from '@mui/material/styles';

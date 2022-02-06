@@ -1,9 +1,11 @@
 /** @jsxImportSource theme-ui */
 import { Heading, Box, Container, Image, Flex } from 'theme-ui';
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import { Slide, Fade } from "react-awesome-reveal";
 import { Link as ScrollLink } from 'react-scroll';
 import { Link } from '../../components/generic/link';
+import { CustomLink } from '../../components/generic/link';
 import Logo from '../../components/logo';
 import Newsletter from '../../components/newsletter/newsletter';
 import SocialLinkBar from '../../components/social/linkbar';
@@ -21,6 +23,7 @@ import { i18nextFooter } from "@transitionpt/translations";
 import LogoDark from '../../public/logotipo_transicaoportugal.svg';
 
 export default function Footer() {
+  const router = useRouter();
   const [currentLang, setLang] = useState("pt");
   i18nextFooter.changeLanguage(currentLang);
 
@@ -32,6 +35,41 @@ export default function Footer() {
             
       window.addEventListener('newLang', handleNewMessage);
   }, []);
+
+
+  const renderScrollLink = (path, label, type, display, icon, i) => {
+      if (router.pathname.split('/')[1] != '') {
+          return (
+              <CustomLink 
+                  path={"/#" + path}
+                  key={i}
+                  aria-label={ i18nextFooter.t(label) }
+                  sx={styles.footer.bottomLink}
+                  style={{padding: '10px', color: 'inherit', textDecoration: 'none'}}
+              >
+                  <span>{icon} { i18nextFooter.t(label) }</span>
+              </CustomLink>
+          );
+      }
+      else {
+          return (
+            <ScrollLink
+              to={path}
+              spy={true}
+              smooth={true}
+              offset={-70}
+              duration={500}
+              key={i}
+              sx={styles.footer.bottomLink}
+              aria-label={ i18nextFooter.t(label) }
+            >
+              <span>{icon} { i18nextFooter.t(label) }</span>
+            </ScrollLink>
+          );
+      }
+  }
+
+
   return (
     <footer sx={styles.footer}>
       <Container sx={styles.footer.container}>
@@ -117,19 +155,7 @@ export default function Footer() {
                       >
                       <span>{icon} { i18nextFooter.t(label) }</span>
                       </Link>
-                    :
-                    <ScrollLink
-                      to={path}
-                      spy={true}
-                      smooth={true}
-                      offset={-70}
-                      duration={500}
-                      key={i}
-                      sx={styles.footer.bottomLink}
-                      aria-label={ i18nextFooter.t(label) }
-                    >
-                      <span>{icon} { i18nextFooter.t(label) }</span>
-                    </ScrollLink>
+                    : renderScrollLink(path, label, type, display, icon, i)
                     )
                   ))}
                 </nav>
