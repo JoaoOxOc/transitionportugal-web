@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Build and Deploy monorepos
+name: Build and Deploy transition pt frontoffice
 
 # Controls when the workflow will run
 on:
@@ -14,7 +14,7 @@ env:
   GITHUB_REPOSITORY: joaooxoc/transitionportugal-web
   REGISTRY_HOSTNAME: registry.digitalocean.com/photosapi
   IMAGE_NAME: tp_frontoffice
-  DO_CLUSTER: do-lon1-k8s-photos
+  DO_CLUSTER: k8s-photos
   DIGITALOCEAN_ACCESS_TOKEN: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
   FRONTOFFICE_DEPLOYMENT_FILE_NAME: frontoffice_kubernetes.yml
 
@@ -36,7 +36,7 @@ jobs:
       run: doctl registry login --expiry-seconds 6000
       
     - name: Build frontoffice container image
-      run: docker build "$REGISTRY_HOSTNAME/$IMAGE_NAME" -f ./frontends/frontoffice.dockerfile
+      run: docker build -t "$REGISTRY_HOSTNAME/$IMAGE_NAME" -f $GITHUB_WORKSPACE/frontends/frontoffice.dockerfile ./frontends/
     
     - name: Push frontoffice image to DigitalOcean Container Registry
       run: docker push "$REGISTRY_HOSTNAME/$IMAGE_NAME":latest
