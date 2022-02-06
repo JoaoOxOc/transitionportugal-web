@@ -1,5 +1,5 @@
-/** @jsx jsx */ /** @jsxRuntime classic */
-import { jsx, Container, Flex } from 'theme-ui';
+/** @jsxImportSource theme-ui */
+import { Container, Flex } from 'theme-ui';
 import React, { useEffect, useState } from "react";
 
 import MainMenu from '../menu/mainmenu';

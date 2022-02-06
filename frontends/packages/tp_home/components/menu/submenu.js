@@ -1,5 +1,4 @@
-/** @jsx jsx */ /** @jsxRuntime classic */
-import { jsx, Container, Flex } from 'theme-ui';
+/** @jsxImportSource theme-ui */
 import React from "react";
 
 import { SubMenuStyles as styles } from './submenu.style';

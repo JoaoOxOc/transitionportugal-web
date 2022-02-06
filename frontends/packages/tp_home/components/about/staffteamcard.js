@@ -1,5 +1,5 @@
-/** @jsx jsx */ /** @jsxRuntime classic */
-import { jsx } from 'theme-ui';
+/** @jsxImportSource theme-ui */
+
 import { Image } from 'theme-ui';
 import SimpleBar from 'simplebar-react';
 import 'simplebar/dist/simplebar.min.css';

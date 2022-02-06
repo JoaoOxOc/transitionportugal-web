@@ -1,5 +1,5 @@
-/** @jsx jsx */ /** @jsxRuntime classic */
-import { jsx } from 'theme-ui';
+/** @jsxImportSource theme-ui */
+
 import React, { useEffect, useState } from "react";
 
 import { EconomyModalStyle as styles } from './economymodal.style';

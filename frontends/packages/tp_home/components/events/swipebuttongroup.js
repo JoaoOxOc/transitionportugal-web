@@ -1,5 +1,5 @@
-/** @jsx jsx */ /** @jsxRuntime classic */
-import { jsx, Box, Container, Flex } from 'theme-ui';
+/** @jsxImportSource theme-ui */
+import { Box, Container, Flex } from 'theme-ui';
 import { IoIosArrowRoundBack, IoIosArrowRoundForward } from 'react-icons/io';
 
 export default function SwipeButtonGroup({ next, previous }) {

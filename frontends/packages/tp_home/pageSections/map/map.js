@@ -1,5 +1,5 @@
-/** @jsx jsx */ /** @jsxRuntime classic */
-import { jsx } from 'theme-ui';
+/** @jsxImportSource theme-ui */
+
 import React, { useState } from 'react';
 
 import dynamic from "next/dynamic";

@@ -1,5 +1,4 @@
-/** @jsx jsx */ /** @jsxRuntime classic */
-import { jsx, Container, Flex, Button, Select } from 'theme-ui';
+/** @jsxImportSource theme-ui */
 import React, { useEffect, useState } from "react";
 import { useRouter } from 'next/router';
 import { Link as ScrollLink } from 'react-scroll';
@@ -65,16 +64,16 @@ export default function MainMenu({displayType}) {
             {menuItems.map(({ path, label, type, display, icon }, i) => (
                 display != 'bottom' && (
                 type === 'page' ?
-                    <Link
+                    (<Link
                         path={path}
                         key={i}
                         aria-label={ i18nextHeader.t(label) }
-                        style={{padding: '10px', color: 'inherit', textDecoration: 'none'}}
+                        style={{padding: '10px', color: 'inherit', textDecoration: 'none', display: 'inline-block'}}
                         >
                         <span>{icon} { i18nextHeader.t(label) }</span>
-                    </Link>
+                    </Link>)
                 
-                : renderScrollLink(path, label, type, display, icon, i)
+                : (renderScrollLink(path, label, type, display, icon, i))
                 )
             ))}
         </div>

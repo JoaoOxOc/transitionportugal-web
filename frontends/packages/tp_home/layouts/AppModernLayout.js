@@ -1,5 +1,4 @@
-/** @jsx jsx */ /** @jsxRuntime classic */
-import { jsx } from 'theme-ui';
+/** @jsxImportSource theme-ui */
 import React, { useEffect, useState } from 'react';
 import Sticky from 'react-stickynode';
 import Header from '../components/header/header';
@@ -41,7 +40,7 @@ export default function Layout({ children }) {
       { windowSize >= 1024 &&
         <TopBar/>
       }
-      <Sticky innerZ={1001} top={0} onStateChange={handleStateChange}>
+      <Sticky innerZ={101} top={0} onStateChange={handleStateChange}>
         <Header className={`${isSticky ? 'sticky' : 'unSticky'}`} />
       </Sticky>
       <main

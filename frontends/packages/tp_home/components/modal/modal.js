@@ -1,5 +1,5 @@
-/** @jsx jsx */ /** @jsxRuntime classic */
-import { jsx } from 'theme-ui';
+/** @jsxImportSource theme-ui */
+
 import React, { useEffect } from "react";
 
 import { ModalStyle as styles } from './modal.style';

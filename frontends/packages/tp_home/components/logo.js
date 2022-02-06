@@ -1,4 +1,4 @@
-/** @jsx jsx */ /** @jsxRuntime classic */
+/** @jsxImportSource theme-ui */
 import { jsx, Image } from 'theme-ui';
 import { useRouter } from 'next/router';
 import { Link as PageLink, CustomLink } from './generic/link';

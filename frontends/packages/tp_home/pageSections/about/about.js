@@ -1,5 +1,5 @@
-/** @jsx jsx */ /** @jsxRuntime classic */
-import { jsx } from 'theme-ui';
+/** @jsxImportSource theme-ui */
+
 import { Container, Flex, Box, Heading, Text, Image, Button } from 'theme-ui';
 import React, { useState, useEffect } from 'react';
 import { Slide, Fade, Pulse } from "react-awesome-reveal";
@@ -42,9 +42,9 @@ export default function About() {
                         </Box>
                     </Fade>
                     <Box sx={styles.aboutGridImageBox}>
-                        <Slide direction='right'>
+                        <Fade>
                             <Image src={AboutMainimage} alt={i18nextAbout.t('ABOUT.community_image')}/>
-                        </Slide>
+                        </Fade>
                     </Box>
                 </Flex>
                 <Flex sx={styles.aboutTopicsGrid}>

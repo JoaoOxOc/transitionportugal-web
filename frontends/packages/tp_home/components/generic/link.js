@@ -1,5 +1,5 @@
-/** @jsx jsx */ /** @jsxRuntime classic */
-import { jsx, NavLink as MenuLink, Link as A } from 'theme-ui';
+/** @jsxImportSource theme-ui */
+import { NavLink as MenuLink, Link as A } from 'theme-ui';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 
@@ -16,6 +16,14 @@ export function Link({ path, label, children, ...rest }) {
     <NextLink {...rest} href={path}>
       <MenuLink {...rest}>{children ? children : label}</MenuLink>
     </NextLink>
+  );
+}
+
+export function TraditionalLink({ path, label, children, ...rest }) {
+  return (
+    <A {...rest} href={path}>
+      {children ? children : label}
+    </A>
   );
 }
 
