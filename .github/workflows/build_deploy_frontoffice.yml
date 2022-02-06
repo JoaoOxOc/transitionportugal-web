@@ -14,7 +14,7 @@ env:
   GITHUB_REPOSITORY: joaooxoc/transitionportugal-web
   REGISTRY_HOSTNAME: registry.digitalocean.com/photosapi
   IMAGE_NAME: tp_frontoffice
-  DO_CLUSTER: do-lon1-k8s-photos
+  DO_CLUSTER: k8s-photos
   DIGITALOCEAN_ACCESS_TOKEN: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
   FRONTOFFICE_DEPLOYMENT_FILE_NAME: frontoffice_kubernetes.yml
 
