@@ -36,9 +36,9 @@ metadata:
 spec:
   ports:
     - port: 40000
-      targetPort: 5050
+      targetPort: 3000
   selector:
-    app: descobrir-web
+    app: transportugal-frontoffice
 ---
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
@@ -52,10 +52,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - tp.descobrir.org
+    - tp.chain-of-change.com
     secretName: transportugal-frontoffice-tls-secret
   rules:
-  - host: tp.descobrir.org
+  - host: tp.chain-of-change.com
     http:
       paths:
       - backend:
