@@ -1,5 +1,5 @@
-/** @jsx jsx */ /** @jsxRuntime classic */
-import { jsx, Heading, Box, Container, Image, Flex } from 'theme-ui';
+/** @jsxImportSource theme-ui */
+import { Heading, Box, Container, Image, Flex } from 'theme-ui';
 import React, { useState, useEffect } from 'react';
 import { Slide, Fade } from "react-awesome-reveal";
 import { Link as ScrollLink } from 'react-scroll';

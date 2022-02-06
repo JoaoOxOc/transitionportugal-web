@@ -1,5 +1,5 @@
-/** @jsx jsx */ /** @jsxRuntime classic */
-import { jsx, Container, Grid, Box } from 'theme-ui';
+/** @jsxImportSource theme-ui */
+import { Container, Grid, Box } from 'theme-ui';
 import React, { useEffect, useState } from "react";
 
 // import local libraries

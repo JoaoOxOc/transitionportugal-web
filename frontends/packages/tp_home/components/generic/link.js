@@ -1,5 +1,5 @@
-/** @jsx jsx */ /** @jsxRuntime classic */
-import { jsx, NavLink as MenuLink, Link as A } from 'theme-ui';
+/** @jsxImportSource theme-ui */
+import { NavLink as MenuLink, Link as A } from 'theme-ui';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 

@@ -1,5 +1,5 @@
-/** @jsx jsx */ /** @jsxRuntime classic */
-import { jsx, Image, Box, Heading, Text, Flex, Link } from 'theme-ui';
+/** @jsxImportSource theme-ui */
+import { Image, Box, Heading, Text, Flex, Link } from 'theme-ui';
 
 export default function EventCard({
   src,

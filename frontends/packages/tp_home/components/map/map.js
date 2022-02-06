@@ -1,5 +1,5 @@
-/** @jsx jsx */ /** @jsxRuntime classic */
-import { jsx } from 'theme-ui';
+/** @jsxImportSource theme-ui */
+
 import { MapContainer, TileLayer, Marker, Popup, LayerGroup } from 'react-leaflet'
 import SearchField from './searchfield';
 import { MapStyles as styles } from './map.style';

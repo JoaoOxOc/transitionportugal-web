@@ -1,5 +1,5 @@
-/** @jsx jsx */ /** @jsxRuntime classic */
-import { jsx, Image } from 'theme-ui';
+/** @jsxImportSource theme-ui */
+import { Image } from 'theme-ui';
 import React, { useEffect, useState } from "react";
 import { Link } from '../generic/link';
 import { i18nextHeader } from "@transitionpt/translations";

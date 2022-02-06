@@ -1,5 +1,5 @@
-/** @jsx jsx */ /** @jsxRuntime classic */
-import { jsx } from 'theme-ui';
+/** @jsxImportSource theme-ui */
+
 import { Flex, Box, Input, Label, Image, Button } from 'theme-ui';
 import React, { useState, useEffect } from 'react';
 import { useForm } from "react-hook-form";

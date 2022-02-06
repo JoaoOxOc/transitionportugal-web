@@ -1,5 +1,4 @@
-/** @jsx jsx */ /** @jsxRuntime classic */
-import { jsx, Container, Flex, Button, Select } from 'theme-ui';
+/** @jsxImportSource theme-ui */
 import React, { useEffect, useState } from "react";
 import { useRouter } from 'next/router';
 import { Link as ScrollLink } from 'react-scroll';

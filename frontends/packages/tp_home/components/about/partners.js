@@ -1,5 +1,5 @@
-/** @jsx jsx */ /** @jsxRuntime classic */
-import { jsx } from 'theme-ui';
+/** @jsxImportSource theme-ui */
+
 import { useState, useEffect } from 'react';
 import { Container, Box } from 'theme-ui';
 import { Slide } from "react-awesome-reveal";

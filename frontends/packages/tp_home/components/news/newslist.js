@@ -1,5 +1,5 @@
-/** @jsx jsx */ /** @jsxRuntime classic */
-import { jsx } from 'theme-ui';
+/** @jsxImportSource theme-ui */
+
 import React, { useEffect, useState } from "react";
 
 import { NewsListStyle as styles } from './newslist.style';
