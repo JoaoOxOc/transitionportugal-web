@@ -14,6 +14,7 @@ env:
   GITHUB_REPOSITORY: joaooxoc/transitionportugal-web
   REGISTRY_HOSTNAME: registry.digitalocean.com/photosapi
   IMAGE_NAME: tp_frontoffice
+  DEPLOYMENT_NAME: transportugal-frontoffice
   DO_CLUSTER: k8s-photos
   DIGITALOCEAN_ACCESS_TOKEN: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
   FRONTOFFICE_DEPLOYMENT_FILE_NAME: frontoffice_kubernetes.yml
@@ -56,4 +57,4 @@ jobs:
       run: kubectl apply -f $GITHUB_WORKSPACE/$FRONTOFFICE_DEPLOYMENT_FILE_NAME
 
     - name: Verify deployment
-      run: kubectl rollout status deployment/$IMAGE_NAME
+      run: kubectl rollout status deployment/$DEPLOYMENT_NAME
