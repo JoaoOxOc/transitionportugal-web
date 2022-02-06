@@ -17,12 +17,12 @@ class MyDocument extends Document {
           <meta name="theme-color" content="#000000" />
           <link
             rel="shortcut icon"
-            href={require("../public/logotipo_transicaoportugal.svg")}
+            href="/favicon.ico"
           />
           <link
             rel="apple-touch-icon"
             sizes="76x76"
-            href={require("../public/logotipo_transicaoportugal.svg")}
+            href="/favicon.ico"
           />
         </Head>
         <body className="text-gray-800 antialiased">
