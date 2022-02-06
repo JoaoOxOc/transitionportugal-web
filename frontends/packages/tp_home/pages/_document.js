@@ -21,8 +21,8 @@ class MyDocument extends Document {
           />
           <link
             rel="apple-touch-icon"
-            sizes="76x76"
-            href="/favicon.ico"
+            sizes="96x96"
+            href="/inner_transition_V9L_icon.ico"
           />
         </Head>
         <body className="text-gray-800 antialiased">

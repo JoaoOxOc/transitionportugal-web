@@ -1,7 +1,7 @@
 /** @jsxImportSource theme-ui */
 
 import { Image } from 'theme-ui';
-import { Link } from '../../components/generic/link';
+import { TraditionalLink } from '../../components/generic/link';
 
 import { PartnerCardStyles as styles } from './partnercard.style';
 
@@ -15,7 +15,7 @@ export default function PartnerCard({
 
     return (
         <div sx={styles.partnerCard}>
-            <Link
+            <TraditionalLink
                     path={link}
                     sx={styles.partnerLink}
                     target='_blank'
@@ -23,7 +23,7 @@ export default function PartnerCard({
                     rel='noopener'
                 >
                 <Image src={src} alt={alt}/>
-            </Link>
+            </TraditionalLink>
         </div>
     );
 }

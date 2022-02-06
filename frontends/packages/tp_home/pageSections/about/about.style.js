@@ -115,8 +115,8 @@ export const AboutStyles = {
         textAlign: 'left',
         paddingTop: ['50px','50px','50px','100px'],
         paddingBottom: ['50px','50px','50px','100px'],
-        paddingLeft: ['50px','50px','50px','100px','200px','200px','200px','500px'],
-        paddingRight: ['50px','50px','50px','100px','200px','200px','200px','500px']
+        paddingLeft: ['5px','5px','50px','100px','200px','200px','200px','500px'],
+        paddingRight: ['5px','5px','50px','100px','200px','200px','200px','500px']
     },
     aboutBigBannerMessage: {
         color: '#FFFFFF',

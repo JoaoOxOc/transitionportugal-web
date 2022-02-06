@@ -4,5 +4,8 @@ export const PartnerCardStyles = {
         img: {
             width: '100%'
         }
+    },
+    partnerLink: {
+        display: 'block',
     }
 }
