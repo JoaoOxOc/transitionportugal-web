@@ -2,6 +2,16 @@
     "packages": [
       "packages/*"
     ],
-    "version": "1.0.0"
+    "version": "1.0.0",
+    "dependencies": {
+      "lerna": "^4.0.0",
+      "lerna-dockerize": "latest",
+      "typescript": "latest"
+    },
+    "lerna-dockerize": {
+      "logLevel": "error",
+      "templateDockerfileName": "Dockerfile.template",
+      "hoist": true
+    }
   }
   
