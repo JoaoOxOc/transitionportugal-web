@@ -10,7 +10,7 @@ import {
 import { useRef, useState } from 'react';
 import { i18nextAbout } from "@transitionpt/translations";
 
-import Link from '../../../components/Link';
+import Link from '../../../../components/Link';
 import ExpandMoreTwoToneIcon from '@mui/icons-material/ExpandMoreTwoTone';
 
 const ListWrapper = styled(Box)(

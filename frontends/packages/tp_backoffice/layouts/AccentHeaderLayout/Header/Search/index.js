@@ -25,12 +25,12 @@ import {
   styled,
   useTheme
 } from '@mui/material';
-import Link from '../../../components/Link';
+import Link from '../../../../components/Link';
 
 import SearchTwoToneIcon from '@mui/icons-material/SearchTwoTone';
 import { i18nextAbout } from "@transitionpt/translations";
 import ContactSupportTwoToneIcon from '@mui/icons-material/ContactSupportTwoTone';
-import Scrollbar from '../../../components/Scrollbar';
+import Scrollbar from '../../../../components/Scrollbar';
 import RestoreTwoToneIcon from '@mui/icons-material/RestoreTwoTone';
 import CloseTwoToneIcon from '@mui/icons-material/CloseTwoTone';
 import StarTwoToneIcon from '@mui/icons-material/StarTwoTone';

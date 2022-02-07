@@ -13,9 +13,9 @@ import {
 import Head from 'next/head';
 import SearchTwoToneIcon from '@mui/icons-material/SearchTwoTone';
 
-import BaseLayout from 'src/layouts/BaseLayout';
+import BaseLayout from '../layouts/BaseLayout';
 
-import { useTranslation } from 'react-i18next';
+import { i18nextAbout } from "@transitionpt/translations";
 
 const MainContent = styled(Box)(
   () => `
@@ -50,7 +50,7 @@ const ButtonSearch = styled(Button)(
 );
 
 function Status404() {
-  const { t } = useTranslation();
+  const { t } = i18nextAbout;
 
   return (
     <>

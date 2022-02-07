@@ -7,4 +7,5 @@ export * from './home/i18nAbout';
 export * from './home/i18nPartner';
 export * from './home/i18nStaff';
 export * from './home/i18nActions';
+export * from './backoffice/i18nSidemenu';
 //# sourceMappingURL=index.d.ts.map

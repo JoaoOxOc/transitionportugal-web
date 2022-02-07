@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { Box, useTheme } from '@mui/material';
-import ThemeSettings from '../../../components/ThemeSettings';
+import ThemeSettings from '../../components/ThemeSettings';
 
 import Sidebar from './Sidebar';
 import Header from './Header';
