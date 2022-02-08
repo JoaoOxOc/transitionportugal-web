@@ -1,5 +1,5 @@
-﻿using System.Linq.Expressions;
-using UserService.Enums;
+﻿using CommonLibrary.Enums;
+using System.Linq.Expressions;
 
 namespace UserService.Repositories
 {

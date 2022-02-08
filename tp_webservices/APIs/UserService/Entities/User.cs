@@ -1,32 +1,22 @@
 ﻿namespace UserService.Entities
 {
+    using Microsoft.AspNetCore.Identity;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Text.Json.Serialization;
 
-    public class User
+    public class User: IdentityUser
     {
-        public int Id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Username { get; set; }
 
         [ForeignKey("AssociationId")]
-        public virtual Association Association { get; set; }
+        public virtual Association? Association { get; set; }
 
         public bool IsVerified { get; set; }
 
         public bool IsActive { get; set; }
 
-        public int? LoginAttempts { get; set; }
+        public string? RefreshToken { get; set; }
 
-        [JsonIgnore]
-        public string PasswordHash { get; set; }
-
-        [JsonIgnore]
-        public List<RefreshToken> RefreshTokens { get; set; }
-
-        [JsonIgnore]
-        public List<Role> UserRoles { get; set; }
+        public DateTime RefreshTokenExpiryTime { get; set; }
 
         #region Metadata
 

@@ -1,11 +1,17 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using CommonLibrary.Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using UserService.Entities;
+using UserService.Migrations.Config;
 
 namespace UserService.Services.Database
 {
-    public class DatabaseContext : DbContext
+    public class DatabaseContext : IdentityDbContext<User>
     {
-        public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) { }
+        public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
+        {
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -19,10 +25,16 @@ namespace UserService.Services.Database
             optionsBuilder.UseNpgsql(config.GetConnectionString("DefaultConnectionString"));
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            new DbInitializer(modelBuilder).Seed();
+        }
+
         public DbSet<User> User { get; set; }
-        public DbSet<RefreshToken> RefreshToken { get; set; }
         public DbSet<Association> Association { get; set; }
-        public DbSet<Role> Role { get; set; }
         public DbSet<Scope> Scope { get; set; }
+        public DbSet<RoleScope> RoleScope { get; set; }
+        public DbSet<Setting> Setting { get; set; }
     }
 }

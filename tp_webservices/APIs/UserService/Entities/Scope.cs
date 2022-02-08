@@ -12,5 +12,8 @@ namespace UserService.Entities
         [Required]
         public string ScopeName { get; set; }
         public string Description { get; set; }
+
+        [JsonIgnore]
+        public List<RoleScope> RoleScopes { get; set; }
     }
 }

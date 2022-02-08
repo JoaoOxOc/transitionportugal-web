@@ -1,4 +1,6 @@
-﻿using UserService.Entities;
+﻿using CommonLibrary.Entities;
+using Microsoft.AspNetCore.Identity;
+using UserService.Entities;
 using UserService.Repositories;
 
 namespace UserService.Services.Database
@@ -6,10 +8,11 @@ namespace UserService.Services.Database
     public interface IUnitOfWork
     {
         IGenericRepository<User> UserRepository { get; }
-        IGenericRepository<RefreshToken> RefreshTokenRepository { get; }
+        IGenericRepository<IdentityRole> IdentityRoleRepository { get; }
         IGenericRepository<Association> AssociationRepository { get; }
-        IGenericRepository<Role> RoleRepository { get; }
+        IGenericRepository<RoleScope> RoleScopeRepository { get; }
         IGenericRepository<Scope> ScopeRepository { get; }
+        IGenericRepository<Setting> SettingRepository { get; }
 
         void Save();
     }

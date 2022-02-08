@@ -1,4 +1,4 @@
-﻿namespace UserService.Enums
+﻿namespace CommonLibrary.Enums
 {
     public enum SortDirection
     {

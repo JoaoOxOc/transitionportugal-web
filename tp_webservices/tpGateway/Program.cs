@@ -22,6 +22,7 @@ namespace tpGateway
                 {
                     config.AddJsonFile("notificationroutes.json");
                     config.AddJsonFile("loggingroutes.json");
+                    config.AddJsonFile("userroutes.json");
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {

@@ -1,6 +1,24 @@
 version: '3.4'
 
 services:
+  postgres:
+    image: postgres:12
+    container_name: tp_postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    logging:
+      options:
+        max-size: 10m
+        max-file: "3"
+    ports:
+      - '5433:5432'
+    volumes: 
+      - tp_postgres_data:/var/lib/postgresql/data
+    networks:
+      - tp_bridge
+
   tpgateway:
     image: ${DOCKER_REGISTRY-}tpgateway
     container_name: tp_gateway
@@ -12,7 +30,22 @@ services:
     networks:
         - tp_bridge
 
+  tpuserservice:
+    image: ${DOCKER_REGISTRY-}tpuserservice
+    container_name: tp_userservice
+    build:
+        context: .
+        dockerfile: userservice.dockerfile
+    ports:
+        - "5010:80"
+    networks:
+        - tp_bridge
+
 networks:
     tp_bridge:
         name: tp_bridge
         driver: bridge
+
+volumes:
+  tp_postgres_data:
+    driver: local

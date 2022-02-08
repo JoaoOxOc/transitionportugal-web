@@ -11,7 +11,11 @@ namespace UserService.Entities
 
         public string RoleName { get; set; }
 
+
         [JsonIgnore]
-        public List<Scope> RoleScopes { get; set; }
+        public List<UserRole> UserRoles { get; set; }
+
+        [JsonIgnore]
+        public List<RoleScope> RoleScopes { get; set; }
     }
 }

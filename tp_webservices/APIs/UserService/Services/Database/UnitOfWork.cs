@@ -1,4 +1,6 @@
-﻿using UserService.Entities;
+﻿using CommonLibrary.Entities;
+using Microsoft.AspNetCore.Identity;
+using UserService.Entities;
 using UserService.Repositories;
 
 namespace UserService.Services.Database
@@ -21,10 +23,11 @@ namespace UserService.Services.Database
         }
 
         private IGenericRepository<User> _userRepository;
-        private IGenericRepository<RefreshToken> _refreshTokenRepository;
         private IGenericRepository<Association> _associationRepository;
-        private IGenericRepository<Role> _roleRepository;
+        private IGenericRepository<RoleScope> _roleScopeRepository;
         private IGenericRepository<Scope> _scopeRepository;
+        private IGenericRepository<Setting> _settingRepository;
+        private IGenericRepository<IdentityRole> _identityRoleRepository;
 
         private readonly DatabaseContext dbContext;
 
@@ -36,11 +39,11 @@ namespace UserService.Services.Database
             }
         }
 
-        public IGenericRepository<RefreshToken> RefreshTokenRepository
+        public IGenericRepository<Setting> SettingRepository
         {
             get
             {
-                return _refreshTokenRepository = _refreshTokenRepository ?? new GenericRepository<RefreshToken>(dbContext);
+                return _settingRepository = _settingRepository ?? new GenericRepository<Setting>(dbContext);
             }
         }
 
@@ -52,11 +55,11 @@ namespace UserService.Services.Database
             }
         }
 
-        public IGenericRepository<Role> RoleRepository
+        public IGenericRepository<RoleScope> RoleScopeRepository
         {
             get
             {
-                return _roleRepository = _roleRepository ?? new GenericRepository<Role>(dbContext);
+                return _roleScopeRepository = _roleScopeRepository ?? new GenericRepository<RoleScope>(dbContext);
             }
         }
 
@@ -65,6 +68,14 @@ namespace UserService.Services.Database
             get
             {
                 return _scopeRepository = _scopeRepository ?? new GenericRepository<Scope>(dbContext);
+            }
+        }
+
+        public IGenericRepository<IdentityRole> IdentityRoleRepository
+        {
+            get
+            {
+                return _identityRoleRepository = _identityRoleRepository ?? new GenericRepository<IdentityRole>(dbContext);
             }
         }
     }
