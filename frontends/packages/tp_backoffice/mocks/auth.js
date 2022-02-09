@@ -90,9 +90,10 @@ class AuthApi {
   me(accessToken) {
     return new Promise((resolve, reject) => {
       try {
-        const { userId } = decode(accessToken);
+        const payload = decode(accessToken);
+        console.log(payload);
 
-        const user = users.find((_user) => _user.id === userId);
+        const user = users.find((_user) => _user.id === payload.userId);
 
         if (!user) {
           reject(new Error('Invalid authorization token'));

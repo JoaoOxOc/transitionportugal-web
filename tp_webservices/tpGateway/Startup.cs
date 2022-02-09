@@ -10,9 +10,7 @@ using Ocelot.Administration;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using tpGateway.Services;
 
 namespace tpGateway
 {
@@ -28,6 +26,7 @@ namespace tpGateway
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.ConfigureCors(Configuration);
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

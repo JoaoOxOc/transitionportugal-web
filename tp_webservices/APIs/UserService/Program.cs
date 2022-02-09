@@ -58,6 +58,7 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<ITPUserManager, TPUserManager>();
 builder.Services.AddSingleton<ITokenManager, TokenManager>();
+builder.Services.AddSingleton<IConfiguration>(configuration);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using UserService.Code;
 using UserService.Entities;
 using UserService.Models;
 using UserService.Services;
@@ -21,12 +22,14 @@ namespace UserService.Controllers
     {
         private readonly ITPUserManager _userManager;
         private readonly ITokenManager _tokenManager;
+        private readonly IConfiguration _configuration;
 
-        public AuthenticateController(ITPUserManager userManager, ITokenManager tokenManager)
+        public AuthenticateController(ITPUserManager userManager, ITokenManager tokenManager, IConfiguration configuration)
         {
             //userManager.PasswordHasher = new CustomPasswordHasher();
             _userManager = userManager;
             _tokenManager = tokenManager;
+            _configuration = configuration;
         }
 
         [HttpPost]
@@ -55,6 +58,25 @@ namespace UserService.Controllers
                     RefreshToken = refreshTokenData.Key,
                     expiration = token.ValidTo
                 });
+            }
+            return Unauthorized();
+        }
+
+        [Authorize]
+        [HttpGet]
+        [Route("profile")]
+        public async Task<IActionResult> Profile()
+        {
+            string header = HttpContext.Request.Headers["Authorization"];
+            string[] claims = new string[] { "userId", "sub", "associationId" };
+            List<JwtClaim> userClaims = JwtHelper.ValidateToken(header, _configuration["JWT:ValidAudience"], _configuration["JWT:ValidIssuer"], _configuration["JWT:Secret"], claims);
+            if (userClaims != null && userClaims.Count > 0)
+            {
+                //int requesterId = Convert.ToInt32(jwtClaims.Where(x => x.Claim == "userId").Single().Value);
+                string userId = userClaims.Where(x => x.Claim == "userId").Single().Value;
+                var user = _userManager.GetUserProfileById(userId);
+                
+                return Ok(user);
             }
             return Unauthorized();
         }

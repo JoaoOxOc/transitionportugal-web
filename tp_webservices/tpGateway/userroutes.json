@@ -13,6 +13,32 @@
       "UpstreamHttpMethod": [ "Post" ],
       "SwaggerKey": "UserService"
     },
+    {
+      "DownstreamPathTemplate": "/api/authenticate/profile",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tp_userservice",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/user/profile",
+      "UpstreamHttpMethod": [ "Get" ],
+      "SwaggerKey": "UserService"
+    },
+    {
+      "DownstreamPathTemplate": "/api/authenticate/refresh-token",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tp_userservice",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/user/refresh",
+      "UpstreamHttpMethod": [ "Post" ],
+      "SwaggerKey": "UserService"
+    }
   ],
   "SwaggerEndPoints": [
     {

@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Identity;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Text.Json;
 using UserService.Entities;
+using UserService.Models;
 using UserService.Services.Database;
 
 namespace UserService.Services.UserManager
@@ -58,6 +60,7 @@ namespace UserService.Services.UserManager
             var authClaims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, user.UserName),
+                    new Claim("userId", user.Id),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 };
 
@@ -77,7 +80,8 @@ namespace UserService.Services.UserManager
             var userScopes = _uow.ScopeRepository.Get(null, null, (x => userRoleScopes.Select(x => x.ScopeId).ToList().Contains(x.Id)), "Id", SortDirection.Ascending, "");
 
             var authClaims = new List<Claim>();
-            authClaims.Add(new Claim("scope", userScopes.Select(x=>x.ScopeName).Aggregate((a,b)=> a + "," + b )));
+            //authClaims.Add(new Claim("scope", userScopes.Select(x=>x.ScopeName).Aggregate((a,b)=> a + "," + b )));
+            authClaims.Add(new Claim("scope", JsonSerializer.Serialize(userScopes.Select(x => x.ScopeName)), JsonClaimValueTypes.JsonArray));
 
             return authClaims;
         }
@@ -123,6 +127,29 @@ namespace UserService.Services.UserManager
             users = _uow.UserRepository.Get(null, null, null, "UserName", SortDirection.Ascending);
 
             return users;
+        }
+
+        public async Task<ProfileModel> GetUserProfileById(string userId)
+        {
+            var user = _uow.UserRepository.Get(null, null, (x => x.Id == userId), "UserName", SortDirection.Ascending).FirstOrDefault();
+            if (user != null)
+            {
+                return new ProfileModel
+                {
+                    Username = user.UserName,
+                    Email = user.Email,
+                    Name = user.NormalizedUserName,
+                    JobTitle = "Lead Developer",
+                    Role = "Admin",
+                    Posts = 27,
+                    Location = "San Francisco, USA",
+                    Avatar = "/static/images/avatars/3.jpg",
+                    CoverImg = "/static/images/placeholders/covers/5.jpg",
+                    Followers = 6513,
+                    Description = "Curabitur at ipsum ac tellus semper interdum."
+                };
+            }
+            return new ProfileModel();
         }
     }
 }

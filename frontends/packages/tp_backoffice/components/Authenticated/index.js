@@ -24,16 +24,17 @@ export const Authenticated = (props) => {
       });
     } else {
       setVerified(true);
-
-      enqueueSnackbar('You are successfully authenticated!', {
-        variant: 'success',
-        anchorOrigin: {
-          vertical: 'bottom',
-          horizontal: 'right'
-        },
-        autoHideDuration: 2000,
-        TransitionComponent: Slide
-      });
+      if (auth.isReauthenticated) {
+        enqueueSnackbar('You are successfully authenticated!', {
+          variant: 'success',
+          anchorOrigin: {
+            vertical: 'bottom',
+            horizontal: 'right'
+          },
+          autoHideDuration: 2000,
+          TransitionComponent: Slide
+        });
+      }
     }
   }, [router.isReady]);
 

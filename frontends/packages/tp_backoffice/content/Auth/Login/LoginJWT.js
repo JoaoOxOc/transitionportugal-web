@@ -16,6 +16,8 @@ import {
 } from '@mui/material';
 import { useAuth } from '../../../hooks/useAuth';
 import { useRefMounted } from '../../../hooks/useRefMounted';
+import { useSnackbar } from 'notistack';
+import { Slide } from '@mui/material';
 import { i18nextAbout } from "@transitionpt/translations";
 
 export const LoginJWT = (props) => {
@@ -23,17 +25,18 @@ export const LoginJWT = (props) => {
   const { login } = useAuth();
   const isMountedRef = useRefMounted();
   const router = useRouter();
+  const { enqueueSnackbar } = useSnackbar();
 
   const formik = useFormik({
     initialValues: {
       email: 'demo@example.com',
-      password: 'TokyoPass1@',
+      password: 'test',
       terms: true,
       submit: null
     },
     validationSchema: Yup.object({
       email: Yup.string()
-        .email(t('The email provided should be a valid email address'))
+        // .email(t('The email provided should be a valid email address'))
         .max(255)
         .required(t('The email field is required')),
       password: Yup.string()
@@ -49,7 +52,7 @@ export const LoginJWT = (props) => {
         await login(values.email, values.password);
 
         if (isMountedRef()) {
-          const backTo = router.query.backTo || '/dashboards/reports';
+          const backTo = router.query.backTo || '/';
           router.push(backTo);
         }
       } catch (err) {
@@ -58,6 +61,17 @@ export const LoginJWT = (props) => {
           helpers.setStatus({ success: false });
           helpers.setErrors({ submit: err.message });
           helpers.setSubmitting(false);
+        }
+        if (err === "Unauthorized") {
+          enqueueSnackbar('Username/password are incorrect!', {
+            variant: 'error',
+            anchorOrigin: {
+              vertical: 'top',
+              horizontal: 'center'
+            },
+            autoHideDuration: 2000,
+            TransitionComponent: Slide
+          });
         }
       }
     }
@@ -75,7 +89,7 @@ export const LoginJWT = (props) => {
         name="email"
         onBlur={formik.handleBlur}
         onChange={formik.handleChange}
-        type="email"
+        type="text"
         value={formik.values.email}
         variant="outlined"
       />

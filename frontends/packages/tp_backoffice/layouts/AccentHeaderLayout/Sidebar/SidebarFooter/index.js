@@ -40,7 +40,7 @@ function SidebarFooter() {
   const handleLogout = async () => {
     try {
       await logout();
-      router.push('/');
+      router.push('/auth/login/cover');
     } catch (err) {
       console.error(err);
     }

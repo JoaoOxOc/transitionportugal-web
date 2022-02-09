@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using UserService.Entities;
+using UserService.Models;
 
 namespace UserService.Services.UserManager
 {
@@ -15,5 +16,6 @@ namespace UserService.Services.UserManager
         Task<IdentityResult> CreateRole(User user, string role);
         Task<List<Claim>> GetUserScopes(User user);
         Task<List<User>> GetUsers();
+        Task<ProfileModel> GetUserProfileById(string userId);
     }
 }
