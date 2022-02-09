@@ -262,7 +262,7 @@ function LoginCover() {
                   <b>Sign up here</b>
                 </Link>
               </Box>
-              {method !== 'Auth0' && (
+              {method !== 'Auth0' && method !== 'JWT' && (
                 <Tooltip
                   title={t('Used only for the live preview demonstration !')}
                 >

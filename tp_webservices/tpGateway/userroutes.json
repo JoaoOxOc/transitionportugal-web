@@ -24,7 +24,11 @@
       ],
       "UpstreamPathTemplate": "/user/profile",
       "UpstreamHttpMethod": [ "Get" ],
-      "SwaggerKey": "UserService"
+      "SwaggerKey": "UserService",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "TpAuthKey",
+        "AllowedScopes": [ "user.read", "users.read" ]
+      }
     },
     {
       "DownstreamPathTemplate": "/api/authenticate/refresh-token",
