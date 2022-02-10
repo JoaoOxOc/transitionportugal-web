@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Button, Box, Alert, styled } from '@mui/material';
-import { useAuth } from 'src/hooks/useAuth';
-import { useRefMounted } from 'src/hooks/useRefMounted';
+import { useAuth } from '../../../hooks/useAuth';
+import { useRefMounted } from '../../../hooks/useRefMounted';
 import { i18nextAbout } from "@transitionpt/translations";
 import { useRouter } from 'next/router';
 

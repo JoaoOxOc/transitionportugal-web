@@ -8,4 +8,9 @@ export * from './home/i18nPartner';
 export * from './home/i18nStaff';
 export * from './home/i18nActions';
 export * from './backoffice/i18nSidemenu';
+export * from './backoffice/i18nLoginForm';
+export * from './backoffice/i18nLogin';
+export * from './backoffice/i18nRegister';
+export * from './backoffice/i18nRegisterForm';
+export * from './backoffice/i18nRecover';
 //# sourceMappingURL=index.d.ts.map

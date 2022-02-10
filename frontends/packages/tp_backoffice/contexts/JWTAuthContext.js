@@ -184,6 +184,9 @@ export const AuthProvider = (props) => {
   };
 
   const logout = async () => {
+    const accessToken = window.localStorage.getItem('accessToken');
+    const userLogout = await genericFetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/user/logout", "GET", accessToken,{});
+    
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
     dispatch({ type: 'LOGOUT' });

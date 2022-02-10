@@ -191,6 +191,30 @@ namespace UserService.Controllers
         }
 
         [Authorize]
+        [HttpGet]
+        [Route("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            string header = HttpContext.Request.Headers["Authorization"];
+            string[] claims = new string[] { "userId", "sub", "associationId" };
+            List<JwtClaim> userClaims = JwtHelper.ValidateToken(header, _configuration["JWT:ValidAudience"], _configuration["JWT:ValidIssuer"], _configuration["JWT:Secret"], claims);
+            if (userClaims != null && userClaims.Count > 0)
+            {
+                var user = await _userManager.SearchUserById(userClaims.Where(x => x.Claim == "userId").Single().Value);
+                if (user == null) return BadRequest("Invalid user");
+
+                user.RefreshToken = null;
+                await _userManager.UpdateUser(user);
+
+                return NoContent();
+            }
+            else
+            {
+                return Unauthorized();
+            }
+        }
+
+        [Authorize]
         [HttpPost]
         [Route("revoke-all")]
         public async Task<IActionResult> RevokeAll()

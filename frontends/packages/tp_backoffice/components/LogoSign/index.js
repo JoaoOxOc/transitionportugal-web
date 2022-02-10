@@ -6,6 +6,7 @@ import {
   styled,
   useTheme
 } from '@mui/material';
+import Image from 'next/image';
 import Link from '../Link';
 import { i18nextAbout } from "@transitionpt/translations";
 
@@ -14,7 +15,7 @@ const LogoWrapper = styled(Link)(
         color: ${theme.palette.text.primary};
         display: flex;
         text-decoration: none;
-        width: 53px;
+        width: 252px;
         margin: 0 auto;
         font-weight: ${theme.typography.fontWeightBold};
 `
@@ -22,8 +23,10 @@ const LogoWrapper = styled(Link)(
 
 const LogoSignWrapper = styled(Box)(
   () => `
-        width: 52px;
-        height: 38px;
+        width: 252px;
+        height: 100%;
+        margin-top: 4px;
+        transform: scale(.8);
 `
 );
 
@@ -99,28 +102,33 @@ function Logo() {
   const theme = useTheme();
 
   return (
-    <TooltipWrapper title={'Tokyo Next.js Javascript Admin Dashboard'} arrow>
-      <LogoWrapper href="/">
-        <Badge
-          sx={{
-            '.MuiBadge-badge': {
-              fontSize: theme.typography.pxToRem(11),
-              right: -2,
-              top: 8
-            }
-          }}
-          overlap="circular"
-          color="success"
-          badgeContent="3.0"
-        >
-          <LogoSignWrapper>
-            <LogoSign>
-              <LogoSignInner />
-            </LogoSign>
-          </LogoSignWrapper>
-        </Badge>
-      </LogoWrapper>
-    </TooltipWrapper>
+    // <TooltipWrapper title={'Tokyo Next.js Javascript Admin Dashboard'} arrow>
+    //   <LogoWrapper href="/">
+    //     <Badge
+    //       sx={{
+    //         '.MuiBadge-badge': {
+    //           fontSize: theme.typography.pxToRem(11),
+    //           right: -2,
+    //           top: 8
+    //         }
+    //       }}
+    //       overlap="circular"
+    //       color="success"
+    //       badgeContent="3.0"
+    //     >
+    //       <LogoSignWrapper>
+    //         <LogoSign>
+    //           <LogoSignInner />
+    //         </LogoSign>
+    //       </LogoSignWrapper>
+    //     </Badge>
+    //   </LogoWrapper>
+    // </TooltipWrapper>
+    <LogoWrapper href={process.env.NEXT_PUBLIC_HOME_URL}>
+      <LogoSignWrapper>
+        <Image src='/static/images/logo/logotipo_transicaoportugal.svg' width="250px" height="100%" sx={{margin: '0 auto'}} alt="Transição Portugal"/>
+      </LogoSignWrapper>
+    </LogoWrapper>
   );
 }
 

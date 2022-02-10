@@ -1,4 +1,5 @@
 import { Box, styled, Tooltip } from '@mui/material';
+import Image from 'next/image';
 import Link from '../Link';
 import { i18nextAbout } from "@transitionpt/translations";
 
@@ -18,8 +19,8 @@ const LogoWrapper = styled(Link)(
 
 const LogoSignWrapper = styled(Box)(
   () => `
-        width: 52px;
-        height: 38px;
+        width: 252px;
+        height: 100%;
         margin-top: 4px;
         transform: scale(.8);
 `
@@ -105,13 +106,14 @@ function Logo() {
   const { t } = i18nextAbout;
 
   return (
-    <LogoWrapper href="/">
+    <LogoWrapper href={process.env.NEXT_PUBLIC_HOME_URL}>
       <LogoSignWrapper>
-        <LogoSign>
+        <Image src='/static/images/logo/logotipo_transicaoportugal.svg' width="250px" height="100%" sx={{margin: '0 auto'}} alt="Transição Portugal"/>
+        {/* <LogoSign>
           <LogoSignInner />
-        </LogoSign>
+        </LogoSign> */}
       </LogoSignWrapper>
-      <Box
+      {/* <Box
         component="span"
         sx={{
           display: { xs: 'none', sm: 'inline-block' }
@@ -123,7 +125,7 @@ function Logo() {
           </Tooltip>
           <LogoText>Tokyo</LogoText>
         </LogoTextWrapper>
-      </Box>
+      </Box> */}
     </LogoWrapper>
   );
 }

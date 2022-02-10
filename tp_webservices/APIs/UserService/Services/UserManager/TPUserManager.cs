@@ -33,6 +33,17 @@ namespace UserService.Services.UserManager
             return user;
         }
 
+        public async Task<User> SearchUserById(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                user = _uow.UserRepository.Get(null, null, (x => x.Id == userId), "Id", SortDirection.Ascending, "").SingleOrDefault();
+            }
+
+            return user;
+        }
+
         public async Task<User> ValidateLoginUser(string username, string password)
         {
             var user = await this.SearchUser(username);

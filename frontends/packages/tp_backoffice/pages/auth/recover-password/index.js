@@ -18,16 +18,16 @@ import {
 } from '@mui/material';
 import Head from 'next/head';
 
-import BaseLayout from 'src/layouts/BaseLayout';
+import BaseLayout from '../../../layouts/BaseLayout';
 
-import { useRefMounted } from 'src/hooks/useRefMounted';
+import { useRefMounted } from '../../../hooks/useRefMounted';
 import CloseIcon from '@mui/icons-material/Close';
-import { Guest } from 'src/components/Guest';
-import Link from 'src/components/Link';
+import { Guest } from '../../../components/Guest';
+import Link from '../../../components/Link';
 import { useRouter } from 'next/router';
 
 import { i18nextAbout } from "@transitionpt/translations";
-import Logo from 'src/components/LogoSign';
+import Logo from '../../../components/LogoSign';
 import CheckTwoToneIcon from '@mui/icons-material/CheckTwoTone';
 
 const Transition = forwardRef(function Transition(props, ref) {
@@ -72,7 +72,7 @@ const AvatarSuccess = styled(Avatar)(
 );
 
 function RecoverPasswordBasic() {
-  const { t } = useTranslation();
+  const { t } = i18nextAbout;
   const isMountedRef = useRefMounted();
   const router = useRouter();
   const { demo } = router.query;
@@ -210,7 +210,7 @@ function RecoverPasswordBasic() {
             </Typography>{' '}
             <Link
               href={
-                demo ? `/auth/login/basic?demo=${demo}` : '/auth/login/basic'
+                demo ? `/auth/login/cover?demo=${demo}` : '/auth/login/cover'
               }
             >
               <b>Click here</b>

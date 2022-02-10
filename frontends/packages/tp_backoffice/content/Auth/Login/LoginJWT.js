@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useFormik } from 'formik';
 import Link from '../../../components/Link';
@@ -18,14 +18,24 @@ import { useAuth } from '../../../hooks/useAuth';
 import { useRefMounted } from '../../../hooks/useRefMounted';
 import { useSnackbar } from 'notistack';
 import { Slide } from '@mui/material';
-import { i18nextAbout } from "@transitionpt/translations";
+import { i18nextLoginForm } from "@transitionpt/translations";
 
 export const LoginJWT = (props) => {
-  const { t } = i18nextAbout;
+  const { t } = i18nextLoginForm;
+  const [currentLang, setLang] = useState("pt");
+  i18nextLoginForm.changeLanguage(currentLang);
   const { login } = useAuth();
   const isMountedRef = useRefMounted();
   const router = useRouter();
   const { enqueueSnackbar } = useSnackbar();
+
+  useEffect(() => {
+    const handleNewMessage = (event) => {
+      setLang(event.detail);
+    };
+          
+    window.addEventListener('newLang', handleNewMessage);
+  }, []);
 
   const formik = useFormik({
     initialValues: {
@@ -36,15 +46,15 @@ export const LoginJWT = (props) => {
     },
     validationSchema: Yup.object({
       email: Yup.string()
-        // .email(t('The email provided should be a valid email address'))
+        // .email(t('MESSAGES.emailInvalid'))
         .max(255)
-        .required(t('The email field is required')),
+        .required(t('MESSAGES.usernameEmailRequired')),
       password: Yup.string()
         .max(255)
-        .required(t('The password field is required')),
+        .required(t('MESSAGES.passwordRequired')),
       terms: Yup.boolean().oneOf(
         [true],
-        t('You must agree to our terms and conditions')
+        t('MESSAGES.termsRequired')
       )
     }),
     onSubmit: async (values, helpers) => {
@@ -63,7 +73,7 @@ export const LoginJWT = (props) => {
           helpers.setSubmitting(false);
         }
         if (err === "Unauthorized") {
-          enqueueSnackbar('Username/password are incorrect!', {
+          enqueueSnackbar(t('MESSAGES.loginError'), {
             variant: 'error',
             anchorOrigin: {
               vertical: 'top',
@@ -85,7 +95,7 @@ export const LoginJWT = (props) => {
         margin="normal"
         autoFocus
         helperText={formik.touched.email && formik.errors.email}
-        label={t('Email address')}
+        label={t('FORMS.usernameOrEmailAddress')}
         name="email"
         onBlur={formik.handleBlur}
         onChange={formik.handleChange}
@@ -98,7 +108,7 @@ export const LoginJWT = (props) => {
         fullWidth
         margin="normal"
         helperText={formik.touched.password && formik.errors.password}
-        label={t('Password')}
+        label={t('FORMS.password')}
         name="password"
         onBlur={formik.handleBlur}
         onChange={formik.handleChange}
@@ -119,14 +129,14 @@ export const LoginJWT = (props) => {
           label={
             <>
               <Typography variant="body2">
-                {t('I accept the')}{' '}
-                <Link href="#">{t('terms and conditions')}</Link>.
+                {t('LABELS.accept')}{' '}
+                <Link href="#">{t('LABELS.terms')}</Link>.
               </Typography>
             </>
           }
         />
         <Link href="/auth/recover-password">
-          <b>{t('Lost password?')}</b>
+          <b>{t('LABELS.lostPassword')}</b>
         </Link>
       </Box>
 
@@ -148,7 +158,7 @@ export const LoginJWT = (props) => {
         size="large"
         variant="contained"
       >
-        {t('Sign in')}
+        {t('LABELS.signInHere')}
       </Button>
     </form>
   );

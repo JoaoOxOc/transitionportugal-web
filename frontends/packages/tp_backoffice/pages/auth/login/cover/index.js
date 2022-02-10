@@ -8,6 +8,8 @@ import {
   styled
 } from '@mui/material';
 import Head from 'next/head';
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
 import { useAuth } from '../../../../hooks/useAuth';
 import { Guest } from '../../../../components/Guest';
 import { LoginAuth0 } from '../../../../content/Auth/Login/LoginAuth0';
@@ -18,15 +20,15 @@ import BaseLayout from '../../../../layouts/BaseLayout';
 import Link from '../../../../components/Link';
 import { useRouter } from 'next/router';
 
-import { i18nextAbout } from "@transitionpt/translations";
+import { i18nextLogin } from "@transitionpt/translations";
 import Logo from '../../../../components/Logo';
 import Scrollbar from '../../../../components/Scrollbar';
 
 const icons = {
-  Auth0: '/static/images/logo/auth0.svg',
-  FirebaseAuth: '/static/images/logo/firebase.svg',
-  JWT: '/static/images/logo/jwt.svg',
-  Amplify: '/static/images/logo/amplify.svg'
+  CircularEconomy: '/static/images/logo/circular-economy-icon-green.png',
+  InnerTransition: '/static/images/logo/inner-transition.png',
+  InnerCircle: '/static/images/logo/inner-circle.png',
+  TransitionTowns: '/static/images/logo/transition-towns.png'
 };
 
 const Content = styled(Box)(
@@ -38,12 +40,18 @@ const Content = styled(Box)(
 );
 
 const MainContent = styled(Box)(
-  () => `
-  padding: 0 0 0 440px;
-  width: 100%;
-  display: flex;
-  align-items: center;
-`
+  ({ theme }) => ({
+  [theme.breakpoints.down('md')]: {
+    padding: '0 0 0 0'
+  },
+  [theme.breakpoints.up('md')]: {
+    padding: '0 0 0 440px'
+  },
+  width: '100%',
+  display: 'flex',
+  alignItems: 'center',
+  minWidth: '500px'
+  })
 );
 
 const SidebarWrapper = styled(Box)(
@@ -84,13 +92,23 @@ const CardImg = styled(Card)(
 
 const TypographyH1 = styled(Typography)(
   ({ theme }) => `
-    font-size: ${theme.typography.pxToRem(33)};
+    font-size: ${theme.typography.pxToRem(28)};
 `
 );
 
 function LoginCover() {
   const { method } = useAuth();
-  const { t } = i18nextAbout;
+  const { t } = i18nextLogin;
+  const [currentLang, setLang] = useState("pt");
+  i18nextLogin.changeLanguage(currentLang);
+
+  useEffect(() => {
+    const handleNewMessage = (event) => {
+      setLang(event.detail);
+    };
+          
+    window.addEventListener('newLang', handleNewMessage);
+  }, []);
 
   const router = useRouter();
   const { demo } = router.query;
@@ -98,7 +116,7 @@ function LoginCover() {
   return (
     <>
       <Head>
-        <title>Login - Cover</title>
+        <title>{t('LABELS.pageTitle')}</title>
       </Head>
       <Content>
         <SidebarWrapper
@@ -116,7 +134,7 @@ function LoginCover() {
                     mb: 7
                   }}
                 >
-                  {t('Multiple auth methods included')}
+                  {t('COVER.title')}
                 </TypographyH1>
                 <Box
                   sx={{
@@ -125,7 +143,7 @@ function LoginCover() {
                     height: 120
                   }}
                 >
-                  <Tooltip arrow placement="top" title="Auth0">
+                  <Tooltip arrow placement="top" title={t('COVER.circularEconomy')}>
                     <CardImg
                       sx={{
                         width: 80,
@@ -134,10 +152,10 @@ function LoginCover() {
                         top: -40
                       }}
                     >
-                      <img width={40} alt="Auth0" src={icons['Auth0']} />
+                      <Image width={40} height={40} alt={t('COVER.circularEconomy')} src={icons['CircularEconomy']} />
                     </CardImg>
                   </Tooltip>
-                  <Tooltip arrow placement="top" title="Firebase">
+                  <Tooltip arrow placement="top" title={t('COVER.innerTransition')}>
                     <CardImg
                       sx={{
                         width: 90,
@@ -145,14 +163,15 @@ function LoginCover() {
                         left: 70
                       }}
                     >
-                      <img
+                      <Image
                         width={50}
-                        alt="Firebase"
-                        src={icons['FirebaseAuth']}
+                        height={50}
+                        alt={t('COVER.innerTransition')}
+                        src={icons['InnerTransition']}
                       />
                     </CardImg>
                   </Tooltip>
-                  <Tooltip arrow placement="top" title="JSON Web Token">
+                  <Tooltip arrow placement="top" title={t('COVER.transitionTowns')}>
                     <CardImg
                       sx={{
                         width: 110,
@@ -161,10 +180,10 @@ function LoginCover() {
                         left: 170
                       }}
                     >
-                      <img width={80} alt="JSON Web Token" src={icons['JWT']} />
+                      <Image width={80} height={80} alt={t('COVER.transitionTowns')} src={icons['TransitionTowns']} />
                     </CardImg>
                   </Tooltip>
-                  <Tooltip arrow placement="top" title="AWS Amplify">
+                  <Tooltip arrow placement="top" title={t('COVER.innerCircle')}>
                     <CardImg
                       sx={{
                         width: 70,
@@ -173,7 +192,7 @@ function LoginCover() {
                         right: -55
                       }}
                     >
-                      <img width={50} alt="Amplify" src={icons['Amplify']} />
+                      <Image width={50} height={50} alt={t('COVER.innerCircle')} src={icons['InnerCircle']} />
                     </CardImg>
                   </Tooltip>
                 </Box>
@@ -184,7 +203,7 @@ function LoginCover() {
                   }}
                 >
                   {t(
-                    'Choose between JSON Web Token, Firebase, AWS Amplify or Auth0. Regular login/register functionality is also available.'
+                    'COVER.description'
                   )}
                 </Typography>
                 <Typography
@@ -192,13 +211,13 @@ function LoginCover() {
                   color="text.primary"
                   fontWeight="bold"
                 >
-                  {t('Want to switch auth methods?')}
+                  {t('COVER.subtitle')}
                 </Typography>
                 <Typography variant="subtitle1">
                   {t(
-                    'It only takes seconds. There is a documentation section showing how to do exactly that'
+                    'COVER.subtitleDescription'
                   )}
-                  . <Link href="/docs">Read docs</Link>
+                  &nbsp;<Link href="/docs">{t('COVER.subtitleLink')}</Link>
                 </Typography>
               </Box>
             </SidebarContent>
@@ -213,6 +232,42 @@ function LoginCover() {
             }}
             maxWidth="sm"
           >
+            <Container maxWidth="sm"
+              sx={{
+                display: { xs: 'grid', md: 'none' },
+                padding: { xs: '10px', md: 'none' },
+                a: {
+                  margin: { xs: '0 auto', md: '0' }
+                }
+              }}>
+              <Logo />
+              <Box sx={{width: "100%", padding: '10px', background: "white", borderRadius: '10px', boxShadow: '0px 9px 16px rgb(159 162 191 / 18%), 0px 2px 2px rgb(159 162 191 / 32%)'}}>
+                <Typography
+                  variant="subtitle1"
+                  sx={{
+                    my: 1
+                  }}
+                >
+                  {t(
+                    'COVER.description'
+                  )}
+                </Typography>
+                <Typography
+                  variant="subtitle1"
+                  color="text.primary"
+                  fontWeight="bold"
+                >
+                  {t('COVER.subtitle')}
+                </Typography>
+                <Typography variant="subtitle1">
+                  {t(
+                    'COVER.subtitleDescription'
+                  )}
+                  &nbsp;<Link href="/docs">{t('COVER.subtitleLink')}</Link>
+                </Typography>
+              </Box>
+            </Container>
+            
             <Card
               sx={{
                 p: 4,
@@ -226,7 +281,7 @@ function LoginCover() {
                     mb: 1
                   }}
                 >
-                  {t('Sign in')}
+                  {t('LABELS.title')}
                 </Typography>
                 <Typography
                   variant="h4"
@@ -236,7 +291,7 @@ function LoginCover() {
                     mb: 3
                   }}
                 >
-                  {t('Fill in the fields below to sign into your account.')}
+                  {t('LABELS.subtitle')}
                 </Typography>
               </Box>
               {method === 'Auth0' && <LoginAuth0 />}
@@ -250,7 +305,7 @@ function LoginCover() {
                   color="text.primary"
                   fontWeight="bold"
                 >
-                  {t('Don’t have an account, yet?')}
+                  {t('LABELS.noAccount')}
                 </Typography>{' '}
                 <Link
                   href={
@@ -259,7 +314,7 @@ function LoginCover() {
                       : '/auth/register/cover'
                   }
                 >
-                  <b>Sign up here</b>
+                  <b>{t('LABELS.registerHere')}</b>
                 </Link>
               </Box>
               {method !== 'Auth0' && method !== 'JWT' && (

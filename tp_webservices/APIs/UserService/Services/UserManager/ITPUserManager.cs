@@ -8,6 +8,7 @@ namespace UserService.Services.UserManager
     public interface ITPUserManager
     {
         Task<User> SearchUser(string username);
+        Task<User> SearchUserById(string userId);
         Task<User> ValidateLoginUser(string username, string password);
         Task<List<Claim>> GetUserClaims(User user);
         Task<IdentityResult> CreateUser(User user, string password);
