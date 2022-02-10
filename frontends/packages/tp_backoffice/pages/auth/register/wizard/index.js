@@ -3,17 +3,8 @@ import {
   Typography,
   Container,
   Divider,
-  Button,
   Card,
-  CircularProgress,
-  Grid,
   Box,
-  Step,
-  StepLabel,
-  Stepper,
-  Collapse,
-  Alert,
-  Avatar,
   IconButton,
   ListItemText,
   ListItem,
@@ -25,19 +16,11 @@ import Head from 'next/head';
 import Image from 'next/image';
 
 import BaseLayout from '../../../../layouts/BaseLayout';
-import { Field, Form, Formik } from 'formik';
-import { CheckboxWithLabel, TextField } from 'formik-mui';
-import * as Yup from 'yup';
-import CloseIcon from '@mui/icons-material/Close';
-import CheckTwoToneIcon from '@mui/icons-material/CheckTwoTone';
 import { Guest } from '../../../../components/Guest';
-import Link from '../../../../components/Link';
 import CheckCircleOutlineTwoToneIcon from '@mui/icons-material/CheckCircleOutlineTwoTone';
 import Scrollbar from '../../../../components/Scrollbar';
+import Link from '../../../../components/Link';
 import { i18nextRegister } from "@transitionpt/translations";
-import { i18nextRegisterForm } from "@transitionpt/translations";
-import Logo from '../../../../components/LogoSign';
-import { useRouter } from 'next/router';
 
 import SwiperCore, { Navigation, Pagination } from 'swiper';
 import ChevronRightTwoToneIcon from '@mui/icons-material/ChevronRightTwoTone';
@@ -46,14 +29,16 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper.min.css';
 import 'swiper/components/navigation/navigation.min.css';
 import 'swiper/components/pagination/pagination.min.css';
+import Logo from '../../../../components/LogoSign';
+import { RegisterWizardJWT } from '../../../../content/Auth/Register/RegisterWizardJWT';
 
 SwiperCore.use([Navigation, Pagination]);
 
 const icons = {
-  Auth0: '/static/images/logo/auth0.svg',
-  FirebaseAuth: '/static/images/logo/firebase.svg',
-  JWT: '/static/images/logo/jwt.svg',
-  Amplify: '/static/images/logo/amplify.svg'
+  CircularEconomy: '/static/images/logo/circular-economy-icon-green.png',
+  InnerTransition: '/static/images/logo/inner-transition.png',
+  InnerCircle: '/static/images/logo/inner-circle.png',
+  TransitionTowns: '/static/images/logo/transition-towns.png'
 };
 
 const Content = styled(Box)(
@@ -65,34 +50,20 @@ const Content = styled(Box)(
 );
 
 const MainContent = styled(Box)(
-  () => `
-    height: 100%;
-    overflow: auto;
-    flex: 1;
-`
+  ({ theme }) => ({
+    [theme.breakpoints.down('md')]: {
+      padding: '0 0 0 0'
+    },
+    [theme.breakpoints.up('md')]: {
+      padding: '0 0 0 400px'
+    },
+    height: '100%',
+    overflow: 'auto',
+    flex: 1,
+    minWidth: '600px'
+  })
 );
 
-const BoxActions = styled(Box)(
-  ({ theme }) => `
-    background: ${theme.colors.alpha.black[5]}
-`
-);
-
-const AvatarSuccess = styled(Avatar)(
-  ({ theme }) => `
-      background-color: ${theme.colors.success.main};
-      color: ${theme.palette.success.contrastText};
-      width: ${theme.spacing(12)};
-      height: ${theme.spacing(12)};
-      box-shadow: ${theme.colors.shadows.success};
-      margin-left: auto;
-      margin-right: auto;
-
-      .MuiSvgIcon-root {
-        font-size: ${theme.typography.pxToRem(45)};
-      }
-`
-);
 
 const SidebarWrapper = styled(Box)(
   ({ theme }) => `
@@ -100,7 +71,7 @@ const SidebarWrapper = styled(Box)(
   left: 0;
   top: 0;
   height: 100%;
-  width: 500px;
+  width: 420px;
   background: ${theme.colors.gradients.blue3};
 `
 );
@@ -199,16 +170,13 @@ const SwiperWrapper = styled(Box)(
 `
 );
 
-const sleep = (time) => new Promise((acc) => setTimeout(acc, time));
-
 function RegisterWizard() {
   const { t } = i18nextRegister;
-  const [openAlert, setOpenAlert] = useState(true);
 
   return (
     <>
       <Head>
-        <title>Register - Wizard</title>
+        <title>{t('LABELS.pageTitle')}</title>
       </Head>
       <Content>
       <SidebarWrapper
@@ -234,7 +202,7 @@ function RegisterWizard() {
                   px: 8
                 }}
               >
-                {t('Multiple authentication methods available')}
+                {t('COVER.title')}
               </TypographyPrimary>
               <SwiperWrapper>
                 <Swiper
@@ -250,11 +218,7 @@ function RegisterWizard() {
                   <SwiperSlide>
                     <Box textAlign="center">
                       <CardImg>
-                        <img
-                          height={80}
-                          alt="JSON Web Token"
-                          src={icons['Auth0']}
-                        />
+                        <Image width={80} height={80} alt={t('COVER.transitionTowns')} src={icons['TransitionTowns']} />
                       </CardImg>
                       <TypographyPrimary
                         align="center"
@@ -263,7 +227,7 @@ function RegisterWizard() {
                           mb: 2
                         }}
                       >
-                        Auth0
+                        {t('COVER.transitionTowns')}
                       </TypographyPrimary>
                       <TypographySecondary
                         align="center"
@@ -272,19 +236,14 @@ function RegisterWizard() {
                           mb: 5
                         }}
                       >
-                        Auth0 is an easy to implement, adaptable authentication
-                        and authorization platform.
+                        {t('COVER.aboutTransitionTowns')}
                       </TypographySecondary>
                     </Box>
                   </SwiperSlide>
                   <SwiperSlide>
                     <Box textAlign="center">
                       <CardImg>
-                        <img
-                          height={80}
-                          alt="AWS Amplify"
-                          src={icons['Amplify']}
-                        />
+                        <Image width={80} height={80} alt={t('COVER.circularEconomy')} src={icons['CircularEconomy']} />
                       </CardImg>
                       <TypographyPrimary
                         align="center"
@@ -293,7 +252,7 @@ function RegisterWizard() {
                           mb: 2
                         }}
                       >
-                        AWS Amplify
+                        {t('COVER.circularEconomy')}
                       </TypographyPrimary>
                       <TypographySecondary
                         align="center"
@@ -302,19 +261,14 @@ function RegisterWizard() {
                           mb: 5
                         }}
                       >
-                        Build scalable mobile and web apps fast, with endless
-                        flexibility.
+                        {t('COVER.aboutCircularEconomy')}
                       </TypographySecondary>
                     </Box>
                   </SwiperSlide>
                   <SwiperSlide>
                     <Box textAlign="center">
                       <CardImg>
-                        <img
-                          height={80}
-                          alt="JSON Web Token"
-                          src={icons['JWT']}
-                        />
+                      <Image width={80} height={80} alt={t('COVER.innerTransition')} src={icons['InnerTransition']} />
                       </CardImg>
                       <TypographyPrimary
                         align="center"
@@ -323,7 +277,7 @@ function RegisterWizard() {
                           mb: 2
                         }}
                       >
-                        JSON Web Token
+                        {t('COVER.innerTransition')}
                       </TypographyPrimary>
                       <TypographySecondary
                         align="center"
@@ -332,19 +286,14 @@ function RegisterWizard() {
                           mb: 5
                         }}
                       >
-                        JSON Web Tokens are an open method for representing
-                        claims securely between two parties.
+                        {t('COVER.aboutInnerTransition')}
                       </TypographySecondary>
                     </Box>
                   </SwiperSlide>
                   <SwiperSlide>
                     <Box textAlign="center">
                       <CardImg>
-                        <img
-                          height={80}
-                          alt="Firebase"
-                          src={icons['FirebaseAuth']}
-                        />
+                        <Image width={80} height={80} alt={t('COVER.innerCircle')} src={icons['InnerCircle']} />
                       </CardImg>
                       <TypographyPrimary
                         align="center"
@@ -353,7 +302,7 @@ function RegisterWizard() {
                           mb: 2
                         }}
                       >
-                        Firebase
+                        {t('COVER.innerCircle')}
                       </TypographyPrimary>
                       <TypographySecondary
                         align="center"
@@ -362,8 +311,7 @@ function RegisterWizard() {
                           mb: 5
                         }}
                       >
-                        Firebase helps teams from startups to global enterprises
-                        build &amp; run successful apps.
+                        {t('COVER.aboutInnerCircle')}
                       </TypographySecondary>
                     </Box>
                   </SwiperSlide>
@@ -383,7 +331,7 @@ function RegisterWizard() {
                     mb: 3
                   }}
                 >
-                  {t('Start your free trial today')}
+                  {t('COVER.bottomTitle')}
                 </TypographyPrimary>
 
                 <List
@@ -398,7 +346,7 @@ function RegisterWizard() {
                     </ListItemIconWrapper>
                     <ListItemTextWrapper
                       primaryTypographyProps={{ variant: 'h6' }}
-                      primary={t('premium features included')}
+                      primary={t('COVER.bottomAdvantage1')}
                     />
                   </ListItem>
                   <ListItem disableGutters>
@@ -407,7 +355,7 @@ function RegisterWizard() {
                     </ListItemIconWrapper>
                     <ListItemTextWrapper
                       primaryTypographyProps={{ variant: 'h6' }}
-                      primary={t('no credit card required')}
+                      primary={t('COVER.bottomAdvantage2')}
                     />
                   </ListItem>
                   <ListItem disableGutters>
@@ -416,7 +364,7 @@ function RegisterWizard() {
                     </ListItemIconWrapper>
                     <ListItemTextWrapper
                       primaryTypographyProps={{ variant: 'h6' }}
-                      primary={t('modern development solutions')}
+                      primary={t('COVER.bottomAdvantage3')}
                     />
                   </ListItem>
                 </List>
@@ -431,7 +379,7 @@ function RegisterWizard() {
             }}
             maxWidth="md"
           >
-            <Logo />
+            <Logo/>
             <Card
               sx={{
                 mt: 3,
@@ -445,7 +393,7 @@ function RegisterWizard() {
                     mb: 1
                   }}
                 >
-                  {t('Create account')}
+                  {t('LABELS.title')}
                 </Typography>
                 <Typography
                   variant="h4"
@@ -455,329 +403,31 @@ function RegisterWizard() {
                     mb: 3
                   }}
                 >
-                  {t('Fill in the fields below to sign up for an account.')}
+                  {t('LABELS.subtitle')}
                 </Typography>
               </Box>
-
-              <FormikStepper
-                initialValues={{
-                  first_name: '',
-                  last_name: '',
-                  terms: true,
-                  promo: true,
-                  password: '',
-                  password_confirm: '',
-                  email: '',
-                  phone: '',
-                  company_name: '',
-                  company_size: '',
-                  company_role: ''
-                }}
-                onSubmit={async (_values) => {
-                  await sleep(3000);
-                }}
-              >
-                <FormikStep
-                  validationSchema={Yup.object().shape({
-                    email: Yup.string()
-                      .email(
-                        t('The email provided should be a valid email address')
-                      )
-                      .max(255)
-                      .required(t('The email field is required')),
-                    first_name: Yup.string()
-                      .max(255)
-                      .required(t('The first name field is required')),
-                    last_name: Yup.string()
-                      .max(255)
-                      .required(t('The first name field is required')),
-                    password: Yup.string()
-                      .min(8)
-                      .max(255)
-                      .required(t('The password field is required')),
-                    password_confirm: Yup.string()
-                      .oneOf(
-                        [Yup.ref('password')],
-                        t('Both password fields need to be the same')
-                      )
-                      .required(t('This field is required'))
-                  })}
-                  label={t('Personal Informations')}
+              <Box px={4} mt={3} mb={3}>
+                <Typography
+                  component="span"
+                  variant="subtitle2"
+                  color="text.primary"
+                  fontWeight="bold"
                 >
-                  <Box p={4}>
-                    <Grid container spacing={4}>
-                      <Grid item xs={12} md={6}>
-                        <Field
-                          fullWidth
-                          name="first_name"
-                          component={TextField}
-                          label={t('First name')}
-                          placeholder={t('Write your first name here...')}
-                        />
-                      </Grid>
-                      <Grid item xs={12} md={6}>
-                        <Field
-                          fullWidth
-                          name="last_name"
-                          component={TextField}
-                          label={t('Last name')}
-                          placeholder={t('Write your last name here...')}
-                        />
-                      </Grid>
-                      <Grid item xs={12} md={6}>
-                        <Field
-                          fullWidth
-                          name="email"
-                          component={TextField}
-                          label={t('Email')}
-                          placeholder={t('Write your email here...')}
-                        />
-                      </Grid>
-                      <Grid item xs={12} md={6} />
-                      <Grid item xs={12} md={6}>
-                        <Field
-                          fullWidth
-                          type="password"
-                          name="password"
-                          component={TextField}
-                          label={t('Password')}
-                          placeholder={t('Write a password here...')}
-                        />
-                      </Grid>
-                      <Grid item xs={12} md={6}>
-                        <Field
-                          fullWidth
-                          type="password"
-                          name="password_confirm"
-                          component={TextField}
-                          label={t('Confirm password')}
-                          placeholder={t('Confirm password here...')}
-                        />
-                      </Grid>
-                      <Grid item xs={12} md={6}>
-                        <Field
-                          fullWidth
-                          name="phone"
-                          type="number"
-                          component={TextField}
-                          label={t('Phone number')}
-                        />
-                      </Grid>
-                      <Grid item xs={12}>
-                        <Field
-                          name="promo"
-                          type="checkbox"
-                          component={CheckboxWithLabel}
-                          Label={{
-                            label: t(
-                              'Yes, I want to receive monthly promotional materials.'
-                            )
-                          }}
-                        />
-                        <br />
-                        <Field
-                          name="terms"
-                          type="checkbox"
-                          component={CheckboxWithLabel}
-                          Label={{
-                            label: (
-                              <Typography variant="body2">
-                                {t('I accept the')}{' '}
-                                <Link href="#">{t('terms and conditions')}</Link>.
-                              </Typography>
-                            )
-                          }}
-                        />
-                      </Grid>
-                    </Grid>
-                  </Box>
-                </FormikStep>
-                <FormikStep
-                  validationSchema={Yup.object().shape({
-                    company_size: Yup.string()
-                      .max(55)
-                      .required(t('The first name field is required')),
-                    company_name: Yup.string()
-                      .max(255)
-                      .required(t('The first name field is required')),
-                    company_role: Yup.string()
-                      .max(255)
-                      .required(t('The first name field is required'))
-                  })}
-                  label={t('Company Details')}
+                  {t('LABELS.alreadyRegistered')}
+                </Typography>{' '}
+                <Link
+                  href={'/auth/login/cover'}
                 >
-                  <Box p={4}>
-                    <Grid container spacing={4}>
-                      <Grid item xs={12} md={6}>
-                        <Field
-                          fullWidth
-                          name="company_name"
-                          component={TextField}
-                          label={t('Company name')}
-                        />
-                      </Grid>
-                      <Grid item xs={12} md={6}>
-                        <Field
-                          fullWidth
-                          name="company_size"
-                          type="number"
-                          component={TextField}
-                          label={t('Company size')}
-                        />
-                      </Grid>
-                      <Grid item xs={12} md={6}>
-                        <Field
-                          fullWidth
-                          name="company_role"
-                          component={TextField}
-                          label={t('Company role')}
-                        />
-                      </Grid>
-                    </Grid>
-                  </Box>
-                </FormikStep>
-                <FormikStep label={t('Complete Registration')}>
-                  <Box px={4} py={8}>
-                    <Container maxWidth="sm">
-                      <AvatarSuccess>
-                        <CheckTwoToneIcon />
-                      </AvatarSuccess>
-                      <Collapse in={openAlert}>
-                        <Alert
-                          sx={{
-                            mt: 5
-                          }}
-                          action={
-                            <IconButton
-                              aria-label="close"
-                              color="inherit"
-                              size="small"
-                              onClick={() => {
-                                setOpenAlert(false);
-                              }}
-                            >
-                              <CloseIcon fontSize="inherit" />
-                            </IconButton>
-                          }
-                          severity="info"
-                        >
-                          {t(
-                            'A confirmation has been sent to your email address'
-                          )}
-                        </Alert>
-                      </Collapse>
+                  <b>{t('LABELS.signInHere')}</b>
+                </Link>
+              </Box>
 
-                      <Typography
-                        align="center"
-                        sx={{
-                          pt: 5,
-                          pb: 4,
-                          lineHeight: 1.5,
-                          px: 10
-                        }}
-                        variant="h2"
-                      >
-                        {t(
-                          'Check your email to confirm your email and start using your account'
-                        )}
-                      </Typography>
-
-                      <Button fullWidth variant="contained" href="/">
-                        Continue to sign in
-                      </Button>
-                    </Container>
-                  </Box>
-                </FormikStep>
-              </FormikStepper>
+              <RegisterWizardJWT/>
             </Card>
           </Container>
         </MainContent>
       </Content>
     </>
-  );
-}
-
-export function FormikStep({ children }) {
-  return <>{children}</>;
-}
-
-export function FormikStepper({ children, ...props }) {
-  const childrenArray = Children.toArray(children);
-  const [step, setStep] = useState(0);
-  const currentChild = childrenArray[step];
-  const [completed, setCompleted] = useState(false);
-  const { t } = i18nextRegisterForm;
-
-  function isLastStep() {
-    return step === childrenArray.length - 2;
-  }
-
-  return (
-    <Formik
-      {...props}
-      validationSchema={currentChild.props.validationSchema}
-      onSubmit={async (values, helpers) => {
-        if (isLastStep()) {
-          await props.onSubmit(values, helpers);
-          setCompleted(true);
-          setStep((s) => s + 1);
-        } else {
-          setStep((s) => s + 1);
-          helpers.setTouched({});
-        }
-      }}
-    >
-      {({ isSubmitting }) => (
-        <Form autoComplete="off">
-          <Stepper alternativeLabel activeStep={step}>
-            {childrenArray.map((child, index) => (
-              <Step
-                key={child.props.label}
-                completed={step > index || completed}
-              >
-                <StepLabel>{child.props.label}</StepLabel>
-              </Step>
-            ))}
-          </Stepper>
-
-          {currentChild}
-          {!completed ? (
-            <BoxActions
-              p={4}
-              display="flex"
-              alignItems="center"
-              justifyContent="space-between"
-            >
-              <Button
-                disabled={isSubmitting || step === 0}
-                variant="outlined"
-                color="primary"
-                type="button"
-                onClick={() => setStep((s) => s - 1)}
-              >
-                {t('Previous')}
-              </Button>
-
-              <Button
-                startIcon={
-                  isSubmitting ? <CircularProgress size="1rem" /> : null
-                }
-                disabled={isSubmitting}
-                variant="contained"
-                color="primary"
-                type="submit"
-              >
-                {isSubmitting
-                  ? t('Submitting')
-                  : isLastStep()
-                  ? t('Complete registration')
-                  : t('Next step')}
-              </Button>
-            </BoxActions>
-          ) : null}
-        </Form>
-      )}
-    </Formik>
   );
 }
 

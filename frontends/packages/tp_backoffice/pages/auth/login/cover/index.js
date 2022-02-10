@@ -217,7 +217,7 @@ function LoginCover() {
                   {t(
                     'COVER.subtitleDescription'
                   )}
-                  &nbsp;<Link href="/docs">{t('COVER.subtitleLink')}</Link>
+                  &nbsp;<Link href={process.env.NEXT_PUBLIC_HOME_URL + '/#about'}>{t('COVER.subtitleLink')}</Link>
                 </Typography>
               </Box>
             </SidebarContent>
@@ -263,7 +263,7 @@ function LoginCover() {
                   {t(
                     'COVER.subtitleDescription'
                   )}
-                  &nbsp;<Link href="/docs">{t('COVER.subtitleLink')}</Link>
+                  &nbsp;<Link href={process.env.NEXT_PUBLIC_HOME_URL + '/#about'}>{t('COVER.subtitleLink')}</Link>
                 </Typography>
               </Box>
             </Container>
@@ -310,8 +310,8 @@ function LoginCover() {
                 <Link
                   href={
                     demo
-                      ? `/auth/register/cover?demo=${demo}`
-                      : '/auth/register/cover'
+                      ? `/auth/register/wizard?demo=${demo}`
+                      : '/auth/register/wizard'
                   }
                 >
                   <b>{t('LABELS.registerHere')}</b>
