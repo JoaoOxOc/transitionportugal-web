@@ -27,7 +27,11 @@ namespace UserService.Services.UserManager
             var user = await _userManager.FindByNameAsync(username);
             if (user == null)
             {
-                user = _uow.UserRepository.Get(null, null, (x => x.UserName == username), "Id", SortDirection.Ascending, "").SingleOrDefault();
+                user = await _userManager.FindByEmailAsync(username);
+                if (user == null)
+                {
+                    user = _uow.UserRepository.Get(null, null, (x => x.UserName == username || x.Email == username), "Id", SortDirection.Ascending, "").SingleOrDefault();
+                }
             }
 
             return user;

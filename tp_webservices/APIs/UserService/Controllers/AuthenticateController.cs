@@ -62,6 +62,28 @@ namespace UserService.Controllers
             return Unauthorized();
         }
 
+        [HttpPost]
+        [Route("search-user")]
+        public async Task<IActionResult> SearchUser([FromBody] LoginModel model)
+        {
+            try
+            {
+                var user = await _userManager.SearchUser(model.Username);
+                if (user != null)
+                {
+                    return Ok(new
+                    {
+                        user = user
+                    });
+                }
+                return NotFound();
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [Authorize]
         [HttpGet]
         [Route("profile")]

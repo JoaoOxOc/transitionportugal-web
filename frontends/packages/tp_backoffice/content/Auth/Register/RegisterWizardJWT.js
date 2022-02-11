@@ -24,6 +24,7 @@ import { CheckboxWithLabel, TextField } from 'formik-mui';
 import * as Yup from 'yup';
 import CloseIcon from '@mui/icons-material/Close';
 import CheckTwoToneIcon from '@mui/icons-material/CheckTwoTone';
+import {genericFetch} from '../../../services/genericFetch';
 
 
 const BoxActions = styled(Box)(
@@ -57,6 +58,7 @@ export function RegisterWizardJWT() {
                 initialValues={{
                   first_name: '',
                   last_name: '',
+                  username: '',
                   terms: true,
                   promo: true,
                   password: '',
@@ -75,28 +77,59 @@ export function RegisterWizardJWT() {
                   validationSchema={Yup.object().shape({
                     email: Yup.string()
                       .email(
-                        t('The email provided should be a valid email address')
+                        t('MESSAGES.emailInvalid')
                       )
-                      .max(255)
-                      .required(t('The email field is required')),
+                      .max(100,t('MESSAGES.emailTooBig', { number: 100 }))
+                      .required(t('MESSAGES.emailRequired'))
+                      .test(
+                        'email-backend-validation',  // Name
+                        t('MESSAGES.emailAlreadyTaken'),               // Msg
+                        async (email) => {
+                          if (email) {
+                            const response = await genericFetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/user/search-user", "POST", null,{ username: email, password: "t" });
+
+                            return response.ok !== undefined;
+                          }
+                          else {
+                            return true;
+                          }
+                        }
+                      ),
                     first_name: Yup.string()
-                      .max(255)
-                      .required(t('The first name field is required')),
+                      .max(20, t('MESSAGES.firstNameTooBig', { number: 20 }))
+                      .required(t('MESSAGES.firstNameRequired')),
                     last_name: Yup.string()
-                      .max(255)
-                      .required(t('The first name field is required')),
+                      .max(20, t('MESSAGES.lastNameTooBig', { number: 20 }))
+                      .required(t('MESSAGES.lastNameRequired')),
+                    username: Yup.string()
+                      .max(50, t('MESSAGES.usernameTooBig', { number: 50 }))
+                      .required(t('MESSAGES.usernameRequired'))
+                      .test(
+                        'username-backend-validation',  // Name
+                        t('MESSAGES.usernameAlreadyTaken'),               // Msg
+                        async (username) => {
+                          if (username) {
+                            const response = await genericFetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/user/search-user", "POST", null,{ username: username, password: "t" });
+
+                            return response.ok !== undefined;
+                          }
+                          else {
+                            return true;
+                          }
+                        }
+                      ),
                     password: Yup.string()
-                      .min(8)
-                      .max(255)
-                      .required(t('The password field is required')),
+                      .min(8, t('MESSAGES.passwordTooSmall', { number: 8 }))
+                      .max(100, t('MESSAGES.passwordTooBig', { number: 100 }))
+                      .required(t('MESSAGES.passwordRequired')),
                     password_confirm: Yup.string()
                       .oneOf(
                         [Yup.ref('password')],
-                        t('Both password fields need to be the same')
+                        t('MESSAGES.passwordsNoMatch')
                       )
-                      .required(t('This field is required'))
+                      .required(t('MESSAGES.confirmPasswordRequired'))
                   })}
-                  label={t('Personal Informations')}
+                  label={t('LABELS.step1Title')}
                 >
                   <Box p={4}>
                     <Grid container spacing={4}>
@@ -105,8 +138,8 @@ export function RegisterWizardJWT() {
                           fullWidth
                           name="first_name"
                           component={TextField}
-                          label={t('First name')}
-                          placeholder={t('Write your first name here...')}
+                          label={t('FORMS.firstName')}
+                          placeholder={t('PLACEHOLDER.firstName')}
                         />
                       </Grid>
                       <Grid item xs={12} md={6}>
@@ -114,8 +147,8 @@ export function RegisterWizardJWT() {
                           fullWidth
                           name="last_name"
                           component={TextField}
-                          label={t('Last name')}
-                          placeholder={t('Write your last name here...')}
+                          label={t('FORMS.lastName')}
+                          placeholder={t('PLACEHOLDER.lastName')}
                         />
                       </Grid>
                       <Grid item xs={12} md={6}>
@@ -123,19 +156,28 @@ export function RegisterWizardJWT() {
                           fullWidth
                           name="email"
                           component={TextField}
-                          label={t('Email')}
-                          placeholder={t('Write your email here...')}
+                          label={t('FORMS.emailAddress')}
+                          placeholder={t('PLACEHOLDER.emailAddress')}
                         />
                       </Grid>
-                      <Grid item xs={12} md={6} />
+                      <Grid item xs={12} md={6}>
+                        <Field
+                          fullWidth
+                          name="username"
+                          type="text"
+                          component={TextField}
+                          label={t('FORMS.username')}
+                          placeholder={t('PLACEHOLDER.username')}
+                        />
+                      </Grid>
                       <Grid item xs={12} md={6}>
                         <Field
                           fullWidth
                           type="password"
                           name="password"
                           component={TextField}
-                          label={t('Password')}
-                          placeholder={t('Write a password here...')}
+                          label={t('FORMS.password')}
+                          placeholder={t('PLACEHOLDER.password')}
                         />
                       </Grid>
                       <Grid item xs={12} md={6}>
@@ -144,21 +186,12 @@ export function RegisterWizardJWT() {
                           type="password"
                           name="password_confirm"
                           component={TextField}
-                          label={t('Confirm password')}
-                          placeholder={t('Confirm password here...')}
-                        />
-                      </Grid>
-                      <Grid item xs={12} md={6}>
-                        <Field
-                          fullWidth
-                          name="phone"
-                          type="number"
-                          component={TextField}
-                          label={t('Phone number')}
+                          label={t('FORMS.confirmPassword')}
+                          placeholder={t('PLACEHOLDER.confirmPassword')}
                         />
                       </Grid>
                       <Grid item xs={12}>
-                        <Field
+                        {/* <Field
                           name="promo"
                           type="checkbox"
                           component={CheckboxWithLabel}
@@ -168,7 +201,7 @@ export function RegisterWizardJWT() {
                             )
                           }}
                         />
-                        <br />
+                        <br /> */}
                         <Field
                           name="terms"
                           type="checkbox"
@@ -176,8 +209,8 @@ export function RegisterWizardJWT() {
                           Label={{
                             label: (
                               <Typography variant="body2">
-                                {t('I accept the')}{' '}
-                                <Link href="#">{t('terms and conditions')}</Link>.
+                                {t('LABELS.accept')}{' '}
+                                <Link href="#">{t('LABELS.terms')}</Link>.
                               </Typography>
                             )
                           }}
@@ -198,7 +231,7 @@ export function RegisterWizardJWT() {
                       .max(255)
                       .required(t('The first name field is required'))
                   })}
-                  label={t('Company Details')}
+                  label={t('LABELS.step2Title')}
                 >
                   <Box p={4}>
                     <Grid container spacing={4}>
@@ -230,7 +263,7 @@ export function RegisterWizardJWT() {
                     </Grid>
                   </Box>
                 </FormikStep>
-                <FormikStep label={t('Complete Registration')}>
+                <FormikStep label={t('LABELS.step3Title')}>
                   <Box px={4} py={8}>
                     <Container maxWidth="sm">
                       <AvatarSuccess>
@@ -307,6 +340,7 @@ export function FormikStep({ children }) {
       <Formik
         {...props}
         validationSchema={currentChild.props.validationSchema}
+        validateOnChange={false}
         onSubmit={async (values, helpers) => {
           if (isLastStep()) {
             await props.onSubmit(values, helpers);
@@ -346,7 +380,7 @@ export function FormikStep({ children }) {
                   type="button"
                   onClick={() => setStep((s) => s - 1)}
                 >
-                  {t('Previous')}
+                  {t('LABELS.previous')}
                 </Button>
   
                 <Button
@@ -359,10 +393,10 @@ export function FormikStep({ children }) {
                   type="submit"
                 >
                   {isSubmitting
-                    ? t('Submitting')
+                    ? t('LABELS.submitting')
                     : isLastStep()
-                    ? t('Complete registration')
-                    : t('Next step')}
+                    ? t('LABELS.completeRegist')
+                    : t('LABELS.nextStep')}
                 </Button>
               </BoxActions>
             ) : null}

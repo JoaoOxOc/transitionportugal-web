@@ -9,9 +9,6 @@ export var REGISTER_TRANSLATIONS = deepFreeze({
     },
     COVER: {
         title: "Um enorme movimento de mudança",
-        description: "Desde o suporte comunitário até aos municípios em transição, da-mos o nosso melhor para colocar o mundo em transição",
-        subtitle: "Queres saber mais sobre nós?",
-        subtitleDescription: "Por favor navega na secção \"Sobre\" na página principal.",
         bottomTitle: "Junta-te à nossa comunidade, hoje",
         bottomAdvantage1: "a união faz a força",
         bottomAdvantage2: "mantém-te informado sobre iniciativas",
@@ -23,7 +20,7 @@ export var REGISTER_TRANSLATIONS = deepFreeze({
         circularEconomy: "Economia Circular",
         aboutCircularEconomy: "Repensar a forma como vivemos num formato circular desde ideias até ao que consumimos",
         transitionTowns: "Municípios em Transição",
-        aboutTransitionTowns: "Municípios em Transição são grupos que tentam aplicar uma transição ao nível do seu município para uma nova economia e sociedade"
+        aboutTransitionTowns: "Grupos que tentam aplicar uma transição ao nível do seu município para uma nova economia e sociedade"
     }
 });
 //# sourceMappingURL=register.js.map

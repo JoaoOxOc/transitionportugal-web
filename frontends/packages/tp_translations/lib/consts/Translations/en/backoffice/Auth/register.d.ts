@@ -8,9 +8,6 @@ export declare const REGISTER_TRANSLATIONS: {
     };
     readonly COVER: {
         readonly title: "A big movement of change";
-        readonly description: "From community support to municipalities in transition, we try our best to set the world on change";
-        readonly subtitle: "Want to know more about us?";
-        readonly subtitleDescription: "Please scroll in our \"about\" section in the home page.";
         readonly bottomTitle: "Join our community today";
         readonly bottomAdvantage1: "strength with others";
         readonly bottomAdvantage2: "keep noticed about initiatives";
@@ -22,7 +19,7 @@ export declare const REGISTER_TRANSLATIONS: {
         readonly circularEconomy: "Circular Economy";
         readonly aboutCircularEconomy: "Rethink the form we live in a circular format from ideas to what we consume";
         readonly transitionTowns: "Transition Towns";
-        readonly aboutTransitionTowns: "Transition Towns are groups trying to transition their own town into new concepts of economy and social benefits";
+        readonly aboutTransitionTowns: "Groups trying to transition their own town into new concepts of economy and social benefits";
     };
 };
 //# sourceMappingURL=register.d.ts.map

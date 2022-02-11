@@ -9,9 +9,6 @@ export var REGISTER_TRANSLATIONS = deepFreeze({
     },
     COVER: {
         title: "A big movement of change",
-        description: "From community support to municipalities in transition, we try our best to set the world on change",
-        subtitle: "Want to know more about us?",
-        subtitleDescription: "Please scroll in our \"about\" section in the home page.",
         bottomTitle: "Join our community today",
         bottomAdvantage1: "strength with others",
         bottomAdvantage2: "keep noticed about initiatives",
@@ -23,7 +20,7 @@ export var REGISTER_TRANSLATIONS = deepFreeze({
         circularEconomy: "Circular Economy",
         aboutCircularEconomy: "Rethink the form we live in a circular format from ideas to what we consume",
         transitionTowns: "Transition Towns",
-        aboutTransitionTowns: "Transition Towns are groups trying to transition their own town into new concepts of economy and social benefits"
+        aboutTransitionTowns: "Groups trying to transition their own town into new concepts of economy and social benefits"
     }
 });
 //# sourceMappingURL=register.js.map
