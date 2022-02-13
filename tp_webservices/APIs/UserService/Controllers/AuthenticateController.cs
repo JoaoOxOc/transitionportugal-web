@@ -1,17 +1,8 @@
-﻿using CommonLibrary.Enums;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 using UserService.Code;
 using UserService.Entities;
 using UserService.Models;
-using UserService.Services;
-using UserService.Services.Database;
 using UserService.Services.UserManager;
 
 namespace UserService.Controllers
@@ -43,7 +34,7 @@ namespace UserService.Controllers
 
                 var userScopes = await _userManager.GetUserScopes(user);
 
-                var token = _tokenManager.GetToken(authClaims.Concat(userScopes).ToList());
+                var tokenData = _tokenManager.GetToken(authClaims.Concat(userScopes).ToList());
                 var refreshTokenData = _tokenManager.GenerateRefreshToken();
 
 
@@ -54,9 +45,9 @@ namespace UserService.Controllers
 
                 return Ok(new
                 {
-                    token = new JwtSecurityTokenHandler().WriteToken(token),
+                    token = tokenData.Token,
                     RefreshToken = refreshTokenData.Key,
-                    expiration = token.ValidTo
+                    expiration = tokenData.ExpiresAt
                 });
             }
             return Unauthorized();
@@ -91,7 +82,7 @@ namespace UserService.Controllers
         {
             string header = HttpContext.Request.Headers["Authorization"];
             string[] claims = new string[] { "userId", "sub", "associationId" };
-            List<JwtClaim> userClaims = JwtHelper.ValidateToken(header, _configuration["JWT:ValidAudience"], _configuration["JWT:ValidIssuer"], _configuration["JWT:Secret"], claims);
+            List<JwtClaim> userClaims = JwtHelper.ValidateToken(header, _configuration["JWT:ValidAudience"], _configuration["JWT:ValidIssuer"], _configuration["JWT:SecretPublicKey"], claims);
             if (userClaims != null && userClaims.Count > 0)
             {
                 //int requesterId = Convert.ToInt32(jwtClaims.Where(x => x.Claim == "userId").Single().Value);
@@ -185,7 +176,7 @@ namespace UserService.Controllers
                 return BadRequest("Invalid access token or refresh token");
             }
 
-            var newAccessToken = _tokenManager.GetToken(principal.Claims.ToList());
+            var newAccessTokenData = _tokenManager.GetToken(principal.Claims.ToList());
             var newRefreshTokenData = _tokenManager.GenerateRefreshToken();
 
             user.RefreshToken = newRefreshTokenData.Key;
@@ -193,7 +184,7 @@ namespace UserService.Controllers
 
             return new ObjectResult(new
             {
-                accessToken = new JwtSecurityTokenHandler().WriteToken(newAccessToken),
+                accessToken = newAccessTokenData.Token,
                 refreshToken = newRefreshTokenData.Key
             });
         }

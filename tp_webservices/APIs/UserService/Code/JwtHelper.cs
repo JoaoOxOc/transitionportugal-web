@@ -1,5 +1,6 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace UserService.Code
@@ -23,12 +24,20 @@ namespace UserService.Code
             List<JwtClaim> result = null;
 
             var bearer = httpHeaderToken.Split(' ')[1];
+
+            using RSA rsa = RSA.Create();
+            rsa.ImportRSAPublicKey(Convert.FromBase64String(secret), out _);
             SecurityToken validatedToken;
+
             var validationParameters = new TokenValidationParameters()
             {
                 ValidAudience = audience,
                 ValidIssuer = issuer,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret))
+                IssuerSigningKey = new RsaSecurityKey(rsa),
+                CryptoProviderFactory = new CryptoProviderFactory()
+                {
+                    CacheSignatureProviders = false
+                }
             };
             new JwtSecurityTokenHandler().ValidateToken(bearer, validationParameters, out validatedToken);
             if (validatedToken != null)

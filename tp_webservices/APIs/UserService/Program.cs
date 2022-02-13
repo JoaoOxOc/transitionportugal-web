@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.Security.Cryptography;
 using System.Text;
 using UserService.Entities;
 using UserService.Services;
@@ -26,6 +27,9 @@ builder.Services.AddIdentity<User, IdentityRole>()
 
 builder.Services.UpgradePasswordSecurity().UseBcrypt<User>();
 
+using RSA rsa = RSA.Create();
+rsa.ImportRSAPublicKey(Convert.FromBase64String(configuration["JWT:SecretPublicKey"]), out _);
+
 // Adding Authentication
 builder.Services.AddAuthentication(options =>
 {
@@ -33,7 +37,6 @@ builder.Services.AddAuthentication(options =>
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
 })
-
 // Adding Jwt Bearer
 .AddJwtBearer(options =>
 {
@@ -49,7 +52,11 @@ builder.Services.AddAuthentication(options =>
 
         ValidAudience = configuration["JWT:ValidAudience"],
         ValidIssuer = configuration["JWT:ValidIssuer"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Secret"]))
+        IssuerSigningKey = new RsaSecurityKey(rsa),
+        CryptoProviderFactory = new CryptoProviderFactory()
+        {
+            CacheSignatureProviders = false
+        }
     };
 });
 
