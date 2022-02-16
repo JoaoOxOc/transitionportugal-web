@@ -3,9 +3,9 @@ export var REGISTER_TRANSLATIONS = deepFreeze({
     LABELS: {
         pageTitle: "Registar - Transição Portugal",
         title: "Registar Conta",
-        subtitle: "Preencha os seguintes campos para registar o seu movimento/iniciativa.",
-        alreadyRegistered: "Já tem uma conta?",
-        signInHere: "Entre aqui"
+        subtitle: "Preenche os seguintes campos para registar o teu movimento/iniciativa.",
+        alreadyRegistered: "Já tens uma conta?",
+        signInHere: "Entra aqui"
     },
     COVER: {
         title: "Um enorme movimento de mudança",

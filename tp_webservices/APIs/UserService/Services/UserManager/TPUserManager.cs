@@ -4,6 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text.Json;
 using UserService.Entities;
+using UserService.Helpers;
 using UserService.Models;
 using UserService.Services.Database;
 
@@ -114,7 +115,21 @@ namespace UserService.Services.UserManager
 
         public async Task<IdentityResult> CreateUser(User user, string password)
         {
-            var creationResult = await _userManager.CreateAsync(user, password);
+            var newPasswordHashed = BCrypt.Net.BCrypt.HashPassword(password);
+            var validMessage = await this.ValidatePassword(password);
+            var creationResult = await _userManager.CreateAsync(user, newPasswordHashed);
+            //var result2 = await _userManager.AddPasswordAsync(user, newPasswordHashed);
+            //if (result2.Succeeded)
+            //{
+            //    user.PasswordHash = newPasswordHashed;
+            //    user.UpdatedAt = DateTime.Now;
+            //    _uow.UserRepository.Update(user);
+            //    _uow.Save();
+            //}
+            //else
+            //{
+            //    throw new AppException(JsonSerializer.Serialize(result2.Errors));
+            //}
 
             return creationResult;
         }
@@ -124,6 +139,45 @@ namespace UserService.Services.UserManager
             var creationResult = await _userManager.UpdateAsync(user);
 
             return creationResult;
+        }
+
+        public async Task<bool> UpdateUserPassword(string userId, string newPassword)
+        {
+            var user = _uow.UserRepository.Get(null, null, (x => x.Id == userId), "UserName", SortDirection.Ascending).FirstOrDefault();
+            if (user != null)
+            {
+                var validMessage = await this.ValidatePassword(newPassword);
+                if (validMessage == "Succeeded")
+                {
+                    var newPasswordHashed = BCrypt.Net.BCrypt.HashPassword(newPassword);
+                    var result = await _userManager.RemovePasswordAsync(user);
+                    if (result.Succeeded)
+                    {
+                        var result2 = await _userManager.AddPasswordAsync(user, newPasswordHashed);
+                        if (result2.Succeeded)
+                        {
+                            user.PasswordHash = newPasswordHashed;
+                            user.UpdatedAt = DateTime.Now;
+                            _uow.UserRepository.Update(user);
+                            _uow.Save();
+                            return true;
+                        }
+                        else
+                        {
+                            throw new AuthException(JsonSerializer.Serialize(result2.Errors));
+                        }
+                    }
+                    else
+                    {
+                        throw new AuthException(JsonSerializer.Serialize(result.Errors));
+                    }
+                }
+                else
+                {
+                    throw new AuthException(validMessage);
+                }
+            }
+            return false;
         }
 
         public async Task<IdentityResult> AddUserToRole(User user, string role)
@@ -176,6 +230,20 @@ namespace UserService.Services.UserManager
                 };
             }
             return new ProfileModel();
+        }
+
+        private async Task<string> ValidatePassword(string password)
+        {
+            var passwordValidator = new PasswordValidator<User>();
+            var result = await passwordValidator.ValidateAsync(_userManager, null, password);
+            if(result.Succeeded)
+            {
+                return "Succeeded";
+            }
+            else
+            {
+                return JsonSerializer.Serialize(result.Errors);
+            }
         }
     }
 }

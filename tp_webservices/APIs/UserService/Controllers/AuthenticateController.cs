@@ -208,7 +208,7 @@ namespace UserService.Controllers
         {
             string header = HttpContext.Request.Headers["Authorization"];
             string[] claims = new string[] { "userId", "sub", "associationId" };
-            List<JwtClaim> userClaims = JwtHelper.ValidateToken(header, _configuration["JWT:ValidAudience"], _configuration["JWT:ValidIssuer"], _configuration["JWT:Secret"], claims);
+            List<JwtClaim> userClaims = JwtHelper.ValidateToken(header, _configuration["JWT:ValidAudience"], _configuration["JWT:ValidIssuer"], _configuration["JWT:SecretPublicKey"], claims);
             if (userClaims != null && userClaims.Count > 0)
             {
                 var user = await _userManager.SearchUserById(userClaims.Where(x => x.Claim == "userId").Single().Value);
@@ -252,7 +252,8 @@ namespace UserService.Controllers
                 var authClaims = await _userManager.GetUserClaimsPasswordRecovery(user);
 
                 var tokenData = _tokenManager.GetToken(authClaims);
-                emailData.Body = "Please access the following url to reset your password, you only have 15 minutes to reset your password:\n" + _configuration["ApplicationSettings:RecoverPasswordBaseUrl"] + _configuration["ApplicationSettings:RecoverPasswordUri"] + "?t=" + tokenData.Token;
+                var emailLink = _configuration["ApplicationSettings:RecoverPasswordBaseUrl"] + _configuration["ApplicationSettings:RecoverPasswordUri"] + "?t=" + tokenData.Token;
+                emailData.Body = "Please access the following url to reset your password, you only have 15 minutes to reset your password:<br/><a target='_blank' rel='noopener noreferrer' href='" + emailLink + "'>" + emailLink + "</a>";
                 emailData.Subject = "Reset your password";
                 emailData.EmailTemplateKey = "";
 
@@ -261,7 +262,7 @@ namespace UserService.Controllers
                 {
                     throw new AppException("Email send error");
                 }
-                return Ok("An email will be sent to you with instructions on how to recover your password");
+                return Ok(new Response { Status = "Success", Message = "recover_requested" });
             }
             return NotFound();
         }
@@ -272,15 +273,21 @@ namespace UserService.Controllers
         {
             string header = HttpContext.Request.Headers["Authorization"];
             string[] claims = new string[] { "userId" };
-            List<JwtClaim> userClaims = JwtHelper.ValidateToken(header, _configuration["JWT:ValidAudience"], _configuration["JWT:ValidIssuer"], _configuration["JWT:Secret"], claims);
+            List<JwtClaim> userClaims = JwtHelper.ValidateToken(header, _configuration["JWT:ValidAudience"], _configuration["JWT:ValidIssuer"], _configuration["JWT:SecretPublicKey"], claims);
             if (userClaims != null && userClaims.Count > 0)
             {
                 var user = await _userManager.SearchUserById(userClaims.Where(x => x.Claim == "userId").Single().Value);
                 if (user != null)
                 {
-                    //TODO: update user with the new password
-
-                    return Ok("password_reset");
+                    bool updated = await _userManager.UpdateUserPassword(userClaims.Where(x => x.Claim == "userId").Single().Value, model.ConfirmPassword);
+                    if (updated)
+                    {
+                        return Ok(new Response { Status = "Success", Message = "password_reset" });
+                    }
+                    else
+                    {
+                        throw new AuthException("Error updating password. Please try again");
+                    }
                 }
                 return NotFound();
             }

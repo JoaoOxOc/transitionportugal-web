@@ -16,3 +16,4 @@ export * from './backoffice/i18nLogin';
 export * from './backoffice/i18nRegister';
 export * from './backoffice/i18nRegisterForm';
 export * from './backoffice/i18nRecover';
+export * from './backoffice/i18nReset';

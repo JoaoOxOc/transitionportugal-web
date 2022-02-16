@@ -1,6 +1,6 @@
-import { useState, forwardRef, Ref } from 'react';
+import { useState, useEffect, forwardRef, Ref } from 'react';
 import * as Yup from 'yup';
-import { Formik } from 'formik';
+import { useFormik } from 'formik';
 import {
   Box,
   Card,
@@ -26,7 +26,9 @@ import { Guest } from '../../../components/Guest';
 import Link from '../../../components/Link';
 import { useRouter } from 'next/router';
 
-import { i18nextAbout } from "@transitionpt/translations";
+import { i18nextRecover } from "@transitionpt/translations";
+import {genericFetch} from '../../../services/genericFetch';
+import { useSnackbar } from 'notistack';
 import Logo from '../../../components/LogoSign';
 import CheckTwoToneIcon from '@mui/icons-material/CheckTwoTone';
 
@@ -72,10 +74,20 @@ const AvatarSuccess = styled(Avatar)(
 );
 
 function RecoverPasswordBasic() {
-  const { t } = i18nextAbout;
-  const isMountedRef = useRefMounted();
+  const { t } = i18nextRecover;
+  const [currentLang, setLang] = useState("pt");
+  i18nextRecover.changeLanguage(currentLang);
+  const { enqueueSnackbar } = useSnackbar();
   const router = useRouter();
   const { demo } = router.query;
+
+  useEffect(() => {
+    const handleNewMessage = (event) => {
+      setLang(event.detail);
+    };
+          
+    window.addEventListener('newLang', handleNewMessage);
+  }, []);
 
   const [openAlert, setOpenAlert] = useState(true);
 
@@ -89,10 +101,67 @@ function RecoverPasswordBasic() {
     setOpenDialog(false);
   };
 
+  const formik = useFormik({
+    validateOnChange: false,
+    initialValues: {
+      username: '',
+      submit: null
+    },
+    validationSchema: Yup.object({
+        username: Yup.string()
+              .max(100, t('MESSAGES.usernameTooBig', { number: 50 }))
+              .required(t('MESSAGES.usernameEmailRequired'))
+      }),
+    onSubmit: async (values, helpers) => {
+      try {
+        const resetResult = await genericFetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/user/recover", "POST", null,{
+            username: values.username
+        });
+        console.log(resetResult);
+        if (resetResult.status === "Success") {
+            setOpenDialog(true);
+        }
+        else {
+            helpers.setStatus({ success: false });
+            helpers.setErrors({ submit: resetResult.statusText });
+            helpers.setSubmitting(false);
+            if (resetResult.statusText === "Unauthorized") {
+                setDisplayRecoverLink(true);
+                enqueueSnackbar(t('MESSAGES.tokenExpiredError'), {
+                  variant: 'error',
+                  anchorOrigin: {
+                    vertical: 'top',
+                    horizontal: 'center'
+                  },
+                  autoHideDuration: 2000,
+                  TransitionComponent: Slide
+                });
+            }
+            else if (resetResult.status === 404) {
+                enqueueSnackbar(t('MESSAGES.userNotFoundError'), {
+                  variant: 'error',
+                  anchorOrigin: {
+                    vertical: 'top',
+                    horizontal: 'center'
+                  },
+                  autoHideDuration: 2000,
+                  TransitionComponent: Slide
+                });
+            }
+        }
+      } catch (err) {
+        console.error(err);
+        helpers.setStatus({ success: false });
+        helpers.setErrors({ submit: err.message });
+        helpers.setSubmitting(false);
+      }
+    }
+  });
+
   return (
     <>
       <Head>
-        <title>Recover Password</title>
+        <title>{t('LABELS.pageTitle')}</title>
       </Head>
       <MainContent>
         <Container maxWidth="sm">
@@ -110,7 +179,7 @@ function RecoverPasswordBasic() {
                   mb: 1
                 }}
               >
-                {t('Recover Password')}
+                {t('LABELS.title')}
               </Typography>
               <Typography
                 variant="h4"
@@ -121,63 +190,24 @@ function RecoverPasswordBasic() {
                 }}
               >
                 {t(
-                  'Enter the email used for registration to reset your password.'
+                  'LABELS.subtitle'
                 )}
               </Typography>
             </Box>
-
-            <Formik
-              initialValues={{
-                email: 'demo@example.com',
-                submit: null
-              }}
-              validationSchema={Yup.object().shape({
-                email: Yup.string()
-                  .email(
-                    t('The email provided should be a valid email address')
-                  )
-                  .max(255)
-                  .required(t('The email field is required'))
-              })}
-              onSubmit={async (
-                _values,
-                { setErrors, setStatus, setSubmitting }
-              ) => {
-                try {
-                  if (isMountedRef()) {
-                    setStatus({ success: true });
-                    setSubmitting(false);
-                  }
-                } catch (err) {
-                  console.error(err);
-                  if (isMountedRef()) {
-                    setStatus({ success: false });
-                    setErrors({ submit: err.message });
-                    setSubmitting(false);
-                  }
-                }
-              }}
-            >
-              {({
-                errors,
-                handleBlur,
-                handleChange,
-                handleSubmit,
-                touched,
-                values
-              }) => (
-                <form noValidate onSubmit={handleSubmit}>
+                <form noValidate onSubmit={formik.handleSubmit}>
                   <TextField
-                    error={Boolean(touched.email && errors.email)}
+                    error={Boolean(formik.touched.username && formik.errors.username)}
                     fullWidth
-                    helperText={touched.email && errors.email}
-                    label={t('Email address')}
+                    helperText={formik.touched.username && formik.errors.username}
+                    label={t('FORMS.usernameOrEmailAddress')}
+                    aria-labelledby={ t('FORMS.usernameOrEmailAddress') } 
+                    aria-describedby={ t('FORMS.usernameOrEmailAddress_help') }
                     margin="normal"
-                    name="email"
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    type="email"
-                    value={values.email}
+                    name="username"
+                    onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                    type="text"
+                    value={formik.values.username}
                     variant="outlined"
                   />
 
@@ -186,18 +216,17 @@ function RecoverPasswordBasic() {
                       mt: 3
                     }}
                     color="primary"
-                    disabled={Boolean(touched.email && errors.email)}
-                    onClick={handleOpenDialog}
+                    disabled={Boolean(formik.touched.username && formik.errors.username)}
+                    aria-describedby={ t('FORMS.submit_help') } 
+                    // onClick={handleOpenDialog}
                     type="submit"
                     fullWidth
                     size="large"
                     variant="contained"
                   >
-                    {t('Send me a new password')}
+                    {t('FORMS.recoverAccount')}
                   </Button>
                 </form>
-              )}
-            </Formik>
           </Card>
           <Box mt={3} textAlign="right">
             <Typography
@@ -206,14 +235,13 @@ function RecoverPasswordBasic() {
               color="text.primary"
               fontWeight="bold"
             >
-              {t('Want to try to sign in again?')}
+              {t('LABELS.signInLabel')}
             </Typography>{' '}
             <Link
-              href={
-                demo ? `/auth/login/cover?demo=${demo}` : '/auth/login/cover'
-              }
+              href={'/auth/login/cover'}
+              aria-label={ t('LABELS.buttonToLogin') }
             >
-              <b>Click here</b>
+              <b>{t('LABELS.signIn')}</b>
             </Link>
           </Box>
         </Container>
@@ -242,7 +270,7 @@ function RecoverPasswordBasic() {
             <Alert
               action={
                 <IconButton
-                  aria-label="close"
+                  aria-label={ t('LABELS.closeMessage') }
                   color="inherit"
                   size="small"
                   onClick={() => {
@@ -255,7 +283,7 @@ function RecoverPasswordBasic() {
               severity="info"
             >
               {t(
-                'The password reset instructions have been sent to your email'
+                'MESSAGES.passwordResetInstructions'
               )}
             </Alert>
           </Collapse>
@@ -268,7 +296,7 @@ function RecoverPasswordBasic() {
             }}
             variant="h3"
           >
-            {t('Check your email for further instructions')}
+            {t('MESSAGES.successMessage')}
           </Typography>
 
           <Button
@@ -277,9 +305,10 @@ function RecoverPasswordBasic() {
             size="large"
             variant="contained"
             onClick={handleCloseDialog}
-            href={demo ? `/auth/login/basic?demo=${demo}` : '/auth/login/basic'}
+            aria-label={ t('LABELS.buttonToLogin') }
+            href={'/auth/login/cover'}
           >
-            {t('Continue to login')}
+            {t('LABELS.goLogIn')}
           </Button>
         </Box>
       </DialogWrapper>

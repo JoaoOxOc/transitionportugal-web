@@ -1,5 +1,7 @@
 ﻿
 using EmailService.Code;
+using EmailService.Enums;
+using EmailService.Repositories;
 using System.Net;
 using System.Net.Mail;
 using System.Net.Security;
@@ -10,6 +12,26 @@ namespace EmailService.Sender
 {
     public class EmailServiceImp : IEmailService
     {
+        private readonly ISettingsRepository _settingsRepository;
+
+        public EmailServiceImp(ISettingsRepository settingsRepository)
+        {
+            _settingsRepository = settingsRepository;
+            loadEmailSettings();
+        }
+
+        private void loadEmailSettings()
+        {
+            var allSettings = _settingsRepository.Get().Result;
+
+            SMTPConfigurations.Server = allSettings.SingleOrDefault(x => x.Key == SettingCode.SMTP_Server.ToString()).Value;
+            SMTPConfigurations.Username = allSettings.SingleOrDefault(x => x.Key == SettingCode.SMTP_Username.ToString()).Value;
+            SMTPConfigurations.Password = allSettings.SingleOrDefault(x => x.Key == SettingCode.SMTP_Password.ToString()).Value;
+            SMTPConfigurations.Port = Convert.ToInt32(allSettings.SingleOrDefault(x => x.Key == SettingCode.SMTP_Port.ToString()).Value);
+            SMTPConfigurations.From = allSettings.SingleOrDefault(x => x.Key == SettingCode.SMTP_From.ToString()).Value;
+            SMTPConfigurations.EnableSSL = Convert.ToBoolean(allSettings.SingleOrDefault(x => x.Key == SettingCode.SMTP_SSL.ToString()).Value);
+        }
+
         public bool SendMail(string to, string subject, string body)
         {
             List<string> tos = new List<string>();
@@ -102,7 +124,7 @@ namespace EmailService.Sender
                 var errorLog = ErrorLog.ErrorLogGenerator(ex, null, "EmailService", 0, string.Empty, string.Empty, extraInfo);
 
                 //rabbitMQ.ExchangeChannel.BasicPublish("gdpr", "log.event.create", true, null, bytes);
-
+                throw new Exception(errorLog);
                 if (ex.StatusCode == SmtpStatusCode.MailboxNameNotAllowed || ex.StatusCode == SmtpStatusCode.MailboxUnavailable)
                 {
                     // If is an incorrect email delete the event fron the queue
@@ -120,7 +142,7 @@ namespace EmailService.Sender
                 }
 
                 var errorLog = ErrorLog.ErrorLogGenerator(ex, null, "EmailService", 0, string.Empty, string.Empty, extraInfo);
-
+                throw new Exception(errorLog);
                 //rabbitMQ.ExchangeChannel.BasicPublish("gdpr", "log.event.create", true, null, bytes);
 
                 return false;

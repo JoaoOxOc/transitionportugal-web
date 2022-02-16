@@ -27,7 +27,7 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=admin
       - MONGO_INITDB_ROOT_PASSWORD=admin
     ports:
-      - "27017:27017"
+      - "27018:27017"
     volumes: 
       - tp_mongo_data:/data/db
     networks:
@@ -36,6 +36,7 @@ services:
   tp_rabbitmq:
     image: rabbitmq:3.9-management
     container_name: 'tp_rabbitmq'
+    hostname: 'tprabbitmq'
     ports:
         - 5672:5672 #AMQP port
         - 15672:15672 #management UI port

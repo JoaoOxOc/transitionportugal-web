@@ -1,5 +1,6 @@
 ﻿using CommonLibrary.Entities.ViewModel;
 using MassTransit;
+using UserService.Helpers;
 
 namespace UserService.Services.RabbitMQ
 {
@@ -32,9 +33,10 @@ namespace UserService.Services.RabbitMQ
                 await endPoint.Send(emailData);
                 success = true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 success = false;
+                throw new AppException(ex.Message);
             }
             return success;
         }

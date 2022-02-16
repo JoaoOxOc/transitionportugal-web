@@ -1,14 +1,16 @@
-﻿using System;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace EmailService.Models
+namespace EmailService.Model
 {
     public class EmailTemplate
     {
-        [Key]
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
         
         public string Key { get; set; }
@@ -23,8 +25,10 @@ namespace EmailService.Models
 
         #region MetaData
 
+        [BsonDateTimeOptions(Kind = DateTimeKind.Local, Representation = BsonType.DateTime)]
         public DateTime CreatedAt { get; set; }
 
+        [BsonDateTimeOptions(Kind = DateTimeKind.Local, Representation = BsonType.DateTime)]
         public DateTime? UpdatedAt { get; set; }
 
         #endregion

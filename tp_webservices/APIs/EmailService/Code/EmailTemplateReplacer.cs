@@ -1,5 +1,9 @@
 ﻿
 
+using CommonLibrary.Entities.ViewModel;
+using EmailService.Model;
+using EmailService.Repositories;
+
 namespace EmailService.Code
 {
     public static class EmailTemplateReplacer
@@ -30,17 +34,17 @@ namespace EmailService.Code
             return subject;
         }
 
-        //public static EmailVM ProcessEmailTemplate(IEmailTemplatesRepository templatesRepository, EmailVM emailData)
-        //{
-        //    EmailTemplate template = templatesRepository.GetFiltered(emailData.EmailTemplateKey, null, null, string.Empty, "asc").ToList<EmailTemplate>().FirstOrDefault();
-        //    if (template != null)
-        //    {
-        //        emailData.Subject = TokenReplace_Subject(template.Subject,emailData.TokensToReplace_Subject);
+        public static EmailVM ProcessEmailTemplate(IEmailTemplatesRepository templatesRepository, EmailVM emailData)
+        {
+            EmailTemplate template = templatesRepository.GetFiltered(emailData.EmailTemplateKey, null, null, string.Empty, "asc").ToList<EmailTemplate>().FirstOrDefault();
+            if (template != null)
+            {
+                emailData.Subject = TokenReplace_Subject(template.Subject, emailData.TokensToReplace_Subject);
 
-        //        emailData.Body = TokenReplace_Subject(template.Body, emailData.TokensToReplace_Body);
-        //    }
-        //    return emailData;
-        //}
+                emailData.Body = TokenReplace_Subject(template.Body, emailData.TokensToReplace_Body);
+            }
+            return emailData;
+        }
 
     }
 }

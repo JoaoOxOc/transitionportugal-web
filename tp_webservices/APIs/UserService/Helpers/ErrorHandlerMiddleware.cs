@@ -29,6 +29,10 @@ namespace UserService.Helpers
                         // custom application error
                         response.StatusCode = (int)HttpStatusCode.BadRequest;
                         break;
+                    case AuthException e:
+                        // custom authentication error
+                        response.StatusCode = (int)HttpStatusCode.Forbidden;
+                        break;
                     case KeyNotFoundException e:
                         // not found error
                         response.StatusCode = (int)HttpStatusCode.NotFound;

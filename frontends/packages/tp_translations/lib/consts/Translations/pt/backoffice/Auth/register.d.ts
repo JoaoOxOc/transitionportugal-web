@@ -2,9 +2,9 @@ export declare const REGISTER_TRANSLATIONS: {
     readonly LABELS: {
         readonly pageTitle: "Registar - Transição Portugal";
         readonly title: "Registar Conta";
-        readonly subtitle: "Preencha os seguintes campos para registar o seu movimento/iniciativa.";
-        readonly alreadyRegistered: "Já tem uma conta?";
-        readonly signInHere: "Entre aqui";
+        readonly subtitle: "Preenche os seguintes campos para registar o teu movimento/iniciativa.";
+        readonly alreadyRegistered: "Já tens uma conta?";
+        readonly signInHere: "Entra aqui";
     };
     readonly COVER: {
         readonly title: "Um enorme movimento de mudança";
