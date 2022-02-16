@@ -72,6 +72,34 @@
       "UpstreamPathTemplate": "/user/refresh",
       "UpstreamHttpMethod": [ "Post" ],
       "SwaggerKey": "UserService"
+    },
+    {
+      "DownstreamPathTemplate": "/api/authenticate/recover-password-request",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tp_userservice",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/user/recover",
+      "UpstreamHttpMethod": [ "Post" ],
+      "SwaggerKey": "UserService"
+    },
+    {
+      "DownstreamPathTemplate": "/api/authenticate/reset-password",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tp_userservice",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/user/reset",
+      "UpstreamHttpMethod": [ "Post" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "TpAuthKey"
+      }
     }
   ],
   "SwaggerEndPoints": [

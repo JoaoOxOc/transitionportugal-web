@@ -1,13 +1,16 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Cryptography;
 using System.Text;
 using UserService.Entities;
 using UserService.Services;
+using UserService.Services.RabbitMQ;
 using UserService.Services.Database;
 using UserService.Services.UserManager;
+using UserService.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
@@ -61,11 +64,13 @@ builder.Services.AddAuthentication(options =>
 });
 
 // Add services to the container.
+builder.Services.TryAddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.TryAddScoped<ITPUserManager, TPUserManager>();
+builder.Services.TryAddSingleton<ITokenManager, TokenManager>();
+builder.Services.TryAddSingleton<IConfiguration>(configuration);
+builder.Services.TryAddSingleton<IRabbitMQSender, RabbitMQSender>();
 
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddScoped<ITPUserManager, TPUserManager>();
-builder.Services.AddSingleton<ITokenManager, TokenManager>();
-builder.Services.AddSingleton<IConfiguration>(configuration);
+builder.Services.ConfigureMassTransitRabbitMQ(configuration);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -90,6 +95,10 @@ app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "UserService
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+// global error handler
+// read: https://jasonwatmore.com/post/2022/01/24/net-6-jwt-authentication-with-refresh-tokens-tutorial-with-example-api
+app.UseMiddleware<ErrorHandlerMiddleware>();
 
 app.MapControllers();
 

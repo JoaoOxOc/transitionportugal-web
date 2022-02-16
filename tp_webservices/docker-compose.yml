@@ -18,6 +18,37 @@ services:
       - tp_postgres_data:/var/lib/postgresql/data
     networks:
       - tp_bridge
+  
+  tp_mongo:
+    image: mongo:latest
+    container_name: tp_mongo
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=admin
+    ports:
+      - "27017:27017"
+    volumes: 
+      - tp_mongo_data:/data/db
+    networks:
+      - tp_bridge
+
+  tp_rabbitmq:
+    image: rabbitmq:3.9-management
+    container_name: 'tp_rabbitmq'
+    ports:
+        - 5672:5672 #AMQP port
+        - 15672:15672 #management UI port
+    volumes:
+        - ./rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+        - ./definitions.json:/etc/rabbitmq/definitions.json
+        - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/mnesia
+        - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+    environment:
+        - RABBITMQ_DEFAULT_USER=guest
+        - RABBITMQ_DEFAULT_PASS=guest
+    networks:
+        - tp_bridge
 
   tpgateway:
     image: ${DOCKER_REGISTRY-}tpgateway
@@ -41,6 +72,17 @@ services:
     networks:
         - tp_bridge
 
+  tpemailservice:
+    image: ${DOCKER_REGISTRY-}tpemailservice
+    container_name: tp_emailservice
+    build:
+        context: .
+        dockerfile: emailservice.dockerfile
+    ports:
+        - "5020:80"
+    networks:
+        - tp_bridge
+
 networks:
     tp_bridge:
         name: tp_bridge
@@ -48,4 +90,6 @@ networks:
 
 volumes:
   tp_postgres_data:
+    driver: local
+  tp_mongo_data:
     driver: local

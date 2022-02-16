@@ -7,7 +7,7 @@ namespace UserService.Services.UserManager
     public interface ITokenManager
     {
         JwtResponse GetToken(List<Claim> authClaims);
-        KeyValuePair<string, int> GenerateRefreshToken();
+        KeyValuePair<string, int> GenerateRefreshToken(string userId);
         ClaimsPrincipal? GetPrincipalFromExpiredToken(string? token);
     }
 }

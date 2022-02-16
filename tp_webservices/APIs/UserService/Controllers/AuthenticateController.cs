@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using CommonLibrary.Entities.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UserService.Code;
 using UserService.Entities;
+using UserService.Helpers;
 using UserService.Models;
+using UserService.Services.RabbitMQ;
 using UserService.Services.UserManager;
 
 namespace UserService.Controllers
@@ -14,13 +17,15 @@ namespace UserService.Controllers
         private readonly ITPUserManager _userManager;
         private readonly ITokenManager _tokenManager;
         private readonly IConfiguration _configuration;
+        private readonly IRabbitMQSender _rabbitMqSender;
 
-        public AuthenticateController(ITPUserManager userManager, ITokenManager tokenManager, IConfiguration configuration)
+        public AuthenticateController(ITPUserManager userManager, ITokenManager tokenManager, IConfiguration configuration, IRabbitMQSender rabbitMqSender)
         {
             //userManager.PasswordHasher = new CustomPasswordHasher();
             _userManager = userManager;
             _tokenManager = tokenManager;
             _configuration = configuration;
+            _rabbitMqSender = rabbitMqSender;
         }
 
         [HttpPost]
@@ -35,7 +40,7 @@ namespace UserService.Controllers
                 var userScopes = await _userManager.GetUserScopes(user);
 
                 var tokenData = _tokenManager.GetToken(authClaims.Concat(userScopes).ToList());
-                var refreshTokenData = _tokenManager.GenerateRefreshToken();
+                var refreshTokenData = _tokenManager.GenerateRefreshToken(user.Id);
 
 
                 user.RefreshToken = refreshTokenData.Key;
@@ -57,22 +62,15 @@ namespace UserService.Controllers
         [Route("search-user")]
         public async Task<IActionResult> SearchUser([FromBody] LoginModel model)
         {
-            try
+            var user = await _userManager.SearchUser(model.Username);
+            if (user != null)
             {
-                var user = await _userManager.SearchUser(model.Username);
-                if (user != null)
+                return Ok(new
                 {
-                    return Ok(new
-                    {
-                        user = user
-                    });
-                }
-                return NotFound();
+                    user = user
+                });
             }
-            catch(Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return NotFound();
         }
 
         [Authorize]
@@ -177,7 +175,7 @@ namespace UserService.Controllers
             }
 
             var newAccessTokenData = _tokenManager.GetToken(principal.Claims.ToList());
-            var newRefreshTokenData = _tokenManager.GenerateRefreshToken();
+            var newRefreshTokenData = _tokenManager.GenerateRefreshToken(user.Id);
 
             user.RefreshToken = newRefreshTokenData.Key;
             await _userManager.UpdateUser(user);
@@ -240,6 +238,56 @@ namespace UserService.Controllers
             }
 
             return NoContent();
+        }
+
+        [HttpPost]
+        [Route("recover-password-request")]
+        public async Task<IActionResult> RecoverPasswordRequest([FromBody] RecoverModel model)
+        {
+            var user = await _userManager.SearchUser(model.Username);
+            if (user != null)
+            {
+                EmailVM emailData = new EmailVM();
+                emailData.To = new List<string> { "jp_69_7@hotmail.com" };//TODO: replace with user.Email, only use the current line for testing
+                var authClaims = await _userManager.GetUserClaimsPasswordRecovery(user);
+
+                var tokenData = _tokenManager.GetToken(authClaims);
+                emailData.Body = "Please access the following url to reset your password, you only have 15 minutes to reset your password:\n" + _configuration["ApplicationSettings:RecoverPasswordBaseUrl"] + _configuration["ApplicationSettings:RecoverPasswordUri"] + "?t=" + tokenData.Token;
+                emailData.Subject = "Reset your password";
+                emailData.EmailTemplateKey = "";
+
+                bool success = await _rabbitMqSender.PublishEmailMessage(emailData);
+                if (!success)
+                {
+                    throw new AppException("Email send error");
+                }
+                return Ok("An email will be sent to you with instructions on how to recover your password");
+            }
+            return NotFound();
+        }
+
+        [HttpPost]
+        [Route("reset-password")]
+        public async Task<IActionResult> ResetPassword([FromBody] RecoverModel model)
+        {
+            string header = HttpContext.Request.Headers["Authorization"];
+            string[] claims = new string[] { "userId" };
+            List<JwtClaim> userClaims = JwtHelper.ValidateToken(header, _configuration["JWT:ValidAudience"], _configuration["JWT:ValidIssuer"], _configuration["JWT:Secret"], claims);
+            if (userClaims != null && userClaims.Count > 0)
+            {
+                var user = await _userManager.SearchUserById(userClaims.Where(x => x.Claim == "userId").Single().Value);
+                if (user != null)
+                {
+                    //TODO: update user with the new password
+
+                    return Ok("password_reset");
+                }
+                return NotFound();
+            }
+            else
+            {
+                return Unauthorized("token_expired");
+            }
         }
     }
 }

@@ -11,6 +11,7 @@ namespace UserService.Services.UserManager
         Task<User> SearchUserById(string userId);
         Task<User> ValidateLoginUser(string username, string password);
         Task<List<Claim>> GetUserClaims(User user);
+        Task<List<Claim>> GetUserClaimsPasswordRecovery(User user);
         Task<IdentityResult> CreateUser(User user, string password);
         Task<IdentityResult> UpdateUser(User user);
         Task<IdentityResult> AddUserToRole(User user, string role);

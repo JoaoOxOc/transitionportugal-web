@@ -44,16 +44,45 @@ namespace UserService.Services.UserManager
             {
                 Token = new JwtSecurityTokenHandler().WriteToken(token),
                 ExpiresAt = new DateTimeOffset(DateTime.Now.AddMinutes(tokenValidityInMinutes)).ToUnixTimeSeconds(),
-            }; ;
+            };
         }
 
-        public KeyValuePair<string,int> GenerateRefreshToken()
+        /// <summary>
+        /// read: https://github.com/cornflourblue/dotnet-6-jwt-refresh-tokens-api/blob/master/Controllers/UsersController.cs
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public KeyValuePair<string,int> GenerateRefreshToken(string userId)
         {
             var randomNumber = new byte[64];
             using var rng = RandomNumberGenerator.Create();
             rng.GetBytes(randomNumber);
 
             _ = int.TryParse(_configuration["JWT:RefreshTokenValidityInDays"], out int refreshTokenValidityInDays);
+
+            var privateKey = Convert.FromBase64String(_configuration["JWT:SecretPrivateKey"]);
+
+            using RSA rsa = RSA.Create();
+            rsa.ImportRSAPrivateKey(privateKey, out _);
+
+            var signingCredentials = new SigningCredentials(new RsaSecurityKey(rsa), SecurityAlgorithms.RsaSha256)
+            {
+                CryptoProviderFactory = new CryptoProviderFactory { CacheSignatureProviders = false }
+            };
+
+            var token = new JwtSecurityToken(
+                issuer: _configuration["JWT:ValidIssuer"],
+                audience: _configuration["JWT:ValidAudience"],
+                claims: new List<Claim>() { new Claim("userId", userId) },
+                expires: DateTime.Now.AddDays(refreshTokenValidityInDays),
+                signingCredentials: signingCredentials
+                );
+
+            //return new JwtResponse
+            //{
+            //    Token = new JwtSecurityTokenHandler().WriteToken(token),
+            //    ExpiresAt = refreshTokenValidityInDays,
+            //};
 
             return new KeyValuePair<string, int>(Convert.ToBase64String(randomNumber), refreshTokenValidityInDays);
         }
