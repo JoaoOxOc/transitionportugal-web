@@ -27,6 +27,7 @@ export var RESET_TRANSLATIONS = deepFreeze({
         confirmPasswordRequired: "Por favor confirma a tua palavra-passe inserida",
         tokenExpiredError: "O seu pedido de recuperação expirou. Por favor requisite novamente a recuperação da palavra-passe.",
         userNotFoundError: "A sua conta não foi encontrada. Por favor contacte a Transição Portugal para obter ajuda.",
+        passwordComplexityError: "A sua nova palavra-passe tem de conter, pelo menos, 1 símbolo, 1 número, 1 letra maiúscula e outra minúscula.",
         passwordReset: "Palavra-passe alterada.",
         successMessage: "Pode agora proceder para autenticação e utilizar a sua nova palavra-passe",
     }

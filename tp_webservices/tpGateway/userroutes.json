@@ -44,6 +44,19 @@
       }
     },
     {
+      "DownstreamPathTemplate": "/api/authenticate/register",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tp_userservice",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/user/register",
+      "UpstreamHttpMethod": [ "Post" ],
+      "SwaggerKey": "UserService"
+    },
+    {
       "DownstreamPathTemplate": "/api/authenticate/profile",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -100,6 +113,18 @@
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "TpAuthKey"
       }
+    },
+    {
+      "DownstreamPathTemplate": "/api/client/register",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tp_userservice",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/app/clientregister",
+      "UpstreamHttpMethod": [ "Post" ]
     }
   ],
   "SwaggerEndPoints": [

@@ -21,6 +21,8 @@ namespace UserService.Entities
 
         public string PostalCode { get; set; }
 
+        public string Vat { get; set; }
+
         public string LogoImage { get; set; }
 
         public string Filename { get; set; }

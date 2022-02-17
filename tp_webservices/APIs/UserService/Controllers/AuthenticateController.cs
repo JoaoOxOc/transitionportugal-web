@@ -97,18 +97,38 @@ namespace UserService.Controllers
         public async Task<IActionResult> Register([FromBody] RegisterModel model)
         {
             var userExists = await _userManager.SearchUser(model.Username);
-            if (userExists != null)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });
+            var userEmailExists = await _userManager.SearchUser(model.Email);
+            if (userExists != null || userEmailExists != null)
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "user_exists" });
+
+            var associationEmailExists = await _userManager.SearchAssociationByEmail(model.AssociationEmail);
+            var associationVatExists = await _userManager.SearchAssociationByVat(model.AssociationVat);
+            if (associationEmailExists != null || associationVatExists != null)
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "association_exists" });
+
+            Association association = new()
+            {
+                Name = model.AssociationName,
+                Address = model.AssociationAddress,
+                Town = model.AssociationTown,
+                Email = model.AssociationEmail,
+                Vat = model.AssociationVat,
+                CreatedAt = DateTime.Now,
+                IsActive = false
+            };
 
             User user = new()
             {
+                NormalizedUserName = model.FirstName + " " + model.LastName,
                 Email = model.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
                 CreatedAt = DateTime.Now,
-                UserName = model.Username
+                UserName = model.Username,
+                IsVerified = false,
+                IsActive = false
             };
-            var result = await _userManager.CreateUser(user, model.Password);
-            if (!result.Succeeded)
+            var result = await _userManager.CreateUserWithAssociation(user, association, model.Password);
+            if (result == null || !result.Succeeded)
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
 
             return Ok(new Response { Status = "Success", Message = "User created successfully!" });

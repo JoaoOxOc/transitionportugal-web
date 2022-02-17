@@ -26,6 +26,7 @@ export declare const RESET_TRANSLATIONS: {
         readonly confirmPasswordRequired: "Please confirm your inserted password";
         readonly tokenExpiredError: "Your reset request is expired. Please request again the password recovery.";
         readonly userNotFoundError: "Your account was not found. Please contact Transição Portugal for help.";
+        readonly passwordComplexityError: "Your new password must contain a non alphanumeric character, a number, an uppercase and a lowercase.";
         readonly passwordReset: "Password Changed.";
         readonly successMessage: "You can now proceed for authentication and use it";
     };

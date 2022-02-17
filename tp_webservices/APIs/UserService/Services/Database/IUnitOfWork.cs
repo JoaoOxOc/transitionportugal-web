@@ -13,6 +13,7 @@ namespace UserService.Services.Database
         IGenericRepository<RoleScope> RoleScopeRepository { get; }
         IGenericRepository<Scope> ScopeRepository { get; }
         IGenericRepository<Setting> SettingRepository { get; }
+        IGenericRepository<ClientCredential> ClientCredentialRepository { get; }
 
         void Save();
     }

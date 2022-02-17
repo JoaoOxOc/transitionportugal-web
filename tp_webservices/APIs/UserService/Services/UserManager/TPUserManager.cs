@@ -134,6 +134,40 @@ namespace UserService.Services.UserManager
             return creationResult;
         }
 
+        public async Task<IdentityResult> CreateUserWithAssociation(User user, Association association, string password)
+        {
+            IdentityResult result = null;
+            var newPasswordHashed = BCrypt.Net.BCrypt.HashPassword(password);
+            var validMessage = await this.ValidatePassword(password);
+            if (validMessage == "Succeeded")
+            {
+
+                var creationResult = await _userManager.CreateAsync(user);
+                if (creationResult.Succeeded)
+                {
+                    result = await _userManager.AddPasswordAsync(user, newPasswordHashed);
+                    if (result.Succeeded)
+                    {
+                        user.PasswordHash = newPasswordHashed;
+                        _uow.UserRepository.Add(user);
+
+                        _uow.AssociationRepository.Add(association);
+                        _uow.Save();
+                    }
+                    else
+                    {
+                        throw new AppException(JsonSerializer.Serialize(result.Errors));
+                    }
+                }
+            }
+            else
+            {
+                throw new AuthException(validMessage);
+            }
+
+            return result;
+        }
+
         public async Task<IdentityResult> UpdateUser(User user)
         {
             var creationResult = await _userManager.UpdateAsync(user);
@@ -230,6 +264,27 @@ namespace UserService.Services.UserManager
                 };
             }
             return new ProfileModel();
+        }
+
+        public async Task<Association> SearchAssociationByEmail(string email)
+        {
+            var association = _uow.AssociationRepository.Get(null, null, (x => x.Email == email), "Name", SortDirection.Ascending).FirstOrDefault();
+
+            return association;
+        }
+
+        public async Task<Association> SearchAssociationByVat(string vat)
+        {
+            var association = _uow.AssociationRepository.Get(null, null, (x => x.Vat == vat), "Name", SortDirection.Ascending).FirstOrDefault();
+
+            return association;
+        }
+
+        public async Task<Association> SearchAssociationById(int associationId)
+        {
+            var association = _uow.AssociationRepository.Get(null, null, (x => x.Id == associationId), "Name", SortDirection.Ascending).FirstOrDefault();
+
+            return association;
         }
 
         private async Task<string> ValidatePassword(string password)

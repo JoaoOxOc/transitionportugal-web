@@ -12,7 +12,7 @@ using UserService.Services.Database;
 namespace UserService.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20220208190908_init")]
+    [Migration("20220217121432_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -65,7 +65,7 @@ namespace UserService.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2022, 2, 8, 19, 9, 8, 253, DateTimeKind.Local).AddTicks(3321),
+                            CreatedAt = new DateTime(2022, 2, 17, 12, 14, 31, 835, DateTimeKind.Local).AddTicks(5800),
                             DefaultValue = "3",
                             Description = "Número máximo de tentativas de autenticação falhadas",
                             Key = "MaxLoginAttempts",
@@ -75,7 +75,7 @@ namespace UserService.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2022, 2, 8, 19, 9, 8, 253, DateTimeKind.Local).AddTicks(3327),
+                            CreatedAt = new DateTime(2022, 2, 17, 12, 14, 31, 835, DateTimeKind.Local).AddTicks(5807),
                             DefaultValue = "6Lf2t0sUAAAAABiszBasjJuBZXTdqMy00zOKPOFt",
                             Description = "Site key usada pelo serviço de reCAPTCHA da Google",
                             Key = "CaptchaSiteKey",
@@ -85,7 +85,7 @@ namespace UserService.Migrations
                         new
                         {
                             Id = 3,
-                            CreatedAt = new DateTime(2022, 2, 8, 19, 9, 8, 253, DateTimeKind.Local).AddTicks(3331),
+                            CreatedAt = new DateTime(2022, 2, 17, 12, 14, 31, 835, DateTimeKind.Local).AddTicks(5809),
                             DefaultValue = "6Lf2t0sUAAAAAPwP3kIvpynFqPp-7_QLfQoDQtZd",
                             Description = "Secret key usada pelo serviço de reCAPTCHA da Google",
                             Key = "CaptchaSecretKey",
@@ -123,25 +123,25 @@ namespace UserService.Migrations
                         new
                         {
                             Id = "e762fd61-0f58-4c5d-ad0e-7bd322ae3ccf",
-                            ConcurrencyStamp = "c9afdd30-3be4-44d3-b4f2-8c1995fec86b",
+                            ConcurrencyStamp = "cf21aab3-0aaa-4114-8e09-1f1f420145c2",
                             Name = "Admin"
                         },
                         new
                         {
                             Id = "244d3f1a-8594-4adb-9c59-5ec36fcdbf03",
-                            ConcurrencyStamp = "f4a8d11a-1319-459f-9e03-682aa65cfce8",
+                            ConcurrencyStamp = "e6057a07-d29d-426d-b031-3ea2c71f5344",
                             Name = "AssociationAdmin"
                         },
                         new
                         {
                             Id = "179642d9-0f10-4d7d-a1a0-b485b3f6659f",
-                            ConcurrencyStamp = "03f3ec8c-f54c-4939-ad87-82792a5546c8",
+                            ConcurrencyStamp = "a03ecbd4-7154-4f91-b999-0ef2fb0ab278",
                             Name = "User"
                         },
                         new
                         {
                             Id = "69d5274f-235d-4013-bbac-0c4eddf31ecc",
-                            ConcurrencyStamp = "57d6b834-68ff-40a0-b59b-5a2fd0a0bb07",
+                            ConcurrencyStamp = "a1a84a62-4885-4939-8f37-0f4fc71e159a",
                             Name = "AssociationUser"
                         });
                 });
@@ -314,9 +314,60 @@ namespace UserService.Migrations
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<string>("Vat")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
                     b.ToTable("Association");
+                });
+
+            modelBuilder.Entity("UserService.Entities.ClientCredential", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int?>("Id"));
+
+                    b.Property<string>("ClientId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("ClientSecret")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ClientCredential");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ClientId = "tpbackoffice",
+                            ClientSecret = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIwYmQyYWQ5My1iMTY2LTQ3YzItYWRlMS01OWNiM2U1OWIwNWQiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjUwMDAifQ.fOilP5WNeFwYVFKKFqHU6HBdBHZRp_lBWAEKaKK2sp5Tfce5DkZ3oXd_Rtna_HV73uwIAS_0EOvS-KEy3G3Ea3pZTtAUeJs_ebRMn582dggQICgN06oX1MomQBFzpnbVopWmvVpdpmnILStODcufpRnX6RVPcDRkPKvkNMDqhaFVCB_ImA1m2Rek2eY47nGmfRsp9MOyczRYZHzHtGfd-KQbBl4FYI_oB3h_-dbr8KqANJo9jQMhOR_cZMbqTPtQ1LDB8ZgoavP52DGSIG2ir38RrFFHzpFEJ2iSdPQ-uecyIOygDbXXxvYCebw1zi9R49dyyEc9IRaj7Dl2qAslsWgN2Z68dghUwvP-ctq0bVNN4Oq5zHRaIFB516wsQduOYOm__gaIT5nMhMtC19EJeupjEM-dAsN4gj8IbkWSavE6I7v-1jxCevPLTasmRwOetllq7aTNLAAsv98UyGawcFbeG3JcNScLc_i1Cypft4ezrqGmA5S0KrjmTRbTJSUwO3RdM-Pj_YrNXUtkXzW-b1CERrslsV-fUV_qkH2AVvV2Z31e1OksdfUxdqubhcYSwHWmB5YEipe13kLEEamwuOkp2t6eW5xB4ZJbMC5RReWrdzHnrG74JKFnIq4yU7-aLX1z88ekvNAnI5sYvhgNUNBSC0hYRbn51BuVheL2YtE",
+                            Description = "transição portugal backoffice",
+                            Name = "tpbackoffice"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ClientId = "tphome",
+                            ClientSecret = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI4NGYzZTllYi03YjBlLTQ3ODgtYmE1OS01YmNmNDJkNGZmZWYiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjUwMDAifQ.YnZhWhNm82PoUWORjtjsaUi4CqnTLP2y7u5sjminnxyhXlTx3y50RkmGzyW80ghfjnstWowScZ64S-l4EQr29dAVkQDT0bz6K3Sl5sy2IPE2DAuxfWhToAwCi9v30ZhiRkrMSoFAaXIkHiBISrg7sH0R9za3ruzckMQ6cw6buu3n4EhpXQAJH1Ap49579GzH5Qd2LxAZkLI0G8_GM790uJFrOGS5rmoFUP_LjhVZkEXUZuOarh6nu5vHE4xknFMRW4JV7gPkX7FLRf1-9erVnk_s9QlsVMF-SgahMZmJbjUx3h6IIyCPb5AEiTiExKJdEpY3YWtkm0FD34ZgkmDfNQkM3jCSEe8KxhV4Y2WKaktqslxayGwUi20k1Q-69Nlt2hWHgfAsnXUEfKwlNN73sDn5LabK4IjmYmlY2IGf-2jHRQnaKHqxkczRboQFjNoLL6Gq9X7SOT4bFpaP717-r_7KEIiZx9_yw-isrm8umGMMu5uxj5XwcGzxqUHaVxDV-EvgkpDwsP3MR7DXpWePmgIrDAVhRRHP5o9fHWRqQyxypg_Fx-SnP9gVnf48nqLdxiTiM7A9Qabc37L-mY0rOCnM1DtTnZRuHF7gTjRpirduiWkifhf8P4WftWGya5Z5D5ftGqpBlDht6jK4FK2Ju5dREkVE7aNg0f7eUsCFrLo",
+                            Description = "transição portugal homepage",
+                            Name = "tphome"
+                        });
                 });
 
             modelBuilder.Entity("UserService.Entities.RoleScope", b =>
@@ -555,18 +606,18 @@ namespace UserService.Migrations
                         {
                             Id = "b74ddd14-6340-4840-95c2-db12554843e5",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c4accf39-a7b2-4cdf-9e6b-fa80283489bc",
-                            CreatedAt = new DateTime(2022, 2, 8, 19, 9, 8, 253, DateTimeKind.Local).AddTicks(2557),
+                            ConcurrencyStamp = "cbf3dca2-e886-4862-9905-5f3ca7f0a42d",
+                            CreatedAt = new DateTime(2022, 2, 17, 12, 14, 31, 835, DateTimeKind.Local).AddTicks(5262),
                             Email = "admin@tp.int",
                             EmailConfirmed = false,
                             IsActive = true,
                             IsVerified = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "Administrator",
-                            PasswordHash = "$2b$10$ud6vOEhTYoJQwYuKSsHwreazz3Rod1vEDwKjLmrti56dG2yH7UC..",
+                            PasswordHash = "$2b$10$T0XCgQEZnNvnUYsPmlGl0OwYZGnSScaQzshjgTAHfmpizLo.psp2O",
                             PhoneNumberConfirmed = false,
                             RefreshTokenExpiryTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SecurityStamp = "65885718-255d-42a1-8291-7438c5733b48",
+                            SecurityStamp = "322f9a5e-27a0-4e1d-9b80-d31829a10a01",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });

@@ -27,6 +27,7 @@ export var RESET_TRANSLATIONS = deepFreeze({
         confirmPasswordRequired: "Please confirm your inserted password",
         tokenExpiredError: "Your reset request is expired. Please request again the password recovery.",
         userNotFoundError: "Your account was not found. Please contact Transição Portugal for help.",
+        passwordComplexityError: "Your new password must contain a non alphanumeric character, a number, an uppercase and a lowercase.",
         passwordReset: "Password Changed.",
         successMessage: "You can now proceed for authentication and use it",
     }

@@ -5,7 +5,9 @@ export const genericFetch = async (apiUrl, method, bearerToken, bodyJson) => {
         'Pragma': 'no-cache',
         'Expires': 'Sat, 01 Jan 2000 00:00:00 GMT',
         'Accept': '*/*',
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "ClientId": process.env.NEXT_PUBLIC_CLIENT_ID,
+        "ClientAuthorization": process.env.NEXT_PUBLIC_CLIENT_SECRET
     };
     if (bearerToken) {
         headers["Authorization"] = "bearer "+ bearerToken;

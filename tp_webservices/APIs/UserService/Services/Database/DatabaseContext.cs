@@ -4,13 +4,16 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using UserService.Entities;
 using UserService.Migrations.Config;
+using UserService.Services.UserManager;
 
 namespace UserService.Services.Database
 {
     public class DatabaseContext : IdentityDbContext<User>
     {
-        public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
+        private readonly ITokenManager _tokenManager;
+        public DatabaseContext(DbContextOptions<DatabaseContext> options, ITokenManager tokenManager) : base(options)
         {
+            _tokenManager = tokenManager;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -28,7 +31,7 @@ namespace UserService.Services.Database
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            new DbInitializer(modelBuilder).Seed();
+            new DbInitializer(modelBuilder, _tokenManager).Seed();
         }
 
         public DbSet<User> User { get; set; }
@@ -36,5 +39,6 @@ namespace UserService.Services.Database
         public DbSet<Scope> Scope { get; set; }
         public DbSet<RoleScope> RoleScope { get; set; }
         public DbSet<Setting> Setting { get; set; }
+        public DbSet<ClientCredential> ClientCredential { get; set; }
     }
 }

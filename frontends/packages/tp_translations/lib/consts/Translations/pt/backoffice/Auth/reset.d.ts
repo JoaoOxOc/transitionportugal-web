@@ -26,6 +26,7 @@ export declare const RESET_TRANSLATIONS: {
         readonly confirmPasswordRequired: "Por favor confirma a tua palavra-passe inserida";
         readonly tokenExpiredError: "O seu pedido de recuperação expirou. Por favor requisite novamente a recuperação da palavra-passe.";
         readonly userNotFoundError: "A sua conta não foi encontrada. Por favor contacte a Transição Portugal para obter ajuda.";
+        readonly passwordComplexityError: "A sua nova palavra-passe tem de conter, pelo menos, 1 símbolo, 1 número, 1 letra maiúscula e outra minúscula.";
         readonly passwordReset: "Palavra-passe alterada.";
         readonly successMessage: "Pode agora proceder para autenticação e utilizar a sua nova palavra-passe";
     };

@@ -5,20 +5,31 @@ using Microsoft.EntityFrameworkCore;
 using UserService.Entities;
 using UserService.Enum;
 using UserService.Services.Database;
+using UserService.Services.UserManager;
 
 namespace UserService.Migrations.Config
 {
     public class DbInitializer
     {
         private readonly ModelBuilder modelBuilder;
+        private readonly ITokenManager _tokenManager;
 
-        public DbInitializer(ModelBuilder modelBuilder)
+        public DbInitializer(ModelBuilder modelBuilder, ITokenManager tokenManager)
         {
             this.modelBuilder = modelBuilder;
+            this._tokenManager = tokenManager;
         }
 
         public void Seed()
         {
+            #region Client credentials
+
+            modelBuilder.Entity<ClientCredential>().HasData(
+                new ClientCredential { Id = 1, Name = "tpbackoffice", ClientId= "tpbackoffice", Description="transição portugal backoffice", ClientSecret = _tokenManager.GetClientToken().Token },
+                new ClientCredential { Id = 2, Name = "tphome", ClientId = "tphome", Description = "transição portugal homepage", ClientSecret = _tokenManager.GetClientToken().Token }
+            );
+
+            #endregion
 
             #region Roles
 

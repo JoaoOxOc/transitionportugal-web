@@ -36,6 +36,7 @@ namespace UserService.Migrations
                     Address = table.Column<string>(type: "text", nullable: false),
                     Town = table.Column<string>(type: "text", nullable: false),
                     PostalCode = table.Column<string>(type: "text", nullable: false),
+                    Vat = table.Column<string>(type: "text", nullable: false),
                     LogoImage = table.Column<string>(type: "text", nullable: false),
                     Filename = table.Column<string>(type: "text", nullable: false),
                     ContractStartDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
@@ -47,6 +48,22 @@ namespace UserService.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Association", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ClientCredential",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    ClientId = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    ClientSecret = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClientCredential", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -258,16 +275,25 @@ namespace UserService.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "179642d9-0f10-4d7d-a1a0-b485b3f6659f", "03f3ec8c-f54c-4939-ad87-82792a5546c8", "User", null },
-                    { "244d3f1a-8594-4adb-9c59-5ec36fcdbf03", "f4a8d11a-1319-459f-9e03-682aa65cfce8", "AssociationAdmin", null },
-                    { "69d5274f-235d-4013-bbac-0c4eddf31ecc", "57d6b834-68ff-40a0-b59b-5a2fd0a0bb07", "AssociationUser", null },
-                    { "e762fd61-0f58-4c5d-ad0e-7bd322ae3ccf", "c9afdd30-3be4-44d3-b4f2-8c1995fec86b", "Admin", null }
+                    { "179642d9-0f10-4d7d-a1a0-b485b3f6659f", "a03ecbd4-7154-4f91-b999-0ef2fb0ab278", "User", null },
+                    { "244d3f1a-8594-4adb-9c59-5ec36fcdbf03", "e6057a07-d29d-426d-b031-3ea2c71f5344", "AssociationAdmin", null },
+                    { "69d5274f-235d-4013-bbac-0c4eddf31ecc", "a1a84a62-4885-4939-8f37-0f4fc71e159a", "AssociationUser", null },
+                    { "e762fd61-0f58-4c5d-ad0e-7bd322ae3ccf", "cf21aab3-0aaa-4114-8e09-1f1f420145c2", "Admin", null }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "AssociationId", "ConcurrencyStamp", "CreatedAt", "CreatedBy", "Email", "EmailConfirmed", "IsActive", "IsVerified", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "RefreshToken", "RefreshTokenExpiryTime", "SecurityStamp", "TwoFactorEnabled", "UpdatedAt", "UpdatedBy", "UserName" },
-                values: new object[] { "b74ddd14-6340-4840-95c2-db12554843e5", 0, null, "c4accf39-a7b2-4cdf-9e6b-fa80283489bc", new DateTime(2022, 2, 8, 19, 9, 8, 253, DateTimeKind.Local).AddTicks(2557), null, "admin@tp.int", false, true, true, false, null, null, "Administrator", "$2b$10$ud6vOEhTYoJQwYuKSsHwreazz3Rod1vEDwKjLmrti56dG2yH7UC..", null, false, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "65885718-255d-42a1-8291-7438c5733b48", false, null, null, "admin" });
+                values: new object[] { "b74ddd14-6340-4840-95c2-db12554843e5", 0, null, "cbf3dca2-e886-4862-9905-5f3ca7f0a42d", new DateTime(2022, 2, 17, 12, 14, 31, 835, DateTimeKind.Local).AddTicks(5262), null, "admin@tp.int", false, true, true, false, null, null, "Administrator", "$2b$10$T0XCgQEZnNvnUYsPmlGl0OwYZGnSScaQzshjgTAHfmpizLo.psp2O", null, false, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "322f9a5e-27a0-4e1d-9b80-d31829a10a01", false, null, null, "admin" });
+
+            migrationBuilder.InsertData(
+                table: "ClientCredential",
+                columns: new[] { "Id", "ClientId", "ClientSecret", "Description", "Name" },
+                values: new object[,]
+                {
+                    { 1, "tpbackoffice", "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIwYmQyYWQ5My1iMTY2LTQ3YzItYWRlMS01OWNiM2U1OWIwNWQiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjUwMDAifQ.fOilP5WNeFwYVFKKFqHU6HBdBHZRp_lBWAEKaKK2sp5Tfce5DkZ3oXd_Rtna_HV73uwIAS_0EOvS-KEy3G3Ea3pZTtAUeJs_ebRMn582dggQICgN06oX1MomQBFzpnbVopWmvVpdpmnILStODcufpRnX6RVPcDRkPKvkNMDqhaFVCB_ImA1m2Rek2eY47nGmfRsp9MOyczRYZHzHtGfd-KQbBl4FYI_oB3h_-dbr8KqANJo9jQMhOR_cZMbqTPtQ1LDB8ZgoavP52DGSIG2ir38RrFFHzpFEJ2iSdPQ-uecyIOygDbXXxvYCebw1zi9R49dyyEc9IRaj7Dl2qAslsWgN2Z68dghUwvP-ctq0bVNN4Oq5zHRaIFB516wsQduOYOm__gaIT5nMhMtC19EJeupjEM-dAsN4gj8IbkWSavE6I7v-1jxCevPLTasmRwOetllq7aTNLAAsv98UyGawcFbeG3JcNScLc_i1Cypft4ezrqGmA5S0KrjmTRbTJSUwO3RdM-Pj_YrNXUtkXzW-b1CERrslsV-fUV_qkH2AVvV2Z31e1OksdfUxdqubhcYSwHWmB5YEipe13kLEEamwuOkp2t6eW5xB4ZJbMC5RReWrdzHnrG74JKFnIq4yU7-aLX1z88ekvNAnI5sYvhgNUNBSC0hYRbn51BuVheL2YtE", "transição portugal backoffice", "tpbackoffice" },
+                    { 2, "tphome", "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI4NGYzZTllYi03YjBlLTQ3ODgtYmE1OS01YmNmNDJkNGZmZWYiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjUwMDAifQ.YnZhWhNm82PoUWORjtjsaUi4CqnTLP2y7u5sjminnxyhXlTx3y50RkmGzyW80ghfjnstWowScZ64S-l4EQr29dAVkQDT0bz6K3Sl5sy2IPE2DAuxfWhToAwCi9v30ZhiRkrMSoFAaXIkHiBISrg7sH0R9za3ruzckMQ6cw6buu3n4EhpXQAJH1Ap49579GzH5Qd2LxAZkLI0G8_GM790uJFrOGS5rmoFUP_LjhVZkEXUZuOarh6nu5vHE4xknFMRW4JV7gPkX7FLRf1-9erVnk_s9QlsVMF-SgahMZmJbjUx3h6IIyCPb5AEiTiExKJdEpY3YWtkm0FD34ZgkmDfNQkM3jCSEe8KxhV4Y2WKaktqslxayGwUi20k1Q-69Nlt2hWHgfAsnXUEfKwlNN73sDn5LabK4IjmYmlY2IGf-2jHRQnaKHqxkczRboQFjNoLL6Gq9X7SOT4bFpaP717-r_7KEIiZx9_yw-isrm8umGMMu5uxj5XwcGzxqUHaVxDV-EvgkpDwsP3MR7DXpWePmgIrDAVhRRHP5o9fHWRqQyxypg_Fx-SnP9gVnf48nqLdxiTiM7A9Qabc37L-mY0rOCnM1DtTnZRuHF7gTjRpirduiWkifhf8P4WftWGya5Z5D5ftGqpBlDht6jK4FK2Ju5dREkVE7aNg0f7eUsCFrLo", "transição portugal homepage", "tphome" }
+                });
 
             migrationBuilder.InsertData(
                 table: "Scope",
@@ -285,9 +311,9 @@ namespace UserService.Migrations
                 columns: new[] { "Id", "CreatedAt", "DefaultValue", "Description", "Key", "SettingType", "UpdatedAt", "Value" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2022, 2, 8, 19, 9, 8, 253, DateTimeKind.Local).AddTicks(3321), "3", "Número máximo de tentativas de autenticação falhadas", "MaxLoginAttempts", 3, null, "3" },
-                    { 2, new DateTime(2022, 2, 8, 19, 9, 8, 253, DateTimeKind.Local).AddTicks(3327), "6Lf2t0sUAAAAABiszBasjJuBZXTdqMy00zOKPOFt", "Site key usada pelo serviço de reCAPTCHA da Google", "CaptchaSiteKey", 3, null, "6Lf2t0sUAAAAABiszBasjJuBZXTdqMy00zOKPOFt" },
-                    { 3, new DateTime(2022, 2, 8, 19, 9, 8, 253, DateTimeKind.Local).AddTicks(3331), "6Lf2t0sUAAAAAPwP3kIvpynFqPp-7_QLfQoDQtZd", "Secret key usada pelo serviço de reCAPTCHA da Google", "CaptchaSecretKey", 3, null, "6Lf2t0sUAAAAAPwP3kIvpynFqPp-7_QLfQoDQtZd" }
+                    { 1, new DateTime(2022, 2, 17, 12, 14, 31, 835, DateTimeKind.Local).AddTicks(5800), "3", "Número máximo de tentativas de autenticação falhadas", "MaxLoginAttempts", 3, null, "3" },
+                    { 2, new DateTime(2022, 2, 17, 12, 14, 31, 835, DateTimeKind.Local).AddTicks(5807), "6Lf2t0sUAAAAABiszBasjJuBZXTdqMy00zOKPOFt", "Site key usada pelo serviço de reCAPTCHA da Google", "CaptchaSiteKey", 3, null, "6Lf2t0sUAAAAABiszBasjJuBZXTdqMy00zOKPOFt" },
+                    { 3, new DateTime(2022, 2, 17, 12, 14, 31, 835, DateTimeKind.Local).AddTicks(5809), "6Lf2t0sUAAAAAPwP3kIvpynFqPp-7_QLfQoDQtZd", "Secret key usada pelo serviço de reCAPTCHA da Google", "CaptchaSecretKey", 3, null, "6Lf2t0sUAAAAAPwP3kIvpynFqPp-7_QLfQoDQtZd" }
                 });
 
             migrationBuilder.InsertData(
@@ -382,6 +408,9 @@ namespace UserService.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "ClientCredential");
 
             migrationBuilder.DropTable(
                 name: "RoleScope");

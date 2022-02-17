@@ -20,5 +20,10 @@ namespace UserService.Services.UserManager
         Task<List<Claim>> GetUserScopes(User user);
         Task<List<User>> GetUsers();
         Task<ProfileModel> GetUserProfileById(string userId);
+
+        Task<IdentityResult> CreateUserWithAssociation(User user, Association association, string password);
+        Task<Association> SearchAssociationByEmail(string email);
+        Task<Association> SearchAssociationByVat(string vat);
+        Task<Association> SearchAssociationById(int associationId);
     }
 }

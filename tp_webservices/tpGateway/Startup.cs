@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
@@ -77,6 +78,7 @@ namespace tpGateway
 
                 return new RsaSecurityKey(rsa);
             });
+            services.TryAddSingleton<ITokenManager,TokenManager>();
 
             // Adding Authentication
             services.AddAuthentication()
@@ -135,8 +137,30 @@ namespace tpGateway
                 endpoints.MapControllers();
             });
 
-            //var configuration = new OcelotPipelineConfiguration
-            //{
+            var configuration = new OcelotPipelineConfiguration
+            {
+                //Implementing a custom client credentials check, since I'm not using IdentityServer
+                PreAuthorizationMiddleware = async (ctx, next) =>
+                {
+                    var downstreamRoute = ctx.Items.DownstreamRoute();
+                    string clientId = ctx.Request.Headers["ClientId"].ToString();
+                    string clientToken = ctx.Request.Headers["ClientAuthorization"].ToString();
+
+                    var tokenManager = app.ApplicationServices.GetRequiredService<ITokenManager>();
+                    var validated = tokenManager.ValidateClient(clientId, clientToken);
+                    if (!validated)
+                    {
+                        ctx.Items.SetError(new UnauthorizedError("client_not_authorized"));
+                    }
+                    else
+                    {
+
+                        logger.LogInformation("route client app is authorized: " + validated);
+                    }
+
+                    await next.Invoke();
+                }
+            };
             //    PreQueryStringBuilderMiddleware = async (ctx, next) =>
             //    {
             //        await next.Invoke();
@@ -194,7 +218,7 @@ namespace tpGateway
             app.UseSwaggerForOcelotUI(opt =>
             {
                 opt.PathToSwaggerGenerator = "/swagger/docs";
-            }).UseOcelot().Wait();
+            }).UseOcelot(configuration).Wait();
         }
     }
 }
