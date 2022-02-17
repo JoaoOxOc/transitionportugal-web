@@ -56,7 +56,14 @@ namespace UserService.Services.UserManager
             {
                 if(await _userManager.CheckPasswordAsync(user, password))
                 {
-                    return user;
+                    if(user.IsVerified && user.IsActive)
+                    {
+                        return user;
+                    }
+                    else
+                    {
+                        return null;
+                    }
                 }
                 else
                 {
@@ -99,6 +106,17 @@ namespace UserService.Services.UserManager
             return authClaims;
         }
 
+        public async Task<List<Claim>> GetAssociationClaimsConfirmEmail(Association association)
+        {
+            var authClaims = new List<Claim>
+                {
+                    new Claim("associationId", association.Id.ToString()),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                };
+
+            return authClaims;
+        }
+
         public async Task<List<Claim>> GetUserScopes(User user)
         {
             var userRoles = await _userManager.GetRolesAsync(user);
@@ -134,9 +152,9 @@ namespace UserService.Services.UserManager
             return creationResult;
         }
 
-        public async Task<IdentityResult> CreateUserWithAssociation(User user, Association association, string password)
+        public async Task<KeyValuePair<User, Association>> CreateUserWithAssociation(User user, Association association, string password)
         {
-            IdentityResult result = null;
+            KeyValuePair<User, Association> creationData = new KeyValuePair<User, Association>();
             var newPasswordHashed = BCrypt.Net.BCrypt.HashPassword(password);
             var validMessage = await this.ValidatePassword(password);
             if (validMessage == "Succeeded")
@@ -145,14 +163,17 @@ namespace UserService.Services.UserManager
                 var creationResult = await _userManager.CreateAsync(user);
                 if (creationResult.Succeeded)
                 {
-                    result = await _userManager.AddPasswordAsync(user, newPasswordHashed);
+                    var result = await _userManager.AddPasswordAsync(user, newPasswordHashed);
                     if (result.Succeeded)
                     {
+                        _uow.AssociationRepository.Add(association);
+                        _uow.Save();
+
+                        user.AssociationId = association.Id;
                         user.PasswordHash = newPasswordHashed;
                         _uow.UserRepository.Add(user);
 
-                        _uow.AssociationRepository.Add(association);
-                        _uow.Save();
+                        creationData = new KeyValuePair<User, Association>(user, association);
                     }
                     else
                     {
@@ -165,7 +186,7 @@ namespace UserService.Services.UserManager
                 throw new AuthException(validMessage);
             }
 
-            return result;
+            return creationData;
         }
 
         public async Task<IdentityResult> UpdateUser(User user)
@@ -173,6 +194,15 @@ namespace UserService.Services.UserManager
             var creationResult = await _userManager.UpdateAsync(user);
 
             return creationResult;
+        }
+
+        public async Task<Association> UpdateAssociation(Association association)
+        {
+            association.UpdatedAt = DateTime.Now;
+            _uow.AssociationRepository.Update(association);
+            _uow.Save();
+
+            return association;
         }
 
         public async Task<bool> UpdateUserPassword(string userId, string newPassword)

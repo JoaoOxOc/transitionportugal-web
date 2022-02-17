@@ -17,7 +17,7 @@ namespace UserService.Services.UserManager
             _configuration = configuration;
         }
 
-        public JwtResponse GetToken(List<Claim> authClaims)
+        public JwtResponse GetToken(List<Claim> authClaims, int? expireTimeMinutes)
         {
             var privateKey = Convert.FromBase64String(_configuration["JWT:SecretPrivateKey"]);
 
@@ -30,7 +30,15 @@ namespace UserService.Services.UserManager
             };
 
             //var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
-            _ = int.TryParse(_configuration["JWT:TokenValidityInMinutes"], out int tokenValidityInMinutes);
+            int tokenValidityInMinutes = 0;
+            if (expireTimeMinutes.HasValue)
+            {
+                tokenValidityInMinutes = expireTimeMinutes.Value;
+            }
+            else
+            {
+                _ = int.TryParse(_configuration["JWT:TokenValidityInMinutes"], out tokenValidityInMinutes);
+            }
 
             var token = new JwtSecurityToken(
                 issuer: _configuration["JWT:ValidIssuer"],

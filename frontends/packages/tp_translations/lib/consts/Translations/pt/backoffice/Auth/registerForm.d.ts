@@ -10,15 +10,31 @@ export declare const REGISTERFORM_TRANSLATIONS: {
         readonly step1Title: "Informação do Representante";
         readonly step2Title: "Informação da Iniciativa/Movimento";
         readonly step3Title: "Concluir registo";
+        readonly buttonToLogin: "Botão de link para a página de autenticação";
+        readonly goLogIn: "Continuar para a autenticação";
     };
     readonly FORMS: {
         readonly emailAddress: "Endereço de Email";
+        readonly emailAddress_help: "Insere o teu endereço de email a ser usado pela tua conta na aplicação";
         readonly usernameOrEmailAddress: "Username/Email";
         readonly username: "Username";
+        readonly username_help: "Insere o teu username que será usado no processo de autenticação na aplicação";
         readonly firstName: "Nome";
+        readonly firstName_help: "Campo para preencher o teu primeiro nome";
         readonly lastName: "Apelido";
+        readonly lastName_help: "Campo para preencher o teu apelido";
         readonly password: "Palavra-passe";
+        readonly password_help: "Insere a tua Palavra-passe que será usada no processo de autenticação na aplicação";
         readonly confirmPassword: "Confirma a Palavra-passe";
+        readonly confirmPassword_help: "Insere novamente a tua Palavra-passe por forma a confirmá-la";
+        readonly confirmTerms: "Caixa de confirmação de que concordas com os termos de uso da aplicação";
+        readonly confirmTerms_help: "Valida que concordas com os termos de uso. Podes consultá-los através do link para o popup de leitura dos mesmos à frente desta caixa de verificação";
+        readonly confirmTermsPopup: "Link que abre o popup para consulta dos termos de uso";
+        readonly associationName: "Nome da Iniciativa/Movimento";
+        readonly associationEmail: "Email da Iniciativa/Movimento";
+        readonly associationVat: "NIF da Iniciativa/Movimento";
+        readonly associationAddress: "Morada da Iniciativa/Movimento";
+        readonly associationTown: "Concelho da Iniciativa/Movimento";
     };
     readonly PLACEHOLDER: {
         readonly firstName: "Escreve o teu primeiro nome aqui...";
@@ -48,6 +64,20 @@ export declare const REGISTERFORM_TRANSLATIONS: {
         readonly passwordsNoMatch: "As palavras-passe inseridas têm de ser idênticas";
         readonly confirmPasswordRequired: "Por favor confirma a tua palavra-passe inserida";
         readonly termsRequired: "Por favor aceite os nossos termos e condições";
+        readonly associationEmailInvalid: "O email fornecido deverá ser um endereço de email válido";
+        readonly associationEmailRequired: "O Email é obrigatório";
+        readonly associationEmailTooBig: "O Email não pode ter mais do que {{number}} caracteres";
+        readonly associationEmailAlreadyTaken: "O email inserido já está a ser utilizado";
+        readonly associationNameTooBig: "O nome da Iniciativa/Movimento não pode ter mais do que {{number}} caracteres";
+        readonly associationNameRequired: "O nome da Iniciativa/Movimento é obrigatório";
+        readonly associationVatTooBig: "O NIF da Iniciativa/Movimento não pode ter mais do que {{number}} caracteres";
+        readonly associationVatAlreadyTaken: "O NIF inserido já está a ser utilizado";
+        readonly associationVatInvalid: "O NIF inserido não é um NIF válido na UE";
+        readonly associationAddressTooBig: "O endereço da Iniciativa/Movimento não pode ter mais do que {{number}} caracteres";
+        readonly associationTownTooBig: "O concelho da Iniciativa/Movimento não pode ter mais do que {{number}} caracteres";
+        readonly associationTownRequired: "O concelho da Iniciativa/Movimento é obrigatório";
+        readonly confirmationEmailSent: "O pedido de confirmação do email foi enviado para cada um dos emails";
+        readonly successfulMessage: "Obrigado pelo teu registo. Os teus dados estão agora a ser verificados. Por favor aguarda por email com mais instruções";
     };
 };
 //# sourceMappingURL=registerForm.d.ts.map

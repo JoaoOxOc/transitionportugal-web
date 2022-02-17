@@ -20,6 +20,12 @@ namespace UserService.Models
         [Required(ErrorMessage = "Password is required")]
         public string? Password { get; set; }
 
+        [Required(ErrorMessage = "Confirm Password is required")]
+        public string? ConfirmPassword { get; set; }
+
+        [Required(ErrorMessage = "Terms confirm is required")]
+        public bool? TermsConfirmed { get; set; }
+
         [Required(ErrorMessage = "Association Name is required")]
         public string? AssociationName { get; set; }
 

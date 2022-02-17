@@ -115,6 +115,22 @@
       }
     },
     {
+      "DownstreamPathTemplate": "/api/authenticate/confirm-email",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tp_userservice",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/user/confirmemail",
+      "UpstreamHttpMethod": [ "Get" ],
+      "SwaggerKey": "UserService",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "TpAuthKey"
+      }
+    },
+    {
       "DownstreamPathTemplate": "/api/client/register",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -124,7 +140,37 @@
         }
       ],
       "UpstreamPathTemplate": "/app/clientregister",
-      "UpstreamHttpMethod": [ "Post" ]
+      "UpstreamHttpMethod": [ "Post" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "TpAuthKey",
+        "AllowedScopes": [ "client.admin" ]
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/association/search-association",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tp_userservice",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/association/search",
+      "UpstreamHttpMethod": [ "Post" ],
+      "SwaggerKey": "UserService"
+    },
+    {
+      "DownstreamPathTemplate": "/api/association/validate-vat",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tp_userservice",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/association/validatevat",
+      "UpstreamHttpMethod": [ "Post" ],
+      "SwaggerKey": "UserService"
     }
   ],
   "SwaggerEndPoints": [

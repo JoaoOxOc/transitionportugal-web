@@ -96,6 +96,8 @@ export const LoginJWT = (props) => {
         autoFocus
         helperText={formik.touched.email && formik.errors.email}
         label={t('FORMS.usernameOrEmailAddress')}
+        aria-labelledby={ t('FORMS.usernameOrEmailAddress') } 
+        aria-describedby={ t('FORMS.usernameOrEmailAddress_help') }
         name="email"
         onBlur={formik.handleBlur}
         onChange={formik.handleChange}
@@ -109,6 +111,8 @@ export const LoginJWT = (props) => {
         margin="normal"
         helperText={formik.touched.password && formik.errors.password}
         label={t('FORMS.password')}
+        aria-labelledby={ t('FORMS.password') } 
+        aria-describedby={ t('FORMS.password_help') }
         name="password"
         onBlur={formik.handleBlur}
         onChange={formik.handleChange}
@@ -121,6 +125,7 @@ export const LoginJWT = (props) => {
           control={
             <Checkbox
               checked={formik.values.terms}
+              aria-label={ t('LABELS.checkConfirmTerms') }
               name="terms"
               color="primary"
               onChange={formik.handleChange}
@@ -130,12 +135,12 @@ export const LoginJWT = (props) => {
             <>
               <Typography variant="body2">
                 {t('LABELS.accept')}{' '}
-                <Link href="#">{t('LABELS.terms')}</Link>.
+                <Link href="#" aria-label={ t('LABELS.linkToReadTerms') }>{t('LABELS.terms')}</Link>.
               </Typography>
             </>
           }
         />
-        <Link href="/auth/recover-password">
+        <Link href="/auth/recover-password" aria-label={ t('LABELS.buttonToRecoverPassword') }>
           <b>{t('LABELS.lostPassword')}</b>
         </Link>
       </Box>
@@ -153,6 +158,7 @@ export const LoginJWT = (props) => {
           formik.isSubmitting ? <CircularProgress size="1rem" /> : null
         }
         disabled={formik.isSubmitting}
+        aria-describedby={ t('FORMS.submit_help') } 
         type="submit"
         fullWidth
         size="large"

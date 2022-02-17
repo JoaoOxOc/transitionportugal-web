@@ -1,7 +1,8 @@
 ﻿using CommonLibrary.Entities.ViewModel;
+using CommonLibrary.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using UserService.Code;
+using System.Text.Json;
 using UserService.Entities;
 using UserService.Helpers;
 using UserService.Models;
@@ -39,7 +40,7 @@ namespace UserService.Controllers
 
                 var userScopes = await _userManager.GetUserScopes(user);
 
-                var tokenData = _tokenManager.GetToken(authClaims.Concat(userScopes).ToList());
+                var tokenData = _tokenManager.GetToken(authClaims.Concat(userScopes).ToList(), null);
                 var refreshTokenData = _tokenManager.GenerateRefreshToken(user.Id);
 
 
@@ -67,7 +68,7 @@ namespace UserService.Controllers
             {
                 return Ok(new
                 {
-                    user = user
+                    message = "user_exists"
                 });
             }
             return NotFound();
@@ -99,22 +100,28 @@ namespace UserService.Controllers
             var userExists = await _userManager.SearchUser(model.Username);
             var userEmailExists = await _userManager.SearchUser(model.Email);
             if (userExists != null || userEmailExists != null)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "user_exists" });
+                return StatusCode(StatusCodes.Status409Conflict, new Response { Status = "Error", Message = "user_exists" });
 
             var associationEmailExists = await _userManager.SearchAssociationByEmail(model.AssociationEmail);
             var associationVatExists = await _userManager.SearchAssociationByVat(model.AssociationVat);
             if (associationEmailExists != null || associationVatExists != null)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "association_exists" });
+                return StatusCode(StatusCodes.Status409Conflict, new Response { Status = "Error", Message = "association_exists" });
 
             Association association = new()
             {
                 Name = model.AssociationName,
                 Address = model.AssociationAddress,
                 Town = model.AssociationTown,
+                PostalCode = "",
                 Email = model.AssociationEmail,
                 Vat = model.AssociationVat,
+                Phone = "",
+                LogoImage = "",
+                Filename = "",
                 CreatedAt = DateTime.Now,
-                IsActive = false
+                IsActive = false,
+                IsVerified = false,
+                IsEmailVerified = false
             };
 
             User user = new()
@@ -125,13 +132,72 @@ namespace UserService.Controllers
                 CreatedAt = DateTime.Now,
                 UserName = model.Username,
                 IsVerified = false,
-                IsActive = false
+                IsActive = false,
+                IsEmailVerified = false
             };
             var result = await _userManager.CreateUserWithAssociation(user, association, model.Password);
-            if (result == null || !result.Succeeded)
+            if (result.Key == null || string.IsNullOrEmpty(result.Key.Id))
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
 
+            var userClaims = await _userManager.GetUserClaimsPasswordRecovery(result.Key);
+            var associationClaims = await _userManager.GetAssociationClaimsConfirmEmail(result.Value);
+
+            var userTokenData = _tokenManager.GetToken(userClaims, 1440);
+
+            var associationTokenData = _tokenManager.GetToken(associationClaims, 1440);
+            //TODO: send email verifications to the association email and to the user email - create a token for the email
+
             return Ok(new Response { Status = "Success", Message = "User created successfully!" });
+        }
+
+        [HttpGet]
+        [Route("confirm-email")]
+        public async Task<IActionResult> ConfirmEmail()
+        {
+            string header = HttpContext.Request.Headers["Authorization"];
+            string[] claims = new string[] { "userId", "associationId" };
+            List<JwtClaim> userClaims = JwtHelper.ValidateToken(header, _configuration["JWT:ValidAudience"], _configuration["JWT:ValidIssuer"], _configuration["JWT:SecretPublicKey"], claims);
+            if (userClaims != null && userClaims.Count > 0)
+            {
+                var user = await _userManager.SearchUserById(userClaims.Where(x => x.Claim == "userId").Single().Value);
+                if (user != null)
+                {
+                    user.IsEmailVerified = true;
+                    var result = await _userManager.UpdateUser(user);
+                    if (result != null && result.Succeeded)
+                    {
+                        return Ok(new Response { Status = "Success", Message = "email_verified" });
+                    }
+                    else
+                    {
+                        throw new AuthException("Error verifying email. Please try again");
+                    }
+                }
+                else
+                {
+                    int associationId = -1;
+                    int.TryParse(userClaims.Where(x => x.Claim == "associationId").Single().Value, out associationId);
+                    var association = await _userManager.SearchAssociationById(associationId);
+                    if (association != null)
+                    {
+                        association.IsEmailVerified = true;
+                        var result = await _userManager.UpdateAssociation(association);
+                        if (result != null)
+                        {
+                            return Ok(new Response { Status = "Success", Message = "email_verified" });
+                        }
+                        else
+                        {
+                            throw new AuthException("Error verifying email. Please try again");
+                        }
+                    }
+                }
+                return NotFound();
+            }
+            else
+            {
+                return Unauthorized("token_expired");
+            }
         }
 
         [HttpPost]
@@ -194,7 +260,7 @@ namespace UserService.Controllers
                 return BadRequest("Invalid access token or refresh token");
             }
 
-            var newAccessTokenData = _tokenManager.GetToken(principal.Claims.ToList());
+            var newAccessTokenData = _tokenManager.GetToken(principal.Claims.ToList(), null);
             var newRefreshTokenData = _tokenManager.GenerateRefreshToken(user.Id);
 
             user.RefreshToken = newRefreshTokenData.Key;
@@ -271,7 +337,7 @@ namespace UserService.Controllers
                 emailData.To = new List<string> { "jp_69_7@hotmail.com" };//TODO: replace with user.Email, only use the current line for testing
                 var authClaims = await _userManager.GetUserClaimsPasswordRecovery(user);
 
-                var tokenData = _tokenManager.GetToken(authClaims);
+                var tokenData = _tokenManager.GetToken(authClaims, null);
                 var emailLink = _configuration["ApplicationSettings:RecoverPasswordBaseUrl"] + _configuration["ApplicationSettings:RecoverPasswordUri"] + "?t=" + tokenData.Token;
                 emailData.Body = "Please access the following url to reset your password, you only have 15 minutes to reset your password:<br/><a target='_blank' rel='noopener noreferrer' href='" + emailLink + "'>" + emailLink + "</a>";
                 emailData.Subject = "Reset your password";

@@ -5,12 +5,18 @@ export declare const LOGINFORM_TRANSLATIONS: {
         readonly acceptTerms: "I accept the terms and conditions";
         readonly lostPassword: "Lost password?";
         readonly signInHere: "Sign in";
+        readonly checkConfirmTerms: "Checkbox for your confirmation of the terms of using this webapp.";
+        readonly linkToReadTerms: "Link to the terms reading popup.";
+        readonly buttonToRecoverPassword: "Button link to recover password webpage.";
     };
     readonly FORMS: {
         readonly emailAddress: "Email address";
         readonly usernameOrEmailAddress: "Username/Email";
+        readonly usernameOrEmailAddress_help: "Insert your account's email or username as login account identifier";
         readonly username: "Username";
         readonly password: "Password";
+        readonly password_help: "Insert your account password";
+        readonly submit_help: "This form authenticates your account then you enter in the webapp if authenticated successfully";
     };
     readonly MESSAGES: {
         readonly loginError: "Username/Email/password are incorrect!";

@@ -13,6 +13,7 @@ import {
   Collapse,
   Button,
   Avatar,
+  CircularProgress,
   IconButton,
   styled
 } from '@mui/material';
@@ -120,6 +121,7 @@ function RecoverPasswordBasic() {
         console.log(resetResult);
         if (resetResult.status === "Success") {
             setOpenDialog(true);
+            helpers.setSubmitting(false);
         }
         else {
             helpers.setStatus({ success: false });
@@ -216,7 +218,10 @@ function RecoverPasswordBasic() {
                       mt: 3
                     }}
                     color="primary"
-                    disabled={Boolean(formik.touched.username && formik.errors.username)}
+                    startIcon={
+                      formik.isSubmitting ? <CircularProgress size="1rem" /> : null
+                    }
+                    disabled={Boolean((formik.touched.username && formik.errors.username) || formik.isSubmitting)}
                     aria-describedby={ t('FORMS.submit_help') } 
                     // onClick={handleOpenDialog}
                     type="submit"

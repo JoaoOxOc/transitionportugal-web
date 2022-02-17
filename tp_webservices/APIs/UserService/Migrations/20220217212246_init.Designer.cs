@@ -12,7 +12,7 @@ using UserService.Services.Database;
 namespace UserService.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20220217121432_init")]
+    [Migration("20220217212246_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -65,7 +65,7 @@ namespace UserService.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2022, 2, 17, 12, 14, 31, 835, DateTimeKind.Local).AddTicks(5800),
+                            CreatedAt = new DateTime(2022, 2, 17, 21, 22, 45, 818, DateTimeKind.Local).AddTicks(492),
                             DefaultValue = "3",
                             Description = "Número máximo de tentativas de autenticação falhadas",
                             Key = "MaxLoginAttempts",
@@ -75,7 +75,7 @@ namespace UserService.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2022, 2, 17, 12, 14, 31, 835, DateTimeKind.Local).AddTicks(5807),
+                            CreatedAt = new DateTime(2022, 2, 17, 21, 22, 45, 818, DateTimeKind.Local).AddTicks(507),
                             DefaultValue = "6Lf2t0sUAAAAABiszBasjJuBZXTdqMy00zOKPOFt",
                             Description = "Site key usada pelo serviço de reCAPTCHA da Google",
                             Key = "CaptchaSiteKey",
@@ -85,7 +85,7 @@ namespace UserService.Migrations
                         new
                         {
                             Id = 3,
-                            CreatedAt = new DateTime(2022, 2, 17, 12, 14, 31, 835, DateTimeKind.Local).AddTicks(5809),
+                            CreatedAt = new DateTime(2022, 2, 17, 21, 22, 45, 818, DateTimeKind.Local).AddTicks(510),
                             DefaultValue = "6Lf2t0sUAAAAAPwP3kIvpynFqPp-7_QLfQoDQtZd",
                             Description = "Secret key usada pelo serviço de reCAPTCHA da Google",
                             Key = "CaptchaSecretKey",
@@ -123,25 +123,25 @@ namespace UserService.Migrations
                         new
                         {
                             Id = "e762fd61-0f58-4c5d-ad0e-7bd322ae3ccf",
-                            ConcurrencyStamp = "cf21aab3-0aaa-4114-8e09-1f1f420145c2",
+                            ConcurrencyStamp = "b5273dc8-94d4-4399-a88e-e9b9b1446efa",
                             Name = "Admin"
                         },
                         new
                         {
                             Id = "244d3f1a-8594-4adb-9c59-5ec36fcdbf03",
-                            ConcurrencyStamp = "e6057a07-d29d-426d-b031-3ea2c71f5344",
+                            ConcurrencyStamp = "cb8c8c74-9bb0-41e3-9f2e-2612fdfe85a5",
                             Name = "AssociationAdmin"
                         },
                         new
                         {
                             Id = "179642d9-0f10-4d7d-a1a0-b485b3f6659f",
-                            ConcurrencyStamp = "a03ecbd4-7154-4f91-b999-0ef2fb0ab278",
+                            ConcurrencyStamp = "e8efaf5b-33e0-4525-8964-2f64b0a81011",
                             Name = "User"
                         },
                         new
                         {
                             Id = "69d5274f-235d-4013-bbac-0c4eddf31ecc",
-                            ConcurrencyStamp = "a1a84a62-4885-4939-8f37-0f4fc71e159a",
+                            ConcurrencyStamp = "631837f8-eb6f-4023-8b91-0963fe7a8f6b",
                             Name = "AssociationUser"
                         });
                 });
@@ -291,6 +291,12 @@ namespace UserService.Migrations
                     b.Property<bool?>("IsActive")
                         .HasColumnType("boolean");
 
+                    b.Property<bool?>("IsEmailVerified")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool?>("IsVerified")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("LogoImage")
                         .IsRequired()
                         .HasColumnType("text");
@@ -356,7 +362,7 @@ namespace UserService.Migrations
                         {
                             Id = 1,
                             ClientId = "tpbackoffice",
-                            ClientSecret = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIwYmQyYWQ5My1iMTY2LTQ3YzItYWRlMS01OWNiM2U1OWIwNWQiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjUwMDAifQ.fOilP5WNeFwYVFKKFqHU6HBdBHZRp_lBWAEKaKK2sp5Tfce5DkZ3oXd_Rtna_HV73uwIAS_0EOvS-KEy3G3Ea3pZTtAUeJs_ebRMn582dggQICgN06oX1MomQBFzpnbVopWmvVpdpmnILStODcufpRnX6RVPcDRkPKvkNMDqhaFVCB_ImA1m2Rek2eY47nGmfRsp9MOyczRYZHzHtGfd-KQbBl4FYI_oB3h_-dbr8KqANJo9jQMhOR_cZMbqTPtQ1LDB8ZgoavP52DGSIG2ir38RrFFHzpFEJ2iSdPQ-uecyIOygDbXXxvYCebw1zi9R49dyyEc9IRaj7Dl2qAslsWgN2Z68dghUwvP-ctq0bVNN4Oq5zHRaIFB516wsQduOYOm__gaIT5nMhMtC19EJeupjEM-dAsN4gj8IbkWSavE6I7v-1jxCevPLTasmRwOetllq7aTNLAAsv98UyGawcFbeG3JcNScLc_i1Cypft4ezrqGmA5S0KrjmTRbTJSUwO3RdM-Pj_YrNXUtkXzW-b1CERrslsV-fUV_qkH2AVvV2Z31e1OksdfUxdqubhcYSwHWmB5YEipe13kLEEamwuOkp2t6eW5xB4ZJbMC5RReWrdzHnrG74JKFnIq4yU7-aLX1z88ekvNAnI5sYvhgNUNBSC0hYRbn51BuVheL2YtE",
+                            ClientSecret = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjZTM0ZTI1My0yYTYyLTQ4MzktODU2OC1lMmExNTdlYzQ5MmQiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjUwMDAifQ.VcVdbKFJJMWCZzqJqV5g6sj4Av0gr0DFJl70FZNSCLi2sedlkJSPTZG_L5pexkmIqRL_cPHLrLintGm8ZRZP31O2Bydtmce5N9-Q_Utf3qHt7c_gYO9svQJrbVsQHEYB1x3HFtEyWVYlHIPUSD0lYB79xEoL6gh9Uij74hH8H4qtUUi7xER528NeqMDG_LYfEcIWL-2qv7aB3LKohpOXApyZMm4uQ7t9fTOr3v2d2Ey7Vj7GPpKy4QjmXY2cGtynHOzVTLWpBSdCn4SXMB7gSnkmdRgySGL_GUM9BR0ncjJ4toK25dXC2hqT5H8D1doJE3_SvU7X3W4i560wj2sfxNl9U7NYP3ms4syMc6so-0Hs8pKV9j7eUN2EiJaW6OrwdqqKsEIi-ObkRbqWDCsfntIr0HSLZFyrTqmmH4ciSiyLJb7GNK0Mzc_8VTlscJdJfPst_N1WxmYt2T7YrleOl2UC3vrBfXaYowR4v0nM-OPByr5zvVNJE0-xNHRUkJAyA92Lh2wDNWbmBHSb_ZDSC_YHwR6PLsmw_E1q4sz1WQLLZVGhOMmE2r5m81OUC3tcsxhD_vEb_tXWYn0zBh8OxeyuXcwSPxy_vm7D3I-74rBkTsVl7dJuzQhQ0RKVrmPD8pPXO4PJin8Uxio6wJcSfbEeffKXOKI6huJaOTGbkO4",
                             Description = "transição portugal backoffice",
                             Name = "tpbackoffice"
                         },
@@ -364,7 +370,7 @@ namespace UserService.Migrations
                         {
                             Id = 2,
                             ClientId = "tphome",
-                            ClientSecret = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI4NGYzZTllYi03YjBlLTQ3ODgtYmE1OS01YmNmNDJkNGZmZWYiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjUwMDAifQ.YnZhWhNm82PoUWORjtjsaUi4CqnTLP2y7u5sjminnxyhXlTx3y50RkmGzyW80ghfjnstWowScZ64S-l4EQr29dAVkQDT0bz6K3Sl5sy2IPE2DAuxfWhToAwCi9v30ZhiRkrMSoFAaXIkHiBISrg7sH0R9za3ruzckMQ6cw6buu3n4EhpXQAJH1Ap49579GzH5Qd2LxAZkLI0G8_GM790uJFrOGS5rmoFUP_LjhVZkEXUZuOarh6nu5vHE4xknFMRW4JV7gPkX7FLRf1-9erVnk_s9QlsVMF-SgahMZmJbjUx3h6IIyCPb5AEiTiExKJdEpY3YWtkm0FD34ZgkmDfNQkM3jCSEe8KxhV4Y2WKaktqslxayGwUi20k1Q-69Nlt2hWHgfAsnXUEfKwlNN73sDn5LabK4IjmYmlY2IGf-2jHRQnaKHqxkczRboQFjNoLL6Gq9X7SOT4bFpaP717-r_7KEIiZx9_yw-isrm8umGMMu5uxj5XwcGzxqUHaVxDV-EvgkpDwsP3MR7DXpWePmgIrDAVhRRHP5o9fHWRqQyxypg_Fx-SnP9gVnf48nqLdxiTiM7A9Qabc37L-mY0rOCnM1DtTnZRuHF7gTjRpirduiWkifhf8P4WftWGya5Z5D5ftGqpBlDht6jK4FK2Ju5dREkVE7aNg0f7eUsCFrLo",
+                            ClientSecret = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI1MWRhZmJjYi1kMjYxLTRhNWEtYjVkNi1hNGNkZmE3ZTI1NzgiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjUwMDAifQ.CYlZTbMdvReycXGhILg2xK1aN_eWQS7kzC65JtKfDEqJn_QB5ly6e7Yf1dTuUE_0Gew9atv4M5gLumM5P39LVGcywynRafQ9jhD6F-eNyqksVWPUwaJot1JdW8rca-AMqqli87KfooKylsDBExBRvCr55vV0fK_Ek0g6ypElp4oKRDy_bEzwRCn1Y9fNf07-ZFfUnDZphIMIeBo3CGo9k41ySEPSCtMfTLlP7tfaoxs3InNB8k5KbWBCqW9nTVHxrve01Y8BdCwzACwkp6bT5Mdf0xf-OeqJJg169SYk-CZMN6gV2EdOWfn6CSx9Bm2dK54T1Hpf_lu-hdoSDOfKCh_fxmVweD5DIbsCElHMcBaHQ453kygxzfdIjUZXQuyezqOHliEjVDY2ORLeY4s672wRwi1v4WRBADGNfSGZ1Sucvi3AP9hBfzFB4TGIrFEj5tMbvhZ-sQV84WLULRus8tfOBZzeK8ltrc-zYIQA9VwXI6WwhAWICn4Mwdr6IPpqnUYHPfqCAzQ02esh28bEv9blX2ZRq-_Aq9XNG8NBEBypyrb-fBQaKqOafLzwKdHEdgRgai_4iKa0vhhIE0ZsOMSHrAHAzEecMtnt0wAmPQhjMhygfAlN7SNlBqhqpiOJoIt43E6g6v5TGA3kTPlD4fFZBzVnQq1EsNBbpeOpqmA",
                             Description = "transição portugal homepage",
                             Name = "tphome"
                         });
@@ -459,6 +465,12 @@ namespace UserService.Migrations
                             Id = 11,
                             RoleId = "244d3f1a-8594-4adb-9c59-5ec36fcdbf03",
                             ScopeId = 4
+                        },
+                        new
+                        {
+                            Id = 12,
+                            RoleId = "e762fd61-0f58-4c5d-ad0e-7bd322ae3ccf",
+                            ScopeId = 5
                         });
                 });
 
@@ -506,6 +518,12 @@ namespace UserService.Migrations
                             Id = 4,
                             Description = "Read/write of association users data",
                             ScopeName = "associationusers.write"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Description = "Read/write of client apps data",
+                            ScopeName = "client.admin"
                         });
                 });
 
@@ -538,6 +556,9 @@ namespace UserService.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool?>("IsEmailVerified")
                         .HasColumnType("boolean");
 
                     b.Property<bool>("IsVerified")
@@ -606,18 +627,19 @@ namespace UserService.Migrations
                         {
                             Id = "b74ddd14-6340-4840-95c2-db12554843e5",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "cbf3dca2-e886-4862-9905-5f3ca7f0a42d",
-                            CreatedAt = new DateTime(2022, 2, 17, 12, 14, 31, 835, DateTimeKind.Local).AddTicks(5262),
+                            ConcurrencyStamp = "efaafcfa-bd69-452a-9051-744f34e987b4",
+                            CreatedAt = new DateTime(2022, 2, 17, 21, 22, 45, 817, DateTimeKind.Local).AddTicks(8873),
                             Email = "admin@tp.int",
                             EmailConfirmed = false,
                             IsActive = true,
+                            IsEmailVerified = true,
                             IsVerified = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "Administrator",
-                            PasswordHash = "$2b$10$T0XCgQEZnNvnUYsPmlGl0OwYZGnSScaQzshjgTAHfmpizLo.psp2O",
+                            PasswordHash = "$2b$10$7F3RRFzwCB55.KBaUkVNauq3NCJg.i9P7nPWH3qTvHisHf8SBLWz6",
                             PhoneNumberConfirmed = false,
                             RefreshTokenExpiryTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SecurityStamp = "322f9a5e-27a0-4e1d-9b80-d31829a10a01",
+                            SecurityStamp = "ff7b6738-5d27-49dc-9913-522f79c24a87",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
@@ -696,10 +718,15 @@ namespace UserService.Migrations
             modelBuilder.Entity("UserService.Entities.User", b =>
                 {
                     b.HasOne("UserService.Entities.Association", "Association")
-                        .WithMany()
+                        .WithMany("Users")
                         .HasForeignKey("AssociationId");
 
                     b.Navigation("Association");
+                });
+
+            modelBuilder.Entity("UserService.Entities.Association", b =>
+                {
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("UserService.Entities.Scope", b =>

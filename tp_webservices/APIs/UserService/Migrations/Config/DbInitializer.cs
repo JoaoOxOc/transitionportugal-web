@@ -48,7 +48,9 @@ namespace UserService.Migrations.Config
                 new Scope { Id = 1, ScopeName = "user.read", Description = "Read only of he's own user data"},
                 new Scope { Id = 2, ScopeName = "user.write", Description = "Read/write of he's own user data"},
                 new Scope { Id = 3, ScopeName = "users.write", Description = "Read/write of users data"},
-                new Scope { Id = 4, ScopeName = "associationusers.write", Description = "Read/write of association users data"}
+                new Scope { Id = 4, ScopeName = "associationusers.write", Description = "Read/write of association users data"},
+                new Scope { Id = 5, ScopeName = "client.admin", Description = "Read/write of client apps data" }
+                
             );
 
             #endregion
@@ -121,6 +123,12 @@ namespace UserService.Migrations.Config
                     Id = 11,
                     RoleId = "244d3f1a-8594-4adb-9c59-5ec36fcdbf03",
                     ScopeId = 4
+                },
+                new RoleScope
+                {
+                    Id = 12,
+                    RoleId = "e762fd61-0f58-4c5d-ad0e-7bd322ae3ccf",
+                    ScopeId = 5
                 }
             );
 
@@ -129,7 +137,7 @@ namespace UserService.Migrations.Config
             #region Users
 
             modelBuilder.Entity<User>().HasData(
-                new User { Id= "b74ddd14-6340-4840-95c2-db12554843e5", NormalizedUserName = "Administrator", UserName = "admin", Email = "admin@tp.int", PasswordHash = BCrypt.Net.BCrypt.HashPassword("123"), IsVerified = true, IsActive = true, CreatedAt = DateTime.Now }
+                new User { Id= "b74ddd14-6340-4840-95c2-db12554843e5", NormalizedUserName = "Administrator", UserName = "admin", Email = "admin@tp.int", PasswordHash = BCrypt.Net.BCrypt.HashPassword("123"), IsVerified = true, IsActive = true, IsEmailVerified = true, CreatedAt = DateTime.Now }
             );
 
             #endregion

@@ -32,12 +32,16 @@ namespace UserService.Entities
         public DateTime? ContractEndDate { get; set; }
 
         public bool? IsActive { get; set; }
+        public bool? IsVerified { get; set; }
+        public bool? IsEmailVerified { get; set; }
 
         #region MetaData
 
         public DateTime CreatedAt { get; set; }
 
         public DateTime? UpdatedAt { get; set; }
+
+        public virtual ICollection<User> Users { get; set; }
 
         #endregion
     }

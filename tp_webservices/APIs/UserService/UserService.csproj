@@ -33,4 +33,8 @@
     <ProjectReference Include="..\..\Shared\CommonLibrary\CommonLibrary.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Code\" />
+  </ItemGroup>
+
 </Project>

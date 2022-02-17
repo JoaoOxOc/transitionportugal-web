@@ -13,6 +13,7 @@ import {
   Collapse,
   Button,
   Avatar,
+  CircularProgress,
   IconButton,
   styled
 } from '@mui/material';
@@ -124,6 +125,7 @@ function ResetPassword() {
             });
             if (resetResult.status === "Success") {
                 handleOpenDialog();
+                helpers.setSubmitting(false);
             }
             else {
                 helpers.setStatus({ success: false });
@@ -256,7 +258,10 @@ function ResetPassword() {
                       mt: 3
                     }}
                     color="primary"
-                    disabled={Boolean((formik.touched.password && formik.errors.password) || (formik.touched.confirmPassword && formik.errors.confirmPassword))}
+                    startIcon={
+                      formik.isSubmitting ? <CircularProgress size="1rem" /> : null
+                    }
+                    disabled={Boolean((formik.touched.password && formik.errors.password) || (formik.touched.confirmPassword && formik.errors.confirmPassword) || formik.isSubmitting)}
                     aria-describedby={ i18nextReset.t('FORMS.submit_help') } 
                     // onClick={handleOpenDialog}
                     type="submit"

@@ -6,13 +6,13 @@
 
     public class User: IdentityUser
     {
-
-        [ForeignKey("AssociationId")]
+        public int? AssociationId { get; set; }
         public virtual Association? Association { get; set; }
 
         public bool IsVerified { get; set; }
 
         public bool IsActive { get; set; }
+        public bool? IsEmailVerified { get; set; }
 
         public string? RefreshToken { get; set; }
 

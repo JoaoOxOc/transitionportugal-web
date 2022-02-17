@@ -12,6 +12,7 @@ namespace UserService.Services.UserManager
         Task<User> ValidateLoginUser(string username, string password);
         Task<List<Claim>> GetUserClaims(User user);
         Task<List<Claim>> GetUserClaimsPasswordRecovery(User user);
+        Task<List<Claim>> GetAssociationClaimsConfirmEmail(Association association);
         Task<IdentityResult> CreateUser(User user, string password);
         Task<IdentityResult> UpdateUser(User user);
         Task<bool> UpdateUserPassword(string userId, string newPassword);
@@ -21,7 +22,8 @@ namespace UserService.Services.UserManager
         Task<List<User>> GetUsers();
         Task<ProfileModel> GetUserProfileById(string userId);
 
-        Task<IdentityResult> CreateUserWithAssociation(User user, Association association, string password);
+        Task<KeyValuePair<User, Association>> CreateUserWithAssociation(User user, Association association, string password);
+        Task<Association> UpdateAssociation(Association association);
         Task<Association> SearchAssociationByEmail(string email);
         Task<Association> SearchAssociationByVat(string vat);
         Task<Association> SearchAssociationById(int associationId);

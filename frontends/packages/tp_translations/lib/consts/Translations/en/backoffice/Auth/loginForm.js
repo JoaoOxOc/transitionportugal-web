@@ -5,13 +5,19 @@ export var LOGINFORM_TRANSLATIONS = deepFreeze({
         terms: "terms and conditions",
         acceptTerms: "I accept the terms and conditions",
         lostPassword: "Lost password?",
-        signInHere: "Sign in"
+        signInHere: "Sign in",
+        checkConfirmTerms: "Checkbox for your confirmation of the terms of using this webapp.",
+        linkToReadTerms: "Link to the terms reading popup.",
+        buttonToRecoverPassword: "Button link to recover password webpage."
     },
     FORMS: {
         emailAddress: "Email address",
         usernameOrEmailAddress: "Username/Email",
+        usernameOrEmailAddress_help: "Insert your account's email or username as login account identifier",
         username: "Username",
-        password: "Password"
+        password: "Password",
+        password_help: "Insert your account password",
+        submit_help: "This form authenticates your account then you enter in the webapp if authenticated successfully"
     },
     MESSAGES: {
         loginError: "Username/Email/password are incorrect!",
