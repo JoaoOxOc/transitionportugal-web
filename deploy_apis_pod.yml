@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tp-apis
+  labels:
+    app: tp-apis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tp-apis
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5
+  template:
+    metadata:
+      labels:
+        app: tp-apis
+    spec:
+      containers:
+      - name: tp_rabbitmq
+        image: <GATEWAYAPI_IMAGE>
+        ports:
+        - containerPort: 3000
+      - name: tp_gateway
+        image: <GATEWAYAPI_IMAGE>
+        ports:
+        - containerPort: 3000
+      - name: tp_userservice
+        image: <USERAPI_IMAGE>
+        ports:
+        - containerPort: 3001
+        env:
+          - name: "ConnectionStrings:DefaultConnectionString"
+            valueFrom:
+              secretKeyRef:
+                name: userapi-data
+                key: user-dbconnstring
+      imagePullSecrets:
+      - name: <insert your digitalocean container registry secret>
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tp-gatewayapi-service
+  labels:
+    run: tp-gatewayapi-service
+spec:
+  ports:
+    - port: 42000
+      targetPort: 3000
+  selector:
+    app: tp-apis
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: tp-gatewayapi-ingress-nginx-controller
+  annotations:
+      kubernetes.io/ingress.class: nginx
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      service.beta.kubernetes.io/do-loadbalancer-protocol: https
+      service.beta.kubernetes.io/do-loadbalancer-tls-passthrough: "true"
+spec:
+  tls:
+  - hosts:
+    - tpapi.chain-of-change.com
+    secretName: <your tls secret name>
+  rules:
+  - host: tpapi.chain-of-change.com
+    http:
+      paths:
+      - path: /
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: tp-gatewayapi-service
+            port:
+              number: 42000
