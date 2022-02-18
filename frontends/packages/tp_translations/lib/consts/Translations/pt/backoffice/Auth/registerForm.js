@@ -78,7 +78,7 @@ export var REGISTERFORM_TRANSLATIONS = deepFreeze({
         associationTownTooBig: "O concelho da Iniciativa/Movimento não pode ter mais do que {{number}} caracteres",
         associationTownRequired: "O concelho da Iniciativa/Movimento é obrigatório",
         confirmationEmailSent: "O pedido de confirmação do email foi enviado para cada um dos emails",
-        successfulMessage: "Obrigado pelo teu registo. Os teus dados estão agora a ser verificados. Por favor aguarda por email com mais instruções"
+        successfulMessage: "Obrigado pelo teu registo. Os teus dados estão agora a ser verificados. Por favor aguarda por um email com mais instruções"
     }
 });
 //# sourceMappingURL=registerForm.js.map

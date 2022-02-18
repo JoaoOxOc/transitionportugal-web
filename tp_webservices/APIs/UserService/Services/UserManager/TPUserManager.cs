@@ -131,23 +131,31 @@ namespace UserService.Services.UserManager
             return authClaims;
         }
 
-        public async Task<IdentityResult> CreateUser(User user, string password)
+        public async Task<IdentityResult> CreateUser(User user, string password, string roleName)
         {
-            var newPasswordHashed = BCrypt.Net.BCrypt.HashPassword(password);
+            IdentityResult creationResult;
             var validMessage = await this.ValidatePassword(password);
-            var creationResult = await _userManager.CreateAsync(user, newPasswordHashed);
-            //var result2 = await _userManager.AddPasswordAsync(user, newPasswordHashed);
-            //if (result2.Succeeded)
-            //{
-            //    user.PasswordHash = newPasswordHashed;
-            //    user.UpdatedAt = DateTime.Now;
-            //    _uow.UserRepository.Update(user);
-            //    _uow.Save();
-            //}
-            //else
-            //{
-            //    throw new AppException(JsonSerializer.Serialize(result2.Errors));
-            //}
+            if (validMessage == "Succeeded")
+            {
+                var newPasswordHashed = BCrypt.Net.BCrypt.HashPassword(password);
+                creationResult = await _userManager.CreateAsync(user, newPasswordHashed);
+                if (creationResult.Succeeded)
+                {
+                    var roleResult = await this.AddUserToRole(user, roleName);
+                    if (!roleResult.Succeeded)
+                    {
+                        throw new AppException(JsonSerializer.Serialize(roleResult.Errors));
+                    }
+                }
+                else
+                {
+                    throw new AppException(JsonSerializer.Serialize(creationResult.Errors));
+                }
+            }
+            else
+            {
+                throw new AuthException(validMessage);
+            }
 
             return creationResult;
         }
@@ -159,26 +167,38 @@ namespace UserService.Services.UserManager
             var validMessage = await this.ValidatePassword(password);
             if (validMessage == "Succeeded")
             {
+                _uow.AssociationRepository.Add(association);
+                _uow.Save();
 
+                user.AssociationId = association.Id;
                 var creationResult = await _userManager.CreateAsync(user);
                 if (creationResult.Succeeded)
                 {
                     var result = await _userManager.AddPasswordAsync(user, newPasswordHashed);
                     if (result.Succeeded)
                     {
-                        _uow.AssociationRepository.Add(association);
-                        _uow.Save();
+                        var roleResult = await this.AddUserToRole(user, "AssociationAdmin");
+                        if (roleResult.Succeeded)
+                        {
+                            //user.PasswordHash = newPasswordHashed;
+                            //_uow.UserRepository.Add(user);
+                            //_uow.Save();
 
-                        user.AssociationId = association.Id;
-                        user.PasswordHash = newPasswordHashed;
-                        _uow.UserRepository.Add(user);
-
-                        creationData = new KeyValuePair<User, Association>(user, association);
+                            creationData = new KeyValuePair<User, Association>(user, association);
+                        }
+                        else
+                        {
+                            throw new AppException(JsonSerializer.Serialize(roleResult.Errors));
+                        }
                     }
                     else
                     {
                         throw new AppException(JsonSerializer.Serialize(result.Errors));
                     }
+                }
+                else
+                {
+                    throw new AppException(JsonSerializer.Serialize(creationResult.Errors));
                 }
             }
             else
@@ -244,12 +264,40 @@ namespace UserService.Services.UserManager
             return false;
         }
 
+        private async Task<bool> ValidateRoleExists(string roleName)
+        {
+            var roleExists = false;
+
+            if (await _roleManager.RoleExistsAsync(roleName))
+            {
+                roleExists = true;
+            }
+            else
+            {
+                var roleEntity = _uow.IdentityRoleRepository.Get(null, null, (x => x.Name == roleName), "Name").FirstOrDefault();
+                if (roleEntity != null)
+                {
+                    roleExists = true;
+                }
+            }
+
+            return roleExists;
+        }
+
         public async Task<IdentityResult> AddUserToRole(User user, string role)
         {
             var creationResult = new IdentityResult();
-            if (await _roleManager.RoleExistsAsync(role))
+
+            if (await ValidateRoleExists(role))
             {
-                creationResult = await _userManager.AddToRoleAsync(user, role);
+                try
+                {
+                    creationResult = await _userManager.AddToRoleAsync(user, role);
+                }
+                catch(Exception ex)
+                {
+                    throw new AppException(ex.InnerException != null ? ex.InnerException.Message : "" + " Exception: " + ex.Message);
+                }
             }
             return creationResult;
         }
@@ -257,9 +305,9 @@ namespace UserService.Services.UserManager
         public async Task<IdentityResult> CreateRole(User user, string role)
         {
             var creationResult = new IdentityResult();
-            if (!await _roleManager.RoleExistsAsync("Admin"))
+            if (!await ValidateRoleExists(role))
             {
-                creationResult = await _roleManager.CreateAsync(new IdentityRole("Admin"));
+                creationResult = await _roleManager.CreateAsync(new IdentityRole(role));
             }
             return creationResult;
         }
@@ -282,7 +330,7 @@ namespace UserService.Services.UserManager
                 {
                     Username = user.UserName,
                     Email = user.Email,
-                    Name = user.NormalizedUserName,
+                    Name = user.Name,
                     JobTitle = "Lead Developer",
                     Role = "Admin",
                     Posts = 27,

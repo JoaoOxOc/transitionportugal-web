@@ -103,6 +103,7 @@ export function RegisterWizardJWT() {
 
     return (
         <FormikStepper
+                isRegistered={userRegistered}
                 initialValues={{
                   first_name: '',
                   last_name: '',
@@ -515,7 +516,7 @@ export function FormikStep({ children }) {
     return <>{children}</>;
   }
   
-  export function FormikStepper({ children, ...props }) {
+  export function FormikStepper({ children, isRegistered, ...props }) {
     const childrenArray = Children.toArray(children);
     const [step, setStep] = useState(0);
     const currentChild = childrenArray[step];
@@ -525,6 +526,11 @@ export function FormikStep({ children }) {
     function isLastStep() {
       return step === childrenArray.length - 2;
     }
+
+    if (completed == false && isRegistered == true) {
+      setCompleted(true);
+      setStep((s) => s + 1);
+    }
   
     return (
       <Formik
@@ -533,9 +539,7 @@ export function FormikStep({ children }) {
         validateOnChange={false}
         onSubmit={async (values, helpers) => {
           if (isLastStep()) {
-            await props.onSubmit(values, helpers);
-              setCompleted(true);
-              setStep((s) => s + 1);
+              await props.onSubmit(values, helpers);
           } else {
             setStep((s) => s + 1);
             helpers.setTouched({});

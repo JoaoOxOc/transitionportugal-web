@@ -6,6 +6,9 @@
 
     public class User: IdentityUser
     {
+        public string Name { get; set; }
+
+        [ForeignKey("Association")]
         public int? AssociationId { get; set; }
         public virtual Association? Association { get; set; }
 

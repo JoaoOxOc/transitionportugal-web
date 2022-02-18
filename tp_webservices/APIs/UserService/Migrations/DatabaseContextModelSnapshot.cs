@@ -63,7 +63,7 @@ namespace UserService.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2022, 2, 17, 12, 14, 31, 835, DateTimeKind.Local).AddTicks(5800),
+                            CreatedAt = new DateTime(2022, 2, 18, 11, 18, 16, 10, DateTimeKind.Local).AddTicks(1224),
                             DefaultValue = "3",
                             Description = "Número máximo de tentativas de autenticação falhadas",
                             Key = "MaxLoginAttempts",
@@ -73,7 +73,7 @@ namespace UserService.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2022, 2, 17, 12, 14, 31, 835, DateTimeKind.Local).AddTicks(5807),
+                            CreatedAt = new DateTime(2022, 2, 18, 11, 18, 16, 10, DateTimeKind.Local).AddTicks(1259),
                             DefaultValue = "6Lf2t0sUAAAAABiszBasjJuBZXTdqMy00zOKPOFt",
                             Description = "Site key usada pelo serviço de reCAPTCHA da Google",
                             Key = "CaptchaSiteKey",
@@ -83,7 +83,7 @@ namespace UserService.Migrations
                         new
                         {
                             Id = 3,
-                            CreatedAt = new DateTime(2022, 2, 17, 12, 14, 31, 835, DateTimeKind.Local).AddTicks(5809),
+                            CreatedAt = new DateTime(2022, 2, 18, 11, 18, 16, 10, DateTimeKind.Local).AddTicks(1262),
                             DefaultValue = "6Lf2t0sUAAAAAPwP3kIvpynFqPp-7_QLfQoDQtZd",
                             Description = "Secret key usada pelo serviço de reCAPTCHA da Google",
                             Key = "CaptchaSecretKey",
@@ -121,26 +121,30 @@ namespace UserService.Migrations
                         new
                         {
                             Id = "e762fd61-0f58-4c5d-ad0e-7bd322ae3ccf",
-                            ConcurrencyStamp = "cf21aab3-0aaa-4114-8e09-1f1f420145c2",
-                            Name = "Admin"
+                            ConcurrencyStamp = "1de98b50-5e0c-4e6e-b223-a3bceb1f707e",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "244d3f1a-8594-4adb-9c59-5ec36fcdbf03",
-                            ConcurrencyStamp = "e6057a07-d29d-426d-b031-3ea2c71f5344",
-                            Name = "AssociationAdmin"
+                            ConcurrencyStamp = "71fb43aa-8679-49e8-ba46-4c0f8617bafb",
+                            Name = "AssociationAdmin",
+                            NormalizedName = "ASSOCIATIONADMIN"
                         },
                         new
                         {
                             Id = "179642d9-0f10-4d7d-a1a0-b485b3f6659f",
-                            ConcurrencyStamp = "a03ecbd4-7154-4f91-b999-0ef2fb0ab278",
-                            Name = "User"
+                            ConcurrencyStamp = "bc11fb25-ae67-4819-8f9e-feebe55098b7",
+                            Name = "User",
+                            NormalizedName = "USER"
                         },
                         new
                         {
                             Id = "69d5274f-235d-4013-bbac-0c4eddf31ecc",
-                            ConcurrencyStamp = "a1a84a62-4885-4939-8f37-0f4fc71e159a",
-                            Name = "AssociationUser"
+                            ConcurrencyStamp = "d2692ac3-2bdd-4790-909a-719cdd2a697b",
+                            Name = "AssociationUser",
+                            NormalizedName = "ASSOCIATIONUSER"
                         });
                 });
 
@@ -229,13 +233,6 @@ namespace UserService.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = "b74ddd14-6340-4840-95c2-db12554843e5",
-                            RoleId = "e762fd61-0f58-4c5d-ad0e-7bd322ae3ccf"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -278,6 +275,9 @@ namespace UserService.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("text");
@@ -287,6 +287,12 @@ namespace UserService.Migrations
                         .HasColumnType("text");
 
                     b.Property<bool?>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool?>("IsEmailVerified")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool?>("IsVerified")
                         .HasColumnType("boolean");
 
                     b.Property<string>("LogoImage")
@@ -305,6 +311,9 @@ namespace UserService.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("Tags")
+                        .HasColumnType("text");
+
                     b.Property<string>("Town")
                         .IsRequired()
                         .HasColumnType("text");
@@ -314,6 +323,9 @@ namespace UserService.Migrations
 
                     b.Property<string>("Vat")
                         .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Website")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -348,24 +360,6 @@ namespace UserService.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ClientCredential");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            ClientId = "tpbackoffice",
-                            ClientSecret = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIwYmQyYWQ5My1iMTY2LTQ3YzItYWRlMS01OWNiM2U1OWIwNWQiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjUwMDAifQ.fOilP5WNeFwYVFKKFqHU6HBdBHZRp_lBWAEKaKK2sp5Tfce5DkZ3oXd_Rtna_HV73uwIAS_0EOvS-KEy3G3Ea3pZTtAUeJs_ebRMn582dggQICgN06oX1MomQBFzpnbVopWmvVpdpmnILStODcufpRnX6RVPcDRkPKvkNMDqhaFVCB_ImA1m2Rek2eY47nGmfRsp9MOyczRYZHzHtGfd-KQbBl4FYI_oB3h_-dbr8KqANJo9jQMhOR_cZMbqTPtQ1LDB8ZgoavP52DGSIG2ir38RrFFHzpFEJ2iSdPQ-uecyIOygDbXXxvYCebw1zi9R49dyyEc9IRaj7Dl2qAslsWgN2Z68dghUwvP-ctq0bVNN4Oq5zHRaIFB516wsQduOYOm__gaIT5nMhMtC19EJeupjEM-dAsN4gj8IbkWSavE6I7v-1jxCevPLTasmRwOetllq7aTNLAAsv98UyGawcFbeG3JcNScLc_i1Cypft4ezrqGmA5S0KrjmTRbTJSUwO3RdM-Pj_YrNXUtkXzW-b1CERrslsV-fUV_qkH2AVvV2Z31e1OksdfUxdqubhcYSwHWmB5YEipe13kLEEamwuOkp2t6eW5xB4ZJbMC5RReWrdzHnrG74JKFnIq4yU7-aLX1z88ekvNAnI5sYvhgNUNBSC0hYRbn51BuVheL2YtE",
-                            Description = "transição portugal backoffice",
-                            Name = "tpbackoffice"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            ClientId = "tphome",
-                            ClientSecret = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI4NGYzZTllYi03YjBlLTQ3ODgtYmE1OS01YmNmNDJkNGZmZWYiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjUwMDAifQ.YnZhWhNm82PoUWORjtjsaUi4CqnTLP2y7u5sjminnxyhXlTx3y50RkmGzyW80ghfjnstWowScZ64S-l4EQr29dAVkQDT0bz6K3Sl5sy2IPE2DAuxfWhToAwCi9v30ZhiRkrMSoFAaXIkHiBISrg7sH0R9za3ruzckMQ6cw6buu3n4EhpXQAJH1Ap49579GzH5Qd2LxAZkLI0G8_GM790uJFrOGS5rmoFUP_LjhVZkEXUZuOarh6nu5vHE4xknFMRW4JV7gPkX7FLRf1-9erVnk_s9QlsVMF-SgahMZmJbjUx3h6IIyCPb5AEiTiExKJdEpY3YWtkm0FD34ZgkmDfNQkM3jCSEe8KxhV4Y2WKaktqslxayGwUi20k1Q-69Nlt2hWHgfAsnXUEfKwlNN73sDn5LabK4IjmYmlY2IGf-2jHRQnaKHqxkczRboQFjNoLL6Gq9X7SOT4bFpaP717-r_7KEIiZx9_yw-isrm8umGMMu5uxj5XwcGzxqUHaVxDV-EvgkpDwsP3MR7DXpWePmgIrDAVhRRHP5o9fHWRqQyxypg_Fx-SnP9gVnf48nqLdxiTiM7A9Qabc37L-mY0rOCnM1DtTnZRuHF7gTjRpirduiWkifhf8P4WftWGya5Z5D5ftGqpBlDht6jK4FK2Ju5dREkVE7aNg0f7eUsCFrLo",
-                            Description = "transição portugal homepage",
-                            Name = "tphome"
-                        });
                 });
 
             modelBuilder.Entity("UserService.Entities.RoleScope", b =>
@@ -457,6 +451,12 @@ namespace UserService.Migrations
                             Id = 11,
                             RoleId = "244d3f1a-8594-4adb-9c59-5ec36fcdbf03",
                             ScopeId = 4
+                        },
+                        new
+                        {
+                            Id = 12,
+                            RoleId = "e762fd61-0f58-4c5d-ad0e-7bd322ae3ccf",
+                            ScopeId = 5
                         });
                 });
 
@@ -504,6 +504,12 @@ namespace UserService.Migrations
                             Id = 4,
                             Description = "Read/write of association users data",
                             ScopeName = "associationusers.write"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Description = "Read/write of client apps data",
+                            ScopeName = "client.admin"
                         });
                 });
 
@@ -538,6 +544,9 @@ namespace UserService.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
+                    b.Property<bool?>("IsEmailVerified")
+                        .HasColumnType("boolean");
+
                     b.Property<bool>("IsVerified")
                         .HasColumnType("boolean");
 
@@ -546,6 +555,10 @@ namespace UserService.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -598,27 +611,6 @@ namespace UserService.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "b74ddd14-6340-4840-95c2-db12554843e5",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "cbf3dca2-e886-4862-9905-5f3ca7f0a42d",
-                            CreatedAt = new DateTime(2022, 2, 17, 12, 14, 31, 835, DateTimeKind.Local).AddTicks(5262),
-                            Email = "admin@tp.int",
-                            EmailConfirmed = false,
-                            IsActive = true,
-                            IsVerified = true,
-                            LockoutEnabled = false,
-                            NormalizedUserName = "Administrator",
-                            PasswordHash = "$2b$10$T0XCgQEZnNvnUYsPmlGl0OwYZGnSScaQzshjgTAHfmpizLo.psp2O",
-                            PhoneNumberConfirmed = false,
-                            RefreshTokenExpiryTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SecurityStamp = "322f9a5e-27a0-4e1d-9b80-d31829a10a01",
-                            TwoFactorEnabled = false,
-                            UserName = "admin"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -694,10 +686,15 @@ namespace UserService.Migrations
             modelBuilder.Entity("UserService.Entities.User", b =>
                 {
                     b.HasOne("UserService.Entities.Association", "Association")
-                        .WithMany()
+                        .WithMany("Users")
                         .HasForeignKey("AssociationId");
 
                     b.Navigation("Association");
+                });
+
+            modelBuilder.Entity("UserService.Entities.Association", b =>
+                {
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("UserService.Entities.Scope", b =>

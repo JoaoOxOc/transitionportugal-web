@@ -77,7 +77,7 @@ export declare const REGISTERFORM_TRANSLATIONS: {
         readonly associationTownTooBig: "O concelho da Iniciativa/Movimento não pode ter mais do que {{number}} caracteres";
         readonly associationTownRequired: "O concelho da Iniciativa/Movimento é obrigatório";
         readonly confirmationEmailSent: "O pedido de confirmação do email foi enviado para cada um dos emails";
-        readonly successfulMessage: "Obrigado pelo teu registo. Os teus dados estão agora a ser verificados. Por favor aguarda por email com mais instruções";
+        readonly successfulMessage: "Obrigado pelo teu registo. Os teus dados estão agora a ser verificados. Por favor aguarda por um email com mais instruções";
     };
 };
 //# sourceMappingURL=registerForm.d.ts.map

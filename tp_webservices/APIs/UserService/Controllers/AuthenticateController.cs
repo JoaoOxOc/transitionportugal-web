@@ -118,6 +118,9 @@ namespace UserService.Controllers
                 Phone = "",
                 LogoImage = "",
                 Filename = "",
+                Description = "",
+                Website = "",
+                Tags = "",
                 CreatedAt = DateTime.Now,
                 IsActive = false,
                 IsVerified = false,
@@ -126,11 +129,12 @@ namespace UserService.Controllers
 
             User user = new()
             {
-                NormalizedUserName = model.FirstName + " " + model.LastName,
+                Name = model.FirstName + " " + model.LastName,
                 Email = model.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
                 CreatedAt = DateTime.Now,
                 UserName = model.Username,
+                NormalizedUserName = model.Username.ToUpper(),
                 IsVerified = false,
                 IsActive = false,
                 IsEmailVerified = false
@@ -145,7 +149,34 @@ namespace UserService.Controllers
             var userTokenData = _tokenManager.GetToken(userClaims, 1440);
 
             var associationTokenData = _tokenManager.GetToken(associationClaims, 1440);
-            //TODO: send email verifications to the association email and to the user email - create a token for the email
+
+            //TODO: send email through the helper class with template
+            EmailVM userEmailData = new EmailVM();
+            userEmailData.To = new List<string> { "jp_69_7@hotmail.com" };//TODO: replace with user.Email, only use the current line for testing
+            var userEmailLink = _configuration["ApplicationSettings:RecoverPasswordBaseUrl"] + _configuration["ApplicationSettings:ConfirmEmailUri"] + "?t=" + userTokenData.Token;
+            userEmailData.Body = "Please access the following url to confirm your email, you only have 24 hours to do so:<br/><a target='_blank' rel='noopener noreferrer' href='" + userEmailLink + "'>" + userEmailLink + "</a>";
+            userEmailData.Subject = "Confirm your email";
+            userEmailData.EmailTemplateKey = "";
+
+            bool userEmailSuccess = await _rabbitMqSender.PublishEmailMessage(userEmailData);
+
+            EmailVM associationEmailData = new EmailVM();
+            associationEmailData.To = new List<string> { "jp_69_7@hotmail.com" };//TODO: replace with user.Email, only use the current line for testing
+            var associationEmailLink = _configuration["ApplicationSettings:RecoverPasswordBaseUrl"] + _configuration["ApplicationSettings:ConfirmEmailUri"] + "?t=" + associationTokenData.Token;
+            associationEmailData.Body = "Please access the following url to confirm your email, you only have 24 hours to do so:<br/><a target='_blank' rel='noopener noreferrer' href='" + associationEmailLink + "'>" + associationEmailLink + "</a>";
+            associationEmailData.Subject = "Confirm your email";
+            associationEmailData.EmailTemplateKey = "";
+
+            bool associationEmailSuccess = await _rabbitMqSender.PublishEmailMessage(associationEmailData);
+
+            if (!userEmailSuccess)
+            {
+                throw new AppException("User Email send error");
+            }
+            if (!associationEmailSuccess)
+            {
+                throw new AppException("Association Email send error");
+            }
 
             return Ok(new Response { Status = "Success", Message = "User created successfully!" });
         }
@@ -214,7 +245,7 @@ namespace UserService.Controllers
                 SecurityStamp = Guid.NewGuid().ToString(),
                 UserName = model.Username
             };
-            var result = await _userManager.CreateUser(user, model.Password);
+            var result = await _userManager.CreateUser(user, model.Password, "Admin");
             if (!result.Succeeded)
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
 

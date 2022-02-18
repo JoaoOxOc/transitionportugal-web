@@ -11,6 +11,7 @@ using UserService.Services.RabbitMQ;
 using UserService.Services.Database;
 using UserService.Services.UserManager;
 using UserService.Helpers;
+using UserService.Migrations.Config;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
@@ -88,6 +89,11 @@ using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
     context.Database.Migrate();
+
+    var tokenManager = scope.ServiceProvider.GetRequiredService<ITokenManager>();
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
+    new DbInitializer(tokenManager, roleManager, userManager).Initialize(context);
 }
 
 app.UseSwagger();

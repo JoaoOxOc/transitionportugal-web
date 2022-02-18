@@ -27,6 +27,12 @@ namespace UserService.Entities
 
         public string Filename { get; set; }
 
+        public string? Description { get; set; }
+
+        public string? Website { get; set; }
+
+        public string? Tags { get; set; }
+
         public DateTime? ContractStartDate { get; set; }
 
         public DateTime? ContractEndDate { get; set; }
