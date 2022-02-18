@@ -54,6 +54,8 @@ services:
   tpgateway:
     image: ${DOCKER_REGISTRY-}tpgateway
     container_name: tp_gateway
+    environment:
+        "ApplicationSettings:Cors": "http://localhost:3000,http://localhost:3001"
     build:
         context: .
         dockerfile: tpgateway.dockerfile
