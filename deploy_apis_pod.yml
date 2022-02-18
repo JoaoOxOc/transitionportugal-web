@@ -39,7 +39,7 @@ spec:
                 name: userapi-data
                 key: user-dbconnstring
       imagePullSecrets:
-      - name: <insert your digitalocean container registry secret>
+      - name: do-photos-registry-secret
 ---
 apiVersion: v1
 kind: Service
