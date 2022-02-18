@@ -5,6 +5,12 @@ export declare const TRANSLATIONS: {
             readonly notsigned: "Já pertence ao nosso grupo?";
             readonly login: "Autentique-se";
         };
+        readonly MENU: {
+            readonly about: "Sobre o Movimento";
+            readonly map: "Encontrar Grupos";
+            readonly events: "Eventos";
+            readonly news: "Notícias";
+        };
     };
 };
 //# sourceMappingURL=index.d.ts.map

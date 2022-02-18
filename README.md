@@ -18,3 +18,5 @@ website and web services of transition network in Portugal
 	- example: `lerna add styled-components --scope=@transitionpt/generic_header`
 	- last, run `npm run bootstrap` to remove duplicated NPM packages
 	
+- How to run in Docker:
+	- for home project: use the dockerfile `frontoffice.dockerfile` inside `frontends` folder; from this folder in CMD, run: `docker build -f .\frontoffice.dockerfile -t tp_front .` (or for debug `docker build -f .\frontoffice.dockerfile -t tp_front . --progress=plain --no-cache`) then `docker run -p 5050:3000 tp_front`

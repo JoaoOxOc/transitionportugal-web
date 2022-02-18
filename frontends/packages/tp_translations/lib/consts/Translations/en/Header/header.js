@@ -4,6 +4,12 @@ export var HEADER_TRANSLATIONS = deepFreeze({
         welcome: "Welcome {{username}}",
         notsigned: "Do you already belong here?",
         login: "Sign in"
+    },
+    MENU: {
+        about: "About the Movement",
+        map: "Find Groups",
+        events: "Events",
+        news: "News"
     }
 });
 //# sourceMappingURL=header.js.map
