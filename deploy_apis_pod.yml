@@ -80,3 +80,5 @@ spec:
       targetPort: 27018
       protocol: TCP
       nodePort: 31265
+  externalIPs: 
+    - 67.207.68.112
