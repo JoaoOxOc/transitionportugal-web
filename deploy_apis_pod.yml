@@ -75,7 +75,7 @@ spec:
     app: tp-apis
   ports:
     - port: 27017
-      #targetPort: 27017
+      targetPort: 27017
       #protocol: TCP
       nodePort: 31400
   externalIPs: 
