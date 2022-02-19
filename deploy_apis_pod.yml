@@ -58,6 +58,26 @@ spec:
   selector:
     app: tp-apis
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tp-mongo-ingress-nginx
+  namespace: tp-mongo-ingress-nginx
+  labels:
+    app.kubernetes.io/name: tp-mongo-ingress-nginx
+    app.kubernetes.io/part-of: tp-mongo-ingress-nginx
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"
+    service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout: "60"
+spec:
+  type: LoadBalancer
+  selector:
+    app.kubernetes.io/name: tp-mongo-ingress-nginx
+    app.kubernetes.io/part-of: tp-mongo-ingress-nginx
+  ports:
+    - port: 27018
+      targetPort: 27018
+---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -74,12 +94,3 @@ spec:
     secretName: transportugal-apis-tls-secret
   rules:
   - host: tpapi.chain-of-change.com
-  type: LoadBalancer
-  ports:
-    - name: mongodriver
-      port: 27018
-      targetPort: 27018
-      protocol: TCP
-  selector:
-    app.kubernetes.io/name: tp-apis-ingress-nginx-controller
-    app.kubernetes.io/part-of: tp-apis-ingress-nginx-controller
