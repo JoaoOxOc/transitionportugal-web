@@ -48,19 +48,6 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: tp-mongo-service
-  labels:
-    run: tp-mongo-service
-spec:
-  ports:
-    - port: 27018
-      targetPort: 27017
-  selector:
-    app: tp-apis
----
-apiVersion: v1
-kind: Service
-metadata:
   name: tp-mongo-ingress-nginx
   #namespace: ingress-nginx
   labels:
@@ -79,4 +66,4 @@ spec:
       #protocol: TCP
       nodePort: 31400
   externalIPs: 
-    - <EXTERNAL_DO_IP>
+    - 67.207.68.112
