@@ -45,7 +45,7 @@ jobs:
       run: doctl -t $DIGITALOCEAN_ACCESS_TOKEN k8s cluster config save $DO_CLUSTER
       
     - name: process environment variables
-      run: kubectl delete secret mongodb-data
+      run: kubectl delete secret mongodb-data --ignore-not-found
       
     - run: kubectl create secret generic mongodb-data --from-literal=mongo-username=${{secrets.MONGO_USERNAME}} --from-literal=mongo-password=${{secrets.MONGO_PASSWORD}}
     
