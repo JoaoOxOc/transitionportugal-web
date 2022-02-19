@@ -79,4 +79,4 @@ spec:
       #protocol: TCP
       nodePort: 31400
   externalIPs: 
-    - 67.207.68.112
+    - <EXTERNAL_DO_IP>
