@@ -1,3 +1,15 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: tp-mongo-data
+spec:
+  storageClassName: do-block-storage
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Mi
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -19,45 +31,49 @@ spec:
       labels:
         app: tp-apis
     spec:
+      volumes:
+        - name: tp-mongo-data-pv
+          persistentVolumeClaim:
+            claimName: tp-mongo-data
       containers:
-      - name: tp_rabbitmq
-        image: <GATEWAYAPI_IMAGE>
+      - name: tp-mongo
+        image: mongo:latest
         ports:
-        - containerPort: 3000
-      - name: tp_gateway
-        image: <GATEWAYAPI_IMAGE>
-        ports:
-        - containerPort: 3000
-      - name: tp_userservice
-        image: <USERAPI_IMAGE>
-        ports:
-        - containerPort: 3001
+        - containerPort: 27017
+        volumeMounts:
+            - mountPath: /data/db
+              name: tp-mongo-data-pv
         env:
-          - name: "ConnectionStrings:DefaultConnectionString"
-            valueFrom:
-              secretKeyRef:
-                name: userapi-data
-                key: user-dbconnstring
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-data
+                  key: mongo-password
+            - name: MONGO_INITDB_ROOT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-data
+                  key: mongo-username
       imagePullSecrets:
       - name: do-photos-registry-secret
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: tp-gatewayapi-service
+  name: tp-mongo-service
   labels:
-    run: tp-gatewayapi-service
+    run: tp-mongo-service
 spec:
   ports:
-    - port: 42000
-      targetPort: 3000
+    - port: 27018
+      targetPort: 27017
   selector:
     app: tp-apis
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: tp-gatewayapi-ingress-nginx-controller
+  name: tp-apis-ingress-nginx-controller
   annotations:
       kubernetes.io/ingress.class: nginx
       cert-manager.io/cluster-issuer: letsencrypt-prod
@@ -67,7 +83,7 @@ spec:
   tls:
   - hosts:
     - tpapi.chain-of-change.com
-    secretName: <your tls secret name>
+    secretName: transportugal-apis-tls-secret
   rules:
   - host: tpapi.chain-of-change.com
     http:
@@ -76,6 +92,6 @@ spec:
         pathType: ImplementationSpecific
         backend:
           service:
-            name: tp-gatewayapi-service
+            name: tp-mongo-service
             port:
-              number: 42000
+              number: 27018
