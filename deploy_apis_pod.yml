@@ -74,12 +74,12 @@ spec:
     secretName: transportugal-apis-tls-secret
   rules:
   - host: tpapi.chain-of-change.com
-    http:
-      paths:
-      - path: /
-        pathType: ImplementationSpecific
-        backend:
-          service:
-            name: tp-mongo-service
-            port:
-              number: 27018
+  type: LoadBalancer
+  ports:
+    - name: mongodriver
+      port: 27018
+      targetPort: 27018
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: tp-apis-ingress-nginx-controller
+    app.kubernetes.io/part-of: tp-apis-ingress-nginx-controller
