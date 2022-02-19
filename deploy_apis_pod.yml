@@ -62,7 +62,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: tp-mongo-ingress-nginx
-  namespace: ingress-nginx
+  #namespace: ingress-nginx
   labels:
     app.kubernetes.io/name: tp-mongo-ingress-nginx
     app.kubernetes.io/part-of: tp-mongo-ingress-nginx
@@ -70,13 +70,13 @@ metadata:
     service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"
     service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout: "60"
 spec:
-  #type: NodePort
+  type: NodePort
   selector:
     app: tp-apis
   ports:
-    - port: 27018
-      targetPort: 27017
-      protocol: TCP
-      #nodePort: 31265
+    - port: 27017
+      #targetPort: 27017
+      #protocol: TCP
+      nodePort: 31400
   externalIPs: 
     - 67.207.68.112
