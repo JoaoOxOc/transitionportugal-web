@@ -72,12 +72,10 @@ metadata:
 spec:
   #type: NodePort
   selector:
-    app.kubernetes.io/name: tp-mongo-ingress-nginx
-    app.kubernetes.io/part-of: tp-mongo-ingress-nginx
-    app.kubernetes.io/component: controller
+    app: tp-apis
   ports:
     - port: 27018
-      targetPort: 27018
+      targetPort: 27017
       protocol: TCP
       #nodePort: 31265
   externalIPs: 
