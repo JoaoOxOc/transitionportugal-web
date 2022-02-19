@@ -70,7 +70,7 @@ metadata:
     service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"
     service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout: "60"
 spec:
-  type: NodePort
+  type: LoadBalancer
   selector:
     app: tp-apis
   ports:
