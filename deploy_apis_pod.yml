@@ -59,6 +59,8 @@ metadata:
 spec:
   type: LoadBalancer
   loadBalancerIP: <EXTERNAL_DO_IP>
+  annotations:
+    kubernetes.digitalocean.com/load-balancer-id: a21eee64-21ab-4f74-ba6d-c6b38fbfb5e3
   selector:
     app: tp-apis
   ports:
