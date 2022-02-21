@@ -38,7 +38,7 @@ spec:
       restartPolicy: Always
       #hostname: tprabbitmq
       containers:
-      - name: tp_mongo
+      - name: tpmongo
         image: mongo:latest
         ports:
         - containerPort: 27017
@@ -56,7 +56,7 @@ spec:
                 secretKeyRef:
                   name: mongodb-data
                   key: mongo-username
-      - name: tp_rabbitmq
+      - name: tprabbitmq
         image: rabbitmq:3.9-management
         ports:
             - containerPort: 5672
