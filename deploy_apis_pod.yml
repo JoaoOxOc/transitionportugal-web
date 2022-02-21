@@ -5,7 +5,7 @@ metadata:
 spec:
   storageClassName: do-block-storage
   accessModes:
-    - ReadWriteOncePod
+    - ReadWriteMany
   resources:
     requests:
       storage: 100M
@@ -37,7 +37,7 @@ spec:
             claimName: tp-mongo-data
         - name: tp-rabbitmq-conf-pv
           persistentVolumeClaim:
-            claimName: odoo-app-data
+            claimName: tp-mongo-data
         - name: tp-rabbitmq-def-pv
           persistentVolumeClaim:
             claimName: odoo-app-data
