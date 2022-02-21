@@ -19,6 +19,7 @@ env:
   DIGITALOCEAN_ACCESS_TOKEN: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
   DO_EXTERNAL_IP: ${{secrets.DIGITALOCEAN_EXTERNAL_IP}}
   DIGITALOCEAN_LOADBALANCER_ID: ${{secrets.DIGITALOCEAN_LOADBALANCER_ID}}
+  PV_DEPLOYMENT_FILENAME: deploy_persistent_volumes.yml
   APIS_DEPLOYMENT_FILE_NAME: deploy_apis_pod.yml
   INGRESSES_DEPLOYMENT_FILE_NAME: deploy_apis_ingresses.yml
 
@@ -47,6 +48,9 @@ jobs:
 
     - name: Save DigitalOcean kubeconfig
       run: doctl -t $DIGITALOCEAN_ACCESS_TOKEN k8s cluster config save $DO_CLUSTER
+      
+    - name: deploy persistent volumes in DO
+      run: kubectl apply -f $GITHUB_WORKSPACE/$PV_DEPLOYMENT_FILENAME
       
     - name: process mongo environment variables
       run: kubectl delete secret mongodb-data --ignore-not-found && kubectl create secret generic mongodb-data --from-literal=mongo-username=${{secrets.MONGO_USERNAME}} --from-literal=mongo-password=${{secrets.MONGO_PASSWORD}}
