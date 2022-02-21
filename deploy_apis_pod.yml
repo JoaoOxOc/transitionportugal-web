@@ -97,7 +97,7 @@ spec:
         - name: tp-mongo-data-pv
           persistentVolumeClaim:
             claimName: tp-mongo-data
-        - name: tp-rabbitmq-conf-pv
+        - name: tp-rabbitmq-pv
           persistentVolumeClaim:
             claimName: tp-rabbit-data
         - name: tp-rabbitmq-def-pv
@@ -137,13 +137,13 @@ spec:
             - containerPort: 15672
         volumeMounts:
             - mountPath: /etc/rabbitmq/rabbitmq.conf
-              name: tp-rabbitmq-conf-pv
+              name: tp-rabbitmq-pv
             - mountPath: /etc/rabbitmq/definitions.json
-              name: tp-rabbitmq-def-pv
+              name: tp-rabbitmq-pv
             - mountPath: /var/lib/rabbitmq/mnesia
-              name: tp-rabbitmq-mnesia-pv
+              name: tp-rabbitmq-pv
             - mountPath: /var/log/rabbitmq
-              name: tp-rabbitmq-log-pv
+              name: tp-rabbitmq-pv
         env:
             - name: RABBITMQ_DEFAULT_PASS
               valueFrom:
