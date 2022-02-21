@@ -29,25 +29,6 @@ spec:
       restartPolicy: Always
       #hostname: tprabbitmq
       initContainers:
-      - name: tpmongo
-        image: mongo:latest
-        command: ['sh', '-c', 'until getent hosts tpmongo; do echo waiting for tpmongo; sleep 2; done;']
-        ports:
-        - containerPort: 27017
-        volumeMounts:
-            - mountPath: /data/db
-              name: tp-mongo-data-pv
-        env:
-            - name: MONGO_INITDB_ROOT_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: mongodb-data
-                  key: mongo-password
-            - name: MONGO_INITDB_ROOT_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: mongodb-data
-                  key: mongo-username
       - name: tprabbitmq
         image: rabbitmq:3.9-management
         command: ['sh', '-c', 'until getent hosts tprabbitmq; do echo waiting for tprabbitmq; sleep 2; done;']
@@ -75,6 +56,25 @@ spec:
                   name: rabbitmq-data
                   key: rabbitmq-username
       containers:
+      - name: tpmongo
+        image: mongo:latest
+        command: ['sh', '-c', 'until getent hosts tpmongo; do echo waiting for tpmongo; sleep 2; done;']
+        ports:
+        - containerPort: 27017
+        volumeMounts:
+            - mountPath: /data/db
+              name: tp-mongo-data-pv
+        env:
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-data
+                  key: mongo-password
+            - name: MONGO_INITDB_ROOT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-data
+                  key: mongo-username
       - name: tpgateway
         image: <GATEWAY_API_IMAGE>
         ports:
