@@ -28,7 +28,7 @@ spec:
             claimName: tp-rabbit-data
       restartPolicy: Always
       #hostname: tprabbitmq
-      initContainers:
+      containers:
       - name: tprabbitmq
         image: rabbitmq:3.9-management
         command: ['sh', '-c', 'until getent hosts tprabbitmq; do echo waiting for tprabbitmq; sleep 2; done;']
@@ -55,7 +55,6 @@ spec:
                 secretKeyRef:
                   name: rabbitmq-data
                   key: rabbitmq-username
-      containers:
       - name: tpmongo
         image: mongo:latest
         command: ['sh', '-c', 'until getent hosts tpmongo; do echo waiting for tpmongo; sleep 2; done;']
