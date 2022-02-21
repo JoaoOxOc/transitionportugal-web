@@ -35,6 +35,18 @@ spec:
     requests:
       storage: 100Mi
 ---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: tp-rabbit-data
+spec:
+  storageClassName: do-block-storage
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 100Mi
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -62,16 +74,16 @@ spec:
             claimName: tp-mongo-data
         - name: tp-rabbitmq-conf-pv
           persistentVolumeClaim:
-            claimName: tp-mongo-data
+            claimName: tp-rabbit-data
         - name: tp-rabbitmq-def-pv
           persistentVolumeClaim:
-            claimName: odoo-app-data
+            claimName: tp-rabbit-data
         - name: tp-rabbitmq-mnesia-pv
           persistentVolumeClaim:
-            claimName: odoo-app-data
+            claimName: tp-rabbit-data
         - name: tp-rabbitmq-log-pv
           persistentVolumeClaim:
-            claimName: odoo-app-data
+            claimName: tp-rabbit-data
       restartPolicy: Always
       #hostname: tprabbitmq
       containers:
