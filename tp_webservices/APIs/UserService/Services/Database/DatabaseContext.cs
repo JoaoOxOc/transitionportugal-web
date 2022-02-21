@@ -24,7 +24,14 @@ namespace UserService.Services.Database
                 .Build();
 
             // define the database to use
-            optionsBuilder.UseNpgsql(config.GetConnectionString("DefaultConnectionString"), options => options.EnableRetryOnFailure(3));
+            try
+            {
+                optionsBuilder.UseNpgsql(config.GetConnectionString("DefaultConnectionString"), options => options.EnableRetryOnFailure(3));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message + "|connstring: " + config.GetConnectionString("DefaultConnectionString"));
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
