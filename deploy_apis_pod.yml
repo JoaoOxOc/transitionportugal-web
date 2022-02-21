@@ -26,12 +26,30 @@ spec:
         - name: tp-rabbitmq-pv
           persistentVolumeClaim:
             claimName: tp-rabbit-data
+        - name: tp-postgres-data-pv
+          persistentVolumeClaim:
+            claimName: tp-postgres-data
       restartPolicy: Always
       #hostname: tprabbitmq
-      dnsConfig:
-        nameservers:
-          - 8.8.8.8
       containers:
+      - name: tpostgres
+        image: postgres:12
+        volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: tp-postgres-data-pv
+        env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-data
+                  key: postgres-password
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-data
+                  key: postgres-username
+          ports:
+            - containerPort: 5432
       - name: tpmongo
         image: mongo:latest
         ports:
