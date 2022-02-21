@@ -48,7 +48,7 @@ spec:
                 secretKeyRef:
                   name: postgres-data
                   key: postgres-username
-          ports:
+        ports:
             - containerPort: 5432
       - name: tpmongo
         image: mongo:latest
