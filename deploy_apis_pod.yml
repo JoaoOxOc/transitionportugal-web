@@ -18,6 +18,7 @@ spec:
   csi:
     driver: dobs.csi.digitalocean.com
     fsType: ext4
+    # get volume id: doctl compute volume list
     volumeHandle: 1e2ecd0a-872b-11eb-902c-0a58ac14c037
     volumeAttributes:
       com.digitalocean.csi/noformat: "true"
@@ -29,7 +30,7 @@ metadata:
 spec:
   storageClassName: do-block-storage
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
       storage: 100Mi
