@@ -75,8 +75,10 @@ spec:
       - name: tpgateway
         image: <GATEWAY_API_IMAGE>
         ports:
-            - containerPort: 3000
+            - containerPort: 3005
         env:
+            - name: ASPNETCORE_URLS
+              value: "http://+:3005"
             - name: ApplicationSettings__Cors
               valueFrom:
                   secretKeyRef:
@@ -112,6 +114,8 @@ spec:
         ports:
             - containerPort: 3010
         env:
+            - name: ASPNETCORE_URLS
+              value: "http://+:3010"
             - name: ApplicationSettings__RabbitMQHost
               valueFrom:
                   secretKeyRef:
@@ -142,6 +146,8 @@ spec:
         ports:
             - containerPort: 3020
         env:
+            - name: ASPNETCORE_URLS
+              value: "http://+:3020"
             - name: ApplicationSettings__RabbitMQHost
               valueFrom:
                   secretKeyRef:
