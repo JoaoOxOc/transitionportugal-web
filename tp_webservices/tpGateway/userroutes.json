@@ -5,8 +5,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
-          "Port": 80
+          "Host": "localhost",
+          "Port": 3020
         }
       ],
       "UpstreamPathTemplate": "/user/login",
@@ -18,8 +18,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
-          "Port": 80
+          "Host": "localhost",
+          "Port": 3020
         }
       ],
       "UpstreamPathTemplate": "/user/search-user",
@@ -31,8 +31,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
-          "Port": 80
+          "Host": "localhost",
+          "Port": 3020
         }
       ],
       "UpstreamPathTemplate": "/user/logout",
@@ -48,8 +48,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
-          "Port": 80
+          "Host": "localhost",
+          "Port": 3020
         }
       ],
       "UpstreamPathTemplate": "/user/register",
@@ -61,8 +61,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
-          "Port": 80
+          "Host": "localhost",
+          "Port": 3020
         }
       ],
       "UpstreamPathTemplate": "/user/profile",
@@ -78,8 +78,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
-          "Port": 80
+          "Host": "localhost",
+          "Port": 3020
         }
       ],
       "UpstreamPathTemplate": "/user/refresh",
@@ -91,8 +91,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
-          "Port": 80
+          "Host": "localhost",
+          "Port": 3020
         }
       ],
       "UpstreamPathTemplate": "/user/recover",
@@ -104,8 +104,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
-          "Port": 80
+          "Host": "localhost",
+          "Port": 3020
         }
       ],
       "UpstreamPathTemplate": "/user/reset",
@@ -119,8 +119,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
-          "Port": 80
+          "Host": "localhost",
+          "Port": 3020
         }
       ],
       "UpstreamPathTemplate": "/user/confirmemail",
@@ -135,8 +135,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
-          "Port": 80
+          "Host": "localhost",
+          "Port": 3020
         }
       ],
       "UpstreamPathTemplate": "/app/clientregister",
@@ -151,8 +151,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
-          "Port": 80
+          "Host": "localhost",
+          "Port": 3020
         }
       ],
       "UpstreamPathTemplate": "/association/search",
@@ -164,8 +164,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
-          "Port": 80
+          "Host": "localhost",
+          "Port": 3020
         }
       ],
       "UpstreamPathTemplate": "/association/validatevat",
@@ -180,7 +180,7 @@
         {
           "Name": "UserService API",
           "Version": "v1",
-          "Url": "http://tpuserservice:80/swagger/v1/swagger.json"
+          "Url": "http://localhost:3020/swagger/v1/swagger.json"
         }
       ]
     }
