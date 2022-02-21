@@ -100,13 +100,8 @@ catch (Exception e)
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
-    try {
     context.Database.Migrate();
-    }
-    catch (Exception ex)
-    {
-        throw new Exception("Custom: " + ex.Message + " |Inner: " + ex.InnerException);
-    }
+
     var tokenManager = scope.ServiceProvider.GetRequiredService<ITokenManager>();
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
