@@ -22,3 +22,42 @@ spec:
       nodePort: 31400
   externalIPs: 
     - <EXTERNAL_DO_IP>
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tp-rabbitmq-service
+  labels:
+    run: tp-rabbitmq-service
+spec:
+  ports:
+    - port: 31000
+      targetPort: 15672
+  selector:
+    app: tp-apis
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: tp-rabbitmq-ingress-nginx-controller
+  annotations:
+      kubernetes.io/ingress.class: nginx
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      service.beta.kubernetes.io/do-loadbalancer-protocol: https
+      service.beta.kubernetes.io/do-loadbalancer-tls-passthrough: "true"
+spec:
+  tls:
+  - hosts:
+    - rabbit.chain-of-change.com
+    secretName: tp-rabbit-letsencrypt-crt-secret
+  rules:
+  - host: rabbit.chain-of-change.com
+    http:
+      paths:
+      - path: /
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: tp-rabbitmq-service
+            port:
+              number: 31000
