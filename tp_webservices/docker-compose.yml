@@ -3,7 +3,7 @@ version: '3.4'
 services:
   postgres:
     image: postgres:12
-    container_name: tp_postgres
+    container_name: tppostgres
     restart: always
     environment:
       - POSTGRES_USER=postgres
@@ -21,7 +21,7 @@ services:
   
   tp_mongo:
     image: mongo:latest
-    container_name: tp_mongo
+    container_name: tpmongo
     restart: always
     environment:
       - MONGO_INITDB_ROOT_USERNAME=admin
@@ -35,7 +35,7 @@ services:
 
   tp_rabbitmq:
     image: rabbitmq:3.9-management
-    container_name: 'tp_rabbitmq'
+    container_name: 'tprabbitmq'
     hostname: 'tprabbitmq'
     ports:
         - 5672:5672 #AMQP port
@@ -53,7 +53,7 @@ services:
 
   tpgateway:
     image: ${DOCKER_REGISTRY-}tpgateway
-    container_name: tp_gateway
+    container_name: tpgateway
     environment:
         "ApplicationSettings:Cors": "http://localhost:3000,http://localhost:3001"
     build:
@@ -66,7 +66,7 @@ services:
 
   tpuserservice:
     image: ${DOCKER_REGISTRY-}tpuserservice
-    container_name: tp_userservice
+    container_name: tpuserservice
     build:
         context: .
         dockerfile: userservice.dockerfile
@@ -77,7 +77,7 @@ services:
 
   tpemailservice:
     image: ${DOCKER_REGISTRY-}tpemailservice
-    container_name: tp_emailservice
+    container_name: tpemailservice
     build:
         context: .
         dockerfile: emailservice.dockerfile

@@ -5,7 +5,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tp_userservice",
+          "Host": "tpuserservice",
           "Port": 80
         }
       ],
@@ -18,7 +18,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tp_userservice",
+          "Host": "tpuserservice",
           "Port": 80
         }
       ],
@@ -31,7 +31,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tp_userservice",
+          "Host": "tpuserservice",
           "Port": 80
         }
       ],
@@ -48,7 +48,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tp_userservice",
+          "Host": "tpuserservice",
           "Port": 80
         }
       ],
@@ -61,7 +61,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tp_userservice",
+          "Host": "tpuserservice",
           "Port": 80
         }
       ],
@@ -78,7 +78,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tp_userservice",
+          "Host": "tpuserservice",
           "Port": 80
         }
       ],
@@ -91,7 +91,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tp_userservice",
+          "Host": "tpuserservice",
           "Port": 80
         }
       ],
@@ -104,7 +104,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tp_userservice",
+          "Host": "tpuserservice",
           "Port": 80
         }
       ],
@@ -119,7 +119,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tp_userservice",
+          "Host": "tpuserservice",
           "Port": 80
         }
       ],
@@ -135,7 +135,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tp_userservice",
+          "Host": "tpuserservice",
           "Port": 80
         }
       ],
@@ -151,7 +151,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tp_userservice",
+          "Host": "tpuserservice",
           "Port": 80
         }
       ],
@@ -164,7 +164,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tp_userservice",
+          "Host": "tpuserservice",
           "Port": 80
         }
       ],
@@ -180,7 +180,7 @@
         {
           "Name": "UserService API",
           "Version": "v1",
-          "Url": "http://tp_userservice:80/swagger/v1/swagger.json"
+          "Url": "http://tpuserservice:80/swagger/v1/swagger.json"
         }
       ]
     }
