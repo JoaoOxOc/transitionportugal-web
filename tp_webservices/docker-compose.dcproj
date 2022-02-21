@@ -6,7 +6,7 @@
     <ProjectGuid>c67a7d55-f961-4291-97b4-3c9537ec3ef7</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/swagger</DockerServiceUrl>
-    <DockerServiceName>tpgateway</DockerServiceName>
+    <DockerServiceName>tpuserservice</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.override.yml">
@@ -14,6 +14,8 @@
     </None>
     <None Include="docker-compose.yml" />
     <None Include=".dockerignore" />
+    <None Include="emailservice.dockerfile" />
+    <None Include="userservice.dockerfile" />
     <None Include="tpgateway.dockerfile" />
   </ItemGroup>
 </Project>

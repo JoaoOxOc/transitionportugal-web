@@ -1,0 +1,1 @@
+{"version":3,"file":"newsletter.js","sourceRoot":"","sources":["../../../../../../src/consts/Translations/pt/home/Components/newsletter.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,UAAU,MAAM,aAAa,CAAC;AAE1C,MAAM,CAAC,IAAM,uBAAuB,GAAG,UAAU,CAAC;IAC9C,UAAU,EAAE;QACR,iBAAiB,EAAE,8BAA8B;QACjD,gBAAgB,EAAE,iDAAiD;QACnE,uBAAuB,EAAE,cAAc;QACvC,gBAAgB,EAAE,YAAY;KACjC;CACK,CAAC,CAAC"}

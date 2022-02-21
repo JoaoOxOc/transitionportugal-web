@@ -1,9 +1,61 @@
 version: '3.4'
 
 services:
+  postgres:
+    image: postgres:12
+    container_name: tppostgres
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    logging:
+      options:
+        max-size: 10m
+        max-file: "3"
+    ports:
+      - '5433:5432'
+    volumes: 
+      - tp_postgres_data:/var/lib/postgresql/data
+    networks:
+      - tp_bridge
+  
+  tp_mongo:
+    image: mongo:latest
+    container_name: tpmongo
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=admin
+    ports:
+      - "27018:27017"
+    volumes: 
+      - tp_mongo_data:/data/db
+    networks:
+      - tp_bridge
+
+  tp_rabbitmq:
+    image: rabbitmq:3.9-management
+    container_name: 'tprabbitmq'
+    hostname: 'tprabbitmq'
+    ports:
+        - 5672:5672 #AMQP port
+        - 15672:15672 #management UI port
+    volumes:
+        - ./rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+        - ./definitions.json:/etc/rabbitmq/definitions.json
+        - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/mnesia
+        - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+    environment:
+        - RABBITMQ_DEFAULT_USER=guest
+        - RABBITMQ_DEFAULT_PASS=guest
+    networks:
+        - tp_bridge
+
   tpgateway:
     image: ${DOCKER_REGISTRY-}tpgateway
-    container_name: tp_gateway
+    container_name: tpgateway
+    environment:
+        "ApplicationSettings:Cors": "http://localhost:3000,http://localhost:3001"
     build:
         context: .
         dockerfile: tpgateway.dockerfile
@@ -12,7 +64,35 @@ services:
     networks:
         - tp_bridge
 
+  tpuserservice:
+    image: ${DOCKER_REGISTRY-}tpuserservice
+    container_name: tpuserservice
+    build:
+        context: .
+        dockerfile: userservice.dockerfile
+    ports:
+        - "5010:80"
+    networks:
+        - tp_bridge
+
+  tpemailservice:
+    image: ${DOCKER_REGISTRY-}tpemailservice
+    container_name: tpemailservice
+    build:
+        context: .
+        dockerfile: emailservice.dockerfile
+    ports:
+        - "5020:80"
+    networks:
+        - tp_bridge
+
 networks:
     tp_bridge:
         name: tp_bridge
         driver: bridge
+
+volumes:
+  tp_postgres_data:
+    driver: local
+  tp_mongo_data:
+    driver: local

@@ -23,6 +23,7 @@ export const LinkBarStyles = {
         alignItems: 'center',
         lineHeight: '1',
         height: '100%',
+        padding: 0,
         textAlign: 'center',
         border: 'none !important',
         textDecoration: 'none !important',

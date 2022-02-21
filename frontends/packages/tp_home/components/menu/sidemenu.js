@@ -44,6 +44,10 @@ function ResponsiveDrawer() {
         setMobileOpen(!mobileOpen)
     }
 
+    function handleSidemenuOpen() {
+        
+    }
+
     const actualSidemenuContent = (
         <div>
             <SimpleBar autoHide={true}>
@@ -88,6 +92,7 @@ function ResponsiveDrawer() {
                     variant="temporary"
                     anchor={theme.direction === 'rtl' ? 'left' : 'right'}
                     open={mobileOpen}
+                    onOpen={handleSidemenuOpen}
                     onClose={handleDrawerToggle}
                     classes={{
                     paper: classes.drawerPaper,

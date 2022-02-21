@@ -1,5 +1,5 @@
-/** @jsx jsx */ /** @jsxRuntime classic */
-import { jsx, Container, Flex } from 'theme-ui';
+/** @jsxImportSource theme-ui */
+import { Container, Flex } from 'theme-ui';
 import React, { useEffect, useState } from "react";
 
 import MainMenu from '../menu/mainmenu';
@@ -12,7 +12,7 @@ import ResponsiveDrawer from '../menu/sidemenu';
 import {headerStyles as styles } from './header.style';
 
 //import images
-import LogoDark from '../../public/tn-logo.svg';
+import LogoDark from '../../public/logotipo_transicaoportugal.svg';
 //import LogoWhite from '../../assets/logo.svg';
 import UserLogoDark from '../../public/user_icon.svg';
 

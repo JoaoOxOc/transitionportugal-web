@@ -1,5 +1,5 @@
-/** @jsx jsx */ /** @jsxRuntime classic */
-import { jsx } from 'theme-ui';
+/** @jsxImportSource theme-ui */
+
 import { Container, Flex, Box, Heading, Text, Image, Button } from 'theme-ui';
 import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
@@ -25,7 +25,6 @@ export default function Banner() {
     'https://hn.algolia.com/api/v1/search?query=redux',
     { hits: [] },
   );
-  console.log('banner data', bannerData);
   const handleClick = (e) => {
     e.preventDefault();
     setVideoOpen(true);
@@ -43,7 +42,7 @@ export default function Banner() {
           {/* <Text as="p" variant="tpSecondary">
             Interaja com este espaço e descubra a transição
           </Text> */}
-          <Flex>
+          <Flex style={{width: '100%'}}>
             <GlassCarouselDynamic/>
           </Flex>
           {/* <Flex> */}
