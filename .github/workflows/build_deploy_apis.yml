@@ -90,6 +90,9 @@ jobs:
       
     #- name: create private key secret
     #  run: kubectl create secret generic user-private-key-secret --from-file=user-privatekey=$GITHUB_WORKSPACE/private_key_store
+    
+    - name: process postgres environment variables
+      run: kubectl delete secret postgres-data --ignore-not-found && kubectl create secret generic postgres-data --from-literal=postgres-username=${{secrets.POSTGRES_USERNAME}} --from-literal=postgres-password=${{secrets.POSTGRES_PASSWORD}}
       
     - name: process mongo environment variables
       run: kubectl delete secret mongodb-data --ignore-not-found && kubectl create secret generic mongodb-data --from-literal=mongo-username=${{secrets.MONGO_USERNAME}} --from-literal=mongo-password=${{secrets.MONGO_PASSWORD}}
