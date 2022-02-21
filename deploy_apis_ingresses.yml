@@ -45,7 +45,7 @@ metadata:
 spec:
   ports:
     - port: 31010
-      targetPort: 3000
+      targetPort: 3005
   selector:
     app: tp-apis
 ---
