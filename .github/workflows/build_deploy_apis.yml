@@ -24,6 +24,7 @@ env:
   PV_DEPLOYMENT_FILENAME: deploy_persistent_volumes.yml
   APIS_DEPLOYMENT_FILE_NAME: deploy_apis_pod.yml
   INGRESSES_DEPLOYMENT_FILE_NAME: deploy_apis_ingresses.yml
+  USER_PRIVATE_SECRET: ${{secrets.USER_SERVICE_PRIVATE_KEY}}
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -73,17 +74,19 @@ jobs:
       run: kubectl apply -f $GITHUB_WORKSPACE/$PV_DEPLOYMENT_FILENAME
     
     - name: Update ingresses deployment file
-      run: TAG=$(echo $GITHUB_SHA | head -c7) && sed -i "s|<EXTERNAL_DO_IP>|$DO_EXTERNAL_IP|" $GITHUB_WORKSPACE/$INGRESSES_DEPLOYMENT_FILE_NAME && sed -i "s|<DO_LOADBALANCER_ID>|$DIGITALOCEAN_LOADBALANCER_ID|" $GITHUB_WORKSPACE/$INGRESSES_DEPLOYMENT_FILE_NAME
+      run: sed -i "s|<EXTERNAL_DO_IP>|$DO_EXTERNAL_IP|" $GITHUB_WORKSPACE/$INGRESSES_DEPLOYMENT_FILE_NAME && sed -i "s|<DO_LOADBALANCER_ID>|$DIGITALOCEAN_LOADBALANCER_ID|" $GITHUB_WORKSPACE/$INGRESSES_DEPLOYMENT_FILE_NAME
       
     - name: Update deployment file with gateway image registry name
-      run: TAG=$(echo $GITHUB_SHA | head -c7) && sed -i "s|<GATEWAY_API_IMAGE>|$REGISTRY_HOSTNAME/$GATEWAY_IMAGE_NAME:latest|" $GITHUB_WORKSPACE/$APIS_DEPLOYMENT_FILE_NAME
+      run: sed -i "s|<GATEWAY_API_IMAGE>|$REGISTRY_HOSTNAME/$GATEWAY_IMAGE_NAME:latest|" $GITHUB_WORKSPACE/$APIS_DEPLOYMENT_FILE_NAME
       
     - name: Update deployment file with userservice image registry name
-      run: TAG=$(echo $GITHUB_SHA | head -c7) && sed -i "s|<USERSERVICE_API_IMAGE>|$REGISTRY_HOSTNAME/$USERAPI_IMAGE_NAME:latest|" $GITHUB_WORKSPACE/$APIS_DEPLOYMENT_FILE_NAME
+      run: sed -i "s|<USERSERVICE_API_IMAGE>|$REGISTRY_HOSTNAME/$USERAPI_IMAGE_NAME:latest|" $GITHUB_WORKSPACE/$APIS_DEPLOYMENT_FILE_NAME
       
     - name: Update deployment file with emailservice image registry name
-      run: TAG=$(echo $GITHUB_SHA | head -c7) && sed -i "s|<EMAILSERVICE_API_IMAGE>|$REGISTRY_HOSTNAME/$EMAILAPI_IMAGE_NAME:latest|" $GITHUB_WORKSPACE/$APIS_DEPLOYMENT_FILE_NAME
+      run: sed -i "s|<EMAILSERVICE_API_IMAGE>|$REGISTRY_HOSTNAME/$EMAILAPI_IMAGE_NAME:latest|" $GITHUB_WORKSPACE/$APIS_DEPLOYMENT_FILE_NAME
       
+    - name: replace private key
+      run: sed -i "s|<REPLACE_PRIVATE_KEY>|$USER_PRIVATE_SECRET|" $GITHUB_WORKSPACE/private_key_store
       
     - name: process mongo environment variables
       run: kubectl delete secret mongodb-data --ignore-not-found && kubectl create secret generic mongodb-data --from-literal=mongo-username=${{secrets.MONGO_USERNAME}} --from-literal=mongo-password=${{secrets.MONGO_PASSWORD}}
