@@ -77,32 +77,32 @@ spec:
         ports:
             - containerPort: 3000
         env:
-            - name: ApplicationSettings:Cors
+            - name: "ApplicationSettings:Cors"
               valueFrom:
                   secretKeyRef:
                       name: gateway-data
                       key: gateway-cors-urls
-            - name: JWT:RefreshTokenValidityInDays
+            - name: "JWT:RefreshTokenValidityInDays"
               valueFrom:
                   secretKeyRef:
                       name: gateway-data
                       key: refresh-token-validity-days
-            - name: JWT:SecretPublicKey
+            - name: "JWT:SecretPublicKey"
               valueFrom:
                   secretKeyRef:
                       name: gateway-data
                       key: jwt-public-secret
-            - name: JWT:TokenValidityInMinutes
+            - name: "JWT:TokenValidityInMinutes"
               valueFrom:
                   secretKeyRef:
                       name: gateway-data
                       key: jwt-token-validity-minutes
-            - name: JWT:ValidAudience
+            - name: "JWT:ValidAudience"
               valueFrom:
                   secretKeyRef:
                       name: gateway-data
                       key: jwt-valid-audience
-            - name: JWT:ValidIssuer
+            - name: "JWT:ValidIssuer"
               valueFrom:
                   secretKeyRef:
                       name: gateway-data
@@ -112,27 +112,27 @@ spec:
         ports:
             - containerPort: 3010
         env:
-            - name: ApplicationSettings:RabbitMQHost
+            - name: "ApplicationSettings:RabbitMQHost"
               valueFrom:
                   secretKeyRef:
                       name: emailservice-data
                       key: rabbitmq-host
-            - name: ApplicationSettings:RabbitMQPassword
+            - name: "ApplicationSettings:RabbitMQPassword"
               valueFrom:
                   secretKeyRef:
                       name: emailservice-data
                       key: rabbitmq-password
-            - name: ApplicationSettings:RabbitMQUser
+            - name: "ApplicationSettings:RabbitMQUser"
               valueFrom:
                   secretKeyRef:
                       name: emailservice-data
                       key: rabbitmq-username
-            - name: ConnectionStrings:Database
+            - name: "ConnectionStrings:Database"
               valueFrom:
                   secretKeyRef:
                       name: emailservice-data
                       key: db-name
-            - name: ConnectionStrings:DefaultConnectionString
+            - name: "ConnectionStrings:DefaultConnectionString"
               valueFrom:
                   secretKeyRef:
                       name: emailservice-data
@@ -142,57 +142,57 @@ spec:
         ports:
             - containerPort: 3020
         env:
-            - name: ApplicationSettings:RabbitMQHost
+            - name: "ApplicationSettings:RabbitMQHost"
               valueFrom:
                   secretKeyRef:
                       name: userservice-data
                       key: rabbitmq-host
-            - name: ApplicationSettings:RabbitMQPassword
+            - name: "ApplicationSettings:RabbitMQPassword"
               valueFrom:
                   secretKeyRef:
                       name: userservice-data
                       key: rabbitmq-password
-            - name: ApplicationSettings:RabbitMQUser
+            - name: "ApplicationSettings:RabbitMQUser"
               valueFrom:
                   secretKeyRef:
                       name: userservice-data
                       key: rabbitmq-username
-            - name: ApplicationSettings:RecoverPasswordBaseUrl
+            - name: "ApplicationSettings:RecoverPasswordBaseUrl"
               valueFrom:
                   secretKeyRef:
                       name: userservice-data
                       key: frontend-recover-base-url
-            - name: ConnectionStrings:DefaultConnectionString
+            - name: "ConnectionStrings:DefaultConnectionString"
               valueFrom:
                   secretKeyRef:
                       name: userservice-data
                       key: db-conn-string
-            - name: JWT.SecretPrivateKey
+            - name: "JWT.SecretPrivateKey"
               valueFrom:
                   secretKeyRef:
                       name: user-private-key-secret
                       key: user-privatekey
-            - name: JWT:RefreshTokenValidityInDays
+            - name: "JWT:RefreshTokenValidityInDays"
               valueFrom:
                   secretKeyRef:
                       name: userservice-data
                       key: refresh-token-validity-days
-            - name: JWT:SecretPublicKey
+            - name: "JWT:SecretPublicKey"
               valueFrom:
                   secretKeyRef:
                       name: userservice-data
                       key: jwt-public-secret
-            - name: JWT:TokenValidityInMinutes
+            - name: "JWT:TokenValidityInMinutes"
               valueFrom:
                   secretKeyRef:
                       name: userservice-data
                       key: jwt-token-validity-minutes
-            - name: JWT:ValidAudience
+            - name: "JWT:ValidAudience"
               valueFrom:
                   secretKeyRef:
                       name: userservice-data
                       key: jwt-valid-audience
-            - name: JWT:ValidIssuer
+            - name: "JWT:ValidIssuer"
               valueFrom:
                   secretKeyRef:
                       name: userservice-data
