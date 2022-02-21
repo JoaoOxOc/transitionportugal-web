@@ -78,102 +78,124 @@ spec:
             - containerPort: 3000
         env:
             - name: ApplicationSettings:Cors
-              secretKeyRef:
-                  name: gateway-data
-                  key: gateway-cors-urls
+              valueFrom:
+                  secretKeyRef:
+                      name: gateway-data
+                      key: gateway-cors-urls
             - name: JWT:RefreshTokenValidityInDays
-              secretKeyRef:
-                  name: gateway-data
-                  key: refresh-token-validity-days
+              valueFrom:
+                  secretKeyRef:
+                      name: gateway-data
+                      key: refresh-token-validity-days
             - name: JWT:SecretPublicKey
-              secretKeyRef:
-                  name: gateway-data
-                  key: jwt-public-secret
+              valueFrom:
+                  secretKeyRef:
+                      name: gateway-data
+                      key: jwt-public-secret
             - name: JWT:TokenValidityInMinutes
-              secretKeyRef:
-                  name: gateway-data
-                  key: jwt-token-validity-minutes
+              valueFrom:
+                  secretKeyRef:
+                      name: gateway-data
+                      key: jwt-token-validity-minutes
             - name: JWT:ValidAudience
-              secretKeyRef:
-                  name: gateway-data
-                  key: jwt-valid-audience
+              valueFrom:
+                  secretKeyRef:
+                      name: gateway-data
+                      key: jwt-valid-audience
             - name: JWT:ValidIssuer
-              secretKeyRef:
-                  name: gateway-data
-                  key: jwt-valid-issuer
+              valueFrom:
+                  secretKeyRef:
+                      name: gateway-data
+                      key: jwt-valid-issuer
       - name: tpemailservice
         image: <EMAILSERVICE_API_IMAGE>
         ports:
             - containerPort: 3010
         env:
             - name: ApplicationSettings:RabbitMQHost
-              secretKeyRef:
-                  name: emailservice-data
-                  key: rabbitmq-host
+              valueFrom:
+                  secretKeyRef:
+                      name: emailservice-data
+                      key: rabbitmq-host
             - name: ApplicationSettings:RabbitMQPassword
-              secretKeyRef:
-                  name: emailservice-data
-                  key: rabbitmq-password
+              valueFrom:
+                  secretKeyRef:
+                      name: emailservice-data
+                      key: rabbitmq-password
             - name: ApplicationSettings:RabbitMQUser
-              secretKeyRef:
-                  name: emailservice-data
-                  key: rabbitmq-username
+              valueFrom:
+                  secretKeyRef:
+                      name: emailservice-data
+                      key: rabbitmq-username
             - name: ConnectionStrings:Database
-              secretKeyRef:
-                  name: emailservice-data
-                  key: db-name
+              valueFrom:
+                  secretKeyRef:
+                      name: emailservice-data
+                      key: db-name
             - name: ConnectionStrings:DefaultConnectionString
-              secretKeyRef:
-                  name: emailservice-data
-                  key: db-conn-string
+              valueFrom:
+                  secretKeyRef:
+                      name: emailservice-data
+                      key: db-conn-string
       - name: tpuserservice
         image: <USERSERVICE_API_IMAGE>
         ports:
             - containerPort: 3020
         env:
             - name: ApplicationSettings:RabbitMQHost
-              secretKeyRef:
-                  name: userservice-data
-                  key: rabbitmq-host
+              valueFrom:
+                  secretKeyRef:
+                      name: userservice-data
+                      key: rabbitmq-host
             - name: ApplicationSettings:RabbitMQPassword
-              secretKeyRef:
-                  name: userservice-data
-                  key: rabbitmq-password
+              valueFrom:
+                  secretKeyRef:
+                      name: userservice-data
+                      key: rabbitmq-password
             - name: ApplicationSettings:RabbitMQUser
-              secretKeyRef:
-                  name: userservice-data
-                  key: rabbitmq-username
+              valueFrom:
+                  secretKeyRef:
+                      name: userservice-data
+                      key: rabbitmq-username
             - name: ApplicationSettings:RecoverPasswordBaseUrl
-              secretKeyRef:
-                  name: userservice-data
-                  key: frontend-recover-base-url
+              valueFrom:
+                  secretKeyRef:
+                      name: userservice-data
+                      key: frontend-recover-base-url
             - name: ConnectionStrings:DefaultConnectionString
-              secretKeyRef:
-                  name: userservice-data
-                  key: db-conn-string
+              valueFrom:
+                  secretKeyRef:
+                      name: userservice-data
+                      key: db-conn-string
             - name: JWT.SecretPrivateKey
-              secretKeyRef:
-                  name: user-private-key-secret
-                  key: user-privatekey
+              valueFrom:
+                  secretKeyRef:
+                      name: user-private-key-secret
+                      key: user-privatekey
             - name: JWT:RefreshTokenValidityInDays
-              secretKeyRef:
-                  name: userservice-data
-                  key: refresh-token-validity-days
+              valueFrom:
+                  secretKeyRef:
+                      name: userservice-data
+                      key: refresh-token-validity-days
             - name: JWT:SecretPublicKey
-              secretKeyRef:
-                  name: userservice-data
-                  key: jwt-public-secret
+              valueFrom:
+                  secretKeyRef:
+                      name: userservice-data
+                      key: jwt-public-secret
             - name: JWT:TokenValidityInMinutes
-              secretKeyRef:
-                  name: userservice-data
-                  key: jwt-token-validity-minutes
+              valueFrom:
+                  secretKeyRef:
+                      name: userservice-data
+                      key: jwt-token-validity-minutes
             - name: JWT:ValidAudience
-              secretKeyRef:
-                  name: userservice-data
-                  key: jwt-valid-audience
+              valueFrom:
+                  secretKeyRef:
+                      name: userservice-data
+                      key: jwt-valid-audience
             - name: JWT:ValidIssuer
-              secretKeyRef:
-                  name: userservice-data
-                  key: jwt-valid-issuer
+              valueFrom:
+                  secretKeyRef:
+                      name: userservice-data
+                      key: jwt-valid-issuer
       imagePullSecrets:
       - name: do-photos-registry-secret
