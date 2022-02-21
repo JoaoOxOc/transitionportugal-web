@@ -28,6 +28,9 @@ spec:
             claimName: tp-rabbit-data
       restartPolicy: Always
       #hostname: tprabbitmq
+      dnsConfig:
+        nameservers:
+          - 8.8.8.8
       containers:
       - name: tpmongo
         image: mongo:latest
