@@ -48,3 +48,29 @@ spec:
     volumeAttributes:
       com.digitalocean.csi/noformat: "true"
 ---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: tp-mongo-data
+  namespace: default
+spec:
+  #storageClassName: do-block-storage
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: tp-rabbit-data
+  namespace: default
+spec:
+  #storageClassName: do-block-storage
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+---
