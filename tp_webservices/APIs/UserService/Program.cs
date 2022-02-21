@@ -12,6 +12,7 @@ using UserService.Services.Database;
 using UserService.Services.UserManager;
 using UserService.Helpers;
 using UserService.Migrations.Config;
+using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
