@@ -35,6 +35,8 @@ spec:
         - name: tp-rabbitmq-log-pv
           persistentVolumeClaim:
             claimName: odoo-app-data
+      restartPolicy: Always
+      #hostname: tprabbitmq
       containers:
       - name: tp_mongo
         image: mongo:latest
@@ -56,7 +58,6 @@ spec:
                   key: mongo-username
       - name: tp_rabbitmq
         image: rabbitmq:3.9-management
-        hostname: tprabbitmq
         ports:
             - containerPort: 5672
             - containerPort: 15672
