@@ -28,7 +28,7 @@ spec:
             claimName: tp-rabbit-data
       restartPolicy: Always
       #hostname: tprabbitmq
-      containers:
+      initContainers:
       - name: tpmongo
         image: mongo:latest
         ports:
@@ -72,6 +72,7 @@ spec:
                 secretKeyRef:
                   name: rabbitmq-data
                   key: rabbitmq-username
+      containers:
       - name: tpgateway
         image: <GATEWAY_API_IMAGE>
         ports:
