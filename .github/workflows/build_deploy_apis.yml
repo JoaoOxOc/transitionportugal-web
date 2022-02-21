@@ -46,19 +46,19 @@ jobs:
       run: doctl registry login --expiry-seconds 6000
       
     - name: Build gateway container image
-      run: docker build "$REGISTRY_HOSTNAME/$GATEWAY_IMAGE_NAME" -f $GITHUB_WORKSPACE/tp_webservices/tpgateway.dockerfile ./tp_webservices/tpGateway
+      run: docker build -t "$REGISTRY_HOSTNAME/$GATEWAY_IMAGE_NAME" -f $GITHUB_WORKSPACE/tp_webservices/tpgateway.dockerfile ./tp_webservices/tpGateway
     
     - name: Push gateway image to DigitalOcean Container Registry
       run: docker push "$REGISTRY_HOSTNAME/$GATEWAY_IMAGE_NAME":latest
       
     - name: Build userservice container image
-      run: docker build "$REGISTRY_HOSTNAME/$USERAPI_IMAGE_NAME" -f $GITHUB_WORKSPACE/tp_webservices/userservice.dockerfile ./tp_webservices/APIs/UserService
+      run: docker build -t "$REGISTRY_HOSTNAME/$USERAPI_IMAGE_NAME" -f $GITHUB_WORKSPACE/tp_webservices/userservice.dockerfile ./tp_webservices/APIs/UserService
     
     - name: Push userservice image to DigitalOcean Container Registry
       run: docker push "$REGISTRY_HOSTNAME/$USERAPI_IMAGE_NAME":latest
       
     - name: Build emailservice container image
-      run: docker build "$REGISTRY_HOSTNAME/$EMAILAPI_IMAGE_NAME" -f $GITHUB_WORKSPACE/tp_webservices/emailservice.dockerfile ./tp_webservices/APIs/EmailService
+      run: docker build -t "$REGISTRY_HOSTNAME/$EMAILAPI_IMAGE_NAME" -f $GITHUB_WORKSPACE/tp_webservices/emailservice.dockerfile ./tp_webservices/APIs/EmailService
     
     - name: Push emailservice image to DigitalOcean Container Registry
       run: docker push "$REGISTRY_HOSTNAME/$EMAILAPI_IMAGE_NAME":latest
