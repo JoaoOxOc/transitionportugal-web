@@ -88,6 +88,9 @@ jobs:
     - name: replace private key
       run: sed -i "s|<REPLACE_PRIVATE_KEY>|$USER_PRIVATE_SECRET|" $GITHUB_WORKSPACE/private_key_store
       
+    - name: create private key secret
+      run: kubectl create secret generic user-private-key-secret --from-file=user-privatekey=$GITHUB_WORKSPACE/private_key_store
+      
     - name: process mongo environment variables
       run: kubectl delete secret mongodb-data --ignore-not-found && kubectl create secret generic mongodb-data --from-literal=mongo-username=${{secrets.MONGO_USERNAME}} --from-literal=mongo-password=${{secrets.MONGO_PASSWORD}}
     
