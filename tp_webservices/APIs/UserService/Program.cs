@@ -105,7 +105,7 @@ using (var scope = app.Services.CreateScope())
     }
     catch (Exception ex)
     {
-        throw new Exception("Custom: " + e.Message + " |Inner: " + e.InnerException);
+        throw new Exception("Custom: " + ex.Message + " |Inner: " + ex.InnerException);
     }
     var tokenManager = scope.ServiceProvider.GetRequiredService<ITokenManager>();
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
