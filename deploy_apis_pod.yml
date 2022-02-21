@@ -1,3 +1,15 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: tp-mongo-data
+spec:
+  storageClassName: do-block-storage
+  accessModes:
+    - ReadWriteOncePod
+  resources:
+    requests:
+      storage: 100M
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -22,7 +34,7 @@ spec:
       volumes:
         - name: tp-mongo-data-pv
           persistentVolumeClaim:
-            claimName: odoo-app-data
+            claimName: tp-mongo-data
         - name: tp-rabbitmq-conf-pv
           persistentVolumeClaim:
             claimName: odoo-app-data
