@@ -153,8 +153,8 @@ spec:
                   key: db-conn-string
             - name: JWT.SecretPrivateKey
               secretKeyRef:
-                  name: userservice-data
-                  key: jwt-private-secret
+                  name: user-private-key-secret
+                  key: user-privatekey
             - name: JWT:RefreshTokenValidityInDays
               secretKeyRef:
                   name: userservice-data
