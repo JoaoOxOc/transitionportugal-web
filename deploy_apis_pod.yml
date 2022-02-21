@@ -34,7 +34,7 @@ spec:
       volumes:
         - name: tp-mongo-data-pv
           persistentVolumeClaim:
-            claimName: tp-mongo-data
+            claimName: transportugalvolume
         - name: tp-rabbitmq-conf-pv
           persistentVolumeClaim:
             claimName: tp-mongo-data
