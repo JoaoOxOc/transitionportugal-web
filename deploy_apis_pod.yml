@@ -79,6 +79,8 @@ spec:
         env:
             - name: ASPNETCORE_URLS
               value: "http://+:3005"
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "Production"
             - name: ApplicationSettings__Cors
               valueFrom:
                   secretKeyRef:
@@ -116,6 +118,8 @@ spec:
         env:
             - name: ASPNETCORE_URLS
               value: "http://+:3010"
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "Production"
             - name: ApplicationSettings__RabbitMQHost
               valueFrom:
                   secretKeyRef:
@@ -148,6 +152,8 @@ spec:
         env:
             - name: ASPNETCORE_URLS
               value: "http://+:3020"
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "Production"
             - name: ApplicationSettings__RabbitMQHost
               valueFrom:
                   secretKeyRef:
