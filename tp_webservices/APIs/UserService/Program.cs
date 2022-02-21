@@ -13,6 +13,7 @@ using UserService.Services.UserManager;
 using UserService.Helpers;
 using UserService.Migrations.Config;
 using System.Net;
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
@@ -90,7 +91,7 @@ try
 {
     IPHostEntry host = Dns.GetHostEntry("db-postgresql-lon1-49463-do-user-7785829-0.b.db.ondigitalocean.com");
     Console.WriteLine($"GetHostEntry(db-postgresql-lon1-49463-do-user-7785829-0.b.db.ondigitalocean.com) returns HostName: {host.HostName}");
-    throw new Exception($"GetHostEntry(db-postgresql-lon1-49463-do-user-7785829-0.b.db.ondigitalocean.com) returns HostName: {host.HostName}");
+    throw new Exception($"GetHostEntry(db-postgresql-lon1-49463-do-user-7785829-0.b.db.ondigitalocean.com) returns HostName: {JsonSerializer.Serialize(host.AddressList)}");
 }
 catch (Exception e)
 {
