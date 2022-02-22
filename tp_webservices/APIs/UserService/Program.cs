@@ -12,12 +12,14 @@ using UserService.Services.Database;
 using UserService.Services.UserManager;
 using UserService.Helpers;
 using UserService.Migrations.Config;
+using System.Net;
 using Npgsql;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
 
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
 var connStringBuilder = new NpgsqlConnectionStringBuilder();
 int dbPort = 0;
 int.TryParse(builder.Configuration["DatabaseSettings:DbPort"], out dbPort);
@@ -101,11 +103,27 @@ if (app.Environment.IsDevelopment())
 {
 }
 
+try
+{
+    IPHostEntry host = Dns.GetHostEntry("db-postgresql-lon1-49463-do-user-7785829-0.b.db.ondigitalocean.com");
+    Console.WriteLine($"GetHostEntry(db-postgresql-lon1-49463-do-user-7785829-0.b.db.ondigitalocean.com) returns HostName: {host.HostName}");
+    //throw new Exception($"GetHostEntry(db-postgresql-lon1-49463-do-user-7785829-0.b.db.ondigitalocean.com) returns HostName: {connectionString}");
+}
+catch (Exception e)
+{
+    throw new Exception("Exception: {0}", e);
+}
+
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
+    try
+    {
     context.Database.Migrate();
-
+    }
+    catch (Exception ex)
+    {
+    }
     var tokenManager = scope.ServiceProvider.GetRequiredService<ITokenManager>();
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();

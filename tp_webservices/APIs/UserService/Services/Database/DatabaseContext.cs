@@ -6,12 +6,14 @@ using Npgsql;
 using UserService.Entities;
 using UserService.Migrations.Config;
 using UserService.Services.UserManager;
+using Npgsql;
 
 namespace UserService.Services.Database
 {
     public class DatabaseContext : IdentityDbContext<User>
     {
         private readonly IConfiguration _configuration;
+
         public DatabaseContext(DbContextOptions<DatabaseContext> options, IConfiguration configuration) : base(options)
         {
             _configuration = configuration;
