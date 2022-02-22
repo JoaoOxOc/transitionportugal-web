@@ -58,6 +58,7 @@ namespace tpGateway
                         Url = new Uri("https://example.com/license")
                     }
                 });
+                c.OperationFilter<RequiredHeaderParameters>();
             });
 
             /*
@@ -108,7 +109,6 @@ namespace tpGateway
                     //}
                 };
             });
-
             // TODO: apply the correct secret
             services.AddOcelot(Configuration).AddAdministration("/administration", "secret");
 

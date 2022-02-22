@@ -55,34 +55,42 @@ services:
     image: ${DOCKER_REGISTRY-}tpgateway
     container_name: tpgateway
     environment:
+        ASPNETCORE_URLS: "http://+:3005"
+        ASPNETCORE_ENVIRONMENT: "Development"
         "ApplicationSettings:Cors": "http://localhost:3000,http://localhost:3001"
     build:
         context: .
         dockerfile: tpgateway.dockerfile
     ports:
-        - "5000:80"
+        - "5000:3005"
     networks:
         - tp_bridge
 
   tpuserservice:
     image: ${DOCKER_REGISTRY-}tpuserservice
     container_name: tpuserservice
+    environment:
+        ASPNETCORE_URLS: "http://+:3020"
+        ASPNETCORE_ENVIRONMENT: "Development"
     build:
         context: .
         dockerfile: userservice.dockerfile
     ports:
-        - "5010:80"
+        - "5010:3020"
     networks:
         - tp_bridge
 
   tpemailservice:
     image: ${DOCKER_REGISTRY-}tpemailservice
     container_name: tpemailservice
+    environment:
+        ASPNETCORE_URLS: "http://+:3010"
+        ASPNETCORE_ENVIRONMENT: "Development"
     build:
         context: .
         dockerfile: emailservice.dockerfile
     ports:
-        - "5020:80"
+        - "5020:3010"
     networks:
         - tp_bridge
 

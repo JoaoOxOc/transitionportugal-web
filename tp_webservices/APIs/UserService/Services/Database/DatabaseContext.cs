@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
 using UserService.Entities;
 using UserService.Migrations.Config;
 using UserService.Services.UserManager;
@@ -20,6 +21,8 @@ namespace UserService.Services.Database
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            // read: https://bartwullems.blogspot.com/2021/03/kubernetesoverride-appsettingsjson-file.html
+            // read: https://sudonull.com/post/108-Working-with-the-Managed-Databases-service-from-Digital-Ocean-in-NET-Core
             // define the database to use
             var connStringBuilder = new NpgsqlConnectionStringBuilder();
             int dbPort = 0;
@@ -38,6 +41,7 @@ namespace UserService.Services.Database
             connStringBuilder.Pooling = dbPooling;
             connStringBuilder.ServerCompatibilityMode = _configuration["DatabaseSettings:DbServerCompatibilityMode"] == "Redshift" ? ServerCompatibilityMode.Redshift : ServerCompatibilityMode.None;
             optionsBuilder.UseNpgsql(connStringBuilder.ConnectionString, options => options.EnableRetryOnFailure(3));
+            //optionsBuilder.UseNpgsql(config.GetConnectionString("DefaultConnectionString"), options => options.EnableRetryOnFailure(3));
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
