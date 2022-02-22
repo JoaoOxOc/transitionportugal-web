@@ -22,6 +22,7 @@ namespace UserService.Services.Database
             var config = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json")
+                .AddJsonFile("appsettings.Production.json")
                 .Build();
 
             // define the database to use
