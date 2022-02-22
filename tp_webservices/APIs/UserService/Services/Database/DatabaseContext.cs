@@ -29,20 +29,20 @@ namespace UserService.Services.Database
             {
                 var connStringBuilder = new NpgsqlConnectionStringBuilder();
                 int dbPort = 0;
-                int.TryParse(config.GetConnectionString("DbPort"), out dbPort);
+                int.TryParse(config["DatabaseSettings:DbPort"], out dbPort);
                 bool dbPooling = false;
-                bool.TryParse(config.GetConnectionString("DbPooling"), out dbPooling);
+                bool.TryParse(config["DatabaseSettings:DbPooling"], out dbPooling);
                 bool dbTrustCrt = false;
-                bool.TryParse(config.GetConnectionString("DbTrustCertificate"), out dbTrustCrt);
-                connStringBuilder.Host = config.GetConnectionString("DbHost");
+                bool.TryParse(config["DatabaseSettings:DbTrustCertificate"], out dbTrustCrt);
+                connStringBuilder.Host = config["DatabaseSettings:DbHost"];
                 connStringBuilder.Port = dbPort;
-                connStringBuilder.SslMode = config.GetConnectionString("DbSslMode") == "None" ? SslMode.Disable : SslMode.Require;
-                connStringBuilder.Username = config.GetConnectionString("DbUser");
-                connStringBuilder.Password = config.GetConnectionString("DbPassword");
-                connStringBuilder.Database = config.GetConnectionString("Database");
+                connStringBuilder.SslMode = config["DatabaseSettings:DbSslMode"] == "None" ? SslMode.Disable : SslMode.Require;
+                connStringBuilder.Username = config["DatabaseSettings:DbUser"];
+                connStringBuilder.Password = config["DatabaseSettings:DbPassword"];
+                connStringBuilder.Database = config["DatabaseSettings:Database"];
                 connStringBuilder.TrustServerCertificate = dbTrustCrt;
                 connStringBuilder.Pooling = dbPooling;
-                connStringBuilder.ServerCompatibilityMode = config.GetConnectionString("DbServerCompatibilityMode") == "Redshift" ? ServerCompatibilityMode.Redshift : ServerCompatibilityMode.None;
+                connStringBuilder.ServerCompatibilityMode = config["DatabaseSettings:DbServerCompatibilityMode"] == "Redshift" ? ServerCompatibilityMode.Redshift : ServerCompatibilityMode.None;
                 optionsBuilder.UseNpgsql(connStringBuilder.ConnectionString, options => options.EnableRetryOnFailure(3));
             }
             catch (Exception ex)
