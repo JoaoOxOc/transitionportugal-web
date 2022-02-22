@@ -13,14 +13,23 @@ using UserService.Services.UserManager;
 using UserService.Helpers;
 using UserService.Migrations.Config;
 using System.Net;
+using Npgsql;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
 
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnectionString");
-builder.Services.AddDbContext<DatabaseContext>(x => x.UseNpgsql(connectionString));
+var connStringBuilder = new NpgsqlConnectionStringBuilder();
+connStringBuilder.Host = "127.0.0.1";
+connStringBuilder.Port = 5432;
+connStringBuilder.SslMode = SslMode.Disable;
+connStringBuilder.Username = "tpadmin";
+connStringBuilder.Password = "tpadmin";
+connStringBuilder.Database = "userservicedb";
+connStringBuilder.TrustServerCertificate = true;
+//var connectionString = builder.Configuration.GetConnectionString("DefaultConnectionString");
+builder.Services.AddDbContext<DatabaseContext>(x => x.UseNpgsql(connStringBuilder.ConnectionString));
 
 
 // For Identity
