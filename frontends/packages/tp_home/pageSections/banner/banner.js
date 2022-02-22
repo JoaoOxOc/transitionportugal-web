@@ -1,5 +1,5 @@
-/** @jsx jsx */ /** @jsxRuntime classic */
-import { jsx } from 'theme-ui';
+/** @jsxImportSource theme-ui */
+
 import { Container, Flex, Box, Heading, Text, Image, Button } from 'theme-ui';
 import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
@@ -13,6 +13,10 @@ import { BannerDataAction } from '../../contexts/banner/banner.provider';
 
 import { i18nextCommon } from "@transitionpt/translations";
 
+import EcoMap from '../../components/bannerInteraction/ecomap';
+
+const GlassCarouselDynamic = dynamic(() => import("../../components/glassCarousel/glasscarousel"));
+
 export default function Banner() {
 //   const { t } = useTranslation('header');
 //   console.log('translations ',t('description'));
@@ -21,7 +25,6 @@ export default function Banner() {
     'https://hn.algolia.com/api/v1/search?query=redux',
     { hits: [] },
   );
-  console.log('banner data', bannerData);
   const handleClick = (e) => {
     e.preventDefault();
     setVideoOpen(true);
@@ -33,19 +36,19 @@ export default function Banner() {
     }} id="home">
       <Container sx={styles.banner.container}>
         <Box sx={styles.banner.contentBox}>
-          <Heading as="h1" variant="heroPrimary">
-          {bannerData.bannerData.bannerTitle}
-          </Heading>
-          <Text as="p" variant="heroSecondary">
-          {bannerData.bannerData.bannerSubtitle}
-          </Text>
-          <Text as="p" variant="heroSecondary">
-          {bannerData.bannerData.bannerSubtitleSignature} { i18nextCommon.t('Notification.DOWNLOAD.success') }
-          </Text>
-          <Flex>
-            <Button variant="whiteButton" aria-label="Get Started">
+          {/* <Heading as="h1" variant="tpPrimary">
+            Interaja com este espaço e descubra a transição
+          </Heading> */}
+          {/* <Text as="p" variant="tpSecondary">
+            Interaja com este espaço e descubra a transição
+          </Text> */}
+          <Flex style={{width: '100%'}}>
+            <GlassCarouselDynamic/>
+          </Flex>
+          {/* <Flex> */}
+            {/* <Button variant="whiteButton" aria-label="Get Started">
               Get Started
-            </Button>
+            </Button> */}
             {/* <>
               <ModalVideo
                 channel="youtube"
@@ -61,8 +64,8 @@ export default function Banner() {
                 <FaPlayCircle /> Watch Video
               </Button>
             </> */}
-          </Flex>
-          <Flex sx={styles.sponsorBox}>
+          {/* </Flex> */}
+          {/* <Flex sx={styles.sponsorBox}>
             <Text sx={styles.sponsorTitle}>Sponsored by:</Text>
             <Box sx={styles.sponsorBox.sponsor}>
               {bannerData.bannerData.bannerSponsors.map((item, index) => (
@@ -71,13 +74,11 @@ export default function Banner() {
                 </Link>
               ))}
             </Box>
-          </Flex>
-        </Box>
-
-        <Box sx={styles.banner.imageBox}>
-          <Image src={bannerData.bannerData.bannerThumb} alt="banner" />
+          </Flex> */}
         </Box>
       </Container>
+
+      <EcoMap />
     </section>
   );
 }

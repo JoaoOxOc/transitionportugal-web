@@ -1,82 +1,56 @@
-/** @jsx jsx */ /** @jsxRuntime classic */
-import { jsx, Container, Flex, Button, Select } from 'theme-ui';
+/** @jsxImportSource theme-ui */
+import { Container, Flex } from 'theme-ui';
 import React, { useEffect, useState } from "react";
-import { Link } from 'react-scroll';
+
+import MainMenu from '../menu/mainmenu';
+import Logo from '../logo';
+import UserBanner from '../user/UserBanner';
 
 import { DrawerProvider } from '../../contexts/drawer/drawer.provider';
+import ResponsiveDrawer from '../menu/sidemenu';
 
 import {headerStyles as styles } from './header.style';
 
-import menuItems from './header.data';
-
-import { i18nextCommon } from "@transitionpt/translations";
+//import images
+import LogoDark from '../../public/logotipo_transicaoportugal.svg';
+//import LogoWhite from '../../assets/logo.svg';
+import UserLogoDark from '../../public/user_icon.svg';
 
 export default function Header({className}) {
+    const [windowSize, setWindowSizeVar] = useState(0);
+  
+    useEffect(() => {
+        setWindowSizeVar(window.innerWidth);
+        window.addEventListener('resize', function() {
+            if (window.innerWidth <= 1024 && windowSize > 1024) {
+                setWindowSizeVar(window.innerWidth);
+            }
+            else if (window.innerWidth >= 1024 && windowSize < 1024) {
+              setWindowSizeVar(window.innerWidth);
+            }
+        });
+    }, [windowSize]);
 
     return (
         <DrawerProvider>
             <header sx={styles.header} className={className} id="header">
+                <div sx={styles.topLine}/>
                 <Container sx={styles.container}>
-                  <Flex as="nav" sx={styles.nav}>
-                    {menuItems.map(({ path, label }, i) => (
-                      <Link
-                        activeClass="active"
-                        to={path}
-                        spy={true}
-                        smooth={true}
-                        offset={-70}
-                        duration={500}
-                        key={i}
-                      >
-                        {label}
-                      </Link>
-                    ))}
-                  </Flex>
-                  {/* <Logo src={className === 'sticky' ? LogoDark : LogoWhite} /> */}
-
-                  {/* <Flex as="nav" sx={styles.nav}>
-                      {menuItems.map(({ path, label }, i) => (
-                      <Link
-                          activeClass="active"
-                          to={path}
-                          spy={true}
-                          smooth={true}
-                          offset={-70}
-                          duration={500}
-                          key={i}
-                      >
-                          {label}
-                      </Link>
-                      ))}
-                  </Flex>
-                  {!session && (
-                      <>
-                      Not signed in <br />
-                      <button onClick={signIn}>Sign in</button>
-                      </>
-                  )}
-                  {session && (
-                      <>
-                      Signed in as {session.user.email} <br />
-                      <button onClick={microFrontLogout}>Sign out</button>
-                      </>
-                  )}
-                  <ProfileDropdown/> */}
-                  {/* <Button
-                      className="donate__btn"
-                      variant="secondary"
-                      aria-label="Get Started"
-                  >
-                      Get Started
-                  </Button> */}
-
-                  {/* <MobileDrawer /> */}
+                    {className === 'sticky' 
+                      ? <Logo sx={styles.stickyLogo} src={LogoDark} path={'home'}/>
+                      : <></>
+                    }
+                    <Flex as="nav" sx={styles.nav}>
+                        <MainMenu displayType={'displayBlock'}/>
+                    </Flex>
+                    <ResponsiveDrawer/>
+                    {className === 'sticky' && windowSize > 1219
+                      ? <UserBanner src={UserLogoDark} className={ 'inlineBlock' } />
+                      : <></>
+                    }
                 </Container>
+                <div sx={styles.bottomLine}/>
             </header>
         </DrawerProvider>
-        // <div>
-        //     <p>this is header generic module { i18nextCommon.t('Notification.DOWNLOAD.success') }</p>
-        //     <button onClick={changeHeaderLanguage}>Change language</button>
-        // </div>
     )
 }

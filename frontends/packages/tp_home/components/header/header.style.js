@@ -1,5 +1,7 @@
 import { keyframes } from '@emotion/react';
 
+import { COLORS as colors } from '../../theme/parameters';
+
 const positionAnim = keyframes`
   from {
     position: fixed;
@@ -12,15 +14,14 @@ const positionAnim = keyframes`
   }
 `;
 
-
 export const headerStyles = {
     header: {
-      color: 'white',
+      color: 'black',
       fontWeight: 'normal',
       py: 4,
       width: '100%',
       position: 'absolute',
-      top: '32px',//change for topbar height
+      //top: '32px',//change for topbar height
       left: 0,
       backgroundColor: 'transparent',
       transition: 'all 0.5s ease',
@@ -32,11 +33,15 @@ export const headerStyles = {
       },
       '&.sticky': {
         position: 'fixed',
-        backgroundColor: 'background',
+        //backgroundColor: 'background',
         color: '#000000',
-        boxShadow: '0 1px 2px rgba(0, 0, 0, 0.06)',
+        //boxShadow: '1px 3px 3px rgba(0, 0, 0, 0.6)',
+        background: 'rgba(255, 255, 255, 0.92)',
+        boxShadow: '1px 4px 3px rgb(0 0 0 / 0.3)',
+        backdropFilter: 'blur(5px)',
+        border: '1px solid rgba(255, 255, 255, 0.3)',
         py: 3,
-        'nev > a': {
+        'nav > a': {
           color: 'text',
         },
         '.donate__btn': {
@@ -47,6 +52,9 @@ export const headerStyles = {
             backgroundColor: 'primary',
             color: 'white',
           },
+        },
+        bottomLine: {
+          boxShadow: '5px 10px #888888'
         },
       },
       '.profile__menu': {
@@ -61,10 +69,45 @@ export const headerStyles = {
         }
       },
     },
+    displayMobile: {
+      '@media screen and (min-width: 1024px)': {
+        display: 'none',
+      },
+    },
+    displayBig: {
+      '@media screen and (max-width: 1024px)': {
+        display: 'none',
+      },
+    },
+    topLine: {
+      //position: 'absolute',
+      width: '80%',
+      margin: '-15px auto auto auto',
+      paddingTop: '12px',
+      borderTop: "3px solid " + colors.nav_border_top,
+    },
+    bottomLine: {
+      position: 'absolute',
+      width: '100%',
+      paddingBottom: '15px',
+      borderBottom: "1px solid " + colors.nav_border_bottom,
+    },
     container: {
       display: 'flex',
       alignItems: 'center',
-      justifyContent: 'space-between',
+      justifyContent: 'space-between'
+    },
+    stickyLogo: {
+      img: {
+        height: '40px !important',
+        transition: '1.25s',
+      }
+    },
+    stickyBanner: {
+      img: {
+        height: '20px !important',
+        transition: '1.25s',
+      }
     },
     nav: {
       mx: 'auto',
@@ -72,18 +115,8 @@ export const headerStyles = {
       '@media screen and (min-width: 1024px)': {
         display: 'block',
       },
-      a: {
-        fontSize: '16px',
-        fontWeight: '400',
-        px: 25,
-        cursor: 'pointer',
-        lineHeight: '1.2',
-        '&.active': {
-          color: 'secondary',
-        },
-      },
       div: {
           display: 'block',
-      },
+      }
     },
   };

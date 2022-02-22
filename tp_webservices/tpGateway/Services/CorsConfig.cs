@@ -7,18 +7,22 @@ namespace tpGateway.Services
     {
         public static IServiceCollection ConfigureCors(this IServiceCollection services, IConfiguration configuration)
         {
-            string[] corsUrl = configuration.GetSection("ApplicationSettings:Cors").Get<string[]>();
+            string cors = configuration.GetSection("ApplicationSettings:Cors").Get<string>();
+            string[] corsUrl = !string.IsNullOrEmpty(cors) ? cors.Split(',') : null;
 
-            services.AddCors(options =>
+            if (corsUrl != null)
             {
-                options.AddPolicy("TpCorsPolicy",
-                    builder => builder
-                        .WithOrigins(corsUrl) // or AllowAnyOrigin() combined with the next commented line
-                                              //.SetIsOriginAllowed(origin => true) // allow any origin
-                        .AllowAnyMethod()
-                        .AllowAnyHeader()
-                        .AllowCredentials());
-            });
+                services.AddCors(options =>
+                {
+                    options.AddPolicy("TpCorsPolicy",
+                        builder => builder
+                            .WithOrigins(corsUrl) // or AllowAnyOrigin() combined with the next commented line
+                                                  //.SetIsOriginAllowed(origin => true) // allow any origin
+                            .AllowAnyMethod()
+                            .AllowAnyHeader()
+                            .AllowCredentials());
+                });
+            }
 
             return services;
         }

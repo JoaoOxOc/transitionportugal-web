@@ -18,10 +18,15 @@ namespace tpGateway
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .ConfigureHostConfiguration((configHost) =>
+                {
+                    configHost.AddEnvironmentVariables();
+                })
                 .ConfigureAppConfiguration((host, config) =>
                 {
                     config.AddJsonFile("notificationroutes.json");
                     config.AddJsonFile("loggingroutes.json");
+                    config.AddJsonFile("userroutes.json");
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
