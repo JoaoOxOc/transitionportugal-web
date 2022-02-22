@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using UserService.Entities;
 using UserService.Migrations.Config;
 using UserService.Services.UserManager;
+using Npgsql;
 
 namespace UserService.Services.Database
 {
@@ -26,7 +27,15 @@ namespace UserService.Services.Database
             // define the database to use
             try
             {
-                optionsBuilder.UseNpgsql(config.GetConnectionString("DefaultConnectionString"), options => options.EnableRetryOnFailure(3));
+                var connStringBuilder = new NpgsqlConnectionStringBuilder();
+                connStringBuilder.Host = "127.0.0.1";
+                connStringBuilder.Port = 5432;
+                connStringBuilder.SslMode = SslMode.Disable;
+                connStringBuilder.Username = "tpadmin";
+                connStringBuilder.Password = "tpadmin";
+                connStringBuilder.Database = "userservicedb";
+                connStringBuilder.TrustServerCertificate = true;
+                optionsBuilder.UseNpgsql(connStringBuilder.ConnectionString, options => options.EnableRetryOnFailure(3));
             }
             catch (Exception ex)
             {
