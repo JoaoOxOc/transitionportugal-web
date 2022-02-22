@@ -21,13 +21,20 @@ ConfigurationManager configuration = builder.Configuration;
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 var connStringBuilder = new NpgsqlConnectionStringBuilder();
-connStringBuilder.Host = "127.0.0.1";
-connStringBuilder.Port = 5432;
-connStringBuilder.SslMode = SslMode.Disable;
-connStringBuilder.Username = "tpadmin";
-connStringBuilder.Password = "tpadmin";
-connStringBuilder.Database = "userservicedb";
-connStringBuilder.TrustServerCertificate = true;
+int dbPort = 0;
+int.TryParse(builder.Configuration.GetConnectionString("DbPort"), out dbPort);
+bool dbPooling = false;
+bool.TryParse(builder.Configuration.GetConnectionString("DbPooling"), out dbPooling);
+bool dbTrustCrt = false;
+bool.TryParse(builder.Configuration.GetConnectionString("DbTrustCertificate"), out dbTrustCrt);
+connStringBuilder.Host = builder.Configuration.GetConnectionString("DbHost");
+connStringBuilder.Port = dbPort;
+connStringBuilder.SslMode = builder.Configuration.GetConnectionString("DbSslMode") == "None" ? SslMode.Disable : SslMode.Require;
+connStringBuilder.Username = builder.Configuration.GetConnectionString("DbUser");
+connStringBuilder.Password = builder.Configuration.GetConnectionString("DbPassword");
+connStringBuilder.Database = builder.Configuration.GetConnectionString("Database");
+connStringBuilder.TrustServerCertificate = dbTrustCrt;
+connStringBuilder.Pooling = dbPooling;
 //var connectionString = builder.Configuration.GetConnectionString("DefaultConnectionString");
 builder.Services.AddDbContext<DatabaseContext>(x => x.UseNpgsql(connStringBuilder.ConnectionString));
 
