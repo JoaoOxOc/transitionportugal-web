@@ -42,6 +42,7 @@ namespace UserService.Services.Database
                 connStringBuilder.Database = config.GetConnectionString("Database");
                 connStringBuilder.TrustServerCertificate = dbTrustCrt;
                 connStringBuilder.Pooling = dbPooling;
+                connStringBuilder.ServerCompatibilityMode = config.GetConnectionString("DbServerCompatibilityMode") == "Redshift" ? ServerCompatibilityMode.Redshift : ServerCompatibilityMode.None;
                 optionsBuilder.UseNpgsql(connStringBuilder.ConnectionString, options => options.EnableRetryOnFailure(3));
             }
             catch (Exception ex)
