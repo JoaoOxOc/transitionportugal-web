@@ -12,35 +12,15 @@ import { autoPlay } from 'react-swipeable-views-utils';
 
 import { SwipeableViewStyles as styles } from './swipeableview.style';
 
-const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
+import useBannerData from '../../hooks/useBannerData';
 
-const images = [
-  {
-    label: 'San Francisco – Oakland Bay Bridge, United States',
-    imgPath:
-      'https://images.unsplash.com/photo-1537944434965-cf4679d1a598?auto=format&fit=crop&w=400&h=250&q=60',
-  },
-  {
-    label: 'Bird',
-    imgPath:
-      'https://images.unsplash.com/photo-1538032746644-0212e812a9e7?auto=format&fit=crop&w=400&h=250&q=60',
-  },
-  {
-    label: 'Bali, Indonesia',
-    imgPath:
-      'https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250&q=80',
-  },
-  {
-    label: 'Goč, Serbia',
-    imgPath:
-      'https://images.unsplash.com/photo-1512341689857-198e7e2f3ca8?auto=format&fit=crop&w=400&h=250&q=60',
-  },
-];
+const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 function SwipeableTextMobileStepper() {
   const theme = useTheme();
   const [activeStep, setActiveStep] = React.useState(0);
-  const maxSteps = images.length;
+  const {data,loading,error} = useBannerData('https://localhost:4000');
+  //const maxSteps = data.length;
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -56,6 +36,8 @@ function SwipeableTextMobileStepper() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
+      { data != null &&
+      <>
       <Paper
         square
         elevation={0}
@@ -67,25 +49,32 @@ function SwipeableTextMobileStepper() {
           background: 'transparent !important',
         }}
       >
-        <Typography>{images[activeStep].label}</Typography>
+        <Typography sx={styles.SwipeableTitle}>{data[activeStep].label}</Typography>
       </Paper>
       <AutoPlaySwipeableViews
         axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+        interval={5000}
         index={activeStep}
         onChangeIndex={handleStepChange}
         enableMouseEvents
       >
-        {images.map((step, index) => (
+        {data.map((step, index) => (
           <div key={step.label}>
-            {Math.abs(activeStep - index) <= 2 ? (
+            <div style={{paddingTop: '5px'}}>
+              {data[activeStep].paragraphs?.map((paragraph, i) => (
+                <Typography sx={styles.SwipeableText} key={i}>{paragraph}</Typography>
+              ))}
+            </div>
+            {Math.abs(activeStep - index) <= 2 && step.imgPath ? (
               <Box
                 component="img"
                 sx={{
-                  height: 200,
+                  height: 150,
                   display: 'block',
-                  maxWidth: 400,
+                  maxWidth: 300,
                   overflow: 'hidden',
                   width: '100%',
+                  margin: '0 auto'
                 }}
                 src={step.imgPath}
                 alt={step.label}
@@ -95,8 +84,8 @@ function SwipeableTextMobileStepper() {
         ))}
       </AutoPlaySwipeableViews>
       <MobileStepper
-        steps={maxSteps}
-        position="absolute"
+        steps={data.length}
+        position="static"
         activeStep={activeStep}
         sx={styles.SwipeableSteppers}
         // nextButton={
@@ -124,6 +113,8 @@ function SwipeableTextMobileStepper() {
         //   </Button>
         // }
       />
+      </>
+      }
     </Box>
   );
 }

@@ -1,5 +1,4 @@
-/** @jsx jsx */ /** @jsxRuntime classic */
-import { jsx } from 'theme-ui';
+/** @jsxImportSource theme-ui */
 import React, { useEffect, useState } from 'react';
 import Sticky from 'react-stickynode';
 import Header from '../components/header/header';

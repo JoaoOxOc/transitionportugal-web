@@ -1,12 +1,15 @@
-/** @jsx jsx */ /** @jsxRuntime classic */
-import { jsx } from 'theme-ui';
-import React from 'react';
+/** @jsxImportSource theme-ui */
+
+import React, { useState } from 'react';
+import NewsList from '../../components/news/newslist';
 
 import { NewsStyles as styles } from './news.style';
 
 import { IoNewspaperOutline } from 'react-icons/io5';
 
-export default function Donations({accessWidth, posRight, posLeft, posTop, posBottom}) {
+export default function News({accessWidth, posRight, posLeft, posTop, posBottom}) {
+    const [showNews, toggleNews] = useState(false);
+
     const styleProps = {
         width: accessWidth,
         posRight: posRight,
@@ -17,8 +20,11 @@ export default function Donations({accessWidth, posRight, posLeft, posTop, posBo
     const classes = styles(styleProps);
 
     return (
-        <div sx={classes.newsToggle}>
-            <div sx={classes.newsToggleContainer}><IoNewspaperOutline/></div>
+        <div sx={!showNews ? classes.newsToggle : classes.newsToggled}>
+            <div sx={classes.newsToggleContainer} onClick={()=>toggleNews(!showNews)}><IoNewspaperOutline/></div>
+            <div sx={Object.assign({}, classes.newsInnerContainer, (!showNews ? classes.newsInnerContainerHidden : classes.newsInnerContainerToggled))}>
+                <NewsList/>
+            </div>
         </div>
     );
 }

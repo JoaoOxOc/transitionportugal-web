@@ -1,8 +1,8 @@
-/** @jsx jsx */ /** @jsxRuntime classic */
-import { jsx, Image } from 'theme-ui';
+/** @jsxImportSource theme-ui */
+import { Image } from 'theme-ui';
 import React from "react";
 
-import { Link } from '../../components/generic/link';
+import { TraditionalLink } from '../../components/generic/link';
 
 // import styles
 import {LinkBarStyles as styles } from './linkbar.style';
@@ -21,9 +21,8 @@ import SlackLogo from '../../public/social/slack_logo.svg';
 
 import useSocialData from '../../hooks/useSocialData';
 
-export default function SocialLinkBar({ className, dataJson, ...rest }) {
+const SocialLinkBar = React.memo(function SocialLinkBar({ className, dataJson, ...rest }) {
     const {data,loading,error} = useSocialData('https://localhost:4000');
-    console.log(data)
 
     const buildSocialLink = (jsonItem) => {
         const socialIconStyle = {};
@@ -50,14 +49,16 @@ export default function SocialLinkBar({ className, dataJson, ...rest }) {
         }
         return (
             <div key={jsonItem.code} sx={styles.socialLinkItem}>
-                <Link
+                <TraditionalLink
                     path={jsonItem.url}
                     sx={styles.socialLink}
                     target='_blank'
+                    aria-label={ jsonItem.name }
+                    rel='noopener'
                     {...rest}
                 >
                     <span sx={Object.assign({}, styles.socialLink.icon, socialIconStyle)}>{icon}</span>
-                </Link>
+                </TraditionalLink>
             </div>
         )
     }
@@ -73,4 +74,6 @@ export default function SocialLinkBar({ className, dataJson, ...rest }) {
         }
         </>
     );
-}
+});
+
+export default SocialLinkBar;
