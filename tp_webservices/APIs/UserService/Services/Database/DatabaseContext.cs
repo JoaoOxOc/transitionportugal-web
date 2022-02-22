@@ -44,7 +44,7 @@ namespace UserService.Services.Database
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message + "|connstring: " + config.GetConnectionString("DefaultConnectionString"));
+                throw new Exception(ex.Message + "|connstring: ");
             }
         }
 
