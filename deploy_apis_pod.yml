@@ -30,7 +30,7 @@ spec:
           persistentVolumeClaim:
             claimName: tp-postgres-data
       restartPolicy: Always
-      #hostname: tprabbitmq
+      hostname: tpapispod
       containers:
       - name: tpmongo
         image: mongo:latest
