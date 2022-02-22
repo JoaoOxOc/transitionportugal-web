@@ -28,13 +28,20 @@ namespace UserService.Services.Database
             try
             {
                 var connStringBuilder = new NpgsqlConnectionStringBuilder();
-                connStringBuilder.Host = "127.0.0.1";
-                connStringBuilder.Port = 5432;
-                connStringBuilder.SslMode = SslMode.Disable;
-                connStringBuilder.Username = "tpadmin";
-                connStringBuilder.Password = "tpadmin";
-                connStringBuilder.Database = "userservicedb";
-                connStringBuilder.TrustServerCertificate = true;
+                int dbPort = 0;
+                int.TryParse(config.GetConnectionString("DbPort"), out dbPort);
+                bool dbPooling = false;
+                bool.TryParse(config.GetConnectionString("DbPooling"), out dbPooling);
+                bool dbTrustCrt = false;
+                bool.TryParse(config.GetConnectionString("DbTrustCertificate"), out dbTrustCrt);
+                connStringBuilder.Host = config.GetConnectionString("DbHost");
+                connStringBuilder.Port = dbPort;
+                connStringBuilder.SslMode = config.GetConnectionString("DbSslMode") == "None" ? SslMode.Disable : SslMode.Require;
+                connStringBuilder.Username = config.GetConnectionString("DbUser");
+                connStringBuilder.Password = config.GetConnectionString("DbPassword");
+                connStringBuilder.Database = config.GetConnectionString("Database");
+                connStringBuilder.TrustServerCertificate = dbTrustCrt;
+                connStringBuilder.Pooling = dbPooling;
                 optionsBuilder.UseNpgsql(connStringBuilder.ConnectionString, options => options.EnableRetryOnFailure(3));
             }
             catch (Exception ex)
