@@ -56,6 +56,7 @@ services:
     container_name: tpgateway
     environment:
         ASPNETCORE_URLS: "http://+:3005"
+        ASPNETCORE_ENVIRONMENT: "Development"
         "ApplicationSettings:Cors": "http://localhost:3000,http://localhost:3001"
     build:
         context: .
@@ -70,6 +71,7 @@ services:
     container_name: tpuserservice
     environment:
         ASPNETCORE_URLS: "http://+:3020"
+        ASPNETCORE_ENVIRONMENT: "Development"
     build:
         context: .
         dockerfile: userservice.dockerfile
@@ -83,6 +85,7 @@ services:
     container_name: tpemailservice
     environment:
         ASPNETCORE_URLS: "http://+:3010"
+        ASPNETCORE_ENVIRONMENT: "Development"
     build:
         context: .
         dockerfile: emailservice.dockerfile

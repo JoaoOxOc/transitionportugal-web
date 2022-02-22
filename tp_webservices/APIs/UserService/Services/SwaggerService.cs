@@ -40,6 +40,7 @@ namespace UserService.Services
                     c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
                 }
                 catch (Exception) { }
+                c.OperationFilter<RequiredHeaderParameters>();
             });
             return services;
         }
