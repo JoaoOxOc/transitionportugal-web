@@ -11,39 +11,34 @@ namespace UserService.Services.Database
 {
     public class DatabaseContext : IdentityDbContext<User>
     {
+        private readonly IConfiguration _configuration;
 
-        public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
+        public DatabaseContext(DbContextOptions<DatabaseContext> options, IConfiguration configuration) : base(options)
         {
+            _configuration = configuration;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            // get the configuration from the app settings
-            var config = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json")
-                .AddJsonFile("appsettings.Production.json")
-                .Build();
-
             // define the database to use
             try
             {
                 var connStringBuilder = new NpgsqlConnectionStringBuilder();
                 int dbPort = 0;
-                int.TryParse(config["DatabaseSettings:DbPort"], out dbPort);
+                int.TryParse(_configuration["DatabaseSettings:DbPort"], out dbPort);
                 bool dbPooling = false;
-                bool.TryParse(config["DatabaseSettings:DbPooling"], out dbPooling);
+                bool.TryParse(_configuration["DatabaseSettings:DbPooling"], out dbPooling);
                 bool dbTrustCrt = false;
-                bool.TryParse(config["DatabaseSettings:DbTrustCertificate"], out dbTrustCrt);
-                connStringBuilder.Host = config["DatabaseSettings:DbHost"];
+                bool.TryParse(_configuration["DatabaseSettings:DbTrustCertificate"], out dbTrustCrt);
+                connStringBuilder.Host = _configuration["DatabaseSettings:DbHost"];
                 connStringBuilder.Port = dbPort;
-                connStringBuilder.SslMode = config["DatabaseSettings:DbSslMode"] == "None" ? SslMode.Disable : SslMode.Require;
-                connStringBuilder.Username = config["DatabaseSettings:DbUser"];
-                connStringBuilder.Password = config["DatabaseSettings:DbPassword"];
-                connStringBuilder.Database = config["DatabaseSettings:Database"];
+                connStringBuilder.SslMode = _configuration["DatabaseSettings:DbSslMode"] == "None" ? SslMode.Disable : SslMode.Require;
+                connStringBuilder.Username = _configuration["DatabaseSettings:DbUser"];
+                connStringBuilder.Password = _configuration["DatabaseSettings:DbPassword"];
+                connStringBuilder.Database = _configuration["DatabaseSettings:Database"];
                 connStringBuilder.TrustServerCertificate = dbTrustCrt;
                 connStringBuilder.Pooling = dbPooling;
-                connStringBuilder.ServerCompatibilityMode = config["DatabaseSettings:DbServerCompatibilityMode"] == "Redshift" ? ServerCompatibilityMode.Redshift : ServerCompatibilityMode.None;
+                connStringBuilder.ServerCompatibilityMode = _configuration["DatabaseSettings:DbServerCompatibilityMode"] == "Redshift" ? ServerCompatibilityMode.Redshift : ServerCompatibilityMode.None;
                 optionsBuilder.UseNpgsql(connStringBuilder.ConnectionString, options => options.EnableRetryOnFailure(3));
                 throw new Exception(connStringBuilder.ConnectionString);
             }
