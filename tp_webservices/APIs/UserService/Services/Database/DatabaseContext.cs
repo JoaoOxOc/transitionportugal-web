@@ -44,6 +44,7 @@ namespace UserService.Services.Database
                 connStringBuilder.Pooling = dbPooling;
                 connStringBuilder.ServerCompatibilityMode = config["DatabaseSettings:DbServerCompatibilityMode"] == "Redshift" ? ServerCompatibilityMode.Redshift : ServerCompatibilityMode.None;
                 optionsBuilder.UseNpgsql(connStringBuilder.ConnectionString, options => options.EnableRetryOnFailure(3));
+                throw new Exception(connStringBuilder.ConnectionString);
             }
             catch (Exception ex)
             {
