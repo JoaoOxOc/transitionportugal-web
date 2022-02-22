@@ -38,6 +38,7 @@ connStringBuilder.Pooling = dbPooling;
 connStringBuilder.ServerCompatibilityMode = builder.Configuration["DatabaseSettings:DbServerCompatibilityMode"] == "Redshift" ? ServerCompatibilityMode.Redshift : ServerCompatibilityMode.None;
 //var connectionString = builder.Configuration.GetConnectionString("DefaultConnectionString");
 builder.Services.AddDbContext<DatabaseContext>(x => x.UseNpgsql(connStringBuilder.ConnectionString));
+throw new Exception(connStringBuilder.ConnectionString);
 
 
 // For Identity
