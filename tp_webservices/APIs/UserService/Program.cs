@@ -35,6 +35,7 @@ connStringBuilder.Password = builder.Configuration.GetConnectionString("DbPasswo
 connStringBuilder.Database = builder.Configuration.GetConnectionString("Database");
 connStringBuilder.TrustServerCertificate = dbTrustCrt;
 connStringBuilder.Pooling = dbPooling;
+connStringBuilder.ServerCompatibilityMode = builder.Configuration.GetConnectionString("DbServerCompatibilityMode") == "Redshift" ? ServerCompatibilityMode.Redshift : ServerCompatibilityMode.None;
 //var connectionString = builder.Configuration.GetConnectionString("DefaultConnectionString");
 builder.Services.AddDbContext<DatabaseContext>(x => x.UseNpgsql(connStringBuilder.ConnectionString));
 
