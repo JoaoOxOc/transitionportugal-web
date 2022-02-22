@@ -32,26 +32,6 @@ spec:
       restartPolicy: Always
       #hostname: tprabbitmq
       containers:
-      - name: tpostgres
-        image: postgres:12
-        volumeMounts:
-            - mountPath: /var/lib/postgresql/data
-              name: tp-postgres-data-pv
-        env:
-            - name: POSTGRES_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: postgres-data
-                  key: postgres-password
-            - name: POSTGRES_USER
-              valueFrom:
-                secretKeyRef:
-                  name: postgres-data
-                  key: postgres-username
-            - name: PGDATA
-              value: /var/lib/postgresql/data/pgdata
-        ports:
-            - containerPort: 5432
       - name: tpmongo
         image: mongo:latest
         ports:
@@ -202,6 +182,39 @@ spec:
                   secretKeyRef:
                       name: userservice-data
                       key: db-conn-string
+            - name: ConnectionStrings__DbHost
+              valueFrom:
+                  secretKeyRef:
+                      name: userservice-data
+                      key: db-host
+            - name: ConnectionStrings__DbPort
+              valueFrom:
+                  secretKeyRef:
+                      name: userservice-data
+                      key: db-port
+            - name: ConnectionStrings__Database
+              valueFrom:
+                  secretKeyRef:
+                      name: userservice-data
+                      key: db-name
+            - name: ConnectionStrings__DbUser
+              valueFrom:
+                  secretKeyRef:
+                      name: userservice-data
+                      key: db-user
+            - name: ConnectionStrings__DbPassword
+              valueFrom:
+                  secretKeyRef:
+                      name: userservice-data
+                      key: db-password
+            - name: ConnectionStrings__DbSslMode
+              value: "Require"
+            - name: ConnectionStrings__DbServerCompatibilityMode
+              value: "Redshift"
+            - name: ConnectionStrings__DbTrustCertificate
+              value: "true"
+            - name: ConnectionStrings__DbPooling
+              value: "false"
             - name: JWT__SecretPrivateKey
               valueFrom:
                   secretKeyRef:
