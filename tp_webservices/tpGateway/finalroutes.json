@@ -176,7 +176,7 @@
     // Ends User service routes
     // Email service routes
     {
-      "DownstreamPathTemplate": "/api/settings/get",
+      "DownstreamPathTemplate": "/api/settings",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {

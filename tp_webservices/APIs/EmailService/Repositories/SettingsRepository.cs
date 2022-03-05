@@ -36,7 +36,10 @@ namespace EmailService.Repositories
 
                 IQueryable<Model.Setting> query = context.Settings.AsQueryable();
 
-                query = query.Where(x => x.Description.ToLower().Contains(searchText) || x.Key.ToLower().Contains(searchText));
+                if (!string.IsNullOrEmpty(searchText))
+                {
+                    query = query.Where(x => x.Description.ToLower().Contains(searchText) || x.Key.ToLower().Contains(searchText));
+                }
 
                 if (!string.IsNullOrEmpty(ignoreId))
                 {
@@ -84,8 +87,10 @@ namespace EmailService.Repositories
 
                 IQueryable<Model.Setting> query = context.Settings.AsQueryable();
 
-                query = query.Where(x => x.Description.Contains(searchText));
-                
+                if (!string.IsNullOrEmpty(searchText))
+                {
+                    query = query.Where(x => x.Description.ToLower().Contains(searchText) || x.Key.ToLower().Contains(searchText));
+                }
 
                 List<Model.Setting> logsList = query.ToList();
 
@@ -135,7 +140,9 @@ namespace EmailService.Repositories
                     var update = Builders<Model.Setting>.Update
                                           .Set(x => x.Description, editedSetting.Description)
                                           .Set(x => x.DefaultValue, editedSetting.DefaultValue)
-                                          .Set(x => x.Value, editedSetting.Value);
+                                          .Set(x => x.Value, editedSetting.Value)
+                                          .Set(x => x.UpdatedBy, editedSetting.UpdatedBy)
+                                          .Set(x => x.UpdatedAt, editedSetting.UpdatedAt);
 
                     var result = await this.context.Settings.UpdateOneAsync(filter, update);
                     if (result.IsAcknowledged)
