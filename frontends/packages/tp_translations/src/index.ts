@@ -18,4 +18,5 @@ export * from './backoffice/i18nRegisterForm';
 export * from './backoffice/i18nRecover';
 export * from './backoffice/i18nReset';
 export * from './backoffice/i18nConfirmEmail';
-
+export * from './backoffice/i18nPage403';
+export * from './backoffice/i18nSettingsPage';

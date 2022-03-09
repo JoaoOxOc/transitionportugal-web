@@ -47,3 +47,19 @@ export const genericFetch = async (apiUrl, method, bearerToken, bodyJson) => {
         return resultData;
     }
 }
+
+export const buildRouteQuery = (queryDataJson) => {
+    let query = "?";
+    if (queryDataJson) {
+        const jsonProps = Object.keys(queryDataJson);
+        const jsonPropsCount = jsonProps.length;
+        for(let i = 0; i < jsonPropsCount; i++) {
+            query += jsonProps[i] + "=" + queryDataJson[jsonProps[i]];
+            if (i < jsonPropsCount - 1) {
+                query += "&";
+            }
+        }
+    }
+
+    return query;
+}

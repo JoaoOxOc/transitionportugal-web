@@ -184,7 +184,7 @@
           "Port": 3010
         }
       ],
-      "UpstreamPathTemplate": "/settings/get",
+      "UpstreamPathTemplate": "/emailsettings/get",
       "UpstreamHttpMethod": [ "Get" ],
       "SwaggerKey": "EmailService",
       "AuthenticationOptions": {
@@ -201,7 +201,7 @@
           "Port": 3010
         }
       ],
-      "UpstreamPathTemplate": "/settings/{id}",
+      "UpstreamPathTemplate": "/emailsettings/{id}",
       "UpstreamhttpMethod": [ "Get" ],
       "SwaggerKey": "EmailService",
       "AuthenticationOptions": {
@@ -218,7 +218,7 @@
           "Port": 3010
         }
       ],
-      "UpstreamPathTemplate": "/settings/edit",
+      "UpstreamPathTemplate": "/emailsettings/edit",
       "UpstreamHttpMethod": [ "Put" ],
       "SwaggerKey": "EmailService",
       "AuthenticationOptions": {

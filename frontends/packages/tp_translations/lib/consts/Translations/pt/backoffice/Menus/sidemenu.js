@@ -3,7 +3,8 @@ export var SIDEMENU_TRANSLATIONS = deepFreeze({
     SIDEMENU_HEADERS: {
         general: "Geral",
         content: "Conteúdo do Website",
-        management: "Administração"
+        management: "Administração",
+        Settings: "Definições"
     },
     SIDEMENU_GENERAL: {
         dashboard: "Dashboard"
@@ -17,6 +18,11 @@ export var SIDEMENU_TRANSLATIONS = deepFreeze({
         profiles: "Perfis",
         newsletter: "Subscrições da Newsletter",
         privacy: "Política & Privacidade"
+    },
+    SIDEMENU_SETTINGS: {
+        email: "Envio de Emails",
+        emailTemplates: "Templates de Email",
+        userAuth: "Definições de Autenticação"
     }
 });
 //# sourceMappingURL=sidemenu.js.map
