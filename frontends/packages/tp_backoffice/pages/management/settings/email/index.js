@@ -1,4 +1,5 @@
 import { useContext, useState, useEffect, useCallback } from 'react';
+import { useErrorHandler } from 'react-error-boundary';
 
 import Head from 'next/head';
 
@@ -14,7 +15,8 @@ import { i18nextSettingsPage } from "@transitionpt/translations";
 import { Grid } from '@mui/material';
 import { useRefMounted } from '../../../../hooks/useRefMounted';
 
-import {buildRouteQuery, genericFetch} from '../../../../services/genericFetch';
+import { buildRouteQuery } from '../../../../services/genericFetch';
+import { GetSettings } from '../../../../services/settings';
 
 import PageTitleWrapper from '../../../../components/PageTitleWrapper';
 import Loader from '../../../../components/Loader';
@@ -28,18 +30,24 @@ function SettingsPage() {
   const { t } = i18nextSettingsPage;
   const isMountedRef = useRefMounted();
   const settingsSearchData = useContext(SettingsSearchContext);
+  const [settingsError, setSettingsError] = useState(null);
+  useErrorHandler(settingsError);
   const [settings, setSettings] = useState(null);
+  const [currentLang, setLang] = useState("pt");
+  i18nextSettingsPage.changeLanguage(currentLang);
 
   const getEmailSettings = useCallback(async (searchDataJson) => {
     try {
       const settingsUri = "/emailsettings/get" + buildRouteQuery(searchDataJson);
       console.log(settingsUri);
-      let emailSettings = await genericFetch(process.env.NEXT_PUBLIC_API_BASE_URL + settingsUri, "GET", window.localStorage.getItem('accessToken'),{});
+      let emailSettings = await GetSettings(process.env.NEXT_PUBLIC_API_BASE_URL + settingsUri);
+      
       if (isMountedRef()) {
         if (emailSettings.settings) {
           setSettings(emailSettings.settings);
         }
         else {
+          setSettingsError(emailSettings);
           setSettings([]);
         }
       }
@@ -49,6 +57,12 @@ function SettingsPage() {
   }, [isMountedRef]);
 
   useEffect(() => {
+    const handleNewMessage = (event) => {
+      setLang(event.detail);
+    };
+          
+    window.addEventListener('newLang', handleNewMessage);
+
     if (settingsSearchData.doSearch) {
       getEmailSettings(settingsSearchData.searchData);
     }

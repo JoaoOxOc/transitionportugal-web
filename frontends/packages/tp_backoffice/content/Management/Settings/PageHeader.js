@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { i18nextSettingsPage } from "@transitionpt/translations";
 
 import {
@@ -7,6 +8,16 @@ import {
 
 function PageHeader() {
   const { t } = i18nextSettingsPage;
+  const [currentLang, setLang] = useState("pt");
+  i18nextSettingsPage.changeLanguage(currentLang);
+
+  useEffect(() => {
+      const handleNewMessage = (event) => {
+        setLang(event.detail);
+      };
+            
+      window.addEventListener('newLang', handleNewMessage);
+  }, []);
 
   return (
     <>
