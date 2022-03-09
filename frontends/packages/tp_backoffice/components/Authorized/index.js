@@ -1,32 +1,28 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
-import { useAuth } from '../../hooks/useAuth';
-import { useSnackbar } from 'notistack';
-import { Slide } from '@mui/material';
+import { verifyTokenScopes } from '../../utils/jwt';
 
 export const Authorized = (props) => {
   const { children } = props;
-  const auth = useAuth();
   const router = useRouter();
   const [verified, setVerified] = useState(false);
-  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     if (!router.isReady) {
       return;
     }
 
-    if (!auth.isAuthenticated) {
+    if(!verifyTokenScopes(window.localStorage.getItem('accessToken'), props.scopes)) {
       router.push({
-        pathname: '/auth/login/cover',
-        query: { backTo: router.asPath }
+        pathname: '/403',
+        query: { access: router.pathname },
       });
-    } else {
-      setVerified(true);
-
     }
-  }, [router.isReady]);
+    else {
+      setVerified(true);
+    }
+  }, [router,router.isReady, props.scopes]);
 
   if (!verified) {
     return null;
@@ -35,6 +31,6 @@ export const Authorized = (props) => {
   return <>{children}</>;
 };
 
-Authenticated.propTypes = {
+Authorized.propTypes = {
   children: PropTypes.node
 };
