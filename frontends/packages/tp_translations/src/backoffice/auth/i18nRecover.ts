@@ -1,7 +1,7 @@
-import { i18nCreateInstanceSync } from "../utils/i18nCreateInstance";
+import { i18nCreateInstanceSync } from "../../utils/i18nCreateInstance";
 
-import {RECOVER_TRANSLATIONS as EN_RECOVER_TRANSLATIONS} from '../consts/Translations/en/backoffice/Auth/recover';
-import {RECOVER_TRANSLATIONS as PT_RECOVER_TRANSLATIONS} from '../consts/Translations/pt/backoffice/Auth/recover';
+import {RECOVER_TRANSLATIONS as EN_RECOVER_TRANSLATIONS} from '../../consts/Translations/en/backoffice/Auth/recover';
+import {RECOVER_TRANSLATIONS as PT_RECOVER_TRANSLATIONS} from '../../consts/Translations/pt/backoffice/Auth/recover';
 
 export const i18nextRecover = i18nCreateInstanceSync({
     lng: 'pt',

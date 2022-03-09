@@ -1,7 +1,7 @@
-import { i18nCreateInstanceSync } from "../utils/i18nCreateInstance";
+import { i18nCreateInstanceSync } from "../../utils/i18nCreateInstance";
 
-import {RESET_TRANSLATIONS as EN_RESET_TRANSLATIONS} from '../consts/Translations/en/backoffice/Auth/reset';
-import {RESET_TRANSLATIONS as PT_RESET_TRANSLATIONS} from '../consts/Translations/pt/backoffice/Auth/reset';
+import {RESET_TRANSLATIONS as EN_RESET_TRANSLATIONS} from '../../consts/Translations/en/backoffice/Auth/reset';
+import {RESET_TRANSLATIONS as PT_RESET_TRANSLATIONS} from '../../consts/Translations/pt/backoffice/Auth/reset';
 
 export const i18nextReset = i18nCreateInstanceSync({
     lng: 'pt',
