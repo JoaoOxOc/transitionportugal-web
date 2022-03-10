@@ -1,5 +1,4 @@
-import { useContext, useState, useEffect, useCallback } from 'react';
-import { useErrorHandler } from 'react-error-boundary';
+import { useState, useEffect } from 'react';
 
 import Head from 'next/head';
 
@@ -13,48 +12,19 @@ import Footer from '../../../../components/Footer';
 import { i18nextSettingsPage } from "@transitionpt/translations";
 
 import { Grid } from '@mui/material';
-import { useRefMounted } from '../../../../hooks/useRefMounted';
-
-import { buildRouteQuery } from '../../../../services/genericFetch';
-import { GetSettings } from '../../../../services/settings';
 
 import PageTitleWrapper from '../../../../components/PageTitleWrapper';
-import Loader from '../../../../components/Loader';
 
 import { SettingsSearchProvider } from '../../../../contexts/Search/SettingsSearchContext';
-import { SettingsSearchContext } from '../../../../contexts/Search/SettingsSearchContext';
 
 import Results from '../../../../content/Management/Settings/Results';
 
 function SettingsPage() {
   const { t } = i18nextSettingsPage;
-  const isMountedRef = useRefMounted();
-  const settingsSearchData = useContext(SettingsSearchContext);
-  const [settingsError, setSettingsError] = useState(null);
-  useErrorHandler(settingsError);
-  const [settings, setSettings] = useState(null);
   const [currentLang, setLang] = useState("pt");
   i18nextSettingsPage.changeLanguage(currentLang);
 
-  const getEmailSettings = useCallback(async (searchDataJson) => {
-    try {
-      const settingsUri = "/emailsettings/get" + buildRouteQuery(searchDataJson);
-      console.log(settingsUri);
-      let emailSettings = await GetSettings(process.env.NEXT_PUBLIC_API_BASE_URL + settingsUri);
-      
-      if (isMountedRef()) {
-        if (emailSettings.settings) {
-          setSettings(emailSettings.settings);
-        }
-        else {
-          setSettingsError(emailSettings);
-          setSettings([]);
-        }
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  }, [isMountedRef]);
+  
 
   useEffect(() => {
     const handleNewMessage = (event) => {
@@ -62,11 +32,7 @@ function SettingsPage() {
     };
           
     window.addEventListener('newLang', handleNewMessage);
-
-    if (settingsSearchData.doSearch) {
-      getEmailSettings(settingsSearchData.searchData);
-    }
-  }, [settingsSearchData, getEmailSettings]);
+  }, []);
 
   return (
     <>
@@ -87,12 +53,7 @@ function SettingsPage() {
       >
         <Grid item xs={12}>
           <SettingsSearchProvider>
-            {!settings ? (
-                  <Loader />
-                ) : (
-                  <Results settings={settings} settingsType={"email"} />
-                )
-            }
+              <Results settingsType={"email"} />
           </SettingsSearchProvider>
         </Grid>
       </Grid>

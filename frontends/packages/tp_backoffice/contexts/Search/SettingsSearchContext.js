@@ -19,7 +19,6 @@ const handlers = {
       };
     },
     SEARCH: (state, action) => {
-  
       return {
         ...state,
         searchData: action.payload,
@@ -33,8 +32,7 @@ const reducer = (state, action) =>
 
 export const SettingsSearchContext = createContext({
     searchData: initialSearchState,
-    doSearch: true,
-    search: () => Promise.resolve()
+    doSearch: true
 });
 
 export const SettingsSearchProvider = (props) => {
@@ -54,6 +52,7 @@ export const SettingsSearchProvider = (props) => {
         <SettingsSearchContext.Provider
           value={{
             ...state,
+            searchData: initialSearchState,
             doSearch: true,
             search
           }}
