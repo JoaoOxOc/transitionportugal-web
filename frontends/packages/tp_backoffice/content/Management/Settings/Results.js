@@ -15,7 +15,6 @@ import {
     TableBody,
     TableCell,
     TableHead,
-    TablePagination,
     TableContainer,
     TableRow,
     ToggleButton,
@@ -49,6 +48,8 @@ import { useSnackbar } from 'notistack';
 import MoreVertTwoToneIcon from '@mui/icons-material/MoreVertTwoTone';
 
 import SearchBar from './SearchBar';
+import ResultsHeader from '../../../components/Table/Header';
+import ResultsPagination from '../../../components/Table/Pagination';
 
 import { i18nextSettingsList } from "@transitionpt/translations";
   
@@ -82,29 +83,65 @@ const Results = ({ settingsType }) => {
     i18nextSettingsList.changeLanguage(currentLang);
     const isMountedRef = useRefMounted();
     const SettingsSearchData = useContext(SettingsSearchContext);
-    console.log(SettingsSearchData);
     const [settingsError, setSettingsError] = useState(null);
     useErrorHandler(settingsError);
     const [settings, setSettings] = useState(null);
+    const [totalSsettings, setTotalSettings] = useState(0);
+    const headCells = [
+      {
+        id: 'Description',
+        isSort: true,
+        disablePadding: false,
+        align: 'left',
+        label: 'Description',
+      },
+      {
+        id: 'Key',
+        isSort: true,
+        disablePadding: false,
+        align: 'left',
+        label: 'Key',
+      },
+      {
+        id: 'Value',
+        isSort: true,
+        disablePadding: false,
+        align: 'center',
+        label: 'Value',
+      },
+      {
+        id: 'actions',
+        isSort: false,
+        disablePadding: false,
+        align: 'center',
+        label: 'Actions',
+      },
+    ];
 
-    const getEmailSettings = useCallback(async (searchDataJson) => {
+    const getSettingsData = useCallback(async (searchDataJson) => {
+      let settingsUri = "";
+      switch (settingsType) {
+        case "email": settingsUri = "/emailsettings/get"; break;
+      }
       try {
-        let emailSettings = await GetSettings(process.env.NEXT_PUBLIC_API_BASE_URL + "/emailsettings/get", searchDataJson);
+        let settingsData = await GetSettings(process.env.NEXT_PUBLIC_API_BASE_URL + settingsUri, searchDataJson);
         
         if (isMountedRef()) {
-          if (emailSettings.settings) {
-            setSettings(emailSettings.settings);
+          if (settingsData.settings) {
+            setSettings(settingsData.settings);
+            setTotalSettings(settingsData.totalCount);
           }
           else {
-            setSettingsError(emailSettings);
+            setSettingsError(settingsData);
             setSettings([]);
+            setTotalSettings(0);
           }
         }
       } catch (err) {
         setSettingsError(err);
         console.error(err);
       }
-    }, [isMountedRef]);
+    }, [isMountedRef, settingsType]);
 
     useEffect(() => {
         const handleNewMessage = (event) => {
@@ -114,27 +151,14 @@ const Results = ({ settingsType }) => {
         window.addEventListener('newLang', handleNewMessage);
 
         if (SettingsSearchData.doSearch) {
-          getEmailSettings(SettingsSearchData.searchData);
+          getSettingsData(SettingsSearchData.searchData);
         }
-    }, [SettingsSearchData, getEmailSettings]);
+    }, [SettingsSearchData, getSettingsData]);
 
     const [toggleView, setToggleView] = useState('table_view');
 
     const handleViewOrientation = (_event, newValue) => {
       setToggleView(newValue);
-    };
-
-    // search definitions
-
-    const [page, setPage] = useState(0);
-    const [limit, setLimit] = useState(10);
-
-    const handlePageChange = (_event, newPage) => {
-      setPage(newPage);
-    };
-  
-    const handleLimitChange = (event) => {
-      setLimit(parseInt(event.target.value));
     };
 
     return (
@@ -187,15 +211,10 @@ const Results = ({ settingsType }) => {
                   <TableContainer>
                     <Table>
                       <TableHead>
-                        <TableRow>
-                          <TableCell>{t('Description')}</TableCell>
-                          <TableCell>{t('Key')}</TableCell>
-                          <TableCell align="center">{t('Value')}</TableCell>
-                          <TableCell align="center">{t('Actions')}</TableCell>
-                        </TableRow>
+                        <ResultsHeader headerCells={headCells} defaultSort={'Key'} defaultSortDirection={'asc'} searchContext={SettingsSearchData}/>
                       </TableHead>
                       <TableBody>
-                      {!settings ? (
+                      {!settings || settings.length == 0 ? (
                           <Loader />
                         ) : (
                         settings.map((setting) => {
@@ -218,7 +237,7 @@ const Results = ({ settingsType }) => {
                               <Typography noWrap>
                                 <Tooltip title={t('View')} arrow>
                                   <IconButton
-                                    href={'/management/Settings/single/' + setting.id + "?settingType=" + settingsType}
+                                    href={'/management/settings/email/single/' + setting.id + "?settingType=" + settingsType}
                                     color="primary"
                                   >
                                     <LaunchTwoToneIcon fontSize="small" />
@@ -235,18 +254,33 @@ const Results = ({ settingsType }) => {
                     </Table>
                   </TableContainer>
                   <Box p={2}>
-                    <TablePagination
-                      component="div"
-                      count={settings.length}
-                      onPageChange={handlePageChange}
-                      onRowsPerPageChange={handleLimitChange}
-                      page={page}
-                      rowsPerPage={limit}
-                      rowsPerPageOptions={[5, 10, 15]}
-                    />
+                    <ResultsPagination totalElements={totalSsettings} searchContext={SettingsSearchData} paginationLabels={{ of: "de"}} paginationRowsPerPageLabel={"Linhas por pág.:"}/>
                   </Box>
                 </>
               )}
+            </Card>
+          )}
+          {!toggleView && (
+            <Card
+              sx={{
+                textAlign: 'center',
+                p: 3
+              }}
+            >
+              <Typography
+                align="center"
+                variant="h4"
+                fontWeight="normal"
+                color="text.secondary"
+                sx={{
+                  my: 5
+                }}
+                gutterBottom
+              >
+                {t(
+                  'Choose between table or grid views for displaying the users list.'
+                )}
+              </Typography>
             </Card>
           )}
         </>

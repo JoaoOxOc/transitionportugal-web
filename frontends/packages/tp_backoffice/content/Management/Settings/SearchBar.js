@@ -32,14 +32,11 @@ const SearchBar = () => {
 
     const handleQueryChange = (event) => {
         event.persist();
-        //setQuery(event.target.value);
-        searchContext.search({
-            searchText: event.target.value,
-            page: 1,
-            size: 10,
-            sort: "Key",
-            sortDirection: "asc"
-        });
+        setQuery(event.target.value);
+        if (!event.target.value || event.target.value.length > 2) {
+            searchContext.searchData.searchText = event.target.value;
+            searchContext.search(searchContext.searchData);
+        }
     };
 
     return(

@@ -9,6 +9,8 @@ namespace tpGateway.Services
         {
             string cors = configuration.GetSection("ApplicationSettings:Cors").Get<string>();
             string[] corsUrl = !string.IsNullOrEmpty(cors) ? cors.Split(',') : null;
+            string exposedHeadersString = configuration.GetSection("ApplicationSettings:ExposedHeaders").Get<string>();
+            string[] exposedHeaders = !string.IsNullOrEmpty(exposedHeadersString) ? exposedHeadersString.Split(',') : System.Array.Empty<string>();
 
             if (corsUrl != null)
             {
@@ -18,6 +20,7 @@ namespace tpGateway.Services
                         builder => builder
                             .WithOrigins(corsUrl) // or AllowAnyOrigin() combined with the next commented line
                                                   //.SetIsOriginAllowed(origin => true) // allow any origin
+                            .WithExposedHeaders(exposedHeaders)
                             .AllowAnyMethod()
                             .AllowAnyHeader()
                             .AllowCredentials());

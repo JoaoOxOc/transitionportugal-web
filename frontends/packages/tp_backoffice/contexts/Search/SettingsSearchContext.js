@@ -37,14 +37,12 @@ export const SettingsSearchContext = createContext({
 
 export const SettingsSearchProvider = (props) => {
     const { children } = props;
-    const [state, dispatch] = useReducer(reducer, initialSearchState);
+    const [state, dispatch] = useReducer(reducer, {searchData: initialSearchState, doSearch: true});
 
     const search = (searchDataJson) => {
         dispatch({
           type: 'SEARCH',
-          payload: {
-            searchDataJson
-          }
+          payload: searchDataJson
         });
     };
 
@@ -52,8 +50,6 @@ export const SettingsSearchProvider = (props) => {
         <SettingsSearchContext.Provider
           value={{
             ...state,
-            searchData: initialSearchState,
-            doSearch: true,
             search
           }}
         >

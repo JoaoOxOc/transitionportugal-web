@@ -16,11 +16,13 @@ export const genericFetch = async (apiUrl, method, bearerToken, bodyJson) => {
     try{
         const response = method != "GET" && method != "HEAD" ? await fetch(apiUrl, {
             method: method,
+            resolveWithFullResponse: true,
             headers: headers,
             body: JSON.stringify(bodyJson),
         })
         : await fetch(apiUrl, {
             method: method,
+            resolveWithFullResponse: true,
             headers: headers,
         });
         // .then(response => {
@@ -40,9 +42,12 @@ export const genericFetch = async (apiUrl, method, bearerToken, bodyJson) => {
         //  });
         if (!response.ok) {
             resultErrorBody = await response.text();
+            resultData = {};
+            resultData.totalCount = 0;
             throw response;
         }
         resultData = await response.json();
+        resultData.totalCount = response.headers.get('x-total-count');
     }catch(err){
         resultData = err;
         if (err.status == 400 && resultErrorBody == "Invalid access token or refresh token") {
