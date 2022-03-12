@@ -12,5 +12,17 @@ namespace UserService.Entities
         public string ClientId { get; set; }
         public string Description { get; set; }
         public string ClientSecret { get; set; }
+
+        #region MetaData
+
+        public DateTime CreatedAt { get; set; }
+
+        public DateTime? UpdatedAt { get; set; }
+
+        public string? UpdatedBy { get; set; }
+
+        public string? CreatedBy { get; set; }
+
+        #endregion
     }
 }

@@ -131,6 +131,56 @@
       }
     },
     {
+      "DownstreamPathTemplate": "/api/client",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tpuserservice",
+          "Port": 3020
+        }
+      ],
+      "UpstreamPathTemplate": "/app/client/get",
+      "UpstreamHttpMethod": [ "Get" ],
+      "SwaggerKey": "UserService",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "TpAuthKey",
+        "AllowedScopes": [ "client.admin" ]
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/client/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tpuserservice",
+          "Port": 3020
+        }
+      ],
+      "UpstreamPathTemplate": "/app/client/{id}",
+      "UpstreamhttpMethod": [ "Get" ],
+      "SwaggerKey": "UserService",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "TpAuthKey",
+        "AllowedScopes": [ "client.admin" ]
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/client/update",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tpuserservice",
+          "Port": 3020
+        }
+      ],
+      "UpstreamPathTemplate": "/app/clientupdate",
+      "UpstreamHttpMethod": [ "Put" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "TpAuthKey",
+        "AllowedScopes": [ "client.admin" ]
+      }
+    },
+    {
       "DownstreamPathTemplate": "/api/client/register",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -144,6 +194,70 @@
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "TpAuthKey",
         "AllowedScopes": [ "client.admin" ]
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/settings",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tpuserservice",
+          "Port": 3020
+        }
+      ],
+      "UpstreamPathTemplate": "/usersettings/get",
+      "UpstreamHttpMethod": [ "Get" ],
+      "SwaggerKey": "UserService",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "TpAuthKey",
+        "AllowedScopes": [ "settings.admin" ]
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/settings/userPublicSettings",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tpuserservice",
+          "Port": 3020
+        }
+      ],
+      "UpstreamPathTemplate": "/usersettings/public/get",
+      "UpstreamHttpMethod": [ "Get" ],
+      "SwaggerKey": "UserService"
+    },
+    {
+      "DownstreamPathTemplate": "/api/settings/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tpuserservice",
+          "Port": 3020
+        }
+      ],
+      "UpstreamPathTemplate": "/usersettings/{id}",
+      "UpstreamhttpMethod": [ "Get" ],
+      "SwaggerKey": "UserService",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "TpAuthKey",
+        "AllowedScopes": [ "settings.admin" ]
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/settings/edit",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tpuserservice",
+          "Port": 3020
+        }
+      ],
+      "UpstreamPathTemplate": "/usersettings/edit",
+      "UpstreamHttpMethod": [ "Put" ],
+      "SwaggerKey": "UserService",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "TpAuthKey",
+        "AllowedScopes": [ "settings.admin" ]
       }
     },
     {
