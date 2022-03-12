@@ -10,6 +10,7 @@ import SmartToyTwoToneIcon from '@mui/icons-material/SmartToyTwoTone';
 import ForwardToInboxTwoToneIcon from '@mui/icons-material/ForwardToInboxTwoTone';
 import AllInboxTwoToneIcon from '@mui/icons-material/AllInboxTwoTone';
 import AdminPanelSettingsTwoToneIcon from '@mui/icons-material/AdminPanelSettingsTwoTone';
+import AppSettingsAltTwoToneIcon from '@mui/icons-material/AppSettingsAltTwoTone';
 
 import { i18nextSidemenu } from "@transitionpt/translations";
 console.log(i18nextSidemenu)
@@ -81,6 +82,11 @@ const menuItems = [
         name: i18nextSidemenu.t('SIDEMENU_SETTINGS.userAuth'),
         icon: AdminPanelSettingsTwoToneIcon,
         link: '/management/settings/auth',
+      },
+      {
+        name: i18nextSidemenu.t('SIDEMENU_SETTINGS.clientApps'),
+        icon: AppSettingsAltTwoToneIcon,
+        link: '/management/app/clients',
       }
     ]
   },

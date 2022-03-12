@@ -56,7 +56,7 @@ namespace UserService.Controllers
 
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> Get(string searchText, int? settingType, int? offset, int? limit, string sort, string sortDirection)
+        public async Task<IActionResult> Get(string? searchText, int? settingType, int? offset, int? limit, string sort, string sortDirection)
         {
             string header = HttpContext.Request.Headers["Authorization"];
             string[] claims = new string[] { "userId", "sub", System.Security.Claims.ClaimTypes.Role };
@@ -93,7 +93,7 @@ namespace UserService.Controllers
 
         [HttpGet]
         [Route("userPublicSettings")]
-        public async Task<IActionResult> GetPublicSettings(string searchText, int? offset, int? limit, string sort, string sortDirection)
+        public async Task<IActionResult> GetPublicSettings(string? searchText, int? offset, int? limit, string sort, string sortDirection)
         {
             try
             {

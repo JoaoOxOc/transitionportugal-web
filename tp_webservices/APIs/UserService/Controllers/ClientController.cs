@@ -64,7 +64,7 @@ namespace UserService.Controllers
 
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> Get(string searchText, int? offset, int? limit, string sort, string sortDirection)
+        public async Task<IActionResult> Get(string? searchText, int? offset, int? limit, string sort, string sortDirection)
         {
             string header = HttpContext.Request.Headers["Authorization"];
             string[] claims = new string[] { "userId", "sub", System.Security.Claims.ClaimTypes.Role };

@@ -8,6 +8,8 @@ import AccentHeaderLayout from '../../../../../layouts/AccentHeaderLayout';
 import { Authenticated } from '../../../../../components/Authenticated';
 import { Authorized } from '../../../../../components/Authorized';
 
+import PageTitleWrapper from '../../../../../components/PageTitleWrapper';
+import PageHeader from '../../../../../content/Management/Settings/single/PageHeader';
 import Footer from '../../../../../components/Footer';
 
 import { Box, Tabs, Tab, Grid, styled } from '@mui/material';
@@ -29,7 +31,7 @@ const TabsWrapper = styled(Tabs)(
 function ManagementSettingsView() {
     const router = useRouter();
     const isMountedRef = useRefMounted();
-    const [setting, setSetting] = useState({});
+    const [setting, setSetting] = useState(null);
     const [settingsError, setSettingsError] = useState(null);
     useErrorHandler(settingsError);
     const { t } = i18nextSettingDetails;
@@ -43,14 +45,13 @@ function ManagementSettingsView() {
         }
         try {
             let settingsData = await GetSettingData(process.env.NEXT_PUBLIC_API_BASE_URL + settingsUri);
-            console.log(settingsData);
             if (isMountedRef()) {
               if (settingsData.status) {
                 setSettingsError(settingsData);
                 setSetting({});
               }
               else {
-                setSetting(settingsData.settings);
+                setSetting(settingsData);
               }
             }
           } catch (err) {
@@ -69,16 +70,20 @@ function ManagementSettingsView() {
         getSettingData();
     }, [getSettingData]);
 
-//   if (!user) {
-//     return null;
-//   }
-
-  return (
+    return (
     <>
       <Head>
         {/* <title>{user.name} - Profile Details</title> */}
         <title>Setting Details</title>
       </Head>
+      {setting ?
+        (
+        <PageTitleWrapper>
+          <PageHeader setting={setting} settingType={router.query.settingType}/>
+        </PageTitleWrapper>
+        ) : (<></>)
+      }
+
       <Box sx={{ mt: 3 }}>
         <Grid
           sx={{ px: 4 }}
@@ -88,12 +93,14 @@ function ManagementSettingsView() {
           alignItems="stretch"
           spacing={3}
         >
-          
+          <Grid item xs={12}>
+            {/* <InvoiceBody invoice={invoice} /> */}
+          </Grid>
         </Grid>
       </Box>
       <Footer />
     </>
-  );
+    );
 }
 
 ManagementSettingsView.getLayout = (page) => (
