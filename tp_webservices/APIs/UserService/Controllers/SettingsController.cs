@@ -152,7 +152,7 @@ namespace UserService.Controllers
         [Authorize]
         [HttpPut]
         [Route("edit")]
-        public async Task<IActionResult> Put([FromBody] Setting editedSetting)
+        public async Task<IActionResult> Put([FromBody] SettingModel editedSettingModel)
         {
             string header = HttpContext.Request.Headers["Authorization"];
             string[] claims = new string[] { "userId", "sub", System.Security.Claims.ClaimTypes.Role };
@@ -161,12 +161,18 @@ namespace UserService.Controllers
             {
                 try
                 {
-                    var _setting = uow.SettingRepository.Get(null, null, (x => x.Id == editedSetting.Id), string.Empty, SortDirection.Ascending, string.Empty, true).FirstOrDefault();
+                    var _setting = uow.SettingRepository.Get(null, null, (x => x.Key == editedSettingModel.Key), string.Empty, SortDirection.Ascending, string.Empty, true).FirstOrDefault();
                     if (_setting != null)
                     {
-                        _setting.Description = editedSetting.Description;
-                        _setting.DefaultValue = editedSetting.DefaultValue;
-                        _setting.Value = editedSetting.Value;
+                        if (!string.IsNullOrEmpty(editedSettingModel.Description))
+                            _setting.Description = editedSettingModel.Description;
+
+                        if (!string.IsNullOrEmpty(editedSettingModel.DefaultValue))
+                            _setting.DefaultValue = editedSettingModel.DefaultValue;
+
+                        if (!string.IsNullOrEmpty(editedSettingModel.Value))
+                            _setting.Value = editedSettingModel.Value;
+
                         _setting.UpdatedAt = DateTime.UtcNow;
                         _setting.UpdatedBy = userClaims.Where(x => x.Claim == "userId").Single().Value;
 

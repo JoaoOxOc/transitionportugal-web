@@ -1,10 +1,10 @@
-import { Box, 
+import { useState } from 'react';
+import { 
     Grid, 
     Button, 
-    Card, 
     FormControl, 
     TextField, 
-    useTheme,
+    Slide,
     Divider,
     FormControlLabel,
     FormHelperText,
@@ -13,46 +13,90 @@ import { Box,
 
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
+import { useErrorHandler } from 'react-error-boundary';
+import { useSnackbar } from 'notistack';
+import { useRefMounted } from '../../../../hooks/useRefMounted';
+
+import { UpdateSettingData } from '../../../../services/settings';
 
 import { i18nextSettingDetails } from "@transitionpt/translations";
 
-const DetailForm = ({settingData}) => {
+const DetailForm = ({settingData, settingPutUrl}) => {
     const { t } = i18nextSettingDetails;
+    const isMountedRef = useRefMounted();
+    const { enqueueSnackbar } = useSnackbar();
+    const [settingsError, setSettingsError] = useState(null);
+    useErrorHandler(settingsError);
 
-      const formik = useFormik({
+    const formik = useFormik({
         initialValues: settingData,
         enableReinitialize: true,
-        // validationSchema: Yup.object({
-        //   email: Yup.string()
-        //     .email(t('The email provided should be a valid email address'))
-        //     .max(255)
-        //     .required(t('The email field is required')),
-        //   name: Yup.string().max(255).required(t('The name field is required')),
-        //   password: Yup.string()
-        //     .min(8)
-        //     .max(255)
-        //     .required(t('The password field is required')),
-        //   terms: Yup.boolean().oneOf(
-        //     [true],
-        //     t('You must agree to our terms and conditions')
-        //   )
-        // }),
+        validationSchema: Yup.object({
+            description: Yup.string()
+                .max(255, t('MESSAGES.descriptionTooBig', {max: 255}))
+                .required(t('MESSAGES.descriptionRequired')),
+            value: Yup.string()
+                .max(255, t('MESSAGES.valueTooBig', {max: 255}))
+                .required(t('MESSAGES.valueRequired'))
+        }),
         onSubmit: async (values, helpers) => {
           try {
-            await register(values.email, values.name, values.password);
+              const settingModel = {
+                  key: values.key,
+                  description: values.description,
+                  value: values.value
+              }
+              console.log(settingModel)
+              const result = await UpdateSettingData(settingPutUrl, settingModel);
     
-            if (isMountedRef()) {
-              const backTo = router.query.backTo || '/';
-              router.push(backTo);
-            }
+              if (isMountedRef()) {
+                  if (result.status) {
+                    setSettingsError(result);
+                    helpers.setStatus({ success: false });
+                    helpers.setErrors({ submit: result.statusText });
+                    helpers.setSubmitting(false);
+                    if (resetResult.status === 404) {
+                        enqueueSnackbar(t('MESSAGES.settingNotFound', {settingKey: values.key}), {
+                          variant: 'error',
+                          anchorOrigin: {
+                            vertical: 'top',
+                            horizontal: 'center'
+                          },
+                          autoHideDuration: 2000,
+                          TransitionComponent: Slide
+                        });
+                    }
+                  }
+                  else {
+                    enqueueSnackbar(t('MESSAGES.settingUpdatedSuccessfully', {settingKey: values.key}), {
+                        variant: 'success',
+                        anchorOrigin: {
+                          vertical: 'top',
+                          horizontal: 'center'
+                        },
+                        autoHideDuration: 2000,
+                        TransitionComponent: Slide
+                    });
+                    helpers.setSubmitting(false);
+                  }
+              }
           } catch (err) {
-            console.error(err);
+              console.error(err);
     
-            if (isMountedRef()) {
-              helpers.setStatus({ success: false });
-              helpers.setErrors({ submit: err.message });
-              helpers.setSubmitting(false);
-            }
+              if (isMountedRef()) {
+                helpers.setStatus({ success: false });
+                helpers.setErrors({ submit: err.message });
+                helpers.setSubmitting(false);
+                enqueueSnackbar(t('MESSAGES.settingGeneralError', {settingKey: values.key}), {
+                    variant: 'error',
+                    anchorOrigin: {
+                      vertical: 'top',
+                      horizontal: 'center'
+                    },
+                    autoHideDuration: 2000,
+                    TransitionComponent: Slide
+                });
+              }
           }
         }
       });
@@ -141,12 +185,12 @@ const DetailForm = ({settingData}) => {
                     >
                     <FormControl fullWidth variant="outlined">
                     <TextField
-                        helperText={formik.touched.settingValue && formik.errors.settingValue}
-                        error={Boolean(formik.touched.settingValue && formik.errors.settingValue)}
+                        helperText={formik.touched.value && formik.errors.value}
+                        error={Boolean(formik.touched.value && formik.errors.value)}
                         fullWidth
                         margin="normal"
                         label={t('FORM.value')}
-                        name="settingValue"
+                        name="value"
                         onBlur={formik.handleBlur}
                         onChange={formik.handleChange}
                         value={formik.values.value}

@@ -18,5 +18,14 @@ export const SETTINGDETAILS_TRANSLATIONS = deepFreeze({
         defaultValue: "Valor por Omissão",
         value: "Valor",
         saveButton: "Guardar"
+    },
+    MESSAGES: {
+        valueTooBig: "O Valor é demasiado grande. Máx. de caracteres: {{max}}",
+        valueRequired: "O Valor é obrigatório",
+        descriptionTooBig: "A Descrição é demasiado grande. Máx. de caracteres: {{max}}",
+        descriptionRequired: "A Descrição é obrigatória",
+        settingUpdatedSuccessfully: "A definição cuja chave é {{settingKey}} foi atualizada com sucesso",
+        settingGeneralError: "Erro ao atualizar a definição cuja chave é {{settingKey}}. Por favor tente novamente",
+        settingNotFound: "A definição cuja chave é {{settingKey}} não foi encontrada. Por favor verifica se a chave está correcta"
     }
 } as const);

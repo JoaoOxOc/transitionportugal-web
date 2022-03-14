@@ -31,14 +31,17 @@ function SettingDetails() {
     let settingsListTitle = "";
     const settingListUri = "";
     let settingsUri = "";
+    let settingsPutUri = "";
     switch (router.query.settingType) {
         case "email": {
           settingsUri = "/emailsettings/" + router.query.settingId;
+          settingsPutUri = process.env.NEXT_PUBLIC_API_BASE_URL + "/emailsettings/edit";
           settingListUri = "/management/settings/email";
           settingsListTitle = t('LIST.emailSettingsTitle');
         } break;
         case "user": {
           settingsUri = "/usersettings/" + router.query.settingId;
+          settingsPutUri = process.env.NEXT_PUBLIC_API_BASE_URL + "/usersettings/edit";
             settingListUri = "/management/settings/auth";
             settingsListTitle = t('LIST.userSettingsTitle');
         } break;
@@ -112,7 +115,7 @@ function SettingDetails() {
                       }}
                     >
                       {setting &&
-                        <DetailForm settingData={setting}/>
+                        <DetailForm settingData={setting} settingPutUrl={settingsPutUri}/>
                       }
                     </Box>
                   </Box>

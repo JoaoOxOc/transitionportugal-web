@@ -131,9 +131,15 @@ namespace EmailService.Controllers
                 var _setting = this._settingsRepository.GetFiltered(model.Key, null, null, string.Empty, string.Empty).FirstOrDefault();
                 if (_setting != null)
                 {
-                    _setting.Description = model.Description;
-                    _setting.DefaultValue = model.DefaultValue;
-                    _setting.Value = model.Value;
+                    if(!string.IsNullOrEmpty(model.Description))
+                        _setting.Description = model.Description;
+
+                    if (!string.IsNullOrEmpty(model.DefaultValue))
+                        _setting.DefaultValue = model.DefaultValue;
+
+                    if (!string.IsNullOrEmpty(model.Value))
+                        _setting.Value = model.Value;
+
                     _setting.UpdatedAt = DateTime.UtcNow;
                     _setting.UpdatedBy = userClaims.Where(x => x.Claim == "userId").Single().Value;
 

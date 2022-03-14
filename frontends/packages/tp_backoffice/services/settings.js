@@ -24,3 +24,14 @@ export const GetSettingData = async(settingsUri) => {
     }
     return response;
 }
+
+export const UpdateSettingData = async(settingsUri, settingDataJson) => {
+    let response = await genericFetch(settingsUri, "PUT", window.localStorage.getItem('accessToken'),settingDataJson);
+    if (response.requestAgain) {
+        response = await genericFetch(settingsUri, "PUT", window.localStorage.getItem('accessToken'),settingDataJson);
+    }
+    else if (response.status == 404) {
+        response.setting = {};
+    }
+    return response;
+}

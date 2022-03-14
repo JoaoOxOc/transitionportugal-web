@@ -17,5 +17,14 @@ export declare const SETTINGDETAILS_TRANSLATIONS: {
         readonly value: "Valor";
         readonly saveButton: "Guardar";
     };
+    readonly MESSAGES: {
+        readonly valueTooBig: "O Valor é demasiado grande. Máx. de caracteres: {{max}}";
+        readonly valueRequired: "O Valor é obrigatório";
+        readonly descriptionTooBig: "A Descrição é demasiado grande. Máx. de caracteres: {{max}}";
+        readonly descriptionRequired: "A Descrição é obrigatória";
+        readonly settingUpdatedSuccessfully: "A definição cuja chave é {{settingKey}} foi atualizada com sucesso";
+        readonly settingGeneralError: "Erro ao atualizar a definição cuja chave é {{settingKey}}. Por favor tente novamente";
+        readonly settingNotFound: "A definição cuja chave é {{settingKey}} não foi encontrada. Por favor verifica se a chave está correcta";
+    };
 };
 //# sourceMappingURL=SettingDetails.d.ts.map
