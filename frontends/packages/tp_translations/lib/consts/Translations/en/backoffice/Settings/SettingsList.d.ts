@@ -1,11 +1,13 @@
 export declare const SETTINGSLIST_TRANSLATIONS: {
     readonly LABELS: {
-        readonly emailSettings: "Email Settings Management";
-        readonly emailTemplatesSettings: "Email Templates Management";
-        readonly userAuthSettings: "Authentication/Authorization Management";
+        readonly actions: "Actions";
+        readonly view: "View";
     };
-    readonly MESSAGES: {
-        readonly emailSettingsDescription: "All aspects related to sending emails can be managed from this page";
+    readonly SETTINGOBJECT: {
+        readonly description: "Description";
+        readonly key: "Key";
+        readonly defaultValue: "Default Value";
+        readonly value: "Value";
     };
 };
 //# sourceMappingURL=SettingsList.d.ts.map

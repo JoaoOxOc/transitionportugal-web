@@ -22,6 +22,7 @@ export declare const SIDEMENU_TRANSLATIONS: {
         readonly email: "Email Sending";
         readonly emailTemplates: "Email Templates";
         readonly userAuth: "Auth Settings";
+        readonly clientApps: "Authorized Client Applications";
     };
 };
 //# sourceMappingURL=sidemenu.d.ts.map

@@ -2,11 +2,21 @@ import * as deepFreeze from 'deep-freeze';
 
 export const SETTINGDETAILS_TRANSLATIONS = deepFreeze({
     LABELS: {
-        emailSettings: "Email Settings Management",
-        emailTemplatesSettings: "Email Templates Management",
-        userAuthSettings: "Authentication/Authorization Management",
+        settingDetails: "Detalhes da Definição - {{name}}",
+        goBack: "Voltar",
+        settingWarning: "Atenção à edição do Valor: pode provocar alterações no comportamento de toda a aplicação"
     },
-    MESSAGES: {
-        emailSettingsDescription: "All aspects related to sending emails can be managed from this page"
+    LIST: {
+        emailSettingsTitle: "Envio de Emails",
+        userSettingsTitle: "Autenticação",
+        home: "Home",
+        settings: 'Definições'
+    },
+    FORM: {
+        key: "Chave",
+        description: "Descrição",
+        defaultValue: "Valor por Omissão",
+        value: "Valor",
+        saveButton: "Guardar"
     }
 } as const);

@@ -87,42 +87,52 @@ const Results = ({ settingsType }) => {
     useErrorHandler(settingsError);
     const [settings, setSettings] = useState(null);
     const [totalSsettings, setTotalSettings] = useState(0);
+
+    let settingsUri = "";
+    let settingDetailsBaseUri = "";
+    switch (settingsType) {
+      case "email": {
+        settingsUri = "/emailsettings/get";
+        settingDetailsBaseUri = "/management/settings/email/single/";
+      } break;
+      case "user": {
+        settingsUri = "/usersettings/get";
+        settingDetailsBaseUri = "/management/settings/auth/single/";
+      }break;
+    }
+
     const headCells = [
       {
         id: 'Description',
         isSort: true,
         disablePadding: false,
         align: 'left',
-        label: 'Description',
+        label: t('SETTINGOBJECT.description'),
       },
       {
         id: 'Key',
         isSort: true,
         disablePadding: false,
         align: 'left',
-        label: 'Key',
+        label: t('SETTINGOBJECT.key'),
       },
       {
         id: 'Value',
         isSort: true,
         disablePadding: false,
         align: 'center',
-        label: 'Value',
+        label: t('SETTINGOBJECT.value'),
       },
       {
         id: 'actions',
         isSort: false,
         disablePadding: false,
         align: 'center',
-        label: 'Actions',
+        label: t('LABELS.actions'),
       },
     ];
 
     const getSettingsData = useCallback(async (searchDataJson) => {
-      let settingsUri = "";
-      switch (settingsType) {
-        case "email": settingsUri = "/emailsettings/get"; break;
-      }
       try {
         let settingsData = await GetSettings(process.env.NEXT_PUBLIC_API_BASE_URL + settingsUri, searchDataJson);
         
@@ -141,7 +151,7 @@ const Results = ({ settingsType }) => {
         setSettingsError(err);
         console.error(err);
       }
-    }, [isMountedRef, settingsType]);
+    }, [isMountedRef, settingsUri]);
 
     useEffect(() => {
         const handleNewMessage = (event) => {
@@ -235,13 +245,15 @@ const Results = ({ settingsType }) => {
                             </TableCell>
                             <TableCell align="center">
                               <Typography noWrap>
-                                <Tooltip title={t('View')} arrow>
+                                <Tooltip title={t('LABELS.view')} arrow>
+                                  <Link href={settingDetailsBaseUri + setting.id + "?settingType=" + settingsType} isNextLink={true}>
                                   <IconButton
-                                    href={'/management/settings/email/single/' + setting.id + "?settingType=" + settingsType}
+                                    
                                     color="primary"
                                   >
                                     <LaunchTwoToneIcon fontSize="small" />
                                   </IconButton>
+                                  </Link>
                                 </Tooltip>
                               </Typography>
                             </TableCell>

@@ -80,7 +80,11 @@ namespace UserService.Controllers
 
                     Request.HttpContext.Response.Headers.Add("X-Total-Count", totalCount.ToString());
 
-                    return _settings != null ? Ok(_settings) : NotFound(null);
+                    return _settings != null ? Ok(new
+                    {
+                        settings = _settings
+                    })
+                    : NotFound(null);
                 }
                 catch (Exception ex)
                 {

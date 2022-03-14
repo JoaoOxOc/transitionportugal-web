@@ -1,11 +1,21 @@
 export declare const SETTINGDETAILS_TRANSLATIONS: {
     readonly LABELS: {
-        readonly emailSettings: "Email Settings Management";
-        readonly emailTemplatesSettings: "Email Templates Management";
-        readonly userAuthSettings: "Authentication/Authorization Management";
+        readonly settingDetails: "Detalhes da Definição - {{name}}";
+        readonly goBack: "Voltar";
+        readonly settingWarning: "Atenção à edição do Valor: pode provocar alterações no comportamento de toda a aplicação";
     };
-    readonly MESSAGES: {
-        readonly emailSettingsDescription: "All aspects related to sending emails can be managed from this page";
+    readonly LIST: {
+        readonly emailSettingsTitle: "Envio de Emails";
+        readonly userSettingsTitle: "Autenticação";
+        readonly home: "Home";
+        readonly settings: "Definições";
+    };
+    readonly FORM: {
+        readonly key: "Chave";
+        readonly description: "Descrição";
+        readonly defaultValue: "Valor por Omissão";
+        readonly value: "Valor";
+        readonly saveButton: "Guardar";
     };
 };
 //# sourceMappingURL=SettingDetails.d.ts.map
