@@ -9,7 +9,7 @@ import { Authorized } from '../../../../components/Authorized';
 import PageHeader from '../../../../content/Management/Settings/PageHeader';
 import Footer from '../../../../components/Footer';
 
-import { i18nextSettingsPage } from "@transitionpt/translations";
+import { i18nextSettingsList } from "@transitionpt/translations";
 
 import { Grid } from '@mui/material';
 
@@ -20,9 +20,9 @@ import { SettingsSearchProvider } from '../../../../contexts/Search/SettingsSear
 import Results from '../../../../content/Management/Settings/Results';
 
 function SettingsPage() {
-  const { t } = i18nextSettingsPage;
+  const { t } = i18nextSettingsList;
   const [currentLang, setLang] = useState("pt");
-  i18nextSettingsPage.changeLanguage(currentLang);
+  i18nextSettingsList.changeLanguage(currentLang);
 
   
 
@@ -37,7 +37,7 @@ function SettingsPage() {
   return (
     <>
       <Head>
-        <title>{t('LABELS.userSettings')}</title>
+        <title>{t('LABELS.userAuthSettings')}</title>
       </Head>
       <PageTitleWrapper>
         <PageHeader />

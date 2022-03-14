@@ -79,8 +79,6 @@ const CardWrapper = styled(Card)(
 
 const Results = ({ settingsType }) => {
     const { t } = i18nextSettingsList;
-    const [currentLang, setLang] = useState("pt");
-    i18nextSettingsList.changeLanguage(currentLang);
     const isMountedRef = useRefMounted();
     const SettingsSearchData = useContext(SettingsSearchContext);
     const [settingsError, setSettingsError] = useState(null);
@@ -90,14 +88,17 @@ const Results = ({ settingsType }) => {
 
     let settingsUri = "";
     let settingDetailsBaseUri = "";
+    let settingsTitle = "";
     switch (settingsType) {
       case "email": {
         settingsUri = "/emailsettings/get";
         settingDetailsBaseUri = "/management/settings/email/single/";
+        settingsTitle = t('LIST.emailSettingsTitle');
       } break;
       case "user": {
         settingsUri = "/usersettings/get";
         settingDetailsBaseUri = "/management/settings/auth/single/";
+        settingsTitle = t('LIST.userSettingsTitle');
       }break;
     }
 
@@ -154,12 +155,6 @@ const Results = ({ settingsType }) => {
     }, [isMountedRef, settingsUri]);
 
     useEffect(() => {
-        const handleNewMessage = (event) => {
-            setLang(event.detail);
-        };
-                
-        window.addEventListener('newLang', handleNewMessage);
-
         if (SettingsSearchData.doSearch) {
           getSettingsData(SettingsSearchData.searchData);
         }
@@ -213,7 +208,7 @@ const Results = ({ settingsType }) => {
                     color="text.secondary"
                     align="center"
                   >
-                    {t("We couldn't find any settings matching your search criteria")}
+                    {t("LABELS.noSettingsFound")}
                   </Typography>
                 </>
               ) : (
@@ -266,11 +261,128 @@ const Results = ({ settingsType }) => {
                     </Table>
                   </TableContainer>
                   <Box p={2}>
-                    <ResultsPagination totalElements={totalSsettings} searchContext={SettingsSearchData} paginationLabels={{ of: "de"}} paginationRowsPerPageLabel={"Linhas por pág.:"}/>
+                    <ResultsPagination gridDisplay={false} totalElements={totalSsettings} searchContext={SettingsSearchData} paginationLabels={{ of: t('LABELS.ofSmall')}} paginationRowsPerPageLabel={t('LABELS.paginationRowsPerPage')}/>
                   </Box>
                 </>
               )}
             </Card>
+          )}
+          {toggleView === 'grid_view' && (
+            <>
+              <Card
+                  sx={{
+                    p: 2,
+                    mb: 3
+                  }}
+                >
+                {settings && settings.length > 0 && (
+                  <SearchBar/>
+                )}
+              </Card>
+              {!settings || settings.length === 0 ? (
+                <Typography
+                  sx={{
+                    py: 10
+                  }}
+                  variant="h3"
+                  fontWeight="normal"
+                  color="text.secondary"
+                  align="center"
+                >
+                  {t("LABELS.noSettingsFound")}
+                </Typography>
+              ) : (
+                <>
+                  <Grid container spacing={3}>
+                    {settings.map((setting) => {
+
+                      return (
+                        <Grid item xs={12} sm={6} md={4} key={setting.id}>
+                          <CardWrapper>
+                            <Box
+                              sx={{
+                                position: 'relative',
+                                zIndex: '2'
+                              }}
+                            >
+                              {/* <Box
+                                px={2}
+                                pt={2}
+                                display="flex"
+                                alignItems="flex-start"
+                                justifyContent="space-between"
+                              >
+                                <IconButton
+                                  color="primary"
+                                  sx={{
+                                    p: 0.5
+                                  }}
+                                >
+                                  <MoreVertTwoToneIcon />
+                                </IconButton>
+                              </Box> */}
+                              <Box p={2} display="flex" alignItems="flex-start">
+                                <Box>
+                                  <Box>
+                                    <Link variant="h5" href={settingDetailsBaseUri + setting.id + "?settingType=" + settingsType} isNextLink={true}>
+                                      {setting.key}
+                                    </Link>{' '}
+                                    <Typography
+                                      component="span"
+                                      variant="h6"
+                                    >
+                                      ({t('LABELS.actualValue') + ": " + SecretTransform(setting.value, setting.description)})
+                                    </Typography>
+                                  </Box>
+                                  <Typography
+                                    sx={{
+                                      pt: 1
+                                    }}
+                                    variant="h6"
+                                  >
+                                    {setting.description}
+                                  </Typography>
+                                  <Typography
+                                      sx={{
+                                          pt: 1
+                                      }}
+                                      variant="body2"
+                                      color="text.secondary"
+                                    >
+                                      <b>{t('SETTINGOBJECT.defaultValue') + ": "}</b>{SecretTransform(setting.defaultValue, setting.description)}
+                                    </Typography>
+                                </Box>
+                              </Box>
+                              <Divider />
+                              <Box
+                                pl={2}
+                                py={1}
+                                pr={1}
+                                display="flex"
+                                alignItems="center"
+                                justifyContent="space-between"
+                              >
+                              </Box>
+                            </Box>
+                          </CardWrapper>
+                        </Grid>
+                      );
+                    })}
+                  </Grid>
+                  <Card
+                    sx={{
+                      p: 2,
+                      mt: 3,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between'
+                    }}
+                  >
+                    <ResultsPagination gridDisplay={true} pageElementsCount={settings.length} totalElements={totalSsettings} searchContext={SettingsSearchData} paginationLabels={{ of: t('LABELS.ofSmall'), showing: t('LABELS.showing'), dataTitle: settingsTitle}} paginationRowsPerPageLabel={t('LABELS.paginationRowsPerPage')}/>
+                  </Card>
+                </>
+              )}
+            </>
           )}
           {!toggleView && (
             <Card
@@ -290,7 +402,7 @@ const Results = ({ settingsType }) => {
                 gutterBottom
               >
                 {t(
-                  'Choose between table or grid views for displaying the users list.'
+                  'LABELS.chooseGrid'
                 )}
               </Typography>
             </Card>

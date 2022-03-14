@@ -178,7 +178,7 @@ const DetailForm = ({settingData}) => {
                     size="large"
                     variant="contained"
                     >
-                    {t('FORM.save')}
+                    {t('FORM.saveButton')}
                     </Button>
                 </Grid>
             </Grid>

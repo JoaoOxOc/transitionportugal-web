@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import {
-    TablePagination
+    TablePagination,
+    Box,
+    Typography
 } from '@mui/material';
 
-const ResultsPagination = ({totalElements, searchContext, paginationLabels, paginationRowsPerPageLabel}) => {
+const ResultsPagination = ({gridDisplay, pageElementsCount, totalElements, searchContext, paginationLabels, paginationRowsPerPageLabel}) => {
 
     const [page, setPage] = useState(0);
     const [limit, setLimit] = useState(10);
@@ -21,17 +23,28 @@ const ResultsPagination = ({totalElements, searchContext, paginationLabels, pagi
     };
 
     return(
-        <TablePagination
+        <>
+            {gridDisplay &&
+                <Box>
+                    <Typography component="span" variant="subtitle1">
+                    {paginationLabels.showing}
+                    </Typography>{' '}
+                    <b>{pageElementsCount && pageElementsCount < limit ? pageElementsCount : limit}</b> {paginationLabels.of} <b>{totalElements}</b>{' '}
+                    <b>{paginationLabels.dataTitle}</b>
+                </Box>
+            }
+            <TablePagination
                       component="div"
                       count={parseInt(totalElements)}
-                      labelDisplayedRows={(from=page) => (`${from.from}-${from.to === -1 ? from.count : from.to} ${paginationLabels.of} ${from.count}`)}
-                      labelRowsPerPage={paginationRowsPerPageLabel}
+                      labelDisplayedRows={(from=page) => !gridDisplay ? (`${from.from}-${from.to === -1 ? from.count : from.to} ${paginationLabels.of} ${from.count}`) : "" }
+                      labelRowsPerPage={!gridDisplay ? paginationRowsPerPageLabel : "" }
                       onPageChange={handlePageChange}
                       onRowsPerPageChange={handleLimitChange}
                       page={page}
                       rowsPerPage={limit}
                       rowsPerPageOptions={[5, 10, 15]}
                     />
+        </>
     );
 }
 

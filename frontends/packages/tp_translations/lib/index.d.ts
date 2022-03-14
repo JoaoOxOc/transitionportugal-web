@@ -16,7 +16,6 @@ export * from './backoffice/auth/i18nRecover';
 export * from './backoffice/auth/i18nReset';
 export * from './backoffice/auth/i18nConfirmEmail';
 export * from './backoffice/i18nPage403';
-export * from './backoffice/settings/i18nSettingsPage';
 export * from './backoffice/settings/i18nSettingsList';
 export * from './backoffice/settings/i18nSettingDetails';
 //# sourceMappingURL=index.d.ts.map

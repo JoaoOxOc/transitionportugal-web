@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { i18nextSettingsPage } from "@transitionpt/translations";
+
+import { i18nextSettingsList } from "@transitionpt/translations";
 
 import {
   Grid,
@@ -7,17 +7,7 @@ import {
 } from '@mui/material';
 
 function PageHeader() {
-  const { t } = i18nextSettingsPage;
-  const [currentLang, setLang] = useState("pt");
-  i18nextSettingsPage.changeLanguage(currentLang);
-
-  useEffect(() => {
-      const handleNewMessage = (event) => {
-        setLang(event.detail);
-      };
-            
-      window.addEventListener('newLang', handleNewMessage);
-  }, []);
+  const { t } = i18nextSettingsList;
 
   return (
     <>

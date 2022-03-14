@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import {
     Box,
     InputAdornment,
@@ -12,21 +12,9 @@ import { i18nextSettingsList } from "@transitionpt/translations";
 
 const SearchBar = () => {
     const { t } = i18nextSettingsList;
-    const [currentLang, setLang] = useState("pt");
-    i18nextSettingsList.changeLanguage(currentLang);
-
-    useEffect(() => {
-        const handleNewMessage = (event) => {
-            setLang(event.detail);
-        };
-                
-        window.addEventListener('newLang', handleNewMessage);
-    }, []);
 
     const [query, setQuery] = useState('');
-    const [filters, setFilters] = useState({
-      role: null
-    });
+
     const searchContext = useContext(SettingsSearchContext);
     console.log(searchContext);
 
@@ -50,10 +38,11 @@ const SearchBar = () => {
                     <InputAdornment position="start">
                         <SearchTwoToneIcon />
                     </InputAdornment>
-                    )
+                    ),
+                    type: "search"
                 }}
                 onChange={handleQueryChange}
-                placeholder={t('Search by description or key...')}
+                placeholder={t('SEARCH.searchByKeyPlaceholder')}
                 value={query}
                 size="small"
                 fullWidth
