@@ -87,7 +87,11 @@ namespace UserService.Controllers
 
                     Request.HttpContext.Response.Headers.Add("X-Total-Count", totalCount.ToString());
 
-                    return _clientApps != null ? Ok(_clientApps) : NotFound(new List<ClientCredential>());
+                    return _clientApps != null ? Ok(new
+                    {
+                        clientApps= _clientApps
+                    }) 
+                    : NotFound(new List<ClientCredential>());
                 }
                 catch (Exception ex)
                 {
@@ -110,7 +114,11 @@ namespace UserService.Controllers
                 {
                     var clientApp = _uow.ClientCredentialRepository.GetById(id);
 
-                    return clientApp != null ? Ok(clientApp) : NotFound(null);
+                    return clientApp != null ? Ok(new
+                    {
+                        clientapp = clientApp
+                    })
+                    : NotFound(null);
                 }
                 catch (Exception ex)
                 {
@@ -118,6 +126,26 @@ namespace UserService.Controllers
                 }
             }
             return Forbid();
+        }
+
+        [HttpPost("validate")]
+        public async Task<IActionResult> ValidateApp([FromBody] ClientValidationModel model)
+        {
+            try
+            {
+                Expression<Func<ClientCredential, bool>> filter = (x => x.ClientId == model.ClientId && x.ClientSecret == model.ClientSecret);
+                var clientApp = _uow.ClientCredentialRepository.Get(null, null, filter, "ClientId", SortDirection.Ascending).FirstOrDefault();
+
+                return clientApp != null ? Ok(new
+                {
+                    clientapp = clientApp
+                })
+                : NotFound(null);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, null);
+            }
         }
 
         [Authorize]
@@ -156,7 +184,10 @@ namespace UserService.Controllers
                         _uow.ClientCredentialRepository.Update(clientCredential);
                         _uow.Save();
 
-                        return Ok(clientCredential.Name);
+                        return Ok(new
+                        {
+                            clientAppName = clientCredential.Name
+                        });
                     }
                     catch(Exception ex)
                     {

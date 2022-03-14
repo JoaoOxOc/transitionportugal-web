@@ -147,14 +147,13 @@ namespace tpGateway
                     string clientToken = ctx.Request.Headers["ClientAuthorization"].ToString();
 
                     var tokenManager = app.ApplicationServices.GetRequiredService<ITokenManager>();
-                    var validated = tokenManager.ValidateClient(clientId, clientToken);
+                    var validated = await tokenManager.ValidateClient(clientId, clientToken);
                     if (!validated)
                     {
                         ctx.Items.SetError(new UnauthorizedError("client_not_authorized"));
                     }
                     else
                     {
-
                         logger.LogInformation("route client app is authorized: " + validated);
                     }
 
