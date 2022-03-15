@@ -6,7 +6,7 @@ import {
   Typography
 } from '@mui/material';
 
-function PageHeader() {
+function PageHeader({settingsType}) {
   const { t } = i18nextSettingsList;
 
   return (
@@ -14,10 +14,10 @@ function PageHeader() {
       <Grid container justifyContent="space-between" alignItems="center">
         <Grid item>
           <Typography variant="h3" component="h3" gutterBottom>
-            {t('LABELS.emailSettings')}
+            {settingsType == "email" ? t('LABELS.emailSettings') : t('LABELS.userAuthSettings')}
           </Typography>
           <Typography variant="subtitle2">
-            {t('MESSAGES.emailSettingsDescription')}
+            {settingsType == "email" ? t('MESSAGES.emailSettingsDescription') : t('MESSAGES.userAuthSettingsDescription')}
           </Typography>
         </Grid>
       </Grid>

@@ -24,7 +24,8 @@ export var SETTINGSLIST_TRANSLATIONS = deepFreeze({
         value: "Value"
     },
     MESSAGES: {
-        emailSettingsDescription: "All aspects related to sending emails can be managed from this page"
+        emailSettingsDescription: "All aspects related to sending emails can be managed from this page",
+        userAuthSettingsDescription: "All aspects related to authentication/authroization settings can be managed from this page"
     },
     SEARCH: {
         searchByKeyPlaceholder: "Search by description or key..."

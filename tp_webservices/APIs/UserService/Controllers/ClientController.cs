@@ -164,7 +164,6 @@ namespace UserService.Controllers
                 if (clientCredential != null)
                 {
                     clientCredential.Description = model.ClientDescription;
-                    clientCredential.Name = model.ClientName;
                     clientCredential.ClientId = model.ClientId;
                     clientCredential.UpdatedAt = DateTime.UtcNow;
                     clientCredential.UpdatedBy = userClaims.Where(x => x.Claim == "userId").Single().Value;
@@ -224,10 +223,8 @@ namespace UserService.Controllers
                 {
                     return _validate;
                 }
-                if (model.ToUpdateSecret)
-                {
-                    clientCredential.ClientSecret = _tokenManager.GetClientToken().Token;
-                }
+
+                clientCredential.ClientSecret = _tokenManager.GetClientToken().Token;
 
                 try
                 {
@@ -243,7 +240,7 @@ namespace UserService.Controllers
                 }
                 catch (Exception ex)
                 {
-                    return StatusCode(500, null);
+                    return StatusCode(500, ex.InnerException);
                 }
             }
             return Forbid();

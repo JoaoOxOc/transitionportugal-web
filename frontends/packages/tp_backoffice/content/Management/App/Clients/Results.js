@@ -1,12 +1,16 @@
-import { useContext, useEffect, useCallback, useState } from 'react';
+import { useContext, useEffect, useCallback, SyntheticEvent, useState, ReactElement, Ref, forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import {
+    Avatar,
     Box,
     Card,
+    Checkbox,
     Grid,
+    Slide,
     Divider,
     Tooltip,
     IconButton,
+    InputAdornment,
     Table,
     TableBody,
     TableCell,
@@ -15,29 +19,39 @@ import {
     TableRow,
     ToggleButton,
     ToggleButtonGroup,
+    Tab,
+    Tabs,
+    TextField,
+    Button,
     Typography,
+    Dialog,
+    Zoom,
     styled
   } from '@mui/material';
 
-import Loader from '../../../components/Loader';
-import { useRefMounted } from '../../../hooks/useRefMounted';
-import { SettingsSearchContext } from '../../../contexts/Search/SettingsSearchContext';
-import { GetSettings } from '../../../services/settings';
+import Loader from '../../../../components/Loader';
+import { useRefMounted } from '../../../../hooks/useRefMounted';
+import { ClientAppsSearchContext } from '../../../../contexts/Search/ClientAppsSearchContext';
+import { GetClientApps } from '../../../../services/clientApps';
 import { useErrorHandler } from 'react-error-boundary';
 
-import SecretTransform from '../../../utils/secretTransform';
-import Link from '../../../components/Link';
-
+import SecretTransform from '../../../../utils/secretTransform';
+import Link from '../../../../components/Link';
+import clsx from 'clsx';
 import LaunchTwoToneIcon from '@mui/icons-material/LaunchTwoTone';
-
+import Label from '../../../../components/Label';
+// import BulkActions from './BulkActions';
 import GridViewTwoToneIcon from '@mui/icons-material/GridViewTwoTone';
 import TableRowsTwoToneIcon from '@mui/icons-material/TableRowsTwoTone';
+import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
+import { useSnackbar } from 'notistack';
+import MoreVertTwoToneIcon from '@mui/icons-material/MoreVertTwoTone';
 
 import SearchBar from './SearchBar';
-import ResultsHeader from '../../../components/Table/Header';
-import ResultsPagination from '../../../components/Table/Pagination';
+import ResultsHeader from '../../../../components/Table/Header';
+import ResultsPagination from '../../../../components/Table/Pagination';
 
-import { i18nextSettingsList } from "@transitionpt/translations";
+import { i18nextClientsList } from "@transitionpt/translations";
   
 const CardWrapper = styled(Card)(
     ({ theme }) => `
@@ -63,88 +77,75 @@ const CardWrapper = styled(Card)(
     `
 );
 
-const Results = ({ settingsType }) => {
-    const { t } = i18nextSettingsList;
+const Results = () => {
+    const { t } = i18nextClientsList;
     const isMountedRef = useRefMounted();
-    const SettingsSearchData = useContext(SettingsSearchContext);
-    const [settingsError, setSettingsError] = useState(null);
-    useErrorHandler(settingsError);
-    const [settings, setSettings] = useState(null);
-    const [totalSsettings, setTotalSettings] = useState(0);
+    const clientAppsSearchData = useContext(ClientAppsSearchContext);
+    const [clientAppsError, setClientAppsError] = useState(null);
+    useErrorHandler(clientAppsError);
+    const [clientApps, setClientApps] = useState(null);
+    const [totalClientApps, setTotalClientApps] = useState(0);
 
-    let settingsUri = "";
-    let settingDetailsBaseUri = "";
-    let settingsTitle = "";
-    switch (settingsType) {
-      case "email": {
-        settingsUri = "/emailsettings/get";
-        settingDetailsBaseUri = "/management/settings/email/single/";
-        settingsTitle = t('LIST.emailSettingsTitle');
-      } break;
-      case "user": {
-        settingsUri = "/usersettings/get";
-        settingDetailsBaseUri = "/management/settings/auth/single/";
-        settingsTitle = t('LIST.userSettingsTitle');
-      }break;
-    }
+    let clientAppsUri = "/app/client/get";
+    let clientAppDetailsBaseUri = "/management/app/clients/single/";
 
     const headCells = [
-      {
-        id: 'Description',
-        isSort: true,
-        disablePadding: false,
-        align: 'left',
-        label: t('SETTINGOBJECT.description'),
-      },
-      {
-        id: 'Key',
-        isSort: true,
-        disablePadding: false,
-        align: 'left',
-        label: t('SETTINGOBJECT.key'),
-      },
-      {
-        id: 'Value',
-        isSort: true,
-        disablePadding: false,
-        align: 'center',
-        label: t('SETTINGOBJECT.value'),
-      },
-      {
-        id: 'actions',
-        isSort: false,
-        disablePadding: false,
-        align: 'center',
-        label: t('LABELS.actions'),
-      },
+        {
+            id: 'Name',
+            isSort: true,
+            disablePadding: false,
+            align: 'left',
+            label: t('CLIENTOBJECT.name'),
+        },
+        {
+            id: 'Description',
+            isSort: true,
+            disablePadding: false,
+            align: 'left',
+            label: t('CLIENTOBJECT.description'),
+        },
+        {
+            id: 'ClientId',
+            isSort: true,
+            disablePadding: false,
+            align: 'center',
+            label: t('CLIENTOBJECT.clientId'),
+        },
+        {
+            id: 'actions',
+            isSort: false,
+            disablePadding: false,
+            align: 'center',
+            label: t('LABELS.actions'),
+        },
     ];
 
-    const getSettingsData = useCallback(async (searchDataJson) => {
+    const getClientAppsData = useCallback(async (searchDataJson) => {
       try {
-        let settingsData = await GetSettings(process.env.NEXT_PUBLIC_API_BASE_URL + settingsUri, searchDataJson);
+        let clientAppsData = await GetClientApps(process.env.NEXT_PUBLIC_API_BASE_URL + clientAppsUri, searchDataJson);
         
         if (isMountedRef()) {
-          if (settingsData.settings) {
-            setSettings(settingsData.settings);
-            setTotalSettings(settingsData.totalCount);
+          if (clientAppsData.clientApps) {
+            setClientApps(clientAppsData.clientApps);
+            setTotalClientApps(clientAppsData.totalCount);
           }
           else {
-            setSettingsError(settingsData);
-            setSettings([]);
-            setTotalSettings(0);
+            setClientAppsError(clientAppsData);
+            setClientApps([]);
+            setTotalClientApps(0);
           }
         }
       } catch (err) {
-        setSettingsError(err);
+        setClientAppsError(err);
         console.error(err);
       }
-    }, [isMountedRef, settingsUri]);
+    }, [isMountedRef, clientAppsUri]);
 
     useEffect(() => {
-        if (SettingsSearchData.doSearch) {
-          getSettingsData(SettingsSearchData.searchData);
+        if (clientAppsSearchData.doSearch) {
+            getClientAppsData(clientAppsSearchData.searchData);
         }
-    }, [SettingsSearchData, getSettingsData]);
+    }, [clientAppsSearchData, getClientAppsData]);
 
     const [toggleView, setToggleView] = useState('table_view');
 
@@ -183,7 +184,7 @@ const Results = ({ settingsType }) => {
 
               <Divider />
 
-              {!settings || settings.length === 0 ? (
+              {!clientApps || clientApps.length === 0 ? (
                 <>
                   <Typography
                     sx={{
@@ -194,7 +195,7 @@ const Results = ({ settingsType }) => {
                     color="text.secondary"
                     align="center"
                   >
-                    {t("LABELS.noSettingsFound")}
+                    {t("LABELS.noClientsFound")}
                   </Typography>
                 </>
               ) : (
@@ -202,32 +203,32 @@ const Results = ({ settingsType }) => {
                   <TableContainer>
                     <Table>
                       <TableHead>
-                        <ResultsHeader headerCells={headCells} defaultSort={'Key'} defaultSortDirection={'asc'} searchContext={SettingsSearchData}/>
+                        <ResultsHeader headerCells={headCells} defaultSort={'Key'} defaultSortDirection={'asc'} searchContext={clientAppsSearchData}/>
                       </TableHead>
                       <TableBody>
-                      {!settings || settings.length == 0 ? (
+                      {!clientApps || clientApps.length == 0 ? (
                           <Loader />
                         ) : (
-                        settings.map((setting) => {
+                            clientApps.map((clientApp) => {
                         return (
-                          <TableRow hover key={setting.id}>
+                          <TableRow hover key={clientApp.id}>
                             <TableCell>
-                              <Typography variant="h5">
-                                {setting.description}
-                              </Typography>
+                              <Typography variant="h5">{clientApp.name}</Typography>
                             </TableCell>
                             <TableCell>
-                              <Typography>{setting.key}</Typography>
+                              <Typography>
+                                {clientApp.description}
+                              </Typography>
                             </TableCell>
                             <TableCell align="center">
                               <Typography fontWeight="bold">
-                                {SecretTransform(setting.value, setting.description)}
+                                {clientApp.clientId}
                               </Typography>
                             </TableCell>
                             <TableCell align="center">
                               <Typography noWrap>
                                 <Tooltip title={t('LABELS.view')} arrow>
-                                  <Link href={settingDetailsBaseUri + setting.id + "?settingType=" + settingsType} isNextLink={true}>
+                                  <Link href={clientAppDetailsBaseUri + clientApp.id} isNextLink={true}>
                                   <IconButton
                                     
                                     color="primary"
@@ -247,7 +248,7 @@ const Results = ({ settingsType }) => {
                     </Table>
                   </TableContainer>
                   <Box p={2}>
-                    <ResultsPagination gridDisplay={false} totalElements={totalSsettings} searchContext={SettingsSearchData} paginationLabels={{ of: t('LABELS.ofSmall')}} paginationRowsPerPageLabel={t('LABELS.paginationRowsPerPage')}/>
+                    <ResultsPagination gridDisplay={false} totalElements={totalClientApps} searchContext={clientAppsSearchData} paginationLabels={{ of: t('LABELS.ofSmall')}} paginationRowsPerPageLabel={t('LABELS.paginationRowsPerPage')}/>
                   </Box>
                 </>
               )}
@@ -261,11 +262,11 @@ const Results = ({ settingsType }) => {
                     mb: 3
                   }}
                 >
-                {settings && settings.length > 0 && (
+                {clientApps && clientApps.length > 0 && (
                   <SearchBar/>
                 )}
               </Card>
-              {!settings || settings.length === 0 ? (
+              {!clientApps || clientApps.length === 0 ? (
                 <Typography
                   sx={{
                     py: 10
@@ -275,15 +276,15 @@ const Results = ({ settingsType }) => {
                   color="text.secondary"
                   align="center"
                 >
-                  {t("LABELS.noSettingsFound")}
+                  {t("LABELS.noClientsFound")}
                 </Typography>
               ) : (
                 <>
                   <Grid container spacing={3}>
-                    {settings.map((setting) => {
+                    {clientApps.map((clientApp) => {
 
                       return (
-                        <Grid item xs={12} sm={6} md={4} key={setting.id}>
+                        <Grid item xs={12} sm={6} md={4} key={clientApp.id}>
                           <CardWrapper>
                             <Box
                               sx={{
@@ -310,14 +311,14 @@ const Results = ({ settingsType }) => {
                               <Box p={2} display="flex" alignItems="flex-start">
                                 <Box>
                                   <Box>
-                                    <Link variant="h5" href={settingDetailsBaseUri + setting.id + "?settingType=" + settingsType} isNextLink={true}>
-                                      {setting.key}
+                                    <Link variant="h5" href={clientAppDetailsBaseUri + clientApp.id} isNextLink={true}>
+                                      {clientApp.name}
                                     </Link>{' '}
                                     <Typography
                                       component="span"
                                       variant="h6"
                                     >
-                                      ({t('LABELS.actualValue') + ": " + SecretTransform(setting.value, setting.description)})
+                                      ({t('CLIENTOBJECT.clientId') + ": " + clientApp.clientId})
                                     </Typography>
                                   </Box>
                                   <Typography
@@ -326,17 +327,30 @@ const Results = ({ settingsType }) => {
                                     }}
                                     variant="h6"
                                   >
-                                    {setting.description}
+                                    {clientApp.description}
                                   </Typography>
-                                  <Typography
-                                      sx={{
-                                          pt: 1
-                                      }}
-                                      variant="body2"
-                                      color="text.secondary"
-                                    >
-                                      <b>{t('SETTINGOBJECT.defaultValue') + ": "}</b>{SecretTransform(setting.defaultValue, setting.description)}
+                                  { clientApp.createdBy &&
+                                    <Typography
+                                        sx={{
+                                            pt: 1
+                                        }}
+                                        variant="body2"
+                                        color="text.secondary"
+                                        >
+                                        <b>{t('CLIENTOBJECT.createdAt') + ": "}</b>{clientApp.createdAt}
                                     </Typography>
+                                  }
+                                  { clientApp.updatedBy &&
+                                    <Typography
+                                        sx={{
+                                            pt: 1
+                                        }}
+                                        variant="body2"
+                                        color="text.secondary"
+                                        >
+                                        <b>{t('CLIENTOBJECT.updatedAt') + ": "}</b>{clientApp.updatedAt}
+                                    </Typography>
+                                  }
                                 </Box>
                               </Box>
                               <Divider />
@@ -364,7 +378,7 @@ const Results = ({ settingsType }) => {
                       justifyContent: 'space-between'
                     }}
                   >
-                    <ResultsPagination gridDisplay={true} pageElementsCount={settings.length} totalElements={totalSsettings} searchContext={SettingsSearchData} paginationLabels={{ of: t('LABELS.ofSmall'), showing: t('LABELS.showing'), dataTitle: settingsTitle}} paginationRowsPerPageLabel={t('LABELS.paginationRowsPerPage')}/>
+                    <ResultsPagination gridDisplay={true} pageElementsCount={clientApps.length} totalElements={totalClientApps} searchContext={clientAppsSearchData} paginationLabels={{ of: t('LABELS.ofSmall'), showing: t('LABELS.showing'), dataTitle: t('LIST.clientsTitle')}} paginationRowsPerPageLabel={t('LABELS.paginationRowsPerPage')}/>
                   </Card>
                 </>
               )}

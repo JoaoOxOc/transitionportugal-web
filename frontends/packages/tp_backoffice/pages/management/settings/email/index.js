@@ -40,7 +40,7 @@ function SettingsPage() {
         <title>{t('LABELS.emailSettings')}</title>
       </Head>
       <PageTitleWrapper>
-        <PageHeader />
+        <PageHeader settingsType={"email"}/>
       </PageTitleWrapper>
 
       <Grid

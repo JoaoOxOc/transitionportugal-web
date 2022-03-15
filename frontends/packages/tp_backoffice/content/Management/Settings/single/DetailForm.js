@@ -51,11 +51,10 @@ const DetailForm = ({settingData, settingPutUrl}) => {
     
               if (isMountedRef()) {
                   if (result.status) {
-                    setSettingsError(result);
                     helpers.setStatus({ success: false });
                     helpers.setErrors({ submit: result.statusText });
                     helpers.setSubmitting(false);
-                    if (resetResult.status === 404) {
+                    if (result.status === 404) {
                         enqueueSnackbar(t('MESSAGES.settingNotFound', {settingKey: values.key}), {
                           variant: 'error',
                           anchorOrigin: {
@@ -66,6 +65,7 @@ const DetailForm = ({settingData, settingPutUrl}) => {
                           TransitionComponent: Slide
                         });
                     }
+                    setSettingsError(result);
                   }
                   else {
                     enqueueSnackbar(t('MESSAGES.settingUpdatedSuccessfully', {settingKey: values.key}), {
@@ -96,6 +96,7 @@ const DetailForm = ({settingData, settingPutUrl}) => {
                     autoHideDuration: 2000,
                     TransitionComponent: Slide
                 });
+                setSettingsError(err);
               }
           }
         }

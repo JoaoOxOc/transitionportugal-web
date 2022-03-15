@@ -24,6 +24,7 @@ export declare const SETTINGSLIST_TRANSLATIONS: {
     };
     readonly MESSAGES: {
         readonly emailSettingsDescription: "All aspects related to sending emails can be managed from this page";
+        readonly userAuthSettingsDescription: "All aspects related to authentication/authroization settings can be managed from this page";
     };
     readonly SEARCH: {
         readonly searchByKeyPlaceholder: "Search by description or key...";
