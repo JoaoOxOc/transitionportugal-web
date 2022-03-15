@@ -240,7 +240,7 @@ namespace UserService.Controllers
                 }
                 catch (Exception ex)
                 {
-                    return StatusCode(500, ex.InnerException);
+                    return StatusCode(500, null);
                 }
             }
             return Forbid();
