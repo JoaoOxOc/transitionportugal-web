@@ -2,8 +2,8 @@ import { useState } from 'react';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import { i18nextAbout } from "@transitionpt/translations";
-import { wait } from 'src/utils/wait';
-import { useAuth } from 'src/hooks/useAuth';
+import { wait } from '../../../utils/wait';
+import { useAuth } from '../../../hooks/useAuth';
 
 import {
   styled,

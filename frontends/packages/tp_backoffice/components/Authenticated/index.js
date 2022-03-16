@@ -17,23 +17,24 @@ export const Authenticated = (props) => {
       return;
     }
 
-    if (!auth.isAuthenticated) {
+    if (!auth.isAuthenticated || auth.redirectToLogin == true) {
       router.push({
         pathname: '/auth/login/cover',
         query: { backTo: router.asPath }
       });
     } else {
       setVerified(true);
-
-      enqueueSnackbar('You are successfully authenticated!', {
-        variant: 'success',
-        anchorOrigin: {
-          vertical: 'bottom',
-          horizontal: 'right'
-        },
-        autoHideDuration: 2000,
-        TransitionComponent: Slide
-      });
+      if (auth.isReauthenticated) {
+        enqueueSnackbar('You are successfully authenticated!', {
+          variant: 'success',
+          anchorOrigin: {
+            vertical: 'bottom',
+            horizontal: 'right'
+          },
+          autoHideDuration: 2000,
+          TransitionComponent: Slide
+        });
+      }
     }
   }, [router.isReady]);
 

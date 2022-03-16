@@ -7,4 +7,17 @@ export * from './home/i18nAbout';
 export * from './home/i18nPartner';
 export * from './home/i18nStaff';
 export * from './home/i18nActions';
+export * from './backoffice/i18nSidemenu';
+export * from './backoffice/auth/i18nLoginForm';
+export * from './backoffice/auth/i18nLogin';
+export * from './backoffice/auth/i18nRegister';
+export * from './backoffice/auth/i18nRegisterForm';
+export * from './backoffice/auth/i18nRecover';
+export * from './backoffice/auth/i18nReset';
+export * from './backoffice/auth/i18nConfirmEmail';
+export * from './backoffice/i18nPage403';
+export * from './backoffice/settings/i18nSettingsList';
+export * from './backoffice/settings/i18nSettingDetails';
+export * from './backoffice/settings/i18nClientsList';
+export * from './backoffice/settings/i18nClientDetails';
 //# sourceMappingURL=index.d.ts.map

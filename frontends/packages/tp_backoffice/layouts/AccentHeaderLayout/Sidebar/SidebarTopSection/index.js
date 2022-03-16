@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { useAuth } from 'src/hooks/useAuth';
+import { useAuth } from '../../../../hooks/useAuth';
 import { useRouter } from 'next/router';
 
 import {
@@ -76,6 +76,7 @@ const UserBoxDescription = styled(Typography)(
 function SidebarTopSection() {
   const { t } = i18nextAbout;
 
+  const auth = useAuth();
   const { logout } = useAuth();
   const router = useRouter();
 
@@ -94,22 +95,18 @@ function SidebarTopSection() {
     try {
       handleClose();
       await logout();
-      router.push('/');
+      router.push('/auth/login/cover');
     } catch (err) {
       console.error(err);
     }
   };
 
-  const user = {
-    avatar: '/static/images/avatars/1.jpg',
-    name: 'Rachael Simons',
-    jobtitle: 'Lead Developer'
-  };
-
   return (
     <>
+      {(auth && auth.user) &&
+        <>
       <UserBoxButton fullWidth color="secondary" ref={ref} onClick={handleOpen}>
-        <Avatar variant="rounded" alt={user.name} src={user.avatar} />
+        <Avatar variant="rounded" alt={auth.user.name} src={auth.user.avatar} />
         <Box
           display="flex"
           flex={1}
@@ -117,9 +114,9 @@ function SidebarTopSection() {
           justifyContent="space-between"
         >
           <UserBoxText>
-            <UserBoxLabel variant="body1">{user.name}</UserBoxLabel>
+            <UserBoxLabel variant="body1">{auth.user.name}</UserBoxLabel>
             <UserBoxDescription variant="body2">
-              {user.jobtitle}
+              {auth.user.jobTitle}
             </UserBoxDescription>
           </UserBoxText>
           <UnfoldMoreTwoToneIcon
@@ -150,13 +147,13 @@ function SidebarTopSection() {
           }}
           display="flex"
         >
-          <Avatar variant="rounded" alt={user.name} src={user.avatar} />
+          <Avatar variant="rounded" alt={auth.user.name} src={auth.user.avatar} />
           <UserBoxText>
             <UserBoxLabel className="popoverTypo" variant="body1">
-              {user.name}
+              {auth.user.name}
             </UserBoxLabel>
             <UserBoxDescription className="popoverTypo" variant="body2">
-              {user.jobtitle}
+              {auth.user.jobTitle}
             </UserBoxDescription>
           </UserBoxText>
         </MenuUserBox>
@@ -211,6 +208,8 @@ function SidebarTopSection() {
           </Button>
         </Box>
       </Popover>
+      </>
+      }
     </>
   );
 }

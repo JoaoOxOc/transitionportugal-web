@@ -1,7 +1,7 @@
 import { createContext, useEffect, useReducer } from 'react';
 import { Auth0Client } from '@auth0/auth0-spa-js';
 
-import { auth0Config } from 'config';
+import { auth0Config } from '../config';
 import PropTypes from 'prop-types';
 
 let auth0Client = null;

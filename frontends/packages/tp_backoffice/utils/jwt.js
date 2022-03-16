@@ -1,5 +1,5 @@
 /* eslint-disable no-bitwise */
-export const JWT_SECRET = 'jwt-secret-key';
+export const JWT_SECRET = process.env.NEXT_PUBLIC_JWT_SECRET_KEY;
 export const JWT_EXPIRES_IN = 3600 * 24 * 2;
 
 export const sign = (payload, privateKey, header) => {
@@ -24,28 +24,43 @@ export const decode = (token) => {
   const [encodedHeader, encodedPayload, signature] = token.split('.');
   const header = JSON.parse(atob(encodedHeader));
   const payload = JSON.parse(atob(encodedPayload));
-  const now = new Date();
 
-  if (now < header.expiresIn) {
+  if (payload.exp * 1000 < Date.now()) {
     throw new Error('Expired token');
   }
 
-  const verifiedSignature = btoa(
-    Array.from(encodedPayload)
-      .map((item, key) =>
-        String.fromCharCode(
-          item.charCodeAt(0) ^ JWT_SECRET[key % JWT_SECRET.length].charCodeAt(0)
-        )
-      )
-      .join('')
-  );
-
-  if (verifiedSignature !== signature) {
-    throw new Error('Invalid signature');
-  }
+  // const verifiedSignature = btoa(
+  //   Array.from(encodedPayload)
+  //     .map((item, key) =>
+  //       String.fromCharCode(
+  //         item.charCodeAt(0) ^ JWT_SECRET[key % JWT_SECRET.length].charCodeAt(0)
+  //       )
+  //     )
+  //     .join('')
+  // );
+  // if (verifiedSignature !== signature) {
+  //   throw new Error('Invalid signature');
+  // }
 
   return payload;
 };
+
+export const verifyTokenScopes = (token, scopes) => {
+  const [encodedHeader, encodedPayload, signature] = token.split('.');
+  const header = JSON.parse(atob(encodedHeader));
+  const payload = JSON.parse(atob(encodedPayload));
+  try {
+    if (scopes != null && payload.scope.some( tokenScope => scopes.includes(tokenScope) )) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+  catch(ex){
+    throw ex;
+  }
+}
 
 export const verify = (token, privateKey) => {
   const [encodedHeader, encodedPayload, signature] = token.split('.');

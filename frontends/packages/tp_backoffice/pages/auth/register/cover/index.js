@@ -12,20 +12,20 @@ import {
   styled
 } from '@mui/material';
 import Head from 'next/head';
-import { Guest } from 'src/components/Guest';
-import { useAuth } from 'src/hooks/useAuth';
-import { RegisterAuth0 } from 'src/content/Auth/Register/RegisterAuth0';
-import { RegisterFirebaseAuth } from 'src/content/Auth/Register/RegisterFirebaseAuth';
-import { RegisterJWT } from 'src/content/Auth/Register/RegisterJWT';
-import { RegisterAmplify } from 'src/content/Auth/Register/RegisterAmplify';
-import BaseLayout from 'src/layouts/BaseLayout';
-import Link from 'src/components/Link';
+import { Guest } from '../../../../components/Guest';
+import { useAuth } from '../../../../hooks/useAuth';
+import { RegisterAuth0 } from '../../../../content/Auth/Register/RegisterAuth0';
+import { RegisterFirebaseAuth } from '../../../../content/Auth/Register/RegisterFirebaseAuth';
+import { RegisterJWT } from '../../../../content/Auth/Register/RegisterJWT';
+import { RegisterAmplify } from '../../../../content/Auth/Register/RegisterAmplify';
+import BaseLayout from '../../../../layouts/BaseLayout';
+import Link from '../../../../components/Link';
 import { useRouter } from 'next/router';
 
-import { i18nextAbout } from "@transitionpt/translations";
+import { i18nextRegister } from "@transitionpt/translations";
 import CheckCircleOutlineTwoToneIcon from '@mui/icons-material/CheckCircleOutlineTwoTone';
-import Scrollbar from 'src/components/Scrollbar';
-import Logo from 'src/components/LogoSign';
+import Scrollbar from '../../../../components/Scrollbar';
+import Logo from '../../../../components/LogoSign';
 import SwiperCore, { Navigation, Pagination } from 'swiper';
 import ChevronRightTwoToneIcon from '@mui/icons-material/ChevronRightTwoTone';
 import ChevronLeftTwoToneIcon from '@mui/icons-material/ChevronLeftTwoTone';
@@ -111,7 +111,7 @@ const SwipeIndicator = styled(IconButton)(
 
 const LogoWrapper = styled(Box)(
   ({ theme }) => `
-    position: fixed;
+    position: absolute;
     left: ${theme.spacing(4)};
     top: ${theme.spacing(4)};
 `
@@ -167,7 +167,7 @@ const SwiperWrapper = styled(Box)(
 
 function RegisterCover() {
   const { method } = useAuth();
-  const { t } = useTranslation();
+  const { t } = i18nextRegister;
 
   const router = useRouter();
   const { demo } = router.query;
@@ -175,7 +175,7 @@ function RegisterCover() {
   return (
     <>
       <Head>
-        <title>Register - Cover</title>
+        <title>{t('LABELS.pageTitle')}</title>
       </Head>
       <Content>
         <SidebarWrapper
@@ -413,7 +413,7 @@ function RegisterCover() {
                     mb: 1
                   }}
                 >
-                  {t('Create account')}
+                  {t('LABELS.title')}
                 </Typography>
                 <Typography
                   variant="h4"

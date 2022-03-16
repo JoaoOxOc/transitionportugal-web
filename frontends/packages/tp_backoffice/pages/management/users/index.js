@@ -2,20 +2,20 @@ import { useState, useEffect, useCallback } from 'react';
 
 import Head from 'next/head';
 
-import ExtendedSidebarLayout from 'src/layouts/ExtendedSidebarLayout';
-import { Authenticated } from 'src/components/Authenticated';
+import AccentHeaderLayout from '../../../layouts/AccentHeaderLayout';
+import { Authenticated } from '../../../components/Authenticated';
 
-import PageHeader from 'src/content/Management/Users/PageHeader';
-import Footer from 'src/components/Footer';
+import PageHeader from '../../../content/Management/Users/PageHeader';
+import Footer from '../../../components/Footer';
 
 import { Grid } from '@mui/material';
-import { useRefMounted } from 'src/hooks/useRefMounted';
+import { useRefMounted } from '../../../hooks/useRefMounted';
 
-import { usersApi } from 'src/mocks/users';
+import { usersApi } from '../../../mocks/users';
 
-import PageTitleWrapper from 'src/components/PageTitleWrapper';
+import PageTitleWrapper from '../../../components/PageTitleWrapper';
 
-import Results from 'src/content/Management/Users/Results';
+import Results from '../../../content/Management/Users/Results';
 
 function ManagementUsers() {
   const isMountedRef = useRefMounted();
@@ -65,7 +65,7 @@ function ManagementUsers() {
 
 ManagementUsers.getLayout = (page) => (
   <Authenticated>
-    <ExtendedSidebarLayout>{page}</ExtendedSidebarLayout>
+    <AccentHeaderLayout>{page}</AccentHeaderLayout>
   </Authenticated>
 );
 

@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { useAuth } from 'src/hooks/useAuth';
+import { useAuth } from '../../../../hooks/useAuth';
 import { useRouter } from 'next/router';
 
 import {
@@ -65,6 +65,7 @@ function HeaderUserbox() {
   const { t } = i18nextAbout;
 
   const router = useRouter();
+  const auth = useAuth();
 
   const { logout } = useAuth();
 
@@ -83,16 +84,10 @@ function HeaderUserbox() {
     try {
       handleClose();
       await logout();
-      router.push('/');
+      router.push('/auth/login/cover');
     } catch (err) {
       console.error(err);
     }
-  };
-
-  const user = {
-    avatar: '/static/images/avatars/1.jpg',
-    name: 'Rachael Simons',
-    jobtitle: 'Lead Developer'
   };
 
   return (
@@ -102,8 +97,10 @@ function HeaderUserbox() {
         display: { xs: 'none', sm: 'inline-block' }
       }}
     >
+      {(auth && auth.user) &&
+      <>
       <UserBoxButton color="secondary" ref={ref} onClick={handleOpen}>
-        <Avatar alt={user.name} src={user.avatar} />
+        <Avatar alt={auth.user.name} src={auth.user.avatar} />
         <ExpandMoreTwoToneIcon
           fontSize="small"
           sx={{
@@ -131,11 +128,11 @@ function HeaderUserbox() {
           }}
           display="flex"
         >
-          <Avatar variant="rounded" alt={user.name} src={user.avatar} />
+          <Avatar variant="rounded" alt={auth.user.name} src={auth.user.avatar} />
           <UserBoxText>
-            <UserBoxLabel variant="body1">{user.name}</UserBoxLabel>
+            <UserBoxLabel variant="body1">{auth.user.name}</UserBoxLabel>
             <UserBoxDescription variant="body2">
-              {user.jobtitle}
+              {auth.user.jobTitle}
             </UserBoxDescription>
           </UserBoxText>
         </MenuUserBox>
@@ -190,6 +187,8 @@ function HeaderUserbox() {
           </Button>
         </Box>
       </Popover>
+      </>
+      }
     </Box>
   );
 }

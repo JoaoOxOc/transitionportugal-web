@@ -1,10 +1,11 @@
 import { useContext } from 'react';
 import Scrollbar from '../../../components/Scrollbar';
-import { SidebarContext } from 'src/contexts/SidebarContext';
+import { SidebarContext } from '../../../contexts/SidebarContext';
 
-import { Box, Drawer, styled, useTheme } from '@mui/material';
+import { Box, Drawer, styled, Divider, useTheme } from '@mui/material';
 
 import SidebarMenu from './SidebarMenu';
+import SidebarFooter from './SidebarFooter';
 import SidebarTopSection from './SidebarTopSection';
 import Logo from '../../../components/LogoSign';
 
@@ -18,6 +19,7 @@ const SidebarWrapper = styled(Box)(
         position: relative;
         z-index: 7;
         height: 100%;
+        padding-bottom: 61px;
         @media (min-width: ${theme.breakpoints.values.lg}px) {
           height: calc(100% - ${theme.header.height});
           margin-top: ${theme.header.height};
@@ -53,8 +55,19 @@ function Sidebar() {
           <TopSection>
             <SidebarTopSection />
           </TopSection>
+            <Divider
+                sx={{
+                  background: theme.colors.alpha.black[10]
+                }}
+              />
           <SidebarMenu />
         </Scrollbar>
+        <Divider
+          sx={{
+            background: theme.colors.alpha.black[10]
+          }}
+        />
+        <SidebarFooter />
       </SidebarWrapper>
       <Drawer
         sx={{
@@ -81,8 +94,19 @@ function Sidebar() {
               </Box>
               <SidebarTopSection />
             </TopSection>
+              <Divider
+                sx={{
+                  background: theme.colors.alpha.black[10]
+                }}
+              />
             <SidebarMenu />
           </Scrollbar>
+          <Divider
+          sx={{
+            background: theme.colors.alpha.black[10]
+          }}
+        />
+          <SidebarFooter />
         </SidebarWrapper>
       </Drawer>
     </>

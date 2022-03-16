@@ -8,16 +8,16 @@ import {
   styled
 } from '@mui/material';
 import Head from 'next/head';
-import { useAuth } from 'src/hooks/useAuth';
-import { Guest } from 'src/components/Guest';
-import { LoginAuth0 } from 'src/content/Auth/Login/LoginAuth0';
-import { LoginFirebaseAuth } from 'src/content/Auth/Login/LoginFirebaseAuth';
-import { LoginJWT } from 'src/content/Auth/Login/LoginJWT';
-import { LoginAmplify } from 'src/content/Auth/Login/LoginAmplify';
+import { useAuth } from '../../../../hooks/useAuth';
+import { Guest } from '../../../../components/Guest';
+import { LoginAuth0 } from '../../../../content/Auth/Login/LoginAuth0';
+import { LoginFirebaseAuth } from '../../../../content/Auth/Login/LoginFirebaseAuth';
+import { LoginJWT } from '../../../../content/Auth/Login/LoginJWT';
+import { LoginAmplify } from '../../../../content/Auth/Login/LoginAmplify';
 import { i18nextAbout } from "@transitionpt/translations";
-import Logo from 'src/components/LogoSign';
-import BaseLayout from 'src/layouts/BaseLayout';
-import Link from 'src/components/Link';
+import Logo from '../../../../components/LogoSign';
+import BaseLayout from '../../../../layouts/BaseLayout';
+import Link from '../../../../components/Link';
 import { useRouter } from 'next/router';
 
 const icons = {
@@ -75,7 +75,7 @@ const TopWrapper = styled(Box)(
 
 function LoginBasic() {
   const { method } = useAuth();
-  const { t } = useTranslation();
+  const { t } = i18nextAbout;
   const router = useRouter();
   const { demo } = router.query;
 

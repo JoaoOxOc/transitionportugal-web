@@ -2,7 +2,7 @@ import { useContext } from 'react';
 
 import { Box, IconButton, Tooltip, styled } from '@mui/material';
 import MenuTwoToneIcon from '@mui/icons-material/MenuTwoTone';
-import { SidebarContext } from 'src/contexts/SidebarContext';
+import { SidebarContext } from '../../../contexts/SidebarContext';
 import CloseTwoToneIcon from '@mui/icons-material/CloseTwoTone';
 
 import HeaderMenu from './Menu';

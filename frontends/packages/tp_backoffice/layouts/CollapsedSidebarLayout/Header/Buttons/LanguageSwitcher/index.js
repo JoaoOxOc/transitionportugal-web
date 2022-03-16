@@ -12,10 +12,10 @@ import {
   Tooltip,
   styled
 } from '@mui/material';
-import Text from '../../../components/Text';
+import Text from '../../../../../components/Text';
 
 import WarningTwoToneIcon from '@mui/icons-material/WarningTwoTone';
-import internationalization from 'src/i18n/i18n';
+// import internationalization from 'src/i18n/i18n';
 import { i18nextAbout } from "@transitionpt/translations";
 
 import deFlag from 'country-flag-icons/3x2/DE.svg';
@@ -48,9 +48,9 @@ const IconButtonWrapper = styled(IconButton)(
 );
 
 function LanguageSwitcher() {
-  const { i18n } = useTranslation();
+  // const { i18n } = useTranslation();
   const { t } = i18nextAbout;
-  const getLanguage = i18n.language;
+  // const getLanguage = i18n.language;
 
   const switchLanguage = ({ lng }) => {
     internationalization.changeLanguage(lng);
@@ -68,7 +68,7 @@ function LanguageSwitcher() {
 
   return (
     <>
-      <Tooltip arrow title={t('Language Switcher')}>
+      {/* <Tooltip arrow title={t('Language Switcher')}>
         <IconButtonWrapper color="success" ref={ref} onClick={handleOpen}>
           {getLanguage === 'de' && <ImageWrapper alt="German" src={deFlag} />}
           {getLanguage === 'en' && <ImageWrapper alt="English" src={usFlag} />}
@@ -229,7 +229,7 @@ function LanguageSwitcher() {
             </Box>
           </Text>
         </Box>
-      </Popover>
+      </Popover> */}
     </>
   );
 }

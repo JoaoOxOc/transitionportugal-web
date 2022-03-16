@@ -1,5 +1,7 @@
 import Head from 'next/head';
 import Router from 'next/router';
+import {ErrorBoundary} from 'react-error-boundary';
+import {ErrorBoundaryFallback, myErrorHandler} from '../services/ErrorBoundaryFallback';
 import nProgress from 'nprogress';
 import 'nprogress/nprogress.css';
 import ThemeProvider from '../theme/ThemeProvider';
@@ -38,34 +40,39 @@ function MyApp(props) {
           content="width=device-width, initial-scale=1, shrink-to-fit=no"
         />
       </Head>
-      <ReduxProvider store={store}>
-        <SidebarProvider>
-          <ThemeProvider>
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <AuthProvider>
-                <SnackbarProvider
-                  maxSnack={6}
-                  anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'right'
-                  }}
-                >
-                  <CssBaseline />
-                  <AuthConsumer>
-                    {(auth) =>
-                      !auth.isInitialized ? (
-                        <Loader />
-                      ) : (
-                        getLayout(<Component {...pageProps} />)
-                      )
-                    }
-                  </AuthConsumer>
-                </SnackbarProvider>
-              </AuthProvider>
-            </LocalizationProvider>
-          </ThemeProvider>
-        </SidebarProvider>
-      </ReduxProvider>
+        <ReduxProvider store={store}>
+          <SidebarProvider>
+            <ThemeProvider>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <AuthProvider>
+                  <SnackbarProvider
+                    maxSnack={6}
+                    anchorOrigin={{
+                      vertical: 'bottom',
+                      horizontal: 'right'
+                    }}
+                  >
+                    <CssBaseline />
+                    <AuthConsumer>
+                      {(auth) =>
+                        !auth.isInitialized ? (
+                          <Loader />
+                        ) : (
+                            
+                            getLayout(
+                              <ErrorBoundary FallbackComponent={ErrorBoundaryFallback} onError={myErrorHandler}>
+                                <Component {...pageProps} />
+                              </ErrorBoundary>
+                            )
+                        )
+                      }
+                    </AuthConsumer>
+                  </SnackbarProvider>
+                </AuthProvider>
+              </LocalizationProvider>
+            </ThemeProvider>
+          </SidebarProvider>
+        </ReduxProvider>
     </CacheProvider>
   );
 }
