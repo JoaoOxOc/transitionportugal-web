@@ -7,7 +7,7 @@ import {
   styled
 } from '@mui/material';
 import { i18nextAbout } from "@transitionpt/translations";
-import Label from '../../../components/Label';
+import Label from '../../../../components/Label';
 import ArrowUpwardTwoToneIcon from '@mui/icons-material/ArrowUpwardTwoTone';
 import AppointmentsAltChart from './AppointmentsAltChart';
 import MedicalServicesTwoToneIcon from '@mui/icons-material/MedicalServicesTwoTone';
