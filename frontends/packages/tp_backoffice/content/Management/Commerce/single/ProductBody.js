@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import numeral from 'numeral';
 
 import { useSnackbar } from 'notistack';
-import Text from '../../../components/Text';
+import Text from '../../../../components/Text';
 
 import {
   Typography,

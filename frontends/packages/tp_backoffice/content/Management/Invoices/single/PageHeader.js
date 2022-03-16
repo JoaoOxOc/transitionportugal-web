@@ -9,7 +9,7 @@ import {
   IconButton
 } from '@mui/material';
 import { i18nextAbout } from "@transitionpt/translations";
-import Link from '../../../components/Link';
+import Link from '../../../../components/Link';
 
 import ArrowBackTwoToneIcon from '@mui/icons-material/ArrowBackTwoTone';
 import PropTypes from 'prop-types';

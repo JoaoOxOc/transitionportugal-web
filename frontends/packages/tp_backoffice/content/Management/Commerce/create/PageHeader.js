@@ -1,7 +1,7 @@
 import { Box, Grid, Typography, Button, styled } from '@mui/material';
 import { i18nextAbout } from "@transitionpt/translations";
 import ArrowBackTwoToneIcon from '@mui/icons-material/ArrowBackTwoTone';
-import Link from '../../../components/Link';
+import Link from '../../../../components/Link';
 
 const RootWrapper = styled(Box)(
   () => `
