@@ -159,7 +159,6 @@ spec:
                   secretKeyRef:
                       name: emailservice-data
                       key: jwt-public-secret
-					  
             - name: JWT__ValidAudience
               valueFrom:
                   secretKeyRef:
