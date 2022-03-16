@@ -1,5 +1,5 @@
 import { Typography } from '@mui/material';
-import { useAuth } from 'src/hooks/useAuth';
+import { useAuth } from '../../../hooks/useAuth';
 import { i18nextAbout } from "@transitionpt/translations";
 
 function PageHeader() {

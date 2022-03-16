@@ -1,12 +1,12 @@
 import { useState, useRef, useEffect } from 'react';
 import Head from 'next/head';
 
-import { Authenticated } from 'src/components/Authenticated';
-import ExtendedSidebarLayout from 'src/layouts/ExtendedSidebarLayout';
+import { Authenticated } from '../../../components/Authenticated';
+import ExtendedSidebarLayout from '../../../layouts/ExtendedSidebarLayout';
 
-import PageTitleWrapper from 'src/components/PageTitleWrapper';
-import PageHeader from 'src/content/Applications/Calendar/PageHeader';
-import Footer from 'src/components/Footer';
+import PageTitleWrapper from '../../../components/PageTitleWrapper';
+import PageHeader from '../../../content/Applications/Calendar/PageHeader';
+import Footer from '../../../components/Footer';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -24,11 +24,11 @@ import {
   useTheme
 } from '@mui/material';
 
-import { useDispatch, useSelector } from 'src/store';
-import { getEvents, updateEvent } from 'src/slices/calendar';
+import { useDispatch, useSelector } from '../../../store';
+import { getEvents, updateEvent } from '../../../slices/calendar';
 
-import Actions from 'src/content/Applications/Calendar/Actions';
-import EventDrawer from 'src/content/Applications/Calendar/EventDrawer';
+import Actions from '../../../content/Applications/Calendar/Actions';
+import EventDrawer from '../../../content/Applications/Calendar/EventDrawer';
 
 const FullCalendarWrapper = styled(Box)(
   ({ theme }) => `

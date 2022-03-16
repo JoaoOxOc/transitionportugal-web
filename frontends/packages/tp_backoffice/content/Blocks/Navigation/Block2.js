@@ -15,8 +15,8 @@ import {
 
 import { i18nextAbout } from "@transitionpt/translations";
 import HelpTwoToneIcon from '@mui/icons-material/HelpTwoTone';
-import BounceRate from 'src/content/Dashboards/Analytics/BounceRate';
-import ConversionsAlt from 'src/content/Dashboards/Analytics/ConversionsAlt';
+import BounceRate from '../../../content/Dashboards/Analytics/BounceRate';
+import ConversionsAlt from '../../../content/Dashboards/Analytics/ConversionsAlt';
 import ChevronRightTwoToneIcon from '@mui/icons-material/ChevronRightTwoTone';
 
 const BoxComposed = styled(Box)(

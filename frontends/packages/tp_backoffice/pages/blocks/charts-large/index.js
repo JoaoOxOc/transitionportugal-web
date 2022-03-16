@@ -1,22 +1,22 @@
-import PageHeader from 'src/content/Blocks/ChartsLarge/PageHeader';
-import Footer from 'src/components/Footer';
-import PageTitleWrapper from 'src/components/PageTitleWrapper';
+import PageHeader from '../../../content/Blocks/ChartsLarge/PageHeader';
+import Footer from '../../../components/Footer';
+import PageTitleWrapper from '../../../components/PageTitleWrapper';
 import Head from 'next/head';
 
-import { Authenticated } from 'src/components/Authenticated';
-import ExtendedSidebarLayout from 'src/layouts/ExtendedSidebarLayout';
+import { Authenticated } from '../../../components/Authenticated';
+import ExtendedSidebarLayout from '../../../layouts/ExtendedSidebarLayout';
 
 import { Grid, Typography, useTheme, Box, alpha, Card } from '@mui/material';
 import NotificationImportantTwoToneIcon from '@mui/icons-material/NotificationImportantTwoTone';
 
-import Block1 from 'src/content/Blocks/ChartsLarge/Block1';
-import Block2 from 'src/content/Blocks/ChartsLarge/Block2';
-import Block3 from 'src/content/Blocks/ChartsLarge/Block3';
-import Block4 from 'src/content/Blocks/ChartsLarge/Block4';
-import Block5 from 'src/content/Blocks/ChartsLarge/Block5';
-import Block6 from 'src/content/Blocks/ChartsLarge/Block6';
-import Block7 from 'src/content/Blocks/ChartsLarge/Block7';
-import Block8 from 'src/content/Blocks/ChartsLarge/Block8';
+import Block1 from '../../../content/Blocks/ChartsLarge/Block1';
+import Block2 from '../../../content/Blocks/ChartsLarge/Block2';
+import Block3 from '../../../content/Blocks/ChartsLarge/Block3';
+import Block4 from '../../../content/Blocks/ChartsLarge/Block4';
+import Block5 from '../../../content/Blocks/ChartsLarge/Block5';
+import Block6 from '../../../content/Blocks/ChartsLarge/Block6';
+import Block7 from '../../../content/Blocks/ChartsLarge/Block7';
+import Block8 from '../../../content/Blocks/ChartsLarge/Block8';
 
 function DataDisplayChartsLarge() {
   const theme = useTheme();

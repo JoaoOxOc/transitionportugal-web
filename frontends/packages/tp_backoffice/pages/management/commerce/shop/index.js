@@ -2,13 +2,13 @@ import Head from 'next/head';
 
 import { useState, useEffect, useCallback } from 'react';
 
-import ExtendedSidebarLayout from 'src/layouts/ExtendedSidebarLayout';
-import { Authenticated } from 'src/components/Authenticated';
+import ExtendedSidebarLayout from '../../../../layouts/ExtendedSidebarLayout';
+import { Authenticated } from '../../../../components/Authenticated';
 
-import Footer from 'src/components/Footer';
-import PageHeader from 'src/content/Management/Commerce/shop/PageHeader';
-import Sidebar from 'src/content/Management/Commerce/shop/Sidebar';
-import Results from 'src/content/Management/Commerce/shop/Results';
+import Footer from '../../../../components/Footer';
+import PageHeader from '../../../../content/Management/Commerce/shop/PageHeader';
+import Sidebar from '../../../../content/Management/Commerce/shop/Sidebar';
+import Results from '../../../../content/Management/Commerce/shop/Results';
 
 import {
   Hidden,
@@ -22,11 +22,11 @@ import {
 
 import MenuTwoToneIcon from '@mui/icons-material/MenuTwoTone';
 
-import { useRefMounted } from 'src/hooks/useRefMounted';
+import { useRefMounted } from '../../../../hooks/useRefMounted';
 
-import { productsApi } from 'src/mocks/products';
+import { productsApi } from '../../../../mocks/products';
 
-import Scrollbar from 'src/components/Scrollbar';
+import Scrollbar from '../../../../components/Scrollbar';
 
 const sidebarContent = (
   <Scrollbar>

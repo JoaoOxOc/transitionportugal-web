@@ -21,7 +21,7 @@ import {
 } from '@mui/material';
 import { format } from 'date-fns';
 import numeral from 'numeral';
-import { useAuth } from 'src/hooks/useAuth';
+import { useAuth } from '../../../hooks/useAuth';
 import Logo from '../../../components/LogoSign';
 import { i18nextAbout } from "@transitionpt/translations";
 import DownloadTwoToneIcon from '@mui/icons-material/DownloadTwoTone';
