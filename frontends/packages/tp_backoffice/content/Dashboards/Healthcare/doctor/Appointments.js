@@ -16,9 +16,9 @@ import {
   styled
 } from '@mui/material';
 import { i18nextAbout } from "@transitionpt/translations";
-import Label from '../../../components/Label';
-import Text from '../../../components/Text';
-import Link from '../../../components/Link';
+import Label from '../../../../components/Label';
+import Text from '../../../../components/Text';
+import Link from '../../../../components/Link';
 import { useSnackbar } from 'notistack';
 import { format, subDays } from 'date-fns';
 

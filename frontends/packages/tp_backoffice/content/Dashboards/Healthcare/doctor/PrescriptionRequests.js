@@ -17,11 +17,11 @@ import {
   Select,
   MenuItem
 } from '@mui/material';
-import Link from '../../../components/Link';
+import Link from '../../../../components/Link';
 
 import { i18nextAbout } from "@transitionpt/translations";
 import FilterAltTwoToneIcon from '@mui/icons-material/FilterAltTwoTone';
-import Text from '../../../components/Text';
+import Text from '../../../../components/Text';
 import { format, subDays } from 'date-fns';
 import LockTwoToneIcon from '@mui/icons-material/LockTwoTone';
 
