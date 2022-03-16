@@ -2,8 +2,9 @@ import { useState, useCallback, useEffect } from 'react';
 
 import Head from 'next/head';
 
-import ExtendedSidebarLayout from 'src/layouts/ExtendedSidebarLayout';
+import AccentHeaderLayout from 'src/layouts/AccentHeaderLayout';
 import { Authenticated } from 'src/components/Authenticated';
+import { Authorized } from '../../../../components/Authorized';
 
 import Footer from 'src/components/Footer';
 
@@ -132,7 +133,9 @@ function ManagementUsersView() {
 
 ManagementUsersView.getLayout = (page) => (
   <Authenticated>
-    <ExtendedSidebarLayout>{page}</ExtendedSidebarLayout>
+    <Authorized scopes={["settings.admin"]}>
+        <AccentHeaderLayout>{page}</AccentHeaderLayout>
+    </Authorized>
   </Authenticated>
 );
 

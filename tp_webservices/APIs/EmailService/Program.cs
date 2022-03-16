@@ -20,7 +20,7 @@ builder.Services.Configure<DbConfiguration>(options =>
 // Add services to the container.
 builder.Services.TryAddScoped<ISettingsRepository, SettingsRepository>();
 builder.Services.TryAddScoped<IEmailTemplatesRepository, EmailTemplatesRepository>();
-builder.Services.TryAddSingleton<IEmailService, EmailServiceImp>();
+builder.Services.TryAddScoped<IEmailService, EmailServiceImp>();
 
 builder.Services.AddHttpClient<IEmailQueueConsumer, EmailQueueConsumer>();
 

@@ -17,7 +17,7 @@ export const Authenticated = (props) => {
       return;
     }
 
-    if (!auth.isAuthenticated) {
+    if (!auth.isAuthenticated || auth.redirectToLogin == true) {
       router.push({
         pathname: '/auth/login/cover',
         query: { backTo: router.asPath }

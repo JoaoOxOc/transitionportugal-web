@@ -5,7 +5,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
+          "Host": "tpuserservice",
           "Port": 3020
         }
       ],
@@ -18,7 +18,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
+          "Host": "tpuserservice",
           "Port": 3020
         }
       ],
@@ -31,7 +31,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
+          "Host": "tpuserservice",
           "Port": 3020
         }
       ],
@@ -48,7 +48,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
+          "Host": "tpuserservice",
           "Port": 3020
         }
       ],
@@ -61,7 +61,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
+          "Host": "tpuserservice",
           "Port": 3020
         }
       ],
@@ -78,7 +78,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
+          "Host": "tpuserservice",
           "Port": 3020
         }
       ],
@@ -91,7 +91,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
+          "Host": "tpuserservice",
           "Port": 3020
         }
       ],
@@ -104,7 +104,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
+          "Host": "tpuserservice",
           "Port": 3020
         }
       ],
@@ -119,7 +119,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
+          "Host": "tpuserservice",
           "Port": 3020
         }
       ],
@@ -131,11 +131,61 @@
       }
     },
     {
+      "DownstreamPathTemplate": "/api/client",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tpuserservice",
+          "Port": 3020
+        }
+      ],
+      "UpstreamPathTemplate": "/app/client/get",
+      "UpstreamHttpMethod": [ "Get" ],
+      "SwaggerKey": "UserService",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "TpAuthKey",
+        "AllowedScopes": [ "client.admin" ]
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/client/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tpuserservice",
+          "Port": 3020
+        }
+      ],
+      "UpstreamPathTemplate": "/app/client/{id}",
+      "UpstreamhttpMethod": [ "Get" ],
+      "SwaggerKey": "UserService",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "TpAuthKey",
+        "AllowedScopes": [ "client.admin" ]
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/client/update",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tpuserservice",
+          "Port": 3020
+        }
+      ],
+      "UpstreamPathTemplate": "/app/clientupdate",
+      "UpstreamHttpMethod": [ "Put" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "TpAuthKey",
+        "AllowedScopes": [ "client.admin" ]
+      }
+    },
+    {
       "DownstreamPathTemplate": "/api/client/register",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
+          "Host": "tpuserservice",
           "Port": 3020
         }
       ],
@@ -147,11 +197,75 @@
       }
     },
     {
+      "DownstreamPathTemplate": "/api/settings",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tpuserservice",
+          "Port": 3020
+        }
+      ],
+      "UpstreamPathTemplate": "/usersettings/get",
+      "UpstreamHttpMethod": [ "Get" ],
+      "SwaggerKey": "UserService",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "TpAuthKey",
+        "AllowedScopes": [ "settings.admin" ]
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/settings/userPublicSettings",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tpuserservice",
+          "Port": 3020
+        }
+      ],
+      "UpstreamPathTemplate": "/usersettings/public/get",
+      "UpstreamHttpMethod": [ "Get" ],
+      "SwaggerKey": "UserService"
+    },
+    {
+      "DownstreamPathTemplate": "/api/settings/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tpuserservice",
+          "Port": 3020
+        }
+      ],
+      "UpstreamPathTemplate": "/usersettings/{id}",
+      "UpstreamhttpMethod": [ "Get" ],
+      "SwaggerKey": "UserService",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "TpAuthKey",
+        "AllowedScopes": [ "settings.admin" ]
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/settings/edit",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tpuserservice",
+          "Port": 3020
+        }
+      ],
+      "UpstreamPathTemplate": "/usersettings/edit",
+      "UpstreamHttpMethod": [ "Put" ],
+      "SwaggerKey": "UserService",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "TpAuthKey",
+        "AllowedScopes": [ "settings.admin" ]
+      }
+    },
+    {
       "DownstreamPathTemplate": "/api/association/search-association",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
+          "Host": "tpuserservice",
           "Port": 3020
         }
       ],
@@ -164,7 +278,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
+          "Host": "tpuserservice",
           "Port": 3020
         }
       ],
@@ -180,7 +294,7 @@
         {
           "Name": "UserService API",
           "Version": "v1",
-          "Url": "http://localhost:3020/swagger/v1/swagger.json"
+          "Url": "http://tpuserservice:3020/swagger/v1/swagger.json"
         }
       ]
     }

@@ -1,7 +1,9 @@
-﻿namespace tpGateway.Services
+﻿using System.Threading.Tasks;
+
+namespace tpGateway.Services
 {
     public interface ITokenManager
     {
-        bool ValidateClient(string clientId, string clientToken);
+        Task<bool> ValidateClient(string clientId, string clientToken);
     }
 }

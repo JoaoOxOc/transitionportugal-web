@@ -61,6 +61,7 @@ const Link = React.forwardRef(function Link(props, ref) {
     as: linkAs,
     className: classNameProps,
     href,
+    isNextLink,
     noLinkStyle,
     role, // Link don't have roles.
     ...other
@@ -89,17 +90,25 @@ const Link = React.forwardRef(function Link(props, ref) {
       <NextLinkComposed className={className} ref={ref} to={href} {...other} />
     );
   }
-
-  return (
-    <MuiLink
-      component={NextLinkComposed}
-      linkAs={linkAs}
-      className={className}
-      ref={ref}
-      to={href}
-      {...other}
-    />
-  );
+  else if (isNextLink) {
+    return (
+      <NextLink href={href} passHref>
+        <MuiLink className={className} ref={ref} {...other}></MuiLink>
+      </NextLink>
+    );
+  }
+  else {
+    return (
+      <MuiLink
+        component={NextLinkComposed}
+        linkAs={linkAs}
+        className={className}
+        ref={ref}
+        to={href}
+        {...other}
+      />
+    );
+  }
 });
 
 Link.propTypes = {

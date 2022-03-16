@@ -45,6 +45,23 @@ export const decode = (token) => {
   return payload;
 };
 
+export const verifyTokenScopes = (token, scopes) => {
+  const [encodedHeader, encodedPayload, signature] = token.split('.');
+  const header = JSON.parse(atob(encodedHeader));
+  const payload = JSON.parse(atob(encodedPayload));
+  try {
+    if (scopes != null && payload.scope.some( tokenScope => scopes.includes(tokenScope) )) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+  catch(ex){
+    throw ex;
+  }
+}
+
 export const verify = (token, privateKey) => {
   const [encodedHeader, encodedPayload, signature] = token.split('.');
   const header = JSON.parse(atob(encodedHeader));
