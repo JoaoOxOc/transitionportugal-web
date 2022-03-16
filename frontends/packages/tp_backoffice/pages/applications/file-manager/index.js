@@ -19,7 +19,7 @@ import TeamFolders from '../../../content/Applications/FileManager/TeamFolders';
 import AllFolders from '../../../content/Applications/FileManager/AllFolders';
 
 import MenuTwoToneIcon from '@mui/icons-material/MenuTwoTone';
-import ExtendedSidebarLayout from '../../../layouts/ExtendedSidebarLayout';
+import AccentHeaderLayout from '../../../layouts/AccentHeaderLayout';
 import { Authenticated } from '../../../components/Authenticated';
 
 const DrawerWrapper = styled(Drawer)(
@@ -166,7 +166,7 @@ function ApplicationsFileManager() {
 
 ApplicationsFileManager.getLayout = (page) => (
   <Authenticated>
-    <ExtendedSidebarLayout>{page}</ExtendedSidebarLayout>
+    <AccentHeaderLayout>{page}</AccentHeaderLayout>
   </Authenticated>
 );
 

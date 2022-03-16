@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 
-import ExtendedSidebarLayout from '../../../layouts/ExtendedSidebarLayout';
+import AccentHeaderLayout from '../../../layouts/AccentHeaderLayout';
 import { Authenticated } from '../../../components/Authenticated';
 
 import Head from 'next/head';
@@ -66,7 +66,7 @@ function ManagementInvoices() {
 
 ManagementInvoices.getLayout = (page) => (
   <Authenticated>
-    <ExtendedSidebarLayout>{page}</ExtendedSidebarLayout>
+    <AccentHeaderLayout>{page}</AccentHeaderLayout>
   </Authenticated>
 );
 

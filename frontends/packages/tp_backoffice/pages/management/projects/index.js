@@ -2,7 +2,7 @@ import Head from 'next/head';
 
 import { useState, useEffect, useCallback } from 'react';
 
-import ExtendedSidebarLayout from '../../../layouts/ExtendedSidebarLayout';
+import AccentHeaderLayout from '../../../layouts/AccentHeaderLayout';
 import { Authenticated } from '../../../components/Authenticated';
 
 import PageHeader from '../../../content/Management/Projects/PageHeader';
@@ -63,7 +63,7 @@ function ManagementProjects() {
 
 ManagementProjects.getLayout = (page) => (
   <Authenticated>
-    <ExtendedSidebarLayout>{page}</ExtendedSidebarLayout>
+    <AccentHeaderLayout>{page}</AccentHeaderLayout>
   </Authenticated>
 );
 

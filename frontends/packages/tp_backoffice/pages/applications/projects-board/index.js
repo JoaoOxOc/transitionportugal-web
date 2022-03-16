@@ -11,7 +11,7 @@ import { useSnackbar } from 'notistack';
 import Results from '../../../content/Applications/ProjectsBoard/Results';
 import Label from '../../../components/Label';
 import PageTitleWrapper from '../../../components/PageTitleWrapper';
-import ExtendedSidebarLayout from '../../../layouts/ExtendedSidebarLayout';
+import AccentHeaderLayout from '../../../layouts/AccentHeaderLayout';
 import { Authenticated } from '../../../components/Authenticated';
 
 import {
@@ -463,7 +463,7 @@ function ApplicationsProjectsBoard() {
 
 ApplicationsProjectsBoard.getLayout = (page) => (
   <Authenticated>
-    <ExtendedSidebarLayout>{page}</ExtendedSidebarLayout>
+    <AccentHeaderLayout>{page}</AccentHeaderLayout>
   </Authenticated>
 );
 

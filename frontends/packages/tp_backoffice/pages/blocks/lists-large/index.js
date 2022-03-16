@@ -4,7 +4,7 @@ import PageTitleWrapper from '../../../components/PageTitleWrapper';
 import Head from 'next/head';
 
 import { Authenticated } from '../../../components/Authenticated';
-import ExtendedSidebarLayout from '../../../layouts/ExtendedSidebarLayout';
+import AccentHeaderLayout from '../../../layouts/AccentHeaderLayout';
 
 import Block1 from '../../../content/Blocks/ListsLarge/Block1';
 import Block2 from '../../../content/Blocks/ListsLarge/Block2';
@@ -83,7 +83,7 @@ function DataDisplayListsLarge() {
 
 DataDisplayListsLarge.getLayout = (page) => (
   <Authenticated>
-    <ExtendedSidebarLayout>{page}</ExtendedSidebarLayout>
+    <AccentHeaderLayout>{page}</AccentHeaderLayout>
   </Authenticated>
 );
 
