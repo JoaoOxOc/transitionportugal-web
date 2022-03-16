@@ -1,17 +1,17 @@
 import { useState, useCallback, useEffect } from 'react';
-import AccentHeaderLayout from '../../../../layouts/AccentHeaderLayout';
-import { Authenticated } from '../../../../components/Authenticated';
+import AccentHeaderLayout from '../../../../../layouts/AccentHeaderLayout';
+import { Authenticated } from '../../../../../components/Authenticated';
 
 import Head from 'next/head';
-import PageTitleWrapper from '../../../../components/PageTitleWrapper';
+import PageTitleWrapper from '../../../../../components/PageTitleWrapper';
 
 import { Grid } from '@mui/material';
-import { useRefMounted } from '../../../../hooks/useRefMounted';
+import { useRefMounted } from '../../../../../hooks/useRefMounted';
 
-import ProductBody from '../../../../content/Management/Commerce/single/ProductBody';
-import Footer from '../../../../components/Footer';
-import PageHeader from '../../../../content/Management/Commerce/single/PageHeader';
-import { productsApi } from '../../../../mocks/products';
+import ProductBody from '../../../../../content/Management/Commerce/single/ProductBody';
+import Footer from '../../../../../components/Footer';
+import PageHeader from '../../../../../content/Management/Commerce/single/PageHeader';
+import { productsApi } from '../../../../../mocks/products';
 
 function ManagementProductSingle() {
   const isMountedRef = useRefMounted();
