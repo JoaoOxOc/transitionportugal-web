@@ -114,6 +114,12 @@ spec:
                   secretKeyRef:
                       name: gateway-data
                       key: jwt-valid-issuer
+            - name: JWT__RemoteClientVerification
+              valueFrom:
+                  secretKeyRef:
+                      name: gateway-data
+                      key: jwt-remote-client-verify
+                      
       - name: tpemailservice
         image: <EMAILSERVICE_API_IMAGE>
         ports:
@@ -148,6 +154,22 @@ spec:
                   secretKeyRef:
                       name: emailservice-data
                       key: db-conn-string
+            - name: JWT__SecretPublicKey
+              valueFrom:
+                  secretKeyRef:
+                      name: emailservice-data
+                      key: jwt-public-secret
+					  
+            - name: JWT__ValidAudience
+              valueFrom:
+                  secretKeyRef:
+                      name: emailservice-data
+                      key: jwt-valid-audience
+            - name: JWT__ValidIssuer
+              valueFrom:
+                  secretKeyRef:
+                      name: emailservice-data
+                      key: jwt-valid-issuer
       - name: tpuserservice
         image: <USERSERVICE_API_IMAGE>
         ports:
