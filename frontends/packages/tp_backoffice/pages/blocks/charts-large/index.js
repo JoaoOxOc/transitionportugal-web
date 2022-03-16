@@ -4,7 +4,7 @@ import PageTitleWrapper from '../../../components/PageTitleWrapper';
 import Head from 'next/head';
 
 import { Authenticated } from '../../../components/Authenticated';
-import ExtendedSidebarLayout from '../../../layouts/ExtendedSidebarLayout';
+import AccentHeaderLayout from '../../../layouts/AccentHeaderLayout';
 
 import { Grid, Typography, useTheme, Box, alpha, Card } from '@mui/material';
 import NotificationImportantTwoToneIcon from '@mui/icons-material/NotificationImportantTwoTone';
@@ -112,7 +112,7 @@ function DataDisplayChartsLarge() {
 
 DataDisplayChartsLarge.getLayout = (page) => (
   <Authenticated>
-    <ExtendedSidebarLayout>{page}</ExtendedSidebarLayout>
+    <AccentHeaderLayout>{page}</AccentHeaderLayout>
   </Authenticated>
 );
 

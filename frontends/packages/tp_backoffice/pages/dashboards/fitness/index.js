@@ -1,6 +1,6 @@
 import Head from 'next/head';
 
-import ExtendedSidebarLayout from '../../../layouts/ExtendedSidebarLayout';
+import AccentHeaderLayout from '../../../layouts/AccentHeaderLayout';
 import { Authenticated } from '../../../components/Authenticated';
 
 import DashboardFitnessContent from '../../../content/DashboardPages/fitness';
@@ -18,7 +18,7 @@ function DashboardFitness() {
 
 DashboardFitness.getLayout = (page) => (
   <Authenticated>
-    <ExtendedSidebarLayout>{page}</ExtendedSidebarLayout>
+    <AccentHeaderLayout>{page}</AccentHeaderLayout>
   </Authenticated>
 );
 

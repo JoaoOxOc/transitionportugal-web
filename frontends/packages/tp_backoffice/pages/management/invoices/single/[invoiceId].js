@@ -2,7 +2,7 @@ import Head from 'next/head';
 
 import { useState, useCallback, useEffect } from 'react';
 
-import ExtendedSidebarLayout from '../../../../layouts/ExtendedSidebarLayout';
+import AccentHeaderLayout from '../../../../layouts/AccentHeaderLayout';
 import { Authenticated } from '../../../../components/Authenticated';
 
 import Footer from '../../../../components/Footer';
@@ -68,7 +68,7 @@ function ManagementInvoicesView() {
 
 ManagementInvoicesView.getLayout = (page) => (
   <Authenticated>
-    <ExtendedSidebarLayout>{page}</ExtendedSidebarLayout>
+    <AccentHeaderLayout>{page}</AccentHeaderLayout>
   </Authenticated>
 );
 
