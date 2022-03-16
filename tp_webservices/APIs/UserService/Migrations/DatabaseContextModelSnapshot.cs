@@ -51,6 +51,9 @@ namespace UserService.Migrations
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("text");
+
                     b.Property<string>("Value")
                         .IsRequired()
                         .HasColumnType("text");
@@ -63,7 +66,7 @@ namespace UserService.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2022, 2, 18, 11, 18, 16, 10, DateTimeKind.Local).AddTicks(1224),
+                            CreatedAt = new DateTime(2022, 3, 12, 17, 35, 12, 122, DateTimeKind.Local).AddTicks(525),
                             DefaultValue = "3",
                             Description = "Número máximo de tentativas de autenticação falhadas",
                             Key = "MaxLoginAttempts",
@@ -73,7 +76,7 @@ namespace UserService.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2022, 2, 18, 11, 18, 16, 10, DateTimeKind.Local).AddTicks(1259),
+                            CreatedAt = new DateTime(2022, 3, 12, 17, 35, 12, 122, DateTimeKind.Local).AddTicks(591),
                             DefaultValue = "6Lf2t0sUAAAAABiszBasjJuBZXTdqMy00zOKPOFt",
                             Description = "Site key usada pelo serviço de reCAPTCHA da Google",
                             Key = "CaptchaSiteKey",
@@ -83,7 +86,7 @@ namespace UserService.Migrations
                         new
                         {
                             Id = 3,
-                            CreatedAt = new DateTime(2022, 2, 18, 11, 18, 16, 10, DateTimeKind.Local).AddTicks(1262),
+                            CreatedAt = new DateTime(2022, 3, 12, 17, 35, 12, 122, DateTimeKind.Local).AddTicks(594),
                             DefaultValue = "6Lf2t0sUAAAAAPwP3kIvpynFqPp-7_QLfQoDQtZd",
                             Description = "Secret key usada pelo serviço de reCAPTCHA da Google",
                             Key = "CaptchaSecretKey",
@@ -121,28 +124,28 @@ namespace UserService.Migrations
                         new
                         {
                             Id = "e762fd61-0f58-4c5d-ad0e-7bd322ae3ccf",
-                            ConcurrencyStamp = "1de98b50-5e0c-4e6e-b223-a3bceb1f707e",
+                            ConcurrencyStamp = "ec0f5635-fbe8-4621-aa21-f6703cbc0254",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "244d3f1a-8594-4adb-9c59-5ec36fcdbf03",
-                            ConcurrencyStamp = "71fb43aa-8679-49e8-ba46-4c0f8617bafb",
+                            ConcurrencyStamp = "f6837a6b-aa5f-4537-a80f-cebe1ebf105c",
                             Name = "AssociationAdmin",
                             NormalizedName = "ASSOCIATIONADMIN"
                         },
                         new
                         {
                             Id = "179642d9-0f10-4d7d-a1a0-b485b3f6659f",
-                            ConcurrencyStamp = "bc11fb25-ae67-4819-8f9e-feebe55098b7",
+                            ConcurrencyStamp = "9a751937-518d-4dce-a712-c6091d69dfe3",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
                             Id = "69d5274f-235d-4013-bbac-0c4eddf31ecc",
-                            ConcurrencyStamp = "d2692ac3-2bdd-4790-909a-719cdd2a697b",
+                            ConcurrencyStamp = "dacbfd44-634d-4af7-b796-f109173b1f63",
                             Name = "AssociationUser",
                             NormalizedName = "ASSOCIATIONUSER"
                         });
@@ -349,12 +352,24 @@ namespace UserService.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("text");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("UpdatedBy")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -457,6 +472,30 @@ namespace UserService.Migrations
                             Id = 12,
                             RoleId = "e762fd61-0f58-4c5d-ad0e-7bd322ae3ccf",
                             ScopeId = 5
+                        },
+                        new
+                        {
+                            Id = 13,
+                            RoleId = "e762fd61-0f58-4c5d-ad0e-7bd322ae3ccf",
+                            ScopeId = 6
+                        },
+                        new
+                        {
+                            Id = 14,
+                            RoleId = "e762fd61-0f58-4c5d-ad0e-7bd322ae3ccf",
+                            ScopeId = 7
+                        },
+                        new
+                        {
+                            Id = 15,
+                            RoleId = "e762fd61-0f58-4c5d-ad0e-7bd322ae3ccf",
+                            ScopeId = 8
+                        },
+                        new
+                        {
+                            Id = 16,
+                            RoleId = "e762fd61-0f58-4c5d-ad0e-7bd322ae3ccf",
+                            ScopeId = 9
                         });
                 });
 
@@ -510,6 +549,30 @@ namespace UserService.Migrations
                             Id = 5,
                             Description = "Read/write of client apps data",
                             ScopeName = "client.admin"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Description = "Read/write of API settings",
+                            ScopeName = "settings.admin"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Description = "Read/write of Email service data like templates",
+                            ScopeName = "email.admin"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Description = "Read only of content management system data",
+                            ScopeName = "cms.read"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Description = "Read/write of content management system data",
+                            ScopeName = "cms.write"
                         });
                 });
 

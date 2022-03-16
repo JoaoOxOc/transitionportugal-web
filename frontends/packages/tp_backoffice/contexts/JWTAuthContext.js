@@ -87,43 +87,34 @@ export const AuthProvider = (props) => {
             });
           }
           else {
-            const refreshToken = window.localStorage.getItem('refreshToken');
-            if (refreshToken) {
-              const refreshedTokenData = await genericFetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/user/refresh", "POST", null,
-              {
-                accessToken: accessToken,
-                refreshToken: refreshToken,
-              });
-              if (refreshedTokenData.accessToken) {
-                userProfile = await genericFetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/user/profile", "GET", refreshedTokenData.accessToken,{});
-                if (userProfile.result) {
-                  //const user = await authApi.me(response.token);
-                  const user = userProfile.result;
-            
-                  localStorage.setItem('accessToken', refreshedTokenData.accessToken);
-                  localStorage.setItem('refreshToken', refreshedTokenData.refreshToken);
-        
-                  dispatch({
-                    type: 'INITIALIZE',
-                    payload: {
-                      isAuthenticated: true,
-                      user
-                    }
-                  });
-                }
-                else {
-                  throw userProfile.statusText;
-                }
-              }
-            }
-            else {
+            console.log(userProfile);
+            if (userProfile.redirectLogin == true) {
               dispatch({
                 type: 'INITIALIZE',
                 payload: {
                   isAuthenticated: false,
+                  redirectToLogin: true,
                   user: null
                 }
               });
+            }
+            else if (userProfile.requestAgain) {
+              userProfile = await genericFetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/user/profile", "GET", window.localStorage.getItem('accessToken'),{});
+              if (userProfile.result) {
+                //const user = await authApi.me(response.token);
+                const user = userProfile.result;
+      
+                dispatch({
+                  type: 'INITIALIZE',
+                  payload: {
+                    isAuthenticated: true,
+                    user
+                  }
+                });
+              }
+              else {
+                throw userProfile.statusText;
+              }
             }
           }
         } else {

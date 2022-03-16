@@ -55,6 +55,16 @@ export function RegisterWizardJWT() {
     const { enqueueSnackbar } = useSnackbar();
     const [openAlert, setOpenAlert] = useState(true);
     const [userRegistered, setUserRegistered] = useState(false);
+    const [currentLang, setLang] = useState("pt");
+    i18nextRegisterForm.changeLanguage(currentLang);
+
+    useEffect(() => {
+        const handleNewMessage = (event) => {
+          setLang(event.detail);
+        };
+              
+        window.addEventListener('newLang', handleNewMessage);
+    }, []);
 
     const cacheTest = (asyncValidate) => {
       let _valid = false;

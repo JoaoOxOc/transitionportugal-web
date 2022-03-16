@@ -103,17 +103,6 @@ if (app.Environment.IsDevelopment())
 {
 }
 
-try
-{
-    IPHostEntry host = Dns.GetHostEntry("db-postgresql-lon1-49463-do-user-7785829-0.b.db.ondigitalocean.com");
-    Console.WriteLine($"GetHostEntry(db-postgresql-lon1-49463-do-user-7785829-0.b.db.ondigitalocean.com) returns HostName: {host.HostName}");
-    //throw new Exception($"GetHostEntry(db-postgresql-lon1-49463-do-user-7785829-0.b.db.ondigitalocean.com) returns HostName: {connectionString}");
-}
-catch (Exception e)
-{
-    throw new Exception("Exception: {0}", e);
-}
-
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
