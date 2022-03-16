@@ -35,7 +35,7 @@ metadata:
     run: transportugal-backoffice-service
 spec:
   ports:
-    - port: 41000
+    - port: 40010
       targetPort: 3000
   selector:
     app: transportugal-backoffice
@@ -52,12 +52,12 @@ metadata:
 spec:
   tls:
   - hosts:
-    - tpback.chain-of-change.com
+    - tpgest.chain-of-change.com
     secretName: transportugal-backoffice-tls-secret
   rules:
-  - host: tpback.chain-of-change.com
+  - host: tpgest.chain-of-change.com
     http:
       paths:
       - backend:
           serviceName: transportugal-backoffice-service
-          servicePort: 41000
+          servicePort: 40010
