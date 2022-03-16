@@ -2,19 +2,19 @@ import Head from 'next/head';
 
 import { useState, useCallback, useEffect } from 'react';
 
-import ExtendedSidebarLayout from 'src/layouts/ExtendedSidebarLayout';
-import { Authenticated } from 'src/components/Authenticated';
+import ExtendedSidebarLayout from '../../../../layouts/ExtendedSidebarLayout';
+import { Authenticated } from '../../../../components/Authenticated';
 
-import Footer from 'src/components/Footer';
-import PageTitleWrapper from 'src/components/PageTitleWrapper';
+import Footer from '../../../../components/Footer';
+import PageTitleWrapper from '../../../../components/PageTitleWrapper';
 
 import { Grid } from '@mui/material';
-import { useRefMounted } from 'src/hooks/useRefMounted';
+import { useRefMounted } from '../../../../hooks/useRefMounted';
 
-import { invoicesApi } from 'src/mocks/invoices';
+import { invoicesApi } from '../../../../mocks/invoices';
 
-import InvoiceBody from 'src/content/Management/Invoices/single/InvoiceBody';
-import PageHeader from 'src/content/Management/Invoices/single/PageHeader';
+import InvoiceBody from '../../../../content/Management/Invoices/single/InvoiceBody';
+import PageHeader from '../../../../content/Management/Invoices/single/PageHeader';
 
 function ManagementInvoicesView() {
   const isMountedRef = useRefMounted();

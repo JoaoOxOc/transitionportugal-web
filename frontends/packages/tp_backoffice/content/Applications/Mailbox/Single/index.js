@@ -19,9 +19,9 @@ import {
 } from '@mui/material';
 import NextLink from 'next/link';
 
-import { useDispatch, useSelector } from 'src/store';
-import { getMail } from 'src/slices/mailbox';
-import { useAuth } from 'src/hooks/useAuth';
+import { useDispatch, useSelector } from '../../../../store';
+import { getMail } from '../../../../slices/mailbox';
+import { useAuth } from '../../../../hooks/useAuth';
 import { i18nextAbout } from "@transitionpt/translations";
 import ArrowBackTwoToneIcon from '@mui/icons-material/ArrowBackTwoTone';
 import ArchiveTwoToneIcon from '@mui/icons-material/ArchiveTwoTone';

@@ -18,8 +18,8 @@ import {
   useTheme
 } from '@mui/material';
 
-import { useRefMounted } from 'src/hooks/useRefMounted';
-import { topProductsApi } from 'src/mocks/top_products';
+import { useRefMounted } from '../../../hooks/useRefMounted';
+import { topProductsApi } from '../../../mocks/top_products';
 import { i18nextAbout } from "@transitionpt/translations";
 import ArrowForwardTwoToneIcon from '@mui/icons-material/ArrowForwardTwoTone';
 
