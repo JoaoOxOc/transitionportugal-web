@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import { ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 
-import Label from '../../../components/Label';
-import Link from '../../../components/Link';
+import Label from '../../../../components/Label';
+import Link from '../../../../components/Link';
 
 import InboxTwoToneIcon from '@mui/icons-material/InboxTwoTone';
 import OutboxTwoToneIcon from '@mui/icons-material/OutboxTwoTone';
