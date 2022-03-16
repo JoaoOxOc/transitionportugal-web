@@ -24,6 +24,27 @@ spec:
         image: <BACKOFFICE_IMAGE>
         ports:
         - containerPort: 80
+      env:
+            - name: NEXT_PUBLIC_API_BASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: transbackoffice-data
+                  key: api-base-url
+            - name: NEXT_PUBLIC_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: transbackoffice-data
+                  key: auth-client-id
+            - name: NEXT_PUBLIC_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: transbackoffice-data
+                  key: auth-client-secret
+            - name: NEXT_PUBLIC_HOME_URL
+              valueFrom:
+                secretKeyRef:
+                  name: transbackoffice-data
+                  key: home-base-url
       imagePullSecrets:
       - name: do-photos-registry-secret
 ---
