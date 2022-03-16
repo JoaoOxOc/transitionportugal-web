@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import Scrollbar from '../../../../../components/Scrollbar';
+import Scrollbar from '../../../../components/Scrollbar';
 
 import PageHeader from '../../../../content/Dashboards/Healthcare/doctor/PageHeader';
 import Footer from '../../../../components/Footer';
