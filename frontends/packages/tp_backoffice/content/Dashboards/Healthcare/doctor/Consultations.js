@@ -1,7 +1,7 @@
 import { Card, Box, Typography, useTheme } from '@mui/material';
 import { i18nextAbout } from "@transitionpt/translations";
-import Label from '../../../components/Label';
-import { Chart } from '../../../components/Chart';
+import Label from '../../../../components/Label';
+import { Chart } from '../../../../components/Chart';
 
 function Consultations() {
   const { t } = i18nextAbout;
