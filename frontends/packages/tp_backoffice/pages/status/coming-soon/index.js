@@ -144,7 +144,7 @@ function StatusComingSoon() {
             </Box>
 
             <Box display="flex" justifyContent="center">
-              {timerComponents.length ? timerComponents : <>Time's up!</>}
+              {timerComponents.length ? timerComponents : <>Time&apos;s up!</>}
             </Box>
 
             <Container maxWidth="sm">
