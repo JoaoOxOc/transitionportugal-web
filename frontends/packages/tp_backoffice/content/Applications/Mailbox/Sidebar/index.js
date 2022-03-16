@@ -13,7 +13,7 @@ import {
 } from '@mui/material';
 import { MailboxSidebarItem } from './SidebarItem';
 import { i18nextAbout } from "@transitionpt/translations";
-import Scrollbar from '../../../components/Scrollbar';
+import Scrollbar from '../../../../components/Scrollbar';
 
 const DrawerWrapper = styled(Drawer)(
   ({ theme }) => `
