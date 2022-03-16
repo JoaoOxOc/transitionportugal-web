@@ -20,3 +20,10 @@ website and web services of transition network in Portugal
 	
 - How to run in Docker:
 	- for home project: use the dockerfile `frontoffice.dockerfile` inside `frontends` folder; from this folder in CMD, run: `docker build -f .\frontoffice.dockerfile -t tp_front .` (or for debug `docker build -f .\frontoffice.dockerfile -t tp_front . --progress=plain --no-cache`) then `docker run -p 5050:3000 tp_front`
+
+
+## How to deploy it
+- Start with the API's: change Ocelot route JSON files in the `deployback` repository to match kubernetes routes. The kubernetes related deploy action will start automatically
+- Store client credentials: get the frontend ones from the production database
+- Change frontend's client credentials: in the secrets or in the ENV files
+- Deploy frontends: push to `deployfront` repository and the kubernetes related deploy action will start automatically
