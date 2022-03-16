@@ -74,7 +74,7 @@ function DataDisplayChartsLarge() {
               >
                 Starting with version 3.0 we replaced <b>Chart.js</b> with{' '}
                 <b>ApexCharts</b> for better UX and ease of use. If you still
-                want to use the Chart.js plugin, we've included below a few
+                want to use the Chart.js plugin, we&apos;ve included below a few
                 implementation examples.
               </Typography>
             </Box>
