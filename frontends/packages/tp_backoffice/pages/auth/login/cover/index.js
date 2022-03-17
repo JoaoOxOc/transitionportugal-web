@@ -101,6 +101,7 @@ function LoginCover() {
   const { t } = i18nextLogin;
   const [currentLang, setLang] = useState("pt");
   i18nextLogin.changeLanguage(currentLang);
+  console.log("env: ",process.env);
   console.log("env API URL: ",process.env.NEXT_PUBLIC_API_BASE_URL, process.env.NEXT_PUBLIC_HOME_URL);
 
   useEffect(() => {
