@@ -61,7 +61,6 @@ RUN adduser -S nextjs -u 1001
 
 # You only need to copy next.config.js if you are NOT using the default configuration
 COPY --from=final-transitionpt_backoffice-build-stage /app/packages/tp_backoffice/next.config.js ./
-COPY --from=final-transitionpt_backoffice-build-stage /app/packages/tp_backoffice/assets ./assets
 COPY --from=final-transitionpt_backoffice-build-stage /app/packages/tp_backoffice/public ./public
 COPY --from=final-transitionpt_backoffice-build-stage --chown=nextjs:nodejs /app/packages/tp_backoffice/.next ./.next
 COPY --from=final-transitionpt_backoffice-build-stage /app/packages/tp_backoffice/package.json ./package.json
@@ -75,6 +74,18 @@ USER nextjs
 EXPOSE 3000
 
 ENV PORT 3000
+
+ARG NEXT_PUBLIC_API_BASE_URL
+ENV NEXT_PUBLIC_API_BASE_URL=$NEXT_PUBLIC_API_BASE_URL
+
+ARG NEXT_PUBLIC_CLIENT_ID
+ENV NEXT_PUBLIC_CLIENT_ID=$NEXT_PUBLIC_CLIENT_ID
+
+ARG NEXT_PUBLIC_CLIENT_SECRET
+ENV NEXT_PUBLIC_CLIENT_SECRET=$NEXT_PUBLIC_CLIENT_SECRET
+
+ARG NEXT_PUBLIC_HOME_URL
+ENV NEXT_PUBLIC_HOME_URL=$NEXT_PUBLIC_HOME_URL
 
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry

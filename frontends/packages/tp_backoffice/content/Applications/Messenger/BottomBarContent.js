@@ -8,7 +8,7 @@ import {
   InputBase,
   useTheme
 } from '@mui/material';
-import { useAuth } from 'src/hooks/useAuth';
+import { useAuth } from '../../../hooks/useAuth';
 import { i18nextAbout } from "@transitionpt/translations";
 import AttachFileTwoToneIcon from '@mui/icons-material/AttachFileTwoTone';
 import SendTwoToneIcon from '@mui/icons-material/SendTwoTone';

@@ -13,7 +13,7 @@ import {
   styled
 } from '@mui/material';
 import AddCircleTwoToneIcon from '@mui/icons-material/AddCircleTwoTone';
-import { useAuth } from 'src/hooks/useAuth';
+import { useAuth } from '../../../hooks/useAuth';
 
 import { formatDistance, subHours, subMinutes } from 'date-fns';
 import { i18nextAbout } from "@transitionpt/translations";
@@ -158,7 +158,7 @@ function Block5() {
                 mr={2}
               >
                 <CardWrapperPrimary>
-                  Yes, I'll email them right now. I'll let you know once the
+                  Yes, I&apos;ll email them right now. I&apos;ll let you know once the
                   remaining invoices are done.
                 </CardWrapperPrimary>
                 <Typography

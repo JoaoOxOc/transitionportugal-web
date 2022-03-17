@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import { forwardRef, useState, useRef } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
@@ -19,7 +20,7 @@ import {
 } from '@mui/material';
 import { formatDistance } from 'date-fns';
 import { i18nextAbout } from "@transitionpt/translations";
-import { useSelector } from 'src/store';
+import { useSelector } from '../../../store';
 
 import CommentTwoToneIcon from '@mui/icons-material/CommentTwoTone';
 import MoreHorizTwoToneIcon from '@mui/icons-material/MoreHorizTwoTone';

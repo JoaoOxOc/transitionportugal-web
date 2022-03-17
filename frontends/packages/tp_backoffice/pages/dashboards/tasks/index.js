@@ -1,6 +1,6 @@
 import Head from 'next/head';
 
-import ExtendedSidebarLayout from '../../../layouts/ExtendedSidebarLayout';
+import AccentHeaderLayout from '../../../layouts/AccentHeaderLayout';
 import { Authenticated } from '../../../components/Authenticated';
 
 import DashboardTasksContent from '../../../content/DashboardPages/tasks';
@@ -18,7 +18,7 @@ function DashboardTasks() {
 
 DashboardTasks.getLayout = (page) => (
   <Authenticated>
-    <ExtendedSidebarLayout>{page}</ExtendedSidebarLayout>
+    <AccentHeaderLayout>{page}</AccentHeaderLayout>
   </Authenticated>
 );
 

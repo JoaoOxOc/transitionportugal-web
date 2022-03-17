@@ -23,12 +23,12 @@ import {
 import FavoriteTwoToneIcon from '@mui/icons-material/FavoriteTwoTone';
 import { i18nextAbout } from "@transitionpt/translations";
 import numeral from 'numeral';
-import Text from '../../../components/Text';
+import Text from '../../../../components/Text';
 import { useSnackbar } from 'notistack';
 import SearchTwoToneIcon from '@mui/icons-material/SearchTwoTone';
 import GridViewTwoToneIcon from '@mui/icons-material/GridViewTwoTone';
 import TableRowsTwoToneIcon from '@mui/icons-material/TableRowsTwoTone';
-import Link from '../../../components/Link';
+import Link from '../../../../components/Link';
 
 const applyFilters = (products, query) => {
   return products.filter((product) => {

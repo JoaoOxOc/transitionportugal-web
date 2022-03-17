@@ -1,20 +1,20 @@
-import PageHeader from 'src/content/Blocks/Navigation/PageHeader';
-import Footer from 'src/components/Footer';
-import PageTitleWrapper from 'src/components/PageTitleWrapper';
+import PageHeader from '../../../content/Blocks/Navigation/PageHeader';
+import Footer from '../../../components/Footer';
+import PageTitleWrapper from '../../../components/PageTitleWrapper';
 import Head from 'next/head';
 
-import { Authenticated } from 'src/components/Authenticated';
-import ExtendedSidebarLayout from 'src/layouts/ExtendedSidebarLayout';
+import { Authenticated } from '../../../components/Authenticated';
+import AccentHeaderLayout from '../../../layouts/AccentHeaderLayout';
 
-import Block1 from 'src/content/Blocks/Navigation/Block1';
-import Block2 from 'src/content/Blocks/Navigation/Block2';
-import Block3 from 'src/content/Blocks/Navigation/Block3';
-import Block4 from 'src/content/Blocks/Navigation/Block4';
-import Block5 from 'src/content/Blocks/Navigation/Block5';
-import Block6 from 'src/content/Blocks/Navigation/Block6';
-import Block7 from 'src/content/Blocks/Navigation/Block7';
-import Block8 from 'src/content/Blocks/Navigation/Block8';
-import Block9 from 'src/content/Blocks/Navigation/Block9';
+import Block1 from '../../../content/Blocks/Navigation/Block1';
+import Block2 from '../../../content/Blocks/Navigation/Block2';
+import Block3 from '../../../content/Blocks/Navigation/Block3';
+import Block4 from '../../../content/Blocks/Navigation/Block4';
+import Block5 from '../../../content/Blocks/Navigation/Block5';
+import Block6 from '../../../content/Blocks/Navigation/Block6';
+import Block7 from '../../../content/Blocks/Navigation/Block7';
+import Block8 from '../../../content/Blocks/Navigation/Block8';
+import Block9 from '../../../content/Blocks/Navigation/Block9';
 import { Grid } from '@mui/material';
 
 function DataDisplayNavigation() {
@@ -71,7 +71,7 @@ function DataDisplayNavigation() {
 
 DataDisplayNavigation.getLayout = (page) => (
   <Authenticated>
-    <ExtendedSidebarLayout>{page}</ExtendedSidebarLayout>
+    <AccentHeaderLayout>{page}</AccentHeaderLayout>
   </Authenticated>
 );
 

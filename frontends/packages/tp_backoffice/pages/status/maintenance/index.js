@@ -11,7 +11,7 @@ import {
 import BaseLayout from '../../../layouts/BaseLayout';
 
 import Head from 'next/head';
-import Logo from '../components/LogoSign';
+import Logo from '../../../components/LogoSign';
 
 import { i18nextAbout } from "@transitionpt/translations";
 import FacebookIcon from '@mui/icons-material/Facebook';

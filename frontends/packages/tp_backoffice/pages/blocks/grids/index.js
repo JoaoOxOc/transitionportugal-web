@@ -1,18 +1,18 @@
-import PageHeader from 'src/content/Blocks/Grids/PageHeader';
-import Footer from 'src/components/Footer';
-import PageTitleWrapper from 'src/components/PageTitleWrapper';
+import PageHeader from '../../../content/Blocks/Grids/PageHeader';
+import Footer from '../../../components/Footer';
+import PageTitleWrapper from '../../../components/PageTitleWrapper';
 import Head from 'next/head';
 
-import { Authenticated } from 'src/components/Authenticated';
-import ExtendedSidebarLayout from 'src/layouts/ExtendedSidebarLayout';
+import { Authenticated } from '../../../components/Authenticated';
+import AccentHeaderLayout from '../../../layouts/AccentHeaderLayout';
 
-import Block1 from 'src/content/Blocks/Grids/Block1';
-import Block2 from 'src/content/Blocks/Grids/Block2';
-import Block3 from 'src/content/Blocks/Grids/Block3';
-import Block4 from 'src/content/Blocks/Grids/Block4';
-import Block5 from 'src/content/Blocks/Grids/Block5';
-import Block6 from 'src/content/Blocks/Grids/Block6';
-import Block7 from 'src/content/Blocks/Grids/Block7';
+import Block1 from '../../../content/Blocks/Grids/Block1';
+import Block2 from '../../../content/Blocks/Grids/Block2';
+import Block3 from '../../../content/Blocks/Grids/Block3';
+import Block4 from '../../../content/Blocks/Grids/Block4';
+import Block5 from '../../../content/Blocks/Grids/Block5';
+import Block6 from '../../../content/Blocks/Grids/Block6';
+import Block7 from '../../../content/Blocks/Grids/Block7';
 import { Grid } from '@mui/material';
 
 function DataDisplayGrids() {
@@ -63,7 +63,7 @@ function DataDisplayGrids() {
 
 DataDisplayGrids.getLayout = (page) => (
   <Authenticated>
-    <ExtendedSidebarLayout>{page}</ExtendedSidebarLayout>
+    <AccentHeaderLayout>{page}</AccentHeaderLayout>
   </Authenticated>
 );
 

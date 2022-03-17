@@ -1,5 +1,5 @@
 import { Grid, Typography, Avatar, useTheme } from '@mui/material';
-import { useAuth } from 'src/hooks/useAuth';
+import { useAuth } from '../../../hooks/useAuth';
 import { i18nextAbout } from "@transitionpt/translations";
 import { format } from 'date-fns';
 

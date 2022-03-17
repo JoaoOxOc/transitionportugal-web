@@ -1,7 +1,7 @@
 import { Typography, Box, Button } from '@mui/material';
 import { i18nextAbout } from "@transitionpt/translations";
 import ArrowForwardTwoToneIcon from '@mui/icons-material/ArrowForwardTwoTone';
-import Link from '../../../components/Link';
+import Link from '../../../../components/Link';
 
 function PageHeader() {
   const { t } = i18nextAbout;

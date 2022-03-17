@@ -2,29 +2,29 @@ import { useState, useCallback, useEffect } from 'react';
 
 import Head from 'next/head';
 
-import AccentHeaderLayout from 'src/layouts/AccentHeaderLayout';
-import { Authenticated } from 'src/components/Authenticated';
+import AccentHeaderLayout from '../../../../layouts/AccentHeaderLayout';
+import { Authenticated } from '../../../../components/Authenticated';
 import { Authorized } from '../../../../components/Authorized';
 
-import Footer from 'src/components/Footer';
+import Footer from '../../../../components/Footer';
 
 import { Box, Tabs, Tab, Grid, styled } from '@mui/material';
 
-import { usersApi } from 'src/mocks/users';
+import { usersApi } from '../../../../mocks/users';
 
-import { useRefMounted } from 'src/hooks/useRefMounted';
+import { useRefMounted } from '../../../../hooks/useRefMounted';
 import { i18nextAbout } from "@transitionpt/translations";
 
-import ProfileCover from 'src/content/Management/Users/single/ProfileCover';
-import RecentActivity from 'src/content/Management/Users/single/RecentActivity';
-import Feed from 'src/content/Management/Users/single/Feed';
-import PopularTags from 'src/content/Management/Users/single/PopularTags';
-import MyCards from 'src/content/Management/Users/single/MyCards';
-import Addresses from 'src/content/Management/Users/single/Addresses';
-import ActivityTab from 'src/content/Management/Users/single/ActivityTab';
-import EditProfileTab from 'src/content/Management/Users/single/EditProfileTab';
-import NotificationsTab from 'src/content/Management/Users/single/NotificationsTab';
-import SecurityTab from 'src/content/Management/Users/single/SecurityTab';
+import ProfileCover from '../../../../content/Management/Users/single/ProfileCover';
+import RecentActivity from '../../../../content/Management/Users/single/RecentActivity';
+import Feed from '../../../../content/Management/Users/single/Feed';
+import PopularTags from '../../../../content/Management/Users/single/PopularTags';
+import MyCards from '../../../../content/Management/Users/single/MyCards';
+import Addresses from '../../../../content/Management/Users/single/Addresses';
+import ActivityTab from '../../../../content/Management/Users/single/ActivityTab';
+import EditProfileTab from '../../../../content/Management/Users/single/EditProfileTab';
+import NotificationsTab from '../../../../content/Management/Users/single/NotificationsTab';
+import SecurityTab from '../../../../content/Management/Users/single/SecurityTab';
 
 const TabsWrapper = styled(Tabs)(
   () => `

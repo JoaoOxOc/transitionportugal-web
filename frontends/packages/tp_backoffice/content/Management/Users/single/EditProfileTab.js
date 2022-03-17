@@ -10,8 +10,8 @@ import {
 import { i18nextAbout } from "@transitionpt/translations";
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import DoneTwoToneIcon from '@mui/icons-material/DoneTwoTone';
-import Text from '../../../components/Text';
-import Label from '../../../components/Label';
+import Text from '../../../../components/Text';
+import Label from '../../../../components/Label';
 
 function EditProfileTab() {
   const { t } = i18nextAbout;

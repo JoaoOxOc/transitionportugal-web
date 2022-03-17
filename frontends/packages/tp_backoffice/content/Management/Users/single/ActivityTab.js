@@ -11,14 +11,14 @@ import {
   CardActions,
   styled
 } from '@mui/material';
-import Link from '../../../components/Link';
+import Link from '../../../../components/Link';
 
 import { i18nextAbout } from "@transitionpt/translations";
 import MoreHorizTwoToneIcon from '@mui/icons-material/MoreHorizTwoTone';
 import ThumbUpAltTwoToneIcon from '@mui/icons-material/ThumbUpAltTwoTone';
 import CommentTwoToneIcon from '@mui/icons-material/CommentTwoTone';
 import ShareTwoToneIcon from '@mui/icons-material/ShareTwoTone';
-import Text from '../../../components/Text';
+import Text from '../../../../components/Text';
 
 const CardActionsWrapper = styled(CardActions)(
   ({ theme }) => `

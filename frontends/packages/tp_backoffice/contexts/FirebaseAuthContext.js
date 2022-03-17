@@ -1,6 +1,6 @@
 import { createContext, useEffect, useReducer } from 'react';
 
-import firebase from 'src/utils/firebase';
+import firebase from '../utils/firebase';
 import PropTypes from 'prop-types';
 
 const initialAuthState = {
