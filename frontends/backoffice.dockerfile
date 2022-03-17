@@ -61,7 +61,6 @@ RUN adduser -S nextjs -u 1001
 
 # You only need to copy next.config.js if you are NOT using the default configuration
 COPY --from=final-transitionpt_backoffice-build-stage /app/packages/tp_backoffice/next.config.js ./
-COPY --from=final-transitionpt_backoffice-build-stage /app/packages/tp_backoffice/assets ./assets
 COPY --from=final-transitionpt_backoffice-build-stage /app/packages/tp_backoffice/public ./public
 COPY --from=final-transitionpt_backoffice-build-stage --chown=nextjs:nodejs /app/packages/tp_backoffice/.next ./.next
 COPY --from=final-transitionpt_backoffice-build-stage /app/packages/tp_backoffice/package.json ./package.json
