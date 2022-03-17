@@ -75,6 +75,18 @@ EXPOSE 3000
 
 ENV PORT 3000
 
+ARG NEXT_PUBLIC_API_BASE_URL
+ENV NEXT_PUBLIC_API_BASE_URL=$NEXT_PUBLIC_API_BASE_URL
+
+ARG NEXT_PUBLIC_CLIENT_ID
+ENV NEXT_PUBLIC_CLIENT_ID=$NEXT_PUBLIC_CLIENT_ID
+
+ARG NEXT_PUBLIC_CLIENT_SECRET
+ENV NEXT_PUBLIC_CLIENT_SECRET=$NEXT_PUBLIC_CLIENT_SECRET
+
+ARG NEXT_PUBLIC_HOME_URL
+ENV NEXT_PUBLIC_HOME_URL=$NEXT_PUBLIC_HOME_URL
+
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry
 # Uncomment the following line in case you want to disable telemetry.
