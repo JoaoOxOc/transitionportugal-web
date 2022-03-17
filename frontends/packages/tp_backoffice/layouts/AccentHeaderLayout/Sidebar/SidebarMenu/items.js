@@ -13,7 +13,7 @@ import AdminPanelSettingsTwoToneIcon from '@mui/icons-material/AdminPanelSetting
 import AppSettingsAltTwoToneIcon from '@mui/icons-material/AppSettingsAltTwoTone';
 
 import { i18nextSidemenu } from "@transitionpt/translations";
-console.log(i18nextSidemenu)
+
 const menuItems = [
   {
     heading: i18nextSidemenu.t('SIDEMENU_HEADERS.general'),
