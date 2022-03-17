@@ -26,9 +26,6 @@ spec:
         - name: tp-rabbitmq-pv
           persistentVolumeClaim:
             claimName: tp-rabbit-data
-        - name: tp-postgres-data-pv
-          persistentVolumeClaim:
-            claimName: tp-postgres-data
       restartPolicy: Always
       hostname: tpapispod
       containers:
