@@ -19,6 +19,8 @@
         "run:home:prod": "lerna run tsc --stream && lerna run --scope @transitionpt/home --stream build",
         "run:home:prodstart": "lerna run tsc --stream && lerna run --scope @transitionpt/home --stream start",
         "run:backoffice:dev": "lerna run tsc --stream && lerna run --scope @transitionpt/backoffice --stream dev",
+        "run:backoffice:prod": "lerna run tsc --stream && lerna run --scope @transitionpt/backoffice --stream build",
+        "run:backoffice:prodstart": "lerna run tsc --stream && lerna run --scope @transitionpt/backoffice --stream start",
         "lerna-dockerize": "lerna-dockerize --template-dockerfile-name Dockerfile.template"
     }
 }
