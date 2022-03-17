@@ -11,7 +11,7 @@ import {
   styled
 } from '@mui/material';
 
-import BaseLayout from '../layouts/BaseLayout';
+import BaseLayout from '../../../layouts/BaseLayout';
 
 import Head from 'next/head';
 import SearchTwoToneIcon from '@mui/icons-material/SearchTwoTone';
