@@ -24,7 +24,7 @@ spec:
         image: <BACKOFFICE_IMAGE>
         ports:
         - containerPort: 80
-      env:
+        env:
             - name: NEXT_PUBLIC_API_BASE_URL
               valueFrom:
                 secretKeyRef:
