@@ -1,4 +1,4 @@
-import { useState, useRef, Children } from 'react';
+import { useState, useEffect, useRef, Children } from 'react';
 import {
   Typography,
   Container,
