@@ -73,10 +73,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - tpgest.chain-of-change.com
+    - tpback.chain-of-change.com
     secretName: transportugal-backoffice-tls-secret
   rules:
-  - host: tpgest.chain-of-change.com
+  - host: tpback.chain-of-change.com
     http:
       paths:
       - backend:
