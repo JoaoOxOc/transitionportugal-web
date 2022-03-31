@@ -110,7 +110,7 @@ namespace tpGateway
                 };
             });
             // TODO: apply the correct secret
-            services.AddOcelot(Configuration).AddAdministration("/administration", "secret");
+            services.AddOcelot(Configuration).AddDelegatingHandler<HeaderDelegatingHandler>(true).AddAdministration("/administration", "secret");
 
             services.AddSwaggerForOcelot(Configuration);
         }

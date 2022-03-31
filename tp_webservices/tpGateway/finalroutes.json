@@ -342,6 +342,9 @@
     }
     // End Email service routes
   ],
+  "DelegatingHandlers": [
+    "HeaderDelegatingHandler"
+  ],
   "SwaggerEndPoints": [
     {
       "Key": "UserService",

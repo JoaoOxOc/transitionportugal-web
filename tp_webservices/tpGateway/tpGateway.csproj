@@ -26,4 +26,8 @@
     <None Remove="..\.dockerignore" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Shared\CommonLibrary\CommonLibrary.csproj" />
+  </ItemGroup>
+
 </Project>
