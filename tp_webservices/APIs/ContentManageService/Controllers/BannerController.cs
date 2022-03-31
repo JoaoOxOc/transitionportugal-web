@@ -7,5 +7,17 @@ namespace ContentManageService.Controllers
     [ApiController]
     public class BannerController : ControllerBase
     {
+        public BannerController()
+        {
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {
+            string userId = HttpContext.Request.Headers["UserId"];
+            string userRole = HttpContext.Request.Headers["UserRole"];
+
+            return Ok(new {userId = userId , userRole = userRole});
+        }
     }
 }
