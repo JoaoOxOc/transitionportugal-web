@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Cryptography;
 using System.Text;
+using MicroservicesLibrary.HttpHandlers;
 using UserService.Entities;
 using UserService.Services;
 using UserService.Services.RabbitMQ;

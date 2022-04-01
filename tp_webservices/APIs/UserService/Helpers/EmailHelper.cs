@@ -2,6 +2,7 @@
 using System.Security.Claims;
 using UserService.Entities;
 using UserService.Services.RabbitMQ;
+using MicroservicesLibrary.Exceptions;
 
 namespace UserService.Helpers
 {

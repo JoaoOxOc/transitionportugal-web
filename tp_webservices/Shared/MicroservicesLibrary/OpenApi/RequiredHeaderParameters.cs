@@ -2,7 +2,7 @@
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Collections.Generic;
 
-namespace tpGateway.Services
+namespace MicroservicesLibrary.OpenApi
 {
     public class RequiredHeaderParameters : IOperationFilter
     {
@@ -30,6 +30,7 @@ namespace tpGateway.Services
                 In = ParameterLocation.Header,
                 Required = false
             });
+            
         }
     }
 }

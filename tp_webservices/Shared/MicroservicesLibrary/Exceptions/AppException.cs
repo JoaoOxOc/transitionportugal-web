@@ -1,6 +1,7 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 
-namespace UserService.Helpers
+namespace MicroservicesLibrary.Exceptions
 {
     public class AppException : Exception
     {

@@ -1,7 +1,12 @@
-﻿using System.Net;
+﻿using MicroservicesLibrary.Exceptions;
+using Microsoft.AspNetCore.Http;
+using System;
+using System.Collections.Generic;
+using System.Net;
 using System.Text.Json;
+using System.Threading.Tasks;
 
-namespace UserService.Helpers
+namespace MicroservicesLibrary.HttpHandlers
 {
     public class ErrorHandlerMiddleware
     {

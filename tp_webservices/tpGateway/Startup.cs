@@ -21,6 +21,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using tpGateway.Services;
+using MicroservicesLibrary.OpenApi;
 
 namespace tpGateway
 {

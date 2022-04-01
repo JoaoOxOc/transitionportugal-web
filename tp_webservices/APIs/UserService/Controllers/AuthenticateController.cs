@@ -8,6 +8,7 @@ using UserService.Helpers;
 using UserService.Models;
 using UserService.Services.RabbitMQ;
 using UserService.Services.UserManager;
+using MicroservicesLibrary.Exceptions;
 
 namespace UserService.Controllers
 {

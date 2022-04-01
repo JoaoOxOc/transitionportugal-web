@@ -1,6 +1,7 @@
 ﻿using CommonLibrary.Entities.ViewModel;
 using MassTransit;
 using UserService.Helpers;
+using MicroservicesLibrary.Exceptions;
 
 namespace UserService.Services.RabbitMQ
 {

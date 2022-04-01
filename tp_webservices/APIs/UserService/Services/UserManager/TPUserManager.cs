@@ -7,6 +7,7 @@ using UserService.Entities;
 using UserService.Helpers;
 using UserService.Models;
 using UserService.Services.Database;
+using MicroservicesLibrary.Exceptions;
 
 namespace UserService.Services.UserManager
 {
