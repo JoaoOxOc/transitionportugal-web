@@ -94,6 +94,20 @@ services:
     networks:
         - tp_bridge
 
+  tpcmservice:
+    image: ${DOCKER_REGISTRY-}tpcmservice
+    container_name: tpcmservice
+    environment:
+        ASPNETCORE_URLS: "http://+:3030"
+        ASPNETCORE_ENVIRONMENT: "Development"
+    build:
+        context: .
+        dockerfile: cmservice.dockerfile
+    ports:
+        - "5030:3030"
+    networks:
+        - tp_bridge
+
 networks:
     tp_bridge:
         name: tp_bridge
