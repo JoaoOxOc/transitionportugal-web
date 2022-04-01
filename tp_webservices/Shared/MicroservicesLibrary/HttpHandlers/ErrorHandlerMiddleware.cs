@@ -48,7 +48,7 @@ namespace MicroservicesLibrary.HttpHandlers
                         break;
                 }
 
-                var result = JsonSerializer.Serialize(new { message = error?.Message });
+                var result = JsonSerializer.Serialize(new { message = error?.Message, details = error?.StackTrace });
                 await response.WriteAsync(result);
             }
         }
