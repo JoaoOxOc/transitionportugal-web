@@ -9,7 +9,7 @@ namespace ContentManageService.Services.Database
     {
         private readonly IConfiguration _configuration;
 
-        public DatabaseContext(IConfiguration configuration)
+        public DatabaseContext(DbContextOptions<DatabaseContext> options, IConfiguration configuration) : base(options)
         {
             _configuration = configuration;
         }

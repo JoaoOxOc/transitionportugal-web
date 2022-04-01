@@ -2,6 +2,9 @@ using ContentManageService.Services.Database;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Npgsql;
 using Microsoft.EntityFrameworkCore;
+using ContentManageService.Migrations.Config;
+using MicroservicesLibrary.HttpHandlers;
+using ContentManageService.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
@@ -33,18 +36,35 @@ builder.Services.TryAddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.ConfigureSwagger();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
+    try
+    {
+        context.Database.Migrate();
+    }
+    catch (Exception ex)
+    {
+    }
+    DbInitializer.Initialize(scope.ServiceProvider);
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
 }
+app.UseSwagger();
+app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ContentManagementService v1"));
 
 app.UseAuthorization();
+
+// global error handler
+// read: https://jasonwatmore.com/post/2022/01/24/net-6-jwt-authentication-with-refresh-tokens-tutorial-with-example-api
+app.UseMiddleware<ErrorHandlerMiddleware>();
 
 app.MapControllers();
 
