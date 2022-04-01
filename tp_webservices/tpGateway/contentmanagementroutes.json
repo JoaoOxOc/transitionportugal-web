@@ -1,3 +1,29 @@
 {
-
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/api/banner",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tpcmservice",
+          "Port": 3030
+        }
+      ],
+      "UpstreamPathTemplate": "/cms/banner/get",
+      "UpstreamHttpMethod": [ "Get" ],
+      "SwaggerKey": "ContentManagementService"
+    },
+  ],
+  "SwaggerEndPoints": [
+    {
+      "Key": "ContentManagementService",
+      "Config": [
+        {
+          "Name": "ContentManagementService API",
+          "Version": "v1",
+          "Url": "http://tpcmservice:3030/swagger/v1/swagger.json"
+        }
+      ]
+    }
+  ]
 }

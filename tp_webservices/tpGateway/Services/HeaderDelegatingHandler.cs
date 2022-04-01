@@ -38,14 +38,20 @@ namespace tpGateway.Services
             {
                 string accessToken = headerValues.First();
 
-                string[] claims = new string[] { "userId", "sub", System.Security.Claims.ClaimTypes.Role };
-                List<JwtClaim> userClaims = JwtHelper.ValidateToken(accessToken, _configuration["JWT:ValidAudience"], _configuration["JWT:ValidIssuer"], _configuration["JWT:SecretPublicKey"], claims);
-                if (userClaims != null && userClaims.Count > 0)
+                string[] claims = new string[] { "userId", "sub", System.Security.Claims.ClaimTypes.Role, "scope" };
+
+                try
                 {
-                    _logger.LogInformation("route client app header user id: " + userClaims.Where(x => x.Claim == "userId").Single().Value);
-                    request.Headers.Add("UserId", userClaims.Where(x => x.Claim == "userId").Single().Value);
-                    request.Headers.Add("UserRole", userClaims.Where(x => x.Claim == System.Security.Claims.ClaimTypes.Role).Single().Value);
+                    List<JwtClaim> userClaims = JwtHelper.ValidateToken(accessToken, _configuration["JWT:ValidAudience"], _configuration["JWT:ValidIssuer"], _configuration["JWT:SecretPublicKey"], claims);
+                    if (userClaims != null && userClaims.Count > 0)
+                    {
+                        _logger.LogInformation("route client app header user id: " + userClaims.Where(x => x.Claim == "userId").Single().Value);
+                        request.Headers.Add("UserId", userClaims.Where(x => x.Claim == "userId").Single().Value);
+                        request.Headers.Add("UserRole", userClaims.Where(x => x.Claim == System.Security.Claims.ClaimTypes.Role).Single().Value);
+                        request.Headers.Add("UserClaims", userClaims.Where(x => x.Claim == "scope").Single().Value);
+                    }
                 }
+                catch (System.Exception) { }
             }
 
             return await base.SendAsync(request, cancellationToken);

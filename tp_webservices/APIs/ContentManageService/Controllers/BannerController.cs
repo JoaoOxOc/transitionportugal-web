@@ -16,8 +16,9 @@ namespace ContentManageService.Controllers
         {
             string userId = HttpContext.Request.Headers["UserId"];
             string userRole = HttpContext.Request.Headers["UserRole"];
+            string userClaims = HttpContext.Request.Headers["UserClaims"];
 
-            return Ok(new {userId = userId , userRole = userRole});
+            return Ok(new {userId = userId , userRole = userRole, userClaims = userClaims });
         }
     }
 }
