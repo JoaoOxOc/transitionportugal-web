@@ -51,5 +51,52 @@ namespace CommonLibrary.Extensions
             }
         }
 
+        /// <summary>
+        /// Validates if the user as any scope defined for the action
+        /// </summary>
+        /// <param name="userScopes"> the list of user scopes registered on his token</param>
+        /// <param name="permittedScopes">the list of permitted scopes on a specific action</param>
+        /// <returns></returns>
+        public static bool ValidateUserScopesPermissionAny(List<string> userScopes, List<string> permittedScopes)
+        {
+            if (permittedScopes != null && permittedScopes.Count > 0 && userScopes != null)
+            {
+                return permittedScopes.Select(x => x)
+                          .Intersect(userScopes)
+                          .Any();
+            }
+            else if (permittedScopes == null || permittedScopes.Count == 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Validates if the user as any scope defined for the action
+        /// </summary>
+        /// <param name="userScopes"> the list of user scopes registered on his token</param>
+        /// <param name="permittedScopes">the list of permitted scopes on a specific action</param>
+        /// <returns></returns>
+        public static bool ValidateUserScopesPermissionAll(List<string> userScopes, List<string> permittedScopes)
+        {
+            if (permittedScopes != null && permittedScopes.Count > 0 && userScopes != null)
+            {
+                return permittedScopes.Select(x => x)
+                          .Intersect(userScopes).Count() == permittedScopes.Count;
+            }
+            else if (permittedScopes == null || permittedScopes.Count == 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
     }
 }

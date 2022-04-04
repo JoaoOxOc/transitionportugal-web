@@ -39,6 +39,14 @@ namespace ContentManageService.Repositories
             dbSet.Add(entity);
         }
 
+        public void Add(List<TEntity> entities)
+        {
+            foreach (TEntity entity in entities)
+            {
+                Add(entity);
+            }
+        }
+
         public int Count(Expression<Func<TEntity, bool>> filter = null)
         {
             IQueryable<TEntity> query = dbSet;

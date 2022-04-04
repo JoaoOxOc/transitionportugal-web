@@ -7,6 +7,8 @@ namespace ContentManageService.Repositories
     {
         void Add(TEntity entity);
 
+        void Add(List<TEntity> entities);
+
         TEntity GetById(object id);
 
         List<TEntity> Get(int? pageNum = null, int? size = null, Expression<Func<TEntity, bool>> filter = null, Expression<Func<TEntity, object>> sort = null, SortDirection sortDirection = SortDirection.Ascending, string includeProperties = "", bool noTracking = false);

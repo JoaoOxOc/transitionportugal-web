@@ -30,6 +30,7 @@ namespace EmailService.Services
                     });
                     cfg.ReceiveEndpoint(rabbitMqEmailQueue, ep =>
                     {
+                        ep.Bind(rabbitMqExchange);
                         ep.PrefetchCount = 16;
                         ep.UseMessageRetry(r => r.Interval(2, 100));
                         ep.ConfigureConsumer<EmailQueueConsumer>(provider);
