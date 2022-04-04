@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json;
 
 namespace ContentManageService.Entities
 {
@@ -21,7 +22,7 @@ namespace ContentManageService.Entities
         /// Store banner data as a json structure
         /// </summary>
         [Column(TypeName = "jsonb")]
-        public string? BannerDataJson { get; set; }
+        public JsonDocument? BannerDataJson { get; set; }
 
         /// <summary>
         /// Store banner data as an HTML structure
