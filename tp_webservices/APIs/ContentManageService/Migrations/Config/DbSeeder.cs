@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using ContentManageService.Entities;
+using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
 
 namespace ContentManageService.Migrations.Config
 {
@@ -17,145 +19,23 @@ namespace ContentManageService.Migrations.Config
         /// </summary>
         public void Seed()
         {
-            //#region Roles
+            var options = new JsonDocumentOptions
+            {
+                AllowTrailingCommas = true
+            };
 
-            //_modelBuilder.Entity<IdentityRole>().HasData(
-            //    new IdentityRole { Id = "e762fd61-0f58-4c5d-ad0e-7bd322ae3ccf", Name = "Admin", NormalizedName = "ADMIN" },
-            //    new IdentityRole { Id = "244d3f1a-8594-4adb-9c59-5ec36fcdbf03", Name = "AssociationAdmin", NormalizedName = "ASSOCIATIONADMIN" },
-            //    new IdentityRole { Id = "179642d9-0f10-4d7d-a1a0-b485b3f6659f", Name = "User", NormalizedName = "USER" },
-            //    new IdentityRole { Id = "69d5274f-235d-4013-bbac-0c4eddf31ecc", Name = "AssociationUser", NormalizedName = "ASSOCIATIONUSER" }
-            //);
+            #region Banners
 
-            //#endregion
+            _modelBuilder.Entity<Banner>().HasData(
+                new Banner { Id = 1, IsDraft = false, PageKey = "aboutheadline", CreatedAt = DateTime.Now }
+            );
 
-            //#region Scopes
+            _modelBuilder.Entity<BannerTranslation>().HasData(
+                new BannerTranslation { LangKey = "pt-pt", BannerId = 1, BannerDataJson = JsonDocument.Parse("{\n    \"blocks\": [\n        {\n            \"id\" : \"VDwuz33oJn\",\n            \"type\" : \"header\",\n            \"data\" : {\n                \"text\" : \"banner cabeçalho\",\n                \"level\" : 2\n            }\n        },\n        {\n            \"id\" : \"vFad3244\",\n            \"type\" : \"header\",\n            \"data\" : {\n                \"text\" : \"primeiro elemento\",\n                \"level\" : 3\n            }\n        },\n        {\n            \"id\" : \"vFad3244\",\n            \"type\" : \"paragraph\",\n            \"data\" : {\n                \"text\" : \"texto do primeiro elemento\",\n                \"headerId\" : \"vFad3244\"\n            }\n        }\n    ]\n}", new JsonDocumentOptions{ AllowTrailingCommas = true }) },
+                new BannerTranslation { LangKey = "en-us", BannerId = 1, BannerDataJson = JsonDocument.Parse("{\n    \"blocks\": [\n        {\n            \"id\" : \"VDwuz33oJn\",\n            \"type\" : \"header\",\n            \"data\" : {\n                \"text\" : \"banner header\",\n                \"level\" : 2\n            }\n        },\n        {\n            \"id\" : \"vFad3244\",\n            \"type\" : \"header\",\n            \"data\" : {\n                \"text\" : \"first item\",\n                \"level\" : 3\n            }\n        },\n        {\n            \"id\" : \"vFad3244\",\n            \"type\" : \"paragraph\",\n            \"data\" : {\n                \"text\" : \"first item text\",\n                \"headerId\" : \"vFad3244\"\n            }\n        }\n    ]\n}", new JsonDocumentOptions { AllowTrailingCommas = true }) }
+            );
 
-            //_modelBuilder.Entity<Scope>().HasData(
-            //    new Scope { Id = 1, ScopeName = "user.read", Description = "Read only of he's own user data" },
-            //    new Scope { Id = 2, ScopeName = "user.write", Description = "Read/write of he's own user data" },
-            //    new Scope { Id = 3, ScopeName = "users.write", Description = "Read/write of users data" },
-            //    new Scope { Id = 4, ScopeName = "associationusers.write", Description = "Read/write of association users data" },
-            //    new Scope { Id = 5, ScopeName = "client.admin", Description = "Read/write of client apps data" },
-            //    new Scope { Id = 6, ScopeName = "settings.admin", Description = "Read/write of API settings" },
-            //    new Scope { Id = 7, ScopeName = "email.admin", Description = "Read/write of Email service data like templates" },
-            //    new Scope { Id = 8, ScopeName = "cms.read", Description = "Read only of content management system data" },
-            //    new Scope { Id = 9, ScopeName = "cms.write", Description = "Read/write of content management system data" }
-            //);
-
-            //#endregion
-
-            //#region RoleScopes
-
-            //_modelBuilder.Entity<RoleScope>().HasData(
-            //    new RoleScope
-            //    {
-            //        Id = 1,
-            //        RoleId = "e762fd61-0f58-4c5d-ad0e-7bd322ae3ccf",
-            //        ScopeId = 1
-            //    },
-            //    new RoleScope
-            //    {
-            //        Id = 2,
-            //        RoleId = "244d3f1a-8594-4adb-9c59-5ec36fcdbf03",
-            //        ScopeId = 1
-            //    },
-            //    new RoleScope
-            //    {
-            //        Id = 3,
-            //        RoleId = "179642d9-0f10-4d7d-a1a0-b485b3f6659f",
-            //        ScopeId = 1
-            //    },
-            //    new RoleScope
-            //    {
-            //        Id = 4,
-            //        RoleId = "69d5274f-235d-4013-bbac-0c4eddf31ecc",
-            //        ScopeId = 1
-            //    },
-            //    new RoleScope
-            //    {
-            //        Id = 5,
-            //        RoleId = "e762fd61-0f58-4c5d-ad0e-7bd322ae3ccf",
-            //        ScopeId = 2
-            //    },
-            //    new RoleScope
-            //    {
-            //        Id = 6,
-            //        RoleId = "244d3f1a-8594-4adb-9c59-5ec36fcdbf03",
-            //        ScopeId = 2
-            //    },
-            //    new RoleScope
-            //    {
-            //        Id = 7,
-            //        RoleId = "179642d9-0f10-4d7d-a1a0-b485b3f6659f",
-            //        ScopeId = 2
-            //    },
-            //    new RoleScope
-            //    {
-            //        Id = 8,
-            //        RoleId = "69d5274f-235d-4013-bbac-0c4eddf31ecc",
-            //        ScopeId = 2
-            //    },
-            //    new RoleScope
-            //    {
-            //        Id = 9,
-            //        RoleId = "e762fd61-0f58-4c5d-ad0e-7bd322ae3ccf",
-            //        ScopeId = 3
-            //    },
-            //    new RoleScope
-            //    {
-            //        Id = 10,
-            //        RoleId = "e762fd61-0f58-4c5d-ad0e-7bd322ae3ccf",
-            //        ScopeId = 4
-            //    },
-            //    new RoleScope
-            //    {
-            //        Id = 11,
-            //        RoleId = "244d3f1a-8594-4adb-9c59-5ec36fcdbf03",
-            //        ScopeId = 4
-            //    },
-            //    new RoleScope
-            //    {
-            //        Id = 12,
-            //        RoleId = "e762fd61-0f58-4c5d-ad0e-7bd322ae3ccf",
-            //        ScopeId = 5
-            //    },
-            //    new RoleScope
-            //    {
-            //        Id = 13,
-            //        RoleId = "e762fd61-0f58-4c5d-ad0e-7bd322ae3ccf",
-            //        ScopeId = 6
-            //    },
-            //    new RoleScope
-            //    {
-            //        Id = 14,
-            //        RoleId = "e762fd61-0f58-4c5d-ad0e-7bd322ae3ccf",
-            //        ScopeId = 7
-            //    },
-            //    new RoleScope
-            //    {
-            //        Id = 15,
-            //        RoleId = "e762fd61-0f58-4c5d-ad0e-7bd322ae3ccf",
-            //        ScopeId = 8
-            //    },
-            //    new RoleScope
-            //    {
-            //        Id = 16,
-            //        RoleId = "e762fd61-0f58-4c5d-ad0e-7bd322ae3ccf",
-            //        ScopeId = 9
-            //    }
-            //);
-
-            //#endregion
-
-            //#region Settings
-
-            //_modelBuilder.Entity<Setting>().HasData(
-            //    new Setting() { Id = 1, Key = SettingCode.MaxLoginAttempts.ToString(), DefaultValue = "3", Value = "3", Description = "Número máximo de tentativas de autenticação falhadas", SettingType = (int)SettingsType.USER, CreatedAt = DateTime.Now },
-            //    new Setting() { Id = 2, Key = SettingCode.CaptchaSiteKey.ToString(), DefaultValue = "6Lf2t0sUAAAAABiszBasjJuBZXTdqMy00zOKPOFt", Value = "6Lf2t0sUAAAAABiszBasjJuBZXTdqMy00zOKPOFt", Description = "Site key usada pelo serviço de reCAPTCHA da Google", SettingType = (int)SettingsType.USER, CreatedAt = DateTime.Now },
-            //    new Setting() { Id = 3, Key = SettingCode.CaptchaSecretKey.ToString(), DefaultValue = "6Lf2t0sUAAAAAPwP3kIvpynFqPp-7_QLfQoDQtZd", Value = "6Lf2t0sUAAAAAPwP3kIvpynFqPp-7_QLfQoDQtZd", Description = "Secret key usada pelo serviço de reCAPTCHA da Google", SettingType = (int)SettingsType.USER, CreatedAt = DateTime.Now }
-            //);
-
-            //#endregion
+            #endregion
 
 
         }
