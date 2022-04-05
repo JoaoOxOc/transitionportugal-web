@@ -17,6 +17,8 @@ namespace ContentManageService.Repositories
 
         void Update(TEntity entityToUpdate);
 
+        void Update(List<TEntity> entitiesToUpdate);
+
         void Delete(object id);
 
         void Delete(TEntity entityToDelete);

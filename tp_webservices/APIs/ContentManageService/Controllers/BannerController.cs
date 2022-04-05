@@ -75,29 +75,84 @@ namespace ContentManageService.Controllers
             return Ok(null);
         }
 
-        private BannerModel ParseEntityToModel(BannerTranslation bannerData)
+        private BannerModel ParseEntityToModel(BannerModel bannerData, BannerTranslation bannerTranslationData)
         {
-            BannerModel model = new BannerModel();
-            if (bannerData != null)
+            BannerModel model = null;
+            if (bannerTranslationData != null)
             {
-                model.BannerData = bannerData.BannerDataJson;
-                model.BannerDataHtml = bannerData.BannerDataHtml;
-                model.Id = bannerData.BannerId;
-                model.LangCode = bannerData.LangKey;
-                model.IsDraft = bannerData.Banner?.IsDraft;
-                model.PageKey = bannerData.Banner?.PageKey;
+                if (bannerData == null)
+                {
+                    model = new BannerModel();
+                    model.Id = bannerTranslationData.BannerId;
+                    model.IsDraft = bannerTranslationData.Banner?.IsDraft;
+                    model.PageKey = bannerTranslationData.Banner?.PageKey;
+                    model.BannerLanguages = new List<BannerModel.BannerDataModel>();
+                    model.BannerLanguages.Add(new BannerModel.BannerDataModel
+                    {
+                        LangCode = bannerTranslationData.LangKey,
+                        BannerData = bannerTranslationData.BannerDataJson,
+                        BannerDataHtml = bannerTranslationData.BannerDataHtml
+                    });
+                }
+                else
+                {
+                    if (!bannerData.BannerLanguages.Any(x => x.LangCode == bannerTranslationData.LangKey))
+                    {
+                        bannerData.BannerLanguages.Add(new BannerModel.BannerDataModel
+                        {
+                            LangCode = bannerTranslationData.LangKey,
+                            BannerData = bannerTranslationData.BannerDataJson,
+                            BannerDataHtml = bannerTranslationData.BannerDataHtml
+                        });
+                    }
+                }
             }
             return model;
         }
 
-        private List<BannerModel> ParseEntitiesToModel(List<BannerTranslation> bannersData)
+        private List<BannerModel> ParseEntitiesToModel(List<BannerTranslation> bannersTranslationData)
         {
             List<BannerModel> models = new List<BannerModel>();
-            foreach (var banner in bannersData)
+            foreach (var bannerTranslation in bannersTranslationData)
             {
-                models.Add(ParseEntityToModel(banner));
+                var model = ParseEntityToModel(models.Find(x => x.Id == bannerTranslation.BannerId), bannerTranslation);
+                if (model != null)
+                {
+                    models.Add(model);
+                }
             }
             return models;
+        }
+
+        private KeyValuePair<List<BannerTranslation>, List<BannerTranslation>> ProcessBannerTranslations(Banner bannerData, List<BannerModel.BannerDataModel> translationsModel)
+        {
+            KeyValuePair<List<BannerTranslation>, List<BannerTranslation>> translationsProcessed = new KeyValuePair<List<BannerTranslation>, List<BannerTranslation>>();
+            if (translationsModel != null)
+            {
+                List<BannerTranslation> toUpdate = new List<BannerTranslation>();
+                List<BannerTranslation> toCreate = new List<BannerTranslation>();
+                foreach (var translation in translationsModel)
+                {
+                    Expression<Func<BannerTranslation, bool>> filterTranslation = (x => x.LangKey == translation.LangCode && x.BannerId == bannerData.Id);
+                    var bannerTranslation = this._uow.BannerTranslationRepository.Get(null, null, filterTranslation, string.Empty, SortDirection.Ascending).FirstOrDefault();
+                    if (bannerTranslation != null)
+                    {
+                        toUpdate.Add(bannerTranslation);
+                    }
+                    else
+                    {
+                        BannerTranslation newTranslation = new BannerTranslation();
+                        newTranslation.BannerId = bannerData.Id;
+                        newTranslation.LangKey = translation.LangCode;
+                        newTranslation.BannerDataHtml = translation.BannerDataHtml;
+                        newTranslation.BannerDataJson = translation.BannerData;
+
+                        toCreate.Add(newTranslation);
+                    }
+                }
+                translationsProcessed = new KeyValuePair<List<BannerTranslation>, List<BannerTranslation>>(toUpdate, toCreate);
+            }
+            return translationsProcessed;
         }
 
         [HttpGet]
@@ -143,6 +198,42 @@ namespace ContentManageService.Controllers
             return StatusCode(StatusCodes.Status403Forbidden, null);
         }
 
+        [HttpGet]
+        [Route("public")]
+        public async Task<IActionResult> GetPublicBanners(string? pageKey, string? langCode)
+        {
+            try
+            {
+                string parsedLangKey = !string.IsNullOrEmpty(langCode) ? langCode.ToLower() : "en-us";
+                pageKey = pageKey ?? "aboutheadline";
+
+                Expression<Func<BannerTranslation, bool>> filter = (x => x.Banner.PageKey.ToLower().Contains(pageKey) && x.LangKey.Contains(parsedLangKey) && x.Banner.IsDraft == false);
+
+                var _bannerData = _uow.BannerTranslationRepository.Get(null, null, filter, "LangKey", SortDirection.Ascending, "Banner").FirstOrDefault();
+                if (_bannerData == null)
+                {
+                    //try to get any without the language key
+                    filter = (x => x.Banner.PageKey.ToLower().Contains(pageKey) && x.Banner.IsDraft == false);
+
+                    _bannerData = _uow.BannerTranslationRepository.Get(null, null, filter, "LangKey", SortDirection.Ascending, "Banner").FirstOrDefault();
+                }
+
+                int totalCount = _uow.BannerTranslationRepository.Count(filter);
+
+                Request.HttpContext.Response.Headers.Add("X-Total-Count", totalCount.ToString());
+
+                return _bannerData != null ? Ok(new
+                {
+                    banners = ParseEntitiesToModel(new List<BannerTranslation> { _bannerData })
+                })
+                : NotFound(new List<BannerModel>());
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message + "| stacktrace: " + ex.StackTrace);
+            }
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
@@ -161,7 +252,7 @@ namespace ContentManageService.Controllers
 
                     return _bannerData != null ? Ok(new
                     {
-                        bannerDataLangs = ParseEntitiesToModel(_bannerData)
+                        banner = ParseEntitiesToModel(_bannerData)
                     })
                     : NotFound(null);
                 }
@@ -198,36 +289,31 @@ namespace ContentManageService.Controllers
                         return _validate;
                     }
 
-                    Expression<Func<BannerTranslation, bool>> filterTranslation = (x => x.LangKey == model.LangCode && x.BannerId == model.Id);
-                    var bannerTranslation = this._uow.BannerTranslationRepository.Get(null, null, filterTranslation, string.Empty, SortDirection.Ascending).FirstOrDefault();
-                    if (bannerTranslation != null)
+                    try
                     {
-                        bannerTranslation.BannerDataJson = model.BannerData;
-                        bannerTranslation.BannerDataHtml = model.BannerDataHtml;
+                        _uow.BannerRepository.Update(banner);
 
-                        ObjectResult _validateTranslation = this.ValidateBannerTranslation(bannerTranslation);
-                        if (_validateTranslation.StatusCode != StatusCodes.Status200OK)
-                        {
-                            return _validateTranslation;
-                        }
+                        var updateCreatePairs = ProcessBannerTranslations(banner, model.BannerLanguages);
 
-                        try
+                        if (updateCreatePairs.Key != null && updateCreatePairs.Key.Count > 0)
                         {
-                            _uow.BannerRepository.Update(banner);
-                            _uow.BannerTranslationRepository.Update(bannerTranslation);
-                            _uow.Save();
+                            _uow.BannerTranslationRepository.Update(updateCreatePairs.Key);
+                        }
+                        if (updateCreatePairs.Value != null && updateCreatePairs.Value.Count > 0)
+                        {
+                            _uow.BannerTranslationRepository.Add(updateCreatePairs.Value);
+                        }
+                        _uow.Save();
 
-                            return Ok(new
-                            {
-                                bannerPageKey = banner.PageKey,
-                                bannerId = banner.Id,
-                                langCode = bannerTranslation.LangKey
-                            });
-                        }
-                        catch (Exception ex)
+                        return Ok(new
                         {
-                            return StatusCode(StatusCodes.Status500InternalServerError, null);
-                        }
+                            bannerPageKey = banner.PageKey,
+                            bannerId = banner.Id
+                        });
+                    }
+                    catch (Exception ex)
+                    {
+                        return StatusCode(StatusCodes.Status500InternalServerError, null);
                     }
                 }
                 else
@@ -263,6 +349,17 @@ namespace ContentManageService.Controllers
                 try
                 {
                     _uow.BannerRepository.Add(banner);
+
+                    var updateCreatePairs = ProcessBannerTranslations(banner, model.BannerLanguages);
+
+                    if (updateCreatePairs.Key != null && updateCreatePairs.Key.Count > 0)
+                    {
+                        _uow.BannerTranslationRepository.Update(updateCreatePairs.Key);
+                    }
+                    if (updateCreatePairs.Value != null && updateCreatePairs.Value.Count > 0)
+                    {
+                        _uow.BannerTranslationRepository.Add(updateCreatePairs.Value);
+                    }
 
                     _uow.Save();
 

@@ -176,5 +176,13 @@ namespace ContentManageService.Repositories
             dbSet.Attach(entityToUpdate);
             context.Entry(entityToUpdate).State = EntityState.Modified;
         }
+
+        public void Update(List<TEntity> entitiesToUpdate)
+        {
+            foreach (TEntity entity in entitiesToUpdate)
+            {
+                Update(entity);
+            }
+        }
     }
 }

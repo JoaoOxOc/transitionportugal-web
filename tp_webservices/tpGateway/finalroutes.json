@@ -360,6 +360,19 @@
       }
     },
     {
+      "DownstreamPathTemplate": "/api/banner/public",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tpcmservice",
+          "Port": 3030
+        }
+      ],
+      "UpstreamPathTemplate": "/cms/banner/get/public",
+      "UpstreamHttpMethod": [ "Get" ],
+      "SwaggerKey": "ContentManagementService"
+    },
+    {
       "DownstreamPathTemplate": "/api/banner/{id}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
