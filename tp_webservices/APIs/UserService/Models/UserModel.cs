@@ -2,8 +2,10 @@
 
 namespace UserService.Models
 {
-    public class RegisterModel
+    public class UserModel
     {
+        public string UserId { get; set; }
+
         [Required(ErrorMessage = "First Name is required")]
         public string? FirstName { get; set; }
 
@@ -23,20 +25,14 @@ namespace UserService.Models
         [Required(ErrorMessage = "Confirm Password is required")]
         public string? ConfirmPassword { get; set; }
 
-        [Required(ErrorMessage = "Terms confirm is required")]
-        public bool? TermsConfirmed { get; set; }
-
-        [Required(ErrorMessage = "Association Name is required")]
-        public string? AssociationName { get; set; }
-
-        [EmailAddress]
-        [Required(ErrorMessage = "Association Email is required")]
-        public string? AssociationEmail { get; set; }
-
         public string? AssociationVat { get; set; }
         public string? AssociationAddress { get; set; }
         public string? AssociationTown { get; set; }
 
         public string? UserRole { get; set; }
+
+        public bool? IsVerifiedByAdmin { get; set; }
+
+        public bool? IsActive { get; set; }
     }
 }
