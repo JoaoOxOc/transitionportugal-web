@@ -352,6 +352,134 @@
         "AllowedScopes": [ "users.write" ]
       }
     },
+    {
+      "DownstreamPathTemplate": "/api/role",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tpuserservice",
+          "Port": 3020
+        }
+      ],
+      "UpstreamPathTemplate": "/roles/get",
+      "UpstreamHttpMethod": [ "Get" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "TpAuthKey",
+        "AllowedScopes": [ "users.write" ]
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/role/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tpuserservice",
+          "Port": 3020
+        }
+      ],
+      "UpstreamPathTemplate": "/roles/get/{id}",
+      "UpstreamhttpMethod": [ "Get" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "TpAuthKey",
+        "AllowedScopes": [ "users.write" ]
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/role/update",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tpuserservice",
+          "Port": 3020
+        }
+      ],
+      "UpstreamPathTemplate": "/roles/update",
+      "UpstreamHttpMethod": [ "Put" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "TpAuthKey",
+        "AllowedScopes": [ "users.write" ]
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/role/register",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tpuserservice",
+          "Port": 3020
+        }
+      ],
+      "UpstreamPathTemplate": "/roles/create",
+      "UpstreamHttpMethod": [ "Post" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "TpAuthKey",
+        "AllowedScopes": [ "users.write" ]
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/scope",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tpuserservice",
+          "Port": 3020
+        }
+      ],
+      "UpstreamPathTemplate": "/scopes/get",
+      "UpstreamHttpMethod": [ "Get" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "TpAuthKey",
+        "AllowedScopes": [ "users.write" ]
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/scope/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tpuserservice",
+          "Port": 3020
+        }
+      ],
+      "UpstreamPathTemplate": "/scopes/get/{id}",
+      "UpstreamhttpMethod": [ "Get" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "TpAuthKey",
+        "AllowedScopes": [ "users.write" ]
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/scope/update",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tpuserservice",
+          "Port": 3020
+        }
+      ],
+      "UpstreamPathTemplate": "/scopes/update",
+      "UpstreamHttpMethod": [ "Put" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "TpAuthKey",
+        "AllowedScopes": [ "users.write" ]
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/scope/register",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tpuserservice",
+          "Port": 3020
+        }
+      ],
+      "UpstreamPathTemplate": "/scopes/create",
+      "UpstreamHttpMethod": [ "Post" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "TpAuthKey",
+        "AllowedScopes": [ "users.write" ]
+      }
+    },
     // end of user management controllers
     // Ends User service routes
     // Email service routes
