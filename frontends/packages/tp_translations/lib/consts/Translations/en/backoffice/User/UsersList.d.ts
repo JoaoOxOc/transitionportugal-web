@@ -5,7 +5,7 @@ export declare const USERSLIST_TRANSLATIONS: {
         readonly view: "View";
         readonly actualValue: "Actual Value";
         readonly UsersManagement: "Users Management";
-        readonly noClientsFound: "We couldn't find any client apps matching your search criteria";
+        readonly noUsersFound: "We couldn't find any users matching your search criterias";
         readonly chooseGrid: "Choose between table or grid views for displaying the users list.";
         readonly ofSmall: "of";
         readonly paginationRowsPerPage: "Rows per page:";

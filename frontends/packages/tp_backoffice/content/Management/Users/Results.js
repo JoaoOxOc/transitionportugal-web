@@ -1,4 +1,4 @@
-import { SyntheticEvent, useState, ReactElement, Ref, forwardRef } from 'react';
+import { SyntheticEvent, useState, useContext, useCallback, useEffect, ReactElement, Ref, forwardRef } from 'react';
 
 import PropTypes from 'prop-types';
 import {
@@ -53,6 +53,57 @@ import ResultsHeader from '../../../components/Table/Header';
 import ResultsPagination from '../../../components/Table/Pagination';
 
 import { i18nextUsersList } from "@transitionpt/translations";
+
+const TabsWrapper = styled(Tabs)(
+    ({ theme }) => `
+      @media (max-width: ${theme.breakpoints.values.md}px) {
+        .MuiTabs-scrollableX {
+          overflow-x: auto !important;
+        }
+  
+        .MuiTabs-indicator {
+            box-shadow: none;
+        }
+      }
+      `
+);
+
+const AvatarError = styled(Avatar)(
+    ({ theme }) => `
+        background-color: ${theme.colors.error.lighter};
+        color: ${theme.colors.error.main};
+        width: ${theme.spacing(12)};
+        height: ${theme.spacing(12)};
+  
+        .MuiSvgIcon-root {
+          font-size: ${theme.typography.pxToRem(45)};
+        }
+  `
+  );
+  
+  const CardWrapper = styled(Card)(
+    ({ theme }) => `
+  
+    position: relative;
+    overflow: visible;
+  
+    &::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      border-radius: inherit;
+      z-index: 1;
+      transition: ${theme.transitions.create(['box-shadow'])};
+    }
+        
+      &.Mui-selected::after {
+        box-shadow: 0 0 0 3px ${theme.colors.primary.main};
+      }
+    `
+  );
 
 const Results = () => {
     const { t } = i18nextUsersList;
@@ -124,6 +175,36 @@ const Results = () => {
           }
     }, [usersSearchData, getUsersData]);
 
+    const tabs = [
+        {
+          value: 'system',
+          label: t('System Users')
+        },
+        {
+          value: 'customer',
+          label: t('Associations Users')
+        },
+        {
+          value: 'all',
+          label: t('All users')
+        },
+    ];
+
+    const handleTabsChange = (_event, tabsValue) => {
+        let value = null;
+    
+        if (tabsValue !== 'all') {
+          value = tabsValue;
+        }
+    
+        // setFilters((prevFilters) => ({
+        //   ...prevFilters,
+        //   role: value
+        // }));
+    
+        // setSelectedUsers([]);
+    };
+
     const [toggleView, setToggleView] = useState('table_view');
 
     const handleViewOrientation = (_event, newValue) => {
@@ -132,6 +213,310 @@ const Results = () => {
 
     return (
         <>
+            <Box
+                display="flex"
+                alignItems="center"
+                flexDirection={{ xs: 'column', sm: 'row' }}
+                justifyContent={{ xs: 'center', sm: 'space-between' }}
+                pb={3}
+            >
+                <TabsWrapper
+                    onChange={handleTabsChange}
+                    scrollButtons="auto"
+                    textColor="secondary"
+                    value={'all'}
+                    variant="scrollable"
+                    >
+                {tabs.map((tab) => (
+                    <Tab key={tab.value} value={tab.value} label={tab.label} />
+                ))}
+                </TabsWrapper>
+                <ToggleButtonGroup
+                    sx={{
+                        mt: { xs: 2, sm: 0 }
+                    }}
+                    value={toggleView}
+                    exclusive
+                    onChange={handleViewOrientation}
+                >
+                    <ToggleButton disableRipple value="table_view">
+                        <TableRowsTwoToneIcon />
+                    </ToggleButton>
+                    <ToggleButton disableRipple value="grid_view">
+                        <GridViewTwoToneIcon />
+                    </ToggleButton>
+                </ToggleButtonGroup>
+            </Box>
+            {toggleView === 'table_view' && (
+                <Card>
+                    <SearchBar/>
+
+                    <Divider />
+
+                    {!users || users.length === 0 ? (
+                        <>
+                            <Typography
+                                sx={{
+                                py: 10
+                                }}
+                                variant="h3"
+                                fontWeight="normal"
+                                color="text.secondary"
+                                align="center"
+                            >
+                                {t("LABELS.noUsersFound")}
+                            </Typography>
+                        </>
+                    ) : (
+                    <>
+                        <TableContainer>
+                            <Table>
+                                <TableHead>
+                                    <ResultsHeader headerCells={headCells} defaultSort={'UserName'} defaultSortDirection={'asc'} searchContext={usersSearchData}/>
+                                </TableHead>
+                                <TableBody>
+                                    {!users || users.length == 0 ? (
+                                        <Loader />
+                                    ) : (
+                                    users.map((user) => {
+                                    // const isUserSelected = selectedItems.includes(user.id);
+                                    return (
+                                        <TableRow hover key={user.id}>
+                                        <TableCell>
+                                            <Typography variant="h5">
+                                            {user.userName}
+                                            </Typography>
+                                        </TableCell>
+                                        <TableCell>
+                                            <Box display="flex" alignItems="center">
+                                                {/* <Avatar
+                                                    sx={{
+                                                    mr: 1
+                                                    }}
+                                                    src={user.avatar}
+                                                /> */}
+                                                <Box>
+                                                    <Link href={userDetailsBaseUri + user.id} isNextLink={true}>
+                                                        {user.name}
+                                                    </Link>
+                                                    {/* <Typography noWrap variant="subtitle2">
+                                                        {user.jobtitle}
+                                                    </Typography> */}
+                                                </Box>
+                                            </Box>
+                                        </TableCell>
+                                        <TableCell>
+                                            <Typography>{user.email}</Typography>
+                                        </TableCell>
+                                        {/* <TableCell align="center">
+                                            <Typography fontWeight="bold">
+                                            {user.posts}
+                                            </Typography>
+                                        </TableCell>
+                                        <TableCell>
+                                            <Typography>{user.location}</Typography>
+                                        </TableCell>
+                                        <TableCell>{getUserRoleLabel(user.role)}</TableCell> */}
+                                        <TableCell align="center">
+                                            <Typography noWrap>
+                                            <Tooltip title={t('View')} arrow>
+                                                <Link href={userDetailsBaseUri + user.id} isNextLink={true}>
+                                                    <IconButton
+                                                    color="primary"
+                                                    >
+                                                    <LaunchTwoToneIcon fontSize="small" />
+                                                    </IconButton>
+                                                </Link>
+                                            </Tooltip>
+                                            {/* <Tooltip title={t('Delete')} arrow>
+                                                <IconButton
+                                                onClick={handleConfirmDelete}
+                                                color="primary"
+                                                >
+                                                <DeleteTwoToneIcon fontSize="small" />
+                                                </IconButton>
+                                            </Tooltip> */}
+                                            </Typography>
+                                        </TableCell>
+                                        </TableRow>
+                                    );
+                                    })
+                                    )
+                                }
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                        <Box p={2}>
+                            <ResultsPagination gridDisplay={false} totalElements={totalUsers} searchContext={usersSearchData} paginationLabels={{ of: t('LABELS.ofSmall')}} paginationRowsPerPageLabel={t('LABELS.paginationRowsPerPage')}/>
+                        </Box>
+                    </>
+                    )}
+                </Card>
+            )}
+            {toggleView === 'grid_view' && (
+                <>
+                    <Card
+                        sx={{
+                            p: 2,
+                            mb: 3
+                        }}
+                    >
+                        {users && users.length > 0 && (
+                            <SearchBar/>
+                        )}
+                    </Card>
+                    {!users || users.length === 0 ? (
+                        <Typography
+                            sx={{
+                                py: 10
+                            }}
+                            variant="h3"
+                            fontWeight="normal"
+                            color="text.secondary"
+                            align="center"
+                        >
+                            {t("LABELS.noUsersFound")}
+                        </Typography>
+                    ) : (
+                    <>
+                        <Grid container spacing={3}>
+                        {users.map((user) => {
+                            const isUserSelected = false;//selectedItems.includes(user.id);
+
+                            return (
+                                <Grid item xs={12} sm={6} md={4} key={user.id}>
+                                <CardWrapper
+                                    className={clsx({
+                                    'Mui-selected': isUserSelected
+                                    })}
+                                >
+                                    <Box
+                                        sx={{
+                                            position: 'relative',
+                                            zIndex: '2'
+                                        }}
+                                        >
+                                        <Box
+                                            px={2}
+                                            pt={2}
+                                            display="flex"
+                                            alignItems="flex-start"
+                                            justifyContent="space-between"
+                                        >
+                                            {/* {getUserRoleLabel(user.role)} */}
+                                            <IconButton
+                                                color="primary"
+                                                sx={{
+                                                    p: 0.5
+                                                }}
+                                                >
+                                                <MoreVertTwoToneIcon />
+                                            </IconButton>
+                                        </Box>
+                                        <Box p={2} display="flex" alignItems="flex-start">
+                                            {/* <Avatar
+                                                sx={{
+                                                    width: 50,
+                                                    height: 50,
+                                                    mr: 2
+                                                }}
+                                                src={user.avatar}
+                                                /> */}
+                                            <Box>
+                                                <Box>
+                                                    <Link variant="h5" href={userDetailsBaseUri + user.id} isNextLink={true}>
+                                                        {user.name}
+                                                    </Link>{' '}
+                                                    <Typography
+                                                        component="span"
+                                                        variant="body2"
+                                                        color="text.secondary"
+                                                        >
+                                                        ({user.userName})
+                                                    </Typography>
+                                                </Box>
+                                                {/* <Typography
+                                                    sx={{
+                                                    pt: 0.3
+                                                    }}
+                                                    variant="subtitle2"
+                                                >
+                                                    {user.jobtitle}
+                                                </Typography> */}
+                                                <Typography
+                                                    sx={{
+                                                    pt: 1
+                                                    }}
+                                                    variant="h6"
+                                                >
+                                                    {user.email}
+                                                </Typography>
+                                            </Box>
+                                        </Box>
+                                        <Divider />
+                                        {/* <Box
+                                            pl={2}
+                                            py={1}
+                                            pr={1}
+                                            display="flex"
+                                            alignItems="center"
+                                            justifyContent="space-between"
+                                        >
+                                            <Typography>
+                                            <b>{user.posts}</b> {t('posts')}
+                                            </Typography>
+                                            <Checkbox
+                                            checked={isUserSelected}
+                                            onChange={(event) =>
+                                                handleSelectOneUser(event, user.id)
+                                            }
+                                            value={isUserSelected}
+                                            />
+                                        </Box> */}
+                                    </Box>
+                                </CardWrapper>
+                                </Grid>
+                            );
+                            })}
+                        </Grid>
+                        <Card
+                            sx={{
+                            p: 2,
+                            mt: 3,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between'
+                            }}
+                        >
+                            <ResultsPagination gridDisplay={true} pageElementsCount={users.length} totalElements={totalUsers} searchContext={usersSearchData} paginationLabels={{ of: t('LABELS.ofSmall'), showing: t('LABELS.showing'), dataTitle: t('LIST.usersTitle')}} paginationRowsPerPageLabel={t('LABELS.paginationRowsPerPage')}/>
+                        </Card>
+                    </>
+                )}
+                </>
+            )}
+            {!toggleView && (
+            <Card
+              sx={{
+                textAlign: 'center',
+                p: 3
+              }}
+            >
+              <Typography
+                align="center"
+                variant="h4"
+                fontWeight="normal"
+                color="text.secondary"
+                sx={{
+                  my: 5
+                }}
+                gutterBottom
+              >
+                {t(
+                  'LABELS.chooseGrid'
+                )}
+              </Typography>
+            </Card>
+          )}
         </>
     );
 };

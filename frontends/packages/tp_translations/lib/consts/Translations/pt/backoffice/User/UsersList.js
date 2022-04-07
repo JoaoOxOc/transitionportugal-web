@@ -7,7 +7,7 @@ export var USERSLIST_TRANSLATIONS = deepFreeze({
         actualValue: "Valor Actual",
         UsersManagement: "Gestão de Utilizadores",
         clientSettings: "Gestão das Aplicações Clientes Autorizadas",
-        noClientsFound: "Não foi possível encontrar nenhuma aplicação cliente de acordo com os critérios de pesquisa definidos",
+        noUsersFound: "Não foi possível encontrar nenhum utilizador de acordo com os critérios de pesquisa definidos",
         chooseGrid: "Escolha entre as vistas de tabela ou grelha para apresentar a lista de dados de aplicações clientes.",
         ofSmall: "de",
         paginationRowsPerPage: "Linhas por pág.:",

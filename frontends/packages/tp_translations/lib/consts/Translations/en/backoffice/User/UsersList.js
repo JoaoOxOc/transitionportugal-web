@@ -6,7 +6,7 @@ export var USERSLIST_TRANSLATIONS = deepFreeze({
         view: "View",
         actualValue: "Actual Value",
         UsersManagement: "Users Management",
-        noClientsFound: "We couldn't find any client apps matching your search criteria",
+        noUsersFound: "We couldn't find any users matching your search criterias",
         chooseGrid: "Choose between table or grid views for displaying the users list.",
         ofSmall: "of",
         paginationRowsPerPage: "Rows per page:",

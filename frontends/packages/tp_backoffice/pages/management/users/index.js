@@ -17,7 +17,7 @@ import Results from '../../../content/Management/Users/Results';
 
 import { i18nextUsersList } from "@transitionpt/translations";
 
-import { UsersSearchProvider } from '../../../../contexts/Search/UsersSearchContext';
+import { UsersSearchProvider } from '../../../contexts/Search/UsersSearchContext';
 
 function ManagementUsers() {
   const { t } = i18nextUsersList;

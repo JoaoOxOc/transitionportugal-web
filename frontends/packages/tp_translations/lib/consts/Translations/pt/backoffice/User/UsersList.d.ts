@@ -6,7 +6,7 @@ export declare const USERSLIST_TRANSLATIONS: {
         readonly actualValue: "Valor Actual";
         readonly UsersManagement: "Gestão de Utilizadores";
         readonly clientSettings: "Gestão das Aplicações Clientes Autorizadas";
-        readonly noClientsFound: "Não foi possível encontrar nenhuma aplicação cliente de acordo com os critérios de pesquisa definidos";
+        readonly noUsersFound: "Não foi possível encontrar nenhum utilizador de acordo com os critérios de pesquisa definidos";
         readonly chooseGrid: "Escolha entre as vistas de tabela ou grelha para apresentar a lista de dados de aplicações clientes.";
         readonly ofSmall: "de";
         readonly paginationRowsPerPage: "Linhas por pág.:";
