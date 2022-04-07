@@ -21,12 +21,14 @@ namespace UserService.Controllers
         private readonly IUnitOfWork _uow;
         private readonly IConfiguration _configuration;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IRoleScopeManager _roleScopeManager;
 
-        public RoleController(IUnitOfWork uow, IConfiguration configuration, RoleManager<IdentityRole> roleManager)
+        public RoleController(IUnitOfWork uow, IConfiguration configuration, RoleManager<IdentityRole> roleManager, IRoleScopeManager roleScopeManager)
         {
             _uow = uow;
             _configuration = configuration;
             _roleManager = roleManager;
+            _roleScopeManager = roleScopeManager;
         }
 
         private ObjectResult ValidateRole(IdentityRole role)
@@ -57,12 +59,26 @@ namespace UserService.Controllers
             return Ok(null);
         }
 
-        private RoleModel ParseEntityToModel(IdentityRole role)
+        private RoleModel ParseEntityToModel(IdentityRole role, List<RoleScope> scopes)
         {
             RoleModel model = new RoleModel();
             model.RoleId = role.Id;
             model.NormalizedRoleName = role.NormalizedName;
             model.RoleName = role.Name;
+
+            if (scopes != null)
+            {
+                model.Scopes = new List<ScopeModel>();
+                foreach (var scope in scopes)
+                {
+                    model.Scopes.Add(new ScopeModel
+                    {
+                        ScopeId = scope.Scope.Id,
+                        ScopeIdentifier = scope.Scope.ScopeName,
+                        Description = scope.Scope.Description
+                    });
+                }
+            }
 
             return model;
         }
@@ -72,9 +88,28 @@ namespace UserService.Controllers
             List<RoleModel> models = new List<RoleModel>();
             foreach (var role in roles)
             {
-                models.Add(ParseEntityToModel(role));
+                models.Add(ParseEntityToModel(role, null));
             }
             return models;
+        }
+
+        private List<RoleScope> ParseRoleScopes(string roleId, List<ScopeModel> scopes)
+        {
+            List<RoleScope> roleScopes = new List<RoleScope>();
+
+            foreach (var scope in scopes)
+            {
+                if (scope.ScopeId.HasValue)
+                {
+                    roleScopes.Add(new RoleScope
+                    {
+                        RoleId = roleId,
+                        ScopeId = scope.ScopeId.Value
+                    });
+                }
+            }
+
+            return roleScopes;
         }
 
         [Authorize]
@@ -136,16 +171,24 @@ namespace UserService.Controllers
                 try
                 {
                     var role = _uow.IdentityRoleRepository.GetById(id);
-
-                    return role != null ? Ok(new
+                    if (role != null)
                     {
-                        role = ParseEntityToModel(role)
-                    })
-                    : NotFound(null);
+                        Expression<Func<RoleScope, bool>> scopeFilter = (x => x.RoleId == role.Id);
+                        var roleScopes = _uow.RoleScopeRepository.Get(null,null,scopeFilter, "Scope.ScopeName", SortDirection.Ascending, "Scope");
+
+                        return Ok(new
+                        {
+                            role = ParseEntityToModel(role, roleScopes)
+                        });
+                    }
+                    else
+                    {
+                        return NotFound(null);
+                    }
                 }
                 catch (Exception ex)
                 {
-                    return StatusCode(StatusCodes.Status500InternalServerError, null);
+                    return StatusCode(StatusCodes.Status500InternalServerError, ex.Message + "| " + ex.StackTrace);
                 }
             }
             return Forbid();
@@ -181,9 +224,12 @@ namespace UserService.Controllers
                 if (creationResult == null || !creationResult.Succeeded)
                     return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Role creation failed! Please check role details and try again." });
 
+                var roleScopes = _roleScopeManager.ReplaceRoleScopes(role.Id, model.Scopes);
+
                 return Ok(new
                 {
-                    roleId = role.Id
+                    roleId = role.Id,
+                    scopes = roleScopes != null ? roleScopes.Select(x => x.ScopeId) : null
                 });
             }
             return Forbid();
@@ -223,10 +269,12 @@ namespace UserService.Controllers
                         if (updateResult == null || !updateResult.Succeeded)
                             return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Role update failed! Please check role details and try again." });
 
+                        var roleScopes = _roleScopeManager.ReplaceRoleScopes(role.Id, model.Scopes);
 
                         return Ok(new
                         {
-                            roleId = role.Id
+                            roleId = role.Id,
+                            scopes = roleScopes != null ? roleScopes.Select(x => x.ScopeId) : null
                         });
                     }
                     catch (Exception ex)

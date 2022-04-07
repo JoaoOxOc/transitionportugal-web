@@ -87,6 +87,7 @@ builder.Services.AddAuthentication(options =>
 builder.Services.TryAddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.TryAddScoped<ITPUserManager, TPUserManager>();
 builder.Services.TryAddSingleton<ITokenManager, TokenManager>();
+builder.Services.TryAddScoped<IRoleScopeManager, RoleScopeManager>();
 builder.Services.TryAddSingleton<IConfiguration>(configuration);
 builder.Services.TryAddSingleton<IRabbitMQSender, RabbitMQSender>();
 

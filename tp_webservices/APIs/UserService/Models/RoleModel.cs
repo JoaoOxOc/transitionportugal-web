@@ -10,5 +10,7 @@
         /// In capital letters
         /// </summary>
         public string NormalizedRoleName { get; set; }
+
+        public List<ScopeModel> Scopes { get; set; }
     }
 }
