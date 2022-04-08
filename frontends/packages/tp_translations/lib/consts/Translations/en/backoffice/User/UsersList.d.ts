@@ -12,13 +12,15 @@ export declare const USERSLIST_TRANSLATIONS: {
         readonly showing: "Showing";
     };
     readonly LIST: {
-        readonly clientsTitle: "Client Apps";
+        readonly usersTitle: "Users";
     };
-    readonly CLIENTOBJECT: {
-        readonly description: "Description";
-        readonly name: "Client Name";
-        readonly clientId: "Client App ID";
-        readonly clientSecret: "Client App Secret";
+    readonly USEROBJECT: {
+        readonly name: "Name";
+        readonly userName: "Username";
+        readonly email: "User Email";
+        readonly association: "User Association/Entity";
+        readonly active: "User Activated";
+        readonly verified: "User Verified";
         readonly createdAt: "Registered At";
         readonly updatedAt: "Updated at";
     };
@@ -27,6 +29,9 @@ export declare const USERSLIST_TRANSLATIONS: {
     };
     readonly SEARCH: {
         readonly searchByNameOrEmailPlaceholder: "Search by Username or Email...";
+        readonly seachActive: "";
+        readonly searchVerified: "";
+        readonly searchByAssociation: "";
     };
 };
 //# sourceMappingURL=UsersList.d.ts.map

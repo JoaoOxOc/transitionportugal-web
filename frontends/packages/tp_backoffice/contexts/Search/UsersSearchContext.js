@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 const initialSearchState = {
     searchText: "",
     associationId: "",
+    userRole: "",
     isActive: "",
     isVerified: "",
     page: 1,

@@ -7,9 +7,8 @@ export const USERSLIST_TRANSLATIONS = deepFreeze({
         view: "Visualizar",
         actualValue: "Valor Actual",
         UsersManagement: "Gestão de Utilizadores",
-        clientSettings: "Gestão das Aplicações Clientes Autorizadas",
         noUsersFound: "Não foi possível encontrar nenhum utilizador de acordo com os critérios de pesquisa definidos",
-        chooseGrid: "Escolha entre as vistas de tabela ou grelha para apresentar a lista de dados de aplicações clientes.",
+        chooseGrid: "Escolha entre as vistas de tabela ou grelha para apresentar a lista de dados de utilizadores.",
         ofSmall: "de",
         paginationRowsPerPage: "Linhas por pág.:",
         showing: "Mostrando"
@@ -17,11 +16,18 @@ export const USERSLIST_TRANSLATIONS = deepFreeze({
     LIST: {
         usersTitle: "Utilizadores"
     },
-    CLIENTOBJECT: {
-        description: "Description",
-        name: "Nome da Aplicação Cliente",
-        clientId: "ID da Aplicação Cliente",
-        clientSecret: "Chave da Aplicação Cliente",
+    TABS: {
+        system: "Utilizadores de Sistema",
+        association: "Utilizadores de Associações",
+        all: "Todos Utilizadores"
+    },
+    USEROBJECT: {
+        name: "Nome",
+        userName: "Username",
+        email: "Email do Utilizador",
+        association: "Associação/Entidade do Utilizador",
+        active: "Utilizador Activado",
+        verified: "Utilizador Verificado",
         createdAt: "Registado em",
         updatedAt: "Actualizado em"
     },
@@ -29,6 +35,10 @@ export const USERSLIST_TRANSLATIONS = deepFreeze({
         usersManagementDescription: "Todos os aspectos relativos aos utilizadores da aplicação podem ser geridos nesta página"
     },
     SEARCH: {
-        searchByNameOrEmailPlaceholder: "Pesquisar por Username ou Email..."
+        searchByNameOrEmailPlaceholder: "Pesquisar por Username ou Email...",
+        seachActive: "",
+        searchVerified: "",
+        searchByAssociation: "",
+        searchByRole: ""
     }
 } as const);

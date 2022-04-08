@@ -105,6 +105,10 @@ const AvatarError = styled(Avatar)(
     `
   );
 
+  const Transition = forwardRef(function Transition(props, ref) {
+    return <Slide direction="down" ref={ref} {...props} />;
+  });
+
 const Results = () => {
     const { t } = i18nextUsersList;
     const isMountedRef = useRefMounted();
@@ -112,6 +116,7 @@ const Results = () => {
     const [usersError, setUsersError] = useState(null);
     useErrorHandler(usersError);
     const [users, setUsers] = useState(null);
+    const [selectedItems, setSelectedUsers] = useState([]);
     const [totalUsers, setTotalUsers] = useState(0);
 
     let usersApiUri = "/users/get";
@@ -123,21 +128,28 @@ const Results = () => {
             isSort: true,
             disablePadding: false,
             align: 'left',
-            label: t('CLIENTOBJECT.name'),
+            label: t('USEROBJECT.userName'),
+        },
+        {
+            id: 'Name',
+            isSort: true,
+            disablePadding: false,
+            align: 'left',
+            label: t('USEROBJECT.name'),
         },
         {
             id: 'Email',
             isSort: true,
             disablePadding: false,
-            align: 'left',
-            label: t('CLIENTOBJECT.description'),
+            align: 'center',
+            label: t('USEROBJECT.email'),
         },
         {
             id: 'IsActive',
             isSort: true,
             disablePadding: false,
             align: 'center',
-            label: t('CLIENTOBJECT.clientId'),
+            label: t('USEROBJECT.active'),
         },
         {
             id: 'actions',
@@ -177,33 +189,44 @@ const Results = () => {
 
     const tabs = [
         {
-          value: 'system',
-          label: t('System Users')
+          value: 'System',
+          label: t('TABS.system')
         },
         {
-          value: 'customer',
-          label: t('Associations Users')
+          value: 'Customer',
+          label: t('TABS.association')
         },
         {
           value: 'all',
-          label: t('All users')
+          label: t('TABS.all')
         },
     ];
 
     const handleTabsChange = (_event, tabsValue) => {
-        let value = null;
+
+        usersSearchData.searchData.userRole = tabsValue;
+        usersSearchData.search(usersSearchData.searchData);
     
-        if (tabsValue !== 'all') {
-          value = tabsValue;
-        }
-    
-        // setFilters((prevFilters) => ({
-        //   ...prevFilters,
-        //   role: value
-        // }));
-    
-        // setSelectedUsers([]);
+        setUsers([]);
+        setSelectedUsers([]);
     };
+
+    const handleSelectAllUsers = (event) => {
+        setSelectedUsers(event.target.checked ? users.map((user) => user.id) : []);
+    };
+    
+    const handleSelectOneUser = (_event, userId) => {
+        if (!selectedItems.includes(userId)) {
+          setSelectedUsers((prevSelected) => [...prevSelected, userId]);
+        } else {
+          setSelectedUsers((prevSelected) =>
+            prevSelected.filter((id) => id !== userId)
+          );
+        }
+    };
+
+    const selectedSomeUsers = selectedItems.length > 0 && selectedItems.length < users ? users.length : 0;
+    const selectedAllUsers = selectedItems.length === users ? users.length : 0;
 
     const [toggleView, setToggleView] = useState('table_view');
 
@@ -224,7 +247,7 @@ const Results = () => {
                     onChange={handleTabsChange}
                     scrollButtons="auto"
                     textColor="secondary"
-                    value={'all'}
+                    value={usersSearchData.searchData.userRole || 'all'}
                     variant="scrollable"
                     >
                 {tabs.map((tab) => (
@@ -272,6 +295,13 @@ const Results = () => {
                         <TableContainer>
                             <Table>
                                 <TableHead>
+                                    <TableCell padding="checkbox">
+                                        <Checkbox
+                                        checked={selectedAllUsers}
+                                        indeterminate={selectedSomeUsers}
+                                        onChange={handleSelectAllUsers}
+                                        />
+                                    </TableCell>
                                     <ResultsHeader headerCells={headCells} defaultSort={'UserName'} defaultSortDirection={'asc'} searchContext={usersSearchData}/>
                                 </TableHead>
                                 <TableBody>
@@ -282,62 +312,67 @@ const Results = () => {
                                     // const isUserSelected = selectedItems.includes(user.id);
                                     return (
                                         <TableRow hover key={user.id}>
-                                        <TableCell>
-                                            <Typography variant="h5">
-                                            {user.userName}
-                                            </Typography>
-                                        </TableCell>
-                                        <TableCell>
-                                            <Box display="flex" alignItems="center">
-                                                {/* <Avatar
-                                                    sx={{
-                                                    mr: 1
-                                                    }}
-                                                    src={user.avatar}
-                                                /> */}
-                                                <Box>
-                                                    <Link href={userDetailsBaseUri + user.id} isNextLink={true}>
-                                                        {user.name}
-                                                    </Link>
-                                                    {/* <Typography noWrap variant="subtitle2">
-                                                        {user.jobtitle}
-                                                    </Typography> */}
+                                            <TableCell>
+                                                <Typography variant="h5">
+                                                {user.userName}
+                                                </Typography>
+                                            </TableCell>
+                                            <TableCell>
+                                                <Box display="flex" alignItems="center">
+                                                    {/* <Avatar
+                                                        sx={{
+                                                        mr: 1
+                                                        }}
+                                                        src={user.avatar}
+                                                    /> */}
+                                                    <Box>
+                                                        <Link href={userDetailsBaseUri + user.id} isNextLink={true}>
+                                                            {user.name}
+                                                        </Link>
+                                                        {user.associationName && (
+                                                            <Typography noWrap variant="subtitle2">
+                                                                {t('USEROBJECT.association') + ':'}&nbsp;{user.associationName}
+                                                            </Typography>
+                                                        )}
+                                                    </Box>
                                                 </Box>
-                                            </Box>
-                                        </TableCell>
-                                        <TableCell>
-                                            <Typography>{user.email}</Typography>
-                                        </TableCell>
-                                        {/* <TableCell align="center">
-                                            <Typography fontWeight="bold">
-                                            {user.posts}
-                                            </Typography>
-                                        </TableCell>
-                                        <TableCell>
-                                            <Typography>{user.location}</Typography>
-                                        </TableCell>
-                                        <TableCell>{getUserRoleLabel(user.role)}</TableCell> */}
-                                        <TableCell align="center">
-                                            <Typography noWrap>
-                                            <Tooltip title={t('View')} arrow>
-                                                <Link href={userDetailsBaseUri + user.id} isNextLink={true}>
+                                            </TableCell>
+                                            <TableCell>
+                                                <Typography>{user.email}</Typography>
+                                            </TableCell>
+                                            <TableCell>
+                                                <Typography>{user.isActive}</Typography>
+                                            </TableCell>
+                                            {/* <TableCell align="center">
+                                                <Typography fontWeight="bold">
+                                                {user.posts}
+                                                </Typography>
+                                            </TableCell>
+                                            <TableCell>
+                                                <Typography>{user.location}</Typography>
+                                            </TableCell>
+                                            <TableCell>{getUserRoleLabel(user.role)}</TableCell> */}
+                                            <TableCell align="center">
+                                                <Typography noWrap>
+                                                <Tooltip title={t('View')} arrow>
+                                                    <Link href={userDetailsBaseUri + user.id} isNextLink={true}>
+                                                        <IconButton
+                                                        color="primary"
+                                                        >
+                                                        <LaunchTwoToneIcon fontSize="small" />
+                                                        </IconButton>
+                                                    </Link>
+                                                </Tooltip>
+                                                {/* <Tooltip title={t('Delete')} arrow>
                                                     <IconButton
+                                                    onClick={handleConfirmDelete}
                                                     color="primary"
                                                     >
-                                                    <LaunchTwoToneIcon fontSize="small" />
+                                                    <DeleteTwoToneIcon fontSize="small" />
                                                     </IconButton>
-                                                </Link>
-                                            </Tooltip>
-                                            {/* <Tooltip title={t('Delete')} arrow>
-                                                <IconButton
-                                                onClick={handleConfirmDelete}
-                                                color="primary"
-                                                >
-                                                <DeleteTwoToneIcon fontSize="small" />
-                                                </IconButton>
-                                            </Tooltip> */}
-                                            </Typography>
-                                        </TableCell>
+                                                </Tooltip> */}
+                                                </Typography>
+                                            </TableCell>
                                         </TableRow>
                                     );
                                     })
@@ -435,14 +470,18 @@ const Results = () => {
                                                         ({user.userName})
                                                     </Typography>
                                                 </Box>
-                                                {/* <Typography
+                                                <Typography
                                                     sx={{
                                                     pt: 0.3
                                                     }}
                                                     variant="subtitle2"
                                                 >
-                                                    {user.jobtitle}
-                                                </Typography> */}
+                                                    {user.associationName && (
+                                                        <>
+                                                            {t('USEROBJECT.association') + ':'}&nbsp;{user.associationName}
+                                                        </>
+                                                    )}
+                                                </Typography>
                                                 <Typography
                                                     sx={{
                                                     pt: 1

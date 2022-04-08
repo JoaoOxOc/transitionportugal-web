@@ -16,11 +16,18 @@ export const USERSLIST_TRANSLATIONS = deepFreeze({
     LIST: {
         usersTitle: "Users"
     },
-    CLIENTOBJECT: {
-        description: "Description",
-        name: "Client Name",
-        clientId: "Client App ID",
-        clientSecret: "Client App Secret",
+    TABS: {
+        system: "System Users",
+        association: "Associations Users",
+        all: "All Users"
+    },
+    USEROBJECT: {
+        name: "Name",
+        userName: "Username",
+        email: "User Email",
+        association: "User Association/Entity",
+        active: "User Activated",
+        verified: "User Verified",
         createdAt: "Registered At",
         updatedAt: "Updated at"
     },
@@ -28,6 +35,10 @@ export const USERSLIST_TRANSLATIONS = deepFreeze({
         usersManagementDescription: "All aspects related to the app users can be managed from this page"
     },
     SEARCH: {
-        searchByNameOrEmailPlaceholder: "Search by Username or Email..."
+        searchByNameOrEmailPlaceholder: "Search by Username or Email...",
+        seachActive: "",
+        searchVerified: "",
+        searchByAssociation: "",
+        searchByRole: ""
     }
 } as const);

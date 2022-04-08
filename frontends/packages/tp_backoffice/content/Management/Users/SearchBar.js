@@ -9,8 +9,9 @@ import SearchTwoToneIcon from '@mui/icons-material/SearchTwoTone';
 import { UsersSearchContext } from '../../../contexts/Search/UsersSearchContext';
 
 import { i18nextUsersList } from "@transitionpt/translations";
+import BulkActions from './BulkActions';
 
-const SearchBar = () => {
+const SearchBar = ({itemsSelected}) => {
     const { t } = i18nextUsersList;
 
     const [query, setQuery] = useState('');
@@ -29,26 +30,29 @@ const SearchBar = () => {
 
     return(
         <Box p={2}>
-            <TextField
-                sx={{
-                    m: 0
-                }}
-                InputProps={{
-                    startAdornment: (
-                    <InputAdornment position="start">
-                        <SearchTwoToneIcon />
-                    </InputAdornment>
-                    ),
-                    type: "search"
-                }}
-                onChange={handleQueryChange}
-                placeholder={t('SEARCH.searchByNameOrEmailPlaceholder')}
-                value={query}
-                size="small"
-                fullWidth
-                margin="normal"
-                variant="outlined"
-            />
+            {!itemsSelected &&
+                <TextField
+                    sx={{
+                        m: 0
+                    }}
+                    InputProps={{
+                        startAdornment: (
+                        <InputAdornment position="start">
+                            <SearchTwoToneIcon />
+                        </InputAdornment>
+                        ),
+                        type: "search"
+                    }}
+                    onChange={handleQueryChange}
+                    placeholder={t('SEARCH.searchByNameOrEmailPlaceholder')}
+                    value={query}
+                    size="small"
+                    fullWidth
+                    margin="normal"
+                    variant="outlined"
+                />
+            }
+            {itemsSelected && <BulkActions />}
         </Box>
     );
 }

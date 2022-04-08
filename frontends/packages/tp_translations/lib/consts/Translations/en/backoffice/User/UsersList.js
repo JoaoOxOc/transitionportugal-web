@@ -13,13 +13,15 @@ export var USERSLIST_TRANSLATIONS = deepFreeze({
         showing: "Showing"
     },
     LIST: {
-        clientsTitle: "Client Apps"
+        usersTitle: "Users"
     },
-    CLIENTOBJECT: {
-        description: "Description",
-        name: "Client Name",
-        clientId: "Client App ID",
-        clientSecret: "Client App Secret",
+    USEROBJECT: {
+        name: "Name",
+        userName: "Username",
+        email: "User Email",
+        association: "User Association/Entity",
+        active: "User Activated",
+        verified: "User Verified",
         createdAt: "Registered At",
         updatedAt: "Updated at"
     },
@@ -27,7 +29,10 @@ export var USERSLIST_TRANSLATIONS = deepFreeze({
         usersManagementDescription: "All aspects related to the app users can be managed from this page"
     },
     SEARCH: {
-        searchByNameOrEmailPlaceholder: "Search by Username or Email..."
+        searchByNameOrEmailPlaceholder: "Search by Username or Email...",
+        seachActive: "",
+        searchVerified: "",
+        searchByAssociation: ""
     }
 });
 //# sourceMappingURL=UsersList.js.map

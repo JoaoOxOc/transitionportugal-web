@@ -2,11 +2,11 @@ import * as deepFreeze from 'deep-freeze';
 
 export const ASSOCIATIONSLIST_TRANSLATIONS = deepFreeze({
     LABELS: {
-        createClientApp: "Register Client App",
+        createAssociation: "Register New Association",
         actions: "Actions",
         view: "View",
         actualValue: "Actual Value",
-        clientSettings: "Client Apps Authorized Management",
+        associationsManagement: "Associations Management",
         noClientsFound: "We couldn't find any client apps matching your search criteria",
         chooseGrid: "Choose between table or grid views for displaying the users list.",
         ofSmall: "of",
@@ -25,9 +25,9 @@ export const ASSOCIATIONSLIST_TRANSLATIONS = deepFreeze({
         updatedAt: "Updated at"
     },
     MESSAGES: {
-        clientsDescription: "All aspects related to client apps authorized can be managed from this page"
+        associationsManagementDescription: "All aspects related to associations/entities can be managed from this page"
     },
     SEARCH: {
-        searchByNamePlaceholder: "Search by Name or Client App Id..."
+        searchByNameOrEmailPlaceholder: "Search by Name or Email..."
     }
 } as const);

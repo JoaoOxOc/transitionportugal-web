@@ -5,21 +5,22 @@ export declare const USERSLIST_TRANSLATIONS: {
         readonly view: "Visualizar";
         readonly actualValue: "Valor Actual";
         readonly UsersManagement: "Gestão de Utilizadores";
-        readonly clientSettings: "Gestão das Aplicações Clientes Autorizadas";
         readonly noUsersFound: "Não foi possível encontrar nenhum utilizador de acordo com os critérios de pesquisa definidos";
-        readonly chooseGrid: "Escolha entre as vistas de tabela ou grelha para apresentar a lista de dados de aplicações clientes.";
+        readonly chooseGrid: "Escolha entre as vistas de tabela ou grelha para apresentar a lista de dados de utilizadores.";
         readonly ofSmall: "de";
         readonly paginationRowsPerPage: "Linhas por pág.:";
         readonly showing: "Mostrando";
     };
     readonly LIST: {
-        readonly clientsTitle: "Aplicações Clientes";
+        readonly usersTitle: "Utilizadores";
     };
-    readonly CLIENTOBJECT: {
-        readonly description: "Description";
-        readonly name: "Nome da Aplicação Cliente";
-        readonly clientId: "ID da Aplicação Cliente";
-        readonly clientSecret: "Chave da Aplicação Cliente";
+    readonly USEROBJECT: {
+        readonly name: "Nome";
+        readonly userName: "Username";
+        readonly email: "User Email";
+        readonly association: "Associação/Entidade do Utilizador";
+        readonly active: "Utilizador Activado";
+        readonly verified: "Utilizador Verificado";
         readonly createdAt: "Registado em";
         readonly updatedAt: "Actualizado em";
     };

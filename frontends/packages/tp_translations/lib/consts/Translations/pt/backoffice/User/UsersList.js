@@ -6,21 +6,22 @@ export var USERSLIST_TRANSLATIONS = deepFreeze({
         view: "Visualizar",
         actualValue: "Valor Actual",
         UsersManagement: "Gestão de Utilizadores",
-        clientSettings: "Gestão das Aplicações Clientes Autorizadas",
         noUsersFound: "Não foi possível encontrar nenhum utilizador de acordo com os critérios de pesquisa definidos",
-        chooseGrid: "Escolha entre as vistas de tabela ou grelha para apresentar a lista de dados de aplicações clientes.",
+        chooseGrid: "Escolha entre as vistas de tabela ou grelha para apresentar a lista de dados de utilizadores.",
         ofSmall: "de",
         paginationRowsPerPage: "Linhas por pág.:",
         showing: "Mostrando"
     },
     LIST: {
-        clientsTitle: "Aplicações Clientes"
+        usersTitle: "Utilizadores"
     },
-    CLIENTOBJECT: {
-        description: "Description",
-        name: "Nome da Aplicação Cliente",
-        clientId: "ID da Aplicação Cliente",
-        clientSecret: "Chave da Aplicação Cliente",
+    USEROBJECT: {
+        name: "Nome",
+        userName: "Username",
+        email: "User Email",
+        association: "Associação/Entidade do Utilizador",
+        active: "Utilizador Activado",
+        verified: "Utilizador Verificado",
         createdAt: "Registado em",
         updatedAt: "Actualizado em"
     },
