@@ -9,6 +9,7 @@ namespace UserService.Services.Database
     {
         IGenericRepository<User> UserRepository { get; }
         IGenericRepository<IdentityRole> IdentityRoleRepository { get; }
+        IGenericRepository<IdentityUserRole<string>> IdentityUserRoleRepository { get; }
         IGenericRepository<Association> AssociationRepository { get; }
         IGenericRepository<RoleScope> RoleScopeRepository { get; }
         IGenericRepository<Scope> ScopeRepository { get; }

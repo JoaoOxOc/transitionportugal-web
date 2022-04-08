@@ -20,12 +20,14 @@ namespace UserService.Controllers
         private readonly IUnitOfWork _uow;
         private readonly IConfiguration _configuration;
         private readonly ITPUserManager _userManager;
+        private readonly IUserRoleManager _userRoleManager;
 
-        public UserController(IUnitOfWork uow, IConfiguration configuration, ITPUserManager userManager)
+        public UserController(IUnitOfWork uow, IConfiguration configuration, ITPUserManager userManager, IUserRoleManager userRoleManager)
         {
             _uow = uow;
             _configuration = configuration;
             _userManager = userManager;
+            _userRoleManager = userRoleManager;
         }
 
         private ObjectResult ValidateUser(User user)
@@ -68,9 +70,78 @@ namespace UserService.Controllers
             return Ok(null);
         }
 
+        private UserReadModel ParseEntityToModel(User user)
+        {
+            UserReadModel model = new UserReadModel();
+
+            if (user != null)
+            {
+
+                model.Id = user.Id;
+                model.Name = user.Name;
+                model.UserName = user.UserName;
+                model.Email = user.Email;
+                model.PhoneNumber = user.PhoneNumber;
+                model.CreatedAt = user.CreatedAt;
+                model.UpdatedAt = user.UpdatedAt;
+                model.IsVerified = user.IsVerified;
+                model.IsActive = user.IsActive;
+                model.AssociationName = user.Association?.Name;
+                model.AssociationId = user.Association?.Id;
+            }
+
+            return model;
+        }
+
+        private List<UserReadModel> ParseEntitiesToModel(List<User> users)
+        {
+            List<UserReadModel> models = new List<UserReadModel>();
+            foreach (var user in users)
+            {
+                models.Add(ParseEntityToModel(user));
+            }
+            return models;
+        }
+
+        private User MapModelToEntity(User user, UserReadModel model)
+        {
+            user.Name = model.Name;
+            user.Email = model.Email;
+            user.PhoneNumber = model.PhoneNumber;
+            user.UserName = model.UserName;
+            if (model.IsActive.HasValue)
+            {
+                user.IsActive = model.IsActive.Value;
+            }
+            else if (!string.IsNullOrEmpty(user.Id))
+            {
+                user.IsActive = model.IsActive.HasValue ? model.IsActive.Value : false;
+            }
+            if (model.IsVerified.HasValue)
+            {
+                user.IsVerified = model.IsVerified.Value;
+            }
+            else if (!string.IsNullOrEmpty(user.Id))
+            {
+                user.IsVerified = model.IsVerified.HasValue ? model.IsVerified.Value : false;
+            }
+            if (model.IsEmailVerified.HasValue)
+            {
+                user.IsEmailVerified = model.IsEmailVerified;
+            }
+            else if (!string.IsNullOrEmpty(user.Id))
+            {
+                user.IsEmailVerified = model.IsEmailVerified;
+            }
+
+            return user;
+        }
+
+        
+
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> Get(string? searchText, int? associationId, bool? isActive, bool? isVerified, int? offset, int? limit, string sort, string sortDirection)
+        public async Task<IActionResult> Get(string? searchText, int? associationId, string? userRole, bool? isActive, bool? isVerified, int? offset, int? limit, string sort, string sortDirection)
         {
             string header = HttpContext.Request.Headers["Authorization"];
             string[] claims = new string[] { "userId", "sub", System.Security.Claims.ClaimTypes.Role, "scope" };
@@ -89,10 +160,15 @@ namespace UserService.Controllers
                     sort = sort ?? "Name";
                     SortDirection direction = sortDirection == "desc" ? SortDirection.Descending : SortDirection.Ascending;
 
-                    Expression<Func<User, bool>> filter = (x => (x.Name.ToLower().Contains(searchText.ToLower()) || x.UserName.ToLower().Contains(searchText.ToLower()))
-                    && (!associationId.HasValue || x.AssociationId == associationId.Value) && (!isActive.HasValue || x.IsActive == isActive.Value) && (!isVerified.HasValue || x.IsVerified == isVerified.Value));
+                    var filterbyUserIds = _userRoleManager.GetUserIdsByRole(userRole);
 
-                    var _users = _uow.UserRepository.Get(offset, limit, filter, sort, direction, string.Empty);
+                    Expression<Func<User, bool>> filter = (x => (filterbyUserIds.Count == 0 || filterbyUserIds.Contains(x.Id))
+                    && (x.Name.ToLower().Contains(searchText.ToLower()) || x.UserName.ToLower().Contains(searchText.ToLower()))
+                    && (!associationId.HasValue || x.AssociationId == associationId.Value)
+                    && (!isActive.HasValue || x.IsActive == isActive.Value)
+                    && (!isVerified.HasValue || x.IsVerified == isVerified.Value));
+
+                    var _users = _uow.UserRepository.Get(offset, limit, filter, sort, direction, "Association");
 
                     int totalCount = _uow.UserRepository.Count(filter);
 
@@ -100,7 +176,7 @@ namespace UserService.Controllers
 
                     return _users != null ? Ok(new
                     {
-                        users = _users
+                        users = ParseEntitiesToModel(_users)
                     })
                     : NotFound(new List<User>());
                 }
@@ -129,9 +205,14 @@ namespace UserService.Controllers
                 {
                     var user = await _userManager.SearchUserById(id);
 
+                    if (user != null && user.AssociationId.HasValue)
+                    {
+                        user.Association = _uow.AssociationRepository.GetById(id);
+                    }
+
                     return user != null ? Ok(new
                     {
-                        user = user
+                        user = ParseEntityToModel(user)
                     })
                     : NotFound(null);
                 }

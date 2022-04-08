@@ -85,9 +85,17 @@ namespace UserService.Controllers
                 {
                     model.AssociationUsers.Add(new UserReadModel
                     {
-                        UserId = user.Id,
+                        Id = user.Id,
                         Name = user.Name,
-                        Username = user.UserName
+                        UserName = user.UserName,
+                        Email = user.Email,
+                        PhoneNumber = user.PhoneNumber,
+                        CreatedAt = user.CreatedAt,
+                        UpdatedAt = user.UpdatedAt,
+                        IsVerified = user.IsVerified,
+                        IsActive = user.IsActive,
+                        AssociationName = association.Name,
+                        AssociationId = association.Id
                     });
                 }
             }

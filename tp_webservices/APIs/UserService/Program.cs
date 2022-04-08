@@ -88,6 +88,7 @@ builder.Services.TryAddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.TryAddScoped<ITPUserManager, TPUserManager>();
 builder.Services.TryAddSingleton<ITokenManager, TokenManager>();
 builder.Services.TryAddScoped<IRoleScopeManager, RoleScopeManager>();
+builder.Services.TryAddScoped<IUserRoleManager, UserRoleManager>();
 builder.Services.TryAddSingleton<IConfiguration>(configuration);
 builder.Services.TryAddSingleton<IRabbitMQSender, RabbitMQSender>();
 
