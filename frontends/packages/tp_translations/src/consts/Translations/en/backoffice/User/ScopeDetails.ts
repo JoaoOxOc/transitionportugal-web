@@ -2,24 +2,24 @@ import * as deepFreeze from 'deep-freeze';
 
 export const SCOPEDETAILS_TRANSLATIONS = deepFreeze({
     LABELS: {
-        associationDetails: "Client App Details - {{name}}",
-        associationCreate: "Register a New Client App Authorization",
-        associationCreateSmall: "Register New Client App",
+        scopeCreate: "Register New Permission",
+        scopeDetails: "Permission Details - {{name}}",
+        associationCreateSmall: "Register New Permission",
         goBack: "Go back",
-        registerAssociationInfo: "The client app Secret will be automatically generated after registering it",
-        associationWarning: "Careful editting ID and secret values: the client app can stop working"
+        registerScopeInfo: "You must associate the permission with a profile in order for it to be attributed to a user",
+        scopeWarning: "Careful editting Identifier: the users may lost app access to certain features"
     },
     LIST: {
-        associationsTitle: "Associations/Entities",
+        scopesTitle: "Permissions",
         home: "Home",
-        settings: "Settings",
-        associations: 'Associations'
+        management: "Management",
+        scopes: 'Permissions'
     },
     FORM: {
         name: "Client App Name",
         description: "Client App Description",
         clientId: "Client App ID",
-        clientSecret: "Client App Secret",
+        scopeRoles: "Roles related to the Permission",
         updatedAt: "Updated At",
         createdAt: "Registered At",
         saveButton: "Save"

@@ -1,10 +1,10 @@
 export declare const ASSOCIATIONSLIST_TRANSLATIONS: {
     readonly LABELS: {
-        readonly createClientApp: "Register Client App";
+        readonly createAssociation: "Register New Association";
         readonly actions: "Actions";
         readonly view: "View";
         readonly actualValue: "Actual Value";
-        readonly clientSettings: "Client Apps Authorized Management";
+        readonly associationsManagement: "Associations Management";
         readonly noClientsFound: "We couldn't find any client apps matching your search criteria";
         readonly chooseGrid: "Choose between table or grid views for displaying the users list.";
         readonly ofSmall: "of";
@@ -23,10 +23,10 @@ export declare const ASSOCIATIONSLIST_TRANSLATIONS: {
         readonly updatedAt: "Updated at";
     };
     readonly MESSAGES: {
-        readonly clientsDescription: "All aspects related to client apps authorized can be managed from this page";
+        readonly associationsManagementDescription: "All aspects related to associations/entities can be managed from this page";
     };
     readonly SEARCH: {
-        readonly searchByNamePlaceholder: "Search by Name or Client App Id...";
+        readonly searchByNameOrEmailPlaceholder: "Search by Name or Email...";
     };
 };
 //# sourceMappingURL=AssociationsList.d.ts.map

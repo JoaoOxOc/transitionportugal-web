@@ -23,7 +23,7 @@ function PageHeader() {
             {t('LABELS.scopesManagement')}
           </Typography>
           <Typography variant="subtitle2">
-            {t('MESSAGES.scopesManagementDescription')}
+            {t('MESSAGES.scopesDescription')}
           </Typography>
         </Grid>
         <Grid item>

@@ -6,15 +6,15 @@ import AccentHeaderLayout from '../../../../layouts/AccentHeaderLayout';
 import { Authenticated } from '../../../../components/Authenticated';
 import { Authorized } from '../../../../components/Authorized';
 
-import ClientAppDetails from '../../../../content/Management/App/Clients/single/details';
+import ScopeDetails from '../../../../content/Management/Scopes/single/details';
 import Footer from '../../../../components/Footer';
 
-import { i18nextClientDetails } from "@transitionpt/translations";
+import { i18nextScopeDetails } from "@transitionpt/translations";
 
-function ManagementAssociationsCreate() {
-    const { t } = i18nextClientDetails;
+function ManagementScopesCreate() {
+    const { t } = i18nextScopeDetails;
     const [currentLang, setLang] = useState("pt");
-    i18nextClientDetails.changeLanguage(currentLang);
+    i18nextScopeDetails.changeLanguage(currentLang);
 
     useEffect(() => {
         const handleNewMessage = (event) => {
@@ -27,17 +27,17 @@ function ManagementAssociationsCreate() {
     return (
     <>
       <Head>
-        <title>{t('LABELS.clientDetails')}</title>
+        <title>{t('LABELS.scopeCreate')}</title>
       </Head>
 
-      <ClientAppDetails isCreate={true}/>
+      <ScopeDetails isCreate={true}/>
 
       <Footer />
     </>
     );
 }
 
-ManagementAssociationsCreate.getLayout = (page) => (
+ManagementScopesCreate.getLayout = (page) => (
   <Authenticated>
     <Authorized scopes={["users.write"]}>
         <AccentHeaderLayout>{page}</AccentHeaderLayout>
@@ -45,4 +45,4 @@ ManagementAssociationsCreate.getLayout = (page) => (
   </Authenticated>
 );
 
-export default ManagementAssociationsCreate;
+export default ManagementScopesCreate;

@@ -1,33 +1,39 @@
 import * as deepFreeze from 'deep-freeze';
 export var SCOPEDETAILS_TRANSLATIONS = deepFreeze({
     LABELS: {
-        createClientApp: "Registar Aplicação Cliente",
-        actions: "Ações",
-        view: "Visualizar",
-        actualValue: "Valor Actual",
-        clientSettings: "Gestão das Aplicações Clientes Autorizadas",
-        noClientsFound: "Não foi possível encontrar nenhuma aplicação cliente de acordo com os critérios de pesquisa definidos",
-        chooseGrid: "Escolha entre as vistas de tabela ou grelha para apresentar a lista de dados de aplicações clientes.",
-        ofSmall: "de",
-        paginationRowsPerPage: "Linhas por pág.:",
-        showing: "Mostrando"
+        scopeCreate: "Registar Nova Permissão",
+        scopeDetails: "Detalhes da Permissão - {{name}}",
+        scopeCreateSmall: "Registar Nova Permissão",
+        goBack: "Voltar",
+        registerScopeInfo: "Deverá associar a permissão a um perfil por forma a ser atribuida a um utilizador",
+        scopeWarning: "Atenção à edição do Identificard: os utilizadores podem perder acesso a certas funcionalidades da aplicação"
     },
     LIST: {
-        clientsTitle: "Aplicações Clientes"
+        scopesTitle: "Permissões",
+        home: "Home",
+        management: "Administração",
+        scopes: 'Permissões'
     },
-    CLIENTOBJECT: {
-        description: "Description",
+    FORM: {
         name: "Nome da Aplicação Cliente",
+        description: "Descrição da Aplicação Cliente",
         clientId: "ID da Aplicação Cliente",
         clientSecret: "Chave da Aplicação Cliente",
+        updatedAt: "Actualizado em",
         createdAt: "Registado em",
-        updatedAt: "Actualizado em"
+        saveButton: "Guardar"
     },
     MESSAGES: {
-        clientsDescription: "Todos os aspectos relativos às aplicações clientes autorizadas podem ser geridos nesta página"
-    },
-    SEARCH: {
-        searchByNamePlaceholder: "Pesquisar por Nome ou ID da aplicação cliente..."
+        nameTooBig: "O Nome é demasiado grande. Máx. de caracteres: {{max}}",
+        nameRequired: "O Nome da Aplicação é obrigatório",
+        descriptionTooBig: "A Descrição é demasiado grande. Máx. de caracteres: {{max}}",
+        descriptionRequired: "A Descrição é obrigatória",
+        clientIdTooBig: "O ID é demasiado grande. Máx. de caracteres: {{max}}",
+        clientIdRequired: "ID da Aplicação Cliente é obrigatório",
+        clientAppUpdatedSuccessfully: "A aplicação cliente cujo nome é {{clientName}} foi atualizada com sucesso",
+        clientAppCreatedSuccessfully: "A aplicação cliente cujo nome é {{clientName}} foi registada com sucesso",
+        clientAppGeneralError: "Erro ao registar/atualizar a aplicação cliente cujo nome é {{clientName}}. Por favor tente novamente",
+        clientAppNotFound: "A aplicação cliente cujo nome é {{clientName}} não foi encontrada. Por favor verifica se o nome está correcto"
     }
 });
 //# sourceMappingURL=ScopeDetails.js.map

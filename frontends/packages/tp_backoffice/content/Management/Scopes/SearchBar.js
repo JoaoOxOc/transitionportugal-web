@@ -42,7 +42,7 @@ const SearchBar = ({itemsSelected}) => {
                         type: "search"
                     }}
                     onChange={handleQueryChange}
-                    placeholder={t('SEARCH.searchByNameOrEmailPlaceholder')}
+                    placeholder={t('SEARCH.searchByNamePlaceholder')}
                     value={query}
                     size="small"
                     fullWidth

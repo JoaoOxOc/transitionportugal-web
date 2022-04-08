@@ -14,6 +14,11 @@ export declare const USERSLIST_TRANSLATIONS: {
     readonly LIST: {
         readonly usersTitle: "Users";
     };
+    readonly TABS: {
+        readonly system: "System Users";
+        readonly association: "Associations Users";
+        readonly all: "All Users";
+    };
     readonly USEROBJECT: {
         readonly name: "Name";
         readonly userName: "Username";
@@ -32,6 +37,7 @@ export declare const USERSLIST_TRANSLATIONS: {
         readonly seachActive: "";
         readonly searchVerified: "";
         readonly searchByAssociation: "";
+        readonly searchByRole: "";
     };
 };
 //# sourceMappingURL=UsersList.d.ts.map

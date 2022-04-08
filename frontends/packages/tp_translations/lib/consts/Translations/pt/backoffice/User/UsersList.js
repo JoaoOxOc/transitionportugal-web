@@ -15,10 +15,15 @@ export var USERSLIST_TRANSLATIONS = deepFreeze({
     LIST: {
         usersTitle: "Utilizadores"
     },
+    TABS: {
+        system: "Utilizadores de Sistema",
+        association: "Utilizadores de Associações",
+        all: "Todos Utilizadores"
+    },
     USEROBJECT: {
         name: "Nome",
         userName: "Username",
-        email: "User Email",
+        email: "Email do Utilizador",
         association: "Associação/Entidade do Utilizador",
         active: "Utilizador Activado",
         verified: "Utilizador Verificado",
@@ -29,7 +34,11 @@ export var USERSLIST_TRANSLATIONS = deepFreeze({
         usersManagementDescription: "Todos os aspectos relativos aos utilizadores da aplicação podem ser geridos nesta página"
     },
     SEARCH: {
-        searchByNameOrEmailPlaceholder: "Pesquisar por Username ou Email..."
+        searchByNameOrEmailPlaceholder: "Pesquisar por Username ou Email...",
+        seachActive: "",
+        searchVerified: "",
+        searchByAssociation: "",
+        searchByRole: ""
     }
 });
 //# sourceMappingURL=UsersList.js.map

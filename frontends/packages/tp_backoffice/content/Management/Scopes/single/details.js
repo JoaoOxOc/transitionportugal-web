@@ -16,7 +16,7 @@ import { Box,
 
 import { useRefMounted } from '../../../../hooks/useRefMounted';
 
-import { GetClientAppData } from '../../../../services/clientApps';
+import { GetScopeData } from '../../../../services/scopes';
 
 import { i18nextScopeDetails } from "@transitionpt/translations";
 
@@ -24,55 +24,58 @@ function ScopeDetails({isCreate}) {
     const router = useRouter();
     const isMountedRef = useRefMounted();
     const theme = useTheme();
-    const [clientApp, setClientApp] = useState(null);
-    const [clientAppError, setClientAppError] = useState(null);
-    useErrorHandler(clientAppError);
+    const [scope, setScope] = useState(null);
+    const [scopeRoles, setScopeRoles] = useState([]);
+    const [scopeError, setScopeError] = useState(null);
+    useErrorHandler(scopeError);
     const { t } = i18nextScopeDetails;
-    const clientAppsListUri = "/management/app/clients";
-    let clientAppUri = "/app/client/" + router.query.clientId;
-    let clientAppPutUri = process.env.NEXT_PUBLIC_API_BASE_URL + (isCreate ? "/app/clientregister" : "/app/clientupdate");
+    const scopesListUri = "/management/scopes";
+    let scopeAppUri = "/scopes/get/" + router.query.scopeId;
+    let scopePutUri = process.env.NEXT_PUBLIC_API_BASE_URL + (isCreate ? "/scopes/create" : "/scopes/update");
 
-    const getClientData = useCallback(async () => {
+    const getScopeData = useCallback(async () => {
         try {
-            let clientAppData = await GetClientAppData(process.env.NEXT_PUBLIC_API_BASE_URL + clientAppUri);
+            let scopeData = await GetScopeData(process.env.NEXT_PUBLIC_API_BASE_URL + scopeAppUri);
+            console.log(scopeData);
             if (isMountedRef()) {
-              if (clientAppData.status) {
-                setClientAppError(clientAppData);
-                setClientApp({});
+              if (scopeData.status) {
+                setScopeError(scopeData);
+                setScope({});
               }
               else {
-                setClientApp(clientAppData.clientapp);
+                setScope(scopeData.scope);
+                setScopeRoles(scopeData.scopeRoles);
               }
             }
           } catch (err) {
-            setClientAppError(err);
+            setScopeError(err);
             console.error(err);
           }
-    }, [isMountedRef, clientAppUri]);
+    }, [isMountedRef, scopeAppUri]);
 
     useEffect(() => {
       if (!isCreate) {
-        getClientData();
+        getScopeData();
       }
-    }, [isCreate,getClientData]);
+    }, [isCreate,getScopeData]);
 
-    if (!isCreate && !clientApp) {
+    if (!isCreate && !scope) {
       return null;
     }
 
     const breadcrumbsData = [
       { url: "/", label: t('LIST.home'), isLink: true },
-      { url: "", label: t('LIST.settings'), isLink: false },
-      { url: clientAppsListUri, label: t('LIST.clientsTitle'), isLink: true },
-      { url: "", label: isCreate ? t('LABELS.clientAppCreateSmall') : clientApp.name, ownPage: true },
+      { url: "", label: t('LIST.management'), isLink: false },
+      { url: scopesListUri, label: t('LIST.scopesTitle'), isLink: true },
+      { url: "", label: isCreate ? t('LABELS.scopeCreateSmall') : scope.scopeName, ownPage: true },
     ];
 
     return (
     <>
-      {(isCreate || clientApp) ?
+      {(isCreate || scope) ?
         (
         <PageTitleWrapper>
-          <DetailsPageHeader breadcrumbsDataJson={breadcrumbsData} detailsTitle={isCreate ? t('LABELS.clientAppCreate') : clientApp.name} goBackLabel={t('LABELS.goBack')} goBackUrl={clientAppsListUri}/>
+          <DetailsPageHeader breadcrumbsDataJson={breadcrumbsData} detailsTitle={isCreate ? t('LABELS.scopeCreate') : scope.scopeName} goBackLabel={t('LABELS.goBack')} goBackUrl={scopesListUri}/>
         </PageTitleWrapper>
         ) : (<></>)
       }
@@ -93,11 +96,11 @@ function ScopeDetails({isCreate}) {
                   <Box p={4} flex={1}>
                     { !isCreate ?
                       <Alert severity="warning">
-                          {t('LABELS.clientAppWarning')}
+                          {t('LABELS.scopeWarning')}
                       </Alert>
                     : 
                       <Alert severity="info">
-                          {t('LABELS.registerClientAppInfo')}
+                          {t('LABELS.registerScopeInfo')}
                       </Alert>
                     } 
                     <Box
@@ -107,8 +110,8 @@ function ScopeDetails({isCreate}) {
                         px: { xs: 0, md: 3 }
                       }}
                     >
-                    {(isCreate || clientApp) &&
-                        <DetailForm isCreate={isCreate} clientAppData={clientApp} clientAppPutUrl={clientAppPutUri}/>
+                    {(isCreate || scope) &&
+                        <DetailForm isCreate={isCreate} scopeData={scope} scopeRoles={scopeRoles} scopePutUrl={scopePutUri}/>
                     }
                     </Box>
                   </Box>

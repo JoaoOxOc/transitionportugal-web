@@ -2,18 +2,18 @@ import * as deepFreeze from 'deep-freeze';
 
 export const SCOPEDETAILS_TRANSLATIONS = deepFreeze({
     LABELS: {
-        associationDetails: "Detalhes da Aplicação Cliente - {{name}}",
-        associationCreate: "Registar Nova Autorização de Aplicação Cliente",
-        associationCreateSmall: "Registar Nova Aplicação Cliente",
+        scopeCreate: "Registar Nova Permissão",
+        scopeDetails: "Detalhes da Permissão - {{name}}",
+        scopeCreateSmall: "Registar Nova Permissão",
         goBack: "Voltar",
-        registerAssociationInfo: "A chave da aplicação cliente será gerada automaticamente após o registo",
-        associationWarning: "Atenção à edição dos valores de ID e chave: a aplicação cliente pode deixar de funcionar"
+        registerScopeInfo: "Deverá associar a permissão a um perfil por forma a ser atribuida a um utilizador",
+        scopeWarning: "Atenção à edição do Identificador: os utilizadores podem perder acesso a certas funcionalidades da aplicação"
     },
     LIST: {
-        associationsTitle: "Associações/Entidades",
+        scopesTitle: "Permissões",
         home: "Home",
-        settings: "Definições",
-        associations: 'Associações'
+        management: "Administração",
+        scopes: 'Permissões'
     },
     FORM: {
         name: "Nome da Aplicação Cliente",

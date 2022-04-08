@@ -1,11 +1,11 @@
 import * as deepFreeze from 'deep-freeze';
 export var ASSOCIATIONSLIST_TRANSLATIONS = deepFreeze({
     LABELS: {
-        createClientApp: "Registar Aplicação Cliente",
+        createAssociation: "Registar Nova Associação/Entidade",
         actions: "Ações",
         view: "Visualizar",
         actualValue: "Valor Actual",
-        clientSettings: "Gestão das Aplicações Clientes Autorizadas",
+        associationsManagement: "Gestão das Associações/Entidades",
         noClientsFound: "Não foi possível encontrar nenhuma aplicação cliente de acordo com os critérios de pesquisa definidos",
         chooseGrid: "Escolha entre as vistas de tabela ou grelha para apresentar a lista de dados de aplicações clientes.",
         ofSmall: "de",

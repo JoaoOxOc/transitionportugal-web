@@ -1,32 +1,39 @@
 export declare const USERDETAILS_TRANSLATIONS: {
     readonly LABELS: {
-        readonly createClientApp: "Registar Aplicação Cliente";
-        readonly actions: "Ações";
-        readonly view: "Visualizar";
-        readonly actualValue: "Valor Actual";
-        readonly clientSettings: "Gestão das Aplicações Clientes Autorizadas";
-        readonly noClientsFound: "Não foi possível encontrar nenhuma aplicação cliente de acordo com os critérios de pesquisa definidos";
-        readonly chooseGrid: "Escolha entre as vistas de tabela ou grelha para apresentar a lista de dados de aplicações clientes.";
-        readonly ofSmall: "de";
-        readonly paginationRowsPerPage: "Linhas por pág.:";
-        readonly showing: "Mostrando";
+        readonly userCreate: "Registar Novo Utilizador";
+        readonly userDetails: "Detalhes do Utilizador - {{name}}";
+        readonly clientAppCreate: "Registar Nova Autorização de Aplicação Cliente";
+        readonly clientAppCreateSmall: "Registar Nova Aplicação Cliente";
+        readonly goBack: "Voltar";
+        readonly registerClientAppInfo: "A chave da aplicação cliente será gerada automaticamente após o registo";
+        readonly clientAppWarning: "Atenção à edição dos valores de ID e chave: a aplicação cliente pode deixar de funcionar";
     };
     readonly LIST: {
         readonly clientsTitle: "Aplicações Clientes";
+        readonly home: "Home";
+        readonly settings: "Definições";
+        readonly clients: "Aplicações Clientes";
     };
-    readonly CLIENTOBJECT: {
-        readonly description: "Description";
+    readonly FORM: {
         readonly name: "Nome da Aplicação Cliente";
+        readonly description: "Descrição da Aplicação Cliente";
         readonly clientId: "ID da Aplicação Cliente";
         readonly clientSecret: "Chave da Aplicação Cliente";
-        readonly createdAt: "Registado em";
         readonly updatedAt: "Actualizado em";
+        readonly createdAt: "Registado em";
+        readonly saveButton: "Guardar";
     };
     readonly MESSAGES: {
-        readonly clientsDescription: "Todos os aspectos relativos às aplicações clientes autorizadas podem ser geridos nesta página";
-    };
-    readonly SEARCH: {
-        readonly searchByNamePlaceholder: "Pesquisar por Nome ou ID da aplicação cliente...";
+        readonly nameTooBig: "O Nome é demasiado grande. Máx. de caracteres: {{max}}";
+        readonly nameRequired: "O Nome da Aplicação é obrigatório";
+        readonly descriptionTooBig: "A Descrição é demasiado grande. Máx. de caracteres: {{max}}";
+        readonly descriptionRequired: "A Descrição é obrigatória";
+        readonly clientIdTooBig: "O ID é demasiado grande. Máx. de caracteres: {{max}}";
+        readonly clientIdRequired: "ID da Aplicação Cliente é obrigatório";
+        readonly clientAppUpdatedSuccessfully: "A aplicação cliente cujo nome é {{clientName}} foi atualizada com sucesso";
+        readonly clientAppCreatedSuccessfully: "A aplicação cliente cujo nome é {{clientName}} foi registada com sucesso";
+        readonly clientAppGeneralError: "Erro ao registar/atualizar a aplicação cliente cujo nome é {{clientName}}. Por favor tente novamente";
+        readonly clientAppNotFound: "A aplicação cliente cujo nome é {{clientName}} não foi encontrada. Por favor verifica se o nome está correcto";
     };
 };
 //# sourceMappingURL=UserDetails.d.ts.map

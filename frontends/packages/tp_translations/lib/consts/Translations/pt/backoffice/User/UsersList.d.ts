@@ -14,10 +14,15 @@ export declare const USERSLIST_TRANSLATIONS: {
     readonly LIST: {
         readonly usersTitle: "Utilizadores";
     };
+    readonly TABS: {
+        readonly system: "Utilizadores de Sistema";
+        readonly association: "Utilizadores de Associações";
+        readonly all: "Todos Utilizadores";
+    };
     readonly USEROBJECT: {
         readonly name: "Nome";
         readonly userName: "Username";
-        readonly email: "User Email";
+        readonly email: "Email do Utilizador";
         readonly association: "Associação/Entidade do Utilizador";
         readonly active: "Utilizador Activado";
         readonly verified: "Utilizador Verificado";
@@ -29,6 +34,10 @@ export declare const USERSLIST_TRANSLATIONS: {
     };
     readonly SEARCH: {
         readonly searchByNameOrEmailPlaceholder: "Pesquisar por Username ou Email...";
+        readonly seachActive: "";
+        readonly searchVerified: "";
+        readonly searchByAssociation: "";
+        readonly searchByRole: "";
     };
 };
 //# sourceMappingURL=UsersList.d.ts.map

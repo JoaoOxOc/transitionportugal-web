@@ -218,7 +218,7 @@ const Results = () => {
                                           </TableCell>
                                           <TableCell align="center">
                                               <Typography noWrap>
-                                              <Tooltip title={t('View')} arrow>
+                                              <Tooltip title={t('LABELS.view')} arrow>
                                                   <Link href={scopeDetailsBaseUri + scope.id} isNextLink={true}>
                                                       <IconButton
                                                       color="primary"

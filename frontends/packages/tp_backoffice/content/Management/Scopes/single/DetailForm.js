@@ -8,7 +8,8 @@ import {
     Divider,
     FormControlLabel,
     FormHelperText,
-    CircularProgress 
+    CircularProgress, 
+    Typography
 } from '@mui/material';
 
 import * as Yup from 'yup';
@@ -17,55 +18,50 @@ import { useErrorHandler } from 'react-error-boundary';
 import { useRouter } from 'next/router';
 import { useSnackbar } from 'notistack';
 import { useRefMounted } from '../../../../hooks/useRefMounted';
+import TransferList from '../../../../components/TransferList';
 
-import { UpdateClientAppData, CreateClientAppData } from '../../../../services/clientApps';
+import { UpdateScopeData, CreateScope } from '../../../../services/scopes';
 
 import { i18nextScopeDetails } from "@transitionpt/translations";
 
-const DetailForm = ({clientAppData, clientAppPutUrl, isCreate}) => {
+const DetailForm = ({scopeData, scopeRoles, scopePutUrl, isCreate}) => {
     const { t } = i18nextScopeDetails;
     const router = useRouter();
     const isMountedRef = useRefMounted();
     const { enqueueSnackbar } = useSnackbar();
-    const [clientAppsError, setClientAppsError] = useState(null);
-    useErrorHandler(clientAppsError);
+    const [scopesError, setScopesError] = useState(null);
+    useErrorHandler(scopesError);
 
     const initValues = {
-        name: '',
-        description: '',
-        clientId: '',
-        clientSecret: ''
+        scopeName: '',
+        description: ''
     };
 
     const formik = useFormik({
-        initialValues: isCreate ? initValues : clientAppData,
+        initialValues: isCreate ? initValues : scopeData,
         enableReinitialize: true,
         validationSchema: Yup.object({
             description: Yup.string()
                 .max(255, t('MESSAGES.descriptionTooBig', {max: 255}))
                 .required(t('MESSAGES.descriptionRequired')),
-            name: Yup.string()
+            scopeName: Yup.string()
                 .max(70, t('MESSAGES.nameTooBig', {max: 70}))
-                .required(t('MESSAGES.nameRequired')),
-            clientId: Yup.string()
-                .max(70, t('MESSAGES.clientIdTooBig', {max: 70}))
-                .required(t('MESSAGES.clientIdRequired'))
+                .required(t('MESSAGES.nameRequired'))
         }),
         onSubmit: async (values, helpers) => {
           try {
-              const clientAppModel = {
-                    clientName: values.name,
-                    clientDescription: values.description,
-                    clientId: values.clientId
+              const scopeModel = {
+                ScopeIdentifier: values.scopeName,
+                description: values.description,
               }
-              console.log(clientAppModel)
+              console.log(scopeModel)
               let result = {};
               if (isCreate) {
-                  console.log(clientAppPutUrl)
-                result = await CreateClientAppData(clientAppPutUrl, clientAppModel);
+                  console.log(scopePutUrl)
+                result = await CreateScope(scopePutUrl, scopeModel);
               }
               else {
-                result = await UpdateClientAppData(clientAppPutUrl, clientAppModel);
+                result = await UpdateScopeData(scopePutUrl, scopeModel);
               }
     
               if (isMountedRef()) {
@@ -74,7 +70,7 @@ const DetailForm = ({clientAppData, clientAppPutUrl, isCreate}) => {
                     helpers.setErrors({ submit: result.statusText });
                     helpers.setSubmitting(false);
                     if (result.status === 404) {
-                        enqueueSnackbar(t('MESSAGES.clientAppNotFound', {clientName: values.name}), {
+                        enqueueSnackbar(t('MESSAGES.scopeNotFound', {clientName: values.scopeName}), {
                           variant: 'error',
                           anchorOrigin: {
                             vertical: 'top',
@@ -85,12 +81,12 @@ const DetailForm = ({clientAppData, clientAppPutUrl, isCreate}) => {
                         });
                     }
                     else {
-                        setClientAppsError(result);
+                        setScopesError(result);
                     }
                   }
                   else {
                     if (isCreate) {
-                        enqueueSnackbar(t('MESSAGES.clientAppCreatedSuccessfully', {clientName: values.name}), {
+                        enqueueSnackbar(t('MESSAGES.scopeCreatedSuccessfully', {clientName: values.scopeName}), {
                             variant: 'success',
                             anchorOrigin: {
                               vertical: 'top',
@@ -102,11 +98,11 @@ const DetailForm = ({clientAppData, clientAppPutUrl, isCreate}) => {
                         //TODO redirect to edit page
                         console.log(result);
                         router.push({
-                            pathname: '/management/app/clients/single/' + result.clientAppId,
+                            pathname: '/management/scopes/single/' + result.clientAppId,
                         });
                     }
                     else {
-                        enqueueSnackbar(t('MESSAGES.clientAppUpdatedSuccessfully', {clientName: values.name}), {
+                        enqueueSnackbar(t('MESSAGES.scopeUpdatedSuccessfully', {clientName: values.scopeName}), {
                             variant: 'success',
                             anchorOrigin: {
                               vertical: 'top',
@@ -126,7 +122,7 @@ const DetailForm = ({clientAppData, clientAppPutUrl, isCreate}) => {
                 helpers.setStatus({ success: false });
                 helpers.setErrors({ submit: err.message });
                 helpers.setSubmitting(false);
-                enqueueSnackbar(t('MESSAGES.clientAppGeneralError', {clientName: values.name}), {
+                enqueueSnackbar(t('MESSAGES.scopeGeneralError', {clientName: values.scopeName}), {
                     variant: 'error',
                     anchorOrigin: {
                       vertical: 'top',
@@ -135,7 +131,7 @@ const DetailForm = ({clientAppData, clientAppPutUrl, isCreate}) => {
                     autoHideDuration: 2000,
                     TransitionComponent: Slide
                 });
-                setClientAppsError(err);
+                setScopesError(err);
               }
           }
         }
@@ -161,7 +157,7 @@ const DetailForm = ({clientAppData, clientAppPutUrl, isCreate}) => {
                             margin="normal"
                             label={t('FORM.name')}
                             name="name"
-                            value={formik.values.name}
+                            value={formik.values.scopeName}
                             variant="outlined"
                             inputProps={
                                 { readOnly: true}
@@ -177,7 +173,7 @@ const DetailForm = ({clientAppData, clientAppPutUrl, isCreate}) => {
                             name="name"
                             onBlur={formik.handleBlur}
                             onChange={formik.handleChange}
-                            value={formik.values.name}
+                            value={formik.values.scopeName}
                             variant="outlined"
                         />
                     } 
@@ -216,45 +212,15 @@ const DetailForm = ({clientAppData, clientAppPutUrl, isCreate}) => {
                     sm={8}
                     md={6}
                     >
-                    <FormControl fullWidth variant="outlined">
-                    <TextField
-                        helperText={formik.touched.clientId && formik.errors.clientId}
-                        error={Boolean(formik.touched.clientId && formik.errors.clientId)}
-                        fullWidth
-                        margin="normal"
-                        label={t('FORM.clientId')}
-                        name="clientId"
-                        onBlur={formik.handleBlur}
-                        onChange={formik.handleChange}
-                        value={formik.values.clientId}
-                        variant="outlined"
-                    />
-                    </FormControl>
+                    { scopeRoles && !isCreate &&
+                        <>
+                            <Typography>
+                                {t("FORM.scopeRoles")}
+                            </Typography>
+                            <TransferList leftData={[1,2,3]} rightData={scopeRoles}/>
+                        </>
+                    }
                 </Grid>
-                { !isCreate &&
-                    <Grid
-                        item
-                        xs={12}
-                        sm={10}
-                        md={8}
-                        >
-                        <FormControl fullWidth variant="outlined">
-                        <TextField
-                            multiline
-                            rows={6}
-                            fullWidth
-                            margin="normal"
-                            label={t('FORM.clientSecret')}
-                            name="clientSecret"
-                            value={formik.values.clientSecret}
-                            variant="outlined"
-                            inputProps={
-                                { readOnly: true}
-                            }
-                        />
-                        </FormControl>
-                    </Grid>
-                }
                 <Grid
                     sx={{
                         maxWidth: '300px !important'

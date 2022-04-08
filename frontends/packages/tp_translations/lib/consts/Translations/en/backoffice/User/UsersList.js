@@ -15,6 +15,11 @@ export var USERSLIST_TRANSLATIONS = deepFreeze({
     LIST: {
         usersTitle: "Users"
     },
+    TABS: {
+        system: "System Users",
+        association: "Associations Users",
+        all: "All Users"
+    },
     USEROBJECT: {
         name: "Name",
         userName: "Username",
@@ -32,7 +37,8 @@ export var USERSLIST_TRANSLATIONS = deepFreeze({
         searchByNameOrEmailPlaceholder: "Search by Username or Email...",
         seachActive: "",
         searchVerified: "",
-        searchByAssociation: ""
+        searchByAssociation: "",
+        searchByRole: ""
     }
 });
 //# sourceMappingURL=UsersList.js.map
