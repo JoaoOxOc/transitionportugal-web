@@ -22,7 +22,7 @@ function not(a, b) {
     return [...a, ...not(b, a)];
   }
 
-export default function TransferList({leftData, rightData}) {
+export default function TransferList({sendChoices, leftData, rightData}) {
     const [checked, setChecked] = React.useState([]);
     const [left, setLeft] = React.useState(leftData);
     const [right, setRight] = React.useState(rightData);
@@ -85,10 +85,9 @@ export default function TransferList({leftData, rightData}) {
         component="div"
         role="list"
       >
-        {console.log(items) && items.map((value) => {
-            console.log(value);
-          const labelId = `transfer-list-all-item-${value}-label`;
-
+        {items.map((value) => {
+          const labelId = `transfer-list-all-item-${value.roleId}-label`;
+          console.log(value)
           return (
             <ListItem
               key={value}
@@ -106,7 +105,7 @@ export default function TransferList({leftData, rightData}) {
                   }}
                 />
               </ListItemIcon>
-              <ListItemText id={labelId} primary={`List item ${value + 1}`} />
+              <ListItemText id={labelId} primary={`List item ${value.identityRole.name}`} />
             </ListItem>
           );
         })}

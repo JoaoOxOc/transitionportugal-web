@@ -17,7 +17,7 @@ export declare const SCOPEDETAILS_TRANSLATIONS: {
         readonly name: "Client App Name";
         readonly description: "Client App Description";
         readonly clientId: "Client App ID";
-        readonly clientSecret: "Client App Secret";
+        readonly scopeRoles: "Roles related to the Permission";
         readonly updatedAt: "Updated At";
         readonly createdAt: "Registered At";
         readonly saveButton: "Save";

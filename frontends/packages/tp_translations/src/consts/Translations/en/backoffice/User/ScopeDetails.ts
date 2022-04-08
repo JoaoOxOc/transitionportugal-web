@@ -19,7 +19,7 @@ export const SCOPEDETAILS_TRANSLATIONS = deepFreeze({
         name: "Client App Name",
         description: "Client App Description",
         clientId: "Client App ID",
-        scopeRoles: "Roles related to the Permission",
+        scopeRoles: "Profiles related to this Permission",
         updatedAt: "Updated At",
         createdAt: "Registered At",
         saveButton: "Save"

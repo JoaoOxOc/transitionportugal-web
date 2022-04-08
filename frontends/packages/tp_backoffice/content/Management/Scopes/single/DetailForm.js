@@ -37,6 +37,10 @@ const DetailForm = ({scopeData, scopeRoles, scopePutUrl, isCreate}) => {
         description: ''
     };
 
+    const receiveSelectedRoles = (selectedRoles) => {
+        console.log(selectedRoles);
+    }
+
     const formik = useFormik({
         initialValues: isCreate ? initValues : scopeData,
         enableReinitialize: true,
@@ -212,12 +216,12 @@ const DetailForm = ({scopeData, scopeRoles, scopePutUrl, isCreate}) => {
                     sm={8}
                     md={6}
                     >
-                    { scopeRoles && !isCreate &&
+                    { scopeRoles && scopeRoles.length > 0 && !isCreate &&
                         <>
                             <Typography>
                                 {t("FORM.scopeRoles")}
                             </Typography>
-                            <TransferList leftData={[1,2,3]} rightData={scopeRoles}/>
+                            <TransferList sendChoices={receiveSelectedRoles} leftData={[{},{},{}]} rightData={scopeRoles}/>
                         </>
                     }
                 </Grid>

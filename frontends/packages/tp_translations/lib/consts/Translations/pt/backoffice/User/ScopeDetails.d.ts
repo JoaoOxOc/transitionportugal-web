@@ -5,7 +5,7 @@ export declare const SCOPEDETAILS_TRANSLATIONS: {
         readonly scopeCreateSmall: "Registar Nova Permissão";
         readonly goBack: "Voltar";
         readonly registerScopeInfo: "Deverá associar a permissão a um perfil por forma a ser atribuida a um utilizador";
-        readonly scopeWarning: "Atenção à edição do Identificard: os utilizadores podem perder acesso a certas funcionalidades da aplicação";
+        readonly scopeWarning: "Atenção à edição do Identificador: os utilizadores podem perder acesso a certas funcionalidades da aplicação";
     };
     readonly LIST: {
         readonly scopesTitle: "Permissões";

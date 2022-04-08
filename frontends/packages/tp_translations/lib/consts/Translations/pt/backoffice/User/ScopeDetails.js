@@ -6,7 +6,7 @@ export var SCOPEDETAILS_TRANSLATIONS = deepFreeze({
         scopeCreateSmall: "Registar Nova Permissão",
         goBack: "Voltar",
         registerScopeInfo: "Deverá associar a permissão a um perfil por forma a ser atribuida a um utilizador",
-        scopeWarning: "Atenção à edição do Identificard: os utilizadores podem perder acesso a certas funcionalidades da aplicação"
+        scopeWarning: "Atenção à edição do Identificador: os utilizadores podem perder acesso a certas funcionalidades da aplicação"
     },
     LIST: {
         scopesTitle: "Permissões",
