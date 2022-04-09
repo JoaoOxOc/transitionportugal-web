@@ -1,4 +1,5 @@
 ﻿using CommonLibrary.Enums;
+using Microsoft.AspNetCore.Identity;
 using System.Linq.Expressions;
 using UserService.Entities;
 using UserService.Models;
@@ -41,6 +42,24 @@ namespace UserService.Services.UserManager
                 }
 
                 _uow.RoleScopeRepository.Add(roleScopes);
+                _uow.Save();
+            }
+            return _uow.RoleScopeRepository.Get(null, null, scopeFilter, "Scope.ScopeName", SortDirection.Ascending, "Scope");
+        }
+
+        public List<RoleScope> ReplaceScopeRoles(int scopeId, List<RoleScope> scopeRoles)
+        {
+            Expression<Func<RoleScope, bool>> scopeFilter = (x => x.ScopeId == scopeId);
+            if (scopeRoles != null && scopeRoles.Count > 0)
+            {
+                var currentScopes = _uow.RoleScopeRepository.Get(null, null, scopeFilter, "Id", SortDirection.Ascending, string.Empty);
+                if (currentScopes != null && currentScopes.Count > 0)
+                {
+                    _uow.RoleScopeRepository.Delete(currentScopes);
+                    _uow.Save();
+                }
+
+                _uow.RoleScopeRepository.Add(scopeRoles);
                 _uow.Save();
             }
             return _uow.RoleScopeRepository.Get(null, null, scopeFilter, "Scope.ScopeName", SortDirection.Ascending, "Scope");

@@ -1,4 +1,6 @@
-﻿namespace UserService.Models
+﻿using UserService.Entities;
+
+namespace UserService.Models
 {
     public class ScopeModel
     {
@@ -7,5 +9,7 @@
         public string ScopeIdentifier { get; set; }
 
         public string Description { get; set; }
+
+        public List<RoleScope>? ScopeRoles { get; set; }
     }
 }

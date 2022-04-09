@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { 
     Grid, 
     Button, 
@@ -21,6 +21,7 @@ import { useRefMounted } from '../../../../hooks/useRefMounted';
 import TransferList from '../../../../components/TransferList';
 
 import { UpdateScopeData, CreateScope } from '../../../../services/scopes';
+import { GetRoles } from '../../../../services/roles';
 
 import { i18nextScopeDetails } from "@transitionpt/translations";
 
@@ -29,6 +30,8 @@ const DetailForm = ({scopeData, scopeRoles, scopePutUrl, isCreate}) => {
     const router = useRouter();
     const isMountedRef = useRefMounted();
     const { enqueueSnackbar } = useSnackbar();
+    const [roles, setRoles] = useState(null);
+    const [rolesToUpdate, setRolesToUpdate] = useState(null);
     const [scopesError, setScopesError] = useState(null);
     useErrorHandler(scopesError);
 
@@ -37,8 +40,40 @@ const DetailForm = ({scopeData, scopeRoles, scopePutUrl, isCreate}) => {
         description: ''
     };
 
+    const getRolesData = useCallback(async () => {
+        const rolesSearchDataJson = {
+            searchText: "",
+            page: "",
+            size: "",
+            sort: "Name",
+            sortDirection: "asc"
+        };
+        try {
+            let rolesData = await GetRoles(process.env.NEXT_PUBLIC_API_BASE_URL + "/roles/get", rolesSearchDataJson);
+            if (isMountedRef()) {
+              if (rolesData.roles) {
+                setRoles(rolesData.roles);
+              }
+            }
+          } catch (err) {
+            console.error(err);
+          }
+    }, [isMountedRef]);
+
+    useEffect(() => {
+        if (!isCreate) {
+          getRolesData();
+        }
+    }, [isCreate,getRolesData]);
+
     const receiveSelectedRoles = (selectedRoles) => {
-        console.log(selectedRoles);
+        const rolesUpdate = [];
+        selectedRoles.forEach(selected => {
+            rolesUpdate.push(roles.filter((role) => {return role.roleName == selected; }).map(
+                (role) => { return {"roleId": role.roleId, "scopeId": scopeData.id}; }
+            )[0]);
+        });
+        setRolesToUpdate(rolesUpdate);
     }
 
     const formik = useFormik({
@@ -57,6 +92,7 @@ const DetailForm = ({scopeData, scopeRoles, scopePutUrl, isCreate}) => {
               const scopeModel = {
                 ScopeIdentifier: values.scopeName,
                 description: values.description,
+                scopeRoles: rolesToUpdate
               }
               console.log(scopeModel)
               let result = {};
@@ -74,7 +110,7 @@ const DetailForm = ({scopeData, scopeRoles, scopePutUrl, isCreate}) => {
                     helpers.setErrors({ submit: result.statusText });
                     helpers.setSubmitting(false);
                     if (result.status === 404) {
-                        enqueueSnackbar(t('MESSAGES.scopeNotFound', {clientName: values.scopeName}), {
+                        enqueueSnackbar(t('MESSAGES.scopeNotFound', {scopeName: values.scopeName}), {
                           variant: 'error',
                           anchorOrigin: {
                             vertical: 'top',
@@ -90,7 +126,7 @@ const DetailForm = ({scopeData, scopeRoles, scopePutUrl, isCreate}) => {
                   }
                   else {
                     if (isCreate) {
-                        enqueueSnackbar(t('MESSAGES.scopeCreatedSuccessfully', {clientName: values.scopeName}), {
+                        enqueueSnackbar(t('MESSAGES.scopeCreatedSuccessfully', {scopeName: values.scopeName}), {
                             variant: 'success',
                             anchorOrigin: {
                               vertical: 'top',
@@ -102,11 +138,11 @@ const DetailForm = ({scopeData, scopeRoles, scopePutUrl, isCreate}) => {
                         //TODO redirect to edit page
                         console.log(result);
                         router.push({
-                            pathname: '/management/scopes/single/' + result.clientAppId,
+                            pathname: '/management/scopes/single/' + result.scopeId,
                         });
                     }
                     else {
-                        enqueueSnackbar(t('MESSAGES.scopeUpdatedSuccessfully', {clientName: values.scopeName}), {
+                        enqueueSnackbar(t('MESSAGES.scopeUpdatedSuccessfully', {scopeName: values.scopeName}), {
                             variant: 'success',
                             anchorOrigin: {
                               vertical: 'top',
@@ -126,7 +162,7 @@ const DetailForm = ({scopeData, scopeRoles, scopePutUrl, isCreate}) => {
                 helpers.setStatus({ success: false });
                 helpers.setErrors({ submit: err.message });
                 helpers.setSubmitting(false);
-                enqueueSnackbar(t('MESSAGES.scopeGeneralError', {clientName: values.scopeName}), {
+                enqueueSnackbar(t('MESSAGES.scopeGeneralError', {scopeName: values.scopeName}), {
                     variant: 'error',
                     anchorOrigin: {
                       vertical: 'top',
@@ -160,7 +196,7 @@ const DetailForm = ({scopeData, scopeRoles, scopePutUrl, isCreate}) => {
                             fullWidth
                             margin="normal"
                             label={t('FORM.name')}
-                            name="name"
+                            name="scopeName"
                             value={formik.values.scopeName}
                             variant="outlined"
                             inputProps={
@@ -169,12 +205,12 @@ const DetailForm = ({scopeData, scopeRoles, scopePutUrl, isCreate}) => {
                         />
                     :
                         <TextField
-                            helperText={formik.touched.name && formik.errors.name}
-                            error={Boolean(formik.touched.name && formik.errors.name)}
+                            helperText={formik.touched.scopeName && formik.errors.scopeName}
+                            error={Boolean(formik.touched.scopeName && formik.errors.scopeName)}
                             fullWidth
                             margin="normal"
                             label={t('FORM.name')}
-                            name="name"
+                            name="scopeName"
                             onBlur={formik.handleBlur}
                             onChange={formik.handleChange}
                             value={formik.values.scopeName}
@@ -216,12 +252,12 @@ const DetailForm = ({scopeData, scopeRoles, scopePutUrl, isCreate}) => {
                     sm={8}
                     md={6}
                     >
-                    { scopeRoles && scopeRoles.length > 0 && !isCreate &&
+                    { roles && scopeRoles && !isCreate &&
                         <>
                             <Typography>
                                 {t("FORM.scopeRoles")}
                             </Typography>
-                            <TransferList sendChoices={receiveSelectedRoles} leftData={[{},{},{}]} rightData={scopeRoles}/>
+                            <TransferList sendChoices={receiveSelectedRoles} labels={{"choiceLabel": t("FORM.choices"), "selectedLabel": t("FORM.selected") }} leftData={roles.map(function(role) { return role.roleName; })} rightData={scopeRoles.map((scope) => { return scope.identityRole.name; })}/>
                         </>
                     }
                 </Grid>

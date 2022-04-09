@@ -5,7 +5,7 @@ export declare const SCOPEDETAILS_TRANSLATIONS: {
         readonly associationCreateSmall: "Register New Permission";
         readonly goBack: "Go back";
         readonly registerScopeInfo: "You must associate the permission with a profile in order for it to be attributed to a user";
-        readonly scopeWarning: "Careful editting Identifier: the users may lost app access to certain features";
+        readonly scopeWarning: "Careful editting profiles: the users may lost or gain app access to certain features";
     };
     readonly LIST: {
         readonly scopesTitle: "Permissions";
@@ -14,25 +14,24 @@ export declare const SCOPEDETAILS_TRANSLATIONS: {
         readonly scopes: "Permissions";
     };
     readonly FORM: {
-        readonly name: "Client App Name";
-        readonly description: "Client App Description";
-        readonly clientId: "Client App ID";
-        readonly scopeRoles: "Roles related to the Permission";
+        readonly name: "Permission Identifier";
+        readonly description: "Description";
+        readonly scopeRoles: "Profiles related to this Permission";
+        readonly choices: "Profiles available";
+        readonly selected: "Profiles where it is applied";
         readonly updatedAt: "Updated At";
         readonly createdAt: "Registered At";
         readonly saveButton: "Save";
     };
     readonly MESSAGES: {
-        readonly nameTooBig: "Name is too big. Max characters: {{max}}";
-        readonly nameRequired: "Client App Name is required";
+        readonly nameTooBig: "Identifier is too big. Max characters: {{max}}";
+        readonly nameRequired: "Permission Identifier is required";
         readonly descriptionTooBig: "Description is too big. Max characters: {{max}}";
-        readonly descriptionRequired: "Client App Description is required";
-        readonly clientIdTooBig: "Client App ID is too big. Max characters: {{max}}";
-        readonly clientIdRequired: "Client App ID is required";
-        readonly clientAppUpdatedSuccessfully: "The client app with name {{clientName}} was updated successfully";
-        readonly clientAppCreatedSuccessfully: "The client app with name {{clientName}} was created successfully";
-        readonly clientAppGeneralError: "Error creating/updating client app with name {{clientName}}. Please try again";
-        readonly clientAppNotFound: "The client app with name {{clientName}} wasn't found. Please double check if the name is correct";
+        readonly descriptionRequired: "Permission Description is required";
+        readonly scopeUpdatedSuccessfully: "The permission with the identifier {{scopeName}} was updated successfully";
+        readonly scopeCreatedSuccessfully: "The permission with the identifier {{scopeName}} was created successfully";
+        readonly scopeGeneralError: "Error creating/updating permission with the identifier {{scopeName}}. Please try again";
+        readonly scopeNotFound: "The permission with the identifier {{scopeName}} wasn't found. Please double check if the name is correct";
     };
 };
 //# sourceMappingURL=ScopeDetails.d.ts.map

@@ -9,6 +9,7 @@ using System.Text.Json;
 using UserService.Entities;
 using UserService.Models;
 using UserService.Services.Database;
+using UserService.Services.UserManager;
 
 namespace UserService.Controllers
 {
@@ -18,11 +19,13 @@ namespace UserService.Controllers
     {
         private readonly IUnitOfWork _uow;
         private readonly IConfiguration _configuration;
+        private readonly IRoleScopeManager _roleScopeManager;
 
-        public ScopeController(IUnitOfWork uow, IConfiguration configuration)
+        public ScopeController(IUnitOfWork uow, IConfiguration configuration, IRoleScopeManager roleScopeManager)
         {
             _uow = uow;
             _configuration = configuration;
+            _roleScopeManager = roleScopeManager;
         }
 
         private ObjectResult ValidateScope(Scope scope)
@@ -206,6 +209,8 @@ namespace UserService.Controllers
                     {
                         _uow.ScopeRepository.Update(scope);
                         _uow.Save();
+
+                        _roleScopeManager.ReplaceScopeRoles(scope.Id, model.ScopeRoles);
 
                         return Ok(new
                         {

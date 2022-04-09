@@ -22,12 +22,10 @@ function not(a, b) {
     return [...a, ...not(b, a)];
   }
 
-export default function TransferList({sendChoices, leftData, rightData}) {
+export default function TransferList({sendChoices, leftData, rightData, labels}) {
     const [checked, setChecked] = React.useState([]);
-    const [left, setLeft] = React.useState(leftData);
+    const [left, setLeft] = React.useState(not(leftData, rightData));
     const [right, setRight] = React.useState(rightData);
-
-    console.log(left, right)
 
   const leftChecked = intersection(checked, left);
   const rightChecked = intersection(checked, right);
@@ -45,13 +43,19 @@ export default function TransferList({sendChoices, leftData, rightData}) {
     setChecked(newChecked);
   };
 
+  const sendNewChoices = (selected) => {
+    sendChoices(selected);
+  }
+
   const handleAllRight = () => {
     setRight(right.concat(left));
+    sendNewChoices(right.concat(left));
     setLeft([]);
   };
 
   const handleCheckedRight = () => {
     setRight(right.concat(leftChecked));
+    sendNewChoices(right.concat(leftChecked));
     setLeft(not(left, leftChecked));
     setChecked(not(checked, leftChecked));
   };
@@ -59,12 +63,14 @@ export default function TransferList({sendChoices, leftData, rightData}) {
   const handleCheckedLeft = () => {
     setLeft(left.concat(rightChecked));
     setRight(not(right, rightChecked));
+    sendNewChoices(not(right, rightChecked));
     setChecked(not(checked, rightChecked));
   };
 
   const handleAllLeft = () => {
     setLeft(left.concat(right));
     setRight([]);
+    sendNewChoices([]);
   };
 
   const customList = (title, items) => (
@@ -76,7 +82,7 @@ export default function TransferList({sendChoices, leftData, rightData}) {
       <Divider />
       <List
         sx={{
-          width: 200,
+          width: 250,
           height: 230,
           bgcolor: 'background.paper',
           overflow: 'auto',
@@ -86,26 +92,26 @@ export default function TransferList({sendChoices, leftData, rightData}) {
         role="list"
       >
         {items.map((value) => {
-          const labelId = `transfer-list-all-item-${value.roleId}-label`;
-          console.log(value)
+          const labelId = `transfer-list-all-item-${value}-label`;
           return (
             <ListItem
-              key={value}
-              role="listitem"
-              button
-              onClick={handleToggle(value)}
-            >
-              <ListItemIcon>
-                <Checkbox
-                  checked={checked.indexOf(value) !== -1}
-                  tabIndex={-1}
-                  disableRipple
-                  inputProps={{
-                    'aria-labelledby': labelId,
-                  }}
-                />
-              </ListItemIcon>
-              <ListItemText id={labelId} primary={`List item ${value.identityRole.name}`} />
+                key={value}
+                role="listitem"
+                selected={checked.indexOf(value) !== -1}
+                button
+                onClick={handleToggle(value)}
+              >
+                {/* <ListItemIcon>
+                  <Checkbox
+                    checked={checked.indexOf(value) !== -1}
+                    tabIndex={-1}
+                    disableRipple
+                    inputProps={{
+                      'aria-labelledby': labelId,
+                    }}
+                  />
+                </ListItemIcon> */}
+                <ListItemText id={labelId} primary={value} />
             </ListItem>
           );
         })}
@@ -117,7 +123,7 @@ export default function TransferList({sendChoices, leftData, rightData}) {
   return (
     <Grid container spacing={2} justifyContent="center" alignItems="center">
         { left &&
-            <Grid item>{customList('Choices',left)}</Grid>
+            <Grid item>{customList(labels.choiceLabel,left)}</Grid>
         }
       <Grid item>
         <Grid container direction="column" alignItems="center">
@@ -164,7 +170,7 @@ export default function TransferList({sendChoices, leftData, rightData}) {
         </Grid>
       </Grid>
       { right &&
-        <Grid item>{customList('Selected',right)}</Grid>
+        <Grid item>{customList(labels.selectedLabel,right)}</Grid>
       }
     </Grid>
   );

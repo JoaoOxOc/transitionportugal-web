@@ -36,7 +36,6 @@ function ScopeDetails({isCreate}) {
     const getScopeData = useCallback(async () => {
         try {
             let scopeData = await GetScopeData(process.env.NEXT_PUBLIC_API_BASE_URL + scopeAppUri);
-            console.log(scopeData);
             if (isMountedRef()) {
               if (scopeData.status) {
                 setScopeError(scopeData);

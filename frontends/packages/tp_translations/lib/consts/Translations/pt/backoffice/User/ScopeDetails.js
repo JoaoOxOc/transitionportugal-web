@@ -6,7 +6,7 @@ export var SCOPEDETAILS_TRANSLATIONS = deepFreeze({
         scopeCreateSmall: "Registar Nova Permissão",
         goBack: "Voltar",
         registerScopeInfo: "Deverá associar a permissão a um perfil por forma a ser atribuida a um utilizador",
-        scopeWarning: "Atenção à edição do Identificador: os utilizadores podem perder acesso a certas funcionalidades da aplicação"
+        scopeWarning: "Atenção à edição dos perfis: os utilizadores podem perder ou ganhar acesso a certas funcionalidades da aplicação"
     },
     LIST: {
         scopesTitle: "Permissões",
@@ -15,25 +15,24 @@ export var SCOPEDETAILS_TRANSLATIONS = deepFreeze({
         scopes: 'Permissões'
     },
     FORM: {
-        name: "Nome da Aplicação Cliente",
-        description: "Descrição da Aplicação Cliente",
-        clientId: "ID da Aplicação Cliente",
-        clientSecret: "Chave da Aplicação Cliente",
+        name: "Identificador da Permissão",
+        description: "Descrição",
+        scopeRoles: "Perfis relacionados com esta Permissão",
+        choices: "Perfis disponíveis",
+        selected: "Perfis onde já está aplicada",
         updatedAt: "Actualizado em",
         createdAt: "Registado em",
         saveButton: "Guardar"
     },
     MESSAGES: {
-        nameTooBig: "O Nome é demasiado grande. Máx. de caracteres: {{max}}",
-        nameRequired: "O Nome da Aplicação é obrigatório",
+        nameTooBig: "O Identificador é demasiado grande. Máx. de caracteres: {{max}}",
+        nameRequired: "O Identificador da Permissão é obrigatório",
         descriptionTooBig: "A Descrição é demasiado grande. Máx. de caracteres: {{max}}",
         descriptionRequired: "A Descrição é obrigatória",
-        clientIdTooBig: "O ID é demasiado grande. Máx. de caracteres: {{max}}",
-        clientIdRequired: "ID da Aplicação Cliente é obrigatório",
-        clientAppUpdatedSuccessfully: "A aplicação cliente cujo nome é {{clientName}} foi atualizada com sucesso",
-        clientAppCreatedSuccessfully: "A aplicação cliente cujo nome é {{clientName}} foi registada com sucesso",
-        clientAppGeneralError: "Erro ao registar/atualizar a aplicação cliente cujo nome é {{clientName}}. Por favor tente novamente",
-        clientAppNotFound: "A aplicação cliente cujo nome é {{clientName}} não foi encontrada. Por favor verifica se o nome está correcto"
+        scopeUpdatedSuccessfully: "A permissão cujo identificador é {{scopeName}} foi atualizada com sucesso",
+        scopeCreatedSuccessfully: "A permissão cujo identificador é {{scopeName}} foi registada com sucesso",
+        scopeGeneralError: "Erro ao registar/atualizar a permissão cujo identificador é {{scopeName}}. Por favor tente novamente",
+        scopeNotFound: "A permissão cujo identificador é {{scopeName}} não foi encontrada. Por favor verifica se o identificador está correcto"
     }
 });
 //# sourceMappingURL=ScopeDetails.js.map

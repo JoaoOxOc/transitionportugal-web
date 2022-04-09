@@ -35,7 +35,7 @@ function ManagementScopes() {
   return (
     <>
       <Head>
-        <title>{t('LABELS.ScopesManagement')}</title>
+        <title>{t('LABELS.scopesManagement')}</title>
       </Head>
       <PageTitleWrapper>
         <PageHeader />
