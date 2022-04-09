@@ -2,32 +2,30 @@ import * as deepFreeze from 'deep-freeze';
 
 export const ROLESLIST_TRANSLATIONS = deepFreeze({
     LABELS: {
-        createClientApp: "Register Client App",
+        createRole: "Register new Profile",
         actions: "Actions",
         view: "View",
         actualValue: "Actual Value",
-        clientSettings: "Client Apps Authorized Management",
-        noClientsFound: "We couldn't find any client apps matching your search criteria",
-        chooseGrid: "Choose between table or grid views for displaying the users list.",
+        rolesManagement: "Profiles Management",
+        noRolesFound: "We couldn't find any profiles matching your search criteria",
+        chooseGrid: "Choose between table or grid views for displaying the profiles list.",
         ofSmall: "of",
         paginationRowsPerPage: "Rows per page:",
         showing: "Showing"
     },
     LIST: {
-        clientsTitle: "Client Apps"
+        rolesTitle: "Profiles"
     },
-    CLIENTOBJECT: {
-        description: "Description",
-        name: "Client Name",
-        clientId: "Client App ID",
-        clientSecret: "Client App Secret",
+    ROLEOBJECT: {
+        name: "Profile Name",
+        normalizedRoleName: "Capital Profile Name",
         createdAt: "Registered At",
         updatedAt: "Updated at"
     },
     MESSAGES: {
-        clientsDescription: "All aspects related to client apps authorized can be managed from this page"
+        rolesDescription: "All aspects related to users profiles can be managed from this page"
     },
     SEARCH: {
-        searchByNamePlaceholder: "Search by Name or Client App Id..."
+        searchByNamePlaceholder: "Search by Profile Name..."
     }
 } as const);

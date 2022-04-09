@@ -96,7 +96,7 @@ const Results = () => {
           isSort: true,
           disablePadding: false,
           align: 'left',
-          label: t('ROLEOBJECT.Name'),
+          label: t('ROLEOBJECT.name'),
       },
       {
           id: 'actions',
@@ -206,7 +206,7 @@ const Results = () => {
                                           </TableCell>
                                           <TableCell align="center">
                                               <Typography noWrap>
-                                              <Tooltip title={t('View')} arrow>
+                                              <Tooltip title={t('LABELS.view')} arrow>
                                                   <Link href={roleDetailsBaseUri + role.roleId} isNextLink={true}>
                                                       <IconButton
                                                       color="primary"

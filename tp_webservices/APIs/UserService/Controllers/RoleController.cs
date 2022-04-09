@@ -93,25 +93,6 @@ namespace UserService.Controllers
             return models;
         }
 
-        private List<RoleScope> ParseRoleScopes(string roleId, List<ScopeModel> scopes)
-        {
-            List<RoleScope> roleScopes = new List<RoleScope>();
-
-            foreach (var scope in scopes)
-            {
-                if (scope.ScopeId.HasValue)
-                {
-                    roleScopes.Add(new RoleScope
-                    {
-                        RoleId = roleId,
-                        ScopeId = scope.ScopeId.Value
-                    });
-                }
-            }
-
-            return roleScopes;
-        }
-
         [Authorize]
         [HttpGet]
         public async Task<IActionResult> Get(string? searchText, int? offset, int? limit, string sort, string sortDirection)
@@ -211,7 +192,7 @@ namespace UserService.Controllers
                 IdentityRole role = new()
                 {
                     Name = model.RoleName,
-                    NormalizedName = model.NormalizedRoleName,
+                    NormalizedName = !string.IsNullOrEmpty(model.NormalizedRoleName) ? model.NormalizedRoleName : model.RoleName.ToUpper(),
                 };
 
                 ObjectResult _validate = this.ValidateRole(role);
@@ -255,7 +236,7 @@ namespace UserService.Controllers
                 if (role != null)
                 {
                     role.Name = model.RoleName;
-                    role.NormalizedName = model.NormalizedRoleName;
+                    role.NormalizedName = !string.IsNullOrEmpty(model.NormalizedRoleName) ? model.NormalizedRoleName : model.RoleName.ToUpper();
 
                     ObjectResult _validate = this.ValidateRole(role);
                     if (_validate.StatusCode != StatusCodes.Status200OK)
@@ -279,7 +260,7 @@ namespace UserService.Controllers
                     }
                     catch (Exception ex)
                     {
-                        return StatusCode(StatusCodes.Status500InternalServerError, null);
+                        return StatusCode(StatusCodes.Status500InternalServerError, ex.Message + "| " + ex.StackTrace);
                     }
                 }
                 else

@@ -2,38 +2,35 @@ import * as deepFreeze from 'deep-freeze';
 
 export const ROLEDETAILS_TRANSLATIONS = deepFreeze({
     LABELS: {
-        associationDetails: "Client App Details - {{name}}",
-        associationCreate: "Register a New Client App Authorization",
-        associationCreateSmall: "Register New Client App",
+        roleDetails: "Profile Details - {{name}}",
+        roleCreate: "Register a New Users Profile",
+        roleCreateSmall: "Register New Profile",
         goBack: "Go back",
-        registerAssociationInfo: "The client app Secret will be automatically generated after registering it",
-        associationWarning: "Careful editting ID and secret values: the client app can stop working"
+        registerRoleInfo: "You must associate permissions with this profile in order to give users app permissions with this profile",
+        roleWarning: "Careful editting permissions: the users with this profile may lost or gain app access to certain features"
     },
     LIST: {
-        associationsTitle: "Associations/Entities",
+        rolesTitle: "Profiles",
         home: "Home",
-        settings: "Settings",
-        associations: 'Associations'
+        management: "Administration",
+        roles: 'Profiles'
     },
     FORM: {
-        name: "Client App Name",
-        description: "Client App Description",
-        clientId: "Client App ID",
-        clientSecret: "Client App Secret",
+        name: "Profile Name",
+        normalizedRoleName: "Capital Profile Name",
+        scopes: "Permissions related to this Profile",
+        choices: "Permissions available",
+        selected: "Permissions applied",
         updatedAt: "Updated At",
         createdAt: "Registered At",
         saveButton: "Save"
     },
     MESSAGES: {
         nameTooBig: "Name is too big. Max characters: {{max}}",
-        nameRequired: "Client App Name is required",
-        descriptionTooBig: "Description is too big. Max characters: {{max}}",
-        descriptionRequired: "Client App Description is required",
-        clientIdTooBig: "Client App ID is too big. Max characters: {{max}}",
-        clientIdRequired: "Client App ID is required",
-        clientAppUpdatedSuccessfully: "The client app with name {{clientName}} was updated successfully",
-        clientAppCreatedSuccessfully: "The client app with name {{clientName}} was created successfully",
-        clientAppGeneralError: "Error creating/updating client app with name {{clientName}}. Please try again",
-        clientAppNotFound: "The client app with name {{clientName}} wasn't found. Please double check if the name is correct"
+        nameRequired: "Profile Name is required",
+        roleUpdatedSuccessfully: "The Profile with name {{roleName}} was updated successfully",
+        roleCreatedSuccessfully: "The Profile with name {{roleName}} was created successfully",
+        roleGeneralError: "Error creating/updating Profile with name {{roleName}}. Please try again",
+        roleNotFound: "The Profile with name {{roleName}} wasn't found. Please double check if the name is correct"
     }
 } as const);

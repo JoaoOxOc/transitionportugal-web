@@ -1,38 +1,32 @@
 export declare const ROLEDETAILS_TRANSLATIONS: {
     readonly LABELS: {
-        readonly associationDetails: "Client App Details - {{name}}";
-        readonly associationCreate: "Register a New Client App Authorization";
-        readonly associationCreateSmall: "Register New Client App";
+        readonly roleDetails: "Profile Details - {{name}}";
+        readonly roleCreate: "Register a New Users Profile";
+        readonly roleCreateSmall: "Register New Profile";
         readonly goBack: "Go back";
-        readonly registerAssociationInfo: "The client app Secret will be automatically generated after registering it";
-        readonly associationWarning: "Careful editting ID and secret values: the client app can stop working";
+        readonly registerRoleInfo: "You must associate permissions with this profile in order to give users app permissions with this profile";
+        readonly roleWarning: "Careful editting permissions: the users with this profile may lost or gain app access to certain features";
     };
     readonly LIST: {
-        readonly associationsTitle: "Associations/Entities";
+        readonly rolesTitle: "Profiles";
         readonly home: "Home";
-        readonly settings: "Settings";
-        readonly associations: "Associations";
+        readonly management: "Administration";
+        readonly roles: "Profiles";
     };
     readonly FORM: {
-        readonly name: "Client App Name";
-        readonly description: "Client App Description";
-        readonly clientId: "Client App ID";
-        readonly clientSecret: "Client App Secret";
+        readonly name: "Profile Name";
+        readonly normalizedRoleName: "Capital Profile Name";
         readonly updatedAt: "Updated At";
         readonly createdAt: "Registered At";
         readonly saveButton: "Save";
     };
     readonly MESSAGES: {
         readonly nameTooBig: "Name is too big. Max characters: {{max}}";
-        readonly nameRequired: "Client App Name is required";
-        readonly descriptionTooBig: "Description is too big. Max characters: {{max}}";
-        readonly descriptionRequired: "Client App Description is required";
-        readonly clientIdTooBig: "Client App ID is too big. Max characters: {{max}}";
-        readonly clientIdRequired: "Client App ID is required";
-        readonly clientAppUpdatedSuccessfully: "The client app with name {{clientName}} was updated successfully";
-        readonly clientAppCreatedSuccessfully: "The client app with name {{clientName}} was created successfully";
-        readonly clientAppGeneralError: "Error creating/updating client app with name {{clientName}}. Please try again";
-        readonly clientAppNotFound: "The client app with name {{clientName}} wasn't found. Please double check if the name is correct";
+        readonly nameRequired: "Profile Name is required";
+        readonly roleUpdatedSuccessfully: "The Profile with name {{roleName}} was updated successfully";
+        readonly roleCreatedSuccessfully: "The Profile with name {{roleName}} was created successfully";
+        readonly roleGeneralError: "Error creating/updating Profile with name {{roleName}}. Please try again";
+        readonly roleNotFound: "The Profile with name {{roleName}} wasn't found. Please double check if the name is correct";
     };
 };
 //# sourceMappingURL=RoleDetails.d.ts.map

@@ -15,29 +15,15 @@ namespace UserService.Services.UserManager
             _uow = uow;
         }
 
-        public List<RoleScope> ReplaceRoleScopes(string roleId, List<ScopeModel> scopes)
+        public List<RoleScope> ReplaceRoleScopes(string roleId, List<RoleScope> roleScopes)
         {
-            List<RoleScope> roleScopes = new List<RoleScope>();
-
-            foreach (var scope in scopes)
-            {
-                if (scope.ScopeId.HasValue)
-                {
-                    roleScopes.Add(new RoleScope
-                    {
-                        RoleId = roleId,
-                        ScopeId = scope.ScopeId.Value
-                    });
-                }
-            }
-
             Expression<Func<RoleScope, bool>> scopeFilter = (x => x.RoleId == roleId);
             if (roleScopes != null && roleScopes.Count > 0)
             {
                 var currentScopes = _uow.RoleScopeRepository.Get(null, null, scopeFilter, "Id", SortDirection.Ascending, string.Empty);
                 if (currentScopes != null && currentScopes.Count > 0)
                 {
-                    _uow.RoleScopeRepository.Delete(roleScopes);
+                    _uow.RoleScopeRepository.Delete(currentScopes);
                     _uow.Save();
                 }
 
@@ -45,6 +31,30 @@ namespace UserService.Services.UserManager
                 _uow.Save();
             }
             return _uow.RoleScopeRepository.Get(null, null, scopeFilter, "Scope.ScopeName", SortDirection.Ascending, "Scope");
+        }
+
+        public List<RoleScope> ReplaceRoleScopes(string roleId, List<ScopeModel> scopes)
+        {
+            List<RoleScope> roleScopes = new List<RoleScope>();
+
+            if (scopes != null)
+            {
+                foreach (var scope in scopes)
+                {
+                    if (scope.ScopeId.HasValue)
+                    {
+                        roleScopes.Add(new RoleScope
+                        {
+                            RoleId = roleId,
+                            ScopeId = scope.ScopeId.Value
+                        });
+                    }
+                }
+
+                roleScopes = ReplaceRoleScopes(roleId, roleScopes);
+            }
+
+            return roleScopes;
         }
 
         public List<RoleScope> ReplaceScopeRoles(int scopeId, List<RoleScope> scopeRoles)

@@ -139,7 +139,14 @@ namespace ContentManageService.Repositories
 
             if (!string.IsNullOrEmpty(orderBy))
             {
-                query = query.OrderBy(orderBy, sortDirection);
+                if (sortDirection == SortDirection.Ascending)
+                {
+                    query = query.OrderBy(orderBy);
+                }
+                else
+                {
+                    query = query.OrderByDescending(orderBy);
+                }
             }
             else
             {

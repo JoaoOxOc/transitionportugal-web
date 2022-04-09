@@ -16,7 +16,7 @@ import { Box,
 
 import { useRefMounted } from '../../../../hooks/useRefMounted';
 
-import { GetClientAppData } from '../../../../services/clientApps';
+import { GetRoleData } from '../../../../services/roles';
 
 import { i18nextRoleDetails } from "@transitionpt/translations";
 
@@ -24,55 +24,55 @@ function RoleDetails({isCreate}) {
     const router = useRouter();
     const isMountedRef = useRefMounted();
     const theme = useTheme();
-    const [clientApp, setClientApp] = useState(null);
-    const [clientAppError, setClientAppError] = useState(null);
-    useErrorHandler(clientAppError);
+    const [role, setRole] = useState(null);
+    const [roleError, setRoleError] = useState(null);
+    useErrorHandler(roleError);
     const { t } = i18nextRoleDetails;
-    const clientAppsListUri = "/management/app/clients";
-    let clientAppUri = "/app/client/" + router.query.clientId;
-    let clientAppPutUri = process.env.NEXT_PUBLIC_API_BASE_URL + (isCreate ? "/app/clientregister" : "/app/clientupdate");
+    const rolesListUri = "/management/profiles";
+    let roleUri = "/roles/get/" + router.query.roleId;
+    let rolePutUri = process.env.NEXT_PUBLIC_API_BASE_URL + (isCreate ? "/roles/create" : "/roles/update");
 
-    const getClientData = useCallback(async () => {
+    const getRoleData = useCallback(async () => {
         try {
-            let clientAppData = await GetClientAppData(process.env.NEXT_PUBLIC_API_BASE_URL + clientAppUri);
+            let roleData = await GetRoleData(process.env.NEXT_PUBLIC_API_BASE_URL + roleUri);
             if (isMountedRef()) {
-              if (clientAppData.status) {
-                setClientAppError(clientAppData);
-                setClientApp({});
+              if (roleData.status) {
+                setRoleError(roleData);
+                setRole({});
               }
               else {
-                setClientApp(clientAppData.clientapp);
+                setRole(roleData.role);
               }
             }
           } catch (err) {
-            setClientAppError(err);
+            setRoleError(err);
             console.error(err);
           }
-    }, [isMountedRef, clientAppUri]);
+    }, [isMountedRef, roleUri]);
 
     useEffect(() => {
       if (!isCreate) {
-        getClientData();
+        getRoleData();
       }
-    }, [isCreate,getClientData]);
+    }, [isCreate,getRoleData]);
 
-    if (!isCreate && !clientApp) {
+    if (!isCreate && !role) {
       return null;
     }
 
     const breadcrumbsData = [
       { url: "/", label: t('LIST.home'), isLink: true },
-      { url: "", label: t('LIST.settings'), isLink: false },
-      { url: clientAppsListUri, label: t('LIST.clientsTitle'), isLink: true },
-      { url: "", label: isCreate ? t('LABELS.clientAppCreateSmall') : clientApp.name, ownPage: true },
+      { url: "", label: t('LIST.management'), isLink: false },
+      { url: rolesListUri, label: t('LIST.rolesTitle'), isLink: true },
+      { url: "", label: isCreate ? t('LABELS.roleCreateSmall') : role.roleName, ownPage: true },
     ];
 
     return (
     <>
-      {(isCreate || clientApp) ?
+      {(isCreate || role) ?
         (
         <PageTitleWrapper>
-          <DetailsPageHeader breadcrumbsDataJson={breadcrumbsData} detailsTitle={isCreate ? t('LABELS.clientAppCreate') : clientApp.name} goBackLabel={t('LABELS.goBack')} goBackUrl={clientAppsListUri}/>
+          <DetailsPageHeader breadcrumbsDataJson={breadcrumbsData} detailsTitle={isCreate ? t('LABELS.roleCreate') : role.roleName} goBackLabel={t('LABELS.goBack')} goBackUrl={rolesListUri}/>
         </PageTitleWrapper>
         ) : (<></>)
       }
@@ -93,11 +93,11 @@ function RoleDetails({isCreate}) {
                   <Box p={4} flex={1}>
                     { !isCreate ?
                       <Alert severity="warning">
-                          {t('LABELS.clientAppWarning')}
+                          {t('LABELS.roleWarning')}
                       </Alert>
                     : 
                       <Alert severity="info">
-                          {t('LABELS.registerClientAppInfo')}
+                          {t('LABELS.registerRoleInfo')}
                       </Alert>
                     } 
                     <Box
@@ -107,8 +107,8 @@ function RoleDetails({isCreate}) {
                         px: { xs: 0, md: 3 }
                       }}
                     >
-                    {(isCreate || clientApp) &&
-                        <DetailForm isCreate={isCreate} clientAppData={clientApp} clientAppPutUrl={clientAppPutUri}/>
+                    {(isCreate || role) &&
+                        <DetailForm isCreate={isCreate} roleData={role} rolePutUrl={rolePutUri}/>
                     }
                     </Box>
                   </Box>

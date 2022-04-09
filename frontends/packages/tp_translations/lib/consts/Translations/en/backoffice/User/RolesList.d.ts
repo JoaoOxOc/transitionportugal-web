@@ -1,32 +1,30 @@
 export declare const ROLESLIST_TRANSLATIONS: {
     readonly LABELS: {
-        readonly createClientApp: "Register Client App";
+        readonly createRole: "Register new Profile";
         readonly actions: "Actions";
         readonly view: "View";
         readonly actualValue: "Actual Value";
-        readonly clientSettings: "Client Apps Authorized Management";
-        readonly noClientsFound: "We couldn't find any client apps matching your search criteria";
-        readonly chooseGrid: "Choose between table or grid views for displaying the users list.";
+        readonly rolesManagement: "Profiles Management";
+        readonly noRolesFound: "We couldn't find any profiles matching your search criteria";
+        readonly chooseGrid: "Choose between table or grid views for displaying the profiles list.";
         readonly ofSmall: "of";
         readonly paginationRowsPerPage: "Rows per page:";
         readonly showing: "Showing";
     };
     readonly LIST: {
-        readonly clientsTitle: "Client Apps";
+        readonly rolesTitle: "Profiles";
     };
-    readonly CLIENTOBJECT: {
-        readonly description: "Description";
-        readonly name: "Client Name";
-        readonly clientId: "Client App ID";
-        readonly clientSecret: "Client App Secret";
+    readonly ROLEOBJECT: {
+        readonly name: "Profile Name";
+        readonly normalizedRoleName: "Capital Profile Name";
         readonly createdAt: "Registered At";
         readonly updatedAt: "Updated at";
     };
     readonly MESSAGES: {
-        readonly clientsDescription: "All aspects related to client apps authorized can be managed from this page";
+        readonly rolesDescription: "All aspects related to user profiles can be managed from this page";
     };
     readonly SEARCH: {
-        readonly searchByNamePlaceholder: "Search by Name or Client App Id...";
+        readonly searchByNamePlaceholder: "Search by Profile Name...";
     };
 };
 //# sourceMappingURL=RolesList.d.ts.map

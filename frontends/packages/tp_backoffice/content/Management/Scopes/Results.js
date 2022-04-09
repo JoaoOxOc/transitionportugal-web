@@ -197,7 +197,7 @@ const Results = () => {
                       <TableContainer>
                           <Table>
                               <TableHead>
-                                  <ResultsHeader headerCells={headCells} defaultSort={'Name'} defaultSortDirection={'asc'} searchContext={scopesSearchData}/>
+                                  <ResultsHeader headerCells={headCells} defaultSort={'ScopeName'} defaultSortDirection={'asc'} searchContext={scopesSearchData}/>
                               </TableHead>
                               <TableBody>
                                   {!scopes || scopes.length == 0 ? (

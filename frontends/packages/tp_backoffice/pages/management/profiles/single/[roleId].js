@@ -6,15 +6,15 @@ import AccentHeaderLayout from '../../../../layouts/AccentHeaderLayout';
 import { Authenticated } from '../../../../components/Authenticated';
 import { Authorized } from '../../../../components/Authorized';
 
-import ClientAppDetails from '../../../../content/Management/App/Clients/single/details';
+import RoleDetails from '../../../../content/Management/Roles/single/details';
 import Footer from '../../../../components/Footer';
 
-import { i18nextAssociationDetails } from "@transitionpt/translations";
+import { i18nextRoleDetails } from "@transitionpt/translations";
 
-function ManagementAssociationsView() {
-    const { t } = i18nextAssociationDetails;
+function ManagementRolesView() {
+    const { t } = i18nextRoleDetails;
     const [currentLang, setLang] = useState("pt");
-    i18nextAssociationDetails.changeLanguage(currentLang);
+    i18nextRoleDetails.changeLanguage(currentLang);
 
     useEffect(() => {
         const handleNewMessage = (event) => {
@@ -27,17 +27,17 @@ function ManagementAssociationsView() {
     return (
     <>
       <Head>
-        <title>{t('LABELS.clientDetails')}</title>
+        <title>{t('LABELS.roleDetails')}</title>
       </Head>
 
-      <ClientAppDetails/>
+      <RoleDetails/>
 
       <Footer />
     </>
     );
 }
 
-ManagementAssociationsView.getLayout = (page) => (
+ManagementRolesView.getLayout = (page) => (
   <Authenticated>
     <Authorized scopes={["users.write"]}>
         <AccentHeaderLayout>{page}</AccentHeaderLayout>
@@ -45,4 +45,4 @@ ManagementAssociationsView.getLayout = (page) => (
   </Authenticated>
 );
 
-export default ManagementAssociationsView;
+export default ManagementRolesView;

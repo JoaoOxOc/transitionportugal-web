@@ -23,7 +23,7 @@ function PageHeader() {
             {t('LABELS.rolesManagement')}
           </Typography>
           <Typography variant="subtitle2">
-            {t('MESSAGES.rolesManagementDescription')}
+            {t('MESSAGES.rolesDescription')}
           </Typography>
         </Grid>
         <Grid item>

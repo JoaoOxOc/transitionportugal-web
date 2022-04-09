@@ -35,7 +35,7 @@ function ManagementRoles() {
   return (
     <>
       <Head>
-        <title>{t('LABELS.RolesManagement')}</title>
+        <title>{t('LABELS.rolesManagement')}</title>
       </Head>
       <PageTitleWrapper>
         <PageHeader />

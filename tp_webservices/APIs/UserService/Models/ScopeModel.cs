@@ -6,9 +6,9 @@ namespace UserService.Models
     {
         public int? ScopeId { get; set; }
 
-        public string ScopeIdentifier { get; set; }
+        public string? ScopeIdentifier { get; set; }
 
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         public List<RoleScope>? ScopeRoles { get; set; }
     }

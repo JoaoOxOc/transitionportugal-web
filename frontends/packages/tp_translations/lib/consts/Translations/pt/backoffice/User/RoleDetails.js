@@ -1,39 +1,33 @@
 import * as deepFreeze from 'deep-freeze';
 export var ROLEDETAILS_TRANSLATIONS = deepFreeze({
     LABELS: {
-        associationDetails: "Detalhes da Aplicação Cliente - {{name}}",
-        associationCreate: "Registar Nova Autorização de Aplicação Cliente",
-        associationCreateSmall: "Registar Nova Aplicação Cliente",
+        roleDetails: "Detalhes do Perfil de Utilizadores - {{name}}",
+        roleCreate: "Registar Novo Perfil de Utilizadores",
+        roleCreateSmall: "Registar Novo Perfil",
         goBack: "Voltar",
-        registerAssociationInfo: "A chave da aplicação cliente será gerada automaticamente após o registo",
-        associationWarning: "Atenção à edição dos valores de ID e chave: a aplicação cliente pode deixar de funcionar"
+        registerRoleInfo: "Deverá associar permissões a este perfil por forma a atribuir permissões na aplicação aos utilizadores com este perfil",
+        roleWarning: "Atenção à edição das permissões: os utilizadores com este perfil atribuído podem perder ou ganhar acesso a certas funcionalidades da aplicação"
     },
     LIST: {
-        associationsTitle: "Associações/Entidades",
+        rolesTitle: "Perfis",
         home: "Home",
-        settings: "Definições",
-        associations: 'Associações'
+        management: "Administração",
+        roles: 'Perfis'
     },
     FORM: {
-        name: "Nome da Aplicação Cliente",
-        description: "Descrição da Aplicação Cliente",
-        clientId: "ID da Aplicação Cliente",
-        clientSecret: "Chave da Aplicação Cliente",
+        name: "Nome do Perfil",
+        normalizedRoleName: "Nome Perfil - maiúsculas",
         updatedAt: "Actualizado em",
         createdAt: "Registado em",
         saveButton: "Guardar"
     },
     MESSAGES: {
         nameTooBig: "O Nome é demasiado grande. Máx. de caracteres: {{max}}",
-        nameRequired: "O Nome da Aplicação é obrigatório",
-        descriptionTooBig: "A Descrição é demasiado grande. Máx. de caracteres: {{max}}",
-        descriptionRequired: "A Descrição é obrigatória",
-        clientIdTooBig: "O ID é demasiado grande. Máx. de caracteres: {{max}}",
-        clientIdRequired: "ID da Aplicação Cliente é obrigatório",
-        clientAppUpdatedSuccessfully: "A aplicação cliente cujo nome é {{clientName}} foi atualizada com sucesso",
-        clientAppCreatedSuccessfully: "A aplicação cliente cujo nome é {{clientName}} foi registada com sucesso",
-        clientAppGeneralError: "Erro ao registar/atualizar a aplicação cliente cujo nome é {{clientName}}. Por favor tente novamente",
-        clientAppNotFound: "A aplicação cliente cujo nome é {{clientName}} não foi encontrada. Por favor verifica se o nome está correcto"
+        nameRequired: "O Nome do Perfil é obrigatório",
+        roleUpdatedSuccessfully: "O perfil cujo nome é {{roleName}} foi atualizado com sucesso",
+        roleCreatedSuccessfully: "O perfil cujo nome é {{roleName}} foi registado com sucesso",
+        roleGeneralError: "Erro ao registar/atualizar o perfil cujo nome é {{roleName}}. Por favor tente novamente",
+        roleNotFound: "O perfil cujo nome é {{roleName}} não foi encontrado. Por favor verifica se o nome está correcto"
     }
 });
 //# sourceMappingURL=RoleDetails.js.map
