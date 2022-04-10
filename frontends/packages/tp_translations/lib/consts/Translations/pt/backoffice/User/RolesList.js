@@ -5,7 +5,7 @@ export var ROLESLIST_TRANSLATIONS = deepFreeze({
         actions: "Ações",
         view: "Visualizar",
         actualValue: "Valor Actual",
-        rolesManagement: "Gestão dos Perfis de Utilizador",
+        rolesManagement: "Gestão dos Perfis de Utilizadores",
         noRolesFound: "Não foi possível encontrar nenhum perfil de acordo com os critérios de pesquisa definidos",
         chooseGrid: "Escolha entre as vistas de tabela ou grelha para apresentar a lista de perfis.",
         ofSmall: "de",

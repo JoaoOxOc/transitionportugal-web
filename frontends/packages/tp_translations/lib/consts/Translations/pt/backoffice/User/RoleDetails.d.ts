@@ -16,6 +16,9 @@ export declare const ROLEDETAILS_TRANSLATIONS: {
     readonly FORM: {
         readonly name: "Nome do Perfil";
         readonly normalizedRoleName: "Nome Perfil - maiúsculas";
+        readonly scopes: "Permissões relativas a este Perfil";
+        readonly choices: "Permissões disponíveis";
+        readonly selected: "Permissões aplicadas";
         readonly updatedAt: "Actualizado em";
         readonly createdAt: "Registado em";
         readonly saveButton: "Guardar";

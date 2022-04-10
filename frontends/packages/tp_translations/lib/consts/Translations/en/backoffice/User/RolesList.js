@@ -22,7 +22,7 @@ export var ROLESLIST_TRANSLATIONS = deepFreeze({
         updatedAt: "Updated at"
     },
     MESSAGES: {
-        rolesDescription: "All aspects related to user profiles can be managed from this page"
+        rolesDescription: "All aspects related to users profiles can be managed from this page"
     },
     SEARCH: {
         searchByNamePlaceholder: "Search by Profile Name..."

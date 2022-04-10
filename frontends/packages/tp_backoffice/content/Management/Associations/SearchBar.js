@@ -7,6 +7,7 @@ import {
 
 import SearchTwoToneIcon from '@mui/icons-material/SearchTwoTone';
 import { AssociationsSearchContext } from '../../../contexts/Search/AssociationsSearchContext';
+import BulkActions from './BulkActions';
 
 import { i18nextAssociationsList } from "@transitionpt/translations";
 
@@ -29,6 +30,7 @@ const SearchBar = ({itemsSelected}) => {
 
     return(
         <Box p={2}>
+            {!itemsSelected && (
                 <TextField
                     sx={{
                         m: 0
@@ -49,6 +51,8 @@ const SearchBar = ({itemsSelected}) => {
                     margin="normal"
                     variant="outlined"
                 />
+            )}
+            {itemsSelected && <BulkActions />}
         </Box>
     );
 }

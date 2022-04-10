@@ -11,6 +11,7 @@ import {
     Divider,
     Tooltip,
     IconButton,
+    Icon,
     InputAdornment,
     Table,
     TableBody,
@@ -78,6 +79,28 @@ const CardWrapper = styled(Card)(
   `
 );
 
+const IconActive = styled(Icon)(
+    ({ theme }) => `
+       background: ${theme.colors.success.main};
+       color: ${theme.palette.success.contrastText};
+  
+       &:hover {
+          background: ${theme.colors.success.dark};
+       }
+      `
+);
+
+const IconInactive = styled(Icon)(
+    ({ theme }) => `
+       background: ${theme.colors.error.main};
+       color: ${theme.palette.error.contrastText};
+  
+       &:hover {
+          background: ${theme.colors.error.dark};
+       }
+      `
+);
+
 const Results = () => {
   const { t } = i18nextAssociationsList;
   const isMountedRef = useRefMounted();
@@ -93,6 +116,10 @@ const Results = () => {
 
   const headCells = [
       {
+          id: 'selectAll',
+          isCheckbox: true,
+      },
+      {
           id: 'Name',
           isSort: true,
           disablePadding: false,
@@ -103,7 +130,7 @@ const Results = () => {
           id: 'Email',
           isSort: true,
           disablePadding: false,
-          align: 'center',
+          align: 'left',
           label: t('ASSOCIATIONOBJECT.email'),
       },
       {
@@ -112,6 +139,13 @@ const Results = () => {
           disablePadding: false,
           align: 'center',
           label: t('ASSOCIATIONOBJECT.active'),
+      },
+      {
+          id: 'IsEmailVerified',
+          isSort: true,
+          disablePadding: false,
+          align: 'center',
+          label: t('ASSOCIATIONOBJECT.verified'),
       },
       {
           id: 'actions',
@@ -156,11 +190,22 @@ const Results = () => {
     };
 
     const handleSelectAllAssociations = (event) => {
-      setSelectedAssociations(event.target.checked ? associations.map((user) => associations.id) : []);
+      setSelectedAssociations((event.target.checked == true) ? associations.map((association) => association.id) : []);
     };
 
-    const selectedSomeAssociations = selectedItems.length > 0 && selectedItems.length < associations ? associations.length : 0;
-    const selectedAllAssociations = selectedItems.length === associations ? associations.length : 0;
+    const handleSelectOneAssociation = (_event, associationId) => {
+        if (!selectedItems.includes(associationId)) {
+            setSelectedAssociations((prevSelected) => [...prevSelected, associationId]);
+        } else {
+            setSelectedAssociations((prevSelected) =>
+            prevSelected.filter((id) => id !== associationId)
+          );
+        }
+    };
+    
+    const selectedSomeAssociations = associations && selectedItems.length > 0 && selectedItems.length < associations.length ? associations.length : 0;
+    const selectedAllAssociations = associations && selectedItems.length === associations.length ? associations.length : 0;
+    const selectedBulkActions = selectedItems.length > 0;
 
     return (
       <>
@@ -189,7 +234,7 @@ const Results = () => {
           </Box>
           {toggleView === 'table_view' && (
               <Card>
-                  <SearchBar/>
+                  <SearchBar itemsSelected={selectedBulkActions}/>
 
                   <Divider />
 
@@ -212,26 +257,28 @@ const Results = () => {
                       <TableContainer>
                           <Table>
                               <TableHead>
-                                  <TableCell padding="checkbox">
-                                      <Checkbox
-                                      checked={selectedAllAssociations}
-                                      indeterminate={selectedSomeAssociations}
-                                      onChange={handleSelectAllAssociations}
-                                      />
-                                  </TableCell>
-                                  <ResultsHeader headerCells={headCells} defaultSort={'Name'} defaultSortDirection={'asc'} searchContext={associationsSearchData}/>
+                                  <ResultsHeader selectedAll={handleSelectAllAssociations} selectAllCount={selectedAllAssociations} selectSomeCount={selectedSomeAssociations} headerCells={headCells} defaultSort={'Name'} defaultSortDirection={'asc'} searchContext={associationsSearchData}/>
                               </TableHead>
                               <TableBody>
                                   {!associations || associations.length == 0 ? (
                                       <Loader />
                                   ) : (
                                     associations.map((association) => {
-                                  // const isAssociationSelected = selectedItems.includes(association.id);
-                                  return (
-                                      <TableRow hover key={association.id}>
+                                    const isAssociationSelected = selectedItems.includes(association.id);
+                                    return (
+                                      <TableRow hover key={association.id} selected={isAssociationSelected}>
+                                          <TableCell padding="checkbox">
+                                            <Checkbox
+                                            checked={isAssociationSelected}
+                                            onChange={(event) =>
+                                                handleSelectOneAssociation(event, association.id)
+                                            }
+                                            value={isAssociationSelected}
+                                            />
+                                        </TableCell>
                                           <TableCell>
                                               <Typography variant="h5">
-                                              {association.Name}
+                                              {association.name}
                                               </Typography>
                                           </TableCell>
                                           <TableCell>
@@ -249,11 +296,55 @@ const Results = () => {
                                                   </Box>
                                               </Box>
                                           </TableCell>
-                                          <TableCell>
-                                              <Typography>{association.email}</Typography>
+                                          <TableCell align="center">
+                                              <Typography>
+                                                  { association.isActive == true ?
+                                                    (
+                                                        <IconActive
+                                                            color="primary"
+                                                            sx={{
+                                                                ml: 1,
+                                                                p: 1
+                                                            }}
+                                                            >
+                                                        </IconActive>
+                                                    ) : (
+                                                        <IconInactive
+                                                            color="primary"
+                                                            sx={{
+                                                                ml: 1,
+                                                                p: 1
+                                                            }}
+                                                            >
+                                                        </IconInactive>
+                                                    )
+                                                  }
+                                              </Typography>
                                           </TableCell>
-                                          <TableCell>
-                                              <Typography>{association.isActive}</Typography>
+                                          <TableCell align="center">
+                                                <Typography>
+                                                    { association.isEmailVerified == true ?
+                                                        (
+                                                            <IconActive
+                                                                color="primary"
+                                                                sx={{
+                                                                    ml: 1,
+                                                                    p: 1
+                                                                }}
+                                                                >
+                                                            </IconActive>
+                                                        ) : (
+                                                            <IconInactive
+                                                                color="primary"
+                                                                sx={{
+                                                                    ml: 1,
+                                                                    p: 1
+                                                                }}
+                                                                >
+                                                            </IconInactive>
+                                                        )
+                                                    }
+                                                </Typography>
                                           </TableCell>
                                           {/* <TableCell align="center">
                                               <Typography fontWeight="bold">
@@ -266,7 +357,7 @@ const Results = () => {
                                           <TableCell>{getAssociationRoleLabel(association.role)}</TableCell> */}
                                           <TableCell align="center">
                                               <Typography noWrap>
-                                              <Tooltip title={t('View')} arrow>
+                                              <Tooltip title={t('LABELS.view')} arrow>
                                                   <Link href={associationDetailsBaseUri + association.id} isNextLink={true}>
                                                       <IconButton
                                                       color="primary"
@@ -328,7 +419,7 @@ const Results = () => {
                   <>
                       <Grid container spacing={3}>
                       {associations.map((association) => {
-                          const isAssociationSelected = false;//selectedItems.includes(association.id);
+                          const isAssociationSelected = selectedItems.includes(association.id);
 
                           return (
                               <Grid item xs={12} sm={6} md={4} key={association.id}>

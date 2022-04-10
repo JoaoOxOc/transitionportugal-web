@@ -21,7 +21,7 @@ export declare const ROLESLIST_TRANSLATIONS: {
         readonly updatedAt: "Updated at";
     };
     readonly MESSAGES: {
-        readonly rolesDescription: "All aspects related to user profiles can be managed from this page";
+        readonly rolesDescription: "All aspects related to users profiles can be managed from this page";
     };
     readonly SEARCH: {
         readonly searchByNamePlaceholder: "Search by Profile Name...";

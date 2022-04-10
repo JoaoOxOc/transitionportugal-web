@@ -17,6 +17,9 @@ export var ROLEDETAILS_TRANSLATIONS = deepFreeze({
     FORM: {
         name: "Profile Name",
         normalizedRoleName: "Capital Profile Name",
+        scopes: "Permissions related to this Profile",
+        choices: "Permissions available",
+        selected: "Permissions applied",
         updatedAt: "Updated At",
         createdAt: "Registered At",
         saveButton: "Save"

@@ -7,20 +7,21 @@ export const ASSOCIATIONSLIST_TRANSLATIONS = deepFreeze({
         view: "View",
         actualValue: "Actual Value",
         associationsManagement: "Associations Management",
-        noClientsFound: "We couldn't find any client apps matching your search criteria",
-        chooseGrid: "Choose between table or grid views for displaying the users list.",
+        noAssociationsFound: "We couldn't find any associations matching your search criteria",
+        chooseGrid: "Choose between table or grid views for displaying the associations list.",
         ofSmall: "of",
         paginationRowsPerPage: "Rows per page:",
         showing: "Showing"
     },
     LIST: {
-        clientsTitle: "Client Apps"
+        associationsTitle: "Associations/Entities"
     },
-    CLIENTOBJECT: {
+    ASSOCIATIONOBJECT: {
         description: "Description",
-        name: "Client Name",
-        clientId: "Client App ID",
-        clientSecret: "Client App Secret",
+        name: "Association Name",
+        email: "Association Email",
+        active: "Is activated",
+        verified: "Verified by Email",
         createdAt: "Registered At",
         updatedAt: "Updated at"
     },

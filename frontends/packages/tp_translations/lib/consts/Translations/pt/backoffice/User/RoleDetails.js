@@ -17,6 +17,9 @@ export var ROLEDETAILS_TRANSLATIONS = deepFreeze({
     FORM: {
         name: "Nome do Perfil",
         normalizedRoleName: "Nome Perfil - maiúsculas",
+        scopes: "Permissões relativas a este Perfil",
+        choices: "Permissões disponíveis",
+        selected: "Permissões aplicadas",
         updatedAt: "Actualizado em",
         createdAt: "Registado em",
         saveButton: "Guardar"
