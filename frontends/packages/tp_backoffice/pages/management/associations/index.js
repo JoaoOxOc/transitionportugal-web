@@ -18,6 +18,7 @@ import Results from '../../../content/Management/Associations/Results';
 import { i18nextAssociationsList } from "@transitionpt/translations";
 
 import { AssociationsSearchProvider } from '../../../contexts/Search/AssociationsSearchContext';
+import { AssociationsActionsProvider } from '../../../contexts/Actions/AssociationsActionsContext';
 
 function ManagementAssociations() {
     const { t } = i18nextAssociationsList;
@@ -51,7 +52,9 @@ function ManagementAssociations() {
       >
         <Grid item xs={12}>
           <AssociationsSearchProvider>
-            <Results />
+            <AssociationsActionsProvider>
+              <Results />
+            </AssociationsActionsProvider>
           </AssociationsSearchProvider>
         </Grid>
       </Grid>

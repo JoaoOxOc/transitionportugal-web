@@ -208,8 +208,8 @@ namespace UserService.Controllers
                     sort = sort ?? "Name";
                     SortDirection direction = sortDirection == "desc" ? SortDirection.Descending : SortDirection.Ascending;
 
-                    Expression<Func<Association, bool>> filter = (x => (x.Name.ToLower().Contains(searchText.ToLower()))
-                    && (!isActive.HasValue || x.IsActive == isActive.Value) && (!isVerified.HasValue || x.IsVerified == isVerified.Value));
+                    Expression<Func<Association, bool>> filter = (x => (x.Name.ToLower().Contains(searchText.ToLower()) || x.Email.ToLower().Contains(searchText.ToLower()))
+                    && (!isActive.HasValue || x.IsActive == isActive.Value) && (!isVerified.HasValue || x.IsEmailVerified == isVerified.Value));
 
 
                     var _associations = _uow.AssociationRepository.Get(offset, limit, filter, sort, direction, string.Empty);
@@ -351,6 +351,72 @@ namespace UserService.Controllers
                 {
                     return NotFound();
                 }
+            }
+            return Forbid();
+        }
+
+        [Authorize]
+        [HttpPost]
+        [Route("resend")]
+        public async Task<IActionResult> Resend([FromBody] AssociationsActionsModel model)
+        {
+            string header = HttpContext.Request.Headers["Authorization"];
+            string[] claims = new string[] { "userId", "sub", System.Security.Claims.ClaimTypes.Role, "scope" };
+            List<JwtClaim> userClaims = JwtHelper.ValidateToken(header, _configuration["JWT:ValidAudience"], _configuration["JWT:ValidIssuer"], _configuration["JWT:SecretPublicKey"], claims);
+            string userScopesString = userClaims.Where(x => x.Claim == "scope").Single().Value;
+            List<string> scopes = !string.IsNullOrEmpty(userScopesString) ? JsonSerializer.Deserialize<List<string>>(userScopesString) : null;
+
+            if (PermissionsHelper.ValidateRoleClaimPermission(userClaims, new List<string> { "Admin" })
+                && PermissionsHelper.ValidateUserScopesPermissionAll(scopes, new List<string> { "users.write" }))
+            {
+                //Association association = MapModelToEntity(new Association(), model);
+
+                //ObjectResult _validate = this.ValidateAssociation(association);
+                //if (_validate.StatusCode != StatusCodes.Status200OK)
+                //{
+                //    return _validate;
+                //}
+
+                //_uow.AssociationRepository.Add(association);
+                //_uow.Save();
+
+                return Ok(new
+                {
+                    associations = model.AssociationIds
+                });
+            }
+            return Forbid();
+        }
+
+        [Authorize]
+        [HttpPost]
+        [Route("approve")]
+        public async Task<IActionResult> Approve([FromBody] AssociationsActionsModel model)
+        {
+            string header = HttpContext.Request.Headers["Authorization"];
+            string[] claims = new string[] { "userId", "sub", System.Security.Claims.ClaimTypes.Role, "scope" };
+            List<JwtClaim> userClaims = JwtHelper.ValidateToken(header, _configuration["JWT:ValidAudience"], _configuration["JWT:ValidIssuer"], _configuration["JWT:SecretPublicKey"], claims);
+            string userScopesString = userClaims.Where(x => x.Claim == "scope").Single().Value;
+            List<string> scopes = !string.IsNullOrEmpty(userScopesString) ? JsonSerializer.Deserialize<List<string>>(userScopesString) : null;
+
+            if (PermissionsHelper.ValidateRoleClaimPermission(userClaims, new List<string> { "Admin" })
+                && PermissionsHelper.ValidateUserScopesPermissionAll(scopes, new List<string> { "users.write" }))
+            {
+                //Association association = MapModelToEntity(new Association(), model);
+
+                //ObjectResult _validate = this.ValidateAssociation(association);
+                //if (_validate.StatusCode != StatusCodes.Status200OK)
+                //{
+                //    return _validate;
+                //}
+
+                //_uow.AssociationRepository.Add(association);
+                //_uow.Save();
+
+                return Ok(new
+                {
+                    associations = model.AssociationIds
+                });
             }
             return Forbid();
         }

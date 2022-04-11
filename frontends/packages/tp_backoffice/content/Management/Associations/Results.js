@@ -28,12 +28,14 @@ import {
     Typography,
     Dialog,
     Zoom,
+    FormControlLabel,
     styled
   } from '@mui/material';
 
 import Loader from '../../../components/Loader';
 import { useRefMounted } from '../../../hooks/useRefMounted';
 import { AssociationsSearchContext } from '../../../contexts/Search/AssociationsSearchContext';
+import { AssociationsActionsContext } from '../../../contexts/Actions/AssociationsActionsContext';
 import { GetAssociations } from '../../../services/associations';
 import { useErrorHandler } from 'react-error-boundary';
 
@@ -46,8 +48,11 @@ import Label from '../../../components/Label';
 import GridViewTwoToneIcon from '@mui/icons-material/GridViewTwoTone';
 import TableRowsTwoToneIcon from '@mui/icons-material/TableRowsTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
-import { useSnackbar } from 'notistack';
 import MoreVertTwoToneIcon from '@mui/icons-material/MoreVertTwoTone';
+import CheckTwoToneIcon from '@mui/icons-material/CheckTwoTone';
+import CloseTwoToneIcon from '@mui/icons-material/CloseTwoTone';
+import MarkEmailReadTwoToneIcon from '@mui/icons-material/MarkEmailReadTwoTone';
+import UnsubscribeTwoToneIcon from '@mui/icons-material/UnsubscribeTwoTone';
 
 import SearchBar from './SearchBar';
 import ResultsHeader from '../../../components/Table/Header';
@@ -81,23 +86,23 @@ const CardWrapper = styled(Card)(
 
 const IconActive = styled(Icon)(
     ({ theme }) => `
-       background: ${theme.colors.success.main};
+       background: ${theme.colors.success.dark};
        color: ${theme.palette.success.contrastText};
-  
-       &:hover {
-          background: ${theme.colors.success.dark};
-       }
+       width: 50px;
+       height: 40px;
+       border-radius: 10px;
+       padding: 6px;
       `
 );
 
 const IconInactive = styled(Icon)(
     ({ theme }) => `
-       background: ${theme.colors.error.main};
+       background: ${theme.colors.error.dark};
        color: ${theme.palette.error.contrastText};
-  
-       &:hover {
-          background: ${theme.colors.error.dark};
-       }
+       width: 50px;
+       height: 40px;
+       border-radius: 10px;
+       padding: 6px;
       `
 );
 
@@ -105,6 +110,7 @@ const Results = () => {
   const { t } = i18nextAssociationsList;
   const isMountedRef = useRefMounted();
   const associationsSearchData = useContext(AssociationsSearchContext);
+  const associationsActionsData = useContext(AssociationsActionsContext);
   const [associationsError, setAssociationsError] = useState(null);
   useErrorHandler(associationsError);
   const [associations, setAssociations] = useState(null);
@@ -124,7 +130,7 @@ const Results = () => {
           isSort: true,
           disablePadding: false,
           align: 'left',
-          label: t('ASSOCIATIONOBJECT.Name'),
+          label: t('ASSOCIATIONOBJECT.name'),
       },
       {
           id: 'Email',
@@ -190,17 +196,20 @@ const Results = () => {
     };
 
     const handleSelectAllAssociations = (event) => {
-      setSelectedAssociations((event.target.checked == true) ? associations.map((association) => association.id) : []);
+        const selected = (event.target.checked == true) ? associations.map((association) => association.id) : [];
+        setSelectedAssociations(selected);
+        associationsActionsData.selectedAssociations = selected;
     };
 
     const handleSelectOneAssociation = (_event, associationId) => {
+        const selected = [];
         if (!selectedItems.includes(associationId)) {
-            setSelectedAssociations((prevSelected) => [...prevSelected, associationId]);
+            selected.push(associationId);
         } else {
-            setSelectedAssociations((prevSelected) =>
-            prevSelected.filter((id) => id !== associationId)
-          );
+            selected = selectedItems.filter((id) => id !== associationId);
         }
+        setSelectedAssociations(selected);
+        associationsActionsData.selectedAssociations = selected;
     };
     
     const selectedSomeAssociations = associations && selectedItems.length > 0 && selectedItems.length < associations.length ? associations.length : 0;
@@ -302,20 +311,14 @@ const Results = () => {
                                                     (
                                                         <IconActive
                                                             color="primary"
-                                                            sx={{
-                                                                ml: 1,
-                                                                p: 1
-                                                            }}
                                                             >
+                                                            <CheckTwoToneIcon/>
                                                         </IconActive>
                                                     ) : (
                                                         <IconInactive
                                                             color="primary"
-                                                            sx={{
-                                                                ml: 1,
-                                                                p: 1
-                                                            }}
                                                             >
+                                                            <CloseTwoToneIcon/>
                                                         </IconInactive>
                                                     )
                                                   }
@@ -327,20 +330,14 @@ const Results = () => {
                                                         (
                                                             <IconActive
                                                                 color="primary"
-                                                                sx={{
-                                                                    ml: 1,
-                                                                    p: 1
-                                                                }}
                                                                 >
+                                                                <MarkEmailReadTwoToneIcon/>
                                                             </IconActive>
                                                         ) : (
                                                             <IconInactive
                                                                 color="primary"
-                                                                sx={{
-                                                                    ml: 1,
-                                                                    p: 1
-                                                                }}
                                                                 >
+                                                                <UnsubscribeTwoToneIcon/>
                                                             </IconInactive>
                                                         )
                                                     }
@@ -395,12 +392,31 @@ const Results = () => {
               <>
                   <Card
                       sx={{
-                          p: 2,
                           mb: 3
                       }}
                   >
                       {associations && associations.length > 0 && (
-                          <SearchBar/>
+                          <>
+                            <SearchBar itemsSelected={selectedBulkActions}/>
+                            <Box
+                                display="flex"
+                                alignItems="center"
+                                justifyContent="space-between"
+                            >
+                                <Box display="flex" alignItems="center">
+                                    <FormControlLabel
+                                        sx={{
+                                            paddingLeft: '20px'
+                                        }}
+                                        control={<Checkbox
+                                            checked={selectedAllAssociations > 0}
+                                            indeterminate={selectedSomeAssociations > 0}
+                                            onChange={handleSelectAllAssociations}
+                                        />}
+                                        label={t('LABELS.selectAll')} />
+                                </Box>
+                            </Box>
+                          </>
                       )}
                   </Card>
                   {!associations || associations.length === 0 ? (
@@ -435,22 +451,25 @@ const Results = () => {
                                       }}
                                       >
                                       <Box
-                                          px={2}
-                                          pt={2}
+                                          pl={2}
+                                          py={1}
+                                          pr={1}
                                           display="flex"
-                                          alignItems="flex-start"
+                                          alignItems="center"
                                           justifyContent="space-between"
                                       >
-                                          {/* {getassociationRoleLabel(association.role)} */}
-                                          <IconButton
-                                              color="primary"
-                                              sx={{
-                                                  p: 0.5
-                                              }}
-                                              >
-                                              <MoreVertTwoToneIcon />
-                                          </IconButton>
+                                          {/* <Typography>
+                                          <b>{association.posts}</b> {t('posts')}
+                                          </Typography> */}
+                                          <Checkbox
+                                            checked={isAssociationSelected}
+                                            onChange={(event) =>
+                                                handleSelectOneAssociation(event, association.id)
+                                            }
+                                            value={isAssociationSelected}
+                                          />
                                       </Box>
+                                      <Divider />
                                       <Box p={2} display="flex" alignItems="flex-start">
                                           {/* <Avatar
                                               sx={{
@@ -470,7 +489,7 @@ const Results = () => {
                                                       variant="body2"
                                                       color="text.secondary"
                                                       >
-                                                      ({association.Address})
+                                                      ({association.address})
                                                   </Typography>
                                               </Box>
                                               <Typography
@@ -483,8 +502,7 @@ const Results = () => {
                                               </Typography>
                                           </Box>
                                       </Box>
-                                      <Divider />
-                                      {/* <Box
+                                      <Box
                                           pl={2}
                                           py={1}
                                           pr={1}
@@ -492,17 +510,49 @@ const Results = () => {
                                           alignItems="center"
                                           justifyContent="space-between"
                                       >
-                                          <Typography>
-                                          <b>{association.posts}</b> {t('posts')}
-                                          </Typography>
-                                          <Checkbox
-                                          checked={isAssociationSelected}
-                                          onChange={(event) =>
-                                              handleSelectOneAssociation(event, association.id)
-                                          }
-                                          value={isAssociationSelected}
-                                          />
-                                      </Box> */}
+                                        <Typography>
+                                            <Tooltip title={t('ASSOCIATIONOBJECT.active')} arrow>
+                                                { association.isActive == true ?
+                                                    (
+                                                        <IconActive
+                                                            color="primary"
+                                                            >
+                                                            <CheckTwoToneIcon/>
+                                                        </IconActive>
+                                                    ) : (
+                                                        <IconInactive
+                                                            color="primary"
+                                                            >
+                                                            <CloseTwoToneIcon/>
+                                                        </IconInactive>
+                                                    )
+                                                }
+                                            </Tooltip>
+                                            <Tooltip title={t('ASSOCIATIONOBJECT.verified')} arrow>
+                                                { association.isEmailVerified == true ?
+                                                    (
+                                                        <IconActive
+                                                            color="primary"
+                                                            sx={{
+                                                                ml: '5px'
+                                                            }}
+                                                            >
+                                                            <MarkEmailReadTwoToneIcon/>
+                                                        </IconActive>
+                                                    ) : (
+                                                        <IconInactive
+                                                            color="primary"
+                                                            sx={{
+                                                                ml: '5px'
+                                                            }}
+                                                            >
+                                                            <UnsubscribeTwoToneIcon/>
+                                                        </IconInactive>
+                                                    )
+                                                }
+                                            </Tooltip>
+                                        </Typography>
+                                      </Box>
                                   </Box>
                               </CardWrapper>
                               </Grid>

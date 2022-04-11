@@ -46,3 +46,25 @@ export const CreateAssociation = async(associationsApiUri, associationDataJson) 
     }
     return response;
 }
+
+export const ResendEmails = async(associationsApiUri, associationDataJson) => {
+    let response = await genericFetch(associationsApiUri, "POST", window.localStorage.getItem('accessToken'),associationDataJson);
+    if (response.requestAgain) {
+        response = await genericFetch(associationsApiUri, "POST", window.localStorage.getItem('accessToken'),associationDataJson);
+    }
+    else if (response.status == 404) {
+        response.associations = [];
+    }
+    return response;
+}
+
+export const ApproveAssociations = async(associationsApiUri, associationDataJson) => {
+    let response = await genericFetch(associationsApiUri, "POST", window.localStorage.getItem('accessToken'),associationDataJson);
+    if (response.requestAgain) {
+        response = await genericFetch(associationsApiUri, "POST", window.localStorage.getItem('accessToken'),associationDataJson);
+    }
+    else if (response.status == 404) {
+        response.associations = [];
+    }
+    return response;
+}

@@ -16,12 +16,13 @@ export const ASSOCIATIONDETAILS_TRANSLATIONS = deepFreeze({
         associations: 'Associations'
     },
     FORM: {
-        name: "Client App Name",
-        description: "Client App Description",
-        clientId: "Client App ID",
-        clientSecret: "Client App Secret",
-        updatedAt: "Updated At",
+        description: "Description",
+        name: "Association Name",
+        email: "Association Email",
+        active: "Is activated",
+        verified: "Verified by Email",
         createdAt: "Registered At",
+        updatedAt: "Updated at",
         saveButton: "Save"
     },
     MESSAGES: {

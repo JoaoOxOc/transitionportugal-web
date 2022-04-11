@@ -351,6 +351,38 @@
         "AllowedScopes": [ "users.write", "associationusers.write" ]
       }
     },
+    {
+      "DownstreamPathTemplate": "/api/association/resend",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tpuserservice",
+          "Port": 3020
+        }
+      ],
+      "UpstreamPathTemplate": "/associations/resend",
+      "UpstreamHttpMethod": [ "Post" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "TpAuthKey",
+        "AllowedScopes": [ "users.write" ]
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/association/approve",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tpuserservice",
+          "Port": 3020
+        }
+      ],
+      "UpstreamPathTemplate": "/associations/approve",
+      "UpstreamHttpMethod": [ "Post" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "TpAuthKey",
+        "AllowedScopes": [ "users.write" ]
+      }
+    },
     // user management controllers - users, profiles and scopes
     {
       "DownstreamPathTemplate": "/api/user",

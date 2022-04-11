@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useContext, useRef } from 'react';
 
 import {
   Box,
@@ -10,15 +10,21 @@ import {
   ListItem,
   List,
   Typography,
-  styled
+  styled,
+  Slide
 } from '@mui/material';
+import { useSnackbar } from 'notistack';
 import { i18nextAssociationsList } from "@transitionpt/translations";
+import { useErrorHandler } from 'react-error-boundary';
+import { ResendEmails, ApproveAssociations } from '../../../services/associations';
 
 import CheckTwoToneIcon from '@mui/icons-material/CheckTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import MoreVertTwoToneIcon from '@mui/icons-material/MoreVertTwoTone';
 import VerifiedUserTwoToneIcon from '@mui/icons-material/VerifiedUserTwoTone';
 import ForwardToInboxTwoToneIcon from '@mui/icons-material/ForwardToInboxTwoTone';
+import { AssociationsActionsContext } from '../../../contexts/Actions/AssociationsActionsContext';
+import { useRefMounted } from '../../../hooks/useRefMounted';
 
 const ButtonError = styled(Button)(
   ({ theme }) => `
@@ -45,7 +51,13 @@ const ButtonSuccess = styled(Button)(
 function BulkActions() {
   const [onMenuOpen, menuOpen] = useState(false);
   const moreRef = useRef(null);
+  const isMountedRef = useRefMounted();
+  const [actionsError, setActionsError] = useState(null);
+  useErrorHandler(actionsError);
+  const { enqueueSnackbar } = useSnackbar();
   const { t } = i18nextAssociationsList;
+  const { selectedAssociations } = useContext(AssociationsActionsContext);
+  console.log(selectedAssociations);
 
   const openMenu = () => {
     menuOpen(true);
@@ -55,16 +67,83 @@ function BulkActions() {
     menuOpen(false);
   };
 
+  const resendEmails = async() => {
+    const result = await ResendEmails(process.env.NEXT_PUBLIC_API_BASE_URL + '/associations/resend',{associationIds: selectedAssociations});
+    if (isMountedRef()) {
+      if (result.status) {
+        if (result.status === 404) {
+          enqueueSnackbar(t('MESSAGES.associationsNotFound'), {
+            variant: 'error',
+            anchorOrigin: {
+              vertical: 'top',
+              horizontal: 'center'
+            },
+            autoHideDuration: 2000,
+            TransitionComponent: Slide
+          });
+        }
+        else {
+          setActionsError(result);
+        }
+      }
+      else {
+        enqueueSnackbar(t('MESSAGES.resentEmails'), {
+            variant: 'success',
+            anchorOrigin: {
+              vertical: 'top',
+              horizontal: 'center'
+            },
+            autoHideDuration: 2000,
+            TransitionComponent: Slide
+        });
+      }
+    }
+  }
+
+  const approve = async() => {
+    const result = await ApproveAssociations(process.env.NEXT_PUBLIC_API_BASE_URL + '/associations/approve',{associationIds: selectedAssociations});
+    if (isMountedRef()) {
+      if (result.status) {
+        if (result.status === 404) {
+          enqueueSnackbar(t('MESSAGES.associationsNotFound'), {
+            variant: 'error',
+            anchorOrigin: {
+              vertical: 'top',
+              horizontal: 'center'
+            },
+            autoHideDuration: 2000,
+            TransitionComponent: Slide
+          });
+        }
+        else {
+          setActionsError(result);
+        }
+      }
+      else {
+        enqueueSnackbar(t('MESSAGES.associationsApproved'), {
+            variant: 'success',
+            anchorOrigin: {
+              vertical: 'top',
+              horizontal: 'center'
+            },
+            autoHideDuration: 2000,
+            TransitionComponent: Slide
+        });
+      }
+    }
+  }
+
   return (
     <>
       <Box display="flex" alignItems="center" justifyContent="space-between">
         <Box display="flex" alignItems="center">
           <Typography variant="h5" color="text.secondary">
-            {t('Bulk actions')}:
+            {t('LABELS.actions')}:
           </Typography>
-          <Tooltip arrow placement="top" title={t('Resend verification email')}>
+          <Tooltip arrow placement="top" title={t('ACTIONS.resendVerifyEmail')}>
             <IconButton
               color="primary"
+              onClick={resendEmails}
               sx={{
                 ml: 1,
                 p: 1
@@ -77,9 +156,10 @@ function BulkActions() {
             sx={{
               ml: 1
             }}
+            onClick={approve}
             startIcon={<CheckTwoToneIcon />}
             variant="contained">
-              {t('Approve')}
+              {t('ACTIONS.approveAssociation')}
           </ButtonSuccess>
         </Box>
         <IconButton
@@ -117,7 +197,7 @@ function BulkActions() {
           component="nav"
         >
           <ListItem button>
-            <ListItemText primary={t('Delete associations')} />
+            <ListItemText primary={t('ACTIONS.delete')} />
           </ListItem>
         </List>
       </Menu>
