@@ -11,16 +11,17 @@ export var ASSOCIATIONDETAILS_TRANSLATIONS = deepFreeze({
     LIST: {
         associationsTitle: "Associações/Entidades",
         home: "Home",
-        settings: "Definições",
+        management: "Administração",
         associations: 'Associações'
     },
     FORM: {
-        name: "Nome da Aplicação Cliente",
-        description: "Descrição da Aplicação Cliente",
-        clientId: "ID da Aplicação Cliente",
-        clientSecret: "Chave da Aplicação Cliente",
-        updatedAt: "Actualizado em",
+        description: "Descrição",
+        name: "Nome da Associação",
+        email: "Email da Associação",
+        active: "Activada",
+        verified: "Verificou o Email",
         createdAt: "Registado em",
+        updatedAt: "Actualizado em",
         saveButton: "Guardar"
     },
     MESSAGES: {

@@ -2,9 +2,9 @@ import * as deepFreeze from 'deep-freeze';
 
 export const ASSOCIATIONDETAILS_TRANSLATIONS = deepFreeze({
     LABELS: {
-        associationDetails: "Client App Details - {{name}}",
-        associationCreate: "Register a New Client App Authorization",
-        associationCreateSmall: "Register New Client App",
+        associationDetails: "Association Details - {{name}}",
+        associationCreate: "Register a New Association/Entity",
+        associationCreateSmall: "Register New Association/Entity",
         goBack: "Go back",
         registerAssociationInfo: "The client app Secret will be automatically generated after registering it",
         associationWarning: "Careful editting ID and secret values: the client app can stop working"
@@ -12,13 +12,26 @@ export const ASSOCIATIONDETAILS_TRANSLATIONS = deepFreeze({
     LIST: {
         associationsTitle: "Associations/Entities",
         home: "Home",
-        settings: "Settings",
+        management: "Management",
         associations: 'Associations'
+    },
+    TABS: {
+        main: "General Info",
+        address: "Association Address",
+        users: "Association Users"
     },
     FORM: {
         description: "Description",
         name: "Association Name",
         email: "Association Email",
+        phone: "Association Phone",
+        streetAddress: "Street Address",
+        town: "Association Town",
+        postalCode: "Association Postal Code",
+        vat: "Association VAT",
+        logoImage: "Association Logo",
+        website: "Association Website",
+        tags: "Association Tags",
         active: "Is activated",
         verified: "Verified by Email",
         createdAt: "Registered At",
@@ -32,9 +45,9 @@ export const ASSOCIATIONDETAILS_TRANSLATIONS = deepFreeze({
         descriptionRequired: "Client App Description is required",
         clientIdTooBig: "Client App ID is too big. Max characters: {{max}}",
         clientIdRequired: "Client App ID is required",
-        clientAppUpdatedSuccessfully: "The client app with name {{clientName}} was updated successfully",
-        clientAppCreatedSuccessfully: "The client app with name {{clientName}} was created successfully",
-        clientAppGeneralError: "Error creating/updating client app with name {{clientName}}. Please try again",
-        clientAppNotFound: "The client app with name {{clientName}} wasn't found. Please double check if the name is correct"
+        associationUpdatedSuccessfully: "The Association with name {{associationName}} was updated successfully",
+        associationCreatedSuccessfully: "The Association with name {{associationName}} was created successfully",
+        associationGeneralError: "Error creating/updating Association with name {{associationName}}. Please try again",
+        associationNotFound: "The Association with name {{associationName}} wasn't found. Please double check if the name is correct"
     }
 } as const);

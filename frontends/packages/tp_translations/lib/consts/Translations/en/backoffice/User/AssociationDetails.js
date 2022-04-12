@@ -1,9 +1,9 @@
 import * as deepFreeze from 'deep-freeze';
 export var ASSOCIATIONDETAILS_TRANSLATIONS = deepFreeze({
     LABELS: {
-        associationDetails: "Client App Details - {{name}}",
-        associationCreate: "Register a New Client App Authorization",
-        associationCreateSmall: "Register New Client App",
+        associationDetails: "Association Details - {{name}}",
+        associationCreate: "Register a New Association/Entity",
+        associationCreateSmall: "Register New Association/Entity",
         goBack: "Go back",
         registerAssociationInfo: "The client app Secret will be automatically generated after registering it",
         associationWarning: "Careful editting ID and secret values: the client app can stop working"
@@ -11,16 +11,17 @@ export var ASSOCIATIONDETAILS_TRANSLATIONS = deepFreeze({
     LIST: {
         associationsTitle: "Associations/Entities",
         home: "Home",
-        settings: "Settings",
+        management: "Management",
         associations: 'Associations'
     },
     FORM: {
-        name: "Client App Name",
-        description: "Client App Description",
-        clientId: "Client App ID",
-        clientSecret: "Client App Secret",
-        updatedAt: "Updated At",
+        description: "Description",
+        name: "Association Name",
+        email: "Association Email",
+        active: "Is activated",
+        verified: "Verified by Email",
         createdAt: "Registered At",
+        updatedAt: "Updated at",
         saveButton: "Save"
     },
     MESSAGES: {

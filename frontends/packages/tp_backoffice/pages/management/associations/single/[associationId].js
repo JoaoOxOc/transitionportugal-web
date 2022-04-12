@@ -6,7 +6,7 @@ import AccentHeaderLayout from '../../../../layouts/AccentHeaderLayout';
 import { Authenticated } from '../../../../components/Authenticated';
 import { Authorized } from '../../../../components/Authorized';
 
-import ClientAppDetails from '../../../../content/Management/App/Clients/single/details';
+import AssociationDetails from '../../../../content/Management/Associations/single/details';
 import Footer from '../../../../components/Footer';
 
 import { i18nextAssociationDetails } from "@transitionpt/translations";
@@ -27,10 +27,10 @@ function ManagementAssociationsView() {
     return (
     <>
       <Head>
-        <title>{t('LABELS.clientDetails')}</title>
+        <title>{t('LABELS.associationDetails')}</title>
       </Head>
 
-      <ClientAppDetails/>
+      <AssociationDetails/>
 
       <Footer />
     </>

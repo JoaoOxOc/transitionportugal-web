@@ -10,16 +10,17 @@ export declare const ASSOCIATIONDETAILS_TRANSLATIONS: {
     readonly LIST: {
         readonly associationsTitle: "Associações/Entidades";
         readonly home: "Home";
-        readonly settings: "Definições";
+        readonly management: "Administração";
         readonly associations: "Associações";
     };
     readonly FORM: {
-        readonly name: "Nome da Aplicação Cliente";
-        readonly description: "Descrição da Aplicação Cliente";
-        readonly clientId: "ID da Aplicação Cliente";
-        readonly clientSecret: "Chave da Aplicação Cliente";
-        readonly updatedAt: "Actualizado em";
+        readonly description: "Descrição";
+        readonly name: "Nome da Associação";
+        readonly email: "Email da Associação";
+        readonly active: "Activada";
+        readonly verified: "Verificou o Email";
         readonly createdAt: "Registado em";
+        readonly updatedAt: "Actualizado em";
         readonly saveButton: "Guardar";
     };
     readonly MESSAGES: {

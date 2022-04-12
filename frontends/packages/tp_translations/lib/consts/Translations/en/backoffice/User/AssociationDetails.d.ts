@@ -1,8 +1,8 @@
 export declare const ASSOCIATIONDETAILS_TRANSLATIONS: {
     readonly LABELS: {
-        readonly associationDetails: "Client App Details - {{name}}";
-        readonly associationCreate: "Register a New Client App Authorization";
-        readonly associationCreateSmall: "Register New Client App";
+        readonly associationDetails: "Association Details - {{name}}";
+        readonly associationCreate: "Register a New Association/Entity";
+        readonly associationCreateSmall: "Register New Association/Entity";
         readonly goBack: "Go back";
         readonly registerAssociationInfo: "The client app Secret will be automatically generated after registering it";
         readonly associationWarning: "Careful editting ID and secret values: the client app can stop working";
@@ -10,16 +10,17 @@ export declare const ASSOCIATIONDETAILS_TRANSLATIONS: {
     readonly LIST: {
         readonly associationsTitle: "Associations/Entities";
         readonly home: "Home";
-        readonly settings: "Settings";
+        readonly management: "Management";
         readonly associations: "Associations";
     };
     readonly FORM: {
-        readonly name: "Client App Name";
-        readonly description: "Client App Description";
-        readonly clientId: "Client App ID";
-        readonly clientSecret: "Client App Secret";
-        readonly updatedAt: "Updated At";
+        readonly description: "Description";
+        readonly name: "Association Name";
+        readonly email: "Association Email";
+        readonly active: "Is activated";
+        readonly verified: "Verified by Email";
         readonly createdAt: "Registered At";
+        readonly updatedAt: "Updated at";
         readonly saveButton: "Save";
     };
     readonly MESSAGES: {

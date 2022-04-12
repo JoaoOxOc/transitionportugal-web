@@ -49,8 +49,6 @@ export const genericFetch = async (apiUrl, method, bearerToken, bodyJson) => {
         }
         resultData = await response.json();
         resultData.totalCount = response.headers.get('x-total-count');
-        console.log(response.headers.get('set-cookie'));
-        resultData.setCookies = response.headers.get('set-cookie');
     }catch(err){
         resultData = err;
         if (err.status == 400 && resultErrorBody == "Invalid access token or refresh token") {
