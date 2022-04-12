@@ -13,10 +13,23 @@ export declare const ASSOCIATIONDETAILS_TRANSLATIONS: {
         readonly management: "Management";
         readonly associations: "Associations";
     };
+    readonly TABS: {
+        readonly main: "General Info";
+        readonly address: "Association Address";
+        readonly users: "Association Users";
+    };
     readonly FORM: {
         readonly description: "Description";
         readonly name: "Association Name";
         readonly email: "Association Email";
+        readonly phone: "Association Phone";
+        readonly streetAddress: "Street Address";
+        readonly town: "Association Town";
+        readonly postalCode: "Association Postal Code";
+        readonly vat: "Association VAT";
+        readonly logoImage: "Association Logo";
+        readonly website: "Association Website";
+        readonly tags: "Association Tags";
         readonly active: "Is activated";
         readonly verified: "Verified by Email";
         readonly createdAt: "Registered At";
@@ -30,10 +43,10 @@ export declare const ASSOCIATIONDETAILS_TRANSLATIONS: {
         readonly descriptionRequired: "Client App Description is required";
         readonly clientIdTooBig: "Client App ID is too big. Max characters: {{max}}";
         readonly clientIdRequired: "Client App ID is required";
-        readonly clientAppUpdatedSuccessfully: "The client app with name {{clientName}} was updated successfully";
-        readonly clientAppCreatedSuccessfully: "The client app with name {{clientName}} was created successfully";
-        readonly clientAppGeneralError: "Error creating/updating client app with name {{clientName}}. Please try again";
-        readonly clientAppNotFound: "The client app with name {{clientName}} wasn't found. Please double check if the name is correct";
+        readonly associationUpdatedSuccessfully: "The Association with name {{associationName}} was updated successfully";
+        readonly associationCreatedSuccessfully: "The Association with name {{associationName}} was created successfully";
+        readonly associationGeneralError: "Error creating/updating Association with name {{associationName}}. Please try again";
+        readonly associationNotFound: "The Association with name {{associationName}} wasn't found. Please double check if the name is correct";
     };
 };
 //# sourceMappingURL=AssociationDetails.d.ts.map

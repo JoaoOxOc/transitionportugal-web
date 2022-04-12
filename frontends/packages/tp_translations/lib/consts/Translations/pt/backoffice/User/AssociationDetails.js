@@ -1,9 +1,9 @@
 import * as deepFreeze from 'deep-freeze';
 export var ASSOCIATIONDETAILS_TRANSLATIONS = deepFreeze({
     LABELS: {
-        associationDetails: "Detalhes da Aplicação Cliente - {{name}}",
-        associationCreate: "Registar Nova Autorização de Aplicação Cliente",
-        associationCreateSmall: "Registar Nova Aplicação Cliente",
+        associationDetails: "Detalhes da Associação - {{name}}",
+        associationCreate: "Registar Nova Associação/Entidade",
+        associationCreateSmall: "Registar Nova Associação",
         goBack: "Voltar",
         registerAssociationInfo: "A chave da aplicação cliente será gerada automaticamente após o registo",
         associationWarning: "Atenção à edição dos valores de ID e chave: a aplicação cliente pode deixar de funcionar"
@@ -14,10 +14,23 @@ export var ASSOCIATIONDETAILS_TRANSLATIONS = deepFreeze({
         management: "Administração",
         associations: 'Associações'
     },
+    TABS: {
+        main: "Informação Geral",
+        address: "Endereço da Associação",
+        users: "Utilizadores da Associação"
+    },
     FORM: {
         description: "Descrição",
         name: "Nome da Associação",
         email: "Email da Associação",
+        phone: "Nº de Contacto da Associação",
+        streetAddress: "Endereço da Associação",
+        town: "Concelho da Associação",
+        postalCode: "Código Postal da Associação",
+        vat: "NIF da Associação",
+        logoImage: "Logotipo da Associação",
+        website: "Website da Associação",
+        tags: "Tags relativas à Associação",
         active: "Activada",
         verified: "Verificou o Email",
         createdAt: "Registado em",
@@ -31,10 +44,10 @@ export var ASSOCIATIONDETAILS_TRANSLATIONS = deepFreeze({
         descriptionRequired: "A Descrição é obrigatória",
         clientIdTooBig: "O ID é demasiado grande. Máx. de caracteres: {{max}}",
         clientIdRequired: "ID da Aplicação Cliente é obrigatório",
-        clientAppUpdatedSuccessfully: "A aplicação cliente cujo nome é {{clientName}} foi atualizada com sucesso",
-        clientAppCreatedSuccessfully: "A aplicação cliente cujo nome é {{clientName}} foi registada com sucesso",
-        clientAppGeneralError: "Erro ao registar/atualizar a aplicação cliente cujo nome é {{clientName}}. Por favor tente novamente",
-        clientAppNotFound: "A aplicação cliente cujo nome é {{clientName}} não foi encontrada. Por favor verifica se o nome está correcto"
+        associationUpdatedSuccessfully: "A Associação nome é {{associationName}} foi atualizada com sucesso",
+        associationCreatedSuccessfully: "A Associação cujo nome é {{associationName}} foi registada com sucesso",
+        associationGeneralError: "Erro ao registar/atualizar a Associação cujo nome é {{associationName}}. Por favor tente novamente",
+        associationNotFound: "A Associação cujo nome é {{associationName}} não foi encontrada. Por favor verifica se o nome está correcto"
     }
 });
 //# sourceMappingURL=AssociationDetails.js.map
