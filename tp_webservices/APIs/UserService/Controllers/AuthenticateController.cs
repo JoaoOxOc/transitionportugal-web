@@ -41,21 +41,31 @@ namespace UserService.Controllers
 
                 var userScopes = await _userManager.GetUserScopes(user);
 
-                var tokenData = _tokenManager.GetToken(authClaims.Concat(userScopes).ToList(), null);
-                var refreshTokenData = _tokenManager.GenerateRefreshToken(user.Id);
+                var fingerprintData = _tokenManager.GenerateAuthFingerprint("_TPSSID");
 
-
-                user.RefreshToken = refreshTokenData.Key;
-                user.RefreshTokenExpiryTime = DateTime.Now.AddDays(refreshTokenData.Value);
-
-                await _userManager.UpdateUser(user);
-
-                return Ok(new
+                Response.Cookies.Append(fingerprintData.CookieName, fingerprintData.CookieValue, fingerprintData.CookieProperties);
+                try
                 {
-                    token = tokenData.Token,
-                    RefreshToken = refreshTokenData.Key,
-                    expiration = tokenData.ExpiresAt
-                });
+                    var tokenData = _tokenManager.GetToken(authClaims.Concat(userScopes).ToList(), null, fingerprintData.CookieValue);
+                    var refreshTokenData = _tokenManager.GenerateRefreshToken(user.Id, fingerprintData.CookieValue);
+
+
+                    user.RefreshToken = refreshTokenData.Key;
+                    user.RefreshTokenExpiryTime = DateTime.Now.AddDays(refreshTokenData.Value);
+
+                    await _userManager.UpdateUser(user);
+
+                    return Ok(new
+                    {
+                        token = tokenData.Token,
+                        RefreshToken = refreshTokenData.Key,
+                        expiration = tokenData.ExpiresAt
+                    });
+                }
+                catch(Exception ex)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, null);
+                }
             }
             return Unauthorized();
         }
@@ -147,9 +157,9 @@ namespace UserService.Controllers
             var userClaims = await _userManager.GetUserClaimsPasswordRecovery(result.Key);
             var associationClaims = await _userManager.GetAssociationClaimsConfirmEmail(result.Value);
 
-            var userTokenData = _tokenManager.GetToken(userClaims, 1440);
+            var userTokenData = _tokenManager.GetToken(userClaims, 1440, null);
 
-            var associationTokenData = _tokenManager.GetToken(associationClaims, 1440);
+            var associationTokenData = _tokenManager.GetToken(associationClaims, 1440, null);
 
             //TODO: send email through the helper class with template
             EmailVM userEmailData = new EmailVM();
@@ -279,30 +289,46 @@ namespace UserService.Controllers
                 return BadRequest("Invalid access token or refresh token");
             }
 
-            #pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
-            #pragma warning disable CS8602 // Dereference of a possibly null reference.
-            string username = principal.Identity.Name;
-            #pragma warning restore CS8602 // Dereference of a possibly null reference.
-            #pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
-
-            var user = await _userManager.SearchUser(username);
-
-            if (user == null || user.RefreshToken != refreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
+            try
             {
-                return BadRequest("Invalid access token or refresh token");
+
+                string cookieValueFromContext = HttpContext.Request.Cookies["_TPSSID"];
+
+                var refreshPrincipals = _tokenManager.GetPrincipalFromRefreshToken(refreshToken);
+
+                var fingerprintValid = _tokenManager.ValidateAuthFingerprint(cookieValueFromContext, refreshPrincipals.Claims.Where(x => x.Type == "userContext").FirstOrDefault()?.Value);
+
+                #pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
+                #pragma warning disable CS8602 // Dereference of a possibly null reference.
+                string username = principal.Identity.Name;
+                #pragma warning restore CS8602 // Dereference of a possibly null reference.
+                #pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
+
+                var user = await _userManager.SearchUser(username);
+
+                if (!fingerprintValid || user == null || user.RefreshToken != refreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
+                {
+                    return BadRequest("Invalid access token or refresh token");
+                }
+
+                var newAccessTokenData = _tokenManager.GetToken(principal.Claims.ToList(), null, cookieValueFromContext);
+                var newRefreshTokenData = _tokenManager.GenerateRefreshToken(user.Id, cookieValueFromContext);
+
+                user.RefreshToken = newRefreshTokenData.Key;
+                await _userManager.UpdateUser(user);
+
+                return new ObjectResult(new
+                {
+                    accessToken = newAccessTokenData.Token,
+                    refreshToken = newRefreshTokenData.Key,
+                    cookieValueFromContext = cookieValueFromContext,
+                    fingerprintValid = fingerprintValid
+                });
             }
-
-            var newAccessTokenData = _tokenManager.GetToken(principal.Claims.ToList(), null);
-            var newRefreshTokenData = _tokenManager.GenerateRefreshToken(user.Id);
-
-            user.RefreshToken = newRefreshTokenData.Key;
-            await _userManager.UpdateUser(user);
-
-            return new ObjectResult(new
+            catch (Exception ex)
             {
-                accessToken = newAccessTokenData.Token,
-                refreshToken = newRefreshTokenData.Key
-            });
+                return StatusCode(StatusCodes.Status500InternalServerError, null);
+            }
         }
 
         [Authorize]
@@ -369,7 +395,7 @@ namespace UserService.Controllers
                 emailData.To = new List<string> { "jp_69_7@hotmail.com" };//TODO: replace with user.Email, only use the current line for testing
                 var authClaims = await _userManager.GetUserClaimsPasswordRecovery(user);
 
-                var tokenData = _tokenManager.GetToken(authClaims, null);
+                var tokenData = _tokenManager.GetToken(authClaims, null, null);
                 var emailLink = _configuration["ApplicationSettings:RecoverPasswordBaseUrl"] + _configuration["ApplicationSettings:RecoverPasswordUri"] + "?t=" + tokenData.Token;
                 emailData.Body = "Please access the following url to reset your password, you only have 15 minutes to reset your password:<br/><a target='_blank' rel='noopener noreferrer' href='" + emailLink + "'>" + emailLink + "</a>";
                 emailData.Subject = "Reset your password";

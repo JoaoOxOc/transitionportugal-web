@@ -7,6 +7,7 @@ export const genericFetch = async (apiUrl, method, bearerToken, bodyJson) => {
         'Expires': 'Sat, 01 Jan 2000 00:00:00 GMT',
         'Accept': '*/*',
         "Content-Type": "application/json",
+        "credentials": 'include',
         "ClientId": process.env.NEXT_PUBLIC_CLIENT_ID,
         "ClientAuthorization": process.env.NEXT_PUBLIC_CLIENT_SECRET
     };
@@ -48,6 +49,8 @@ export const genericFetch = async (apiUrl, method, bearerToken, bodyJson) => {
         }
         resultData = await response.json();
         resultData.totalCount = response.headers.get('x-total-count');
+        console.log(response.headers.get('set-cookie'));
+        resultData.setCookies = response.headers.get('set-cookie');
     }catch(err){
         resultData = err;
         if (err.status == 400 && resultErrorBody == "Invalid access token or refresh token") {
