@@ -64,7 +64,7 @@ namespace UserService.Controllers
                 }
                 catch(Exception ex)
                 {
-                    return StatusCode(StatusCodes.Status500InternalServerError, null);
+                    return StatusCode(StatusCodes.Status500InternalServerError, ex.Message + "|" + ex.StackTrace);
                 }
             }
             return Unauthorized();
