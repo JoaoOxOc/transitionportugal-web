@@ -16,6 +16,7 @@ WORKDIR /app/
 # tp_translations is a dependency in tp_backoffice, install it's dependencies
 COPY  packages/tp_translations/package.json /app/packages/tp_translations/package.json
 COPY  packages/tp_translations/ /app/packages/tp_translations/ 
+RUN npm config set legacy-peer-deps true
 RUN npx lerna bootstrap --scope=@transitionpt/translations --includeDependencies
 
 # compile tp_translations
@@ -25,6 +26,7 @@ RUN npx lerna run tsc --stream
 COPY  packages/tp_backoffice/package.json /app/packages/tp_backoffice/package.json
 COPY  packages/tp_backoffice/ /app/packages/tp_backoffice/ 
 
+RUN npm config set legacy-peer-deps true
 RUN npx lerna bootstrap --hoist --scope=@transitionpt/backoffice --includeDependencies
 
 # WORKAROUND: lerna compiles tp_translations as a symlink in node_modules, which will not work with next start command
