@@ -13,7 +13,7 @@ import {
   useTheme
 } from '@mui/material';
 import { i18nextAbout } from "@transitionpt/translations";
-import Label from '../../../components/Label';
+import Label from '../../../../components/Label';
 import { formatDistance, subDays, subHours, subMinutes } from 'date-fns';
 
 function Notifications() {

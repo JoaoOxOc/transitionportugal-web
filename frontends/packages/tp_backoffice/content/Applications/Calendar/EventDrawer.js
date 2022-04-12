@@ -26,8 +26,8 @@ import {
 } from '@mui/material';
 import { DateTimePicker } from '@mui/lab';
 
-import { useDispatch } from 'src/store';
-import { createEvent, updateEvent, deleteEvent } from 'src/slices/calendar';
+import { useDispatch } from '../../../store';
+import { createEvent, updateEvent, deleteEvent } from '../../../slices/calendar';
 import { i18nextAbout } from "@transitionpt/translations";
 import { useMemo } from 'react';
 

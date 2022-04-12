@@ -66,7 +66,7 @@ namespace UserService.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2022, 3, 12, 17, 35, 12, 122, DateTimeKind.Local).AddTicks(525),
+                            CreatedAt = new DateTime(2022, 4, 6, 15, 53, 54, 254, DateTimeKind.Local).AddTicks(6936),
                             DefaultValue = "3",
                             Description = "Número máximo de tentativas de autenticação falhadas",
                             Key = "MaxLoginAttempts",
@@ -76,7 +76,7 @@ namespace UserService.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2022, 3, 12, 17, 35, 12, 122, DateTimeKind.Local).AddTicks(591),
+                            CreatedAt = new DateTime(2022, 4, 6, 15, 53, 54, 254, DateTimeKind.Local).AddTicks(6974),
                             DefaultValue = "6Lf2t0sUAAAAABiszBasjJuBZXTdqMy00zOKPOFt",
                             Description = "Site key usada pelo serviço de reCAPTCHA da Google",
                             Key = "CaptchaSiteKey",
@@ -86,7 +86,7 @@ namespace UserService.Migrations
                         new
                         {
                             Id = 3,
-                            CreatedAt = new DateTime(2022, 3, 12, 17, 35, 12, 122, DateTimeKind.Local).AddTicks(594),
+                            CreatedAt = new DateTime(2022, 4, 6, 15, 53, 54, 254, DateTimeKind.Local).AddTicks(6977),
                             DefaultValue = "6Lf2t0sUAAAAAPwP3kIvpynFqPp-7_QLfQoDQtZd",
                             Description = "Secret key usada pelo serviço de reCAPTCHA da Google",
                             Key = "CaptchaSecretKey",
@@ -124,28 +124,28 @@ namespace UserService.Migrations
                         new
                         {
                             Id = "e762fd61-0f58-4c5d-ad0e-7bd322ae3ccf",
-                            ConcurrencyStamp = "ec0f5635-fbe8-4621-aa21-f6703cbc0254",
+                            ConcurrencyStamp = "a0c17a8c-7674-46e1-bcbd-57357a6b2be6",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "244d3f1a-8594-4adb-9c59-5ec36fcdbf03",
-                            ConcurrencyStamp = "f6837a6b-aa5f-4537-a80f-cebe1ebf105c",
+                            ConcurrencyStamp = "2d002376-92c1-44a5-947b-37467119870e",
                             Name = "AssociationAdmin",
                             NormalizedName = "ASSOCIATIONADMIN"
                         },
                         new
                         {
                             Id = "179642d9-0f10-4d7d-a1a0-b485b3f6659f",
-                            ConcurrencyStamp = "9a751937-518d-4dce-a712-c6091d69dfe3",
+                            ConcurrencyStamp = "a8a8e58d-0b79-426e-bde0-2dacb70c4a3c",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
                             Id = "69d5274f-235d-4013-bbac-0c4eddf31ecc",
-                            ConcurrencyStamp = "dacbfd44-634d-4af7-b796-f109173b1f63",
+                            ConcurrencyStamp = "bb6ee11d-1657-4bbf-8cd1-4a92ef65393f",
                             Name = "AssociationUser",
                             NormalizedName = "ASSOCIATIONUSER"
                         });
@@ -594,8 +594,8 @@ namespace UserService.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<int?>("CreatedBy")
-                        .HasColumnType("integer");
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("text");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -655,8 +655,8 @@ namespace UserService.Migrations
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<int?>("UpdatedBy")
-                        .HasColumnType("integer");
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("text");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)

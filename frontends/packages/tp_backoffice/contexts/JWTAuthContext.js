@@ -70,7 +70,7 @@ export const AuthProvider = (props) => {
   useEffect(() => {
     const initialize = async () => {
       try {
-        const accessToken = window.localStorage.getItem('accessToken');
+        const accessToken = window.sessionStorage.getItem('accessToken');
 
         if (accessToken) {
           const userProfile = await genericFetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/user/profile", "GET", accessToken,{});
@@ -99,7 +99,7 @@ export const AuthProvider = (props) => {
               });
             }
             else if (userProfile.requestAgain) {
-              userProfile = await genericFetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/user/profile", "GET", window.localStorage.getItem('accessToken'),{});
+              userProfile = await genericFetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/user/profile", "GET", window.sessionStorage.getItem('accessToken'),{});
               if (userProfile.result) {
                 //const user = await authApi.me(response.token);
                 const user = userProfile.result;
@@ -154,8 +154,8 @@ export const AuthProvider = (props) => {
           //const user = await authApi.me(response.token);
           const user = userProfile.result;
     
-          localStorage.setItem('accessToken', response.token);
-          localStorage.setItem('refreshToken', response.refreshToken);
+          sessionStorage.setItem('accessToken', response.token);
+          sessionStorage.setItem('refreshToken', response.refreshToken);
 
           dispatch({
             type: 'LOGIN',
@@ -175,11 +175,11 @@ export const AuthProvider = (props) => {
   };
 
   const logout = async () => {
-    const accessToken = window.localStorage.getItem('accessToken');
+    const accessToken = window.sessionStorage.getItem('accessToken');
     const userLogout = await genericFetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/user/logout", "GET", accessToken,{});
     
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
+    sessionStorage.removeItem('accessToken');
+    sessionStorage.removeItem('refreshToken');
     dispatch({ type: 'LOGOUT' });
   };
 
@@ -187,7 +187,7 @@ export const AuthProvider = (props) => {
     const accessToken = await authApi.register({ email, name, password });
     const user = await authApi.me(accessToken);
 
-    localStorage.setItem('accessToken', accessToken);
+    sessionStorage.setItem('accessToken', accessToken);
 
     dispatch({
       type: 'REGISTER',

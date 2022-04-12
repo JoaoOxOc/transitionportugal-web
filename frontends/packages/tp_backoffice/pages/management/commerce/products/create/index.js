@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import ExtendedSidebarLayout from '../../../../layouts/ExtendedSidebarLayout';
-import { Authenticated } from '../../../../components/Authenticated';
+import AccentHeaderLayout from '../../../../../layouts/AccentHeaderLayout';
+import { Authenticated } from '../../../../../components/Authenticated';
 
 import Head from 'next/head';
-import PageHeader from '../../../../content/Management/Commerce/create/PageHeader';
+import PageHeader from '../../../../../content/Management/Commerce/create/PageHeader';
 import {
   Box,
   Drawer,
@@ -13,12 +13,12 @@ import {
   IconButton,
   styled
 } from '@mui/material';
-import Scrollbar from '../../../../components/Scrollbar';
+import Scrollbar from '../../../../../components/Scrollbar';
 
-import Sidebar from '../../../../content/Management/Commerce/create/Sidebar';
+import Sidebar from '../../../../../content/Management/Commerce/create/Sidebar';
 
-import AdditionalInfo from '../../../../content/Management/Commerce/create/AdditionalInfo';
-import GeneralSection from '../../../../content/Management/Commerce/create/GeneralSection';
+import AdditionalInfo from '../../../../../content/Management/Commerce/create/AdditionalInfo';
+import GeneralSection from '../../../../../content/Management/Commerce/create/GeneralSection';
 import MenuTwoToneIcon from '@mui/icons-material/MenuTwoTone';
 
 const DrawerWrapper = styled(Drawer)(
@@ -149,7 +149,7 @@ function ManagementProductCreate() {
 
 ManagementProductCreate.getLayout = (page) => (
   <Authenticated>
-    <ExtendedSidebarLayout>{page}</ExtendedSidebarLayout>
+    <AccentHeaderLayout>{page}</AccentHeaderLayout>
   </Authenticated>
 );
 

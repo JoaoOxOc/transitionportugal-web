@@ -21,7 +21,7 @@ import {
   lighten,
   styled
 } from '@mui/material';
-import { useAuth } from 'src/hooks/useAuth';
+import { useAuth } from '../../../hooks/useAuth';
 import { i18nextAbout } from "@transitionpt/translations";
 import { formatDistance, subMinutes, subHours } from 'date-fns';
 import SettingsTwoToneIcon from '@mui/icons-material/SettingsTwoTone';

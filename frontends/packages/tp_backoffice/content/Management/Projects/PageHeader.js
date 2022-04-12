@@ -2,7 +2,7 @@ import { useState } from 'react';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import { i18nextAbout } from "@transitionpt/translations";
-import { wait } from 'src/utils/wait';
+import { wait } from '../../../utils/wait';
 import dynamic from 'next/dynamic';
 import 'react-quill/dist/quill.snow.css';
 

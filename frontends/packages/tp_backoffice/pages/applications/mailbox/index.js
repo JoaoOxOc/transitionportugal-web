@@ -1,10 +1,10 @@
 import { useEffect, useRef } from 'react';
 import Head from 'next/head';
 
-import ExtendedSidebarLayout from 'src/layouts/ExtendedSidebarLayout';
-import { Authenticated } from 'src/components/Authenticated';
+import AccentHeaderLayout from '../../../layouts/AccentHeaderLayout';
+import { Authenticated } from '../../../components/Authenticated';
 import { useRouter } from 'next/router';
-import { useDispatch, useSelector } from 'src/store';
+import { useDispatch, useSelector } from '../../../store';
 
 import {
   Box,
@@ -14,10 +14,10 @@ import {
   styled,
   useTheme
 } from '@mui/material';
-import { MailboxResults } from 'src/content/Applications/Mailbox/Results';
-import { MailboxSingle } from 'src/content/Applications/Mailbox/Single';
-import { MailboxSidebar } from 'src/content/Applications/Mailbox/Sidebar';
-import { getTags, openSidebar, closeSidebar } from 'src/slices/mailbox';
+import { MailboxResults } from '../../../content/Applications/Mailbox/Results';
+import { MailboxSingle } from '../../../content/Applications/Mailbox/Single';
+import { MailboxSidebar } from '../../../content/Applications/Mailbox/Sidebar';
+import { getTags, openSidebar, closeSidebar } from '../../../slices/mailbox';
 import MenuTwoToneIcon from '@mui/icons-material/MenuTwoTone';
 
 const MainContentWrapper = styled(Box)(
@@ -133,7 +133,7 @@ const ApplicationsMailbox = () => {
 
 ApplicationsMailbox.getLayout = (page) => (
   <Authenticated>
-    <ExtendedSidebarLayout>{page}</ExtendedSidebarLayout>
+    <AccentHeaderLayout>{page}</AccentHeaderLayout>
   </Authenticated>
 );
 

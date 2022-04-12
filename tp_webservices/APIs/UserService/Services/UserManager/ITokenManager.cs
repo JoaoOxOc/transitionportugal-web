@@ -1,14 +1,16 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using UserService.Models;
 
 namespace UserService.Services.UserManager
 {
     public interface ITokenManager
     {
-        JwtResponse GetToken(List<Claim> authClaims, int? expireTimeMinutes);
+        AuthCookieInfo GenerateAuthFingerprint(string cookieName);
+        bool ValidateAuthFingerprint(string cookieValue, string userContext);
+        JwtResponse GetToken(List<Claim> authClaims, int? expireTimeMinutes, string? fingerprint);
         JwtResponse GetClientToken();
-        KeyValuePair<string, int> GenerateRefreshToken(string userId);
+        KeyValuePair<string, int> GenerateRefreshToken(string userId, string? fingerprint);
         ClaimsPrincipal? GetPrincipalFromExpiredToken(string? token);
+        ClaimsPrincipal? GetPrincipalFromRefreshToken(string? token);
     }
 }

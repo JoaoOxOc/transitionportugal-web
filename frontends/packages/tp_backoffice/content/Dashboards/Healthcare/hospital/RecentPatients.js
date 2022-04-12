@@ -24,7 +24,7 @@ import ArrowForwardTwoToneIcon from '@mui/icons-material/ArrowForwardTwoTone';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import { format, subHours, subDays } from 'date-fns';
-import Text from '../../../components/Text';
+import Text from '../../../../components/Text';
 
 const DotSuccess = styled('span')(
   ({ theme }) => `

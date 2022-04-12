@@ -9,7 +9,7 @@ import {
   styled
 } from '@mui/material';
 
-import BaseLayout from '../layouts/BaseLayout';
+import BaseLayout from '../../../layouts/BaseLayout';
 
 import Head from 'next/head';
 import RefreshTwoToneIcon from '@mui/icons-material/RefreshTwoTone';

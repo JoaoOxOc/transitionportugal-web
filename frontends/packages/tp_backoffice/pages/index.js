@@ -6,7 +6,7 @@ import { Authenticated } from '../components/Authenticated';
 import DashboardReportsContent from '../content/DashboardPages/reports';
 
 function DashboardReports({api_url}) {
-  console.log(api_url)
+  console.log("env API URL: ",api_url)
   return (
     <>
       <Head>
@@ -28,7 +28,7 @@ DashboardReports.getLayout = (page) => (
 export async function getStaticProps() {
   const backData = {
     props: {
-      api_url: process.env.NEXT_PUBLIC_API_BASE_URL
+      api_url: process.env.NEXT_PUBLIC_API_BASE_URL ? process.env.NEXT_PUBLIC_API_BASE_URL : ""
     }
   };
   return backData;

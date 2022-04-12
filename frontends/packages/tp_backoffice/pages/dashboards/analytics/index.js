@@ -1,7 +1,7 @@
 import Head from 'next/head';
 
 import { Authenticated } from '../../../components/Authenticated';
-import ExtendedSidebarLayout from '../../../layouts/ExtendedSidebarLayout';
+import AccentHeaderLayout from '../../../layouts/AccentHeaderLayout';
 
 import DashboardAnalyticsContent from '../../../content/DashboardPages/analytics';
 
@@ -18,7 +18,7 @@ function DashboardAnalytics() {
 
 DashboardAnalytics.getLayout = (page) => (
   <Authenticated>
-    <ExtendedSidebarLayout>{page}</ExtendedSidebarLayout>
+    <AccentHeaderLayout>{page}</AccentHeaderLayout>
   </Authenticated>
 );
 

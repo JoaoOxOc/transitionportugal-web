@@ -13,7 +13,7 @@ export const Authorized = (props) => {
       return;
     }
 
-    if(!verifyTokenScopes(window.localStorage.getItem('accessToken'), props.scopes)) {
+    if(!verifyTokenScopes(window.sessionStorage.getItem('accessToken'), props.scopes)) {
       router.push({
         pathname: '/403',
         query: { access: router.pathname },

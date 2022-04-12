@@ -14,7 +14,7 @@ import {
   useTheme
 } from '@mui/material';
 import { i18nextAbout } from "@transitionpt/translations";
-import { useAuth } from 'src/hooks/useAuth';
+import { useAuth } from '../../../hooks/useAuth';
 import ExpandMoreTwoToneIcon from '@mui/icons-material/ExpandMoreTwoTone';
 import { buildStyles } from 'react-circular-progressbar';
 import Gauge from '../../../components/Gauge';

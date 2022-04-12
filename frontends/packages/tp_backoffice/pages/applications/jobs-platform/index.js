@@ -1,11 +1,11 @@
 import { useState, useEffect, useCallback } from 'react';
-import ExtendedSidebarLayout from 'src/layouts/ExtendedSidebarLayout';
-import { Authenticated } from 'src/components/Authenticated';
+import AccentHeaderLayout from '../../../layouts/AccentHeaderLayout';
+import { Authenticated } from '../../../components/Authenticated';
 
 import Head from 'next/head';
-import PageHeader from 'src/content/Applications/JobsPlatform/PageHeader';
-import Footer from 'src/components/Footer';
-import Sidebar from 'src/content/Applications/JobsPlatform/Sidebar';
+import PageHeader from '../../../content/Applications/JobsPlatform/PageHeader';
+import Footer from '../../../components/Footer';
+import Sidebar from '../../../content/Applications/JobsPlatform/Sidebar';
 
 import {
   TextField,
@@ -25,12 +25,12 @@ import { i18nextAbout } from "@transitionpt/translations";
 
 import MenuTwoToneIcon from '@mui/icons-material/MenuTwoTone';
 
-import { useRefMounted } from 'src/hooks/useRefMounted';
+import { useRefMounted } from '../../../hooks/useRefMounted';
 
-import { jobsApi } from 'src/mocks/jobs';
+import { jobsApi } from '../../../mocks/jobs';
 
-import Results from 'src/content/Applications/JobsPlatform/Results';
-import Scrollbar from 'src/components/Scrollbar';
+import Results from '../../../content/Applications/JobsPlatform/Results';
+import Scrollbar from '../../../components/Scrollbar';
 
 const sidebarContent = (
   <Scrollbar>
@@ -231,7 +231,7 @@ function ApplicationsJobsPlatform() {
 
 ApplicationsJobsPlatform.getLayout = (page) => (
   <Authenticated>
-    <ExtendedSidebarLayout>{page}</ExtendedSidebarLayout>
+    <AccentHeaderLayout>{page}</AccentHeaderLayout>
   </Authenticated>
 );
 

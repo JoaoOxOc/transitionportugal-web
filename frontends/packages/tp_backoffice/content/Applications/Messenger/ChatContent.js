@@ -1,5 +1,5 @@
 import { Box, Avatar, Typography, Card, styled, Divider } from '@mui/material';
-import { useAuth } from 'src/hooks/useAuth';
+import { useAuth } from '../../../hooks/useAuth';
 import { i18nextAbout } from "@transitionpt/translations";
 import {
   formatDistance,
@@ -116,7 +116,7 @@ function ChatContent() {
           mr={2}
         >
           <CardWrapperPrimary>
-            Yes, I'll email them right now. I'll let you know once the remaining
+            Yes, I&apos;ll email them right now. I&apos;ll let you know once the remaining
             invoices are done.
           </CardWrapperPrimary>
           <Typography

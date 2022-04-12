@@ -1,19 +1,19 @@
 import { useState, useEffect, useCallback } from 'react';
 
-import ExtendedSidebarLayout from 'src/layouts/ExtendedSidebarLayout';
-import { Authenticated } from 'src/components/Authenticated';
+import AccentHeaderLayout from '../../../layouts/AccentHeaderLayout';
+import { Authenticated } from '../../../components/Authenticated';
 
 import Head from 'next/head';
-import PageHeader from 'src/content/Management/Invoices/PageHeader';
-import Footer from 'src/components/Footer';
-import Statistics from 'src/content/Management/Invoices/Statistics';
-import PageTitleWrapper from 'src/components/PageTitleWrapper';
+import PageHeader from '../../../content/Management/Invoices/PageHeader';
+import Footer from '../../../components/Footer';
+import Statistics from '../../../content/Management/Invoices/Statistics';
+import PageTitleWrapper from '../../../components/PageTitleWrapper';
 
 import { Grid } from '@mui/material';
-import { useRefMounted } from 'src/hooks/useRefMounted';
+import { useRefMounted } from '../../../hooks/useRefMounted';
 
-import { invoicesApi } from 'src/mocks/invoices';
-import Results from 'src/content/Management/Invoices/Results';
+import { invoicesApi } from '../../../mocks/invoices';
+import Results from '../../../content/Management/Invoices/Results';
 
 function ManagementInvoices() {
   const isMountedRef = useRefMounted();
@@ -66,7 +66,7 @@ function ManagementInvoices() {
 
 ManagementInvoices.getLayout = (page) => (
   <Authenticated>
-    <ExtendedSidebarLayout>{page}</ExtendedSidebarLayout>
+    <AccentHeaderLayout>{page}</AccentHeaderLayout>
   </Authenticated>
 );
 

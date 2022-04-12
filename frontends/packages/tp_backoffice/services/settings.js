@@ -3,9 +3,9 @@ import { buildRouteQuery, genericFetch } from './genericFetch';
 export const GetSettings = async(settingsUri, searchDataJson) => {
     settingsUri += buildRouteQuery(searchDataJson);
     console.log(settingsUri);
-    let response = await genericFetch(settingsUri, "GET", window.localStorage.getItem('accessToken'),{});
+    let response = await genericFetch(settingsUri, "GET", window.sessionStorage.getItem('accessToken'),{});
     if (response.requestAgain) {
-        response = await genericFetch(settingsUri, "GET", window.localStorage.getItem('accessToken'),{});
+        response = await genericFetch(settingsUri, "GET", window.sessionStorage.getItem('accessToken'),{});
     }
     else if (response.status == 404) {
         response.settings = [];
@@ -15,9 +15,9 @@ export const GetSettings = async(settingsUri, searchDataJson) => {
 }
 
 export const GetSettingData = async(settingsUri) => {
-    let response = await genericFetch(settingsUri, "GET", window.localStorage.getItem('accessToken'),{});
+    let response = await genericFetch(settingsUri, "GET", window.sessionStorage.getItem('accessToken'),{});
     if (response.requestAgain) {
-        response = await genericFetch(settingsUri, "GET", window.localStorage.getItem('accessToken'),{});
+        response = await genericFetch(settingsUri, "GET", window.sessionStorage.getItem('accessToken'),{});
     }
     else if (response.status == 404) {
         response.settings = {};
@@ -26,9 +26,9 @@ export const GetSettingData = async(settingsUri) => {
 }
 
 export const UpdateSettingData = async(settingsUri, settingDataJson) => {
-    let response = await genericFetch(settingsUri, "PUT", window.localStorage.getItem('accessToken'),settingDataJson);
+    let response = await genericFetch(settingsUri, "PUT", window.sessionStorage.getItem('accessToken'),settingDataJson);
     if (response.requestAgain) {
-        response = await genericFetch(settingsUri, "PUT", window.localStorage.getItem('accessToken'),settingDataJson);
+        response = await genericFetch(settingsUri, "PUT", window.sessionStorage.getItem('accessToken'),settingDataJson);
     }
     else if (response.status == 404) {
         response.setting = {};

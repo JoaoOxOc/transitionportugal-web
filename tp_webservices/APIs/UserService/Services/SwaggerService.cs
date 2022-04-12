@@ -1,5 +1,6 @@
 ﻿using Microsoft.OpenApi.Models;
 using System.Reflection;
+using MicroservicesLibrary.OpenApi;
 
 namespace UserService.Services
 {

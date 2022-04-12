@@ -1,18 +1,18 @@
 import { Fragment, useState, useEffect } from 'react';
 
 import { DragDropContext } from 'react-beautiful-dnd';
-import { useDispatch, useSelector } from 'src/store';
-import { getProject, moveTask } from 'src/slices/projects_board';
+import { useDispatch, useSelector } from '../../../store';
+import { getProject, moveTask } from '../../../slices/projects_board';
 import Head from 'next/head';
-import Footer from 'src/components/Footer';
-import PageHeader from 'src/content/Applications/ProjectsBoard/PageHeader';
+import Footer from '../../../components/Footer';
+import PageHeader from '../../../content/Applications/ProjectsBoard/PageHeader';
 import { i18nextAbout } from "@transitionpt/translations";
 import { useSnackbar } from 'notistack';
-import Results from 'src/content/Applications/ProjectsBoard/Results';
-import Label from 'src/components/Label';
-import PageTitleWrapper from 'src/components/PageTitleWrapper';
-import ExtendedSidebarLayout from 'src/layouts/ExtendedSidebarLayout';
-import { Authenticated } from 'src/components/Authenticated';
+import Results from '../../../content/Applications/ProjectsBoard/Results';
+import Label from '../../../components/Label';
+import PageTitleWrapper from '../../../components/PageTitleWrapper';
+import AccentHeaderLayout from '../../../layouts/AccentHeaderLayout';
+import { Authenticated } from '../../../components/Authenticated';
 
 import {
   styled,
@@ -463,7 +463,7 @@ function ApplicationsProjectsBoard() {
 
 ApplicationsProjectsBoard.getLayout = (page) => (
   <Authenticated>
-    <ExtendedSidebarLayout>{page}</ExtendedSidebarLayout>
+    <AccentHeaderLayout>{page}</AccentHeaderLayout>
   </Authenticated>
 );
 

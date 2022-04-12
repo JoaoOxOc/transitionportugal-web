@@ -2,9 +2,9 @@ import { useState, useEffect, useCallback } from 'react';
 
 import { Card } from '@mui/material';
 
-import { useRefMounted } from 'src/hooks/useRefMounted';
+import { useRefMounted } from '../../../hooks/useRefMounted';
 import RecentOrdersTable from './RecentOrdersTable';
-import { cryptoOrdersApi } from 'src/mocks/crypto_orders';
+import { cryptoOrdersApi } from '../../../mocks/crypto_orders';
 
 function RecentOrders() {
   const isMountedRef = useRefMounted();

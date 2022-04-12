@@ -1,4 +1,4 @@
-import Link from '../../../components/Link';
+import Link from '../../../../components/Link';
 import { Box, Grid, Typography, Button } from '@mui/material';
 import { i18nextAbout } from "@transitionpt/translations";
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';

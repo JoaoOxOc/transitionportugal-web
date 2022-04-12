@@ -14,7 +14,9 @@ export declare const SIDEMENU_TRANSLATIONS: {
     };
     readonly SIDEMENU_MANAGEMENT: {
         readonly users: "Users";
+        readonly associations: "Associations/Entities";
         readonly profiles: "Profiles";
+        readonly scopes: "Permissions";
         readonly newsletter: "Newsletter Subscriptions";
         readonly privacy: "Policy & Privacy";
     };
