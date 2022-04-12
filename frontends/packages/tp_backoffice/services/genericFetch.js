@@ -54,7 +54,7 @@ export const genericFetch = async (apiUrl, method, bearerToken, bodyJson) => {
             resultData.redirectLogin = true;
         }
         else if (bearerToken && err.status == 401) {
-            const refreshToken = window.localStorage.getItem('refreshToken');
+            const refreshToken = window.sessionStorage.getItem('refreshToken');
             if (refreshToken) {
               const refreshedTokenData = await genericFetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/user/refresh", "POST", null,
               {
@@ -62,8 +62,8 @@ export const genericFetch = async (apiUrl, method, bearerToken, bodyJson) => {
                 refreshToken: refreshToken,
               });
               if (refreshedTokenData.accessToken) {
-                  localStorage.setItem('accessToken', refreshedTokenData.accessToken);
-                  localStorage.setItem('refreshToken', refreshedTokenData.refreshToken);
+                  sessionStorage.setItem('accessToken', refreshedTokenData.accessToken);
+                  sessionStorage.setItem('refreshToken', refreshedTokenData.refreshToken);
                   resultData.requestAgain = true;
               }
               else {

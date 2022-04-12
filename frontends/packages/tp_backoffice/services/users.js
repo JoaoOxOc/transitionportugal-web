@@ -3,9 +3,9 @@ import { buildRouteQuery, genericFetch } from './genericFetch';
 export const GetUsers = async(usersApiUri, searchDataJson) => {
     usersApiUri += buildRouteQuery(searchDataJson);
     console.log(usersApiUri);
-    let response = await genericFetch(usersApiUri, "GET", window.localStorage.getItem('accessToken'),{});
+    let response = await genericFetch(usersApiUri, "GET", window.sessionStorage.getItem('accessToken'),{});
     if (response.requestAgain) {
-        response = await genericFetch(usersApiUri, "GET", window.localStorage.getItem('accessToken'),{});
+        response = await genericFetch(usersApiUri, "GET", window.sessionStorage.getItem('accessToken'),{});
     }
     else if (response.status == 404) {
         response.users = [];
@@ -15,9 +15,9 @@ export const GetUsers = async(usersApiUri, searchDataJson) => {
 }
 
 export const GetUserData = async(usersApiUri) => {
-    let response = await genericFetch(usersApiUri, "GET", window.localStorage.getItem('accessToken'),{});
+    let response = await genericFetch(usersApiUri, "GET", window.sessionStorage.getItem('accessToken'),{});
     if (response.requestAgain) {
-        response = await genericFetch(usersApiUri, "GET", window.localStorage.getItem('accessToken'),{});
+        response = await genericFetch(usersApiUri, "GET", window.sessionStorage.getItem('accessToken'),{});
     }
     else if (response.status == 404) {
         response.user = {};
@@ -26,9 +26,9 @@ export const GetUserData = async(usersApiUri) => {
 }
 
 export const UpdateUserData = async(usersApiUri, userDataJson) => {
-    let response = await genericFetch(usersApiUri, "PUT", window.localStorage.getItem('accessToken'),userDataJson);
+    let response = await genericFetch(usersApiUri, "PUT", window.sessionStorage.getItem('accessToken'),userDataJson);
     if (response.requestAgain) {
-        response = await genericFetch(usersApiUri, "PUT", window.localStorage.getItem('accessToken'),userDataJson);
+        response = await genericFetch(usersApiUri, "PUT", window.sessionStorage.getItem('accessToken'),userDataJson);
     }
     else if (response.status == 404) {
         response.user = {};
@@ -37,9 +37,9 @@ export const UpdateUserData = async(usersApiUri, userDataJson) => {
 }
 
 export const CreateUser = async(usersApiUri, userDataJson) => {
-    let response = await genericFetch(usersApiUri, "POST", window.localStorage.getItem('accessToken'),userDataJson);
+    let response = await genericFetch(usersApiUri, "POST", window.sessionStorage.getItem('accessToken'),userDataJson);
     if (response.requestAgain) {
-        response = await genericFetch(usersApiUri, "POST", window.localStorage.getItem('accessToken'),userDataJson);
+        response = await genericFetch(usersApiUri, "POST", window.sessionStorage.getItem('accessToken'),userDataJson);
     }
     else if (response.status == 404) {
         response.user = {};
