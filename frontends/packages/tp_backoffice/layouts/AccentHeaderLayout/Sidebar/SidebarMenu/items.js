@@ -1,9 +1,11 @@
 import VpnKeyTwoToneIcon from '@mui/icons-material/VpnKeyTwoTone';
 import AnalyticsTwoToneIcon from '@mui/icons-material/AnalyticsTwoTone';
 import AssignmentIndTwoToneIcon from '@mui/icons-material/AssignmentIndTwoTone';
+import ApartmentTwoToneIcon from '@mui/icons-material/ApartmentTwoTone';
 import StorefrontTwoToneIcon from '@mui/icons-material/StorefrontTwoTone';
 import ErrorTwoToneIcon from '@mui/icons-material/ErrorTwoTone';
 import DesignServicesTwoToneIcon from '@mui/icons-material/DesignServicesTwoTone';
+import CameraOutdoorTwoToneIcon from '@mui/icons-material/CameraOutdoorTwoTone';
 import SupportTwoToneIcon from '@mui/icons-material/SupportTwoTone';
 import BackupTableTwoToneIcon from '@mui/icons-material/BackupTableTwoTone';
 import SmartToyTwoToneIcon from '@mui/icons-material/SmartToyTwoTone';
@@ -13,7 +15,7 @@ import AdminPanelSettingsTwoToneIcon from '@mui/icons-material/AdminPanelSetting
 import AppSettingsAltTwoToneIcon from '@mui/icons-material/AppSettingsAltTwoTone';
 
 import { i18nextSidemenu } from "@transitionpt/translations";
-console.log(i18nextSidemenu)
+
 const menuItems = [
   {
     heading: i18nextSidemenu.t('SIDEMENU_HEADERS.general'),
@@ -49,9 +51,19 @@ const menuItems = [
         icon: AssignmentIndTwoToneIcon
       },
       {
+        name: i18nextSidemenu.t('SIDEMENU_MANAGEMENT.associations'),
+        link: '/management/associations',
+        icon: ApartmentTwoToneIcon
+      },
+      {
         name: i18nextSidemenu.t('SIDEMENU_MANAGEMENT.profiles'),
         icon: DesignServicesTwoToneIcon,
         link: '/management/profiles'
+      },
+      {
+        name: i18nextSidemenu.t('SIDEMENU_MANAGEMENT.scopes'),
+        icon: CameraOutdoorTwoToneIcon,
+        link: '/management/scopes'
       },
       {
         name: i18nextSidemenu.t('SIDEMENU_MANAGEMENT.newsletter'),

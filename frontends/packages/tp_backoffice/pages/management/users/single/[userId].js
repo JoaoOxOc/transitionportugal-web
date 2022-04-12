@@ -13,7 +13,7 @@ import { Box, Tabs, Tab, Grid, styled } from '@mui/material';
 import { usersApi } from '../../../../mocks/users';
 
 import { useRefMounted } from '../../../../hooks/useRefMounted';
-import { i18nextAbout } from "@transitionpt/translations";
+import { i18nextUserDetails } from "@transitionpt/translations";
 
 import ProfileCover from '../../../../content/Management/Users/single/ProfileCover';
 import RecentActivity from '../../../../content/Management/Users/single/RecentActivity';
@@ -35,44 +35,54 @@ const TabsWrapper = styled(Tabs)(
 );
 
 function ManagementUsersView() {
-  const isMountedRef = useRefMounted();
-  const [user, setUser] = useState(null);
-  const { t } = useTranslation();
+    const isMountedRef = useRefMounted();
+    const [user, setUser] = useState(null);
+    const { t } = i18nextUserDetails;
+    const [currentLang, setLang] = useState("pt");
+    i18nextUserDetails.changeLanguage(currentLang);
 
-  const [currentTab, setCurrentTab] = useState('activity');
+    useEffect(() => {
+        const handleNewMessage = (event) => {
+            setLang(event.detail);
+        };
+                
+        window.addEventListener('newLang', handleNewMessage);
+    }, []);
 
-  const tabs = [
-    { value: 'activity', label: t('Activity') },
-    { value: 'edit_profile', label: t('Edit Profile') },
-    { value: 'notifications', label: t('Notifications') },
-    { value: 'security', label: t('Passwords/Security') }
-  ];
+    const [currentTab, setCurrentTab] = useState('activity');
 
-  const handleTabsChange = (_event, value) => {
-    setCurrentTab(value);
-  };
+    const tabs = [
+      { value: 'activity', label: t('Activity') },
+      { value: 'edit_profile', label: t('Edit Profile') },
+      { value: 'notifications', label: t('Notifications') },
+      { value: 'security', label: t('Passwords/Security') }
+    ];
 
-  const getUser = useCallback(async () => {
-    try {
-      const response = await usersApi.getUser();
+    const handleTabsChange = (_event, value) => {
+      setCurrentTab(value);
+    };
 
-      if (isMountedRef()) {
-        setUser(response);
+    const getUser = useCallback(async () => {
+      try {
+        const response = await usersApi.getUser();
+
+        if (isMountedRef()) {
+          setUser(response);
+        }
+      } catch (err) {
+        console.error(err);
       }
-    } catch (err) {
-      console.error(err);
+    }, [isMountedRef]);
+
+    useEffect(() => {
+      getUser();
+    }, [getUser]);
+
+    if (!user) {
+      return null;
     }
-  }, [isMountedRef]);
 
-  useEffect(() => {
-    getUser();
-  }, [getUser]);
-
-  if (!user) {
-    return null;
-  }
-
-  return (
+    return (
     <>
       <Head>
         <title>{user.name} - Profile Details</title>

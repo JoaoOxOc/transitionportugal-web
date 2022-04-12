@@ -15,7 +15,9 @@ export var SIDEMENU_TRANSLATIONS = deepFreeze({
     },
     SIDEMENU_MANAGEMENT: {
         users: "Utilizadores",
+        associations: "Associações/Entidades",
         profiles: "Perfis",
+        scopes: "Permissões",
         newsletter: "Subscrições da Newsletter",
         privacy: "Política & Privacidade"
     },

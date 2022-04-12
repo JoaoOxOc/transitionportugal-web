@@ -26,7 +26,6 @@ DashboardReports.getLayout = (page) => (
 
 
 export async function getStaticProps() {
-  console.log("env API URL: ",process.env.NEXT_PUBLIC_API_BASE_URL);
   const backData = {
     props: {
       api_url: process.env.NEXT_PUBLIC_API_BASE_URL ? process.env.NEXT_PUBLIC_API_BASE_URL : ""

@@ -28,6 +28,7 @@ namespace UserService.Services.Database
         private IGenericRepository<Scope> _scopeRepository;
         private IGenericRepository<Setting> _settingRepository;
         private IGenericRepository<IdentityRole> _identityRoleRepository;
+        private IGenericRepository<IdentityUserRole<string>> _identityUserRoleRepository;
         private IGenericRepository<ClientCredential> _clientCredentialRepository;
 
         private readonly DatabaseContext dbContext;
@@ -85,6 +86,14 @@ namespace UserService.Services.Database
             get
             {
                 return _identityRoleRepository = _identityRoleRepository ?? new GenericRepository<IdentityRole>(dbContext);
+            }
+        }
+
+        public IGenericRepository<IdentityUserRole<string>> IdentityUserRoleRepository
+        {
+            get
+            {
+                return _identityUserRoleRepository = _identityUserRoleRepository ?? new GenericRepository<IdentityUserRole<string>>(dbContext);
             }
         }
     }

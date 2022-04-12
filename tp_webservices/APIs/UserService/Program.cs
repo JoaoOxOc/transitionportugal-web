@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Cryptography;
 using System.Text;
+using MicroservicesLibrary.HttpHandlers;
 using UserService.Entities;
 using UserService.Services;
 using UserService.Services.RabbitMQ;
@@ -86,6 +87,8 @@ builder.Services.AddAuthentication(options =>
 builder.Services.TryAddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.TryAddScoped<ITPUserManager, TPUserManager>();
 builder.Services.TryAddSingleton<ITokenManager, TokenManager>();
+builder.Services.TryAddScoped<IRoleScopeManager, RoleScopeManager>();
+builder.Services.TryAddScoped<IUserRoleManager, UserRoleManager>();
 builder.Services.TryAddSingleton<IConfiguration>(configuration);
 builder.Services.TryAddSingleton<IRabbitMQSender, RabbitMQSender>();
 

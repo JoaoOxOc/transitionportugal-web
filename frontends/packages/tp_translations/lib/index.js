@@ -20,4 +20,12 @@ export * from './backoffice/settings/i18nSettingsList';
 export * from './backoffice/settings/i18nSettingDetails';
 export * from './backoffice/settings/i18nClientsList';
 export * from './backoffice/settings/i18nClientDetails';
+export * from './backoffice/users/i18nUsersList';
+export * from './backoffice/users/i18nUserDetails';
+export * from './backoffice/users/i18nRolesList';
+export * from './backoffice/users/i18nRoleDetails';
+export * from './backoffice/users/i18nAssociationsList';
+export * from './backoffice/users/i18nAssociationDetails';
+export * from './backoffice/users/i18nScopesList';
+export * from './backoffice/users/i18nScopeDetails';
 //# sourceMappingURL=index.js.map

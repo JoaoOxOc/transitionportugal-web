@@ -6,7 +6,6 @@ namespace UserService.Entities
     public class Scope
     {
         [Key]
-        [JsonIgnore]
         public int Id { get; set; }
 
         [Required]
