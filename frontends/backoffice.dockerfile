@@ -3,7 +3,7 @@ WORKDIR /app/
 #COPY ./package.json ./
 #COPY ./lerna.json ./
 COPY ./package.json /app/
-RUN npm install
+RUN npm install --force
 COPY ./lerna.json /app/
 
 
