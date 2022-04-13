@@ -30,6 +30,20 @@ namespace UserService.Controllers
             _rabbitMqSender = rabbitMqSender;
         }
 
+        [HttpGet]
+        [Route("fingerprint")]
+        public async Task<IActionResult> Fingerprint()
+        {
+            var fingerprintData = _tokenManager.GenerateAuthFingerprint("_TPSSID");
+
+            Response.Cookies.Append(fingerprintData.CookieName, fingerprintData.CookieValue, fingerprintData.CookieProperties);
+
+            return Ok(new
+            {
+                message = "Server fingerprint generated"
+            });
+        }
+
         [HttpPost]
         [Route("login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
@@ -43,7 +57,7 @@ namespace UserService.Controllers
 
                 var fingerprintData = _tokenManager.GenerateAuthFingerprint("_TPSSID");
 
-                Response.Cookies.Append(fingerprintData.CookieName, fingerprintData.CookieValue, fingerprintData.CookieProperties);
+                //Response.Cookies.Append(fingerprintData.CookieName, fingerprintData.CookieValue, fingerprintData.CookieProperties);
                 try
                 {
                     var tokenData = _tokenManager.GetToken(authClaims.Concat(userScopes).ToList(), null, fingerprintData.CookieValue);

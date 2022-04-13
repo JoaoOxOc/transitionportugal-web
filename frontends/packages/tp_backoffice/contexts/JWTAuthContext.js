@@ -143,6 +143,8 @@ export const AuthProvider = (props) => {
   const login = async (email, password) => {
       //const accessToken = await login({ email, password });
       //console.log(accessToken);
+      const responseFingerprint = await genericFetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/user/fingerprint", "GET", null,null);
+      console.log(responseFingerprint);
       const response = await genericFetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/user/login", "POST", null,{
             username: email,
             password: password

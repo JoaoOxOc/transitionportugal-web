@@ -1,6 +1,19 @@
 {
   "Routes": [
     {
+      "DownstreamPathTemplate": "/api/authenticate/fingerprint",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tpuserservice",
+          "Port": 3020
+        }
+      ],
+      "UpstreamPathTemplate": "/user/fingerprint",
+      "UpstreamHttpMethod": [ "Get" ],
+      "SwaggerKey": "UserService"
+    },
+    {
       "DownstreamPathTemplate": "/api/authenticate/login",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
