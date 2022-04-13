@@ -34,7 +34,7 @@ namespace UserService.Controllers
         [Route("fingerprint")]
         public async Task<IActionResult> Fingerprint()
         {
-            var fingerprintData = _tokenManager.GenerateAuthFingerprint("_TPSSID");
+            var fingerprintData = _tokenManager.GenerateAuthFingerprint("TPSSID");
 
             Response.Cookies.Append(fingerprintData.CookieName, fingerprintData.CookieValue, fingerprintData.CookieProperties);
 
