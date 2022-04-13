@@ -306,11 +306,11 @@ namespace UserService.Controllers
             try
             {
 
-                string cookieValueFromContext = HttpContext.Request.Cookies["_TPSSID"];
+                //string cookieValueFromContext = HttpContext.Request.Cookies["TPSSID"];
 
                 var refreshPrincipals = _tokenManager.GetPrincipalFromRefreshToken(refreshToken);
 
-                var fingerprintValid = _tokenManager.ValidateAuthFingerprint(cookieValueFromContext, refreshPrincipals.Claims.Where(x => x.Type == "userContext").FirstOrDefault()?.Value);
+                //var fingerprintValid = _tokenManager.ValidateAuthFingerprint(cookieValueFromContext, refreshPrincipals.Claims.Where(x => x.Type == "userContext").FirstOrDefault()?.Value);
 
                 #pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
                 #pragma warning disable CS8602 // Dereference of a possibly null reference.
@@ -320,13 +320,14 @@ namespace UserService.Controllers
 
                 var user = await _userManager.SearchUser(username);
 
-                if (!fingerprintValid || user == null || user.RefreshToken != refreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
+                //!fingerprintValid || 
+                if (user == null || user.RefreshToken != refreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
                 {
                     return BadRequest("Invalid access token or refresh token");
                 }
 
-                var newAccessTokenData = _tokenManager.GetToken(principal.Claims.ToList(), null, cookieValueFromContext);
-                var newRefreshTokenData = _tokenManager.GenerateRefreshToken(user.Id, cookieValueFromContext);
+                var newAccessTokenData = _tokenManager.GetToken(principal.Claims.ToList(), null, null);
+                var newRefreshTokenData = _tokenManager.GenerateRefreshToken(user.Id, null);
 
                 user.RefreshToken = newRefreshTokenData.Key;
                 await _userManager.UpdateUser(user);
@@ -334,9 +335,7 @@ namespace UserService.Controllers
                 return new ObjectResult(new
                 {
                     accessToken = newAccessTokenData.Token,
-                    refreshToken = newRefreshTokenData.Key,
-                    cookieValueFromContext = cookieValueFromContext,
-                    fingerprintValid = fingerprintValid
+                    refreshToken = newRefreshTokenData.Key
                 });
             }
             catch (Exception ex)
