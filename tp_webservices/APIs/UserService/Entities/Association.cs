@@ -33,6 +33,10 @@ namespace UserService.Entities
 
         public string? Tags { get; set; }
 
+        public decimal? Latitude { get; set; }
+
+        public decimal? Longitude { get; set; }
+
         public DateTime? ContractStartDate { get; set; }
 
         public DateTime? ContractEndDate { get; set; }

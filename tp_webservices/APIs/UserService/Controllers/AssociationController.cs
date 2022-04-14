@@ -81,6 +81,8 @@ namespace UserService.Controllers
             model.Filename = association.Filename;
             model.Description = association.Description;
             model.Website = association.Website;
+            model.Latitude = association.Latitude;
+            model.Longitude = association.Longitude;
             model.ContractStartDate = association.ContractStartDate;
             model.ContractEndDate = association.ContractEndDate;
             model.IsActive = association.IsActive;
@@ -135,6 +137,8 @@ namespace UserService.Controllers
             if (!string.IsNullOrEmpty(model.Filename)) association.Filename = model.Filename;
             if (!string.IsNullOrEmpty(model.Description)) association.Description = model.Description;
             if (!string.IsNullOrEmpty(model.Website)) association.Website = model.Website;
+            if (model.Latitude.HasValue) association.Latitude = model.Latitude;
+            if (model.Longitude.HasValue) association.Longitude = model.Longitude;
             if (model.ContractStartDate.HasValue) association.ContractStartDate = model.ContractStartDate;
             if (model.ContractEndDate.HasValue) association.ContractEndDate = model.ContractEndDate;
             if (model.IsActive.HasValue)
