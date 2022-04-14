@@ -11,6 +11,7 @@ namespace UserService.Services.Database
         IGenericRepository<IdentityRole> IdentityRoleRepository { get; }
         IGenericRepository<IdentityUserRole<string>> IdentityUserRoleRepository { get; }
         IGenericRepository<Association> AssociationRepository { get; }
+        IGenericRepository<TermsConditions> TermsConditionsRepository { get; }
         IGenericRepository<RoleScope> RoleScopeRepository { get; }
         IGenericRepository<Scope> ScopeRepository { get; }
         IGenericRepository<Setting> SettingRepository { get; }
