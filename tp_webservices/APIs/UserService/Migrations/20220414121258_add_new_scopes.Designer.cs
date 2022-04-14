@@ -3,6 +3,7 @@ using System;
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using UserService.Services.Database;
@@ -12,9 +13,10 @@ using UserService.Services.Database;
 namespace UserService.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20220414121258_add_new_scopes")]
+    partial class add_new_scopes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -67,7 +69,7 @@ namespace UserService.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2022, 4, 14, 13, 54, 20, 620, DateTimeKind.Local).AddTicks(2692),
+                            CreatedAt = new DateTime(2022, 4, 14, 13, 12, 58, 135, DateTimeKind.Local).AddTicks(8882),
                             DefaultValue = "3",
                             Description = "Número máximo de tentativas de autenticação falhadas",
                             Key = "MaxLoginAttempts",
@@ -77,7 +79,7 @@ namespace UserService.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2022, 4, 14, 13, 54, 20, 620, DateTimeKind.Local).AddTicks(2742),
+                            CreatedAt = new DateTime(2022, 4, 14, 13, 12, 58, 135, DateTimeKind.Local).AddTicks(8959),
                             DefaultValue = "6Lf2t0sUAAAAABiszBasjJuBZXTdqMy00zOKPOFt",
                             Description = "Site key usada pelo serviço de reCAPTCHA da Google",
                             Key = "CaptchaSiteKey",
@@ -87,7 +89,7 @@ namespace UserService.Migrations
                         new
                         {
                             Id = 3,
-                            CreatedAt = new DateTime(2022, 4, 14, 13, 54, 20, 620, DateTimeKind.Local).AddTicks(2745),
+                            CreatedAt = new DateTime(2022, 4, 14, 13, 12, 58, 135, DateTimeKind.Local).AddTicks(8963),
                             DefaultValue = "6Lf2t0sUAAAAAPwP3kIvpynFqPp-7_QLfQoDQtZd",
                             Description = "Secret key usada pelo serviço de reCAPTCHA da Google",
                             Key = "CaptchaSecretKey",
@@ -125,28 +127,28 @@ namespace UserService.Migrations
                         new
                         {
                             Id = "e762fd61-0f58-4c5d-ad0e-7bd322ae3ccf",
-                            ConcurrencyStamp = "2d221f69-c0cf-442b-9bc6-4d08020784af",
+                            ConcurrencyStamp = "564e43b7-2555-4719-a645-60dc70343a33",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "244d3f1a-8594-4adb-9c59-5ec36fcdbf03",
-                            ConcurrencyStamp = "958b326d-27a3-4fe3-b869-4845cdb1f588",
+                            ConcurrencyStamp = "771a3f93-2129-4dd1-a238-cffa291c4709",
                             Name = "AssociationAdmin",
                             NormalizedName = "ASSOCIATIONADMIN"
                         },
                         new
                         {
                             Id = "179642d9-0f10-4d7d-a1a0-b485b3f6659f",
-                            ConcurrencyStamp = "0bfbb883-cd48-46ca-b8d0-432425c2f71e",
+                            ConcurrencyStamp = "4fc2d5af-f5d0-4820-84ea-bac1e6a491b9",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
                             Id = "69d5274f-235d-4013-bbac-0c4eddf31ecc",
-                            ConcurrencyStamp = "81ff0562-a319-480d-a94b-53a8e4bdf185",
+                            ConcurrencyStamp = "cd73766c-df49-4caa-a00a-58582b5fbf33",
                             Name = "AssociationUser",
                             NormalizedName = "ASSOCIATIONUSER"
                         });
@@ -521,12 +523,6 @@ namespace UserService.Migrations
                             Id = 19,
                             RoleId = "e762fd61-0f58-4c5d-ad0e-7bd322ae3ccf",
                             ScopeId = 12
-                        },
-                        new
-                        {
-                            Id = 20,
-                            RoleId = "e762fd61-0f58-4c5d-ad0e-7bd322ae3ccf",
-                            ScopeId = 13
                         });
                 });
 
@@ -622,12 +618,6 @@ namespace UserService.Migrations
                             Id = 12,
                             Description = "Read/write of roles scopes",
                             ScopeName = "scopes.admin"
-                        },
-                        new
-                        {
-                            Id = 13,
-                            Description = "Read/write of newsletter subscriptions",
-                            ScopeName = "newsletter.admin"
                         });
                 });
 
@@ -639,23 +629,11 @@ namespace UserService.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int?>("Id"));
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("text");
-
                     b.Property<JsonDocument>("DataBlocksJson")
                         .HasColumnType("jsonb");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("UpdatedBy")
-                        .HasColumnType("text");
 
                     b.Property<decimal>("Version")
                         .HasColumnType("numeric");

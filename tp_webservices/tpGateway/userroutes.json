@@ -651,8 +651,86 @@
         "AuthenticationProviderKey": "TpAuthKey",
         "AllowedScopes": [ "users.write" ]
       }
-    }
+    },
     // end of user management controllers
+    // terms management controllers
+    {
+      "DownstreamPathTemplate": "/api/terms",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tpuserservice",
+          "Port": 3020
+        }
+      ],
+      "UpstreamPathTemplate": "/terms/get",
+      "UpstreamHttpMethod": [ "Get" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "TpAuthKey",
+        "AllowedScopes": [ "terms.admin" ]
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/terms/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tpuserservice",
+          "Port": 3020
+        }
+      ],
+      "UpstreamPathTemplate": "/terms/get/{id}",
+      "UpstreamhttpMethod": [ "Get" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "TpAuthKey",
+        "AllowedScopes": [ "terms.admin" ]
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/terms/update",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tpuserservice",
+          "Port": 3020
+        }
+      ],
+      "UpstreamPathTemplate": "/terms/update",
+      "UpstreamHttpMethod": [ "Put" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "TpAuthKey",
+        "AllowedScopes": [ "terms.admin" ]
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/terms/register",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tpuserservice",
+          "Port": 3020
+        }
+      ],
+      "UpstreamPathTemplate": "/terms/create",
+      "UpstreamHttpMethod": [ "Post" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "TpAuthKey",
+        "AllowedScopes": [ "terms.admin" ]
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/terms/public",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tpuserservice",
+          "Port": 3020
+        }
+      ],
+      "UpstreamPathTemplate": "/terms/get/public",
+      "UpstreamhttpMethod": [ "Get" ]
+    }
+    // end of terms management controllers
   ],
   "SwaggerEndPoints": [
     {

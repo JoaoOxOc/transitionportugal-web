@@ -44,7 +44,11 @@ namespace UserService.Migrations.Config
                 new Scope { Id = 6, ScopeName = "settings.admin", Description = "Read/write of API settings" },
                 new Scope { Id = 7, ScopeName = "email.admin", Description = "Read/write of Email service data like templates" },
                 new Scope { Id = 8, ScopeName = "cms.read", Description = "Read only of content management system data" },
-                new Scope { Id = 9, ScopeName = "cms.write", Description = "Read/write of content management system data" }
+                new Scope { Id = 9, ScopeName = "cms.write", Description = "Read/write of content management system data" },
+                new Scope { Id = 10, ScopeName = "terms.admin", Description = "Read/write of terms & conditions records" },
+                new Scope { Id = 11, ScopeName = "roles.admin", Description = "Read/write of users roles" },
+                new Scope { Id = 12, ScopeName = "scopes.admin", Description = "Read/write of roles scopes" },
+                new Scope { Id = 13, ScopeName = "newsletter.admin", Description = "Read/write of newsletter subscriptions" }
             );
 
             #endregion
@@ -147,6 +151,30 @@ namespace UserService.Migrations.Config
                     Id = 16,
                     RoleId = "e762fd61-0f58-4c5d-ad0e-7bd322ae3ccf",
                     ScopeId = 9
+                },
+                new RoleScope
+                {
+                    Id = 17,
+                    RoleId = "e762fd61-0f58-4c5d-ad0e-7bd322ae3ccf",
+                    ScopeId = 10
+                },
+                new RoleScope
+                {
+                    Id = 18,
+                    RoleId = "e762fd61-0f58-4c5d-ad0e-7bd322ae3ccf",
+                    ScopeId = 11
+                },
+                new RoleScope
+                {
+                    Id = 19,
+                    RoleId = "e762fd61-0f58-4c5d-ad0e-7bd322ae3ccf",
+                    ScopeId = 12
+                },
+                new RoleScope
+                {
+                    Id = 20,
+                    RoleId = "e762fd61-0f58-4c5d-ad0e-7bd322ae3ccf",
+                    ScopeId = 13
                 }
             );
 
