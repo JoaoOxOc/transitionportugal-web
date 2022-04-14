@@ -1,18 +1,18 @@
 import * as deepFreeze from 'deep-freeze';
 export var TERMSDETAILS_TRANSLATIONS = deepFreeze({
     LABELS: {
-        roleDetails: "Detalhes do Perfil de Utilizadores - {{name}}",
-        roleCreate: "Registar Novo Perfil de Utilizadores",
-        roleCreateSmall: "Registar Novo Perfil",
+        termsDetails: "Detalhes dos Termos & Condições - {{name}}",
+        termsCreate: "Novo registo de Termos & Condições",
+        termsCreateSmall: "Novos Termos & Condições",
         goBack: "Voltar",
-        registerRoleInfo: "Deverá associar permissões a este perfil por forma a atribuir permissões na aplicação aos utilizadores com este perfil",
-        roleWarning: "Atenção à edição das permissões: os utilizadores com este perfil atribuído podem perder ou ganhar acesso a certas funcionalidades da aplicação"
+        registerTermsInfo: "O visual de edição não é equivalente ao que o utilizador irá ver",
+        termsWarning: "Atenção a colocar este registo como activo: o utilizador final irá consentir com esta nova versão dos Termos & Condições"
     },
     LIST: {
-        rolesTitle: "Perfis",
+        termsTitle: "Termos & Condições",
         home: "Home",
         management: "Administração",
-        roles: 'Perfis'
+        terms: 'Termos & Condições'
     },
     FORM: {
         name: "Nome do Perfil",

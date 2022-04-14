@@ -1,17 +1,17 @@
 export declare const TERMSDETAILS_TRANSLATIONS: {
     readonly LABELS: {
-        readonly roleDetails: "Profile Details - {{name}}";
-        readonly roleCreate: "Register a New Users Profile";
-        readonly roleCreateSmall: "Register New Profile";
+        readonly termsDetails: "Terms & Conditions - {{name}}";
+        readonly termsCreate: "Register a Terms & Conditions Record";
+        readonly termsCreateSmall: "New Terms & Conditions Record";
         readonly goBack: "Go back";
-        readonly registerRoleInfo: "You must associate permissions with this profile in order to give users app permissions with this profile";
-        readonly roleWarning: "Careful editting permissions: the users with this profile may lost or gain app access to certain features";
+        readonly registerTermsInfo: "The editting visual is not precisely the visual the final user will see";
+        readonly termsWarning: "Careful setting this record as active: the users will consent with this new version of Terms & Conditions";
     };
     readonly LIST: {
-        readonly rolesTitle: "Profiles";
+        readonly termsTitle: "Terms & Conditions";
         readonly home: "Home";
         readonly management: "Administration";
-        readonly roles: "Profiles";
+        readonly terms: "Terms & Conditions";
     };
     readonly FORM: {
         readonly name: "Profile Name";

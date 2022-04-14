@@ -1,17 +1,17 @@
 export declare const TERMSDETAILS_TRANSLATIONS: {
     readonly LABELS: {
-        readonly roleDetails: "Detalhes do Perfil de Utilizadores - {{name}}";
-        readonly roleCreate: "Registar Novo Perfil de Utilizadores";
-        readonly roleCreateSmall: "Registar Novo Perfil";
+        readonly termsDetails: "Detalhes dos Termos & Condições - {{name}}";
+        readonly termsCreate: "Novo registo de Termos & Condições";
+        readonly termsCreateSmall: "Novos Termos & Condições";
         readonly goBack: "Voltar";
-        readonly registerRoleInfo: "Deverá associar permissões a este perfil por forma a atribuir permissões na aplicação aos utilizadores com este perfil";
-        readonly roleWarning: "Atenção à edição das permissões: os utilizadores com este perfil atribuído podem perder ou ganhar acesso a certas funcionalidades da aplicação";
+        readonly registerTermsInfo: "O visual de edição não é equivalente ao que o utilizador irá ver";
+        readonly termsWarning: "Atenção a colocar este registo como activo: o utilizador final irá consentir com esta nova versão dos Termos & Condições";
     };
     readonly LIST: {
-        readonly rolesTitle: "Perfis";
+        readonly termsTitle: "Termos & Condições";
         readonly home: "Home";
         readonly management: "Administração";
-        readonly roles: "Perfis";
+        readonly terms: "Termos & Condições";
     };
     readonly FORM: {
         readonly name: "Nome do Perfil";

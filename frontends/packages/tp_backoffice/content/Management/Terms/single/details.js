@@ -2,10 +2,13 @@ import { useState, useCallback, useEffect } from 'react';
 
 import { useRouter } from 'next/router';
 import { useErrorHandler } from 'react-error-boundary';
+import dynamic from "next/dynamic";
+let DetailForm = dynamic(() => import('./DetailForm'), {
+  ssr: false
+});
 
 import PageTitleWrapper from '../../../../components/PageTitleWrapper';
 import DetailsPageHeader from '../../../../components/PageHeaders/DetailsPageHeader';
-import DetailForm from './DetailForm';
 
 import { Box, 
   Grid, 
@@ -107,9 +110,16 @@ function TermsDetails({isCreate}) {
                         px: { xs: 0, md: 3 }
                       }}
                     >
-                    {/* {(isCreate || terms) &&
-                        // <DetailForm isCreate={isCreate} roleData={role} rolePutUrl={rolePutUri}/>
-                    } */}
+                    {(isCreate || terms) &&
+                        <Grid direction="row" container justifyContent="center">
+                          <Grid
+                            item
+                            xs={12}
+                            >
+                            <DetailForm isCreate={isCreate} termsData={terms} termsPutUrl={termsPutUri}/>
+                          </Grid>
+                        </Grid>
+                    }
                     </Box>
                   </Box>
                 </Grid>

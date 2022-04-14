@@ -1,18 +1,18 @@
 import * as deepFreeze from 'deep-freeze';
 export var TERMSDETAILS_TRANSLATIONS = deepFreeze({
     LABELS: {
-        roleDetails: "Profile Details - {{name}}",
-        roleCreate: "Register a New Users Profile",
-        roleCreateSmall: "Register New Profile",
+        termsDetails: "Terms & Conditions - {{name}}",
+        termsCreate: "Register a Terms & Conditions Record",
+        termsCreateSmall: "New Terms & Conditions Record",
         goBack: "Go back",
-        registerRoleInfo: "You must associate permissions with this profile in order to give users app permissions with this profile",
-        roleWarning: "Careful editting permissions: the users with this profile may lost or gain app access to certain features"
+        registerTermsInfo: "The editting visual is not precisely the visual the final user will see",
+        termsWarning: "Careful setting this record as active: the users will consent with this new version of Terms & Conditions"
     },
     LIST: {
-        rolesTitle: "Profiles",
+        termsTitle: "Terms & Conditions",
         home: "Home",
         management: "Administration",
-        roles: 'Profiles'
+        terms: 'Terms & Conditions'
     },
     FORM: {
         name: "Profile Name",
