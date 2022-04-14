@@ -9,7 +9,9 @@ import {
     FormControlLabel,
     FormHelperText,
     CircularProgress,
-    Typography
+    Typography,
+    Card,
+    styled
 } from '@mui/material';
 
 import { createReactEditorJS } from 'react-editor-js';
@@ -36,8 +38,32 @@ import { UpdateRoleData, CreateRole } from '../../../../services/roles';
 
 import { i18nextTermsDetails } from "@transitionpt/translations";
 
+const EditorWrapper = styled(Card)(
+    ({ theme }) => `
+  
+    position: relative;
+    .ce-toolbar__content {
+        max-width: 60vw !important;
+    }
+    .ce-block__content {
+        max-width: 60vw !important;
+    }
+
+    .ce-toolbar__actions-buttons {
+        right: calc(-61vw - 15px);
+        position: absolute;
+    }
+
+    .ce-settings {
+        right: calc(-61vw - 15px);
+    }
+    
+    `
+  );
+
 // other editor JS plugins: https://github.com/orgs/editor-js/repositories
 const DetailForm = ({isCreate, termsData, termsPutUrl, data, imageArray, handleInstance}) => {
+    const { t } = i18nextTermsDetails;
     console.log(i18npt);
     const EDITOR_JS_TOOLS = {
         embed: Embed,
@@ -55,9 +81,33 @@ const DetailForm = ({isCreate, termsData, termsPutUrl, data, imageArray, handleI
 
     // Editor.js This will show block editor in component
     // pass EDITOR_JS_TOOLS in tools props to configure tools with editor.js
-    return <ReactEditorJS 
-                     tools={EDITOR_JS_TOOLS} data={data}
-                     placeholder={`Write from here...`}/>
+    return (
+    <>
+        <Grid item xs={12}>
+            <FormControl fullWidth variant="outlined">
+                <TextField
+                    // helperText={formik.touched.description && formik.errors.description}
+                    // error={Boolean(formik.touched.description && formik.errors.description)}
+                    fullWidth
+                    margin="normal"
+                    label={t('FORM.description')}
+                    name="description"
+                    // onBlur={formik.handleBlur}
+                    // onChange={formik.handleChange}
+                    // value={formik.values.description}
+                    variant="outlined"
+                />
+            </FormControl>
+        </Grid>
+        <Grid item xs={12}>
+            <EditorWrapper>
+                <ReactEditorJS 
+                    tools={EDITOR_JS_TOOLS} data={data}
+                    placeholder={`Write from here...`}/>
+            </EditorWrapper>
+        </Grid>
+    </>
+    );
 }
 
  // Return the CustomEditor to use by other components.                    

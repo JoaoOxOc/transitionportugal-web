@@ -67,7 +67,7 @@ function TermsDetails({isCreate}) {
       { url: "/", label: t('LIST.home'), isLink: true },
       { url: "", label: t('LIST.management'), isLink: false },
       { url: termsListUri, label: t('LIST.termsTitle'), isLink: true },
-      { url: "", label: isCreate ? t('LABELS.termCreateSmall') : terms.version, ownPage: true },
+      { url: "", label: isCreate ? t('LABELS.termsCreateSmall') : terms.version, ownPage: true },
     ];
 
     return (
@@ -94,33 +94,25 @@ function TermsDetails({isCreate}) {
               <Grid container spacing={0}>
                 <Grid item xs={12} md={12}>
                   <Box p={4} flex={1}>
-                    { !isCreate ?
-                      <Alert severity="warning">
-                          {t('LABELS.termsWarning')}
-                      </Alert>
-                    : 
-                      <Alert severity="info">
-                          {t('LABELS.registerTermsInfo')}
-                      </Alert>
-                    } 
-                    <Box
-                      pt={3}
-                      pb={1}
-                      sx={{
-                        px: { xs: 0, md: 3 }
-                      }}
-                    >
-                    {(isCreate || terms) &&
-                        <Grid direction="row" container justifyContent="center">
-                          <Grid
-                            item
-                            xs={12}
-                            >
-                            <DetailForm isCreate={isCreate} termsData={terms} termsPutUrl={termsPutUri}/>
-                          </Grid>
-                        </Grid>
-                    }
-                    </Box>
+                    <Grid direction="row" container justifyContent="center">
+                      <Grid
+                          item
+                          xs={12}
+                          >
+                          { !isCreate ?
+                            <Alert severity="warning">
+                                {t('LABELS.termsWarning')}
+                            </Alert>
+                          : 
+                            <Alert severity="info">
+                                {t('LABELS.registerTermsInfo')}
+                            </Alert>
+                          }
+                      </Grid>
+                      {(isCreate || terms) &&
+                        <DetailForm isCreate={isCreate} termsData={terms} termsPutUrl={termsPutUri}/>
+                      }
+                    </Grid>
                   </Box>
                 </Grid>
               </Grid>
