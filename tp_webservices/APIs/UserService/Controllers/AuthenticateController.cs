@@ -9,6 +9,7 @@ using UserService.Models;
 using UserService.Services.RabbitMQ;
 using UserService.Services.UserManager;
 using MicroservicesLibrary.Exceptions;
+using UserService.Services.Email;
 
 namespace UserService.Controllers
 {
@@ -19,15 +20,15 @@ namespace UserService.Controllers
         private readonly ITPUserManager _userManager;
         private readonly ITokenManager _tokenManager;
         private readonly IConfiguration _configuration;
-        private readonly IRabbitMQSender _rabbitMqSender;
+        private readonly IEmailSender _emailSender;
 
-        public AuthenticateController(ITPUserManager userManager, ITokenManager tokenManager, IConfiguration configuration, IRabbitMQSender rabbitMqSender)
+        public AuthenticateController(ITPUserManager userManager, ITokenManager tokenManager, IConfiguration configuration, IEmailSender emailSender)
         {
             //userManager.PasswordHasher = new CustomPasswordHasher();
             _userManager = userManager;
             _tokenManager = tokenManager;
             _configuration = configuration;
-            _rabbitMqSender = rabbitMqSender;
+            _emailSender = emailSender;
         }
 
         [HttpGet]
@@ -176,23 +177,11 @@ namespace UserService.Controllers
             var associationTokenData = _tokenManager.GetToken(associationClaims, 1440, null);
 
             //TODO: send email through the helper class with template
-            EmailVM userEmailData = new EmailVM();
-            userEmailData.To = new List<string> { "jp_69_7@hotmail.com" };//TODO: replace with user.Email, only use the current line for testing
             var userEmailLink = _configuration["ApplicationSettings:RecoverPasswordBaseUrl"] + _configuration["ApplicationSettings:ConfirmEmailUri"] + "?t=" + userTokenData.Token;
-            userEmailData.Body = "Please access the following url to confirm your email, you only have 24 hours to do so:<br/><a target='_blank' rel='noopener noreferrer' href='" + userEmailLink + "'>" + userEmailLink + "</a>";
-            userEmailData.Subject = "Confirm your email";
-            userEmailData.EmailTemplateKey = "";
+            bool userEmailSuccess = await _emailSender.SendActivateUserEmail(user.Email, userEmailLink);
 
-            bool userEmailSuccess = await _rabbitMqSender.PublishEmailMessage(userEmailData);
-
-            EmailVM associationEmailData = new EmailVM();
-            associationEmailData.To = new List<string> { "jp_69_7@hotmail.com" };//TODO: replace with user.Email, only use the current line for testing
             var associationEmailLink = _configuration["ApplicationSettings:RecoverPasswordBaseUrl"] + _configuration["ApplicationSettings:ConfirmEmailUri"] + "?t=" + associationTokenData.Token;
-            associationEmailData.Body = "Please access the following url to confirm your email, you only have 24 hours to do so:<br/><a target='_blank' rel='noopener noreferrer' href='" + associationEmailLink + "'>" + associationEmailLink + "</a>";
-            associationEmailData.Subject = "Confirm your email";
-            associationEmailData.EmailTemplateKey = "";
-
-            bool associationEmailSuccess = await _rabbitMqSender.PublishEmailMessage(associationEmailData);
+            bool associationEmailSuccess = await _emailSender.SendActivateAssociationEmail(association.Email, associationEmailLink);
 
             if (!userEmailSuccess)
             {
@@ -404,17 +393,11 @@ namespace UserService.Controllers
             var user = await _userManager.SearchUser(model.Username);
             if (user != null)
             {
-                EmailVM emailData = new EmailVM();
-                emailData.To = new List<string> { "jp_69_7@hotmail.com" };//TODO: replace with user.Email, only use the current line for testing
                 var authClaims = await _userManager.GetUserClaimsPasswordRecovery(user);
 
                 var tokenData = _tokenManager.GetToken(authClaims, null, null);
                 var emailLink = _configuration["ApplicationSettings:RecoverPasswordBaseUrl"] + _configuration["ApplicationSettings:RecoverPasswordUri"] + "?t=" + tokenData.Token;
-                emailData.Body = "Please access the following url to reset your password, you only have 15 minutes to reset your password:<br/><a target='_blank' rel='noopener noreferrer' href='" + emailLink + "'>" + emailLink + "</a>";
-                emailData.Subject = "Reset your password";
-                emailData.EmailTemplateKey = "";
-
-                bool success = await _rabbitMqSender.PublishEmailMessage(emailData);
+                bool success = await _emailSender.SendRecoverPasswordEmail(user.Email, emailLink);
                 if (!success)
                 {
                     throw new AppException("Email send error");

@@ -109,7 +109,7 @@ const AvatarError = styled(Avatar)(
     return <Slide direction="down" ref={ref} {...props} />;
   });
 
-const Results = () => {
+const Results = ({associationId}) => {
     const { t } = i18nextUsersList;
     const isMountedRef = useRefMounted();
     const usersSearchData = useContext(UsersSearchContext);
@@ -123,6 +123,10 @@ const Results = () => {
     let userDetailsBaseUri = "/management/users/single/";
 
     const headCells = [
+        {
+            id: 'selectAll',
+            isCheckbox: true,
+        },
         {
             id: 'UserName',
             isSort: true,
@@ -183,6 +187,9 @@ const Results = () => {
   
     useEffect(() => {
           if (usersSearchData.doSearch) {
+              if (associationId) {
+                usersSearchData.searchData.associationId = associationId;
+              }
               getUsersData(usersSearchData.searchData);
           }
     }, [usersSearchData, getUsersData]);
@@ -243,17 +250,19 @@ const Results = () => {
                 justifyContent={{ xs: 'center', sm: 'space-between' }}
                 pb={3}
             >
-                <TabsWrapper
-                    onChange={handleTabsChange}
-                    scrollButtons="auto"
-                    textColor="secondary"
-                    value={usersSearchData.searchData.userRole || 'all'}
-                    variant="scrollable"
-                    >
-                {tabs.map((tab) => (
-                    <Tab key={tab.value} value={tab.value} label={tab.label} />
-                ))}
-                </TabsWrapper>
+                {!associationId &&
+                    <TabsWrapper
+                        onChange={handleTabsChange}
+                        scrollButtons="auto"
+                        textColor="secondary"
+                        value={usersSearchData.searchData.userRole || 'all'}
+                        variant="scrollable"
+                        >
+                    {tabs.map((tab) => (
+                        <Tab key={tab.value} value={tab.value} label={tab.label} />
+                    ))}
+                    </TabsWrapper>
+                }
                 <ToggleButtonGroup
                     sx={{
                         mt: { xs: 2, sm: 0 }
@@ -295,14 +304,7 @@ const Results = () => {
                         <TableContainer>
                             <Table>
                                 <TableHead>
-                                    <TableCell padding="checkbox">
-                                        <Checkbox
-                                        checked={selectedAllUsers}
-                                        indeterminate={selectedSomeUsers}
-                                        onChange={handleSelectAllUsers}
-                                        />
-                                    </TableCell>
-                                    <ResultsHeader headerCells={headCells} defaultSort={'UserName'} defaultSortDirection={'asc'} searchContext={usersSearchData}/>
+                                    <ResultsHeader selectedAll={handleSelectAllUsers} selectAllCount={selectedAllUsers} selectSomeCount={selectedSomeUsers}  headerCells={headCells} defaultSort={'UserName'} defaultSortDirection={'asc'} searchContext={usersSearchData}/>
                                 </TableHead>
                                 <TableBody>
                                     {!users || users.length == 0 ? (

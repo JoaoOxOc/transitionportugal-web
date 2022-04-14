@@ -9,6 +9,7 @@ using System.Text.Json;
 using UserService.Entities;
 using UserService.Models;
 using UserService.Services.Database;
+using UserService.Services.Email;
 using UserService.Services.UserManager;
 
 namespace UserService.Controllers
@@ -21,13 +22,17 @@ namespace UserService.Controllers
         private readonly IConfiguration _configuration;
         private readonly ITPUserManager _userManager;
         private readonly IUserRoleManager _userRoleManager;
+        private readonly ITokenManager _tokenManager;
+        private readonly IEmailSender _emailSender;
 
-        public UserController(IUnitOfWork uow, IConfiguration configuration, ITPUserManager userManager, IUserRoleManager userRoleManager)
+        public UserController(IUnitOfWork uow, IConfiguration configuration, ITPUserManager userManager, IUserRoleManager userRoleManager, ITokenManager tokenManager, IEmailSender emailSender)
         {
             _uow = uow;
             _configuration = configuration;
             _userManager = userManager;
             _userRoleManager = userRoleManager;
+            _tokenManager = tokenManager;
+            _emailSender = emailSender;
         }
 
         private ObjectResult ValidateUser(User user)
@@ -325,6 +330,114 @@ namespace UserService.Controllers
                 {
                     return NotFound();
                 }
+            }
+            return Forbid();
+        }
+
+        [Authorize]
+        [HttpPost]
+        [Route("resend")]
+        public async Task<IActionResult> Resend([FromBody] UsersActionsModel model)
+        {
+            string header = HttpContext.Request.Headers["Authorization"];
+            string[] claims = new string[] { "userId", "sub", System.Security.Claims.ClaimTypes.Role, "scope" };
+            List<JwtClaim> userClaims = JwtHelper.ValidateToken(header, _configuration["JWT:ValidAudience"], _configuration["JWT:ValidIssuer"], _configuration["JWT:SecretPublicKey"], claims);
+            string userScopesString = userClaims.Where(x => x.Claim == "scope").Single().Value;
+            List<string> scopes = !string.IsNullOrEmpty(userScopesString) ? JsonSerializer.Deserialize<List<string>>(userScopesString) : null;
+
+            if (PermissionsHelper.ValidateRoleClaimPermission(userClaims, new List<string> { "Admin" })
+                && PermissionsHelper.ValidateUserScopesPermissionAll(scopes, new List<string> { "users.write" })
+                && model.UserIds != null && model.UserIds.Count > 0)
+            {
+                Expression<Func<User, bool>> filter = (x => model.UserIds.Contains(x.Id) && x.IsEmailVerified == false);
+                var usersToApprove = _uow.UserRepository.Get(null, null, filter, "UserName", SortDirection.Ascending);
+                var usersEmailError = new List<string>();
+                foreach (var user in usersToApprove)
+                {
+                    var userToApproveClaims = await _userManager.GetUserClaimsPasswordRecovery(user);
+
+                    var userTokenData = _tokenManager.GetToken(userToApproveClaims, 1440, null);
+
+                    var userEmailLink = _configuration["ApplicationSettings:RecoverPasswordBaseUrl"] + _configuration["ApplicationSettings:ConfirmEmailUri"] + "?t=" + userTokenData.Token;
+                    bool userEmailSuccess = await _emailSender.SendActivateUserEmail(user.Email, userEmailLink);
+
+                    if (!userEmailSuccess)
+                    {
+                        usersEmailError.Add(user.Id);
+                    }
+                }
+
+                return Ok(new
+                {
+                    users = model.UserIds,
+                    usersEmailError = usersEmailError
+                });
+            }
+            return Forbid();
+        }
+
+        [Authorize]
+        [HttpPost]
+        [Route("approve")]
+        public async Task<IActionResult> Approve([FromBody] UsersActionsModel model)
+        {
+            string header = HttpContext.Request.Headers["Authorization"];
+            string[] claims = new string[] { "userId", "sub", System.Security.Claims.ClaimTypes.Role, "scope" };
+            List<JwtClaim> userClaims = JwtHelper.ValidateToken(header, _configuration["JWT:ValidAudience"], _configuration["JWT:ValidIssuer"], _configuration["JWT:SecretPublicKey"], claims);
+            string userScopesString = userClaims.Where(x => x.Claim == "scope").Single().Value;
+            List<string> scopes = !string.IsNullOrEmpty(userScopesString) ? JsonSerializer.Deserialize<List<string>>(userScopesString) : null;
+
+            if (PermissionsHelper.ValidateRoleClaimPermission(userClaims, new List<string> { "Admin" })
+                && PermissionsHelper.ValidateUserScopesPermissionAll(scopes, new List<string> { "users.write" })
+                && model.UserIds != null && model.UserIds.Count > 0)
+            {
+                Expression<Func<User, bool>> filter = (x => model.UserIds.Contains(x.Id) && (x.IsActive == false || x.IsVerified == false));
+                var usersToApprove = _uow.UserRepository.Get(null, null, filter, "UserName", SortDirection.Ascending);
+                List<string> approvedEmails = new List<string>();
+                foreach (var user in usersToApprove)
+                {
+                    user.IsActive = true;
+                    user.IsVerified = true;
+                    user.UpdatedAt = DateTime.UtcNow;
+                    user.UpdatedBy = userClaims.Where(x => x.Claim == "userId").Single().Value;
+                    approvedEmails.Add(user.Email);
+                }
+
+                _uow.UserRepository.Update(usersToApprove);
+                _uow.Save();
+
+                var userEmailLink = _configuration["ApplicationSettings:RecoverPasswordBaseUrl"] + "/auth/login/cover";
+                bool userEmailSuccess = await _emailSender.SendBulkUserActivatedEmail(approvedEmails, userEmailLink);
+
+                return Ok(new
+                {
+                    users = model.UserIds
+                });
+            }
+            return Forbid();
+        }
+
+        [Authorize]
+        [HttpDelete]
+        [Route("delete")]
+        public async Task<IActionResult> Delete([FromBody] UsersActionsModel model)
+        {
+            string header = HttpContext.Request.Headers["Authorization"];
+            string[] claims = new string[] { "userId", "sub", System.Security.Claims.ClaimTypes.Role, "scope" };
+            List<JwtClaim> userClaims = JwtHelper.ValidateToken(header, _configuration["JWT:ValidAudience"], _configuration["JWT:ValidIssuer"], _configuration["JWT:SecretPublicKey"], claims);
+            string userScopesString = userClaims.Where(x => x.Claim == "scope").Single().Value;
+            List<string> scopes = !string.IsNullOrEmpty(userScopesString) ? JsonSerializer.Deserialize<List<string>>(userScopesString) : null;
+
+            if (PermissionsHelper.ValidateRoleClaimPermission(userClaims, new List<string> { "Admin" })
+                && PermissionsHelper.ValidateUserScopesPermissionAll(scopes, new List<string> { "users.write" })
+                && model.UserIds != null && model.UserIds.Count > 0)
+            {
+                // TODO: implement delete logic for users
+
+                return Ok(new
+                {
+                    users = model.UserIds
+                });
             }
             return Forbid();
         }

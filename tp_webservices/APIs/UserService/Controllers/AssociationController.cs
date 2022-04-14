@@ -1,6 +1,7 @@
 ﻿using CommonLibrary.Entities.ViewModel;
 using CommonLibrary.Enums;
 using CommonLibrary.Extensions;
+using MicroservicesLibrary.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +10,8 @@ using System.Text.Json;
 using UserService.Entities;
 using UserService.Models;
 using UserService.Services.Database;
+using UserService.Services.Email;
+using UserService.Services.UserManager;
 
 namespace UserService.Controllers
 {
@@ -18,10 +21,16 @@ namespace UserService.Controllers
     {
         private readonly IConfiguration _configuration;
         private readonly IUnitOfWork _uow;
-        public AssociationController(IUnitOfWork uow, IConfiguration configuration)
+        private readonly ITPUserManager _userManager;
+        private readonly ITokenManager _tokenManager;
+        private readonly IEmailSender _emailSender;
+        public AssociationController(IUnitOfWork uow, IConfiguration configuration, ITPUserManager userManager, ITokenManager tokenManager, IEmailSender emailSender)
         {
             _uow = uow;
             _configuration = configuration;
+            _userManager = userManager;
+            _tokenManager = tokenManager;
+            _emailSender = emailSender;
         }
 
         private ObjectResult ValidateAssociation(Association association)
@@ -115,19 +124,19 @@ namespace UserService.Controllers
 
         private Association MapModelToEntity(Association association, AssociationModel model)
         {
-            association.Name = model.Name;
-            association.Email = model.Email;
-            association.Phone = model.Phone;
-            association.Address = model.Address;
-            association.Town = model.Town;
-            association.PostalCode = model.PostalCode;
-            association.Vat = model.Vat;
-            association.LogoImage = model.LogoImage;
-            association.Filename = model.Filename;
-            association.Description = model.Description;
-            association.Website = model.Website;
-            association.ContractStartDate = model.ContractStartDate;
-            association.ContractEndDate = model.ContractEndDate;
+            if (!string.IsNullOrEmpty(model.Name)) association.Name = model.Name;
+            if (!string.IsNullOrEmpty(model.Email)) association.Email = model.Email;
+            if (!string.IsNullOrEmpty(model.Phone)) association.Phone = model.Phone;
+            if (!string.IsNullOrEmpty(model.Address)) association.Address = model.Address;
+            if (!string.IsNullOrEmpty(model.Town)) association.Town = model.Town;
+            if (!string.IsNullOrEmpty(model.PostalCode)) association.PostalCode = model.PostalCode;
+            if (!string.IsNullOrEmpty(model.Vat)) association.Vat = model.Vat;
+            if (!string.IsNullOrEmpty(model.LogoImage)) association.LogoImage = model.LogoImage;
+            if (!string.IsNullOrEmpty(model.Filename)) association.Filename = model.Filename;
+            if (!string.IsNullOrEmpty(model.Description)) association.Description = model.Description;
+            if (!string.IsNullOrEmpty(model.Website)) association.Website = model.Website;
+            if (model.ContractStartDate.HasValue) association.ContractStartDate = model.ContractStartDate;
+            if (model.ContractEndDate.HasValue) association.ContractEndDate = model.ContractEndDate;
             if (model.IsActive.HasValue)
             {
                 association.IsActive = model.IsActive;
@@ -367,22 +376,31 @@ namespace UserService.Controllers
             List<string> scopes = !string.IsNullOrEmpty(userScopesString) ? JsonSerializer.Deserialize<List<string>>(userScopesString) : null;
 
             if (PermissionsHelper.ValidateRoleClaimPermission(userClaims, new List<string> { "Admin" })
-                && PermissionsHelper.ValidateUserScopesPermissionAll(scopes, new List<string> { "users.write" }))
+                && PermissionsHelper.ValidateUserScopesPermissionAll(scopes, new List<string> { "users.write" })
+                && model.AssociationIds != null && model.AssociationIds.Count > 0)
             {
-                //Association association = MapModelToEntity(new Association(), model);
+                Expression<Func<Association, bool>> filter = (x => model.AssociationIds.Contains(x.Id.Value) && x.IsEmailVerified == false);
+                var associationsToApprove = _uow.AssociationRepository.Get(null, null, filter, "Name", SortDirection.Ascending);
+                var associationsEmailError = new List<int>();
+                foreach (var association in associationsToApprove)
+                {
+                    var associationClaims = await _userManager.GetAssociationClaimsConfirmEmail(association);
 
-                //ObjectResult _validate = this.ValidateAssociation(association);
-                //if (_validate.StatusCode != StatusCodes.Status200OK)
-                //{
-                //    return _validate;
-                //}
+                    var associationTokenData = _tokenManager.GetToken(associationClaims, 1440, null);
 
-                //_uow.AssociationRepository.Add(association);
-                //_uow.Save();
+                    var associationEmailLink = _configuration["ApplicationSettings:RecoverPasswordBaseUrl"] + _configuration["ApplicationSettings:ConfirmEmailUri"] + "?t=" + associationTokenData.Token;
+                    bool associationEmailSuccess = await _emailSender.SendActivateAssociationEmail(association.Email, associationEmailLink);
+
+                    if (!associationEmailSuccess)
+                    {
+                        associationsEmailError.Add(association.Id.Value);
+                    }
+                }
 
                 return Ok(new
                 {
-                    associations = model.AssociationIds
+                    associations = model.AssociationIds,
+                    associationsEmailError = associationsEmailError
                 });
             }
             return Forbid();
@@ -400,18 +418,50 @@ namespace UserService.Controllers
             List<string> scopes = !string.IsNullOrEmpty(userScopesString) ? JsonSerializer.Deserialize<List<string>>(userScopesString) : null;
 
             if (PermissionsHelper.ValidateRoleClaimPermission(userClaims, new List<string> { "Admin" })
-                && PermissionsHelper.ValidateUserScopesPermissionAll(scopes, new List<string> { "users.write" }))
+                && PermissionsHelper.ValidateUserScopesPermissionAll(scopes, new List<string> { "users.write" })
+                && model.AssociationIds != null && model.AssociationIds.Count > 0)
             {
-                //Association association = MapModelToEntity(new Association(), model);
+                Expression<Func<Association, bool>> filter = (x => model.AssociationIds.Contains(x.Id.Value) && (x.IsActive == false || x.IsVerified == false));
+                var associationsToApprove = _uow.AssociationRepository.Get(null, null, filter, "Name", SortDirection.Ascending);
+                List<string> approvedEmails = new List<string>();
+                foreach (var association in associationsToApprove)
+                {
+                    association.IsActive = true;
+                    association.IsVerified = true;
+                    association.UpdatedAt = DateTime.UtcNow;
+                    approvedEmails.Add(association.Email);
+                }
 
-                //ObjectResult _validate = this.ValidateAssociation(association);
-                //if (_validate.StatusCode != StatusCodes.Status200OK)
-                //{
-                //    return _validate;
-                //}
+                _uow.AssociationRepository.Update(associationsToApprove);
+                _uow.Save();
 
-                //_uow.AssociationRepository.Add(association);
-                //_uow.Save();
+                var associationEmailLink = _configuration["ApplicationSettings:RecoverPasswordBaseUrl"] + "/auth/login/cover";
+                bool associationEmailSuccess = await _emailSender.SendBulkAssociationActivatedEmail(approvedEmails, associationEmailLink);
+
+                return Ok(new
+                {
+                    associations = model.AssociationIds
+                });
+            }
+            return Forbid();
+        }
+
+        [Authorize]
+        [HttpDelete]
+        [Route("delete")]
+        public async Task<IActionResult> Delete([FromBody] AssociationsActionsModel model)
+        {
+            string header = HttpContext.Request.Headers["Authorization"];
+            string[] claims = new string[] { "userId", "sub", System.Security.Claims.ClaimTypes.Role, "scope" };
+            List<JwtClaim> userClaims = JwtHelper.ValidateToken(header, _configuration["JWT:ValidAudience"], _configuration["JWT:ValidIssuer"], _configuration["JWT:SecretPublicKey"], claims);
+            string userScopesString = userClaims.Where(x => x.Claim == "scope").Single().Value;
+            List<string> scopes = !string.IsNullOrEmpty(userScopesString) ? JsonSerializer.Deserialize<List<string>>(userScopesString) : null;
+
+            if (PermissionsHelper.ValidateRoleClaimPermission(userClaims, new List<string> { "Admin" })
+                && PermissionsHelper.ValidateUserScopesPermissionAll(scopes, new List<string> { "users.write" })
+                && model.AssociationIds != null && model.AssociationIds.Count > 0)
+            {
+                // TODO: implement delete logic for users
 
                 return Ok(new
                 {

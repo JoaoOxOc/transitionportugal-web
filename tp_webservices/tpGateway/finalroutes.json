@@ -396,6 +396,22 @@
         "AllowedScopes": [ "users.write" ]
       }
     },
+    {
+      "DownstreamPathTemplate": "/api/association/delete",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tpuserservice",
+          "Port": 3020
+        }
+      ],
+      "UpstreamPathTemplate": "/associations/delete",
+      "UpstreamHttpMethod": [ "Delete" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "TpAuthKey",
+        "AllowedScopes": [ "users.write" ]
+      }
+    },
     // user management controllers - users, profiles and scopes
     {
       "DownstreamPathTemplate": "/api/user",
@@ -456,6 +472,54 @@
       ],
       "UpstreamPathTemplate": "/users/create",
       "UpstreamHttpMethod": [ "Post" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "TpAuthKey",
+        "AllowedScopes": [ "users.write" ]
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/users/resend",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tpuserservice",
+          "Port": 3020
+        }
+      ],
+      "UpstreamPathTemplate": "/users/resend",
+      "UpstreamHttpMethod": [ "Post" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "TpAuthKey",
+        "AllowedScopes": [ "users.write" ]
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/users/approve",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tpuserservice",
+          "Port": 3020
+        }
+      ],
+      "UpstreamPathTemplate": "/users/approve",
+      "UpstreamHttpMethod": [ "Post" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "TpAuthKey",
+        "AllowedScopes": [ "users.write" ]
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/users/delete",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tpuserservice",
+          "Port": 3020
+        }
+      ],
+      "UpstreamPathTemplate": "/users/delete",
+      "UpstreamHttpMethod": [ "Delete" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "TpAuthKey",
         "AllowedScopes": [ "users.write" ]

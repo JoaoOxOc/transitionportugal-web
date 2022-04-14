@@ -68,3 +68,14 @@ export const ApproveAssociations = async(associationsApiUri, associationDataJson
     }
     return response;
 }
+
+export const DeleteAssociations = async(associationsApiUri, associationDataJson) => {
+    let response = await genericFetch(associationsApiUri, "DELETE", window.sessionStorage.getItem('accessToken'),associationDataJson);
+    if (response.requestAgain) {
+        response = await genericFetch(associationsApiUri, "DELETE", window.sessionStorage.getItem('accessToken'),associationDataJson);
+    }
+    else if (response.status == 404) {
+        response.associations = [];
+    }
+    return response;
+}

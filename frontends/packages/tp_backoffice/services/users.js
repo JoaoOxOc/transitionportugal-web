@@ -46,3 +46,36 @@ export const CreateUser = async(usersApiUri, userDataJson) => {
     }
     return response;
 }
+
+export const ResendEmails = async(usersApiUri, userDataJson) => {
+    let response = await genericFetch(usersApiUri, "POST", window.sessionStorage.getItem('accessToken'),userDataJson);
+    if (response.requestAgain) {
+        response = await genericFetch(usersApiUri, "POST", window.sessionStorage.getItem('accessToken'),userDataJson);
+    }
+    else if (response.status == 404) {
+        response.users = [];
+    }
+    return response;
+}
+
+export const ApproveUsers = async(usersApiUri, userDataJson) => {
+    let response = await genericFetch(usersApiUri, "POST", window.sessionStorage.getItem('accessToken'),userDataJson);
+    if (response.requestAgain) {
+        response = await genericFetch(usersApiUri, "POST", window.sessionStorage.getItem('accessToken'),userDataJson);
+    }
+    else if (response.status == 404) {
+        response.users = [];
+    }
+    return response;
+}
+
+export const DeleteUsers = async(usersApiUri, userDataJson) => {
+    let response = await genericFetch(usersApiUri, "DELETE", window.sessionStorage.getItem('accessToken'),userDataJson);
+    if (response.requestAgain) {
+        response = await genericFetch(usersApiUri, "DELETE", window.sessionStorage.getItem('accessToken'),userDataJson);
+    }
+    else if (response.status == 404) {
+        response.users = [];
+    }
+    return response;
+}

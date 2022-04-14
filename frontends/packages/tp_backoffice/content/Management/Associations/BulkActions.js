@@ -16,7 +16,7 @@ import {
 import { useSnackbar } from 'notistack';
 import { i18nextAssociationsList } from "@transitionpt/translations";
 import { useErrorHandler } from 'react-error-boundary';
-import { ResendEmails, ApproveAssociations } from '../../../services/associations';
+import { ResendEmails, ApproveAssociations, DeleteAssociations } from '../../../services/associations';
 
 import CheckTwoToneIcon from '@mui/icons-material/CheckTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
@@ -48,7 +48,7 @@ const ButtonSuccess = styled(Button)(
     `
 );
 
-function BulkActions() {
+function BulkActions({isSingleRecord, recordId, recordIsVerified, recordIsActivated}) {
   const [onMenuOpen, menuOpen] = useState(false);
   const moreRef = useRef(null);
   const isMountedRef = useRefMounted();
@@ -68,7 +68,8 @@ function BulkActions() {
   };
 
   const resendEmails = async() => {
-    const result = await ResendEmails(process.env.NEXT_PUBLIC_API_BASE_URL + '/associations/resend',{associationIds: selectedAssociations});
+    const ids = isSingleRecord == true ? [recordId] : selectedAssociations;
+    const result = await ResendEmails(process.env.NEXT_PUBLIC_API_BASE_URL + '/associations/resend',{associationIds: ids});
     if (isMountedRef()) {
       if (result.status) {
         if (result.status === 404) {
@@ -101,7 +102,8 @@ function BulkActions() {
   }
 
   const approve = async() => {
-    const result = await ApproveAssociations(process.env.NEXT_PUBLIC_API_BASE_URL + '/associations/approve',{associationIds: selectedAssociations});
+    const ids = isSingleRecord == true ? [recordId] : selectedAssociations;
+    const result = await ApproveAssociations(process.env.NEXT_PUBLIC_API_BASE_URL + '/associations/approve',{associationIds: ids});
     if (isMountedRef()) {
       if (result.status) {
         if (result.status === 404) {
@@ -133,6 +135,40 @@ function BulkActions() {
     }
   }
 
+  const deleteAccount = async() => {
+    const ids = isSingleRecord == true ? [recordId] : selectedAssociations;
+    const result = await DeleteAssociations(process.env.NEXT_PUBLIC_API_BASE_URL + '/associations/delete',{associationIds: ids});
+    if (isMountedRef()) {
+      if (result.status) {
+        if (result.status === 404) {
+          enqueueSnackbar(t('MESSAGES.associationsNotFound'), {
+            variant: 'error',
+            anchorOrigin: {
+              vertical: 'top',
+              horizontal: 'center'
+            },
+            autoHideDuration: 2000,
+            TransitionComponent: Slide
+          });
+        }
+        else {
+          setActionsError(result);
+        }
+      }
+      else {
+        enqueueSnackbar(t('MESSAGES.associationsRemoved'), {
+            variant: 'success',
+            anchorOrigin: {
+              vertical: 'top',
+              horizontal: 'center'
+            },
+            autoHideDuration: 2000,
+            TransitionComponent: Slide
+        });
+      }
+    }
+  }
+
   return (
     <>
       <Box display="flex" alignItems="center" justifyContent="space-between">
@@ -140,27 +176,31 @@ function BulkActions() {
           <Typography variant="h5" color="text.secondary">
             {t('LABELS.actions')}:
           </Typography>
-          <Tooltip arrow placement="top" title={t('ACTIONS.resendVerifyEmail')}>
-            <IconButton
-              color="primary"
-              onClick={resendEmails}
+          { !recordIsVerified &&
+            <Tooltip arrow placement="top" title={isSingleRecord == true ? t('ACTIONS.resendVerifyEmailSingle') : t('ACTIONS.resendVerifyEmail')}>
+              <IconButton
+                color="primary"
+                onClick={resendEmails}
+                sx={{
+                  ml: 1,
+                  p: 1
+                }}
+              >
+                <ForwardToInboxTwoToneIcon />
+              </IconButton>
+            </Tooltip>
+          }
+          { !recordIsActivated &&
+            <ButtonSuccess
               sx={{
-                ml: 1,
-                p: 1
+                ml: 1
               }}
-            >
-              <ForwardToInboxTwoToneIcon />
-            </IconButton>
-          </Tooltip>
-          <ButtonSuccess
-            sx={{
-              ml: 1
-            }}
-            onClick={approve}
-            startIcon={<CheckTwoToneIcon />}
-            variant="contained">
-              {t('ACTIONS.approveAssociation')}
-          </ButtonSuccess>
+              onClick={approve}
+              startIcon={<CheckTwoToneIcon />}
+              variant="contained">
+                {isSingleRecord == true ? t('ACTIONS.approveAssociationSingle') : t('ACTIONS.approveAssociation')}
+            </ButtonSuccess>
+          }
         </Box>
         <IconButton
           color="primary"
@@ -196,8 +236,8 @@ function BulkActions() {
           }}
           component="nav"
         >
-          <ListItem button>
-            <ListItemText primary={t('ACTIONS.delete')} />
+          <ListItem button onClick={deleteAccount}>
+            <ListItemText primary={isSingleRecord == true ? t('ACTIONS.deleteSingle') : t('ACTIONS.delete')}/>
           </ListItem>
         </List>
       </Menu>
