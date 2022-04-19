@@ -14,22 +14,22 @@ export declare const TERMSDETAILS_TRANSLATIONS: {
         readonly terms: "Termos & Condições";
     };
     readonly FORM: {
-        readonly name: "Nome do Perfil";
-        readonly normalizedRoleName: "Nome Perfil - maiúsculas";
-        readonly scopes: "Permissões relativas a este Perfil";
-        readonly choices: "Permissões disponíveis";
-        readonly selected: "Permissões aplicadas";
+        readonly description: "Descrição";
+        readonly language: "Linguagem";
+        readonly version: "Versão";
+        readonly isActive: "Activado";
+        readonly DataBlocksJson: "Conteúdo dos Termos & Condições";
         readonly updatedAt: "Actualizado em";
         readonly createdAt: "Registado em";
         readonly saveButton: "Guardar";
     };
     readonly MESSAGES: {
-        readonly nameTooBig: "O Nome é demasiado grande. Máx. de caracteres: {{max}}";
-        readonly nameRequired: "O Nome do Perfil é obrigatório";
-        readonly roleUpdatedSuccessfully: "O perfil cujo nome é {{roleName}} foi atualizado com sucesso";
-        readonly roleCreatedSuccessfully: "O perfil cujo nome é {{roleName}} foi registado com sucesso";
-        readonly roleGeneralError: "Erro ao registar/atualizar o perfil cujo nome é {{roleName}}. Por favor tente novamente";
-        readonly roleNotFound: "O perfil cujo nome é {{roleName}} não foi encontrado. Por favor verifica se o nome está correcto";
+        readonly descriptionTooBig: "A descrição é demasiado grande. Máx. de caracteres: {{max}}";
+        readonly descriptionRequired: "A descrição é obrigatória";
+        readonly roleUpdatedSuccessfully: "O perfil cujo nome é {{termsName}} foi atualizado com sucesso";
+        readonly roleCreatedSuccessfully: "O perfil cujo nome é {{termsName}} foi registado com sucesso";
+        readonly roleGeneralError: "Erro ao registar/atualizar o perfil cujo nome é {{termsName}}. Por favor tente novamente";
+        readonly roleNotFound: "O perfil cujo nome é {{termsName}} não foi encontrado. Por favor verifica se o nome está correcto";
     };
 };
 //# sourceMappingURL=TermsDetails.d.ts.map

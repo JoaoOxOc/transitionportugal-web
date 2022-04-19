@@ -14,22 +14,22 @@ export declare const TERMSDETAILS_TRANSLATIONS: {
         readonly terms: "Terms & Conditions";
     };
     readonly FORM: {
-        readonly name: "Profile Name";
-        readonly normalizedRoleName: "Capital Profile Name";
-        readonly scopes: "Permissions related to this Profile";
-        readonly choices: "Permissions available";
-        readonly selected: "Permissions applied";
+        readonly description: "Description";
+        readonly language: "Language";
+        readonly version: "Version";
+        readonly isActive: "Activated";
+        readonly DataBlocksJson: "Content of the Terms & Conditions";
         readonly updatedAt: "Updated At";
         readonly createdAt: "Registered At";
         readonly saveButton: "Save";
     };
     readonly MESSAGES: {
-        readonly nameTooBig: "Name is too big. Max characters: {{max}}";
-        readonly nameRequired: "Profile Name is required";
-        readonly roleUpdatedSuccessfully: "The Profile with name {{roleName}} was updated successfully";
-        readonly roleCreatedSuccessfully: "The Profile with name {{roleName}} was created successfully";
-        readonly roleGeneralError: "Error creating/updating Profile with name {{roleName}}. Please try again";
-        readonly roleNotFound: "The Profile with name {{roleName}} wasn't found. Please double check if the name is correct";
+        readonly descriptionTooBig: "Name is too big. Max characters: {{max}}";
+        readonly descriptionRequired: "Profile Name is required";
+        readonly roleUpdatedSuccessfully: "The Profile with name {{termsName}} was updated successfully";
+        readonly roleCreatedSuccessfully: "The Profile with name {{termsName}} was created successfully";
+        readonly roleGeneralError: "Error creating/updating Profile with name {{termsName}}. Please try again";
+        readonly roleNotFound: "The Profile with name {{termsName}} wasn't found. Please double check if the name is correct";
     };
 };
 //# sourceMappingURL=TermsDetails.d.ts.map

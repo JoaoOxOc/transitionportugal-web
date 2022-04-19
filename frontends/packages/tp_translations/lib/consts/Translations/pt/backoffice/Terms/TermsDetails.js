@@ -15,22 +15,22 @@ export var TERMSDETAILS_TRANSLATIONS = deepFreeze({
         terms: 'Termos & Condições'
     },
     FORM: {
-        name: "Nome do Perfil",
-        normalizedRoleName: "Nome Perfil - maiúsculas",
-        scopes: "Permissões relativas a este Perfil",
-        choices: "Permissões disponíveis",
-        selected: "Permissões aplicadas",
+        description: "Descrição",
+        language: "Linguagem",
+        version: "Versão",
+        isActive: "Activado",
+        DataBlocksJson: "Conteúdo dos Termos & Condições",
         updatedAt: "Actualizado em",
         createdAt: "Registado em",
         saveButton: "Guardar"
     },
     MESSAGES: {
-        nameTooBig: "O Nome é demasiado grande. Máx. de caracteres: {{max}}",
-        nameRequired: "O Nome do Perfil é obrigatório",
-        roleUpdatedSuccessfully: "O perfil cujo nome é {{roleName}} foi atualizado com sucesso",
-        roleCreatedSuccessfully: "O perfil cujo nome é {{roleName}} foi registado com sucesso",
-        roleGeneralError: "Erro ao registar/atualizar o perfil cujo nome é {{roleName}}. Por favor tente novamente",
-        roleNotFound: "O perfil cujo nome é {{roleName}} não foi encontrado. Por favor verifica se o nome está correcto"
+        descriptionTooBig: "A descrição é demasiado grande. Máx. de caracteres: {{max}}",
+        descriptionRequired: "A descrição é obrigatória",
+        roleUpdatedSuccessfully: "O perfil cujo nome é {{termsName}} foi atualizado com sucesso",
+        roleCreatedSuccessfully: "O perfil cujo nome é {{termsName}} foi registado com sucesso",
+        roleGeneralError: "Erro ao registar/atualizar o perfil cujo nome é {{termsName}}. Por favor tente novamente",
+        roleNotFound: "O perfil cujo nome é {{termsName}} não foi encontrado. Por favor verifica se o nome está correcto"
     }
 });
 //# sourceMappingURL=TermsDetails.js.map

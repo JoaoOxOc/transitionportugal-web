@@ -13,6 +13,9 @@ const i18npt = {
     "blockTunes": {
       // Section allows to translate Block Tunes
     },
+  },
+  "misc": {
+    "saveButton": "Terminar Edição"
   }
 };
 

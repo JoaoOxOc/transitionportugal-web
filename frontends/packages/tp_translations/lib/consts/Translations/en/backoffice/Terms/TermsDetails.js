@@ -15,22 +15,22 @@ export var TERMSDETAILS_TRANSLATIONS = deepFreeze({
         terms: 'Terms & Conditions'
     },
     FORM: {
-        name: "Profile Name",
-        normalizedRoleName: "Capital Profile Name",
-        scopes: "Permissions related to this Profile",
-        choices: "Permissions available",
-        selected: "Permissions applied",
+        description: "Description",
+        language: "Language",
+        version: "Version",
+        isActive: "Activated",
+        DataBlocksJson: "Content of the Terms & Conditions",
         updatedAt: "Updated At",
         createdAt: "Registered At",
         saveButton: "Save"
     },
     MESSAGES: {
-        nameTooBig: "Name is too big. Max characters: {{max}}",
-        nameRequired: "Profile Name is required",
-        roleUpdatedSuccessfully: "The Profile with name {{roleName}} was updated successfully",
-        roleCreatedSuccessfully: "The Profile with name {{roleName}} was created successfully",
-        roleGeneralError: "Error creating/updating Profile with name {{roleName}}. Please try again",
-        roleNotFound: "The Profile with name {{roleName}} wasn't found. Please double check if the name is correct"
+        descriptionTooBig: "Name is too big. Max characters: {{max}}",
+        descriptionRequired: "Profile Name is required",
+        roleUpdatedSuccessfully: "The Profile with name {{termsName}} was updated successfully",
+        roleCreatedSuccessfully: "The Profile with name {{termsName}} was created successfully",
+        roleGeneralError: "Error creating/updating Profile with name {{termsName}}. Please try again",
+        roleNotFound: "The Profile with name {{termsName}} wasn't found. Please double check if the name is correct"
     }
 });
 //# sourceMappingURL=TermsDetails.js.map
