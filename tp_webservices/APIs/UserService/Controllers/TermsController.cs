@@ -30,7 +30,7 @@ namespace UserService.Controllers
 
         private ObjectResult ValidateTerms(TermsConditions terms)
         {
-            if (terms.Version == null || terms.Version <= 0 || string.IsNullOrWhiteSpace(terms.DataBlocksJson.ToString().Trim()))
+            if (terms.Version == null || terms.Version <= 0)
             {
                 return UnprocessableEntity("MandatoryFields");
             }
@@ -55,37 +55,110 @@ namespace UserService.Controllers
             return Ok(null);
         }
 
-        private TermsModel ParseEntityToModel(TermsConditions terms, List<User> users)
+        private ObjectResult ValidateTermsTranslation(TermsConditionsTranslation termsTranslation)
         {
-            TermsModel model = new TermsModel();
-            model.BlocksJson = JsonSerializer.Serialize(terms.DataBlocksJson);
-            model.Version = terms.Version;
+            if (termsTranslation.LangKey == null || string.IsNullOrWhiteSpace(termsTranslation.LangKey.Trim())
+                || termsTranslation.DataBlocksJson == null || string.IsNullOrWhiteSpace(termsTranslation.DataBlocksJson.ToString().Trim()))
+            {
+                return UnprocessableEntity("MandatoryFields");
+            }
+
+            Expression<Func<TermsConditionsTranslation, bool>> filter = (x => x.LangKey == termsTranslation.LangKey && x.TermsConditionsId == termsTranslation.TermsConditionsId);
+
+            var existsTranslation = this._uow.TermsConditionsTranslationRepository.Get(null, null, filter, string.Empty, SortDirection.Ascending).FirstOrDefault();
+            if (existsTranslation != null)
+            {
+                ConflictModel conflict = new ConflictModel();
+                conflict.ConflictType = ConflictType.DuplicateValue;
+                conflict.Entity = typeof(TermsConditionsTranslation).Name;
+
+                if (existsTranslation.LangKey == termsTranslation.LangKey)
+                {
+                    conflict.Field = typeof(TermsConditionsTranslation).GetProperty("LangKey").Name;
+                }
+
+                return Conflict(conflict);
+            }
+
+            return Ok(null);
+        }
+
+        private TermsModel ParseEntityToModel(TermsModel termsData, TermsConditionsTranslation termsTranslation, List<User> users)
+        {
+            TermsModel model = null;
+            if (termsTranslation != null)
+            {
+                if (termsData == null)
+                {
+                    model = new TermsModel();
+                    model.Id = termsTranslation.TermsConditionsId;
+                    model.IsActive = termsTranslation.TermsConditions?.IsActive;
+                    model.Version = termsTranslation.TermsConditions?.Version;
+                    model.TermsLanguages = new List<TermsModel.TermsDataModel>();
+                    model.TermsLanguages.Add(new TermsModel.TermsDataModel
+                    {
+                        LangCode = termsTranslation.LangKey,
+                        TermsData = JsonSerializer.Serialize(termsTranslation.DataBlocksJson)
+                    });
+                }
+                else
+                {
+                    if (!termsData.TermsLanguages.Any(x => x.LangCode == termsTranslation.LangKey))
+                    {
+                        termsData.TermsLanguages.Add(new TermsModel.TermsDataModel
+                        {
+                            LangCode = termsTranslation.LangKey,
+                            TermsData = JsonSerializer.Serialize(termsTranslation.DataBlocksJson)
+                        });
+                    }
+                }
+            }
 
             return model;
         }
 
-        private List<TermsModel> ParseEntitiesToModel(List<TermsConditions> termsRecords)
+        private List<TermsModel> ParseEntitiesToModel(List<TermsConditionsTranslation> termsRecords)
         {
             List<TermsModel> models = new List<TermsModel>();
-            foreach (var terms in termsRecords)
+            foreach (var termsTranslation in termsRecords)
             {
-                models.Add(ParseEntityToModel(terms, null));
+                var model = ParseEntityToModel(models.Find(x => x.Id == termsTranslation.TermsConditionsId), termsTranslation, null);
+                if (model != null)
+                {
+                    models.Add(model);
+                }
             }
             return models;
         }
 
-        private TermsConditions MapModelToEntity(TermsConditions terms, TermsModel model)
+        private KeyValuePair<List<TermsConditionsTranslation>, List<TermsConditionsTranslation>> ProcessTermsTranslations(TermsConditions termsData, List<TermsModel.TermsDataModel> translationsModel)
         {
-            if (!string.IsNullOrEmpty(model.BlocksJson))
+            KeyValuePair<List<TermsConditionsTranslation>, List<TermsConditionsTranslation>> translationsProcessed = new KeyValuePair<List<TermsConditionsTranslation>, List<TermsConditionsTranslation>>();
+            if (translationsModel != null)
             {
-                terms.DataBlocksJson = JsonDocument.Parse(model.BlocksJson, new JsonDocumentOptions { AllowTrailingCommas = true });
-            }
-            if (model.Version.HasValue)
-            {
-                terms.Version = model.Version.Value;
-            }
+                List<TermsConditionsTranslation> toUpdate = new List<TermsConditionsTranslation>();
+                List<TermsConditionsTranslation> toCreate = new List<TermsConditionsTranslation>();
+                foreach (var translation in translationsModel)
+                {
+                    Expression<Func<TermsConditionsTranslation, bool>> filterTranslation = (x => x.LangKey == translation.LangCode && x.TermsConditionsId == termsData.Id);
+                    var termsTranslation = this._uow.TermsConditionsTranslationRepository.Get(null, null, filterTranslation, string.Empty, SortDirection.Ascending).FirstOrDefault();
+                    if (termsTranslation != null)
+                    {
+                        toUpdate.Add(termsTranslation);
+                    }
+                    else
+                    {
+                        TermsConditionsTranslation newTranslation = new TermsConditionsTranslation();
+                        newTranslation.TermsConditionsId = termsData.Id;
+                        newTranslation.LangKey = translation.LangCode;
+                        newTranslation.DataBlocksJson = JsonDocument.Parse(translation.TermsData, new System.Text.Json.JsonDocumentOptions { AllowTrailingCommas = true });
 
-            return terms;
+                        toCreate.Add(newTranslation);
+                    }
+                }
+                translationsProcessed = new KeyValuePair<List<TermsConditionsTranslation>, List<TermsConditionsTranslation>>(toUpdate, toCreate);
+            }
+            return translationsProcessed;
         }
 
         [Authorize]
@@ -148,13 +221,15 @@ namespace UserService.Controllers
             {
                 try
                 {
-                    var terms = _uow.TermsConditionsRepository.GetById(id);
+                    Expression<Func<TermsConditionsTranslation, bool>> filter = (x => x.TermsConditionsId == id);
+
+                    var terms = _uow.TermsConditionsTranslationRepository.Get(null, null, filter, "LangKey", SortDirection.Ascending, "TermsConditions");
 
                     if (terms != null)
                     {
                         return Ok(new
                         {
-                            termsRecord = ParseEntityToModel(terms, null)
+                            termsRecord = ParseEntitiesToModel(terms)
                         });
                     }
                     else
@@ -172,18 +247,19 @@ namespace UserService.Controllers
 
         [AllowAnonymous]
         [HttpGet("get/public")]
-        public async Task<IActionResult> GetActivePublic()
+        public async Task<IActionResult> GetActivePublic(string langCode)
         {
             try
             {
-                Expression<Func<TermsConditions, bool>> filter = (x => x.IsActive == true);
-                var terms = _uow.TermsConditionsRepository.Get(1,1, filter, "Version", SortDirection.Descending).FirstOrDefault();
+                Expression<Func<TermsConditionsTranslation, bool>> filter = (x => x.TermsConditions.IsActive == true && x.LangKey == langCode);
+
+                var terms = _uow.TermsConditionsTranslationRepository.Get(1, 1, filter, "TermsConditions.Version", SortDirection.Descending, "TermsConditions");
 
                 if (terms != null)
                 {
                     return Ok(new
                     {
-                        termsRecord = ParseEntityToModel(terms, null)
+                        termsRecord = ParseEntitiesToModel(terms)
                     });
                 }
                 else
@@ -216,7 +292,7 @@ namespace UserService.Controllers
                 TermsConditions newTerms = new TermsConditions();
                 if (termsLastVersion != null)
                 {
-                    newTerms.Version = newTerms.Version + 1;
+                    newTerms.Version = termsLastVersion.Version + 1;
                 }
                 else
                 {
@@ -224,9 +300,6 @@ namespace UserService.Controllers
                 }
                 newTerms.CreatedAt = DateTime.UtcNow;
                 newTerms.CreatedBy = userClaims.Where(x => x.Claim == "userId").Single().Value;
-                model.Version = null;
-
-                newTerms = MapModelToEntity(newTerms, model);
 
                 ObjectResult _validate = this.ValidateTerms(newTerms);
                 if (_validate.StatusCode != StatusCodes.Status200OK)
@@ -235,6 +308,17 @@ namespace UserService.Controllers
                 }
 
                 _uow.TermsConditionsRepository.Add(newTerms);
+
+                var updateCreatePairs = ProcessTermsTranslations(newTerms, model.TermsLanguages);
+
+                if (updateCreatePairs.Key != null && updateCreatePairs.Key.Count > 0)
+                {
+                    _uow.TermsConditionsTranslationRepository.Update(updateCreatePairs.Key);
+                }
+                if (updateCreatePairs.Value != null && updateCreatePairs.Value.Count > 0)
+                {
+                    _uow.TermsConditionsTranslationRepository.Add(updateCreatePairs.Value);
+                }
                 _uow.Save();
 
                 return Ok(new
@@ -260,15 +344,17 @@ namespace UserService.Controllers
             if (PermissionsHelper.ValidateRoleClaimPermission(userClaims, new List<string> { "Admin" })
                 && PermissionsHelper.ValidateUserScopesPermissionAll(scopes, new List<string> { "terms.admin" }))
             {
-                Expression<Func<TermsConditions, bool>> filter = (x => x.Version == model.Version);
+                Expression<Func<TermsConditions, bool>> filter = (x => x.Id == model.Id);
 
                 var terms = this._uow.TermsConditionsRepository.Get(null, null, filter, string.Empty, SortDirection.Ascending).FirstOrDefault();
                 if (terms != null)
                 {
+                    if (model.IsActive.HasValue)
+                    {
+                        terms.IsActive = model.IsActive.Value;
+                    }
                     terms.UpdatedAt = DateTime.UtcNow;
                     terms.UpdatedBy = userClaims.Where(x => x.Claim == "userId").Single().Value;
-                    model.Version = null;
-                    terms = MapModelToEntity(terms, model);
 
                     ObjectResult _validate = this.ValidateTerms(terms);
                     if (_validate.StatusCode != StatusCodes.Status200OK)
@@ -279,6 +365,17 @@ namespace UserService.Controllers
                     try
                     {
                         _uow.TermsConditionsRepository.Update(terms);
+
+                        var updateCreatePairs = ProcessTermsTranslations(terms, model.TermsLanguages);
+
+                        if (updateCreatePairs.Key != null && updateCreatePairs.Key.Count > 0)
+                        {
+                            _uow.TermsConditionsTranslationRepository.Update(updateCreatePairs.Key);
+                        }
+                        if (updateCreatePairs.Value != null && updateCreatePairs.Value.Count > 0)
+                        {
+                            _uow.TermsConditionsTranslationRepository.Add(updateCreatePairs.Value);
+                        }
                         _uow.Save();
 
                         return Ok(new

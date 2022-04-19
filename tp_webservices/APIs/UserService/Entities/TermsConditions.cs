@@ -14,12 +14,6 @@ namespace UserService.Entities
 
         public bool IsActive { get; set; }
 
-        /// <summary>
-        /// Store banner data as a json structure
-        /// </summary>
-        [Column(TypeName = "jsonb")]
-        public JsonDocument? DataBlocksJson { get; set; }
-
         public DateTime CreatedAt { get; set; }
 
         public DateTime? UpdatedAt { get; set; }
