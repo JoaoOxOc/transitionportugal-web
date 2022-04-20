@@ -16,6 +16,7 @@ export declare const TERMSDETAILS_TRANSLATIONS: {
     readonly FORM: {
         readonly description: "Descrição";
         readonly language: "Linguagem";
+        readonly selectLanguage: "Linguagem dos Termos & Condições: a edição abaixo corresponde à Linguagem seleccionada";
         readonly version: "Versão";
         readonly isActive: "Activado";
         readonly DataBlocksJson: "Conteúdo dos Termos & Condições";

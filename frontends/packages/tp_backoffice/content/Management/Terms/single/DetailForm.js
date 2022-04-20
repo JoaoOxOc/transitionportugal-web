@@ -112,19 +112,23 @@ const DetailForm = ({isCreate, termsData, termsPutUrl, imageArray, handleInstanc
         onSubmit: async (values, helpers) => {
           try {
               const termsModel = {
-                id: termsData && termsData.id ? termsData.id : "",
-                version: termsData && termsData.version ? termsData.version : "",
                 termsLanguages: savedBlocks.current
+              }
+              if (termsData && termsData.id) {
+                termsModel.id = termsData.id;
+              }
+              if (termsData && termsData.version) {
+                termsModel.version = termsData.version;
               }
               console.log(termsModel,savedBlocks)
               let result = {};
-            //   if (isCreate) {
-            //       console.log(termsPutUrl)
-            //     result = await CreateTermsRecord(termsPutUrl, termsModel);
-            //   }
-            //   else {
-            //     result = await UpdateTermsRecord(termsPutUrl, termsModel);
-            //   }
+              if (isCreate) {
+                  console.log(termsPutUrl)
+                result = await CreateTermsRecord(termsPutUrl, termsModel);
+              }
+              else {
+                result = await UpdateTermsRecord(termsPutUrl, termsModel);
+              }
     
               if (isMountedRef()) {
                   if (result.status) {
@@ -159,9 +163,9 @@ const DetailForm = ({isCreate, termsData, termsPutUrl, imageArray, handleInstanc
                         });
                         //TODO redirect to edit page
                         console.log(result);
-                        // router.push({
-                        //     pathname: '/management/privacy/single/' + result.termsId,
-                        // });
+                        router.push({
+                            pathname: '/management/privacy/single/' + result.termsId,
+                        });
                     }
                     else {
                         enqueueSnackbar(t('MESSAGES.termsUpdatedSuccessfully', {termsName: values.termsVersion}), {
@@ -210,14 +214,14 @@ const DetailForm = ({isCreate, termsData, termsPutUrl, imageArray, handleInstanc
         if (blockExists && blockExists.length > 0) {
             savedBlocks.current.forEach((block) => {
                 if (block.langCode == selectedLanguage.current) {
-                    block.termsData = JSON.stringify(blocksData)
+                    block.termsData = blocksData;//JSON.stringify(blocksData);
                 }
             });
         }
         else {
             savedBlocks.current.push({
                 langCode: selectedLanguage.current,
-                termsData: JSON.stringify(blocksData)
+                termsData: blocksData//JSON.stringify(blocksData)
             });
         }
     }

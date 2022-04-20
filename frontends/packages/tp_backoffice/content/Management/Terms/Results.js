@@ -11,6 +11,7 @@ import {
     Divider,
     Tooltip,
     IconButton,
+    Icon,
     InputAdornment,
     Table,
     TableBody,
@@ -47,6 +48,8 @@ import TableRowsTwoToneIcon from '@mui/icons-material/TableRowsTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import { useSnackbar } from 'notistack';
 import MoreVertTwoToneIcon from '@mui/icons-material/MoreVertTwoTone';
+import CheckTwoToneIcon from '@mui/icons-material/CheckTwoTone';
+import CloseTwoToneIcon from '@mui/icons-material/CloseTwoTone';
 
 import SearchBar from './SearchBar';
 import ResultsHeader from '../../../components/Table/Header';
@@ -78,6 +81,28 @@ const CardWrapper = styled(Card)(
   `
 );
 
+const IconActive = styled(Icon)(
+    ({ theme }) => `
+       background: ${theme.colors.success.dark};
+       color: ${theme.palette.success.contrastText};
+       width: 50px;
+       height: 40px;
+       border-radius: 10px;
+       padding: 6px;
+      `
+);
+
+const IconInactive = styled(Icon)(
+    ({ theme }) => `
+       background: ${theme.colors.error.dark};
+       color: ${theme.palette.error.contrastText};
+       width: 50px;
+       height: 40px;
+       border-radius: 10px;
+       padding: 6px;
+      `
+);
+
 const Results = () => {
   const { t } = i18nextTermsList;
   const isMountedRef = useRefMounted();
@@ -99,6 +124,20 @@ const Results = () => {
           label: t('TERMSOBJECT.version'),
       },
       {
+          id: 'IsActive',
+          isSort: true,
+          disablePadding: false,
+          align: 'center',
+          label: t('TERMSOBJECT.isActive'),
+      },
+      {
+          id: 'CreatedAt',
+          isSort: true,
+          disablePadding: false,
+          align: 'left',
+          label: t('TERMSOBJECT.createdAt'),
+      },
+      {
           id: 'actions',
           isSort: false,
           disablePadding: false,
@@ -110,7 +149,6 @@ const Results = () => {
   const getTermsData = useCallback(async (searchDataJson) => {
     try {
       let termsData = await GetAllTermsRecords(process.env.NEXT_PUBLIC_API_BASE_URL + termsApiUri, searchDataJson);
-      
       if (isMountedRef()) {
         if (termsData.termsRecords) {
             setTerms(termsData.termsRecords);
@@ -190,7 +228,7 @@ const Results = () => {
                       <TableContainer>
                           <Table>
                               <TableHead>
-                                  <ResultsHeader headerCells={headCells} defaultSort={'Name'} defaultSortDirection={'asc'} searchContext={termsSearchData}/>
+                                  <ResultsHeader headerCells={headCells} defaultSort={'Version'} defaultSortDirection={'desc'} searchContext={termsSearchData}/>
                               </TableHead>
                               <TableBody>
                                   {!terms || terms.length == 0 ? (
@@ -201,7 +239,31 @@ const Results = () => {
                                       <TableRow hover key={term.id}>
                                           <TableCell>
                                               <Typography variant="h5">
-                                              {term.Version}
+                                              {term.version}
+                                              </Typography>
+                                          </TableCell>
+                                          <TableCell align="center">
+                                              <Typography>
+                                                  { term.isActive == true ?
+                                                    (
+                                                        <IconActive
+                                                            color="primary"
+                                                            >
+                                                            <CheckTwoToneIcon/>
+                                                        </IconActive>
+                                                    ) : (
+                                                        <IconInactive
+                                                            color="primary"
+                                                            >
+                                                            <CloseTwoToneIcon/>
+                                                        </IconInactive>
+                                                    )
+                                                  }
+                                              </Typography>
+                                          </TableCell>
+                                          <TableCell>
+                                              <Typography variant="h5">
+                                              {term.createdAt}
                                               </Typography>
                                           </TableCell>
                                           <TableCell align="center">

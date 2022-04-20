@@ -17,6 +17,7 @@ export var TERMSDETAILS_TRANSLATIONS = deepFreeze({
     FORM: {
         description: "Descrição",
         language: "Linguagem",
+        selectLanguage: "Linguagem dos Termos & Condições: a edição abaixo corresponde à Linguagem seleccionada",
         version: "Versão",
         isActive: "Activado",
         DataBlocksJson: "Conteúdo dos Termos & Condições",
