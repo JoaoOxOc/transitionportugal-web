@@ -21,5 +21,7 @@ namespace UserService.Entities
         public string? UpdatedBy { get; set; }
 
         public string? CreatedBy { get; set; }
+
+        public virtual ICollection<TermsConditionsTranslation> TermsConditionsTranslations { get; set; }
     }
 }

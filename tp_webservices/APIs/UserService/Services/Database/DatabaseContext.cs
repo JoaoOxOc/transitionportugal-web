@@ -46,6 +46,10 @@ namespace UserService.Services.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<TermsConditionsTranslation>().HasKey(table => new {
+                table.LangKey,
+                table.TermsConditionsVersion
+            });
             base.OnModelCreating(modelBuilder);
             new DbSeeder(modelBuilder).Seed();
         }

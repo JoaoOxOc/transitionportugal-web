@@ -15,6 +15,11 @@ namespace UserService.Entities
         [MaxLength(5)]
         public string LangKey { get; set; }
 
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [Required]
+        public decimal TermsConditionsVersion { get; set; }
+
         /// <summary>
         /// Store banner data as a json structure
         /// </summary>

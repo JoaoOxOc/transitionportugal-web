@@ -18,6 +18,12 @@ namespace ContentManageService.Entities
         [MaxLength(5)]
         public string LangKey { get; set; }
 
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [Required]
+        [MaxLength(25)]
+        public string PageKey { get; set; }
+
         /// <summary>
         /// Store banner data as a json structure
         /// </summary>

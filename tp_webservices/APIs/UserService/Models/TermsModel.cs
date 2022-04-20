@@ -18,7 +18,7 @@ namespace UserService.Models
         {
             public string LangCode { get; set; }
 
-            public string TermsData { get; set; }
+            public JsonDocument TermsData { get; set; }
         }
     }
 }

@@ -98,7 +98,7 @@ namespace UserService.Controllers
                     model.TermsLanguages.Add(new TermsModel.TermsDataModel
                     {
                         LangCode = termsTranslation.LangKey,
-                        TermsData = JsonSerializer.Serialize(termsTranslation.DataBlocksJson)
+                        TermsData = termsTranslation.DataBlocksJson//JsonSerializer.Serialize(termsTranslation.DataBlocksJson)
                     });
                 }
                 else
@@ -108,7 +108,7 @@ namespace UserService.Controllers
                         termsData.TermsLanguages.Add(new TermsModel.TermsDataModel
                         {
                             LangCode = termsTranslation.LangKey,
-                            TermsData = JsonSerializer.Serialize(termsTranslation.DataBlocksJson)
+                            TermsData = termsTranslation.DataBlocksJson//JsonSerializer.Serialize(termsTranslation.DataBlocksJson)
                         });
                     }
                 }
@@ -131,7 +131,7 @@ namespace UserService.Controllers
             return models;
         }
 
-        private KeyValuePair<List<TermsConditionsTranslation>, List<TermsConditionsTranslation>> ProcessTermsTranslations(TermsConditions termsData, List<TermsModel.TermsDataModel> translationsModel)
+        private KeyValuePair<List<TermsConditionsTranslation>, List<TermsConditionsTranslation>> ProcessTermsTranslations(bool isCreate, TermsConditions termsData, List<TermsModel.TermsDataModel> translationsModel)
         {
             KeyValuePair<List<TermsConditionsTranslation>, List<TermsConditionsTranslation>> translationsProcessed = new KeyValuePair<List<TermsConditionsTranslation>, List<TermsConditionsTranslation>>();
             if (translationsModel != null)
@@ -140,18 +140,27 @@ namespace UserService.Controllers
                 List<TermsConditionsTranslation> toCreate = new List<TermsConditionsTranslation>();
                 foreach (var translation in translationsModel)
                 {
-                    Expression<Func<TermsConditionsTranslation, bool>> filterTranslation = (x => x.LangKey == translation.LangCode && x.TermsConditionsId == termsData.Id);
-                    var termsTranslation = this._uow.TermsConditionsTranslationRepository.Get(null, null, filterTranslation, string.Empty, SortDirection.Ascending).FirstOrDefault();
-                    if (termsTranslation != null)
+                    TermsConditionsTranslation termsTranslationFound = null;
+                    if (!isCreate)
                     {
-                        toUpdate.Add(termsTranslation);
+                        Expression<Func<TermsConditionsTranslation, bool>> filterTranslation = (x => x.LangKey == translation.LangCode && x.TermsConditionsId == termsData.Id);
+                        termsTranslationFound = this._uow.TermsConditionsTranslationRepository.Get(null, null, filterTranslation, string.Empty, SortDirection.Ascending).FirstOrDefault();
+                    }
+                    if (termsTranslationFound != null)
+                    {
+                        termsTranslationFound.DataBlocksJson = translation.TermsData;// JsonDocument.Parse(translation.TermsData, new System.Text.Json.JsonDocumentOptions { AllowTrailingCommas = true });
+                        toUpdate.Add(termsTranslationFound);
                     }
                     else
                     {
                         TermsConditionsTranslation newTranslation = new TermsConditionsTranslation();
-                        newTranslation.TermsConditionsId = termsData.Id;
+                        if (!isCreate)
+                        {
+                            newTranslation.TermsConditionsId = termsData.Id;
+                        }
+                        newTranslation.TermsConditionsVersion = termsData.Version;
                         newTranslation.LangKey = translation.LangCode;
-                        newTranslation.DataBlocksJson = JsonDocument.Parse(translation.TermsData, new System.Text.Json.JsonDocumentOptions { AllowTrailingCommas = true });
+                        newTranslation.DataBlocksJson = translation.TermsData;// JsonDocument.Parse(translation.TermsData, new System.Text.Json.JsonDocumentOptions { AllowTrailingCommas = true });
 
                         toCreate.Add(newTranslation);
                     }
@@ -307,18 +316,12 @@ namespace UserService.Controllers
                     return _validate;
                 }
 
-                _uow.TermsConditionsRepository.Add(newTerms);
-
-                var updateCreatePairs = ProcessTermsTranslations(newTerms, model.TermsLanguages);
-
-                if (updateCreatePairs.Key != null && updateCreatePairs.Key.Count > 0)
-                {
-                    _uow.TermsConditionsTranslationRepository.Update(updateCreatePairs.Key);
-                }
+                var updateCreatePairs = ProcessTermsTranslations(true, newTerms, model.TermsLanguages);
                 if (updateCreatePairs.Value != null && updateCreatePairs.Value.Count > 0)
                 {
-                    _uow.TermsConditionsTranslationRepository.Add(updateCreatePairs.Value);
+                    newTerms.TermsConditionsTranslations = updateCreatePairs.Value;
                 }
+                _uow.TermsConditionsRepository.Add(newTerms);
                 _uow.Save();
 
                 return Ok(new
@@ -366,7 +369,7 @@ namespace UserService.Controllers
                     {
                         _uow.TermsConditionsRepository.Update(terms);
 
-                        var updateCreatePairs = ProcessTermsTranslations(terms, model.TermsLanguages);
+                        var updateCreatePairs = ProcessTermsTranslations(false, terms, model.TermsLanguages);
 
                         if (updateCreatePairs.Key != null && updateCreatePairs.Key.Count > 0)
                         {
