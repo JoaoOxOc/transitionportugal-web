@@ -18,7 +18,8 @@ export const TERMSLIST_TRANSLATIONS = deepFreeze({
     },
     TERMSOBJECT: {
         version: "Terms & Conditions Version",
-        isActive: "Activated",
+        versionSmall: "Version {{versionNumber}}",
+        isActive: "Active",
         DataBlocksJson: "Terms & Conditions Content",
         createdAt: "Registered At",
         updatedAt: "Updated at"

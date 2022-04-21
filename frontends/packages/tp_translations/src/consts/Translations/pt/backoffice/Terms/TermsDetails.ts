@@ -4,6 +4,7 @@ export const TERMSDETAILS_TRANSLATIONS = deepFreeze({
     LABELS: {
         termsDetails: "Detalhes dos Termos & Condições - {{name}}",
         termsCreate: "Novo registo de Termos & Condições",
+        versionSmall: "Versão {{versionNumber}}",
         termsCreateSmall: "Novos Termos & Condições",
         goBack: "Voltar",
         registerTermsInfo: "O visual de edição não é equivalente ao que o utilizador irá ver",

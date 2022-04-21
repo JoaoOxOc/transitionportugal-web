@@ -37,6 +37,7 @@ function TermsDetails({isCreate}) {
     const getTermsData = useCallback(async () => {
         try {
             let termsData = await GetTermsRecord(process.env.NEXT_PUBLIC_API_BASE_URL + termsUri);
+            console.log(termsData)
             if (isMountedRef()) {
               if (termsData.status) {
                 setTermsError(termsData);
@@ -66,7 +67,7 @@ function TermsDetails({isCreate}) {
       { url: "/", label: t('LIST.home'), isLink: true },
       { url: "", label: t('LIST.management'), isLink: false },
       { url: termsListUri, label: t('LIST.termsTitle'), isLink: true },
-      { url: "", label: isCreate ? t('LABELS.termsCreateSmall') : terms.version, ownPage: true },
+      { url: "", label: isCreate ? t('LABELS.termsCreateSmall') : t("LABELS.versionSmall",{versionNumber:terms.version}), ownPage: true },
     ];
 
     return (
@@ -74,7 +75,7 @@ function TermsDetails({isCreate}) {
       {(isCreate || terms) ?
         (
         <PageTitleWrapper>
-          <DetailsPageHeader breadcrumbsDataJson={breadcrumbsData} detailsTitle={isCreate ? t('LABELS.termsCreate') : terms.version} goBackLabel={t('LABELS.goBack')} goBackUrl={termsListUri}/>
+          <DetailsPageHeader breadcrumbsDataJson={breadcrumbsData} detailsTitle={isCreate ? t('LABELS.termsCreate') : t("LABELS.versionSmall",{versionNumber:terms.version})} goBackLabel={t('LABELS.goBack')} goBackUrl={termsListUri}/>
         </PageTitleWrapper>
         ) : (<></>)
       }

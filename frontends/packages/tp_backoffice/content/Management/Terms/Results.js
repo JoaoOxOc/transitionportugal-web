@@ -263,7 +263,7 @@ const Results = () => {
                                           </TableCell>
                                           <TableCell>
                                               <Typography variant="h5">
-                                              {term.createdAt}
+                                              {new Date(term.createdAt).toLocaleString('pt-PT', { timeZone: 'Europe/Lisbon' })}
                                               </Typography>
                                           </TableCell>
                                           <TableCell align="center">
@@ -351,12 +351,47 @@ const Results = () => {
                                           <Box>
                                               <Box>
                                                   <Link variant="h5" href={termsDetailsBaseUri + term.id} isNextLink={true}>
-                                                      {term.version}
-                                                  </Link>{' '}
+                                                      {t('TERMSOBJECT.versionSmall', {versionNumber: term.version})}
+                                                  </Link>
                                               </Box>
+                                                  <Typography
+                                                      component="span"
+                                                      variant="body2"
+                                                      color="text.secondary"
+                                                      >
+                                                        {t('TERMSOBJECT.createdAt') + ": " + new Date(term.createdAt).toLocaleString('pt-PT', { timeZone: 'Europe/Lisbon' })}
+                                                  </Typography>
                                           </Box>
                                       </Box>
                                       <Divider />
+                                      <Box
+                                          pl={2}
+                                          py={1}
+                                          pr={1}
+                                          display="flex"
+                                          alignItems="center"
+                                          justifyContent="space-between"
+                                      >
+                                        <Typography>
+                                            <Tooltip title={t('TERMSOBJECT.isActive')} arrow>
+                                                { term.isActive == true ?
+                                                    (
+                                                        <IconActive
+                                                            color="primary"
+                                                            >
+                                                            <CheckTwoToneIcon/>
+                                                        </IconActive>
+                                                    ) : (
+                                                        <IconInactive
+                                                            color="primary"
+                                                            >
+                                                            <CloseTwoToneIcon/>
+                                                        </IconInactive>
+                                                    )
+                                                }
+                                            </Tooltip>
+                                        </Typography>
+                                      </Box>
                                   </Box>
                               </CardWrapper>
                               </Grid>

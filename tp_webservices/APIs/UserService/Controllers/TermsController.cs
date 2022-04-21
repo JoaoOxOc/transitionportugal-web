@@ -238,7 +238,7 @@ namespace UserService.Controllers
                     {
                         return Ok(new
                         {
-                            termsRecord = ParseEntitiesToModel(terms)
+                            termsRecord = ParseEntitiesToModel(terms)[0]
                         });
                     }
                     else
@@ -268,7 +268,7 @@ namespace UserService.Controllers
                 {
                     return Ok(new
                     {
-                        termsRecord = ParseEntitiesToModel(terms)
+                        termsRecord = ParseEntitiesToModel(terms)[0]
                     });
                 }
                 else

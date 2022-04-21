@@ -77,10 +77,11 @@ const CustomInputLabel = styled(InputLabel)(
 // other editor JS plugins: https://github.com/orgs/editor-js/repositories
 const DetailForm = ({isCreate, termsData, termsPutUrl, imageArray, handleInstance}) => {
     const { t } = i18nextTermsDetails;
-    
     const router = useRouter();
     const [terms, setTermsData] = useState(termsData);
     const selectedLanguage = useRef("pt-pt");
+    const selectedTermsBlocks = termsData && termsData.termsLanguages ? termsData.termsLanguages.filter((term) => { return term.langCode == selectedLanguage.current; }) : null;
+    const [termsBlocks, setTermsBlocks] = useState(selectedTermsBlocks && selectedTermsBlocks.length > 0 ? selectedTermsBlocks[0] : null);
     const savedBlocks = useRef([]);
     const isMountedRef = useRefMounted();
     const { enqueueSnackbar } = useSnackbar();
@@ -101,6 +102,7 @@ const DetailForm = ({isCreate, termsData, termsPutUrl, imageArray, handleInstanc
 
     let initValues = {
         isActive: termsData && termsData.isActive ? termsData.isActive : false,
+        version: termsData && termsData.version ? termsData.version : 0,
         language: termsData && termsData.language ? termsData.language : "pt-pt",
         blocksJson: termsData && termsData.blocksJson ? termsData.blocksJson : [],
     };
@@ -204,25 +206,46 @@ const DetailForm = ({isCreate, termsData, termsPutUrl, imageArray, handleInstanc
       });
 
     const receiveSelectedLanguage = (langCode) => {
-        console.log(langCode, selectedLanguage);
         selectedLanguage.current = langCode;
-        console.log(selectedLanguage);
+        if (termsData && termsData.termsLanguages) {
+            const langBlocks = termsData.termsLanguages.filter((term) => { return term.langCode == langCode; });
+            console.log(langBlocks);
+            setTermsBlocks(langBlocks && langBlocks.length > 0 ? langBlocks[0] : null);
+        }
     }
 
     const receiveEditedBlocks = (blocksData) => {
-        const blockExists = savedBlocks.current.filter((block) => {return block.langCode == selectedLanguage.current; });
+        console.log(termsData.termsLanguages)
+        const blockExists = isCreate ? savedBlocks.current.filter((block) => {return block.langCode == selectedLanguage.current; }) : termsData.termsLanguages.filter((block) => {return block.langCode == selectedLanguage.current; });
         if (blockExists && blockExists.length > 0) {
-            savedBlocks.current.forEach((block) => {
-                if (block.langCode == selectedLanguage.current) {
-                    block.termsData = blocksData;//JSON.stringify(blocksData);
-                }
-            });
+            if (isCreate) {
+                savedBlocks.current.forEach((block) => {
+                    if (block.langCode == selectedLanguage.current) {
+                        block.termsData = blocksData;//JSON.stringify(blocksData);
+                    }
+                });
+            }
+            else {
+                termsData.termsLanguages.forEach((block) => {
+                    if (block.langCode == selectedLanguage.current) {
+                        block.termsData = blocksData;//JSON.stringify(blocksData);
+                    }
+                });
+            }
         }
         else {
-            savedBlocks.current.push({
-                langCode: selectedLanguage.current,
-                termsData: blocksData//JSON.stringify(blocksData)
-            });
+            if (isCreate) {
+                savedBlocks.current.push({
+                    langCode: selectedLanguage.current,
+                    termsData: blocksData//JSON.stringify(blocksData)
+                });
+            }
+            else {
+                termsData.termsLanguages.push({
+                    langCode: selectedLanguage.current,
+                    termsData: blocksData//JSON.stringify(blocksData)
+                });
+            }
         }
     }
 
@@ -235,15 +258,30 @@ const DetailForm = ({isCreate, termsData, termsPutUrl, imageArray, handleInstanc
                 item
                 xs={12}
                 >
-                { !isCreate ?
                 <Alert severity="warning">
                     {t('LABELS.termsWarning')}
                 </Alert>
-                : 
+            </Grid>
+            <Grid item xs={12}>
+                <FormControl fullWidth variant="outlined">
+                    {/* <TextField
+                        helperText={formik.touched.isActive && formik.errors.isActive}
+                        error={Boolean(formik.touched.isActive && formik.errors.isActive)}
+                        fullWidth
+                        margin="normal"
+                        label={t('FORM.isActive')}
+                        name="isActive"
+                        onBlur={formik.handleBlur}
+                        onChange={formik.handleChange}
+                        value={formik.values.isActive}
+                        variant="outlined"
+                    /> */}
+                </FormControl>
+            </Grid>
+            <Grid item xs={12}>
                 <Alert severity="info">
                     {t('LABELS.registerTermsInfo')}
                 </Alert>
-                }
             </Grid>
             <Grid item xs={12}>
                 <FormControl fullWidth variant="outlined">
@@ -253,25 +291,13 @@ const DetailForm = ({isCreate, termsData, termsPutUrl, imageArray, handleInstanc
                         </Typography>
                     </CustomInputLabel>
                     <Language selectId={"editor-language-dropdown"} defaultValue={selectedLanguage.current} sendSelectedLanguage={receiveSelectedLanguage} style={{ marginTop: '30px' }}/>
-                    {/* <TextField
-                        helperText={formik.touched.language && formik.errors.language}
-                        error={Boolean(formik.touched.language && formik.errors.language)}
-                        fullWidth
-                        margin="normal"
-                        label={t('FORM.language')}
-                        name="language"
-                        onBlur={formik.handleBlur}
-                        onChange={formik.handleChange}
-                        value={formik.values.language}
-                        variant="outlined"
-                    /> */}
                 </FormControl>
             </Grid>
             <Grid item xs={12}>
                 <EditorWrapper>
                     <EditorComponent 
                         editorTranslations={i18npt}
-                        editorTools={EDITOR_JS_TOOLS} editorData={terms}
+                        editorTools={EDITOR_JS_TOOLS} editorData={termsBlocks ? termsBlocks.termsData : null}
                         editorPlaceholder={`Write from here...`}
                         sendEditBlocks={receiveEditedBlocks}/>
                 </EditorWrapper>

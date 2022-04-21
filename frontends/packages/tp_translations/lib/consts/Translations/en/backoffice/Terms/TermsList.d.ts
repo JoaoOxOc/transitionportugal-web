@@ -16,7 +16,8 @@ export declare const TERMSLIST_TRANSLATIONS: {
     };
     readonly TERMSOBJECT: {
         readonly version: "Terms & Conditions Version";
-        readonly isActive: "Activated";
+        readonly versionSmall: "Version {{versionNumber}}";
+        readonly isActive: "Active";
         readonly DataBlocksJson: "Terms & Conditions Content";
         readonly createdAt: "Registered At";
         readonly updatedAt: "Updated at";

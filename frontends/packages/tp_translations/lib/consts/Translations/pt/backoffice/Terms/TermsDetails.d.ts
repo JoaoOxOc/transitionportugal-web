@@ -2,6 +2,7 @@ export declare const TERMSDETAILS_TRANSLATIONS: {
     readonly LABELS: {
         readonly termsDetails: "Detalhes dos Termos & Condições - {{name}}";
         readonly termsCreate: "Novo registo de Termos & Condições";
+        readonly versionSmall: "Versão {{versionNumber}}";
         readonly termsCreateSmall: "Novos Termos & Condições";
         readonly goBack: "Voltar";
         readonly registerTermsInfo: "O visual de edição não é equivalente ao que o utilizador irá ver";

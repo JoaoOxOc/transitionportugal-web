@@ -1,4 +1,4 @@
-import { useCallback, useRef } from 'react';
+import { useCallback, useState, useRef } from 'react';
 import { createReactEditorJS } from 'react-editor-js';
 import { 
     Grid, 
@@ -16,26 +16,43 @@ import {
     styled,
     Alert
 } from '@mui/material';
+const ReactEditorJS = createReactEditorJS();
 
 const EditorComponent = ({editorTranslations, editorTools, editorData, editorPlaceholder, sendEditBlocks}) => {
-    console.log(editorTranslations);
-    const ReactEditorJS = createReactEditorJS();
 
+    const editorBlocks = editorData ? {time: editorData.time, blocks: editorData.blocks} : null;
     const editorCore = useRef(null);
+    if (editorCore.current && editorCore.current._editorJS && editorCore.current._editorJS.configuration) {
+        editorCore.current._editorJS.isReady
+            .then(() => {
+                console.log(editorBlocks, editorCore.current._editorJS.configuration.data)
+                if (!editorBlocks || editorBlocks.blocks.length < 1) {
+                    editorCore.current._editorJS.configuration.data = null;
+                    editorCore.current._editorJS.clear();
+                }
+                else if (editorBlocks && (!editorCore.current._editorJS.configuration.data || editorCore.current._editorJS.configuration.data.time != editorBlocks.time)) {
+                    //editorCore.current._editorJS.clear();
+                    editorCore.current._editorJS.configuration.data = editorBlocks;
+                    editorCore.current._editorJS.render(editorBlocks);
+                }
+            });
+    }
 
     const handleInitialize = useCallback((instance) => {
         editorCore.current = instance;
-    }, [])
+    },[]);
 
     const handleSave = useCallback(async() => {
         const savedData = await editorCore.current.save();
+        console.log(savedData)
         sendEditBlocks(savedData);
     }, [sendEditBlocks])
 
     return (
         <>
         <ReactEditorJS 
-                    tools={editorTools} data={editorData}
+                    tools={editorTools} data={!editorCore.current || !editorCore.current._editorJS ? editorBlocks : null}
+                    onChange={handleSave}
                     onInitialize={handleInitialize}
                     placeholder={editorPlaceholder}/>
             <Divider />
