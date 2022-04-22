@@ -45,12 +45,14 @@ export const genericFetch = async (apiUrl, method, bearerToken, bodyJson) => {
             resultErrorBody = await response.text();
             resultData = {};
             resultData.totalCount = 0;
+            resultData.responseBody = resultErrorBody;
             throw response;
         }
         resultData = await response.json();
         resultData.totalCount = response.headers.get('x-total-count');
     }catch(err){
         resultData = err;
+        console.log(resultErrorBody)
         if (err.status == 400 && resultErrorBody == "Invalid access token or refresh token") {
             resultData.redirectLogin = true;
         }
@@ -73,6 +75,14 @@ export const genericFetch = async (apiUrl, method, bearerToken, bodyJson) => {
             }
             else {
                 resultData.redirectLogin = true;
+            }
+        }
+        else {
+            try {
+                resultData.responseBody = JSON.parse(resultErrorBody);
+            }
+            catch(ex) {
+                resultData.responseBody = resultErrorBody;
             }
         }
     }finally{

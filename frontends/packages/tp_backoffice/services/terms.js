@@ -48,3 +48,15 @@ export const CreateTermsRecord = async(termsApiUri, termsDataJson) => {
     }
     return response;
 }
+
+export const CloneTermsRecord = async(termsApiUri, termsDataJson) => {
+    let response = await genericFetch(termsApiUri, "POST", window.sessionStorage.getItem('accessToken'),termsDataJson);
+    if (response.requestAgain) {
+        response = await genericFetch(termsApiUri, "POST", window.sessionStorage.getItem('accessToken'),termsDataJson);
+    }
+    else if (response.status == 404) {
+        response.termsId = -1;
+        response.termsVersion = 0;
+    }
+    return response;
+}

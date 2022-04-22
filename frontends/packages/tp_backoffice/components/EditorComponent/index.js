@@ -1,31 +1,19 @@
-import { useCallback, useState, useRef } from 'react';
+import { useCallback, useRef } from 'react';
 import { createReactEditorJS } from 'react-editor-js';
 import { 
-    Grid, 
-    InputLabel,
+    Grid,
     Button, 
-    FormControl, 
-    TextField, 
-    Slide,
-    Divider,
-    FormControlLabel,
-    FormHelperText,
-    CircularProgress,
-    Typography,
-    Card,
-    styled,
-    Alert
+    Divider
 } from '@mui/material';
 const ReactEditorJS = createReactEditorJS();
 
-const EditorComponent = ({editorTranslations, editorTools, editorData, editorPlaceholder, sendEditBlocks}) => {
+const EditorComponent = ({editorTranslations, editorTools, readOnly, editorData, editorPlaceholder, sendEditBlocks}) => {
 
     const editorBlocks = editorData ? {time: editorData.time, blocks: editorData.blocks} : null;
     const editorCore = useRef(null);
     if (editorCore.current && editorCore.current._editorJS && editorCore.current._editorJS.configuration) {
         editorCore.current._editorJS.isReady
             .then(() => {
-                console.log(editorBlocks, editorCore.current._editorJS.configuration.data)
                 if (!editorBlocks || editorBlocks.blocks.length < 1) {
                     editorCore.current._editorJS.configuration.data = null;
                     editorCore.current._editorJS.clear();
@@ -44,7 +32,7 @@ const EditorComponent = ({editorTranslations, editorTools, editorData, editorPla
 
     const handleSave = useCallback(async() => {
         const savedData = await editorCore.current.save();
-        console.log(savedData)
+        console.log("saved", savedData);
         sendEditBlocks(savedData);
     }, [sendEditBlocks])
 
@@ -52,10 +40,10 @@ const EditorComponent = ({editorTranslations, editorTools, editorData, editorPla
         <>
         <ReactEditorJS 
                     tools={editorTools} data={!editorCore.current || !editorCore.current._editorJS ? editorBlocks : null}
-                    onChange={handleSave}
+                    onChange={handleSave} readOnly={readOnly}
                     onInitialize={handleInitialize}
                     placeholder={editorPlaceholder}/>
-            <Divider />
+            {/* <Divider />
             <Grid direction="row" container justifyContent="center">
                 <Grid
                     item
@@ -76,7 +64,7 @@ const EditorComponent = ({editorTranslations, editorTools, editorData, editorPla
                             {editorTranslations.misc.saveButton}
                     </Button>
                 </Grid>
-            </Grid>
+            </Grid> */}
         </>
     );
 }

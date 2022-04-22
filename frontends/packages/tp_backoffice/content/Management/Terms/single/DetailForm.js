@@ -8,6 +8,7 @@ import {
     Slide,
     Divider,
     FormControlLabel,
+    Switch,
     FormHelperText,
     CircularProgress,
     Typography,
@@ -74,14 +75,65 @@ const CustomInputLabel = styled(InputLabel)(
     `
 )
 
+const IOSSwitch = styled((props) => (
+    <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
+  ))(({ theme }) => ({
+    width: 42,
+    height: 26,
+    padding: 0,
+    '& .MuiSwitch-switchBase': {
+      padding: 0,
+      margin: 2,
+      transitionDuration: '300ms',
+      '&.Mui-checked': {
+        transform: 'translateX(16px)',
+        color: '#fff',
+        '& + .MuiSwitch-track': {
+          backgroundColor: theme.palette.mode === 'dark' ? '#2ECA45' : '#65C466',
+          opacity: 1,
+          border: 0,
+        },
+        '&.Mui-disabled + .MuiSwitch-track': {
+          opacity: 0.5,
+        },
+      },
+      '&.Mui-focusVisible .MuiSwitch-thumb': {
+        color: '#33cf4d',
+        border: '6px solid #fff',
+      },
+      '&.Mui-disabled .MuiSwitch-thumb': {
+        color:
+          theme.palette.mode === 'light'
+            ? theme.palette.grey[100]
+            : theme.palette.grey[600],
+      },
+      '&.Mui-disabled + .MuiSwitch-track': {
+        opacity: theme.palette.mode === 'light' ? 0.7 : 0.3,
+      },
+    },
+    '& .MuiSwitch-thumb': {
+      boxSizing: 'border-box',
+      width: 22,
+      height: 22,
+    },
+    '& .MuiSwitch-track': {
+      borderRadius: 26 / 2,
+      backgroundColor: theme.palette.mode === 'light' ? '#E9E9EA' : '#39393D',
+      opacity: 1,
+      transition: theme.transitions.create(['background-color'], {
+        duration: 500,
+      }),
+    },
+  }));
+
 // other editor JS plugins: https://github.com/orgs/editor-js/repositories
 const DetailForm = ({isCreate, termsData, termsPutUrl, imageArray, handleInstance}) => {
     const { t } = i18nextTermsDetails;
     const router = useRouter();
-    const [terms, setTermsData] = useState(termsData);
     const selectedLanguage = useRef("pt-pt");
     const selectedTermsBlocks = termsData && termsData.termsLanguages ? termsData.termsLanguages.filter((term) => { return term.langCode == selectedLanguage.current; }) : null;
     const [termsBlocks, setTermsBlocks] = useState(selectedTermsBlocks && selectedTermsBlocks.length > 0 ? selectedTermsBlocks[0] : null);
+    const [isActiveCheck, setIsActiveChecked] = useState(termsData && termsData.isActive ? termsData.isActive : false);
     const savedBlocks = useRef([]);
     const isMountedRef = useRefMounted();
     const { enqueueSnackbar } = useSnackbar();
@@ -122,23 +174,25 @@ const DetailForm = ({isCreate, termsData, termsPutUrl, imageArray, handleInstanc
               if (termsData && termsData.version) {
                 termsModel.version = termsData.version;
               }
+              if (termsData && termsData.isActive != null) {
+                termsModel.isActive = termsData.isActive;
+              }
               console.log(termsModel,savedBlocks)
               let result = {};
               if (isCreate) {
-                  console.log(termsPutUrl)
                 result = await CreateTermsRecord(termsPutUrl, termsModel);
               }
               else {
                 result = await UpdateTermsRecord(termsPutUrl, termsModel);
               }
-    
+              console.log(result);
               if (isMountedRef()) {
                   if (result.status) {
                     helpers.setStatus({ success: false });
                     helpers.setErrors({ submit: result.statusText });
                     helpers.setSubmitting(false);
                     if (result.status === 404) {
-                        enqueueSnackbar(t('MESSAGES.termsNotFound', {termsName: values.termsVersion}), {
+                        enqueueSnackbar(t('MESSAGES.termsNotFound', {termsName: result.termsVersion}), {
                           variant: 'error',
                           anchorOrigin: {
                             vertical: 'top',
@@ -148,13 +202,24 @@ const DetailForm = ({isCreate, termsData, termsPutUrl, imageArray, handleInstanc
                           TransitionComponent: Slide
                         });
                     }
+                    else if (result.status == 403 && result.responseBody && result.responseBody.message == "been_active") {
+                      enqueueSnackbar(t('MESSAGES.termsLockedForEdition', {termsName: result.responseBody.termsVersion}), {
+                        variant: 'error',
+                        anchorOrigin: {
+                          vertical: 'top',
+                          horizontal: 'center'
+                        },
+                        autoHideDuration: 2000,
+                        TransitionComponent: Slide
+                      });
+                    }
                     else {
                         setTermsError(result);
                     }
                   }
                   else {
                     if (isCreate) {
-                        enqueueSnackbar(t('MESSAGES.termsCreatedSuccessfully', {termsName: values.termsVersion}), {
+                        enqueueSnackbar(t('MESSAGES.termsCreatedSuccessfully', {termsName: result.termsVersion}), {
                             variant: 'success',
                             anchorOrigin: {
                               vertical: 'top',
@@ -163,14 +228,12 @@ const DetailForm = ({isCreate, termsData, termsPutUrl, imageArray, handleInstanc
                             autoHideDuration: 2000,
                             TransitionComponent: Slide
                         });
-                        //TODO redirect to edit page
-                        console.log(result);
                         router.push({
                             pathname: '/management/privacy/single/' + result.termsId,
                         });
                     }
                     else {
-                        enqueueSnackbar(t('MESSAGES.termsUpdatedSuccessfully', {termsName: values.termsVersion}), {
+                        enqueueSnackbar(t('MESSAGES.termsUpdatedSuccessfully', {termsName: result.termsVersion}), {
                             variant: 'success',
                             anchorOrigin: {
                               vertical: 'top',
@@ -190,7 +253,7 @@ const DetailForm = ({isCreate, termsData, termsPutUrl, imageArray, handleInstanc
                 helpers.setStatus({ success: false });
                 helpers.setErrors({ submit: err.message });
                 helpers.setSubmitting(false);
-                enqueueSnackbar(t('MESSAGES.termsGeneralError', {termsName: values.termsVersion}), {
+                enqueueSnackbar(t('MESSAGES.termsGeneralError', {termsName: result.termsVersion}), {
                     variant: 'error',
                     anchorOrigin: {
                       vertical: 'top',
@@ -215,38 +278,39 @@ const DetailForm = ({isCreate, termsData, termsPutUrl, imageArray, handleInstanc
     }
 
     const receiveEditedBlocks = (blocksData) => {
-        console.log(termsData.termsLanguages)
-        const blockExists = isCreate ? savedBlocks.current.filter((block) => {return block.langCode == selectedLanguage.current; }) : termsData.termsLanguages.filter((block) => {return block.langCode == selectedLanguage.current; });
+        const blockExists = savedBlocks.current.filter((block) => {return block.langCode == selectedLanguage.current; });
+        const backendBlockExists = termsData && termsData.termsLanguages ? termsData.termsLanguages.filter((block) => {return block.langCode == selectedLanguage.current; }) : null;
         if (blockExists && blockExists.length > 0) {
-            if (isCreate) {
-                savedBlocks.current.forEach((block) => {
-                    if (block.langCode == selectedLanguage.current) {
-                        block.termsData = blocksData;//JSON.stringify(blocksData);
-                    }
-                });
-            }
-            else {
-                termsData.termsLanguages.forEach((block) => {
-                    if (block.langCode == selectedLanguage.current) {
-                        block.termsData = blocksData;//JSON.stringify(blocksData);
-                    }
-                });
-            }
+            savedBlocks.current.forEach((block) => {
+                if (block.langCode == selectedLanguage.current) {
+                    block.termsData = blocksData;//JSON.stringify(blocksData);
+                }
+            });
         }
         else {
-            if (isCreate) {
-                savedBlocks.current.push({
-                    langCode: selectedLanguage.current,
-                    termsData: blocksData//JSON.stringify(blocksData)
-                });
-            }
-            else {
-                termsData.termsLanguages.push({
-                    langCode: selectedLanguage.current,
-                    termsData: blocksData//JSON.stringify(blocksData)
-                });
-            }
+            savedBlocks.current.push({
+                langCode: selectedLanguage.current,
+                termsData: blocksData//JSON.stringify(blocksData)
+            });
         }
+        if (backendBlockExists && backendBlockExists.length > 0) {
+            termsData.termsLanguages.forEach((block) => {
+                if (block.langCode == selectedLanguage.current) {
+                    block.termsData = blocksData;//JSON.stringify(blocksData);
+                }
+            });
+        }
+        else if (termsData && termsData.termsLanguages) {
+            termsData.termsLanguages.push({
+                langCode: selectedLanguage.current,
+                termsData: blocksData//JSON.stringify(blocksData)
+            });
+        }
+    }
+
+    const handleSetActive = (event) => {
+        termsData.isActive = event.target.checked;
+        setIsActiveChecked(termsData.isActive);
     }
 
     // Editor.js This will show block editor in component
@@ -258,26 +322,32 @@ const DetailForm = ({isCreate, termsData, termsPutUrl, imageArray, handleInstanc
                 item
                 xs={12}
                 >
-                <Alert severity="warning">
-                    {t('LABELS.termsWarning')}
-                </Alert>
+                  {!isCreate &&
+                    (termsData && termsData.beenActive ?
+                      (
+                        <Alert severity="warning">
+                            {t('LABELS.termsBeenActiveWarning')}
+                        </Alert>
+                      )
+                      : (
+                        <Alert severity="warning">
+                            {t('LABELS.termsWarning')}
+                        </Alert>
+                      )
+                    )
+                  }
             </Grid>
-            <Grid item xs={12}>
-                <FormControl fullWidth variant="outlined">
-                    {/* <TextField
-                        helperText={formik.touched.isActive && formik.errors.isActive}
-                        error={Boolean(formik.touched.isActive && formik.errors.isActive)}
-                        fullWidth
-                        margin="normal"
-                        label={t('FORM.isActive')}
-                        name="isActive"
-                        onBlur={formik.handleBlur}
-                        onChange={formik.handleChange}
-                        value={formik.values.isActive}
-                        variant="outlined"
-                    /> */}
-                </FormControl>
-            </Grid>
+            {!isCreate &&
+              <Grid item xs={12}>
+                  <FormControl fullWidth variant="outlined">
+                      <FormControlLabel
+                          control={<IOSSwitch sx={{ m: 1 }} checked={isActiveCheck} disabled={termsData && termsData.beenActive == true ? true : false}
+                          onChange={handleSetActive} size="big" />}
+                          label={t("FORM.isActive")}
+                      />
+                  </FormControl>
+              </Grid>
+            }
             <Grid item xs={12}>
                 <Alert severity="info">
                     {t('LABELS.registerTermsInfo')}
@@ -296,9 +366,9 @@ const DetailForm = ({isCreate, termsData, termsPutUrl, imageArray, handleInstanc
             <Grid item xs={12}>
                 <EditorWrapper>
                     <EditorComponent 
-                        editorTranslations={i18npt}
+                        editorTranslations={i18npt} readOnly={termsData && termsData.beenActive == true ? true : false}
                         editorTools={EDITOR_JS_TOOLS} editorData={termsBlocks ? termsBlocks.termsData : null}
-                        editorPlaceholder={`Write from here...`}
+                        editorPlaceholder={t("FORM.editorPlaceholder")}
                         sendEditBlocks={receiveEditedBlocks}/>
                 </EditorWrapper>
             </Grid>

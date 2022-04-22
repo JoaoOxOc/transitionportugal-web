@@ -8,6 +8,7 @@ export const TERMSDETAILS_TRANSLATIONS = deepFreeze({
         termsCreateSmall: "New Terms & Conditions Record",
         goBack: "Go back",
         registerTermsInfo: "The editting visual is not precisely the visual the final user will see",
+        termsBeenActiveWarning: "This Terms & Conditions version is/was active. Clone it to edit it",
         termsWarning: "Careful setting this record as active: the users will consent with this new version of Terms & Conditions"
     },
     LIST: {
@@ -21,18 +22,20 @@ export const TERMSDETAILS_TRANSLATIONS = deepFreeze({
         language: "Language",
         selectLanguage: "Terms & Conditions Language: the editting below corresponds to the selected language",
         version: "Version",
-        isActive: "Activated",
+        isActive: "Active",
         DataBlocksJson: "Content of the Terms & Conditions",
         updatedAt: "Updated At",
         createdAt: "Registered At",
+        editorPlaceholder: "Start writting here, the edit options will appear...",
         saveButton: "Save"
     },
     MESSAGES: {
         descriptionTooBig: "Name is too big. Max characters: {{max}}",
         descriptionRequired: "Profile Name is required",
-        roleUpdatedSuccessfully: "The Profile with name {{termsName}} was updated successfully",
-        roleCreatedSuccessfully: "The Profile with name {{termsName}} was created successfully",
-        roleGeneralError: "Error creating/updating Profile with name {{termsName}}. Please try again",
-        roleNotFound: "The Profile with name {{termsName}} wasn't found. Please double check if the name is correct"
+        termsUpdatedSuccessfully: "The Terms & Conditions version {{termsName}} was updated successfully",
+        termsCreatedSuccessfully: "The Terms & Conditions version {{termsName}} was created successfully",
+        termsGeneralError: "Error creating/updating Terms & Conditions version {{termsName}}. Please try again",
+        termsNotFound: "The Terms & Conditions version {{termsName}} wasn't found. Please double check if the version is correct",
+        termsLockedForEdition: "The Terms & Conditions version {{termsName}} are locked for edition - this version is/was active in the past. Clone it to edit it",
     }
 } as const);
