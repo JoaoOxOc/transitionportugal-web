@@ -14,6 +14,12 @@ namespace UserService.Entities
 
         public bool IsActive { get; set; }
 
+        /// <summary>
+        /// If deactivated, it means that it had been active in the past - maybe users consented to this version
+        /// Shouldn't be deleted/edited if this is true
+        /// </summary>
+        public bool? BeenActive { get; set; }
+
         public DateTime CreatedAt { get; set; }
 
         public DateTime? UpdatedAt { get; set; }
@@ -23,5 +29,10 @@ namespace UserService.Entities
         public string? CreatedBy { get; set; }
 
         public virtual ICollection<TermsConditionsTranslation> TermsConditionsTranslations { get; set; }
+
+        public TermsConditions ShallowCopy()
+        {
+            return (TermsConditions)this.MemberwiseClone();
+        }
     }
 }

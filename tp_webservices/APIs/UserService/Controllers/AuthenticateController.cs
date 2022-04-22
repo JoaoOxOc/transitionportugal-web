@@ -10,6 +10,7 @@ using UserService.Services.RabbitMQ;
 using UserService.Services.UserManager;
 using MicroservicesLibrary.Exceptions;
 using UserService.Services.Email;
+using UserService.Services.TermsManager;
 
 namespace UserService.Controllers
 {
@@ -21,14 +22,16 @@ namespace UserService.Controllers
         private readonly ITokenManager _tokenManager;
         private readonly IConfiguration _configuration;
         private readonly IEmailSender _emailSender;
+        private readonly ITermsManager _termsManager;
 
-        public AuthenticateController(ITPUserManager userManager, ITokenManager tokenManager, IConfiguration configuration, IEmailSender emailSender)
+        public AuthenticateController(ITPUserManager userManager, ITokenManager tokenManager, IConfiguration configuration, IEmailSender emailSender, ITermsManager termsManager)
         {
             //userManager.PasswordHasher = new CustomPasswordHasher();
             _userManager = userManager;
             _tokenManager = tokenManager;
             _configuration = configuration;
             _emailSender = emailSender;
+            _termsManager = termsManager;
         }
 
         [HttpGet]
@@ -150,7 +153,9 @@ namespace UserService.Controllers
                 CreatedAt = DateTime.Now,
                 IsActive = false,
                 IsVerified = false,
-                IsEmailVerified = false
+                IsEmailVerified = false,
+                TermsConsent = model.TermsConfirmed.Value,
+                TermsConsentVersion = _termsManager.GetActiveTermsConditionsVersion()
             };
 
             User user = new()
@@ -163,7 +168,9 @@ namespace UserService.Controllers
                 NormalizedUserName = model.Username.ToUpper(),
                 IsVerified = false,
                 IsActive = false,
-                IsEmailVerified = false
+                IsEmailVerified = false,
+                TermsConsent = model.TermsConfirmed.Value,
+                TermsConsentVersion = _termsManager.GetActiveTermsConditionsVersion()
             };
             var result = await _userManager.CreateUserWithAssociation(user, association, model.Password);
             if (result.Key == null || string.IsNullOrEmpty(result.Key.Id))

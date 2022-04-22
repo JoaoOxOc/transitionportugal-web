@@ -45,6 +45,10 @@ namespace UserService.Entities
         public bool? IsVerified { get; set; }
         public bool? IsEmailVerified { get; set; }
 
+        public bool TermsConsent { get; set; }
+
+        public decimal TermsConsentVersion { get; set; }
+
         #region MetaData
 
         public DateTime CreatedAt { get; set; }

@@ -10,6 +10,7 @@ using UserService.Entities;
 using UserService.Models;
 using UserService.Services.Database;
 using UserService.Services.Email;
+using UserService.Services.TermsManager;
 using UserService.Services.UserManager;
 
 namespace UserService.Controllers
@@ -24,8 +25,9 @@ namespace UserService.Controllers
         private readonly IUserRoleManager _userRoleManager;
         private readonly ITokenManager _tokenManager;
         private readonly IEmailSender _emailSender;
+        private readonly ITermsManager _termsManager;
 
-        public UserController(IUnitOfWork uow, IConfiguration configuration, ITPUserManager userManager, IUserRoleManager userRoleManager, ITokenManager tokenManager, IEmailSender emailSender)
+        public UserController(IUnitOfWork uow, IConfiguration configuration, ITPUserManager userManager, IUserRoleManager userRoleManager, ITokenManager tokenManager, IEmailSender emailSender, ITermsManager termsManager)
         {
             _uow = uow;
             _configuration = configuration;
@@ -33,6 +35,7 @@ namespace UserService.Controllers
             _userRoleManager = userRoleManager;
             _tokenManager = tokenManager;
             _emailSender = emailSender;
+            _termsManager = termsManager;
         }
 
         private ObjectResult ValidateUser(User user)
@@ -253,7 +256,9 @@ namespace UserService.Controllers
                     NormalizedUserName = model.Username.ToUpper(),
                     IsVerified = false,
                     IsActive = false,
-                    IsEmailVerified = false
+                    IsEmailVerified = false,
+                    TermsConsent = model.TermsConfirmed.HasValue ? model.TermsConfirmed.Value : true,
+                    TermsConsentVersion = _termsManager.GetActiveTermsConditionsVersion()
                 };
 
                 ObjectResult _validate = this.ValidateUser(user);
