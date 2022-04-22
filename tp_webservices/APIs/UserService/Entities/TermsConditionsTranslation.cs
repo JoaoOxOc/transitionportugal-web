@@ -29,5 +29,10 @@ namespace UserService.Entities
         [ForeignKey("TermsConditions")]
         public int? TermsConditionsId { get; set; }
         public virtual TermsConditions TermsConditions { get; set; }
+
+        public TermsConditionsTranslation ShallowCopy()
+        {
+            return (TermsConditionsTranslation)this.MemberwiseClone();
+        }
     }
 }

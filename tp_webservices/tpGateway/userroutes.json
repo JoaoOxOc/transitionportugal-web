@@ -719,6 +719,22 @@
       }
     },
     {
+      "DownstreamPathTemplate": "/api/terms/clone",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tpuserservice",
+          "Port": 3020
+        }
+      ],
+      "UpstreamPathTemplate": "/terms/clone",
+      "UpstreamHttpMethod": [ "Post" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "TpAuthKey",
+        "AllowedScopes": [ "terms.admin" ]
+      }
+    },
+    {
       "DownstreamPathTemplate": "/api/terms/public",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [

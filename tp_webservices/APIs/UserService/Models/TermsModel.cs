@@ -12,6 +12,8 @@ namespace UserService.Models
 
         public bool? IsActive { get; set; }
 
+        public bool? BeenActive { get; set; }
+
         public List<TermsDataModel>? TermsLanguages { get; set; }
 
         public class TermsDataModel

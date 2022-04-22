@@ -10,6 +10,7 @@ using CommonLibrary.Enums;
 using CommonLibrary.Entities.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using CommonLibrary.Extensions;
+using UserService.Services.TermsManager;
 
 namespace UserService.Controllers
 {
@@ -20,12 +21,14 @@ namespace UserService.Controllers
         private readonly IConfiguration _configuration;
         private readonly IUnitOfWork _uow;
         private readonly IEmailSender _emailSender;
+        private readonly ITermsManager _termsManager;
 
-        public TermsController(IUnitOfWork uow, IConfiguration configuration, IEmailSender emailSender)
+        public TermsController(IUnitOfWork uow, IConfiguration configuration, IEmailSender emailSender, ITermsManager termsManager)
         {
             _uow = uow;
             _configuration = configuration;
             _emailSender = emailSender;
+            _termsManager = termsManager;
         }
 
         private ObjectResult ValidateTerms(TermsConditions terms)
@@ -94,6 +97,7 @@ namespace UserService.Controllers
                     model.Id = termsTranslation.TermsConditionsId;
                     model.IsActive = termsTranslation.TermsConditions?.IsActive;
                     model.Version = termsTranslation.TermsConditions?.Version;
+                    model.BeenActive = termsTranslation.TermsConditions?.BeenActive;
                     model.TermsLanguages = new List<TermsModel.TermsDataModel>();
                     model.TermsLanguages.Add(new TermsModel.TermsDataModel
                     {
@@ -144,7 +148,7 @@ namespace UserService.Controllers
                     if (!isCreate)
                     {
                         Expression<Func<TermsConditionsTranslation, bool>> filterTranslation = (x => x.LangKey == translation.LangCode && x.TermsConditionsId == termsData.Id);
-                        termsTranslationFound = this._uow.TermsConditionsTranslationRepository.Get(null, null, filterTranslation, string.Empty, SortDirection.Ascending).FirstOrDefault();
+                        termsTranslationFound = this._uow.TermsConditionsTranslationRepository.Get(null, null, filterTranslation, "LangKey", SortDirection.Ascending).FirstOrDefault();
                     }
                     if (termsTranslationFound != null)
                     {
@@ -296,17 +300,9 @@ namespace UserService.Controllers
             if (PermissionsHelper.ValidateRoleClaimPermission(userClaims, new List<string> { "Admin" })
                 && PermissionsHelper.ValidateUserScopesPermissionAll(scopes, new List<string> { "terms.admin" }))
             {
-                var termsLastVersion = _uow.TermsConditionsRepository.Get(1, 1, null, "Version", SortDirection.Descending).FirstOrDefault();
 
                 TermsConditions newTerms = new TermsConditions();
-                if (termsLastVersion != null)
-                {
-                    newTerms.Version = termsLastVersion.Version + 1;
-                }
-                else
-                {
-                    newTerms.Version = 1;
-                }
+                newTerms.Version = _termsManager.GetNewTermsConditionsVersion();
                 newTerms.CreatedAt = DateTime.UtcNow;
                 newTerms.CreatedBy = userClaims.Where(x => x.Claim == "userId").Single().Value;
 
@@ -352,44 +348,129 @@ namespace UserService.Controllers
                 var terms = this._uow.TermsConditionsRepository.Get(null, null, filter, string.Empty, SortDirection.Ascending).FirstOrDefault();
                 if (terms != null)
                 {
-                    if (model.IsActive.HasValue)
+                    if (!terms.BeenActive.HasValue || !terms.BeenActive.Value)
                     {
-                        terms.IsActive = model.IsActive.Value;
-                    }
-                    terms.UpdatedAt = DateTime.UtcNow;
-                    terms.UpdatedBy = userClaims.Where(x => x.Claim == "userId").Single().Value;
+                        terms.UpdatedAt = DateTime.UtcNow;
+                        terms.UpdatedBy = userClaims.Where(x => x.Claim == "userId").Single().Value;
 
-                    ObjectResult _validate = this.ValidateTerms(terms);
-                    if (_validate.StatusCode != StatusCodes.Status200OK)
-                    {
-                        return _validate;
+                        ObjectResult _validate = this.ValidateTerms(terms);
+                        if (_validate.StatusCode != StatusCodes.Status200OK)
+                        {
+                            return _validate;
+                        }
+
+                        if (model.IsActive.HasValue)
+                        {
+                            if (terms.IsActive == false && model.IsActive.Value == true)
+                            {
+                                _termsManager.DeactivateTermsConditions(terms);
+                                terms.BeenActive = true;
+                            }
+                            terms.IsActive = model.IsActive.Value;
+                        }
+
+                        try
+                        {
+                            _uow.TermsConditionsRepository.Update(terms);
+                            _uow.Save();
+
+                            var updateCreatePairs = ProcessTermsTranslations(false, terms, model.TermsLanguages);
+
+                            if (updateCreatePairs.Key != null && updateCreatePairs.Key.Count > 0)
+                            {
+                                _uow.TermsConditionsTranslationRepository.Update(updateCreatePairs.Key);
+                            }
+                            if (updateCreatePairs.Value != null && updateCreatePairs.Value.Count > 0)
+                            {
+                                _uow.TermsConditionsTranslationRepository.Add(updateCreatePairs.Value);
+                            }
+                            _uow.Save();
+
+                            return Ok(new
+                            {
+                                termsId = terms.Id,
+                                termsVersion = terms.Version
+                            });
+                        }
+                        catch (Exception ex)
+                        {
+                            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message + "| " + ex.StackTrace);
+                        }
                     }
+                    else
+                    {
+                        return StatusCode(StatusCodes.Status403Forbidden, new
+                        {
+                            message = "been_active",
+                            termsVersion = terms.Version
+                        });
+                    }
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            return Forbid();
+        }
+
+        [Authorize]
+        [HttpPost]
+        [Route("clone")]
+        public async Task<IActionResult> Clone([FromBody] TermsModel model)
+        {
+            string header = HttpContext.Request.Headers["Authorization"];
+            string[] claims = new string[] { "userId", "sub", System.Security.Claims.ClaimTypes.Role, "scope" };
+            List<JwtClaim> userClaims = JwtHelper.ValidateToken(header, _configuration["JWT:ValidAudience"], _configuration["JWT:ValidIssuer"], _configuration["JWT:SecretPublicKey"], claims);
+            string userScopesString = userClaims.Where(x => x.Claim == "scope").Single().Value;
+            List<string> scopes = !string.IsNullOrEmpty(userScopesString) ? JsonSerializer.Deserialize<List<string>>(userScopesString) : null;
+
+            if (PermissionsHelper.ValidateRoleClaimPermission(userClaims, new List<string> { "Admin" })
+                && PermissionsHelper.ValidateUserScopesPermissionAll(scopes, new List<string> { "terms.admin" }))
+            {
+                Expression<Func<TermsConditions, bool>> filter = (x => x.Id == model.Id);
+                var terms = this._uow.TermsConditionsRepository.Get(null, null, filter, string.Empty, SortDirection.Ascending).FirstOrDefault();
+
+                Expression<Func<TermsConditionsTranslation, bool>> filterTranslation = (x => x.TermsConditionsId == model.Id);
+                var termsTranslations = this._uow.TermsConditionsTranslationRepository.Get(null, null, filterTranslation, "LangKey", SortDirection.Ascending);
+                if (terms != null)
+                {
+                    TermsConditions clonedTerms = terms.ShallowCopy();
+                    clonedTerms.Id = null;
+                    clonedTerms.IsActive = false;
+                    clonedTerms.BeenActive = false;
+                    clonedTerms.Version = _termsManager.GetNewTermsConditionsVersion();
+                    clonedTerms.CreatedAt = DateTime.UtcNow;
+                    clonedTerms.CreatedBy = userClaims.Where(x => x.Claim == "userId").Single().Value;
+                    clonedTerms.UpdatedAt = null;
+                    clonedTerms.UpdatedBy = null;
 
                     try
                     {
-                        _uow.TermsConditionsRepository.Update(terms);
-
-                        var updateCreatePairs = ProcessTermsTranslations(false, terms, model.TermsLanguages);
-
-                        if (updateCreatePairs.Key != null && updateCreatePairs.Key.Count > 0)
+                        if (termsTranslations != null && termsTranslations.Count > 0)
                         {
-                            _uow.TermsConditionsTranslationRepository.Update(updateCreatePairs.Key);
+                            List<TermsConditionsTranslation> clonedTranslations = new List<TermsConditionsTranslation>();
+                            foreach(var translation in termsTranslations)
+                            {
+                                var clonedTranslation = translation.ShallowCopy();
+                                clonedTranslation.TermsConditionsVersion = clonedTerms.Version;
+                                clonedTranslation.TermsConditionsId = null;
+                                clonedTranslations.Add(clonedTranslation);
+                            }
+                            clonedTerms.TermsConditionsTranslations = clonedTranslations;
                         }
-                        if (updateCreatePairs.Value != null && updateCreatePairs.Value.Count > 0)
-                        {
-                            _uow.TermsConditionsTranslationRepository.Add(updateCreatePairs.Value);
-                        }
+                        _uow.TermsConditionsRepository.Add(clonedTerms);
                         _uow.Save();
 
                         return Ok(new
                         {
-                            termsId = terms.Id,
-                            termsVersion = terms.Version
+                            termsId = clonedTerms.Id,
+                            termsVersion = clonedTerms.Version
                         });
                     }
                     catch (Exception ex)
                     {
-                        return StatusCode(StatusCodes.Status500InternalServerError, null);
+                        return StatusCode(StatusCodes.Status500InternalServerError, ex.Message + "| " + ex.StackTrace);
                     }
                 }
                 else
