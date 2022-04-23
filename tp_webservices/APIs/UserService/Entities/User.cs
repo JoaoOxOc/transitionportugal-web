@@ -33,5 +33,7 @@
         public DateTime? UpdatedAt { get; set; }
 
         #endregion
+
+        public virtual ICollection<NewsletterSubscription> NewsletterSubscriptions { get; set; }
     }
 }

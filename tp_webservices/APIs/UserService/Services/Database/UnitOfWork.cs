@@ -32,6 +32,7 @@ namespace UserService.Services.Database
         private IGenericRepository<IdentityRole> _identityRoleRepository;
         private IGenericRepository<IdentityUserRole<string>> _identityUserRoleRepository;
         private IGenericRepository<ClientCredential> _clientCredentialRepository;
+        private IGenericRepository<NewsletterSubscription> _newsletterSubscriptionRepository;
 
         private readonly DatabaseContext dbContext;
 
@@ -114,6 +115,14 @@ namespace UserService.Services.Database
             get
             {
                 return _identityUserRoleRepository = _identityUserRoleRepository ?? new GenericRepository<IdentityUserRole<string>>(dbContext);
+            }
+        }
+
+        public IGenericRepository<NewsletterSubscription> NewsletterSubscriptionRepository
+        {
+            get
+            {
+                return _newsletterSubscriptionRepository = _newsletterSubscriptionRepository ?? new GenericRepository<NewsletterSubscription>(dbContext);
             }
         }
     }

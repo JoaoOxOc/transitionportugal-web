@@ -748,6 +748,112 @@
       "UpstreamhttpMethod": [ "Get" ]
     },
     // end of terms management controllers
+    // newsletter subscription management controllers
+    {
+      "DownstreamPathTemplate": "/api/newsletter",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tpuserservice",
+          "Port": 3020
+        }
+      ],
+      "UpstreamPathTemplate": "/newsletter/get",
+      "UpstreamHttpMethod": [ "Get" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "TpAuthKey",
+        "AllowedScopes": [ "newsletter.admin" ]
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/newsletter/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tpuserservice",
+          "Port": 3020
+        }
+      ],
+      "UpstreamPathTemplate": "/newsletter/get/{id}",
+      "UpstreamhttpMethod": [ "Get" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "TpAuthKey",
+        "AllowedScopes": [ "newsletter.admin" ]
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/newsletter/update",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tpuserservice",
+          "Port": 3020
+        }
+      ],
+      "UpstreamPathTemplate": "/newsletter/update",
+      "UpstreamHttpMethod": [ "Put" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "TpAuthKey",
+        "AllowedScopes": [ "newsletter.admin" ]
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/newsletter/register",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tpuserservice",
+          "Port": 3020
+        }
+      ],
+      "UpstreamPathTemplate": "/newsletter/create",
+      "UpstreamHttpMethod": [ "Post" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "TpAuthKey",
+        "AllowedScopes": [ "newsletter.admin" ]
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/newsletter/delete",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tpuserservice",
+          "Port": 3020
+        }
+      ],
+      "UpstreamPathTemplate": "/newsletter/delete",
+      "UpstreamHttpMethod": [ "Delete" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "TpAuthKey",
+        "AllowedScopes": [ "newsletter.admin" ]
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/newsletter/public/register",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tpuserservice",
+          "Port": 3020
+        }
+      ],
+      "UpstreamPathTemplate": "/newsletter/subscribe",
+      "UpstreamhttpMethod": [ "Post" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/newsletter/public/delete",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tpuserservice",
+          "Port": 3020
+        }
+      ],
+      "UpstreamPathTemplate": "/newsletter/unsubscribe",
+      "UpstreamhttpMethod": [ "Delete" ]
+    },
+    // end of newsletter subscription management controllers
     // Ends User service routes
     // Email service routes
     {

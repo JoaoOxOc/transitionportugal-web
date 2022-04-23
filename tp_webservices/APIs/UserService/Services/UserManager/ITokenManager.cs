@@ -9,6 +9,7 @@ namespace UserService.Services.UserManager
         bool ValidateAuthFingerprint(string cookieValue, string userContext);
         JwtResponse GetToken(List<Claim> authClaims, int? expireTimeMinutes, string? fingerprint);
         JwtResponse GetClientToken();
+        JwtResponse GetClientToken(List<Claim> claims);
         KeyValuePair<string, int> GenerateRefreshToken(string userId, string? fingerprint);
         ClaimsPrincipal? GetPrincipalFromExpiredToken(string? token);
         ClaimsPrincipal? GetPrincipalFromRefreshToken(string? token);

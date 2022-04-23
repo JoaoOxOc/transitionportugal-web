@@ -17,6 +17,8 @@ namespace UserService.Services.Database
         IGenericRepository<Scope> ScopeRepository { get; }
         IGenericRepository<Setting> SettingRepository { get; }
         IGenericRepository<ClientCredential> ClientCredentialRepository { get; }
+        IGenericRepository<NewsletterSubscription> NewsletterSubscriptionRepository { get; }
+        
 
         void Save();
     }

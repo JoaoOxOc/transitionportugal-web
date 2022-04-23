@@ -62,5 +62,6 @@ namespace UserService.Services.Database
         public DbSet<RoleScope> RoleScope { get; set; }
         public DbSet<Setting> Setting { get; set; }
         public DbSet<ClientCredential> ClientCredential { get; set; }
+        public DbSet<NewsletterSubscription> NewsletterSubscription { get; set; }
     }
 }
