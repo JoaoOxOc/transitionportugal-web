@@ -1,4 +1,5 @@
 ﻿using CommonLibrary.Entities.ViewModel;
+using CommonLibrary.Enums;
 using UserService.Services.RabbitMQ;
 
 namespace UserService.Services.Email
@@ -18,13 +19,14 @@ namespace UserService.Services.Email
         /// <param name="emailTo"></param>
         /// <param name="passwordRecoveryLink"></param>
         /// <returns></returns>
-        public async Task<bool> SendRecoverPasswordEmail(string emailTo, string passwordRecoveryLink)
+        public async Task<bool> SendRecoverPasswordEmail(string emailTo, string language, string passwordRecoveryLink)
         {
             EmailVM emailData = new EmailVM();
             emailData.To = new List<string> { emailTo };
-            emailData.Body = "Please access the following url to reset your password, you only have 15 minutes to reset your password:<br/><a target='_blank' rel='noopener noreferrer' href='" + passwordRecoveryLink + "'>" + passwordRecoveryLink + "</a>";
-            emailData.Subject = "Reset your password";
-            emailData.EmailTemplateKey = "";
+            emailData.EmailLanguage = language;
+            emailData.EmailTemplateKey = EmailTemplatesEnum.UserAccountPasswordRecovery.ToString();
+            emailData.TokensToReplace_Body = new List<Tuple<string, string>> { new Tuple<string, string>("{{passwordRecoveryLink}}", passwordRecoveryLink) };
+            emailData.TokensToReplace_Subject = new List<Tuple<string, string>>();
 
             return await _rabbitMqSender.PublishEmailMessage(emailData);
         }
@@ -35,13 +37,14 @@ namespace UserService.Services.Email
         /// <param name="emailTo"></param>
         /// <param name="activateUserLink"></param>
         /// <returns></returns>
-        public async Task<bool> SendActivateUserEmail(string emailTo, string activateUserLink)
+        public async Task<bool> SendActivateUserEmail(string emailTo, string language, string activateUserLink)
         {
             EmailVM emailData = new EmailVM();
             emailData.To = new List<string> { emailTo };
-            emailData.Body = "Please access the following url to confirm your email, you only have 24 hours to do so:<br/><a target='_blank' rel='noopener noreferrer' href='" + activateUserLink + "'>" + activateUserLink + "</a>";
-            emailData.Subject = "Confirm your email";
-            emailData.EmailTemplateKey = "";
+            emailData.EmailTemplateKey = EmailTemplatesEnum.NewUserAccountEmailVerification.ToString();
+            emailData.TokensToReplace_Body = new List<Tuple<string, string>> { new Tuple<string, string>("{{activateUserLink}}", activateUserLink) };
+            emailData.TokensToReplace_Subject = new List<Tuple<string, string>>();
+            emailData.EmailLanguage = language;
 
             return await _rabbitMqSender.PublishEmailMessage(emailData);
         }
@@ -52,13 +55,14 @@ namespace UserService.Services.Email
         /// <param name="emailTo"></param>
         /// <param name="activateAssociationLink"></param>
         /// <returns></returns>
-        public async Task<bool> SendActivateAssociationEmail(string emailTo, string activateAssociationLink)
+        public async Task<bool> SendActivateAssociationEmail(string emailTo, string language, string activateAssociationLink)
         {
             EmailVM emailData = new EmailVM();
             emailData.To = new List<string> { emailTo };
-            emailData.Body = "Please access the following url to confirm your email, you only have 24 hours to do so:<br/><a target='_blank' rel='noopener noreferrer' href='" + activateAssociationLink + "'>" + activateAssociationLink + "</a>";
-            emailData.Subject = "Confirm your email";
-            emailData.EmailTemplateKey = "";
+            emailData.EmailTemplateKey = EmailTemplatesEnum.NewAssociationEmailVerification.ToString();
+            emailData.TokensToReplace_Body = new List<Tuple<string, string>> { new Tuple<string, string>("{{activateAssociationLink}}", activateAssociationLink) };
+            emailData.TokensToReplace_Subject = new List<Tuple<string, string>>();
+            emailData.EmailLanguage = language;
 
             return await _rabbitMqSender.PublishEmailMessage(emailData);
         }
@@ -69,16 +73,17 @@ namespace UserService.Services.Email
         /// <param name="approvedEmails"></param>
         /// <param name="loginEmailLink"></param>
         /// <returns></returns>
-        public async Task<bool> SendBulkAssociationActivatedEmail(List<string> approvedEmails, string loginEmailLink)
+        public async Task<bool> SendBulkAssociationActivatedEmail(List<string> approvedEmails, string language, string loginEmailLink)
         {
             bool success = false;
             foreach (string email in approvedEmails)
             {
                 EmailVM emailData = new EmailVM();
                 emailData.To = new List<string> { email };
-                emailData.Body = "Please access the following url to authenticate:<br/><a target='_blank' rel='noopener noreferrer' href='" + loginEmailLink + "'>" + loginEmailLink + "</a>";
-                emailData.Subject = "Your account has been activated";
-                emailData.EmailTemplateKey = "";
+                emailData.EmailTemplateKey = EmailTemplatesEnum.NewAssociationVerified.ToString();
+                emailData.TokensToReplace_Body = new List<Tuple<string, string>> { new Tuple<string, string>("{{loginLink}}", loginEmailLink) };
+                emailData.TokensToReplace_Subject = new List<Tuple<string, string>>();
+                emailData.EmailLanguage = language;
 
                 success = await _rabbitMqSender.PublishEmailMessage(emailData);
             }
@@ -91,16 +96,17 @@ namespace UserService.Services.Email
         /// <param name="approvedEmails"></param>
         /// <param name="loginEmailLink"></param>
         /// <returns></returns>
-        public async Task<bool> SendBulkUserActivatedEmail(List<string> approvedEmails, string loginEmailLink)
+        public async Task<bool> SendBulkUserActivatedEmail(List<string> approvedEmails, string language, string loginEmailLink)
         {
             bool success = false;
             foreach (string email in approvedEmails)
             {
                 EmailVM emailData = new EmailVM();
                 emailData.To = new List<string> { email };
-                emailData.Body = "Please access the following url to authenticate:<br/><a target='_blank' rel='noopener noreferrer' href='" + loginEmailLink + "'>" + loginEmailLink + "</a>";
-                emailData.Subject = "Your account has been activated";
-                emailData.EmailTemplateKey = "";
+                emailData.EmailTemplateKey = EmailTemplatesEnum.NewUserAccountVerified.ToString();
+                emailData.TokensToReplace_Body = new List<Tuple<string, string>> { new Tuple<string, string>("{{loginLink}}", loginEmailLink) };
+                emailData.TokensToReplace_Subject = new List<Tuple<string, string>>();
+                emailData.EmailLanguage = language;
 
                 success = await _rabbitMqSender.PublishEmailMessage(emailData);
             }

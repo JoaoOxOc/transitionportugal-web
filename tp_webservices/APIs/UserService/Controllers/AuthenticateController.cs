@@ -183,12 +183,11 @@ namespace UserService.Controllers
 
             var associationTokenData = _tokenManager.GetToken(associationClaims, 1440, null);
 
-            //TODO: send email through the helper class with template
             var userEmailLink = _configuration["ApplicationSettings:RecoverPasswordBaseUrl"] + _configuration["ApplicationSettings:ConfirmEmailUri"] + "?t=" + userTokenData.Token;
-            bool userEmailSuccess = await _emailSender.SendActivateUserEmail(user.Email, userEmailLink);
+            bool userEmailSuccess = await _emailSender.SendActivateUserEmail(user.Email, "pt-PT", userEmailLink);
 
             var associationEmailLink = _configuration["ApplicationSettings:RecoverPasswordBaseUrl"] + _configuration["ApplicationSettings:ConfirmEmailUri"] + "?t=" + associationTokenData.Token;
-            bool associationEmailSuccess = await _emailSender.SendActivateAssociationEmail(association.Email, associationEmailLink);
+            bool associationEmailSuccess = await _emailSender.SendActivateAssociationEmail(association.Email, "pt-PT", associationEmailLink);
 
             if (!userEmailSuccess)
             {
@@ -404,7 +403,7 @@ namespace UserService.Controllers
 
                 var tokenData = _tokenManager.GetToken(authClaims, null, null);
                 var emailLink = _configuration["ApplicationSettings:RecoverPasswordBaseUrl"] + _configuration["ApplicationSettings:RecoverPasswordUri"] + "?t=" + tokenData.Token;
-                bool success = await _emailSender.SendRecoverPasswordEmail(user.Email, emailLink);
+                bool success = await _emailSender.SendRecoverPasswordEmail(user.Email, "pt-PT", emailLink);
                 if (!success)
                 {
                     throw new AppException("Email send error");

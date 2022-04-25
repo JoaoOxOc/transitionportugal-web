@@ -98,7 +98,7 @@ namespace EmailService.Repositories
                 language = language == null ? string.Empty : language.Trim().ToLower();
 
                 IQueryable<EmailTemplate> query = context.EmailTemplates.AsQueryable();
-                query = query.Where(x => x.Language.ToLower() == language &&( x.Description.ToLower().Contains(searchText) || x.Key.ToLower() == searchText || x.Subject.ToLower() == searchText));
+                query = query.Where(x => x.Language.ToLower() == language && ( x.Description.ToLower().Contains(searchText) || x.Key.ToLower() == searchText || x.Subject.ToLower() == searchText));
 
                 if (!string.IsNullOrEmpty(ignoreId))
                 {

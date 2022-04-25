@@ -393,7 +393,7 @@ namespace UserService.Controllers
                     var associationTokenData = _tokenManager.GetToken(associationClaims, 1440, null);
 
                     var associationEmailLink = _configuration["ApplicationSettings:RecoverPasswordBaseUrl"] + _configuration["ApplicationSettings:ConfirmEmailUri"] + "?t=" + associationTokenData.Token;
-                    bool associationEmailSuccess = await _emailSender.SendActivateAssociationEmail(association.Email, associationEmailLink);
+                    bool associationEmailSuccess = await _emailSender.SendActivateAssociationEmail(association.Email, "pt-PT", associationEmailLink);
 
                     if (!associationEmailSuccess)
                     {
@@ -440,7 +440,7 @@ namespace UserService.Controllers
                 _uow.Save();
 
                 var associationEmailLink = _configuration["ApplicationSettings:RecoverPasswordBaseUrl"] + "/auth/login/cover";
-                bool associationEmailSuccess = await _emailSender.SendBulkAssociationActivatedEmail(approvedEmails, associationEmailLink);
+                bool associationEmailSuccess = await _emailSender.SendBulkAssociationActivatedEmail(approvedEmails, "pt-PT", associationEmailLink);
 
                 return Ok(new
                 {

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq.Expressions;
+using System.Text;
 using System.Text.Json;
 using UserService.Entities;
 using UserService.Models;
@@ -339,6 +340,31 @@ namespace UserService.Controllers
             {
                 return Unauthorized();
             }
+        }
+
+        [HttpGet]
+        [Route("export/csv")]
+        public async Task<IActionResult> Csv()
+        {
+            string header = HttpContext.Request.Headers["Authorization"];
+            string[] claims = new string[] { "userId", "sub", System.Security.Claims.ClaimTypes.Role, "scope" };
+            List<JwtClaim> userClaims = JwtHelper.ValidateToken(header, _configuration["JWT:ValidAudience"], _configuration["JWT:ValidIssuer"], _configuration["JWT:SecretPublicKey"], claims);
+            string userScopesString = userClaims.Where(x => x.Claim == "scope").Single().Value;
+            List<string> scopes = !string.IsNullOrEmpty(userScopesString) ? JsonSerializer.Deserialize<List<string>>(userScopesString) : null;
+
+            if (PermissionsHelper.ValidateRoleClaimPermission(userClaims, new List<string> { "Admin" })
+                && PermissionsHelper.ValidateUserScopesPermissionAll(scopes, new List<string> { "newsletter.admin" }))
+            {
+                var builder = new StringBuilder();
+                builder.AppendLine("Id,Username");
+                //foreach (var user in users)
+                //{
+                //    builder.AppendLine($"{user.Id},{user.Username}");
+                //}
+
+                return File(Encoding.UTF8.GetBytes(builder.ToString()), "text/csv", "users.csv");
+            }
+            return Forbid();
         }
     }
 }

@@ -36,6 +36,7 @@ namespace EmailService.Code
 
         public static EmailVM ProcessEmailTemplate(IEmailTemplatesRepository templatesRepository, EmailVM emailData)
         {
+            emailData.EmailLanguage = !string.IsNullOrEmpty(emailData.EmailLanguage) ? emailData.EmailLanguage : "en-US";
             EmailTemplate template = templatesRepository.GetFiltered(emailData.EmailTemplateKey, emailData.EmailLanguage, null, null, string.Empty, "asc").ToList<EmailTemplate>().FirstOrDefault();
             if (template != null)
             {
