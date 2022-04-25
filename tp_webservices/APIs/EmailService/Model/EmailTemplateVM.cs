@@ -17,5 +17,7 @@ namespace EmailService.Model
         public JsonDocument TemplateDataJson { get; set; }
 
         public string BodyHtml { get; set; }
+        public DateTime? CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
     }
 }

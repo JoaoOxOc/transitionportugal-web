@@ -1,6 +1,6 @@
 export declare const EMAILTEMPLATESLIST_TRANSLATIONS: {
     readonly LABELS: {
-        readonly createTemplate: "Register Client App";
+        readonly createTemplate: "Register New Email Template";
         readonly actions: "Actions";
         readonly view: "View";
         readonly actualValue: "Actual Value";
@@ -15,10 +15,10 @@ export declare const EMAILTEMPLATESLIST_TRANSLATIONS: {
         readonly templatesTitle: "Email Templates";
     };
     readonly TEMPLATEOBJECT: {
-        readonly description: "Description";
-        readonly name: "Client Name";
-        readonly clientId: "Client App ID";
-        readonly clientSecret: "Client App Secret";
+        readonly description: "Template Description";
+        readonly subject: "Email Subject";
+        readonly key: "Template Key";
+        readonly language: "Template Language";
         readonly createdAt: "Registered At";
         readonly updatedAt: "Updated at";
     };

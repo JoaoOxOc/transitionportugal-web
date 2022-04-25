@@ -15,10 +15,10 @@ export declare const EMAILTEMPLATESLIST_TRANSLATIONS: {
         readonly templatesTitle: "Templates de Email";
     };
     readonly TEMPLATEOBJECT: {
-        readonly description: "Description";
-        readonly name: "Nome da Aplicação Cliente";
-        readonly clientId: "ID da Aplicação Cliente";
-        readonly clientSecret: "Chave da Aplicação Cliente";
+        readonly description: "Descrição";
+        readonly subject: "Assunto do Email";
+        readonly key: "Chave Ident. Template";
+        readonly language: "Linguagem do Template";
         readonly createdAt: "Registado em";
         readonly updatedAt: "Actualizado em";
     };

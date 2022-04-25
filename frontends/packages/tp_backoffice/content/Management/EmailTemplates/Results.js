@@ -309,13 +309,13 @@ const Results = () => {
                                 <Box>
                                   <Box>
                                     <Link variant="h5" href={emailTemplateDetailsBaseUri + template.id} isNextLink={true}>
-                                      {template.key}
+                                    {t('TEMPLATEOBJECT.subject') + ": " + template.subject}
                                     </Link>{' '}
                                     <Typography
                                       component="span"
                                       variant="h6"
                                     >
-                                      ({t('LABELS.actualValue') + ": " + template.subject})
+                                      ({template.key})
                                     </Typography>
                                   </Box>
                                   <Typography
@@ -327,14 +327,12 @@ const Results = () => {
                                     {template.description}
                                   </Typography>
                                   <Typography
-                                      sx={{
-                                          pt: 1
-                                      }}
+                                      component="span"
                                       variant="body2"
                                       color="text.secondary"
-                                    >
-                                      <b>{t('TEMPLATEOBJECT.defaultValue') + ": "}</b>{template.subject}
-                                    </Typography>
+                                      >
+                                        {t('TEMPLATEOBJECT.createdAt') + ": " + new Date(template.createdAt).toLocaleString('pt-PT', { timeZone: 'Europe/Lisbon' })}
+                                  </Typography>
                                 </Box>
                               </Box>
                               <Divider />

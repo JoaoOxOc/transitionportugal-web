@@ -2,7 +2,7 @@ import * as deepFreeze from 'deep-freeze';
 
 export const EMAILTEMPLATESLIST_TRANSLATIONS = deepFreeze({
     LABELS: {
-        createTemplate: "Register Client App",
+        createTemplate: "Register New Email Template",
         actions: "Actions",
         view: "View",
         actualValue: "Actual Value",

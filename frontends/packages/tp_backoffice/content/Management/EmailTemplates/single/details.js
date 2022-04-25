@@ -16,76 +16,62 @@ import { Box,
 
 import { useRefMounted } from '../../../../hooks/useRefMounted';
 
-import { GetSettingData } from '../../../../services/settings';
+import { GetEmailTemplateData } from '../../../../services/emailTemplates';
 
-import { i18nextSettingDetails } from "@transitionpt/translations";
+import { i18nextEmailTemplateDetails } from "@transitionpt/translations";
 
-function SettingDetails() {
+function EmailTemplateDetails() {
     const router = useRouter();
     const isMountedRef = useRefMounted();
     const theme = useTheme();
-    const [setting, setSetting] = useState(null);
-    const [settingsError, setSettingsError] = useState(null);
-    useErrorHandler(settingsError);
-    const { t } = i18nextSettingDetails;
-    let settingsListTitle = "";
-    const settingListUri = "";
-    let settingsUri = "";
-    let settingsPutUri = "";
-    switch (router.query.settingType) {
-        case "email": {
-          settingsUri = "/emailsettings/" + router.query.settingId;
-          settingsPutUri = process.env.NEXT_PUBLIC_API_BASE_URL + "/emailsettings/edit";
-          settingListUri = "/management/settings/email";
-          settingsListTitle = t('LIST.emailSettingsTitle');
-        } break;
-        case "user": {
-          settingsUri = "/usersettings/" + router.query.settingId;
-          settingsPutUri = process.env.NEXT_PUBLIC_API_BASE_URL + "/usersettings/edit";
-            settingListUri = "/management/settings/auth";
-            settingsListTitle = t('LIST.userSettingsTitle');
-        } break;
-    }
+    const [emailTemplate, setEmailTemplate] = useState(null);
+    const [emailTemplateError, setEmailTemplateError] = useState(null);
+    useErrorHandler(emailTemplateError);
+    const { t } = i18nextEmailTemplateDetails;
+    let emailTemplatesListTitle = t('LIST.emailTemplatesTitle');
+    const emailTemplatesListUri = "/management/settings/emailTemplate";
+    let emailTemplateGetUri = "/emailTemplates/get/" + router.query.templateId;
+    let emailTemplatePutUri = process.env.NEXT_PUBLIC_API_BASE_URL + "/emailTemplates/edit";
 
-    const getSettingData = useCallback(async () => {
+    const getTemplateData = useCallback(async () => {
         try {
-            let settingsData = await GetSettingData(process.env.NEXT_PUBLIC_API_BASE_URL + settingsUri);
+            let templateData = await GetEmailTemplateData(process.env.NEXT_PUBLIC_API_BASE_URL + emailTemplateGetUri);
             if (isMountedRef()) {
-              if (settingsData.status) {
-                setSettingsError(settingsData);
-                setSetting({});
+              if (templateData.status) {
+                setEmailTemplateError(templateData);
+                setEmailTemplate({});
               }
               else {
-                setSetting(settingsData);
+                setEmailTemplate(templateData);
               }
             }
           } catch (err) {
-            setSettingsError(err);
+            setEmailTemplateError(err);
             console.error(err);
           }
-    }, [isMountedRef, settingsUri]);
+    }, [isMountedRef, emailTemplateGetUri]);
 
     useEffect(() => {
-        getSettingData();
-    }, [getSettingData]);
+      getTemplateData();
+    }, [getTemplateData]);
 
-    if (!setting) {
+    if (!emailTemplate) {
       return null;
     }
 
     const breadcrumbsData = [
       { url: "/", label: t('LIST.home'), isLink: true },
       { url: "", label: t('LIST.settings'), isLink: false },
-      { url: settingListUri, label: settingsListTitle, isLink: true },
-      { url: "", label: setting.key, ownPage: true },
+      { url: emailTemplatesListUri, label: emailTemplatesListTitle, isLink: true },
+      { url: "", label: emailTemplate.key, ownPage: true },
     ];
 
     return (
     <>
-      {setting ?
+      {emailTemplate ?
         (
         <PageTitleWrapper>
-          <DetailsPageHeader breadcrumbsDataJson={breadcrumbsData} detailsTitle={setting.key} goBackLabel={t('LABELS.goBack')} goBackUrl={settingListUri}/>
+          <DetailsPageHeader breadcrumbsDataJson={breadcrumbsData} detailsTitle={emailTemplate.key} goBackLabel={t('LABELS.goBack')} goBackUrl={emailTemplatesListUri}/>
         </PageTitleWrapper>
         ) : (<></>)
       }
@@ -105,7 +91,7 @@ function SettingDetails() {
                 <Grid item xs={12} md={12}>
                   <Box p={4} flex={1}>
                       <Alert severity="warning">
-                        {t('LABELS.settingWarning')}
+                        {t('LABELS.emailTemplateWarning')}
                       </Alert>
                     <Box
                       pt={3}
@@ -114,9 +100,9 @@ function SettingDetails() {
                         px: { xs: 0, md: 3 }
                       }}
                     >
-                      {setting &&
-                        <DetailForm settingData={setting} settingPutUrl={settingsPutUri}/>
-                      }
+                      {/* {emailTemplate &&
+                        <DetailForm emailTemplateData={emailTemplate} emailTemplatePutUrl={emailTemplatePutUri}/>
+                      } */}
                     </Box>
                   </Box>
                 </Grid>
@@ -129,4 +115,4 @@ function SettingDetails() {
     );
 }
 
-export default SettingDetails;
+export default EmailTemplateDetails;

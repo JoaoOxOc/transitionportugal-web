@@ -64,6 +64,8 @@ namespace EmailService.Controllers
             templateVM.Key = templateData.Key;
             templateVM.Language = templateData.Language;
             templateVM.Subject = templateData.Subject;
+            templateVM.CreatedAt = templateData.CreatedAt;
+            templateVM.UpdatedAt = templateData.UpdatedAt;
 
             return templateVM;
         }
@@ -166,7 +168,7 @@ namespace EmailService.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, null);
+                return StatusCode(500, ex.Message + "| " + ex.StackTrace);
             }
         }
 

@@ -6,15 +6,15 @@ import AccentHeaderLayout from '../../../../../layouts/AccentHeaderLayout';
 import { Authenticated } from '../../../../../components/Authenticated';
 import { Authorized } from '../../../../../components/Authorized';
 
-import SettingDetails from '../../../../../content/Management/Settings/single/details';
+import EmailTemplateDetails from '../../../../../content/Management/EmailTemplates/single/details';
 import Footer from '../../../../../components/Footer';
 
-import { i18nextSettingDetails } from "@transitionpt/translations";
+import { i18nextEmailTemplateDetails } from "@transitionpt/translations";
 
 function ManagementEmailTemplatesView() {
-    const { t } = i18nextSettingDetails;
+    const { t } = i18nextEmailTemplateDetails;
     const [currentLang, setLang] = useState("pt");
-    i18nextSettingDetails.changeLanguage(currentLang);
+    i18nextEmailTemplateDetails.changeLanguage(currentLang);
 
     useEffect(() => {
         const handleNewMessage = (event) => {
@@ -27,10 +27,10 @@ function ManagementEmailTemplatesView() {
     return (
     <>
       <Head>
-        <title>{t('LABELS.settingDetails')}</title>
+        <title>{t('LABELS.emailTemplateDetails')}</title>
       </Head>
 
-      <SettingDetails/>
+      <EmailTemplateDetails/>
 
       <Footer />
     </>
