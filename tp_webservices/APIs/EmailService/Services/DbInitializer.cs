@@ -219,7 +219,7 @@ namespace EmailService.Services
 
             foreach (EmailTemplate obj in emailTemplates)
             {
-                if (!templatesRepository.GetFiltered(obj.Key, null, null, string.Empty, "asc").Any())
+                if (!templatesRepository.GetFiltered(obj.Key, obj.Language, null, null, string.Empty, "asc").Any())
                 {
                     templatesRepository.Add(obj);
                 }

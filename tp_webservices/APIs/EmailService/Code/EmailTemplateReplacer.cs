@@ -36,12 +36,12 @@ namespace EmailService.Code
 
         public static EmailVM ProcessEmailTemplate(IEmailTemplatesRepository templatesRepository, EmailVM emailData)
         {
-            EmailTemplate template = templatesRepository.GetFiltered(emailData.EmailTemplateKey, null, null, string.Empty, "asc").ToList<EmailTemplate>().FirstOrDefault();
+            EmailTemplate template = templatesRepository.GetFiltered(emailData.EmailTemplateKey, emailData.EmailLanguage, null, null, string.Empty, "asc").ToList<EmailTemplate>().FirstOrDefault();
             if (template != null)
             {
                 emailData.Subject = TokenReplace_Subject(template.Subject, emailData.TokensToReplace_Subject);
 
-                emailData.Body = TokenReplace_Subject(template.Body, emailData.TokensToReplace_Body);
+                emailData.Body = TokenReplace_Subject(template.BodyHtml, emailData.TokensToReplace_Body);
             }
             return emailData;
         }

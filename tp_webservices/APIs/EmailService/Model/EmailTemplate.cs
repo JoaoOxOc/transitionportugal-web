@@ -21,7 +21,9 @@ namespace EmailService.Model
         
         public string Subject { get; set; }
         
-        public string Body { get; set; }
+        public BsonDocument BodyJson { get; set; }
+
+        public string BodyHtml { get; set; }
 
         #region MetaData
 
@@ -30,6 +32,10 @@ namespace EmailService.Model
 
         [BsonDateTimeOptions(Kind = DateTimeKind.Local, Representation = BsonType.DateTime)]
         public DateTime? UpdatedAt { get; set; }
+
+        public string CreatedBy { get; set; }
+
+        public string UpdatedBy { get; set; }
 
         #endregion
     }

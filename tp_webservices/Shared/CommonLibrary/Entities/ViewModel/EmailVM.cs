@@ -10,6 +10,7 @@ namespace CommonLibrary.Entities.ViewModel
         public List<string> Attachements { get; set; }
 
         public string EmailTemplateKey { get; set; }
+        public string EmailLanguage { get; set; }
 
         public List<Tuple<string, string>> TokensToReplace_Subject { get; set; }
         public List<Tuple<string, string>> TokensToReplace_Body { get; set; }

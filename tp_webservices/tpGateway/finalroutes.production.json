@@ -907,6 +907,57 @@
         "AllowedScopes": [ "settings.admin" ]
       }
     },
+    {
+      "DownstreamPathTemplate": "/api/emailTemplates",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tpemailservice",
+          "Port": 3010
+        }
+      ],
+      "UpstreamPathTemplate": "/emailTemplates/get",
+      "UpstreamHttpMethod": [ "Get" ],
+      "SwaggerKey": "EmailService",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "TpAuthKey",
+        "AllowedScopes": [ "email.admin" ]
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/emailTemplates/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tpemailservice",
+          "Port": 3010
+        }
+      ],
+      "UpstreamPathTemplate": "/emailTemplates/get/{id}",
+      "UpstreamhttpMethod": [ "Get" ],
+      "SwaggerKey": "EmailService",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "TpAuthKey",
+        "AllowedScopes": [ "email.admin" ]
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/emailTemplates/edit",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tpemailservice",
+          "Port": 3010
+        }
+      ],
+      "UpstreamPathTemplate": "/emailTemplates/edit",
+      "UpstreamHttpMethod": [ "Put" ],
+      "SwaggerKey": "EmailService",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "TpAuthKey",
+        "AllowedScopes": [ "email.admin" ]
+      }
+    },
     // End Email service routes
     // start content management service routes
     {

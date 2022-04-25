@@ -28,7 +28,7 @@ namespace EmailService.Repositories
             }
         }
 
-        public int Count(string searchText, int? offset, int? limit, string sort)
+        public int Count(string searchText, string language, int? offset, int? limit, string sort)
         {
             try
             {
@@ -90,15 +90,15 @@ namespace EmailService.Repositories
             }
         }
 
-        public IEnumerable<EmailTemplate> GetFiltered(string searchText, int? offset, int? limit, string sort, string sortDirection, string ignoreId = null)
+        public IEnumerable<EmailTemplate> GetFiltered(string searchText, string language, int? offset, int? limit, string sort, string sortDirection, string ignoreId = null)
         {
             try
             {
                 searchText = searchText == null ? string.Empty : searchText.Trim().ToLower();
+                language = language == null ? string.Empty : language.Trim().ToLower();
 
                 IQueryable<EmailTemplate> query = context.EmailTemplates.AsQueryable();
-
-                query = query.Where(x => x.Description.ToLower().Contains(searchText) || x.Key.ToLower() == searchText);
+                query = query.Where(x => x.Language.ToLower() == language &&( x.Description.ToLower().Contains(searchText) || x.Key.ToLower() == searchText || x.Subject.ToLower() == searchText));
 
                 if (!string.IsNullOrEmpty(ignoreId))
                 {
@@ -150,7 +150,8 @@ namespace EmailService.Repositories
                                           .Set(x => x.Description, editedEmailTemplate.Description)
                                           .Set(x => x.Language, editedEmailTemplate.Language)
                                           .Set(x => x.Subject, editedEmailTemplate.Subject)
-                                          .Set(x => x.Body, editedEmailTemplate.Body);
+                                          .Set(x => x.BodyJson, editedEmailTemplate.BodyJson)
+                                          .Set(x => x.BodyHtml, editedEmailTemplate.BodyHtml);
 
                     var result = await this.context.EmailTemplates.UpdateOneAsync(filter, update);
                     if (result.IsAcknowledged)
