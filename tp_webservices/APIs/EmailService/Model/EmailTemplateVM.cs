@@ -4,6 +4,8 @@ namespace EmailService.Model
 {
     public class EmailTemplateVM
     {
+        public string Id { get; set; }
+
         public string Key { get; set; }
 
         public string Description { get; set; }

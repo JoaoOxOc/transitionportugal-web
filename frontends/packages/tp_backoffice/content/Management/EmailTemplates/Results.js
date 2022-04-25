@@ -92,11 +92,18 @@ const Results = () => {
         label: t('TEMPLATEOBJECT.key'),
       },
       {
+        id: 'Language',
+        isSort: true,
+        disablePadding: false,
+        align: 'center',
+        label: t('TEMPLATEOBJECT.language'),
+      },
+      {
         id: 'Subject',
         isSort: true,
         disablePadding: false,
         align: 'center',
-        label: t('TEMPLATEOBJECT.value'),
+        label: t('TEMPLATEOBJECT.subject'),
       },
       {
         id: 'actions',
@@ -206,6 +213,9 @@ const Results = () => {
                             </TableCell>
                             <TableCell>
                               <Typography>{template.key}</Typography>
+                            </TableCell>
+                            <TableCell>
+                              <Typography>{template.language}</Typography>
                             </TableCell>
                             <TableCell align="center">
                               <Typography fontWeight="bold">

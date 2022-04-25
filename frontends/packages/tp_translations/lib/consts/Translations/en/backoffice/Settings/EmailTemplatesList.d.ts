@@ -22,8 +22,8 @@ export declare const EMAILTEMPLATESLIST_TRANSLATIONS: {
         readonly createdAt: "Registered At";
         readonly updatedAt: "Updated at";
     };
-    readonly templatesDescription: {
-        readonly clientsDescription: "All aspects related to email templates can be managed from this page";
+    readonly MESSAGES: {
+        readonly templatesManagementDescription: "All aspects related to email templates can be managed from this page";
     };
     readonly SEARCH: {
         readonly searchByNamePlaceholder: "Search by Key, Description or Email Subject...";

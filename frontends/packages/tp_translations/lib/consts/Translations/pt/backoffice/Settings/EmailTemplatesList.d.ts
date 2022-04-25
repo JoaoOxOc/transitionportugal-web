@@ -23,7 +23,7 @@ export declare const EMAILTEMPLATESLIST_TRANSLATIONS: {
         readonly updatedAt: "Actualizado em";
     };
     readonly MESSAGES: {
-        readonly templatesDescription: "Todos os aspectos relativos aos templates de email podem ser geridos nesta página";
+        readonly templatesManagementDescription: "Todos os aspectos relativos aos templates de email podem ser geridos nesta página";
     };
     readonly SEARCH: {
         readonly searchByNamePlaceholder: "Pesquisar por Chave, Descrição ou Assunto do template de Email...";

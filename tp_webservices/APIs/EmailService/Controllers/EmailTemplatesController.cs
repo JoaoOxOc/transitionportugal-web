@@ -59,6 +59,7 @@ namespace EmailService.Controllers
                 templateVM.BodyHtml = templateData.BodyHtml;
             }
 
+            templateVM.Id = templateData.Id;
             templateVM.Description = templateData.Description;
             templateVM.Key = templateData.Key;
             templateVM.Language = templateData.Language;

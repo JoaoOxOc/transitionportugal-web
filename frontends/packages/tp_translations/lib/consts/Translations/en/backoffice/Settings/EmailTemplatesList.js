@@ -23,8 +23,8 @@ export var EMAILTEMPLATESLIST_TRANSLATIONS = deepFreeze({
         createdAt: "Registered At",
         updatedAt: "Updated at"
     },
-    templatesDescription: {
-        clientsDescription: "All aspects related to email templates can be managed from this page"
+    MESSAGES: {
+        templatesManagementDescription: "All aspects related to email templates can be managed from this page"
     },
     SEARCH: {
         searchByNamePlaceholder: "Search by Key, Description or Email Subject..."

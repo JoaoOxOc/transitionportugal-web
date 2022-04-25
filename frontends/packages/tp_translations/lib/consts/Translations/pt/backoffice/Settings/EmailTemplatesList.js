@@ -24,7 +24,7 @@ export var EMAILTEMPLATESLIST_TRANSLATIONS = deepFreeze({
         updatedAt: "Actualizado em"
     },
     MESSAGES: {
-        templatesDescription: "Todos os aspectos relativos aos templates de email podem ser geridos nesta página"
+        templatesManagementDescription: "Todos os aspectos relativos aos templates de email podem ser geridos nesta página"
     },
     SEARCH: {
         searchByNamePlaceholder: "Pesquisar por Chave, Descrição ou Assunto do template de Email..."

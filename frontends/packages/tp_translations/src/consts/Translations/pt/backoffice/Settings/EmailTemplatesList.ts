@@ -17,10 +17,10 @@ export const EMAILTEMPLATESLIST_TRANSLATIONS = deepFreeze({
         templatesTitle: "Templates de Email"
     },
     TEMPLATEOBJECT: {
-        description: "Description",
-        name: "Nome da Aplicação Cliente",
-        clientId: "ID da Aplicação Cliente",
-        clientSecret: "Chave da Aplicação Cliente",
+        description: "Descrição",
+        subject: "Assunto do Email",
+        key: "Chave Ident. Template",
+        language: "Linguagem do Template",
         createdAt: "Registado em",
         updatedAt: "Actualizado em"
     },

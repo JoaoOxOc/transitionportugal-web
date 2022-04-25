@@ -98,7 +98,7 @@ namespace EmailService.Repositories
                 language = language == null ? string.Empty : language.Trim().ToLower();
 
                 IQueryable<EmailTemplate> query = context.EmailTemplates.AsQueryable();
-                query = query.Where(x => x.Language.ToLower() == language && ( x.Description.ToLower().Contains(searchText) || x.Key.ToLower() == searchText || x.Subject.ToLower() == searchText));
+                query = query.Where(x => (string.IsNullOrEmpty(language) || x.Language.ToLower() == language.ToLower()) && ( x.Description.ToLower().Contains(searchText) || x.Key.ToLower() == searchText || x.Subject.ToLower() == searchText));
 
                 if (!string.IsNullOrEmpty(ignoreId))
                 {
@@ -111,6 +111,12 @@ namespace EmailService.Repositories
                 {
                     case "Description":
                         query = sortDirection == "asc" ? query.OrderBy(x => x.Description) : query.OrderByDescending(x => x.Description);
+                        break;
+                    case "Language":
+                        query = sortDirection == "asc" ? query.OrderBy(x => x.Language) : query.OrderByDescending(x => x.Language);
+                        break;
+                    case "Subject":
+                        query = sortDirection == "asc" ? query.OrderBy(x => x.Subject) : query.OrderByDescending(x => x.Subject);
                         break;
                     case "Key":
                         query = sortDirection == "asc" ? query.OrderBy(x => x.Key) : query.OrderByDescending(x => x.Key);
