@@ -6,7 +6,7 @@ export declare const CLIENTSLIST_TRANSLATIONS: {
         readonly actualValue: "Actual Value";
         readonly clientSettings: "Client Apps Authorized Management";
         readonly noClientsFound: "We couldn't find any client apps matching your search criteria";
-        readonly chooseGrid: "Choose between table or grid views for displaying the users list.";
+        readonly chooseGrid: "Choose between table or grid views for displaying the client apps list.";
         readonly ofSmall: "of";
         readonly paginationRowsPerPage: "Rows per page:";
         readonly showing: "Showing";

@@ -34,3 +34,8 @@ export * from './backoffice/users/i18nScopeDetails';
 export * from './backoffice/terms/i18nTermsList';
 export * from './backoffice/terms/i18nTermsDetails';
 
+export * from './backoffice/settings/i18nEmailTemplatesList';
+export * from './backoffice/settings/i18nEmailTemplateDetails';
+
+export * from './backoffice/newsletter/i18nNewsletterSubscriptionsList';
+export * from './backoffice/newsletter/i18nNewsletterSubscriptionDetails';
