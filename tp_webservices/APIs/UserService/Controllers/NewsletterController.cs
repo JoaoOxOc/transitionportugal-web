@@ -280,9 +280,9 @@ namespace UserService.Controllers
             return Forbid();
         }
 
-        private async Task<IActionResult> removeSubscription(string email, string userId)
+        private async Task<IActionResult> removeSubscription(string email, bool isAdmin, string validationToken)
         {
-            Expression<Func<NewsletterSubscription, bool>> filter = (x => x.Email == email || x.UserId == userId);
+            Expression<Func<NewsletterSubscription, bool>> filter = (x => (isAdmin && x.Email == email) || (!string.IsNullOrEmpty(validationToken) && x.SubscriptionToken == validationToken && x.Email == email));
 
             var _subscription = this._uow.NewsletterSubscriptionRepository.Get(null, null, filter, string.Empty, SortDirection.Ascending).FirstOrDefault();
             if (_subscription != null)
@@ -314,7 +314,7 @@ namespace UserService.Controllers
             if (PermissionsHelper.ValidateRoleClaimPermission(userClaims, new List<string> { "Admin" })
                 && PermissionsHelper.ValidateUserScopesPermissionAll(scopes, new List<string> { "newsletter.admin" }))
             {
-                return await removeSubscription(model.Email, model.UserId);
+                return await removeSubscription(model.Email, true, model.ValidationToken);
             }
             return Forbid();
         }
@@ -328,7 +328,7 @@ namespace UserService.Controllers
                 List<JwtClaim> validateClaims = JwtHelper.ValidateToken(model.ValidationToken, _configuration["JWT:ValidAudience"], _configuration["JWT:ValidIssuer"], _configuration["JWT:SecretPublicKey"], new string[1] { JwtRegisteredClaimNames.Jti });
                 if (validateClaims != null && validateClaims.Count > 0)
                 {
-                    return await removeSubscription(model.Email, model.UserId);
+                    return await removeSubscription(model.Email, false, model.ValidationToken);
                 }
                 else
                 {
