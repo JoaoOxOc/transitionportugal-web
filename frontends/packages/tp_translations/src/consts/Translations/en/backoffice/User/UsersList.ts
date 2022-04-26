@@ -11,7 +11,8 @@ export const USERSLIST_TRANSLATIONS = deepFreeze({
         chooseGrid: "Choose between table or grid views for displaying the users list.",
         ofSmall: "of",
         paginationRowsPerPage: "Rows per page:",
-        showing: "Showing"
+        showing: "Showing",
+        selectAll: "Select all Associations"
     },
     LIST: {
         usersTitle: "Users"
@@ -35,10 +36,20 @@ export const USERSLIST_TRANSLATIONS = deepFreeze({
         usersManagementDescription: "All aspects related to the app users can be managed from this page"
     },
     SEARCH: {
+        filters: "Filters",
         searchByNameOrEmailPlaceholder: "Search by Username or Email...",
-        seachActive: "",
-        searchVerified: "",
-        searchByAssociation: "",
+        searchActive: "Activated Users",
+        searchVerified: "Users verified by Email",
+        searchByAssociationName: "Search by association name or email...",
+        associationNotFound: "Association/entity not found",
         searchByRole: ""
+    },
+    ACTIONS: {
+        resendVerifyEmail: "Resend Verification Email",
+        approveUser: "Approve User",
+        delete: "Delete selected user(s)",
+        resendVerifyEmailSingle: "Resend Verification Email",
+        approveUserSingle: "Approve this User",
+        deleteSingle: "Delete this user"
     }
 } as const);

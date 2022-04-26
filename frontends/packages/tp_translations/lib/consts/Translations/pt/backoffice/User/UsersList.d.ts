@@ -10,6 +10,7 @@ export declare const USERSLIST_TRANSLATIONS: {
         readonly ofSmall: "de";
         readonly paginationRowsPerPage: "Linhas por pág.:";
         readonly showing: "Mostrando";
+        readonly selectAll: "Seleccionar todas as Associações";
     };
     readonly LIST: {
         readonly usersTitle: "Utilizadores";
@@ -33,11 +34,21 @@ export declare const USERSLIST_TRANSLATIONS: {
         readonly usersManagementDescription: "Todos os aspectos relativos aos utilizadores da aplicação podem ser geridos nesta página";
     };
     readonly SEARCH: {
+        readonly filters: "Filtros";
         readonly searchByNameOrEmailPlaceholder: "Pesquisar por Username ou Email...";
-        readonly seachActive: "";
-        readonly searchVerified: "";
-        readonly searchByAssociation: "";
+        readonly searchActive: "Utilizadores Activos";
+        readonly searchVerified: "Utilizadores verificados por Email";
+        readonly searchByAssociationName: "Pesquisar por nome ou email da associação...";
+        readonly associationNotFound: "Associação/entidade não encontrada";
         readonly searchByRole: "";
+    };
+    readonly ACTIONS: {
+        readonly resendVerifyEmail: "Reenviar Email de Verificação";
+        readonly approveUser: "Aprovar Utilizadores";
+        readonly delete: "Remover utilizador(es) seleccionado(s)";
+        readonly resendVerifyEmailSingle: "Reenviar Email de Verificação";
+        readonly approveUserSingle: "Aprovar este Utilizador";
+        readonly deleteSingle: "Remover este Utilizador";
     };
 };
 //# sourceMappingURL=UsersList.d.ts.map

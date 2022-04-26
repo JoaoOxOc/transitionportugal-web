@@ -10,7 +10,8 @@ export var USERSLIST_TRANSLATIONS = deepFreeze({
         chooseGrid: "Escolha entre as vistas de tabela ou grelha para apresentar a lista de dados de utilizadores.",
         ofSmall: "de",
         paginationRowsPerPage: "Linhas por pág.:",
-        showing: "Mostrando"
+        showing: "Mostrando",
+        selectAll: "Seleccionar todas as Associações"
     },
     LIST: {
         usersTitle: "Utilizadores"
@@ -34,11 +35,21 @@ export var USERSLIST_TRANSLATIONS = deepFreeze({
         usersManagementDescription: "Todos os aspectos relativos aos utilizadores da aplicação podem ser geridos nesta página"
     },
     SEARCH: {
+        filters: "Filtros",
         searchByNameOrEmailPlaceholder: "Pesquisar por Username ou Email...",
-        seachActive: "",
-        searchVerified: "",
-        searchByAssociation: "",
+        searchActive: "Utilizadores Activos",
+        searchVerified: "Utilizadores verificados por Email",
+        searchByAssociationName: "Pesquisar por nome ou email da associação...",
+        associationNotFound: "Associação/entidade não encontrada",
         searchByRole: ""
+    },
+    ACTIONS: {
+        resendVerifyEmail: "Reenviar Email de Verificação",
+        approveUser: "Aprovar Utilizadores",
+        delete: "Remover utilizador(es) seleccionado(s)",
+        resendVerifyEmailSingle: "Reenviar Email de Verificação",
+        approveUserSingle: "Aprovar este Utilizador",
+        deleteSingle: "Remover este Utilizador"
     }
 });
 //# sourceMappingURL=UsersList.js.map
