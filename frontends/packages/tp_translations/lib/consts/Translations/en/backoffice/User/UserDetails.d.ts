@@ -1,26 +1,34 @@
 export declare const USERDETAILS_TRANSLATIONS: {
     readonly LABELS: {
-        readonly userCreate: "Regist New User";
+        readonly userCreate: "Regist a New User";
         readonly userDetails: "User Details - {{name}}";
-        readonly clientAppCreate: "Register a New Client App Authorization";
-        readonly clientAppCreateSmall: "Register New Client App";
+        readonly userCreateSmall: "Register New User";
         readonly goBack: "Go back";
-        readonly registerClientAppInfo: "The client app Secret will be automatically generated after registering it";
-        readonly clientAppWarning: "Careful editting ID and secret values: the client app can stop working";
+        readonly accountStatus: "Account status";
+        readonly active: "Active";
+        readonly inactive: "Inactive";
+        readonly accountEmailVerified: "Email Verified";
+        readonly emailVerified: "Verified";
+        readonly emailNotVerified: "Not Verified";
+        readonly userRole: "User role: {{name}}";
+        readonly registerUserInfo: "The client app Secret will be automatically generated after registering it";
+        readonly userWarning: "Careful editting ID and secret values: the client app can stop working";
     };
     readonly LIST: {
-        readonly clientsTitle: "Client Apps";
+        readonly usersTitle: "Users";
         readonly home: "Home";
-        readonly settings: "Settings";
-        readonly clients: "Client Apps";
+        readonly management: "Management";
+        readonly users: "Users";
     };
     readonly FORM: {
-        readonly name: "Client App Name";
-        readonly description: "Client App Description";
-        readonly clientId: "Client App ID";
-        readonly clientSecret: "Client App Secret";
-        readonly updatedAt: "Updated At";
+        readonly name: "Name";
+        readonly userName: "Username";
+        readonly email: "User Email";
+        readonly association: "User Association/Entity";
+        readonly active: "User Activated";
+        readonly verified: "User Verified";
         readonly createdAt: "Registered At";
+        readonly updatedAt: "Updated at";
         readonly saveButton: "Save";
     };
     readonly MESSAGES: {

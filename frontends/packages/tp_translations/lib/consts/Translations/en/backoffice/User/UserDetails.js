@@ -1,27 +1,35 @@
 import * as deepFreeze from 'deep-freeze';
 export var USERDETAILS_TRANSLATIONS = deepFreeze({
     LABELS: {
-        userCreate: "Regist New User",
+        userCreate: "Regist a New User",
         userDetails: "User Details - {{name}}",
-        clientAppCreate: "Register a New Client App Authorization",
-        clientAppCreateSmall: "Register New Client App",
+        userCreateSmall: "Register New User",
         goBack: "Go back",
-        registerClientAppInfo: "The client app Secret will be automatically generated after registering it",
-        clientAppWarning: "Careful editting ID and secret values: the client app can stop working"
+        accountStatus: "Account status",
+        active: "Active",
+        inactive: "Inactive",
+        accountEmailVerified: "Email Verified",
+        emailVerified: "Verified",
+        emailNotVerified: "Not Verified",
+        userRole: "User role: {{name}}",
+        registerUserInfo: "The client app Secret will be automatically generated after registering it",
+        userWarning: "Careful editting ID and secret values: the client app can stop working"
     },
     LIST: {
-        clientsTitle: "Client Apps",
+        usersTitle: "Users",
         home: "Home",
-        settings: "Settings",
-        clients: 'Client Apps'
+        management: "Management",
+        users: 'Users'
     },
     FORM: {
-        name: "Client App Name",
-        description: "Client App Description",
-        clientId: "Client App ID",
-        clientSecret: "Client App Secret",
-        updatedAt: "Updated At",
+        name: "Name",
+        userName: "Username",
+        email: "User Email",
+        association: "User Association/Entity",
+        active: "User Activated",
+        verified: "User Verified",
         createdAt: "Registered At",
+        updatedAt: "Updated at",
         saveButton: "Save"
     },
     MESSAGES: {

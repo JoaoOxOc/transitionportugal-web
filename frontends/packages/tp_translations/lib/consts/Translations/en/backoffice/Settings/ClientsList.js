@@ -7,7 +7,7 @@ export var CLIENTSLIST_TRANSLATIONS = deepFreeze({
         actualValue: "Actual Value",
         clientSettings: "Client Apps Authorized Management",
         noClientsFound: "We couldn't find any client apps matching your search criteria",
-        chooseGrid: "Choose between table or grid views for displaying the users list.",
+        chooseGrid: "Choose between table or grid views for displaying the client apps list.",
         ofSmall: "of",
         paginationRowsPerPage: "Rows per page:",
         showing: "Showing"

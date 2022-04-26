@@ -10,6 +10,7 @@ export declare const USERSLIST_TRANSLATIONS: {
         readonly ofSmall: "of";
         readonly paginationRowsPerPage: "Rows per page:";
         readonly showing: "Showing";
+        readonly selectAll: "Select all Associations";
     };
     readonly LIST: {
         readonly usersTitle: "Users";
@@ -33,11 +34,21 @@ export declare const USERSLIST_TRANSLATIONS: {
         readonly usersManagementDescription: "All aspects related to the app users can be managed from this page";
     };
     readonly SEARCH: {
+        readonly filters: "Filters";
         readonly searchByNameOrEmailPlaceholder: "Search by Username or Email...";
-        readonly seachActive: "";
-        readonly searchVerified: "";
-        readonly searchByAssociation: "";
+        readonly searchActive: "Activated Users";
+        readonly searchVerified: "Users verified by Email";
+        readonly searchByAssociationName: "Search by association name or email...";
+        readonly associationNotFound: "Association/entity not found";
         readonly searchByRole: "";
+    };
+    readonly ACTIONS: {
+        readonly resendVerifyEmail: "Resend Verification Email";
+        readonly approveUser: "Approve User";
+        readonly delete: "Delete selected user(s)";
+        readonly resendVerifyEmailSingle: "Resend Verification Email";
+        readonly approveUserSingle: "Approve this User";
+        readonly deleteSingle: "Delete this user";
     };
 };
 //# sourceMappingURL=UsersList.d.ts.map

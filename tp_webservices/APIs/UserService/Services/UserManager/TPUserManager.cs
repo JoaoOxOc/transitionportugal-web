@@ -118,6 +118,16 @@ namespace UserService.Services.UserManager
             return authClaims;
         }
 
+        public async Task<List<Claim>> GetNewsletterSubscriptionClaims()
+        {
+            var authClaims = new List<Claim>
+                {
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                };
+
+            return authClaims;
+        }
+
         public async Task<List<Claim>> GetUserScopes(User user)
         {
             var userRoles = await _userManager.GetRolesAsync(user);

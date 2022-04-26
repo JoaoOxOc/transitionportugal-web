@@ -2,6 +2,7 @@
 using EmailService.Enums;
 using EmailService.Model;
 using EmailService.Repositories;
+using MongoDB.Bson;
 
 namespace EmailService.Services
 {
@@ -41,185 +42,120 @@ namespace EmailService.Services
         {
             List<EmailTemplate> emailTemplates = new List<EmailTemplate>();
 
-            //EmailTemplate newAccount = new EmailTemplate();
-            //newAccount.Key = EmailTemplatesEnum.NewAccount.ToString();
-            //newAccount.Description = "Notificação de Nova Conta";
-            //newAccount.Language = "pt-PT";
-            //newAccount.Subject = "Nova Conta";
-            //newAccount.Body = "<!DOCTYPE html> <html lang='en' style='font-size: 62.5%;color: rgba(33, 33, 33, 0.9);'> <head> <meta charset = \"UTF - 8\"> </head> <body style='font-family: 'Arial', 'Helvetica Neue, Helvetica, Arial';margin:0;'> <table style=\"width:100%;height:150px;max-height:150px;background:#f4f4f4;border-bottom:1px solid #eaeaea\"> <tr> <td style=\"text-align:center\"> <img src=\"https://portal.izyrgpd.com/assets/images/logo.svg\" height=\"100\"> </td> </tr> </table> <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width:100%;padding-top:30px;\"> <tr> <td align=\"center\"> <table style=\"width:450px;\"> <tr> <td> <h1 style=\"color:#373737;font-size:42px;font-family:'Arial', sans serif;font-weight: 700;\">Caro(a) Utilizador(a) {{username}} associado(a) à empresa {{company}},</h1> <p style=\"color:#373737;font-size: 15px;line-height: 30px;font-family:'Arial', sans serif\">A sua conta foi registada com sucesso. Esta versão dá-lhe acesso limitado aos conteúdos da aplicação por um período de 15 dias. Para mais informação por favor contacte-nos.<br> Carregue no botão em baixo para prosseguir com a ativação.</p> </td> </tr> <tr> <td align=\"center\"> <br> <table style=\"width:150px;background:rgb(66, 139, 202);height:50px;\"> <tr> <td align=\"center\"> <a href=\"{{url}}\" style=\"font-weight:700;color:#FFF;;font-size:12px;text-decoration:none;;border-radius:3px;font-family:'Arial', sans serif\">Ativar conta</a> </td> </tr> </table> </td> </tr> <tr> <td style=\"padding-top:20px\"> <p style=\"color:#373737;font-size: 15px;line-height: 30px;font-family:'Arial', sans serif\">Se não pediu uma criação de conta, por favor ignore este email. <br><b>A verificação da conta só é válida durante as próximas 48 horas.</b></p> </td> </tr> <tr> <td align=\"center\"> <hr> <p style=\"color:#777; font-size:12px;font-family:'Arial', sans serif\">&copy; 2018 P&P. All rights reserved.</p> </td> </tr> </table> </td> </tr> </table> </body> </html>";
-            //emailTemplates.Add(newAccount);
+            EmailTemplate newAccountPT = new EmailTemplate();
+            newAccountPT.Key = EmailTemplatesEnum.NewUserAccountEmailVerification.ToString();
+            newAccountPT.Description = "Português - Validação do email da Conta de Utilizador";
+            newAccountPT.Language = "pt-PT";
+            newAccountPT.Subject = "Transição Portugal - verificação de email";
+            newAccountPT.BodyHtml = "Please access the following url to confirm your email, you only have 24 hours to do so:<br/><a target='_blank' rel='noopener noreferrer' href='{{activateUserLink}}'>{{activateUserLink}}</a>";
+            newAccountPT.CreatedAt = DateTime.UtcNow;
+            newAccountPT.CreatedBy = null;
+            newAccountPT.UpdatedBy = null;
+            emailTemplates.Add(newAccountPT);
 
-            //EmailTemplate newAccountCompany = new EmailTemplate();
-            //newAccountCompany.Key = EmailTemplatesEnum.NewAccountCompany.ToString();
-            //newAccountCompany.Description = "Notificação de Nova Conta para a empresa";
-            //newAccountCompany.Language = "pt-PT";
-            //newAccountCompany.Subject = "Nova Conta";
-            //newAccountCompany.Body = "<!DOCTYPE html> <html lang='en' style='font-size: 62.5%;color: rgba(33, 33, 33, 0.9);'> <head> <meta charset = \"UTF-8\"> </head> <body style='font-family: 'Arial', 'Helvetica Neue, Helvetica, Arial';margin:0;'> <table style=\"width:100%;height:150px;max-height:150px;background:#f4f4f4;border-bottom:1px solid #eaeaea\"> <tr> <td style=\"text-align:center\"> <img src=\"https://portal.izyrgpd.com/assets/images/logo.svg\" height=\"100\"> </td> </tr> </table> <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width:100%;padding-top:30px;\"> <tr> <td align=\"center\"> <table style=\"width:450px;\"> <tr> <td> <h1 style=\"color:#373737;font-size:42px;font-family:'Arial', sans serif;font-weight: 700;\">Caro(a) {{company}},</h1> <p style=\"color:#373737;font-size: 15px;line-height: 30px;font-family:'Arial', sans serif\">Foi criada uma conta em seu nome no IZYRGPD.<br> Por favor, se não fez este pedido entre em contacto connosco.</p> </td> </tr> <tr> <td align=\"center\"> <br> <table style=\"width:150px;background:rgb(66, 139, 202);height:50px;\"> <tr> <td align=\"center\"> <a href=\"{{url}}\" style=\"font-weight:700;color:#FFF;;font-size:12px;text-decoration:none;;border-radius:3px;font-family:'Arial', sans serif\">Contactar IZYRGPD</a> </td> </tr> </table> </td> </tr> <tr> <td align=\"center\"> <hr> <p style=\"color:#777; font-size:12px;font-family:'Arial', sans serif\">&copy; 2018 P&P. All rights reserved.</p> </td> </tr> </table> </td> </tr> </table> </body> </html>";
-            //emailTemplates.Add(newAccountCompany);
+            EmailTemplate newAccountEN = new EmailTemplate();
+            newAccountEN.Key = EmailTemplatesEnum.NewUserAccountEmailVerification.ToString();
+            newAccountEN.Description = "Inglês - Validação do email da Conta de Utilizador";
+            newAccountEN.Language = "en-US";
+            newAccountEN.Subject = "Transition Portugal - email validation";
+            newAccountEN.BodyHtml = "Please access the following url to confirm your email, you only have 24 hours to do so:<br/><a target='_blank' rel='noopener noreferrer' href='{{activateUserLink}}'>{{activateUserLink}}</a>";
+            newAccountEN.CreatedAt = DateTime.UtcNow;
+            newAccountEN.CreatedBy = null;
+            newAccountEN.UpdatedBy = null;
+            emailTemplates.Add(newAccountEN);
 
-            //EmailTemplate newAccountComercial = new EmailTemplate();
-            //newAccountComercial.Key = EmailTemplatesEnum.NewAccountComercial.ToString();
-            //newAccountComercial.Description = "Notificação de Nova Conta para o comercial/sys admin";
-            //newAccountComercial.Language = "pt-PT";
-            //newAccountComercial.Subject = "Novo Registo";
-            //newAccountComercial.Body = "<!DOCTYPE html> <html lang='en' style='font-size: 62.5%;color: rgba(33, 33, 33, 0.9);'> <head> <meta charset = \"UTF-8\"> </head> <body style='font-family: 'Arial', 'Helvetica Neue, Helvetica, Arial';margin:0;'> <table style=\"width:100%;height:150px;max-height:150px;background:#f4f4f4;border-bottom:1px solid #eaeaea\"> <tr> <td style=\"text-align:center\"> <img src=\"https://portal.izyrgpd.com/assets/images/logo.svg\" height=\"100\"> </td> </tr> </table> <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width:100%;padding-top:30px;\"> <tr> <td align=\"center\"> <table style=\"width:450px;\"> <tr> <td> <h1 style=\"color:#373737;font-size:42px;font-family:'Arial', sans serif;font-weight: 700;\">Novo registo</h1> <p style=\"color:#373737;font-size: 15px;line-height: 30px;font-family:'Arial', sans serif\">Foi registada uma nova empresa na aplicação IZYRGPD.<br> Designação: {{company}} <br> NIF: {{nif}} <br> Email do administrador: {{email}} </p> </td> </tr> <tr> <td align=\"center\"> <br>  </td> </tr> <tr> <td style=\"padding-top:20px\"> <p style=\"color:#373737;font-size: 15px;line-height: 30px;font-family:'Arial', sans serif\"></b></p> </td> </tr> <tr> <td align=\"center\"> <hr> <p style=\"color:#777; font-size:12px;font-family:'Arial', sans serif\">&copy; 2018 P&P. All rights reserved.</p> </td> </tr> </table> </td> </tr> </table> </body> </html>";
-            //emailTemplates.Add(newAccountComercial);
+            EmailTemplate newAccountCompanyPT = new EmailTemplate();
+            newAccountCompanyPT.Key = EmailTemplatesEnum.NewAssociationEmailVerification.ToString();
+            newAccountCompanyPT.Description = "Português - Validação do email da Associação";
+            newAccountCompanyPT.Language = "pt-PT";
+            newAccountCompanyPT.Subject = "Transição Portugal - verificação de email";
+            newAccountCompanyPT.BodyHtml = "Please access the following url to confirm your email, you only have 24 hours to do so:<br/><a target='_blank' rel='noopener noreferrer' href='{{activateAssociationLink}}'>{{activateAssociationLink}}</a>";
+            newAccountCompanyPT.CreatedAt = DateTime.UtcNow;
+            newAccountCompanyPT.CreatedBy = null;
+            newAccountCompanyPT.UpdatedBy = null;
+            emailTemplates.Add(newAccountCompanyPT);
 
-            //EmailTemplate companyAccountRecovery = new EmailTemplate();
-            //companyAccountRecovery.Key = EmailTemplatesEnum.CompanyAccountRecovery.ToString();
-            //companyAccountRecovery.Description = "Notificação de Nova Conta após pedido de recuperação";
-            //companyAccountRecovery.Language = "pt-PT";
-            //companyAccountRecovery.Subject = "Nova Conta";
-            //companyAccountRecovery.Body = "<!DOCTYPE html> <html lang='en' style='font-size: 62.5%;color: rgba(33, 33, 33, 0.9);'> <head> <meta charset = \"UTF-8\"> </head> <body style='font-family: 'Arial', 'Helvetica Neue, Helvetica, Arial';margin:0;'> <table style=\"width:100%;height:150px;max-height:150px;background:#f4f4f4;border-bottom:1px solid #eaeaea\"> <tr> <td style=\"text-align:center\"> <img src=\"https://portal.izyrgpd.com/assets/images/logo.svg\" height=\"100\"> </td> </tr> </table> <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width:100%;padding-top:30px;\"> <tr> <td align=\"center\"> <table style=\"width:450px;\"> <tr> <td> <h1 style=\"color:#373737;font-size:42px;font-family:'Arial', sans serif;font-weight: 700;\">Caro(a) Utilizador(a) {{username}} associado(a) à empresa {{company}},</h1> <p style=\"color:#373737;font-size: 15px;line-height: 30px;font-family:'Arial', sans serif\">A sua conta foi registada com sucesso. Para mais informação por favor contacte-nos.<br> Carregue no botão em baixo para prosseguir com a ativação.</p> </td> </tr> <tr> <td align=\"center\"> <br> <table style=\"width:150px;background:rgb(66, 139, 202);height:50px;\"> <tr> <td align=\"center\"> <a href=\"{{url}}\" style=\"font-weight:700;color:#FFF;;font-size:12px;text-decoration:none;;border-radius:3px;font-family:'Arial', sans serif\">Ativar conta</a> </td> </tr> </table> </td> </tr> <tr> <td style=\"padding-top:20px\"> <p style=\"color:#373737;font-size: 15px;line-height: 30px;font-family:'Arial', sans serif\">Se não pediu uma criação de conta, por favor ignore este email. <br><b>A verificação da conta só é válida durante as próximas 48 horas.</b></p> </td> </tr> <tr> <td align=\"center\"> <hr> <p style=\"color:#777; font-size:12px;font-family:'Arial', sans serif\">&copy; 2018 P&P. All rights reserved.</p> </td> </tr> </table> </td> </tr> </table> </body> </html>";
-            //emailTemplates.Add(companyAccountRecovery);
+            EmailTemplate newAccountCompanyEN = new EmailTemplate();
+            newAccountCompanyEN.Key = EmailTemplatesEnum.NewAssociationEmailVerification.ToString();
+            newAccountCompanyEN.Description = "Inglês - Validação do email da Associação";
+            newAccountCompanyEN.Language = "en-US";
+            newAccountCompanyEN.Subject = "Transition Portugal - email validation";
+            newAccountCompanyEN.BodyHtml = "Please access the following url to confirm your email, you only have 24 hours to do so:<br/><a target='_blank' rel='noopener noreferrer' href='{{activateAssociationLink}}'>{{activateAssociationLink}}</a>";
+            newAccountCompanyEN.CreatedAt = DateTime.UtcNow;
+            newAccountCompanyEN.CreatedBy = null;
+            newAccountCompanyEN.UpdatedBy = null;
+            emailTemplates.Add(newAccountCompanyEN);
 
-            //EmailTemplate accountActivation = new EmailTemplate();
-            //accountActivation.Key = EmailTemplatesEnum.AccountActivation.ToString();
-            //accountActivation.Description = "Notificação com o token para o utilizador ser ativado";
-            //accountActivation.Language = "pt-PT";
-            //accountActivation.Subject = "Nova Conta";
-            //accountActivation.Body = "<!DOCTYPE html> <html lang='en' style='font-size: 62.5%;color: rgba(33, 33, 33, 0.9);'> <head> <meta http-equiv=\"Content-Type\"  content=\"text/html charset=UTF-8\" /> </head> <body style='font-family: 'Arial', 'Helvetica Neue, Helvetica, Arial';margin:0;'> <table style=\"width:100%;height:150px;max-height:150px;background:#f4f4f4;border-bottom:1px solid #eaeaea\"> <tr> <td style=\"text-align:center\"> <img src=\"https://portal.izyrgpd.com/assets/images/logo.svg\" height=\"100\"> </td> </tr> </table> <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width:100%;padding-top:30px;\"> <tr> <td align=\"center\"> <table style=\"width:450px;\"> <tr> <td> <h1 style=\"color:#373737;font-size:42px;font-family:'Arial', sans serif;font-weight: 700;\">Caro(a) Utilizador(a) {{username}} associado(a) à empresa {{company}},</h1> <p style=\"color:#373737;font-size: 15px;line-height: 30px;font-family:'Arial', sans serif\">Foi criada uma conta em seu nome com sucesso.<br> Carregue no botão em baixo para prosseguir com a ativação.</p> </td> </tr> <tr> <td align=\"center\"> <br> <table style=\"width:150px;background:rgb(66, 139, 202);height:50px;\"> <tr> <td align=\"center\"> <a href=\"{{url}}\" style=\"font-weight:700;color:#FFF;;font-size:12px;text-decoration:none;;border-radius:3px;font-family:'Arial', sans serif\">Ativar conta</a> </td> </tr> </table> </td> </tr> <tr> <td style=\"padding-top:20px\"> <p style=\"color:#373737;font-size: 15px;line-height: 30px;font-family:'Arial', sans serif\">Se não pediu uma criação de conta, por favor ignore este email. <br><b>A verificação da conta só é válida durante as próximas 48 horas.</b></p> </td> </tr> <tr> <td align=\"center\"> <hr> <p style=\"color:#777; font-size:12px;font-family:'Arial', sans serif\">&copy; 2018 P&P. All rights reserved.</p> </td> </tr> </table> </td> </tr> </table> </body> </html>";
-            //emailTemplates.Add(accountActivation);
+            EmailTemplate newAccountVerifiedPT = new EmailTemplate();
+            newAccountVerifiedPT.Key = EmailTemplatesEnum.NewUserAccountVerified.ToString();
+            newAccountVerifiedPT.Description = "Português - Aprovação da Conta de Utilizador";
+            newAccountVerifiedPT.Language = "pt-PT";
+            newAccountVerifiedPT.Subject = "Transição Portugal - utilizador aprovado";
+            newAccountVerifiedPT.BodyHtml = "Please access the following url to authenticate:<br/><a target='_blank' rel='noopener noreferrer' href='{{loginLink}}'>{{loginLink}}</a>";
+            newAccountVerifiedPT.CreatedAt = DateTime.UtcNow;
+            newAccountVerifiedPT.CreatedBy = null;
+            newAccountVerifiedPT.UpdatedBy = null;
+            emailTemplates.Add(newAccountVerifiedPT);
 
-            //EmailTemplate userReactivation = new EmailTemplate();
-            //userReactivation.Key = EmailTemplatesEnum.UserReactivation.ToString();
-            //userReactivation.Description = "Emissão de novo token para o utilizador ser ativado";
-            //userReactivation.Language = "pt-PT";
-            //userReactivation.Subject = "Reactivação de Utilizador";
-            //userReactivation.Body = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional //EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\"> <html lang='pt' style='font-size: 62.5%;color: rgba(33, 33, 33, 0.9);'> <head> <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" /> </head> <body style='font-family: 'Arial', 'Helvetica Neue, Helvetica, Arial';margin:0;'> <table style=\"width:100%;height:150px;max-height:150px;background:#f4f4f4;border-bottom:1px solid #eaeaea\"> <tr> <td style=\"text-align:center\"> <img src=\"https://portal.izyrgpd.com/assets/images/logo.svg\" height=\"100\"> </td> </tr> </table> <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width:100%;padding-top:30px;\"> <tr> <td align=\"center\"> <table style=\"width:450px;\"> <tr> <td> <h1 style=\"color:#373737;font-size:42px;font-family:'Arial', sans serif;font-weight: 700;\">Caro(a) Utilizador(a) {{username}} associado(a) à empresa {{company}},</h1> <p style=\"color:#373737;font-size: 15px;line-height: 30px;font-family:'Arial', sans serif\">A sua conta foi reactivada.<br> Por favor, clique no botão em baixo para reactivar o seu registo e definir a respectiva palavra-passe.</p> </td> </tr> <tr> <td align=\"center\"> <br> <table style=\"width:150px;background:rgb(66, 139, 202);height:50px;\"> <tr> <td align=\"center\"> <a href=\"{{url}}\" style=\"font-weight:700;color:#FFF;;font-size:12px;text-decoration:none;;border-radius:3px;font-family:'Arial', sans serif\">Reactivar conta</a> </td> </tr> </table> </td> </tr> <tr> <td style=\"padding-top:20px\"> <p style=\"color:#373737;font-size: 15px;line-height: 30px;font-family:'Arial', sans serif\"> <b>A reactivação da sua conta só é válida durante as próximas 48 horas.</b></p> </td> </tr> <tr> <td align=\"center\"> <hr> <p style=\"color:#777; font-size:12px;font-family:'Arial', sans serif\">&copy; 2018 P&P. All rights reserved.</p> </td> </tr> </table> </td> </tr> </table> </body> </html>";
-            //emailTemplates.Add(userReactivation);
+            EmailTemplate newAccountVerifiedEN = new EmailTemplate();
+            newAccountVerifiedEN.Key = EmailTemplatesEnum.NewUserAccountVerified.ToString();
+            newAccountVerifiedEN.Description = "Inglês - Aprovação da Conta de Utilizador";
+            newAccountVerifiedEN.Language = "en-US";
+            newAccountVerifiedEN.Subject = "Transition Portugal - user approved";
+            newAccountVerifiedEN.BodyHtml = "Please access the following url to authenticate:<br/><a target='_blank' rel='noopener noreferrer' href='{{loginLink}}'>{{loginLink}}</a>";
+            newAccountVerifiedEN.CreatedAt = DateTime.UtcNow;
+            newAccountVerifiedEN.CreatedBy = null;
+            newAccountVerifiedEN.UpdatedBy = null;
+            emailTemplates.Add(newAccountVerifiedEN);
 
-            //EmailTemplate accountDeleted = new EmailTemplate();
-            //accountDeleted.Key = EmailTemplatesEnum.AccountDeleted.ToString();
-            //accountDeleted.Description = "Notificação para o utilizador em como a conta foi apagada";
-            //accountDeleted.Language = "pt-PT";
-            //accountDeleted.Subject = "Direito ao Esquecimento";
-            //accountDeleted.Body = "<!DOCTYPE html><html lang='en' style='font-size: 62.5%;color: rgba(33, 33, 33, 0.9);'><head> <meta charset=\"UTF-8\"></head><body style='font-family: ' Arial ', 'Helvetica Neue, Helvetica, Arial ';margin:0;'> <table style=\"width:100%;height:150px;max-height:150px;background:#f4f4f4;border-bottom:1px solid #eaeaea\"> <tr> <td style=\"text-align:center\"> <img src=\"https://portal.izyrgpd.com/assets/images/logo.svg\" height=\"100\"> </td> </tr> </table> <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width:100%;padding-top:30px;\"> <tr> <td align=\"center\"> <table style=\"width:450px;\"> <tr> <td> <h1 style=\"color:#373737;font-size:42px;font-family:'Arial', sans serif;font-weight: 700;\">Caro(a) Utilizador(a) {{username}} associado(a) à empresa {{company}},</h1> <p style=\"color:#373737;font-size: 15px;line-height: 30px;font-family:'Arial', sans serif\"> Conforme solicitado os seus dados de utilizador foram apagados do nosso sistema. </p> </td> </tr> <tr> <td align=\"center\"> <hr> <p style=\"color:#777; font-size:12px;font-family:'Arial', sans serif\">&copy; 2018 P&P. All rights reserved.</p> </td> </tr> </table> </td> </tr> </table> </td> </tr> </table></body></html>";
-            //emailTemplates.Add(accountDeleted);
+            EmailTemplate newAccountCompanyVerifiedPT = new EmailTemplate();
+            newAccountCompanyVerifiedPT.Key = EmailTemplatesEnum.NewAssociationVerified.ToString();
+            newAccountCompanyVerifiedPT.Description = "Português - Aprovação da Associação";
+            newAccountCompanyVerifiedPT.Language = "pt-PT";
+            newAccountCompanyVerifiedPT.Subject = "Transição Portugal - associação aprovada";
+            newAccountCompanyVerifiedPT.BodyHtml = "Please access the following url to authenticate:<br/><a target='_blank' rel='noopener noreferrer' href='{{loginLink}}'>{{loginLink}}</a>";
+            newAccountCompanyVerifiedPT.CreatedAt = DateTime.UtcNow;
+            newAccountCompanyVerifiedPT.CreatedBy = null;
+            newAccountCompanyVerifiedPT.UpdatedBy = null;
+            emailTemplates.Add(newAccountCompanyVerifiedPT);
 
-            //EmailTemplate passwordRecovery = new EmailTemplate();
-            //passwordRecovery.Key = EmailTemplatesEnum.PasswordRecovery.ToString();
-            //passwordRecovery.Description = "Notificação para o utilizador com o token para recuperar a palavra-passe";
-            //passwordRecovery.Language = "pt-PT";
-            //passwordRecovery.Subject = "Recuperação Password";
-            //passwordRecovery.Body = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional //EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\"> <html lang='pt' style='font-size: 62.5%;color: rgba(33, 33, 33, 0.9);'> <head> <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" /> </head> <body style='font-family: 'Arial', 'Helvetica Neue, Helvetica, Arial';margin:0;'> <table style=\"width:100%;height:150px;max-height:150px;background:#f4f4f4;border-bottom:1px solid #eaeaea\"> <tr> <td style=\"text-align:center\"> <img src=\"https://portal.izyrgpd.com/assets/images/logo.svg\" height=\"100\"> </td> </tr> </table> <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width:100%;padding-top:30px;\"> <tr> <td align=\"center\"> <table style=\"width:450px;\"> <tr> <td> <h1 style=\"color:#373737;font-size:42px;font-family:'Arial', sans serif;font-weight: 700;\">Caro(a) Utilizador(a) {{username}} associado(a) à empresa {{company}},</h1> <p style=\"color:#373737;font-size: 15px;line-height: 30px;font-family:'Arial', sans serif\">Recebemos um pedido de recuperação de password da sua conta. Para prosseguir, carregue no botão em baixo.</p> </td> </tr> <tr> <td align=\"center\"> <br> <table style=\"width:150px;background:rgb(66, 139, 202);height:50px;\"> <tr> <td align=\"center\"> <a href=\"{{url}}\" style=\"font-weight:700;color:#FFF;;font-size:12px;text-decoration:none;;border-radius:3px;font-family:'Arial', sans serif\">Recuperar password</a> </td> </tr> </table> </td> </tr> <tr> <td style=\"padding-top:20px\"> <p style=\"color:#373737;font-size: 15px;line-height: 30px;font-family:'Arial', sans serif\">Se não pediu uma recuperação de password, por favor ignore este email. <br><b>A recuperação da password só é válida durante as próximas 48 horas.</b></p> </td> </tr> <tr> <td align=\"center\"> <hr> <p style=\"color:#777; font-size:12px;font-family:'Arial', sans serif\">&copy; 2018 P&P. All rights reserved.</p> </td> </tr> </table> </td> </tr> </table> </body> </html>";
-            //emailTemplates.Add(passwordRecovery);
+            EmailTemplate newAccountCompanyVerifiedEN = new EmailTemplate();
+            newAccountCompanyVerifiedEN.Key = EmailTemplatesEnum.NewAssociationVerified.ToString();
+            newAccountCompanyVerifiedEN.Description = "Inglês - Validação do email da Associação";
+            newAccountCompanyVerifiedEN.Language = "en-US";
+            newAccountCompanyVerifiedEN.Subject = "Transition Portugal - association approved";
+            newAccountCompanyVerifiedEN.BodyHtml = "Please access the following url to authenticate:<br/><a target='_blank' rel='noopener noreferrer' href='{{loginLink}}'>{{loginLink}}</a>";
+            newAccountCompanyVerifiedEN.CreatedAt = DateTime.UtcNow;
+            newAccountCompanyVerifiedEN.CreatedBy = null;
+            newAccountCompanyVerifiedEN.UpdatedBy = null;
+            emailTemplates.Add(newAccountCompanyVerifiedEN);
 
-            //EmailTemplate accountRecovery = new EmailTemplate();
-            //accountRecovery.Key = EmailTemplatesEnum.AccountRecovery.ToString();
-            //accountRecovery.Description = "Notificação para o utilizador com o token para recuperar a conta";
-            //accountRecovery.Language = "pt-PT";
-            //accountRecovery.Subject = "Reativar conta";
-            //accountRecovery.Body = "<!DOCTYPE html> <html lang='en' style='font-size: 62.5%;color: rgba(33, 33, 33, 0.9);'> <head> <meta http-equiv=\"Content-Type\"  content=\"text/html charset=UTF-8\" /> </head> <body style='font-family: 'Arial', 'Helvetica Neue, Helvetica, Arial';margin:0;'> <table style=\"width:100%;height:150px;max-height:150px;background:#f4f4f4;border-bottom:1px solid #eaeaea\"> <tr> <td style=\"text-align:center\"> <img src=\"https://portal.izyrgpd.com/assets/images/logo.svg\" height=\"100\"> </td> </tr> </table> <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width:100%;padding-top:30px;\"> <tr> <td align=\"center\"> <table style=\"width:450px;\"> <tr> <td> <h1 style=\"color:#373737;font-size:42px;font-family:'Arial', sans serif;font-weight: 700;\">Caro(a) Utilizador(a) {{username}} associado(a) à empresa {{company}},</h1> <p style=\"color:#373737;font-size: 15px;line-height: 30px;font-family:'Arial', sans serif\">Foi criado um pedido de reativação de conta em seu nome com sucesso.<br> Carregue no botão em baixo para prosseguir com a reativação.</p> </td> </tr> <tr> <td align=\"center\"> <br> <table style=\"width:150px;background:rgb(66, 139, 202);height:50px;\"> <tr> <td align=\"center\"> <a href=\"{{url}}\" style=\"font-weight:700;color:#FFF;;font-size:12px;text-decoration:none;;border-radius:3px;font-family:'Arial', sans serif\">Reativar conta</a> </td> </tr> </table> </td> </tr> <tr> <td style=\"padding-top:20px\"> <p style=\"color:#373737;font-size: 15px;line-height: 30px;font-family:'Arial', sans serif\">Se não pediu uma recuperação de conta, por favor ignore este email. <br><b>A verificação da conta só é válida durante as próximas 48 horas.</b></p> </td> </tr> <tr> <td align=\"center\"> <hr> <p style=\"color:#777; font-size:12px;font-family:'Arial', sans serif\">&copy; 2018 P&P. All rights reserved.</p> </td> </tr> </table> </td> </tr> </table> </body> </html>";
-            //emailTemplates.Add(accountRecovery);
+            EmailTemplate accountPasswordRecoveryPT = new EmailTemplate();
+            accountPasswordRecoveryPT.Key = EmailTemplatesEnum.UserAccountPasswordRecovery.ToString();
+            accountPasswordRecoveryPT.Description = "Português - recuperação de password da conta";
+            accountPasswordRecoveryPT.Language = "pt-PT";
+            accountPasswordRecoveryPT.Subject = "Transição Portugal - recuperação de password";
+            accountPasswordRecoveryPT.BodyHtml = "Please access the following url to reset your password, you only have 15 minutes to reset your password:<br/><a target='_blank' rel='noopener noreferrer' href='{{passwordRecoveryLink}}'>{{passwordRecoveryLink}}</a>";
+            accountPasswordRecoveryPT.CreatedAt = DateTime.UtcNow;
+            accountPasswordRecoveryPT.CreatedBy = null;
+            accountPasswordRecoveryPT.UpdatedBy = null;
+            emailTemplates.Add(accountPasswordRecoveryPT);
 
-            //EmailTemplate usernameRecovery = new EmailTemplate();
-            //usernameRecovery.Key = EmailTemplatesEnum.UsernameRecovery.ToString();
-            //usernameRecovery.Description = "Notificação para o utilizador com a lista de empresas possivelmente associadas ao username";
-            //usernameRecovery.Language = "pt-PT";
-            //usernameRecovery.Subject = "Recuperação de Username";
-            //usernameRecovery.Body = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional //EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\"> <html lang='pt' style='font-size: 62.5%;color: rgba(33, 33, 33, 0.9);'> <head> <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" /> </head> <body style='font-family: 'Arial', 'Helvetica Neue, Helvetica, Arial';margin:0;'> <table style=\"width:100%;height:150px;max-height:150px;background:#f4f4f4;border-bottom:1px solid #eaeaea\"> <tr> <td style=\"text-align:center\"> <img src=\"https://portal.izyrgpd.com/assets/images/logo.svg\" height=\"100\"> </td> </tr> </table> <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width:100%;padding-top:30px;\"> <tr> <td align=\"center\"> <table style=\"width:450px;\"> <tr> <td> <h1 style=\"color:#373737;font-size:42px;font-family:'Arial', sans serif;font-weight: 700;\">Caro(a) Utilizador(a),</h1> <p style=\"color:#373737;font-size: 15px;line-height: 30px;font-family:'Arial', sans serif\">Recebemos um pedido de recuperação de username. Identificamos que este email se encontra associado à(s) seguinte(s) empresa(s):</p> {{activeUsers}} <p style=\"color:#373737;font-size: 15px;line-height: 30px;font-family:'Arial', sans serif\">Aceda novamente à recuperação de password e indique o username a recuperar.</p> </td> </tr> <tr> <td align=\"center\"> <br> <table style=\"width:150px;background:rgb(66, 139, 202);height:50px;\"> <tr> <td align=\"center\"> <a href=\"{{url}}\" style=\"font-weight:700;color:#FFF;;font-size:12px;text-decoration:none;;border-radius:3px;font-family:'Arial', sans serif\">Recuperar password</a> </td> </tr> </table> </td> </tr> <tr> <td style=\"padding-top:20px\"> <p style=\"color:#373737;font-size: 15px;line-height: 30px;font-family:'Arial', sans serif\">Se não pediu uma recuperação de username, por favor ignore este email. </p> </td> </tr> <tr> <td align=\"center\"> <hr> <p style=\"color:#777; font-size:12px;font-family:'Arial', sans serif\">&copy; 2018 P&P. All rights reserved.</p> </td> </tr> </table> </td> </tr> </table> </body> </html>";
-            //emailTemplates.Add(usernameRecovery);
+            EmailTemplate accountPasswordRecoveryEN = new EmailTemplate();
+            accountPasswordRecoveryEN.Key = EmailTemplatesEnum.UserAccountPasswordRecovery.ToString();
+            accountPasswordRecoveryEN.Description = "Inglês - recuperação de password da conta";
+            accountPasswordRecoveryEN.Language = "en-US";
+            accountPasswordRecoveryEN.Subject = "Transition Portugal - password recovery";
+            accountPasswordRecoveryEN.BodyHtml = "Please access the following url to reset your password, you only have 15 minutes to reset your password:<br/><a target='_blank' rel='noopener noreferrer' href='{{passwordRecoveryLink}}'>{{passwordRecoveryLink}}</a>";
+            accountPasswordRecoveryEN.CreatedAt = DateTime.UtcNow;
+            accountPasswordRecoveryEN.CreatedBy = null;
+            accountPasswordRecoveryEN.UpdatedBy = null;
+            emailTemplates.Add(accountPasswordRecoveryEN);
 
-            //EmailTemplate accountReactivation = new EmailTemplate();
-            //accountReactivation.Key = EmailTemplatesEnum.AccountReactivation.ToString();
-            //accountReactivation.Description = "Notificação para o DPO com a possibilidade de reativar a empresa";
-            //accountReactivation.Language = "pt-PT";
-            //accountReactivation.Subject = "Reativar conta";
-            //accountReactivation.Body = "<!DOCTYPE html> <html lang='en' style='font-size: 62.5%;color: rgba(33, 33, 33, 0.9);'> <head> <meta http-equiv=\"Content-Type\"  content=\"text/html charset=UTF-8\" /> </head> <body style='font-family: 'Arial', 'Helvetica Neue, Helvetica, Arial';margin:0;'> <table style=\"width:100%;height:150px;max-height:150px;background:#f4f4f4;border-bottom:1px solid #eaeaea\"> <tr> <td style=\"text-align:center\"> <img src=\"https://portal.izyrgpd.com/assets/images/logo.svg\" alt=\"logotipo\" height=\"100\"> </td> </tr> </table> <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width:100%;padding-top:30px;\"> <tr> <td align=\"center\"> <table style=\"width:450px;\"> <tr> <td> <h1 style=\"color:#373737;font-size:42px;font-family:'Arial', sans serif;font-weight: 700;\">Caro(a) responsável associado(a) à empresa {{company}},</h1> <p style=\"color:#373737;font-size: 15px;line-height: 30px;font-family:'Arial', sans serif\">Foi criado um pedido de recuperação de conta com sucesso.<br> Carregue no botão em baixo para prosseguir com a recuperação e criar um novo utilizador com privilégios de administração.</p> </td> </tr> <tr> <td align=\"center\"> <br> <table style=\"width:150px;background:rgb(66, 139, 202);height:50px;\"> <tr> <td align=\"center\"> <a href=\"{{url}}\" style=\"font-weight:700;color:#FFF;;font-size:12px;text-decoration:none;;border-radius:3px;font-family:'Arial', sans serif\">Recuperar conta</a> </td> </tr> </table> </td> </tr> <tr> <td style=\"padding-top:20px\"> <p style=\"color:#373737;font-size: 15px;line-height: 30px;font-family:'Arial', sans serif\">Se não pediu uma recuperação de conta, por favor ignore este email. <br><b>A verificação da conta só é válida durante as próximas 48 horas.</b></p> </td> </tr> <tr> <td align=\"center\"> <hr> <p style=\"color:#777; font-size:12px;font-family:'Arial', sans serif\">&copy; 2018 P&P. All rights reserved.</p> </td> </tr> </table> </td> </tr> </table> </body> </html>";
-            //emailTemplates.Add(accountReactivation);
-
-            //EmailTemplate disclaimerUpdated = new EmailTemplate();
-            //disclaimerUpdated.Key = EmailTemplatesEnum.DisclaimerUpdated.ToString();
-            //disclaimerUpdated.Description = "Notificar utilizadores de que os termos de serviço/políticas de privacidade foram atualizados";
-            //disclaimerUpdated.Language = "pt-PT";
-            //disclaimerUpdated.Subject = "Atualização {{disclaimertype}}";
-            //disclaimerUpdated.Body = "<!DOCTYPE html> <html lang='en' style='font-size: 62.5%;color: rgba(33, 33, 33, 0.9);'> <head> <meta charset = \"UTF-8\"> </head> <body style='font-family: 'Arial', 'Helvetica Neue, Helvetica, Arial';margin:0;'> <table style=\"width:100%;height:150px;max-height:150px;background:#f4f4f4;border-bottom:1px solid #eaeaea\"> <tr> <td style=\"text-align:center\"> <img src=\"https://portal.izyrgpd.com/assets/images/logo.svg\" height=\"100\"> </td> </tr> </table> <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width:100%;padding-top:30px;\"> <tr> <td align=\"center\"> <table style=\"width:450px;\"> <tr> <td> <h1 style=\"color:#373737;font-size:42px;font-family:'Arial', sans serif;font-weight: 700;\">Caro(a) {{username}}.</h1> <p style=\"color:#373737;font-size: 15px;line-height: 30px;font-family:'Arial', sans serif\">O nosso documento de {{disclaimer}} foi actualizado. <br> Poderá consultar o novo documento no link abaixo.</p> </td> </tr> <tr> <td align=\"center\"> <br> <table style=\"width:150px;background:rgb(66, 139, 202);height:50px;\"> <tr> <td align=\"center\"> <a href=\"{{url}}\" style=\"font-weight:700;color:#FFF;;font-size:12px;text-decoration:none;;border-radius:3px;font-family:'Arial', sans serif\">{{disclaimer}}</a> </td> </tr> </table> </td> </tr> <tr> <td style=\"padding-top:20px\"> <p style=\"color:#373737;font-size: 15px;line-height: 30px;font-family:'Arial', sans serif\">Se tiver alguma dúvida entre em contacto connosco.</p> </td> </tr> <tr> <td align=\"center\"> <hr> <p style=\"color:#777; font-size:12px;font-family:'Arial', sans serif\">&copy; 2018 P&P. All rights reserved.</p> </td> </tr> </table> </td> </tr> </table> </body> </html>";
-            //emailTemplates.Add(disclaimerUpdated);
-
-            //EmailTemplate clientContact = new EmailTemplate();
-            //clientContact.Key = EmailTemplatesEnum.ClientContact.ToString();
-            //clientContact.Description = "Notificar sys admins do contacto por parte de clientes";
-            //clientContact.Language = "pt-PT";
-            //clientContact.Subject = "{{Subject}}";
-            //clientContact.Body = "<!DOCTYPE html><html lang='en' style='font-size: 62.5%;color: rgba(33, 33, 33, 0.9);'><head> <meta charset=\"UTF-8\"></head><body style='font-family: ' Arial ', 'Helvetica Neue, Helvetica, Arial ';margin:0;'> <table style=\"width:100%;height:150px;max-height:150px;background:#f4f4f4;border-bottom:1px solid #eaeaea\"> <tr> <td style=\"text-align:center\"> <img src=\"https://portal.izyrgpd.com/assets/images/logo.svg\" height=\"100\"> </td> </tr> </table> <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width:100%;padding-top:30px;\"> <tr> <td align=\"center\"> <table style=\"width:450px;\"> <tr> <td> <h1 style=\"color:#373737;font-size:42px;font-family:'Arial', sans serif;font-weight: 700;\">Caros Administradores,</h1> <p style=\"color:#373737;font-size: 15px;line-height: 30px;font-family:'Arial', sans serif\"> Foi registada uma nova questão através da plataforma GDPR. </td> </tr> <tr> <td style=\"color:#373737;font-size: 15px;line-height: 30px;font-family:'Arial', sans serif\"> <b>Dados de Contacto</b> </td> </tr> <tr> <td style=\"color:#373737;font-size: 15px;line-height: 30px;font-family:'Arial', sans serif;\"> <b>Nome: </b> {{Name}} </td> </tr> <tr> <td style=\"color:#373737;font-size: 15px;line-height: 30px;font-family:'Arial', sans serif;\"> <b>Email: </b> {{email}} </td> </tr> <tr> <td style=\"color:#373737;font-size: 15px;line-height: 30px;font-family:'Arial', sans serif;\"> <b>Mensagem: </b> {{Message}} </td> </tr> </table> </td> </tr> </table> </td> </tr> </table></body></html>";
-            //emailTemplates.Add(clientContact);
-
-            //EmailTemplate premiumSubscription = new EmailTemplate();
-            //premiumSubscription.Key = EmailTemplatesEnum.PremiumSubscription.ToString();
-            //premiumSubscription.Description = "Notificar empresa de que aderiu a Premium";
-            //premiumSubscription.Language = "pt-PT";
-            //premiumSubscription.Subject = "Adesão a Premium";
-            //premiumSubscription.Body = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional //EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\"> <html lang='pt' style='font-size: 62.5%;color: rgba(33, 33, 33, 0.9);'> <head> <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" /> </head> <body style='font-family: 'Arial', 'Helvetica Neue, Helvetica, Arial';margin:0;'> <table style=\"width:100%;height:150px;max-height:150px;background:#f4f4f4;border-bottom:1px solid #eaeaea\"> <tr> <td style=\"text-align:center\"> <img src=\"https://portal.izyrgpd.com/assets/images/logo.svg\" height=\"100\"> </td> </tr> </table> <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width:100%;padding-top:30px;\"> <tr> <td align=\"center\"> <table style=\"width:450px;\"> <tr> <td> <h1 style=\"color:#373737;font-size:42px;font-family:'Arial', sans serif;font-weight: 700;\">Caro(a) {{company}},</h1> <p style=\"color:#373737;font-size: 15px;line-height: 30px;font-family:'Arial', sans serif\">A conta da sua Empresa é agora Premium. <br>O contrato termina em {{contractExpireDate}}.</p> </td> </tr> <tr> <td align=\"center\"> <br> <table style=\"width:150px;background:rgb(66, 139, 202);height:50px;\"> <tr> <td align=\"center\"> <a href=\"{{url}}\" style=\"font-weight:700;color:#FFF;;font-size:12px;text-decoration:none;;border-radius:3px;font-family:'Arial', sans serif\">Aceder à aplicação</a> </td> </tr> </table> </td> </tr> <tr> <td align=\"center\"> <hr> <p style=\"color:#777; font-size:12px;font-family:'Arial', sans serif\">&copy; 2018 P&P. All rights reserved.</p> </td> </tr> </table> </td> </tr> </table> </body> </html>";
-            //emailTemplates.Add(premiumSubscription);
-
-            //EmailTemplate companyReactivation = new EmailTemplate();
-            //companyReactivation.Key = EmailTemplatesEnum.CompanyReactivation.ToString();
-            //companyReactivation.Description = "Notificar empresa de que foi reativada como Premium";
-            //companyReactivation.Language = "pt-PT";
-            //companyReactivation.Subject = "Reactivação de Empresa";
-            //companyReactivation.Body = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional //EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\"> <html lang='pt' style='font-size: 62.5%;color: rgba(33, 33, 33, 0.9);'> <head> <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" /> </head> <body style='font-family: 'Arial', 'Helvetica Neue, Helvetica, Arial';margin:0;'> <table style=\"width:100%;height:150px;max-height:150px;background:#f4f4f4;border-bottom:1px solid #eaeaea\"> <tr> <td style=\"text-align:center\"> <img src=\"https://portal.izyrgpd.com/assets/images/logo.svg\" height=\"100\"> </td> </tr> </table> <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width:100%;padding-top:30px;\"> <tr> <td align=\"center\"> <table style=\"width:450px;\"> <tr> <td> <h1 style=\"color:#373737;font-size:42px;font-family:'Arial', sans serif;font-weight: 700;\">Caro(a) {{company}},</h1> <p style=\"color:#373737;font-size: 15px;line-height: 30px;font-family:'Arial', sans serif\">A sua Empresa foi reactivada. <br>Pode agora usar o nosso serviço como empresa Premium. <br>O contrato termina em {{contractExpireDate}}.</p> </td> </tr> <tr> <td align=\"center\"> <br> <table style=\"width:150px;background:rgb(66, 139, 202);height:50px;\"> <tr> <td align=\"center\"> <a href=\"{{url}}\" style=\"font-weight:700;color:#FFF;;font-size:12px;text-decoration:none;;border-radius:3px;font-family:'Arial', sans serif\">Aceder à aplicação</a> </td> </tr> </table> </td> </tr> <tr> <td align=\"center\"> <hr> <p style=\"color:#777; font-size:12px;font-family:'Arial', sans serif\">&copy; 2018 P&P. All rights reserved.</p> </td> </tr> </table> </td> </tr> </table> </body> </html>";
-            //emailTemplates.Add(companyReactivation);
-
-            //EmailTemplate companyContractExtension = new EmailTemplate();
-            //companyContractExtension.Key = EmailTemplatesEnum.CompanyContractExtension.ToString();
-            //companyContractExtension.Description = "Notificar empresa de que foi estendido o seu contrato Premium";
-            //companyContractExtension.Language = "pt-PT";
-            //companyContractExtension.Subject = "Extensão de Contrato";
-            //companyContractExtension.Body = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional //EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\"> <html lang='pt' style='font-size: 62.5%;color: rgba(33, 33, 33, 0.9);'> <head> <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" /> </head> <body style='font-family: 'Arial', 'Helvetica Neue, Helvetica, Arial';margin:0;'> <table style=\"width:100%;height:150px;max-height:150px;background:#f4f4f4;border-bottom:1px solid #eaeaea\"> <tr> <td style=\"text-align:center\"> <img src=\"https://portal.izyrgpd.com/assets/images/logo.svg\" height=\"100\"> </td> </tr> </table> <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width:100%;padding-top:30px;\"> <tr> <td align=\"center\"> <table style=\"width:450px;\"> <tr> <td> <h1 style=\"color:#373737;font-size:42px;font-family:'Arial', sans serif;font-weight: 700;\">Caro(a) {{company}},</h1> <p style=\"color:#373737;font-size: 15px;line-height: 30px;font-family:'Arial', sans serif\">O seu contrato de conta Premium foi extendido. <br>O contrato termina em {{contractExpireDate}}.</p> </td> </tr> <tr> <td align=\"center\"> <br> <table style=\"width:150px;background:rgb(66, 139, 202);height:50px;\"> <tr> <td align=\"center\"> <a href=\"{{url}}\" style=\"font-weight:700;color:#FFF;;font-size:12px;text-decoration:none;;border-radius:3px;font-family:'Arial', sans serif\">Aceder à aplicação</a> </td> </tr> </table> </td> </tr> <tr> <td align=\"center\"> <hr> <p style=\"color:#777; font-size:12px;font-family:'Arial', sans serif\">&copy; 2018 P&P. All rights reserved.</p> </td> </tr> </table> </td> </tr> </table> </body> </html>";
-            //emailTemplates.Add(companyContractExtension);
-
-            //EmailTemplate companyToPremiumNotify = new EmailTemplate();
-            //companyToPremiumNotify.Key = EmailTemplatesEnum.CompanyToPremiumNotify.ToString();
-            //companyToPremiumNotify.Description = "Notificar empresa dos dados de pagamento para aderir a Premium";
-            //companyToPremiumNotify.Language = "pt-PT";
-            //companyToPremiumNotify.Subject = "Adesão à Versão Premium";
-            //companyToPremiumNotify.Body = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional //EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\"> <html lang='pt' style='font-size: 62.5%;color: rgba(33, 33, 33, 0.9);'> <head> <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" /> </head> <body style='font-family: 'Arial', 'Helvetica Neue, Helvetica, Arial';margin:0;'> <table style=\"width:100%;height:150px;max-height:150px;background:#f4f4f4;border-bottom:1px solid #eaeaea\"> <tr> <td style=\"text-align:center\"> <img src=\"https://portal.izyrgpd.com/assets/images/logo.svg\" height=\"100\"> </td> </tr> </table> <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width:100%;padding-top:30px;\"> <tr> <td align=\"center\"> <table style=\"width:450px;\"> <tr> <td> <h1 style=\"color:#373737;font-size:42px;font-family:'Arial', sans serif;font-weight: 700;\"></h1> <p style=\"color:#373737;font-size: 15px;line-height: 30px;font-family:'Arial', sans serif\">Recebemos um pedido de Adesão à Versão Premium do IZYRGPD para a empresa {{company}}. </p><p style=\"color:#373737;font-size: 15px;line-height: 30px;font-family:'Arial', sans serif\">Enviamos os dados para pagamento:<br><b>IBAN: </b>{{iban}} <br><b>Valor: </b>664,20&#8364;</p><p style=\"color:#373737;font-size: 15px;line-height: 30px;font-family:'Arial', sans serif\">Após efectuar o pagamento, envie por favor comprovativo do mesmo para <a href=\"mailto:{{email}}\">{{email}}</a></p> </td> </tr> <tr> <td align=\"center\"> </td> </tr> <tr> <td align=\"center\"> <hr> <p style=\"color:#777; font-size:12px;font-family:'Arial', sans serif\">&copy; 2018 P&P. All rights reserved.</p> </td> </tr> </table> </td> </tr> </table> </body> </html>";
-            //emailTemplates.Add(companyToPremiumNotify);
-
-            //EmailTemplate companyToPremiumComercialNotify = new EmailTemplate();
-            //companyToPremiumComercialNotify.Key = EmailTemplatesEnum.CompanyToPremiumComercialNotify.ToString();
-            //companyToPremiumComercialNotify.Description = "Notificar sys admins da empresa que pediu para aderir a Premium";
-            //companyToPremiumComercialNotify.Language = "pt-PT";
-            //companyToPremiumComercialNotify.Subject = "Adesão à Versão Premium";
-            //companyToPremiumComercialNotify.Body = "<!DOCTYPE html><html lang='en' style='font-size: 62.5%;color: rgba(33, 33, 33, 0.9);'><head> <meta charset=\"UTF-8\"> </head><body style='font-family: ' Arial ', 'Helvetica Neue, Helvetica, Arial ';margin:0;'> <table style=\"width: 100 %; height: 150px; max - height:150px; background:#f4f4f4;border-bottom:1px solid #eaeaea\"> <tr> <td style=\"text-align:center\"> <img src=\"https://portal.izyrgpd.com/assets/images/logo.svg\" height=\"100\"> </td></tr></table> <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width:100%;padding-top:30px;\"> <tr> <td align=\"center\"> <table style=\"width:450px;\"> <tr> <td> <h1 style=\"color:#373737;font-size:42px;font-family:'Arial', sans serif;font-weight: 700;\">Nova Adesão a Premium</h1> <p style=\"color:#373737;font-size: 15px;line-height: 30px;font-family:'Arial', sans serif\">A Empresa{{company}}selecionou a opção de Aderir à versão Premium da aplicação. </p></td></tr><tr> <td align=\"center\"> <br></td></tr><tr> <td style=\"padding-top:20px\"> <p style=\"color:#373737;font-size: 15px;line-height: 30px;font-family:'Arial', sans serif\"> </b> </p></td></tr><tr> <td align=\"center\"> <hr> <p style=\"color:#777; font-size:12px;font-family:'Arial', sans serif\">&copy; 2018 P&P. All rights reserved.</p></td></tr></table> </td></tr></table></body></html>";
-            //emailTemplates.Add(companyToPremiumComercialNotify);
-
-            //EmailTemplate companyTrialEndContractNotify = new EmailTemplate();
-            //companyTrialEndContractNotify.Key = EmailTemplatesEnum.CompanyTrialEndContractNotify.ToString();
-            //companyTrialEndContractNotify.Description = "Notificar a empresa que o período de experimentação está a terminar";
-            //companyTrialEndContractNotify.Language = "pt-PT";
-            //companyTrialEndContractNotify.Subject = "Final de contrato";
-            //companyTrialEndContractNotify.Body = "<!DOCTYPE html> <html lang='en' style='font-size: 62.5%;color: rgba(33, 33, 33, 0.9);'> <head> <meta charset = \"UTF-8\"> </head> <body style='font-family: 'Arial', 'Helvetica Neue, Helvetica, Arial';margin:0;'> <table style=\"width:100%;height:150px;max-height:150px;background:#f4f4f4;border-bottom:1px solid #eaeaea\"> <tr> <td style=\"text-align:center\"> <img src=\"https://portal.izyrgpd.com/assets/images/logo.svg\" height=\"100\"> </td> </tr> </table> <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width:100%;padding-top:30px;\"> <tr> <td align=\"center\"> <table style=\"width:450px;\"> <tr> <td> <h1 style=\"color:#373737;font-size:42px;font-family:'Arial', sans serif;font-weight: 700;\">Caro(a) utilizador da empresa {{company}},</h1> <p style=\"color:#373737;font-size: 15px;line-height: 30px;font-family:'Arial', sans serif\">O período experimental da sua empresa irá terminar dentro de {{days}} dias. A partir desse momento a sua empresa ficará inactiva e todos os acessos serão negados.<br> Os dados da empresa que existam na aplicação serão guardados durante um período de {{years}} anos, depois disso serão eliminados.<br><br> Para mais informação sobre a extensão de contrato ou uma remoção antecipada dos dados, por favor entre em contacto connosco.</p> </td> </tr> <tr> <td align=\"center\"> <br> <table style=\"width:150px;background:rgb(66, 139, 202);height:50px;\"> <tr> <td align=\"center\"> <a href=\"{{url}}\" style=\"font-weight:700;color:#FFF;;font-size:12px;text-decoration:none;;border-radius:3px;font-family:'Arial', sans serif\">Contactar</a> </td> </tr> </table> </td> </tr> <tr> <td style=\"padding-top:20px\"></td> </tr> <tr> <td align=\"center\"> <hr> <p style=\"color:#777; font-size:12px;font-family:'Arial', sans serif\">&copy; 2018 P&P. All rights reserved.</p> </td> </tr> </table> </td> </tr> </table> </body> </html>";
-            //emailTemplates.Add(companyTrialEndContractNotify);
-
-            //EmailTemplate companyPremiumEndContractNotify = new EmailTemplate();
-            //companyPremiumEndContractNotify.Key = EmailTemplatesEnum.CompanyPremiumEndContractNotify.ToString();
-            //companyPremiumEndContractNotify.Description = "Notificar a empresa que o contracto está a terminar";
-            //companyPremiumEndContractNotify.Language = "pt-PT";
-            //companyPremiumEndContractNotify.Subject = "Final de contrato";
-            //companyPremiumEndContractNotify.Body = "<!DOCTYPE html> <html lang='en' style='font-size: 62.5%;color: rgba(33, 33, 33, 0.9);'> <head> <meta charset = \"UTF-8\"> </head> <body style='font-family: 'Arial', 'Helvetica Neue, Helvetica, Arial';margin:0;'> <table style=\"width:100%;height:150px;max-height:150px;background:#f4f4f4;border-bottom:1px solid #eaeaea\"> <tr> <td style=\"text-align:center\"> <img src=\"https://portal.izyrgpd.com/assets/images/logo.svg\" height=\"100\"> </td> </tr> </table> <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width:100%;padding-top:30px;\"> <tr> <td align=\"center\"> <table style=\"width:450px;\"> <tr> <td> <h1 style=\"color:#373737;font-size:42px;font-family:'Arial', sans serif;font-weight: 700;\">Caro(a) utilizador da empresa {{company}},</h1> <p style=\"color:#373737;font-size: 15px;line-height: 30px;font-family:'Arial', sans serif\">O contrato da sua empresa irá terminar dentro de {{days}} dias. A partir desse momento a sua empresa ficará inactiva e todos os acessos serão negados.<br> Os dados da empresa que existam na aplicação serão guardados durante um período de {{years}} anos, depois disso serão eliminados.<br><br> Para mais informação sobre a extensão de contrato ou uma remoção antecipada dos dados, por favor entre em contacto connosco.</p> </td> </tr> <tr> <td align=\"center\"> <br> <table style=\"width:150px;background:rgb(66, 139, 202);height:50px;\"> <tr> <td align=\"center\"> <a href=\"{{url}}\" style=\"font-weight:700;color:#FFF;;font-size:12px;text-decoration:none;;border-radius:3px;font-family:'Arial', sans serif\">Contactar</a> </td> </tr> </table> </td> </tr> <tr> <td style=\"padding-top:20px\"></td> </tr> <tr> <td align=\"center\"> <hr> <p style=\"color:#777; font-size:12px;font-family:'Arial', sans serif\">&copy; 2018 P&P. All rights reserved.</p> </td> </tr> </table> </td> </tr> </table> </body> </html>";
-            //emailTemplates.Add(companyPremiumEndContractNotify);
-
-            //EmailTemplate companyContractExpiredNotify = new EmailTemplate();
-            //companyContractExpiredNotify.Key = EmailTemplatesEnum.CompanyContractExpiredNotify.ToString();
-            //companyContractExpiredNotify.Description = "Notificar a empresa que o contracto expirou";
-            //companyContractExpiredNotify.Language = "pt-PT";
-            //companyContractExpiredNotify.Subject = "Fim de contrato";
-            //companyContractExpiredNotify.Body = "<!DOCTYPE html> <html lang='en' style='font-size: 62.5%;color: rgba(33, 33, 33, 0.9);'> <head> <meta charset = \"UTF-8\"> </head> <body style='font-family: 'Arial', 'Helvetica Neue, Helvetica, Arial';margin:0;'> <table style=\"width:100%;height:150px;max-height:150px;background:#f4f4f4;border-bottom:1px solid #eaeaea\"> <tr> <td style=\"text-align:center\"> <img src=\"https://portal.izyrgpd.com/assets/images/logo.svg\" height=\"100\"> </td> </tr> </table> <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width:100%;padding-top:30px;\"> <tr> <td align=\"center\"> <table style=\"width:450px;\"> <tr> <td> <h1 style=\"color:#373737;font-size:42px;font-family:'Arial', sans serif;font-weight: 700;\">Caro(a) utilizador da empresa {{company}},</h1> <p style=\"color:#373737;font-size: 15px;line-height: 30px;font-family:'Arial', sans serif\">O contrato da sua empresa expirou. A partir deste momento a sua empresa encontra-se inactiva e todos os acessos serão negados.<br> Os dados da empresa que existam na aplicação serão guardados durante um período de {{years}} anos, depois disso serão eliminados.<br><br> Para mais informação sobre a reativação de conta ou uma remoção antecipada dos dados, por favor entre em contacto connosco.</p> </td> </tr> <tr> <td align=\"center\"> <br> <table style=\"width:150px;background:rgb(66, 139, 202);height:50px;\"> <tr> <td align=\"center\"> <a href=\"{{url}}\" style=\"font-weight:700;color:#FFF;;font-size:12px;text-decoration:none;;border-radius:3px;font-family:'Arial', sans serif\">Contactar</a> </td> </tr> </table> </td> </tr> <tr> <td style=\"padding-top:20px\"></td> </tr> <tr> <td align=\"center\"> <hr> <p style=\"color:#777; font-size:12px;font-family:'Arial', sans serif\">&copy; 2018 P&P. All rights reserved.</p> </td> </tr> </table> </td> </tr> </table> </body> </html>";
-            //emailTemplates.Add(companyContractExpiredNotify);
-
-            //EmailTemplate newDiagnosisSuggestNotify = new EmailTemplate();
-            //newDiagnosisSuggestNotify.Key = EmailTemplatesEnum.NewDiagnosisSuggestNotify.ToString();
-            //newDiagnosisSuggestNotify.Description = "Notificar a empresa de que já não cria um diagnóstico à algum tempo";
-            //newDiagnosisSuggestNotify.Language = "pt-PT";
-            //newDiagnosisSuggestNotify.Subject = "Sugestão novo diagnóstico";
-            //newDiagnosisSuggestNotify.Body = "<!DOCTYPE html> <html lang='en' style='font-size: 62.5%;color: rgba(33, 33, 33, 0.9);'> <head> <meta charset = \"UTF-8\"> </head> <body style='font-family: 'Arial', 'Helvetica Neue, Helvetica, Arial';margin:0;'> <table style=\"width:100%;height:150px;max-height:150px;background:#f4f4f4;border-bottom:1px solid #eaeaea\"> <tr> <td style=\"text-align:center\"> <img src=\"https://portal.izyrgpd.com/assets/images/logo.svg\" height=\"100\"> </td> </tr> </table> <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width:100%;padding-top:30px;\"> <tr> <td align=\"center\"> <table style=\"width:450px;\"> <tr> <td> <h1 style=\"color:#373737;font-size:42px;font-family:'Arial', sans serif;font-weight: 700;\">Caro(a) Utilizador(a) {{Name}} associado(a) à empresa {{company}},</h1> <p style=\"color:#373737;font-size: 15px;line-height: 30px;font-family:'Arial', sans serif\">Verificamos que não realizou nenhum diagnóstico nos últimos {{months}} meses.<br> Sugerimos que seja iniciado um novo diagnóstico de forma a assegurar a conformidade da sua empresa.</p> </td> </tr> <tr> <td align=\"center\"> <br> </td> </tr> <tr> <td style=\"padding-top:20px\"></td> </tr> <tr> <td align=\"center\"> <hr> <p style=\"color:#777; font-size:12px;font-family:'Arial', sans serif\">&copy; 2018 P&P. All rights reserved.</p> </td> </tr> </table> </td> </tr> </table> </body> </html>";
-            //emailTemplates.Add(newDiagnosisSuggestNotify);
 
             foreach (EmailTemplate obj in emailTemplates)
             {
-                if (!templatesRepository.GetFiltered(obj.Key, null, null, string.Empty, "asc").Any())
+                if (!templatesRepository.GetFiltered(obj.Key, obj.Language, null, null, string.Empty, "asc").Any())
                 {
                     templatesRepository.Add(obj);
                 }

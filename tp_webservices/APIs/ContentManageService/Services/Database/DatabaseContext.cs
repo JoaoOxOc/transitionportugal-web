@@ -41,6 +41,10 @@ namespace ContentManageService.Services.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<BannerTranslation>().HasKey(table => new {
+                table.LangKey,
+                table.PageKey
+            });
             base.OnModelCreating(modelBuilder);
             new DbSeeder(modelBuilder).Seed();
         }

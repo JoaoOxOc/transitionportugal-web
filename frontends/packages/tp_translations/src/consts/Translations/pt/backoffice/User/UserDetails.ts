@@ -4,25 +4,33 @@ export const USERDETAILS_TRANSLATIONS = deepFreeze({
     LABELS: {
         userCreate: "Registar Novo Utilizador",
         userDetails: "Detalhes do Utilizador - {{name}}",
-        clientAppCreate: "Registar Nova Autorização de Aplicação Cliente",
-        clientAppCreateSmall: "Registar Nova Aplicação Cliente",
+        userCreateSmall: "Registar Novo Utilizador",
         goBack: "Voltar",
-        registerClientAppInfo: "A chave da aplicação cliente será gerada automaticamente após o registo",
-        clientAppWarning: "Atenção à edição dos valores de ID e chave: a aplicação cliente pode deixar de funcionar"
+        accountStatus: "Estado da Conta",
+        active: "Activa",
+        inactive: "Inactiva",
+        accountEmailVerified: "Email Verificado",
+        emailVerified: "Verificado",
+        emailNotVerified: "Não Verificado",
+        userRole: "Função do utilizador: {{name}}",
+        registerUserInfo: "A chave da aplicação cliente será gerada automaticamente após o registo",
+        userWarning: "Atenção à edição dos valores de ID e chave: a aplicação cliente pode deixar de funcionar"
     },
     LIST: {
-        clientsTitle: "Aplicações Clientes",
+        usersTitle: "Utilizadores",
         home: "Home",
-        settings: "Definições",
-        clients: 'Aplicações Clientes'
+        management: "Administração",
+        users: 'Utilizadores'
     },
     FORM: {
-        name: "Nome da Aplicação Cliente",
-        description: "Descrição da Aplicação Cliente",
-        clientId: "ID da Aplicação Cliente",
-        clientSecret: "Chave da Aplicação Cliente",
-        updatedAt: "Actualizado em",
+        name: "Nome",
+        userName: "Username",
+        email: "Email do Utilizador",
+        association: "Associação/Entidade do Utilizador",
+        active: "Utilizador Activado",
+        verified: "Utilizador Verificado",
         createdAt: "Registado em",
+        updatedAt: "Actualizado em",
         saveButton: "Guardar"
     },
     MESSAGES: {

@@ -6,6 +6,7 @@
         public string? Name { get; set; }
         public string? UserName { get; set; }
         public string? Email { get; set; }
+        public string? UserRole { get; set; }
 
         public string? AssociationName { get; set; }
         public int? AssociationId { get; set; }

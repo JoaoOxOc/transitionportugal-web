@@ -32,6 +32,7 @@ export const ASSOCIATIONSLIST_TRANSLATIONS = deepFreeze({
         resentErrors: "Alguns emails não foram enviados para a(s) associação(ões) seleccionada(s). Por favor tente novamente",
         resentEmails: "Email(s) de verificação reenviado(s) para a(s) associação(ões) seleccionada(s)",
         associationsApproved: "A(s) associação(ões) seleccionada(s) está/estão agora aprovada(s)/activa(s)",
+        associationsRemoved: "A(s) associação(ões) seleccionada(s) foi/foram removida(s)",
         approvingErrors: "A/algumas associação(ões) seleccionada(s) não foi/foram aprovada(s). Por favor tente novamente",
         deleted: "A(s) associação(ões) seleccionada(s) foi/foram removida(s)",
         deletingErrors: "A/algumas associação(ões) seleccionada(s) não foi/foram eliminada(s). Por favor tente novamente"
@@ -45,6 +46,9 @@ export const ASSOCIATIONSLIST_TRANSLATIONS = deepFreeze({
     ACTIONS: {
         resendVerifyEmail: "Reenviar Email de Verificação",
         approveAssociation: "Aprovar Associações/Entidades",
-        delete: "Remover associação(ões) seleccionada(s)"
+        delete: "Remover associação(ões) seleccionada(s)",
+        resendVerifyEmailSingle: "Reenviar Email de Verificação",
+        approveAssociationSingle: "Aprovar esta Associação",
+        deleteSingle: "Remover esta Associação"
     }
 } as const);

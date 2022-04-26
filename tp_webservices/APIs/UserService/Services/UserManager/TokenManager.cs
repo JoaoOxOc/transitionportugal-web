@@ -86,6 +86,30 @@ namespace UserService.Services.UserManager
             };
         }
 
+        public JwtResponse GetClientToken(List<Claim> claims)
+        {
+            var privateKey = Convert.FromBase64String(_configuration["JWT:SecretPrivateKey"]);
+
+            using RSA rsa = RSA.Create();
+            rsa.ImportRSAPrivateKey(privateKey, out _);
+
+            var signingCredentials = new SigningCredentials(new RsaSecurityKey(rsa), SecurityAlgorithms.RsaSha256)
+            {
+                CryptoProviderFactory = new CryptoProviderFactory { CacheSignatureProviders = false }
+            };
+
+            var token = new JwtSecurityToken(
+                issuer: _configuration["JWT:ValidIssuer"],
+                claims: claims,
+                signingCredentials: signingCredentials
+                );
+
+            return new JwtResponse
+            {
+                Token = new JwtSecurityTokenHandler().WriteToken(token)
+            };
+        }
+
         /// <summary>
         /// read: https://github.com/cornflourblue/dotnet-6-jwt-refresh-tokens-api/blob/master/Controllers/UsersController.cs
         /// </summary>
@@ -143,9 +167,10 @@ namespace UserService.Services.UserManager
             {
                 Domain = _configuration["ApplicationSettings:CookieDomain"],
                 Expires = DateTime.Now.AddDays(refreshTokenValidityInDays),
+                IsEssential = true,
                 // Set the secure flag, which Chrome's changes will require for SameSite none.
                 // Note this will also require you to be running on HTTPS.
-                Secure = false,
+                Secure = true,
 
                 // Set the cookie to HTTP only which is good practice unless you really do need
                 // to access it client side in scripts.
@@ -154,7 +179,7 @@ namespace UserService.Services.UserManager
                 // Add the SameSite attribute, this will emit the attribute with a value of none.
                 // To not emit the attribute at all set
                 // SameSite = (SameSiteMode)(-1)
-                //SameSite = _configuration["ApplicationSettings:CookiePolicy"] == "None" ? SameSiteMode.None : (_configuration["ApplicationSettings:CookiePolicy"] == "Strict" ? SameSiteMode.Strict : SameSiteMode.Lax)
+                SameSite = _configuration["ApplicationSettings:CookiePolicy"] == "None" ? SameSiteMode.None : (_configuration["ApplicationSettings:CookiePolicy"] == "Strict" ? SameSiteMode.Strict : SameSiteMode.Lax)
             };
             cookie.CookieName = cookieName;
             cookie.CookieValue = StringHelper.GenerateRandomString(32);

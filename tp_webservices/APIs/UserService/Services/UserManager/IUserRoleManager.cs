@@ -13,5 +13,6 @@ namespace UserService.Services.UserManager
         List<IdentityRole> FindRolesByPartialName(string partialName, bool shouldContain = true);
 
         List<string> GetUserIdsByRole(string? role);
+        IdentityRole GetUserRoleByUserId(string userId);
     }
 }

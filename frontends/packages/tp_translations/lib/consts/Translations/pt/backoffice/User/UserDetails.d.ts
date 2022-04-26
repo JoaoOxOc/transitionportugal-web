@@ -2,25 +2,33 @@ export declare const USERDETAILS_TRANSLATIONS: {
     readonly LABELS: {
         readonly userCreate: "Registar Novo Utilizador";
         readonly userDetails: "Detalhes do Utilizador - {{name}}";
-        readonly clientAppCreate: "Registar Nova Autorização de Aplicação Cliente";
-        readonly clientAppCreateSmall: "Registar Nova Aplicação Cliente";
+        readonly userCreateSmall: "Registar Novo Utilizador";
         readonly goBack: "Voltar";
-        readonly registerClientAppInfo: "A chave da aplicação cliente será gerada automaticamente após o registo";
-        readonly clientAppWarning: "Atenção à edição dos valores de ID e chave: a aplicação cliente pode deixar de funcionar";
+        readonly accountStatus: "Estado da Conta";
+        readonly active: "Activa";
+        readonly inactive: "Inactiva";
+        readonly accountEmailVerified: "Email Verificado";
+        readonly emailVerified: "Verificado";
+        readonly emailNotVerified: "Não Verificado";
+        readonly userRole: "Função do utilizador: {{name}}";
+        readonly registerUserInfo: "A chave da aplicação cliente será gerada automaticamente após o registo";
+        readonly userWarning: "Atenção à edição dos valores de ID e chave: a aplicação cliente pode deixar de funcionar";
     };
     readonly LIST: {
-        readonly clientsTitle: "Aplicações Clientes";
+        readonly usersTitle: "Utilizadores";
         readonly home: "Home";
-        readonly settings: "Definições";
-        readonly clients: "Aplicações Clientes";
+        readonly management: "Administração";
+        readonly users: "Utilizadores";
     };
     readonly FORM: {
-        readonly name: "Nome da Aplicação Cliente";
-        readonly description: "Descrição da Aplicação Cliente";
-        readonly clientId: "ID da Aplicação Cliente";
-        readonly clientSecret: "Chave da Aplicação Cliente";
-        readonly updatedAt: "Actualizado em";
+        readonly name: "Nome";
+        readonly userName: "Username";
+        readonly email: "Email do Utilizador";
+        readonly association: "Associação/Entidade do Utilizador";
+        readonly active: "Utilizador Activado";
+        readonly verified: "Utilizador Verificado";
         readonly createdAt: "Registado em";
+        readonly updatedAt: "Actualizado em";
         readonly saveButton: "Guardar";
     };
     readonly MESSAGES: {
