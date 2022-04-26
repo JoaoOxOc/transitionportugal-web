@@ -20,6 +20,16 @@ export declare const USERDETAILS_TRANSLATIONS: {
         readonly management: "Administração";
         readonly users: "Utilizadores";
     };
+    readonly TABS: {
+        readonly main: "Editar Perfil";
+        readonly security: "Segurança/Password";
+    };
+    readonly ROLES: {
+        readonly associationAdmin: "Administrador da Associação";
+        readonly associationUser: "Utilizador da Associação";
+        readonly admin: "Administrador de Sistema";
+        readonly user: "Utilizador de Sistema";
+    };
     readonly FORM: {
         readonly name: "Nome";
         readonly userName: "Username";

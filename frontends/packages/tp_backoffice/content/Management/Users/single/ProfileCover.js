@@ -19,8 +19,10 @@ import UploadTwoToneIcon from '@mui/icons-material/UploadTwoTone';
 import MoreHorizTwoToneIcon from '@mui/icons-material/MoreHorizTwoTone';
 import DoneTwoToneIcon from '@mui/icons-material/DoneTwoTone';
 import CloseTwoToneIcon from '@mui/icons-material/CloseTwoTone';
+import LaunchTwoToneIcon from '@mui/icons-material/LaunchTwoTone';
 
 import BreadcrumbsDetailsComponent from '../../../../components/Breadcrumbs/BreadcrumbsDetailsComponent';
+import Link from '../../../../components/Link';
 import Label from '../../../../components/Label';
 import BulkActions from '../BulkActions';
 
@@ -102,6 +104,7 @@ const CardCoverAction = styled(Box)(
 
 const ProfileCover = ({ user, breadcrumbsDataJson }) => {
   const { t } = i18nextUserDetails;
+  let associationDetailsBaseUri = "/management/associations/single/";
 
   return (
     <>
@@ -133,18 +136,29 @@ const ProfileCover = ({ user, breadcrumbsDataJson }) => {
       { user && user.associationId ? (
           <>
             <CardCover>
-              <CardMedia image={user.coverImg} />
+              <CardMedia image={user.associationLogoImage} />
               <CardCoverAction>
-                <Input accept="image/*" id="change-cover" multiple type="file" />
+                <Tooltip title={t('LABELS.view')} arrow>
+                    <Link href={associationDetailsBaseUri + user.associationId} isNextLink={true}>
+                        <Button
+                          startIcon={<LaunchTwoToneIcon />}
+                          variant="contained"
+                          component="span"
+                        >
+                          {user.associationName}
+                        </Button>
+                    </Link>
+                </Tooltip>
+                {/* <Input accept="image/*" id="change-cover" multiple type="file" />
                 <label htmlFor="change-cover">
                   <Button
-                    startIcon={<UploadTwoToneIcon />}
+                    startIcon={<LaunchTwoToneIcon />}
                     variant="contained"
                     component="span"
                   >
                     {user.associationName}
                   </Button>
-                </label>
+                </label> */}
               </CardCoverAction>
             </CardCover>
             <AvatarAssociationWrapper>
@@ -186,7 +200,7 @@ const ProfileCover = ({ user, breadcrumbsDataJson }) => {
         <Typography gutterBottom variant="h4">
           {user.name}
         </Typography>
-        <Typography variant="subtitle2">{t("LABELS.userRole", {name: user.userRole})}</Typography>
+        <Typography variant="subtitle2">{t("LABELS.userRole", {name: user.userRole == "AssociationAdmin" ? t("ROLES.associationAdmin") : (user.userRole == "Admin" ? t("ROLES.admin") : (user.associationId ? t("ROLES.associationUser") : t("ROLES.user")))})}</Typography>
         <Typography
           sx={{
             py: 2

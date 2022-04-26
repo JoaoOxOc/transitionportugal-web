@@ -49,9 +49,9 @@ function UserDetails({isCreate, userId}) {
 
     const tabs = [
     //   { value: 'activity', label: t('Activity') },
-      { value: 'edit_profile', label: t('Edit Profile') },
+      { value: 'edit_profile', label: t('TABS.main') },
     //   { value: 'notifications', label: t('Notifications') },
-      { value: 'security', label: t('Passwords/Security') }
+      { value: 'security', label: t('TABS.security') }
     ];
 
     const handleTabsChange = (_event, value) => {
@@ -63,11 +63,16 @@ function UserDetails({isCreate, userId}) {
         const response = await GetUserData(process.env.NEXT_PUBLIC_API_BASE_URL + userUri);
 
         if (isMountedRef()) {
-            if (response.user) {
+            if (response.status) {
+              setUserError(response);
+              setUser({});
+            }
+            else {
                 setUser(response.user);
             }
         }
       } catch (err) {
+        setUserError(err);
         console.error(err);
       }
     }, [isMountedRef,userUri]);
@@ -116,9 +121,9 @@ function UserDetails({isCreate, userId}) {
             </Grid>
             <Grid item xs={12}>
               {/* {currentTab === 'activity' && <ActivityTab />} */}
-              {currentTab === 'edit_profile' && <EditProfileTab />}
+              {currentTab === 'edit_profile' && <EditProfileTab userData={user}/>}
               {/* {currentTab === 'notifications' && <NotificationsTab />} */}
-              {currentTab === 'security' && <SecurityTab />}
+              {currentTab === 'security' && <SecurityTab userData={user}/>}
             </Grid>
           </Grid>
         </Box>

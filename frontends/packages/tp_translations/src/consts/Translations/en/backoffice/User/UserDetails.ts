@@ -22,16 +22,35 @@ export const USERDETAILS_TRANSLATIONS = deepFreeze({
         management: "Management",
         users: 'Users'
     },
+    TABS: {
+        main: "Edit Profile",
+        security: "Password/Security"
+    },
+    ROLES: {
+        associationAdmin: "Association Administrator",
+        associationUser: "Association User",
+        admin: "System Administrator",
+        user: "System User"
+    },
     FORM: {
+        personalDetails: "Personal Details",
+        personalDetailsMessage: "Manage informations related to personal details",
+        accountContacts: "Contacts",
+        accountContactsMessage: "Manage account contacts",
+        accountSettings: "Account Settings",
+        accountSettingsMessage: "Manage settings related to account",
+        primaryContactType: "Main Contact Type",
         name: "Name",
         userName: "Username",
         email: "User Email",
+        phone: "User Phone Number",
         association: "User Association/Entity",
         active: "User Activated",
         verified: "User Verified",
         createdAt: "Registered At",
         updatedAt: "Updated at",
-        saveButton: "Save"
+        saveButton: "Save",
+        edit: "Edit"
     },
     MESSAGES: {
         nameTooBig: "Name is too big. Max characters: {{max}}",

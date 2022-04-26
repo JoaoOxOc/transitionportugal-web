@@ -21,6 +21,16 @@ export var USERDETAILS_TRANSLATIONS = deepFreeze({
         management: "Administração",
         users: 'Utilizadores'
     },
+    TABS: {
+        main: "Editar Perfil",
+        security: "Segurança/Password"
+    },
+    ROLES: {
+        associationAdmin: "Administrador da Associação",
+        associationUser: "Utilizador da Associação",
+        admin: "Administrador de Sistema",
+        user: "Utilizador de Sistema"
+    },
     FORM: {
         name: "Nome",
         userName: "Username",

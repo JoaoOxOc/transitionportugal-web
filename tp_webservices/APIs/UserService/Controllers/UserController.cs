@@ -99,6 +99,7 @@ namespace UserService.Controllers
                 model.IsEmailVerified = user.IsEmailVerified;
                 model.AssociationName = user.Association?.Name;
                 model.AssociationId = user.Association?.Id;
+                model.AssociationLogoImage = user.Association?.LogoImage;
                 model.UserRole = userRole?.Name;
             }
 

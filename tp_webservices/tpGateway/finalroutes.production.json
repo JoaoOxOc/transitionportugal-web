@@ -912,7 +912,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpemailservice",
+          "Host": "localhost",
           "Port": 3010
         }
       ],
@@ -929,7 +929,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpemailservice",
+          "Host": "localhost",
           "Port": 3010
         }
       ],
@@ -946,7 +946,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpemailservice",
+          "Host": "localhost",
           "Port": 3010
         }
       ],

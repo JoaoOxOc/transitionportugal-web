@@ -88,6 +88,11 @@ namespace UserService.Services.UserManager
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 };
 
+            if (user.AssociationId.HasValue)
+            {
+                authClaims.Add(new Claim("associationId", user.AssociationId.ToString()));
+            }
+
             foreach (var userRole in userRoles)
             {
                 authClaims.Add(new Claim(ClaimTypes.Role, userRole));

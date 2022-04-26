@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   Grid,
   Typography,
@@ -7,14 +8,30 @@ import {
   Divider,
   Button
 } from '@mui/material';
-import { i18nextAbout } from "@transitionpt/translations";
+import { i18nextUserDetails } from "@transitionpt/translations";
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import DoneTwoToneIcon from '@mui/icons-material/DoneTwoTone';
+import CloseTwoToneIcon from '@mui/icons-material/CloseTwoTone';
 import Text from '../../../../components/Text';
 import Label from '../../../../components/Label';
 
-function EditProfileTab() {
-  const { t } = i18nextAbout;
+import UserDetailsForm from './detailsForm';
+
+function EditProfileTab({userData}) {
+  const { t } = i18nextUserDetails;
+  const [isEditting, setIsEditting] = useState(false);
+  const [edittingCard, setEdittingCard] = useState();
+
+  const handleToggleEditting = (event) => {
+    console.log(event.target.dataset.edittingCard);
+    setEdittingCard(event.target.dataset.edittingCard);
+    setIsEditting(!isEditting);
+  }
+
+  const handleEditCancel = (value) => {
+    setEdittingCard('');
+    setIsEditting(false);
+  }
 
   return (
     <Grid container spacing={3}>
@@ -28,15 +45,17 @@ function EditProfileTab() {
           >
             <Box>
               <Typography variant="h4" gutterBottom>
-                {t('Personal Details')}
+                {t('FORM.personalDetails')}
               </Typography>
               <Typography variant="subtitle2">
-                {t('Manage informations related to your personal details')}
+                {t('FORM.personalDetailsMessage')}
               </Typography>
             </Box>
-            <Button variant="text" startIcon={<EditTwoToneIcon />}>
-              {t('Edit')}
-            </Button>
+            { !isEditting &&
+              <Button variant="text" data-editting-card="personalDetails" onClick={handleToggleEditting} startIcon={<EditTwoToneIcon />}>
+                {t('FORM.edit')}
+              </Button>
+            }
           </Box>
           <Divider />
           <CardContent
@@ -44,47 +63,42 @@ function EditProfileTab() {
               p: 4
             }}
           >
-            <Typography variant="subtitle2">
-              <Grid container spacing={0}>
-                <Grid item xs={12} sm={4} md={3} textAlign={{ sm: 'right' }}>
-                  <Box pr={3} pb={2}>
-                    {t('Name')}:
-                  </Box>
-                </Grid>
-                <Grid item xs={12} sm={8} md={9}>
-                  <Text color="black">
-                    <b>Craig Donin</b>
-                  </Text>
-                </Grid>
-                <Grid item xs={12} sm={4} md={3} textAlign={{ sm: 'right' }}>
-                  <Box pr={3} pb={2}>
-                    {t('Date of birth')}:
-                  </Box>
-                </Grid>
-                <Grid item xs={12} sm={8} md={9}>
-                  <Text color="black">
-                    <b>15 March 1977</b>
-                  </Text>
-                </Grid>
-                <Grid item xs={12} sm={4} md={3} textAlign={{ sm: 'right' }}>
-                  <Box pr={3} pb={2}>
-                    {t('Address')}:
-                  </Box>
-                </Grid>
-                <Grid item xs={12} sm={8} md={9}>
-                  <Box
-                    sx={{
-                      maxWidth: { xs: 'auto', sm: 300 }
-                    }}
-                  >
+            { isEditting == true && edittingCard == "personalDetails" ? 
+              (
+                <UserDetailsForm userData={userData} edittingCard={edittingCard} cancelEditting={handleEditCancel}/>
+              ) : (
+              <Typography variant="subtitle2">
+                <Grid container spacing={0}>
+                  <Grid item xs={12} sm={4} md={3} textAlign={{ sm: 'right' }}>
+                    <Box pr={3} pb={2}>
+                      {t('FORM.name')}:
+                    </Box>
+                  </Grid>
+                  <Grid item xs={12} sm={8} md={9}>
                     <Text color="black">
-                      1749 High Meadow Lane, SEQUOIA NATIONAL PARK, California,
-                      93262
+                      <b>{userData.name}</b>
                     </Text>
-                  </Box>
+                  </Grid>
+                  <Grid item xs={12} sm={4} md={3} textAlign={{ sm: 'right' }}>
+                    <Box pr={3} pb={2}>
+                      {t('FORM.userName')}:
+                    </Box>
+                  </Grid>
+                  <Grid item xs={12} sm={8} md={9}>
+                    <Box
+                      sx={{
+                        maxWidth: { xs: 'auto', sm: 300 }
+                      }}
+                    >
+                      <Text color="black">
+                        {userData.userName}
+                      </Text>
+                    </Box>
+                  </Grid>
                 </Grid>
-              </Grid>
-            </Typography>
+              </Typography>
+              )
+            }
           </CardContent>
         </Card>
       </Grid>
@@ -98,15 +112,79 @@ function EditProfileTab() {
           >
             <Box>
               <Typography variant="h4" gutterBottom>
-                {t('Account Settings')}
+                {t('FORM.accountContacts')}
               </Typography>
               <Typography variant="subtitle2">
-                {t('Manage details related to your account')}
+                {t('FORM.accountContactsMessage')}
               </Typography>
             </Box>
-            <Button variant="text" startIcon={<EditTwoToneIcon />}>
-              {t('Edit')}
-            </Button>
+            { !isEditting &&
+              <Button variant="text"  data-editting-card="contacts" onClick={handleToggleEditting} startIcon={<EditTwoToneIcon />}>
+                {t('FORM.edit')}
+              </Button>
+            }
+          </Box>
+          <Divider />
+          <CardContent
+            sx={{
+              p: 4
+            }}
+          >
+            { isEditting == true && edittingCard == "contacts" ? 
+              (
+                <UserDetailsForm userData={userData} edittingCard={edittingCard} cancelEditting={handleEditCancel}/>
+              ) : (
+                <Typography variant="subtitle2">
+                  <Grid container spacing={0}>
+                    <Grid item xs={12} sm={4} md={3} textAlign={{ sm: 'right' }}>
+                      <Box pr={3} pb={2}>
+                        {t('FORM.email')}:
+                      </Box>
+                    </Grid>
+                    <Grid item xs={12} sm={8} md={9}>
+                      <Text color="black">
+                        <b>{userData.email}</b>
+                      </Text>
+                      <Box pl={1} component="span">
+                        <Label color="success">{t('FORM.primaryContactType')}</Label>
+                      </Box>
+                    </Grid>
+                    <Grid item xs={12} sm={4} md={3} textAlign={{ sm: 'right' }}>
+                      <Box pr={3} pb={2}>
+                        {t('FORM.phone')}:
+                      </Box>
+                    </Grid>
+                    <Grid item xs={12} sm={8} md={9}>
+                      <Text color="black">
+                        <b>{userData.phoneNumber}</b>
+                      </Text>
+                    </Grid>
+                  </Grid>
+                </Typography>
+              )
+            }
+          </CardContent>
+        </Card>
+      </Grid>
+      <Grid item xs={12}>
+        <Card>
+          <Box
+            p={3}
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+          >
+            <Box>
+              <Typography variant="h4" gutterBottom>
+                {t('FORM.accountSettings')}
+              </Typography>
+              <Typography variant="subtitle2">
+                {t('FORM.accountSettingsMessage')}
+              </Typography>
+            </Box>
+            {/* <Button variant="text" onClick={handleToggleEditting} startIcon={<EditTwoToneIcon />}>
+              {t('FORM.edit')}
+            </Button> */}
           </Box>
           <Divider />
           <CardContent
@@ -116,7 +194,7 @@ function EditProfileTab() {
           >
             <Typography variant="subtitle2">
               <Grid container spacing={0}>
-                <Grid item xs={12} sm={4} md={3} textAlign={{ sm: 'right' }}>
+                {/* <Grid item xs={12} sm={4} md={3} textAlign={{ sm: 'right' }}>
                   <Box pr={3} pb={2}>
                     {t('Language')}:
                   </Box>
@@ -135,73 +213,28 @@ function EditProfileTab() {
                   <Text color="black">
                     <b>GMT +2</b>
                   </Text>
-                </Grid>
+                </Grid> */}
                 <Grid item xs={12} sm={4} md={3} textAlign={{ sm: 'right' }}>
                   <Box pr={3} pb={2}>
-                    {t('Account status')}:
+                    {t('LABELS.accountStatus')}:
                   </Box>
                 </Grid>
                 <Grid item xs={12} sm={8} md={9}>
-                  <Label color="success">
-                    <DoneTwoToneIcon fontSize="small" />
-                    <b>{t('Active')}</b>
+                  <Label color={userData && userData.isActive ? "success" : "error"}>
+                    {userData && userData.isActive ? <DoneTwoToneIcon fontSize="small" /> : <CloseTwoToneIcon fontSize="small" />}
+                    <b>{userData && userData.isActive ? t('LABELS.active') : t('LABELS.inactive')}</b>
                   </Label>
                 </Grid>
-              </Grid>
-            </Typography>
-          </CardContent>
-        </Card>
-      </Grid>
-      <Grid item xs={12}>
-        <Card>
-          <Box
-            p={3}
-            display="flex"
-            alignItems="center"
-            justifyContent="space-between"
-          >
-            <Box>
-              <Typography variant="h4" gutterBottom>
-                {t('Email Addresses')}
-              </Typography>
-              <Typography variant="subtitle2">
-                {t('Manage details related to your associated email addresses')}
-              </Typography>
-            </Box>
-            <Button variant="text" startIcon={<EditTwoToneIcon />}>
-              {t('Edit')}
-            </Button>
-          </Box>
-          <Divider />
-          <CardContent
-            sx={{
-              p: 4
-            }}
-          >
-            <Typography variant="subtitle2">
-              <Grid container spacing={0}>
                 <Grid item xs={12} sm={4} md={3} textAlign={{ sm: 'right' }}>
                   <Box pr={3} pb={2}>
-                    {t('Email ID')}:
+                    {t('LABELS.accountEmailVerified')}:
                   </Box>
                 </Grid>
                 <Grid item xs={12} sm={8} md={9}>
-                  <Text color="black">
-                    <b>example@demo.com</b>
-                  </Text>
-                  <Box pl={1} component="span">
-                    <Label color="success">{t('Primary')}</Label>
-                  </Box>
-                </Grid>
-                <Grid item xs={12} sm={4} md={3} textAlign={{ sm: 'right' }}>
-                  <Box pr={3} pb={2}>
-                    {t('Email ID')}:
-                  </Box>
-                </Grid>
-                <Grid item xs={12} sm={8} md={9}>
-                  <Text color="black">
-                    <b>demo@example.com</b>
-                  </Text>
+                  <Label color={userData && userData.isEmailVerified ? "success" : "error"}>
+                    {userData && userData.isEmailVerified ? <DoneTwoToneIcon fontSize="small" /> : <CloseTwoToneIcon fontSize="small" />}
+                    <b>{userData && userData.isEmailVerified ? t('LABELS.emailVerified') : t('LABELS.emailNotVerified')}</b>
+                  </Label>
                 </Grid>
               </Grid>
             </Typography>
