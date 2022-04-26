@@ -49,5 +49,20 @@ namespace UserService.Services.UserManager
             }
             return userIds;
         }
+        public IdentityRole GetUserRoleByUserId(string userId)
+        {
+            IdentityRole role = null;
+            if (!string.IsNullOrEmpty(userId))
+            {
+                Expression<Func<IdentityUserRole<string>, bool>> filter = (x => x.UserId == userId);
+                var userRole = _uow.IdentityUserRoleRepository.Get(null, null, filter, "RoleId", SortDirection.Ascending).FirstOrDefault();
+                if (userRole != null)
+                {
+                    Expression<Func<IdentityRole, bool>> filterRole = (x => x.Id == userRole.RoleId);
+                    role = _uow.IdentityRoleRepository.Get(null, null, filterRole, "Name", SortDirection.Ascending).FirstOrDefault();
+                }
+            }
+            return role;
+        }
     }
 }

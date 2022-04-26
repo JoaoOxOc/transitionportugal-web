@@ -82,6 +82,8 @@ namespace UserService.Controllers
         {
             UserReadModel model = new UserReadModel();
 
+            var userRole = _userRoleManager.GetUserRoleByUserId(user.Id);
+
             if (user != null)
             {
 
@@ -94,8 +96,10 @@ namespace UserService.Controllers
                 model.UpdatedAt = user.UpdatedAt;
                 model.IsVerified = user.IsVerified;
                 model.IsActive = user.IsActive;
+                model.IsEmailVerified = user.IsEmailVerified;
                 model.AssociationName = user.Association?.Name;
                 model.AssociationId = user.Association?.Id;
+                model.UserRole = userRole?.Name;
             }
 
             return model;
@@ -215,7 +219,7 @@ namespace UserService.Controllers
 
                     if (user != null && user.AssociationId.HasValue)
                     {
-                        user.Association = _uow.AssociationRepository.GetById(id);
+                        user.Association = _uow.AssociationRepository.GetById(user.AssociationId.Value);
                     }
 
                     return user != null ? Ok(new
@@ -226,7 +230,7 @@ namespace UserService.Controllers
                 }
                 catch (Exception ex)
                 {
-                    return StatusCode(StatusCodes.Status500InternalServerError, null);
+                    return StatusCode(StatusCodes.Status500InternalServerError, ex.Message + "| " + ex.StackTrace);
                 }
             }
             return Forbid();

@@ -3,21 +3,23 @@ import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
-import AccentHeaderLayout from '../../../../layouts/AccentHeaderLayout';
-import { Authenticated } from '../../../../components/Authenticated';
-import { Authorized } from '../../../../components/Authorized';
+import AccentHeaderLayout from '../../layouts/AccentHeaderLayout';
+import { Authenticated } from '../../components/Authenticated';
+import { Authorized } from '../../components/Authorized';
 
-import Footer from '../../../../components/Footer';
+import Footer from '../../components/Footer';
 
 import { i18nextUserDetails } from "@transitionpt/translations";
-import UserDetails from '../../../../content/Management/Users/single/details';
+import UserDetails from '../../content/Management/Users/single/details';
 
 
-function ManagementUsersView() {
+function UserProfileView() {
     const router = useRouter();
     const { t } = i18nextUserDetails;
     const [currentLang, setLang] = useState("pt");
     i18nextUserDetails.changeLanguage(currentLang);
+
+    //TODO: get user id from token
 
     useEffect(() => {
         const handleNewMessage = (event) => {
@@ -33,18 +35,18 @@ function ManagementUsersView() {
         <title>{t('LABELS.userDetails')}</title>
       </Head>
 
-      <UserDetails isCreate={false} userId={router.query.userId}/>
+      <UserDetails isCreate={false} userId={""}/>
       <Footer />
     </>
   );
 }
 
-ManagementUsersView.getLayout = (page) => (
+UserProfileView.getLayout = (page) => (
   <Authenticated>
-    <Authorized scopes={["users.write"]}>
+    <Authorized scopes={["user.write"]}>
         <AccentHeaderLayout>{page}</AccentHeaderLayout>
     </Authorized>
   </Authenticated>
 );
 
-export default ManagementUsersView;
+export default UserProfileView;

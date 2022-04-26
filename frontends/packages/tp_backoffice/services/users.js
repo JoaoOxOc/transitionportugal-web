@@ -2,7 +2,6 @@ import { buildRouteQuery, genericFetch } from './genericFetch';
 
 export const GetUsers = async(usersApiUri, searchDataJson) => {
     usersApiUri += buildRouteQuery(searchDataJson);
-    console.log(usersApiUri);
     let response = await genericFetch(usersApiUri, "GET", window.sessionStorage.getItem('accessToken'),{});
     if (response.requestAgain) {
         response = await genericFetch(usersApiUri, "GET", window.sessionStorage.getItem('accessToken'),{});

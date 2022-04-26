@@ -2,7 +2,6 @@ import { buildRouteQuery, genericFetch } from './genericFetch';
 
 export const GetAssociations = async(associationsApiUri, searchDataJson) => {
     associationsApiUri += buildRouteQuery(searchDataJson);
-    console.log(associationsApiUri);
     let response = await genericFetch(associationsApiUri, "GET", window.sessionStorage.getItem('accessToken'),{});
     if (response.requestAgain) {
         response = await genericFetch(associationsApiUri, "GET", window.sessionStorage.getItem('accessToken'),{});
