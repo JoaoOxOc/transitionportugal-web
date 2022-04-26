@@ -86,6 +86,30 @@ namespace UserService.Services.UserManager
             };
         }
 
+        public JwtResponse GetClientToken(List<Claim> claims)
+        {
+            var privateKey = Convert.FromBase64String(_configuration["JWT:SecretPrivateKey"]);
+
+            using RSA rsa = RSA.Create();
+            rsa.ImportRSAPrivateKey(privateKey, out _);
+
+            var signingCredentials = new SigningCredentials(new RsaSecurityKey(rsa), SecurityAlgorithms.RsaSha256)
+            {
+                CryptoProviderFactory = new CryptoProviderFactory { CacheSignatureProviders = false }
+            };
+
+            var token = new JwtSecurityToken(
+                issuer: _configuration["JWT:ValidIssuer"],
+                claims: claims,
+                signingCredentials: signingCredentials
+                );
+
+            return new JwtResponse
+            {
+                Token = new JwtSecurityTokenHandler().WriteToken(token)
+            };
+        }
+
         /// <summary>
         /// read: https://github.com/cornflourblue/dotnet-6-jwt-refresh-tokens-api/blob/master/Controllers/UsersController.cs
         /// </summary>

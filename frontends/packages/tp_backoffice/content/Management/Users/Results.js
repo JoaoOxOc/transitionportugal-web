@@ -27,12 +27,15 @@ import {
     Typography,
     Dialog,
     Zoom,
+    Icon,
+    FormControlLabel,
     styled
   } from '@mui/material';
 
 import Loader from '../../../components/Loader';
 import { useRefMounted } from '../../../hooks/useRefMounted';
 import { UsersSearchContext } from '../../../contexts/Search/UsersSearchContext';
+import { UsersActionsContext } from '../../../contexts/Actions/UsersActionsContext';
 import { GetUsers } from '../../../services/users';
 import { useErrorHandler } from 'react-error-boundary';
 
@@ -41,12 +44,16 @@ import Link from '../../../components/Link';
 import clsx from 'clsx';
 import LaunchTwoToneIcon from '@mui/icons-material/LaunchTwoTone';
 import Label from '../../../components/Label';
-// import BulkActions from './BulkActions';
+import BulkActions from './BulkActions';
 import GridViewTwoToneIcon from '@mui/icons-material/GridViewTwoTone';
 import TableRowsTwoToneIcon from '@mui/icons-material/TableRowsTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import { useSnackbar } from 'notistack';
 import MoreVertTwoToneIcon from '@mui/icons-material/MoreVertTwoTone';
+import CheckTwoToneIcon from '@mui/icons-material/CheckTwoTone';
+import CloseTwoToneIcon from '@mui/icons-material/CloseTwoTone';
+import MarkEmailReadTwoToneIcon from '@mui/icons-material/MarkEmailReadTwoTone';
+import UnsubscribeTwoToneIcon from '@mui/icons-material/UnsubscribeTwoTone';
 
 import SearchBar from './SearchBar';
 import ResultsHeader from '../../../components/Table/Header';
@@ -105,24 +112,52 @@ const AvatarError = styled(Avatar)(
     `
   );
 
+  const IconActive = styled(Icon)(
+    ({ theme }) => `
+       background: ${theme.colors.success.dark};
+       color: ${theme.palette.success.contrastText};
+       width: 50px;
+       height: 40px;
+       border-radius: 10px;
+       padding: 6px;
+      `
+);
+
+const IconInactive = styled(Icon)(
+    ({ theme }) => `
+       background: ${theme.colors.error.dark};
+       color: ${theme.palette.error.contrastText};
+       width: 50px;
+       height: 40px;
+       border-radius: 10px;
+       padding: 6px;
+      `
+);
+
   const Transition = forwardRef(function Transition(props, ref) {
     return <Slide direction="down" ref={ref} {...props} />;
   });
 
-const Results = () => {
+const Results = ({associationId}) => {
     const { t } = i18nextUsersList;
     const isMountedRef = useRefMounted();
     const usersSearchData = useContext(UsersSearchContext);
+    const usersActionsData = useContext(UsersActionsContext);
     const [usersError, setUsersError] = useState(null);
     useErrorHandler(usersError);
     const [users, setUsers] = useState(null);
     const [selectedItems, setSelectedUsers] = useState([]);
     const [totalUsers, setTotalUsers] = useState(0);
+    const [tabSelected, setTabSelected] = useState('all');
 
     let usersApiUri = "/users/get";
     let userDetailsBaseUri = "/management/users/single/";
 
     const headCells = [
+        {
+            id: 'selectAll',
+            isCheckbox: true,
+        },
         {
             id: 'UserName',
             isSort: true,
@@ -141,7 +176,7 @@ const Results = () => {
             id: 'Email',
             isSort: true,
             disablePadding: false,
-            align: 'center',
+            align: 'left',
             label: t('USEROBJECT.email'),
         },
         {
@@ -150,6 +185,13 @@ const Results = () => {
             disablePadding: false,
             align: 'center',
             label: t('USEROBJECT.active'),
+        },
+        {
+            id: 'IsEmailVerified',
+            isSort: true,
+            disablePadding: false,
+            align: 'center',
+            label: t('USEROBJECT.verified'),
         },
         {
             id: 'actions',
@@ -183,9 +225,12 @@ const Results = () => {
   
     useEffect(() => {
           if (usersSearchData.doSearch) {
+              if (associationId) {
+                usersSearchData.searchData.associationId = associationId;
+              }
               getUsersData(usersSearchData.searchData);
           }
-    }, [usersSearchData, getUsersData]);
+    }, [usersSearchData, getUsersData, associationId]);
 
     const tabs = [
         {
@@ -209,24 +254,29 @@ const Results = () => {
     
         setUsers([]);
         setSelectedUsers([]);
+        setTabSelected(tabsValue);
     };
 
     const handleSelectAllUsers = (event) => {
-        setSelectedUsers(event.target.checked ? users.map((user) => user.id) : []);
+        const selected = (event.target.checked == true) ? users.map((user) => user.id) : [];
+        setSelectedUsers(selected);
+        usersActionsData.selectedUsers = selected;
     };
     
     const handleSelectOneUser = (_event, userId) => {
+        const selected = [];
         if (!selectedItems.includes(userId)) {
-          setSelectedUsers((prevSelected) => [...prevSelected, userId]);
+            selected.push(userId);
         } else {
-          setSelectedUsers((prevSelected) =>
-            prevSelected.filter((id) => id !== userId)
-          );
+            selected = selectedItems.filter((id) => id !== userId);
         }
+        setSelectedUsers(selected);
+        usersActionsData.selectedUsers = selected;
     };
 
-    const selectedSomeUsers = selectedItems.length > 0 && selectedItems.length < users ? users.length : 0;
-    const selectedAllUsers = selectedItems.length === users ? users.length : 0;
+    const selectedSomeUsers = users && selectedItems.length > 0 && selectedItems.length < users.length ? users.length : 0;
+    const selectedAllUsers = users && selectedItems.length === users.length ? users.length : 0;
+    const selectedBulkActions = selectedItems.length > 0;
 
     const [toggleView, setToggleView] = useState('table_view');
 
@@ -243,17 +293,19 @@ const Results = () => {
                 justifyContent={{ xs: 'center', sm: 'space-between' }}
                 pb={3}
             >
-                <TabsWrapper
-                    onChange={handleTabsChange}
-                    scrollButtons="auto"
-                    textColor="secondary"
-                    value={usersSearchData.searchData.userRole || 'all'}
-                    variant="scrollable"
-                    >
-                {tabs.map((tab) => (
-                    <Tab key={tab.value} value={tab.value} label={tab.label} />
-                ))}
-                </TabsWrapper>
+                {!associationId &&
+                    <TabsWrapper
+                        onChange={handleTabsChange}
+                        scrollButtons="auto"
+                        textColor="secondary"
+                        value={usersSearchData.searchData.userRole || 'all'}
+                        variant="scrollable"
+                        >
+                    {tabs.map((tab) => (
+                        <Tab key={tab.value} value={tab.value} label={tab.label} />
+                    ))}
+                    </TabsWrapper>
+                }
                 <ToggleButtonGroup
                     sx={{
                         mt: { xs: 2, sm: 0 }
@@ -272,7 +324,7 @@ const Results = () => {
             </Box>
             {toggleView === 'table_view' && (
                 <Card>
-                    <SearchBar/>
+                    <SearchBar isAllUsersTab={!associationId && tabSelected == 'all' ? true : false} itemsSelected={selectedBulkActions}/>
 
                     <Divider />
 
@@ -295,23 +347,25 @@ const Results = () => {
                         <TableContainer>
                             <Table>
                                 <TableHead>
-                                    <TableCell padding="checkbox">
-                                        <Checkbox
-                                        checked={selectedAllUsers}
-                                        indeterminate={selectedSomeUsers}
-                                        onChange={handleSelectAllUsers}
-                                        />
-                                    </TableCell>
-                                    <ResultsHeader headerCells={headCells} defaultSort={'UserName'} defaultSortDirection={'asc'} searchContext={usersSearchData}/>
+                                    <ResultsHeader selectedAll={handleSelectAllUsers} selectAllCount={selectedAllUsers} selectSomeCount={selectedSomeUsers}  headerCells={headCells} defaultSort={'UserName'} defaultSortDirection={'asc'} searchContext={usersSearchData}/>
                                 </TableHead>
                                 <TableBody>
                                     {!users || users.length == 0 ? (
                                         <Loader />
                                     ) : (
                                     users.map((user) => {
-                                    // const isUserSelected = selectedItems.includes(user.id);
+                                    const isUserSelected = selectedItems.includes(user.id);
                                     return (
                                         <TableRow hover key={user.id}>
+                                            <TableCell padding="checkbox">
+                                                <Checkbox
+                                                    checked={isUserSelected}
+                                                    onChange={(event) =>
+                                                        handleSelectOneUser(event, user.id)
+                                                    }
+                                                    value={isUserSelected}
+                                                />
+                                            </TableCell>
                                             <TableCell>
                                                 <Typography variant="h5">
                                                 {user.userName}
@@ -340,8 +394,43 @@ const Results = () => {
                                             <TableCell>
                                                 <Typography>{user.email}</Typography>
                                             </TableCell>
-                                            <TableCell>
-                                                <Typography>{user.isActive}</Typography>
+                                            <TableCell align="center">
+                                              <Typography>
+                                                  { user.isActive == true ?
+                                                    (
+                                                        <IconActive
+                                                            color="primary"
+                                                            >
+                                                            <CheckTwoToneIcon/>
+                                                        </IconActive>
+                                                    ) : (
+                                                        <IconInactive
+                                                            color="primary"
+                                                            >
+                                                            <CloseTwoToneIcon/>
+                                                        </IconInactive>
+                                                    )
+                                                  }
+                                              </Typography>
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                    <Typography>
+                                                        { user.isEmailVerified == true ?
+                                                            (
+                                                                <IconActive
+                                                                    color="primary"
+                                                                    >
+                                                                    <MarkEmailReadTwoToneIcon/>
+                                                                </IconActive>
+                                                            ) : (
+                                                                <IconInactive
+                                                                    color="primary"
+                                                                    >
+                                                                    <UnsubscribeTwoToneIcon/>
+                                                                </IconInactive>
+                                                            )
+                                                        }
+                                                    </Typography>
                                             </TableCell>
                                             {/* <TableCell align="center">
                                                 <Typography fontWeight="bold">
@@ -397,7 +486,27 @@ const Results = () => {
                         }}
                     >
                         {users && users.length > 0 && (
-                            <SearchBar/>
+                            <>
+                                <SearchBar isAllUsersTab={!associationId && tabSelected == 'all' ? true : false} itemsSelected={selectedBulkActions}/>
+                                <Box
+                                    display="flex"
+                                    alignItems="center"
+                                    justifyContent="space-between"
+                                >
+                                    <Box display="flex" alignItems="center">
+                                        <FormControlLabel
+                                            sx={{
+                                                paddingLeft: '20px'
+                                            }}
+                                            control={<Checkbox
+                                                checked={selectedAllUsers > 0}
+                                                indeterminate={selectedSomeUsers > 0}
+                                                onChange={handleSelectAllUsers}
+                                            />}
+                                            label={t('LABELS.selectAll')} />
+                                    </Box>
+                                </Box>
+                            </>
                         )}
                     </Card>
                     {!users || users.length === 0 ? (
@@ -416,7 +525,7 @@ const Results = () => {
                     <>
                         <Grid container spacing={3}>
                         {users.map((user) => {
-                            const isUserSelected = false;//selectedItems.includes(user.id);
+                            const isUserSelected = selectedItems.includes(user.id);
 
                             return (
                                 <Grid item xs={12} sm={6} md={4} key={user.id}>
@@ -431,6 +540,23 @@ const Results = () => {
                                             zIndex: '2'
                                         }}
                                         >
+                                        <Box
+                                            pl={2}
+                                            py={1}
+                                            pr={1}
+                                            display="flex"
+                                            alignItems="center"
+                                            justifyContent="space-between"
+                                        >
+                                            <Checkbox
+                                                checked={isUserSelected}
+                                                onChange={(event) =>
+                                                    handleSelectOneUser(event, user.id)
+                                                }
+                                                value={isUserSelected}
+                                            />
+                                        </Box>
+                                        <Divider />
                                         <Box
                                             px={2}
                                             pt={2}
@@ -493,25 +619,57 @@ const Results = () => {
                                             </Box>
                                         </Box>
                                         <Divider />
-                                        {/* <Box
-                                            pl={2}
-                                            py={1}
-                                            pr={1}
-                                            display="flex"
-                                            alignItems="center"
-                                            justifyContent="space-between"
-                                        >
-                                            <Typography>
-                                            <b>{user.posts}</b> {t('posts')}
-                                            </Typography>
-                                            <Checkbox
-                                            checked={isUserSelected}
-                                            onChange={(event) =>
-                                                handleSelectOneUser(event, user.id)
-                                            }
-                                            value={isUserSelected}
-                                            />
-                                        </Box> */}
+                                        <Box
+                                          pl={2}
+                                          py={1}
+                                          pr={1}
+                                          display="flex"
+                                          alignItems="center"
+                                          justifyContent="space-between"
+                                      >
+                                        <Typography>
+                                            <Tooltip title={t('USEROBJECT.active')} arrow>
+                                                { user.isActive == true ?
+                                                    (
+                                                        <IconActive
+                                                            color="primary"
+                                                            >
+                                                            <CheckTwoToneIcon/>
+                                                        </IconActive>
+                                                    ) : (
+                                                        <IconInactive
+                                                            color="primary"
+                                                            >
+                                                            <CloseTwoToneIcon/>
+                                                        </IconInactive>
+                                                    )
+                                                }
+                                            </Tooltip>
+                                            <Tooltip title={t('USEROBJECT.verified')} arrow>
+                                                { user.isEmailVerified == true ?
+                                                    (
+                                                        <IconActive
+                                                            color="primary"
+                                                            sx={{
+                                                                ml: '5px'
+                                                            }}
+                                                            >
+                                                            <MarkEmailReadTwoToneIcon/>
+                                                        </IconActive>
+                                                    ) : (
+                                                        <IconInactive
+                                                            color="primary"
+                                                            sx={{
+                                                                ml: '5px'
+                                                            }}
+                                                            >
+                                                            <UnsubscribeTwoToneIcon/>
+                                                        </IconInactive>
+                                                    )
+                                                }
+                                            </Tooltip>
+                                        </Typography>
+                                      </Box>
                                     </Box>
                                 </CardWrapper>
                                 </Grid>

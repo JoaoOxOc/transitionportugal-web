@@ -19,6 +19,10 @@
 
         public string? RefreshToken { get; set; }
 
+        public bool TermsConsent { get; set; }
+
+        public decimal TermsConsentVersion { get; set; }
+
         public DateTime RefreshTokenExpiryTime { get; set; }
 
         #region Metadata
@@ -29,5 +33,7 @@
         public DateTime? UpdatedAt { get; set; }
 
         #endregion
+
+        public virtual ICollection<NewsletterSubscription> NewsletterSubscriptions { get; set; }
     }
 }

@@ -2,7 +2,6 @@ import { buildRouteQuery, genericFetch } from './genericFetch';
 
 export const GetAssociations = async(associationsApiUri, searchDataJson) => {
     associationsApiUri += buildRouteQuery(searchDataJson);
-    console.log(associationsApiUri);
     let response = await genericFetch(associationsApiUri, "GET", window.sessionStorage.getItem('accessToken'),{});
     if (response.requestAgain) {
         response = await genericFetch(associationsApiUri, "GET", window.sessionStorage.getItem('accessToken'),{});
@@ -62,6 +61,17 @@ export const ApproveAssociations = async(associationsApiUri, associationDataJson
     let response = await genericFetch(associationsApiUri, "POST", window.sessionStorage.getItem('accessToken'),associationDataJson);
     if (response.requestAgain) {
         response = await genericFetch(associationsApiUri, "POST", window.sessionStorage.getItem('accessToken'),associationDataJson);
+    }
+    else if (response.status == 404) {
+        response.associations = [];
+    }
+    return response;
+}
+
+export const DeleteAssociations = async(associationsApiUri, associationDataJson) => {
+    let response = await genericFetch(associationsApiUri, "DELETE", window.sessionStorage.getItem('accessToken'),associationDataJson);
+    if (response.requestAgain) {
+        response = await genericFetch(associationsApiUri, "DELETE", window.sessionStorage.getItem('accessToken'),associationDataJson);
     }
     else if (response.status == 404) {
         response.associations = [];

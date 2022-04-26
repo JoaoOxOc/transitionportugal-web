@@ -19,10 +19,9 @@ namespace EmailService.Consumers
 
         public async Task Consume(ConsumeContext<EmailVM> context)
         {
-            // TODO: deal with email template and email send
-
             var mailData = EmailTemplateReplacer.ProcessEmailTemplate(_emailTemplateRepo, context.Message);
-            _emailService.SendMail(mailData.To, mailData.Subject, mailData.Body);
+            bool sent = _emailService.SendMail(mailData.To, mailData.Subject, mailData.Body);
+            // TODO: deal with message not sent
         }
     }
 }

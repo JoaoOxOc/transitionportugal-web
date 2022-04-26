@@ -2,7 +2,6 @@ import { buildRouteQuery, genericFetch } from './genericFetch';
 
 export const GetUsers = async(usersApiUri, searchDataJson) => {
     usersApiUri += buildRouteQuery(searchDataJson);
-    console.log(usersApiUri);
     let response = await genericFetch(usersApiUri, "GET", window.sessionStorage.getItem('accessToken'),{});
     if (response.requestAgain) {
         response = await genericFetch(usersApiUri, "GET", window.sessionStorage.getItem('accessToken'),{});
@@ -43,6 +42,39 @@ export const CreateUser = async(usersApiUri, userDataJson) => {
     }
     else if (response.status == 404) {
         response.user = {};
+    }
+    return response;
+}
+
+export const ResendEmails = async(usersApiUri, userDataJson) => {
+    let response = await genericFetch(usersApiUri, "POST", window.sessionStorage.getItem('accessToken'),userDataJson);
+    if (response.requestAgain) {
+        response = await genericFetch(usersApiUri, "POST", window.sessionStorage.getItem('accessToken'),userDataJson);
+    }
+    else if (response.status == 404) {
+        response.users = [];
+    }
+    return response;
+}
+
+export const ApproveUsers = async(usersApiUri, userDataJson) => {
+    let response = await genericFetch(usersApiUri, "POST", window.sessionStorage.getItem('accessToken'),userDataJson);
+    if (response.requestAgain) {
+        response = await genericFetch(usersApiUri, "POST", window.sessionStorage.getItem('accessToken'),userDataJson);
+    }
+    else if (response.status == 404) {
+        response.users = [];
+    }
+    return response;
+}
+
+export const DeleteUsers = async(usersApiUri, userDataJson) => {
+    let response = await genericFetch(usersApiUri, "DELETE", window.sessionStorage.getItem('accessToken'),userDataJson);
+    if (response.requestAgain) {
+        response = await genericFetch(usersApiUri, "DELETE", window.sessionStorage.getItem('accessToken'),userDataJson);
+    }
+    else if (response.status == 404) {
+        response.users = [];
     }
     return response;
 }

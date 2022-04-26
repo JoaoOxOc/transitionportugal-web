@@ -30,6 +30,7 @@ export declare const ASSOCIATIONSLIST_TRANSLATIONS: {
         readonly resentErrors: "Some emails were not sent for the selected association(s). Please try again";
         readonly resentEmails: "Verification Email resent to the selected association(s)";
         readonly associationsApproved: "The selected association(s) are now approved/activated";
+        readonly associationsRemoved: "The selected association(s) are now removed";
         readonly approvingErrors: "Some selected association(s) weren't approved. Please try again";
         readonly deleted: "The selected association(s) were deleted";
         readonly deletingErrors: "Some selected association(s) weren't deleted. Please try again";
@@ -44,6 +45,9 @@ export declare const ASSOCIATIONSLIST_TRANSLATIONS: {
         readonly resendVerifyEmail: "Resend Verification Email";
         readonly approveAssociation: "Approve Associations/Entities";
         readonly delete: "Delete selected association(s)";
+        readonly resendVerifyEmailSingle: "Resend Verification Email";
+        readonly approveAssociationSingle: "Approve this Association";
+        readonly deleteSingle: "Delete this association";
     };
 };
 //# sourceMappingURL=AssociationsList.d.ts.map

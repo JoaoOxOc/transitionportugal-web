@@ -15,6 +15,7 @@ import { Box,
   Alert
 } from '@mui/material';
 
+import BulkActions from '../BulkActions';
 import { useRefMounted } from '../../../../hooks/useRefMounted';
 
 import { GetAssociationData } from '../../../../services/associations';
@@ -73,10 +74,24 @@ function AssociationDetails({isCreate}) {
 
     return (
     <>
-      {association ?
+      {isCreate || association ?
         (
         <PageTitleWrapper>
-          <DetailsPageHeader breadcrumbsDataJson={breadcrumbsData} detailsTitle={isCreate ? t('LABELS.associationCreate') : association.name} goBackLabel={t('LABELS.goBack')} goBackUrl={associationsListUri}/>
+          <DetailsPageHeader displayAvatar={isCreate ? false : true} avatarUrl={isCreate ? "" : association.logoImage} breadcrumbsDataJson={breadcrumbsData} detailsTitle={isCreate ? t('LABELS.associationCreate') : association.name} goBackLabel={t('LABELS.goBack')} goBackUrl={associationsListUri}/>
+          {association &&
+            <Grid
+              sx={{ px: 4, pt: 4 }}
+              container
+              direction="row"
+              justifyContent="right"
+              alignItems="stretch"
+              spacing={3}
+            >
+              <Grid item xs={12} md={6} lg={4} justifyContent="right">
+                <BulkActions isSingleRecord={true} recordId={association.id} recordIsVerified={association.isEmailVerified} recordIsActivated={association.isActive}/>
+              </Grid>
+            </Grid>
+          }
         </PageTitleWrapper>
         ) : (<></>)
       }

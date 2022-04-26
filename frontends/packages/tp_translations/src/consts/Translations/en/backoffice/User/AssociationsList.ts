@@ -32,6 +32,7 @@ export const ASSOCIATIONSLIST_TRANSLATIONS = deepFreeze({
         resentErrors: "Some emails were not sent for the selected association(s). Please try again",
         resentEmails: "Verification Email resent to the selected association(s)",
         associationsApproved: "The selected association(s) are now approved/activated",
+        associationsRemoved: "The selected association(s) are now removed",
         approvingErrors: "Some selected association(s) weren't approved. Please try again",
         deleted: "The selected association(s) were deleted",
         deletingErrors: "Some selected association(s) weren't deleted. Please try again"
@@ -45,6 +46,9 @@ export const ASSOCIATIONSLIST_TRANSLATIONS = deepFreeze({
     ACTIONS: {
         resendVerifyEmail: "Resend Verification Email",
         approveAssociation: "Approve Associations/Entities",
-        delete: "Delete selected association(s)"
+        delete: "Delete selected association(s)",
+        resendVerifyEmailSingle: "Resend Verification Email",
+        approveAssociationSingle: "Approve this Association",
+        deleteSingle: "Delete this association"
     }
 } as const);

@@ -13,6 +13,7 @@ namespace UserService.Services.UserManager
         Task<List<Claim>> GetUserClaims(User user);
         Task<List<Claim>> GetUserClaimsPasswordRecovery(User user);
         Task<List<Claim>> GetAssociationClaimsConfirmEmail(Association association);
+        Task<List<Claim>> GetNewsletterSubscriptionClaims();
         Task<IdentityResult> CreateUser(User user, string password, string roleName);
         Task<IdentityResult> UpdateUser(User user);
         Task<bool> UpdateUserPassword(string userId, string newPassword);
