@@ -443,7 +443,7 @@ const Results = ({associationId}) => {
                                             <TableCell>{getUserRoleLabel(user.role)}</TableCell> */}
                                             <TableCell align="center">
                                                 <Typography noWrap>
-                                                <Tooltip title={t('View')} arrow>
+                                                <Tooltip title={t('LABELS.view')} arrow>
                                                     <Link href={userDetailsBaseUri + user.id} isNextLink={true}>
                                                         <IconButton
                                                         color="primary"

@@ -25,6 +25,8 @@ namespace EmailService.Model
 
         public string BodyHtml { get; set; }
 
+        public BsonDocument BodyParameters { get; set; }
+
         #region MetaData
 
         [BsonDateTimeOptions(Kind = DateTimeKind.Local, Representation = BsonType.DateTime)]

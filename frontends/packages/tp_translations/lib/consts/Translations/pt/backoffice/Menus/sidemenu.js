@@ -1,5 +1,12 @@
 import * as deepFreeze from 'deep-freeze';
 export var SIDEMENU_TRANSLATIONS = deepFreeze({
+    SIDEMENU_USER: {
+        profile: "Perfil",
+        inbox: "Caixa de Entrada",
+        projects: "Projectos",
+        posts: "Publicações",
+        logout: "Logout",
+    },
     SIDEMENU_HEADERS: {
         general: "Geral",
         content: "Conteúdo do Website",

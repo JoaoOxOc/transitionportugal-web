@@ -3,7 +3,9 @@ WORKDIR /app/
 #COPY ./package.json ./
 #COPY ./lerna.json ./
 COPY ./package.json /app/
+
 RUN npm install --force
+
 COPY ./lerna.json /app/
 
 
@@ -16,7 +18,9 @@ WORKDIR /app/
 # tp_translations is a dependency in tp_backoffice, install it's dependencies
 COPY  packages/tp_translations/package.json /app/packages/tp_translations/package.json
 COPY  packages/tp_translations/ /app/packages/tp_translations/ 
+
 RUN npm config set legacy-peer-deps true
+
 RUN npx lerna bootstrap --scope=@transitionpt/translations --includeDependencies
 
 # compile tp_translations
@@ -27,6 +31,7 @@ COPY  packages/tp_backoffice/package.json /app/packages/tp_backoffice/package.js
 COPY  packages/tp_backoffice/ /app/packages/tp_backoffice/ 
 
 RUN npm config set legacy-peer-deps true
+
 RUN npx lerna bootstrap --hoist --scope=@transitionpt/backoffice --includeDependencies
 
 # WORKAROUND: lerna compiles tp_translations as a symlink in node_modules, which will not work with next start command
@@ -59,7 +64,6 @@ ENV NEXT_PUBLIC_CLIENT_SECRET=$NEXT_PUBLIC_CLIENT_SECRET
 ARG NEXT_PUBLIC_HOME_URL
 ENV NEXT_PUBLIC_HOME_URL=$NEXT_PUBLIC_HOME_URL
 
-
 RUN npm run build
 
 
@@ -89,8 +93,6 @@ USER nextjs
 EXPOSE 3000
 
 ENV PORT 3000
-
-
 
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry

@@ -19,8 +19,10 @@ import UploadTwoToneIcon from '@mui/icons-material/UploadTwoTone';
 import MoreHorizTwoToneIcon from '@mui/icons-material/MoreHorizTwoTone';
 import DoneTwoToneIcon from '@mui/icons-material/DoneTwoTone';
 import CloseTwoToneIcon from '@mui/icons-material/CloseTwoTone';
+import LaunchTwoToneIcon from '@mui/icons-material/LaunchTwoTone';
 
 import BreadcrumbsDetailsComponent from '../../../../components/Breadcrumbs/BreadcrumbsDetailsComponent';
+import Link from '../../../../components/Link';
 import Label from '../../../../components/Label';
 import BulkActions from '../BulkActions';
 
@@ -100,13 +102,15 @@ const CardCoverAction = styled(Box)(
 `
 );
 
-const ProfileCover = ({ user, breadcrumbsDataJson }) => {
+const ProfileCover = ({ user, isProfile, breadcrumbsDataJson }) => {
   const { t } = i18nextUserDetails;
+  let associationDetailsBaseUri = isProfile ? "profile/association" : "/management/associations/single/";
 
   return (
     <>
       <Box display="flex" mb={3}>
-        <Tooltip arrow placement="top" title={t('Go back')}>
+        {!isProfile &&
+        <Tooltip arrow placement="top" title={t('LABELS.goBack')}>
           <IconButton
             href="/management/users"
             color="primary"
@@ -118,6 +122,7 @@ const ProfileCover = ({ user, breadcrumbsDataJson }) => {
             <ArrowBackTwoToneIcon />
           </IconButton>
         </Tooltip>
+        }
         <Box>
           <Typography variant="h3" component="h3" gutterBottom>
             {t('LABELS.userDetails', {name: user.name})}
@@ -125,7 +130,7 @@ const ProfileCover = ({ user, breadcrumbsDataJson }) => {
           {/* <Typography variant="subtitle2">
             {t('This is a profile page. Easy to modify, always blazing fast')}
           </Typography> */}
-          {breadcrumbsDataJson &&
+          {!isProfile && breadcrumbsDataJson &&
               <BreadcrumbsDetailsComponent urlDataJson={breadcrumbsDataJson}/>
           }
         </Box>
@@ -133,18 +138,29 @@ const ProfileCover = ({ user, breadcrumbsDataJson }) => {
       { user && user.associationId ? (
           <>
             <CardCover>
-              <CardMedia image={user.coverImg} />
+              <CardMedia image={user.associationLogoImage} />
               <CardCoverAction>
-                <Input accept="image/*" id="change-cover" multiple type="file" />
+                <Tooltip title={t('LABELS.view')} arrow>
+                    <Link href={associationDetailsBaseUri + user.associationId} isNextLink={true}>
+                        <Button
+                          startIcon={<LaunchTwoToneIcon />}
+                          variant="contained"
+                          component="span"
+                        >
+                          {user.associationName}
+                        </Button>
+                    </Link>
+                </Tooltip>
+                {/* <Input accept="image/*" id="change-cover" multiple type="file" />
                 <label htmlFor="change-cover">
                   <Button
-                    startIcon={<UploadTwoToneIcon />}
+                    startIcon={<LaunchTwoToneIcon />}
                     variant="contained"
                     component="span"
                   >
                     {user.associationName}
                   </Button>
-                </label>
+                </label> */}
               </CardCoverAction>
             </CardCover>
             <AvatarAssociationWrapper>
@@ -186,7 +202,7 @@ const ProfileCover = ({ user, breadcrumbsDataJson }) => {
         <Typography gutterBottom variant="h4">
           {user.name}
         </Typography>
-        <Typography variant="subtitle2">{t("LABELS.userRole", {name: user.userRole})}</Typography>
+        <Typography variant="subtitle2">{t("LABELS.userRole", {name: user.userRole == "AssociationAdmin" ? t("ROLES.associationAdmin") : (user.userRole == "Admin" ? t("ROLES.admin") : (user.associationId ? t("ROLES.associationUser") : t("ROLES.user")))})}</Typography>
         <Typography
           sx={{
             py: 2
@@ -209,7 +225,7 @@ const ProfileCover = ({ user, breadcrumbsDataJson }) => {
           justifyContent="space-between"
         >
           <Box>
-            {user &&
+            {!isProfile && user &&
               <BulkActions isSingleRecord={true} recordId={user.id} recordIsVerified={user.isEmailVerified} recordIsActivated={user.isActive}/>
             }
             {/* <Button size="small" variant="contained">

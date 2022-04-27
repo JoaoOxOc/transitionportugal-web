@@ -71,23 +71,6 @@
       "SwaggerKey": "UserService"
     },
     {
-      "DownstreamPathTemplate": "/api/authenticate/profile",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 3020
-        }
-      ],
-      "UpstreamPathTemplate": "/user/profile",
-      "UpstreamHttpMethod": [ "Get" ],
-      "SwaggerKey": "UserService",
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "TpAuthKey",
-        "AllowedScopes": [ "user.read", "users.read" ]
-      }
-    },
-    {
       "DownstreamPathTemplate": "/api/authenticate/refresh-token",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -462,6 +445,40 @@
       }
     },
     {
+      "DownstreamPathTemplate": "/api/user/profile",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 3020
+        }
+      ],
+      "UpstreamPathTemplate": "/user/profile",
+      "UpstreamHttpMethod": [ "Get" ],
+      "SwaggerKey": "UserService",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "TpAuthKey",
+        "AllowedScopes": [ "user.read", "users.read" ]
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/user/profile",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 3020
+        }
+      ],
+      "UpstreamPathTemplate": "/user/profile",
+      "UpstreamHttpMethod": [ "Put" ],
+      "SwaggerKey": "UserService",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "TpAuthKey",
+        "AllowedScopes": [ "user.write", "users.write" ]
+      }
+    },
+    {
       "DownstreamPathTemplate": "/api/user/register",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -478,7 +495,7 @@
       }
     },
     {
-      "DownstreamPathTemplate": "/api/users/resend",
+      "DownstreamPathTemplate": "/api/user/resend",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -494,7 +511,7 @@
       }
     },
     {
-      "DownstreamPathTemplate": "/api/users/approve",
+      "DownstreamPathTemplate": "/api/user/approve",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -510,7 +527,7 @@
       }
     },
     {
-      "DownstreamPathTemplate": "/api/users/delete",
+      "DownstreamPathTemplate": "/api/user/delete",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -912,7 +929,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpemailservice",
+          "Host": "localhost",
           "Port": 3010
         }
       ],
@@ -929,7 +946,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpemailservice",
+          "Host": "localhost",
           "Port": 3010
         }
       ],
@@ -946,7 +963,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpemailservice",
+          "Host": "localhost",
           "Port": 3010
         }
       ],

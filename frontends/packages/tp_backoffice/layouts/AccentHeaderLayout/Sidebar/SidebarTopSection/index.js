@@ -15,12 +15,13 @@ import {
   Typography,
   styled
 } from '@mui/material';
-import { i18nextAbout } from "@transitionpt/translations";
+import { i18nextSidemenu } from "@transitionpt/translations";
 import InboxTwoToneIcon from '@mui/icons-material/InboxTwoTone';
 import UnfoldMoreTwoToneIcon from '@mui/icons-material/UnfoldMoreTwoTone';
 import AccountBoxTwoToneIcon from '@mui/icons-material/AccountBoxTwoTone';
 import LockOpenTwoToneIcon from '@mui/icons-material/LockOpenTwoTone';
 import AccountTreeTwoToneIcon from '@mui/icons-material/AccountTreeTwoTone';
+import Link from '../../../../components/Link';
 
 const UserBoxButton = styled(Button)(
   ({ theme }) => `
@@ -74,7 +75,7 @@ const UserBoxDescription = styled(Typography)(
 );
 
 function SidebarTopSection() {
-  const { t } = i18nextAbout;
+  const { t } = i18nextSidemenu;
 
   const auth = useAuth();
   const { logout } = useAuth();
@@ -168,24 +169,26 @@ function SidebarTopSection() {
           }}
           component="nav"
         >
-          <ListItem
-            onClick={() => {
-              handleClose();
-            }}
-            button
-          >
-            <AccountBoxTwoToneIcon fontSize="small" />
-            <ListItemText primary={t('Profile')} />
-          </ListItem>
-          <ListItem
+          <Link href={"/profile/user"} isNextLink={true}>
+            <ListItem
+              onClick={() => {
+                handleClose();
+              }}
+              button
+            >
+              <AccountBoxTwoToneIcon fontSize="small" />
+              <ListItemText primary={t('SIDEMENU_USER.profile')} />
+            </ListItem>
+          </Link>
+          {/* <ListItem
             onClick={() => {
               handleClose();
             }}
             button
           >
             <InboxTwoToneIcon fontSize="small" />
-            <ListItemText primary={t('Inbox')} />
-          </ListItem>
+            <ListItemText primary={t('SIDEMENU_USER.inbox')} />
+          </ListItem> */}
           <ListItem
             onClick={() => {
               handleClose();
@@ -193,7 +196,7 @@ function SidebarTopSection() {
             button
           >
             <AccountTreeTwoToneIcon fontSize="small" />
-            <ListItemText primary={t('Projects')} />
+            <ListItemText primary={t('SIDEMENU_USER.posts')} />
           </ListItem>
         </List>
         <Divider />
@@ -204,7 +207,7 @@ function SidebarTopSection() {
                 mr: 1
               }}
             />
-            {t('Sign out')}
+            {t('SIDEMENU_USER.logout')}
           </Button>
         </Box>
       </Popover>

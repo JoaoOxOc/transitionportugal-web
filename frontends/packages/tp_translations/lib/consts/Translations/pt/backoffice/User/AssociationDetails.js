@@ -44,6 +44,7 @@ export var ASSOCIATIONDETAILS_TRANSLATIONS = deepFreeze({
         descriptionRequired: "A Descrição é obrigatória",
         clientIdTooBig: "O ID é demasiado grande. Máx. de caracteres: {{max}}",
         clientIdRequired: "ID da Aplicação Cliente é obrigatório",
+        emailInvalid: "O email da associação deverá ser um endereço de email válido",
         associationUpdatedSuccessfully: "A Associação nome é {{associationName}} foi atualizada com sucesso",
         associationCreatedSuccessfully: "A Associação cujo nome é {{associationName}} foi registada com sucesso",
         associationGeneralError: "Erro ao registar/atualizar a Associação cujo nome é {{associationName}}. Por favor tente novamente",
