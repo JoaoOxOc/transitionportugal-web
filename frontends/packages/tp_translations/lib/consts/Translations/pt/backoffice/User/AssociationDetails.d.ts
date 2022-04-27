@@ -43,6 +43,7 @@ export declare const ASSOCIATIONDETAILS_TRANSLATIONS: {
         readonly descriptionRequired: "A Descrição é obrigatória";
         readonly clientIdTooBig: "O ID é demasiado grande. Máx. de caracteres: {{max}}";
         readonly clientIdRequired: "ID da Aplicação Cliente é obrigatório";
+        readonly emailInvalid: "O email da associação deverá ser um endereço de email válido";
         readonly associationUpdatedSuccessfully: "A Associação nome é {{associationName}} foi atualizada com sucesso";
         readonly associationCreatedSuccessfully: "A Associação cujo nome é {{associationName}} foi registada com sucesso";
         readonly associationGeneralError: "Erro ao registar/atualizar a Associação cujo nome é {{associationName}}. Por favor tente novamente";

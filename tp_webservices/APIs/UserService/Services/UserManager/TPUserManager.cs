@@ -88,6 +88,11 @@ namespace UserService.Services.UserManager
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 };
 
+            if (user.AssociationId.HasValue)
+            {
+                authClaims.Add(new Claim("associationId", user.AssociationId.ToString()));
+            }
+
             foreach (var userRole in userRoles)
             {
                 authClaims.Add(new Claim(ClaimTypes.Role, userRole));
@@ -334,22 +339,29 @@ namespace UserService.Services.UserManager
 
         public async Task<ProfileModel> GetUserProfileById(string userId)
         {
-            var user = _uow.UserRepository.Get(null, null, (x => x.Id == userId), "UserName", SortDirection.Ascending).FirstOrDefault();
+            var user = _uow.UserRepository.Get(null, null, (x => x.Id == userId), "UserName", SortDirection.Ascending, "Association").FirstOrDefault();
             if (user != null)
             {
                 return new ProfileModel
                 {
-                    Username = user.UserName,
+                    UserName = user.UserName,
                     Email = user.Email,
                     Name = user.Name,
-                    JobTitle = "Lead Developer",
-                    Role = "Admin",
-                    Posts = 27,
-                    Location = "San Francisco, USA",
-                    Avatar = "/static/images/avatars/3.jpg",
-                    CoverImg = "/static/images/placeholders/covers/5.jpg",
-                    Followers = 6513,
-                    Description = "Curabitur at ipsum ac tellus semper interdum."
+                    Phone = user.PhoneNumber,
+                    IsActive = user.IsActive,
+                    IsEmailVerified = user.IsEmailVerified,
+                    IsVerified = user.IsVerified,
+                    AssociationId = user.AssociationId,
+                    AssociationLogoImage = user.Association?.LogoImage,
+                    AssociationName = user.Association?.Name,
+                    //JobTitle = "Lead Developer",
+                    //UserRole = "Admin",
+                    //Posts = 27,
+                    //Location = "San Francisco, USA",
+                    //Avatar = "/static/images/avatars/3.jpg",
+                    //CoverImg = "/static/images/placeholders/covers/5.jpg",
+                    //Followers = 6513,
+                    //Description = "Curabitur at ipsum ac tellus semper interdum."
                 };
             }
             return new ProfileModel();

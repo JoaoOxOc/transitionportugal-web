@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 
 import Head from 'next/head';
-import { useRouter } from 'next/router';
 
 import AccentHeaderLayout from '../../layouts/AccentHeaderLayout';
 import { Authenticated } from '../../components/Authenticated';
 import { Authorized } from '../../components/Authorized';
+import { getUserIdAndAssociation } from '../../utils/jwt';
 
 import Footer from '../../components/Footer';
 
@@ -14,12 +14,11 @@ import UserDetails from '../../content/Management/Users/single/details';
 
 
 function UserProfileView() {
-    const router = useRouter();
     const { t } = i18nextUserDetails;
     const [currentLang, setLang] = useState("pt");
     i18nextUserDetails.changeLanguage(currentLang);
 
-    //TODO: get user id from token
+    const userData = getUserIdAndAssociation(window.sessionStorage.getItem('accessToken'));
 
     useEffect(() => {
         const handleNewMessage = (event) => {
@@ -35,7 +34,7 @@ function UserProfileView() {
         <title>{t('LABELS.userDetails')}</title>
       </Head>
 
-      <UserDetails isCreate={false} userId={""}/>
+      <UserDetails isProfile={true} userId={userData.userId}/>
       <Footer />
     </>
   );

@@ -4,6 +4,7 @@ export declare const USERDETAILS_TRANSLATIONS: {
         readonly userDetails: "User Details - {{name}}";
         readonly userCreateSmall: "Register New User";
         readonly goBack: "Go back";
+        readonly view: "View Association";
         readonly accountStatus: "Account status";
         readonly active: "Active";
         readonly inactive: "Inactive";
@@ -20,28 +21,50 @@ export declare const USERDETAILS_TRANSLATIONS: {
         readonly management: "Management";
         readonly users: "Users";
     };
+    readonly TABS: {
+        readonly main: "Edit Profile";
+        readonly security: "Password/Security";
+    };
+    readonly ROLES: {
+        readonly associationAdmin: "Association Administrator";
+        readonly associationUser: "Association User";
+        readonly admin: "System Administrator";
+        readonly user: "System User";
+    };
     readonly FORM: {
+        readonly personalDetails: "Personal Details";
+        readonly personalDetailsMessage: "Manage informations related to personal details";
+        readonly accountContacts: "Contacts";
+        readonly accountContactsMessage: "Manage account contacts";
+        readonly accountSettings: "Account Settings";
+        readonly accountSettingsMessage: "Manage settings related to account";
+        readonly primaryContactType: "Main Contact Type";
         readonly name: "Name";
         readonly userName: "Username";
         readonly email: "User Email";
+        readonly phone: "User Phone Number";
         readonly association: "User Association/Entity";
         readonly active: "User Activated";
         readonly verified: "User Verified";
         readonly createdAt: "Registered At";
         readonly updatedAt: "Updated at";
         readonly saveButton: "Save";
+        readonly edit: "Edit";
+        readonly cancelButton: "Cancel";
     };
     readonly MESSAGES: {
         readonly nameTooBig: "Name is too big. Max characters: {{max}}";
-        readonly nameRequired: "Client App Name is required";
-        readonly descriptionTooBig: "Description is too big. Max characters: {{max}}";
-        readonly descriptionRequired: "Client App Description is required";
-        readonly clientIdTooBig: "Client App ID is too big. Max characters: {{max}}";
-        readonly clientIdRequired: "Client App ID is required";
-        readonly clientAppUpdatedSuccessfully: "The client app with name {{clientName}} was updated successfully";
-        readonly clientAppCreatedSuccessfully: "The client app with name {{clientName}} was created successfully";
-        readonly clientAppGeneralError: "Error creating/updating client app with name {{clientName}}. Please try again";
-        readonly clientAppNotFound: "The client app with name {{clientName}} wasn't found. Please double check if the name is correct";
+        readonly nameRequired: "Name is required";
+        readonly usernameTooBig: "Username is too big. Max characters: {{max}}";
+        readonly usernameRequired: "Username is required";
+        readonly emailTooBig: "User Email is too big. Max characters: {{max}}";
+        readonly emailRequired: "User Email is required";
+        readonly emailInvalid: "User email must be a valid email address";
+        readonly phoneNumberTooBig: "Phone number is too big. Max characters: {{max}}";
+        readonly userUpdatedSuccessfully: "The user with name {{userName}} was updated successfully";
+        readonly userCreatedSuccessfully: "The user with name {{userName}} was created successfully";
+        readonly userGeneralError: "Error creating/updating user with name {{userName}}. Please try again";
+        readonly userNotFound: "The cuser with name {{userName}} wasn't found. Please double check if the name is correct";
     };
 };
 //# sourceMappingURL=UserDetails.d.ts.map

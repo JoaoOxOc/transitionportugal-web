@@ -38,7 +38,7 @@ namespace tpGateway.Services
             {
                 string accessToken = headerValues.First();
 
-                string[] claims = new string[] { "userId", "sub", System.Security.Claims.ClaimTypes.Role, "scope" };
+                string[] claims = new string[] { "userId", "sub", System.Security.Claims.ClaimTypes.Role, "scope", "associationId" };
 
                 try
                 {
@@ -47,6 +47,7 @@ namespace tpGateway.Services
                     {
                         _logger.LogInformation("route client app header user id: " + userClaims.Where(x => x.Claim == "userId").Single().Value);
                         request.Headers.Add("UserId", userClaims.Where(x => x.Claim == "userId").Single().Value);
+                        request.Headers.Add("AssociationId", userClaims.Where(x => x.Claim == "associationId").FirstOrDefault().Value);
                         request.Headers.Add("UserRole", userClaims.Where(x => x.Claim == System.Security.Claims.ClaimTypes.Role).Single().Value);
                         request.Headers.Add("UserClaims", userClaims.Where(x => x.Claim == "scope").Single().Value);
                     }

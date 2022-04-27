@@ -45,6 +45,7 @@ export const ASSOCIATIONDETAILS_TRANSLATIONS = deepFreeze({
         descriptionRequired: "Client App Description is required",
         clientIdTooBig: "Client App ID is too big. Max characters: {{max}}",
         clientIdRequired: "Client App ID is required",
+        emailInvalid: "Association email must be a valid email address",
         associationUpdatedSuccessfully: "The Association with name {{associationName}} was updated successfully",
         associationCreatedSuccessfully: "The Association with name {{associationName}} was created successfully",
         associationGeneralError: "Error creating/updating Association with name {{associationName}}. Please try again",

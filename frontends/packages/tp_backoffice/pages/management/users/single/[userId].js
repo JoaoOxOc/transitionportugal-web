@@ -33,7 +33,7 @@ function ManagementUsersView() {
         <title>{t('LABELS.userDetails')}</title>
       </Head>
 
-      <UserDetails isCreate={false} userId={router.query.userId}/>
+      <UserDetails isProfile={false} userId={router.query.userId}/>
       <Footer />
     </>
   );

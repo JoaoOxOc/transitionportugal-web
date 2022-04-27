@@ -9,6 +9,7 @@
         public string? UserRole { get; set; }
 
         public string? AssociationName { get; set; }
+        public string? AssociationLogoImage { get; set; }
         public int? AssociationId { get; set; }
         public string? PhoneNumber { get; set; }
 
