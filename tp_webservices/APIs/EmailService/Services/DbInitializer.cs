@@ -51,6 +51,7 @@ namespace EmailService.Services
             newAccountPT.CreatedAt = DateTime.UtcNow;
             newAccountPT.CreatedBy = null;
             newAccountPT.UpdatedBy = null;
+            newAccountPT.BodyParameters = BsonDocument.Parse(System.Text.Json.JsonSerializer.Serialize(new { name = "{{name}}", activateUserLink = "{{activateUserLink}}" }));
             emailTemplates.Add(newAccountPT);
 
             EmailTemplate newAccountEN = new EmailTemplate();
@@ -62,6 +63,7 @@ namespace EmailService.Services
             newAccountEN.CreatedAt = DateTime.UtcNow;
             newAccountEN.CreatedBy = null;
             newAccountEN.UpdatedBy = null;
+            newAccountEN.BodyParameters = BsonDocument.Parse(System.Text.Json.JsonSerializer.Serialize(new { name = "{{name}}", activateUserLink = "{{activateUserLink}}" }));
             emailTemplates.Add(newAccountEN);
 
             EmailTemplate newAccountCompanyPT = new EmailTemplate();
@@ -73,6 +75,7 @@ namespace EmailService.Services
             newAccountCompanyPT.CreatedAt = DateTime.UtcNow;
             newAccountCompanyPT.CreatedBy = null;
             newAccountCompanyPT.UpdatedBy = null;
+            newAccountCompanyPT.BodyParameters = BsonDocument.Parse(System.Text.Json.JsonSerializer.Serialize(new { name = "{{name}}", activateAssociationLink = "{{activateAssociationLink}}" }));
             emailTemplates.Add(newAccountCompanyPT);
 
             EmailTemplate newAccountCompanyEN = new EmailTemplate();
@@ -84,6 +87,7 @@ namespace EmailService.Services
             newAccountCompanyEN.CreatedAt = DateTime.UtcNow;
             newAccountCompanyEN.CreatedBy = null;
             newAccountCompanyEN.UpdatedBy = null;
+            newAccountCompanyEN.BodyParameters = BsonDocument.Parse(System.Text.Json.JsonSerializer.Serialize(new { name = "{{name}}", activateAssociationLink = "{{activateAssociationLink}}" }));
             emailTemplates.Add(newAccountCompanyEN);
 
             EmailTemplate newAccountVerifiedPT = new EmailTemplate();
@@ -95,6 +99,7 @@ namespace EmailService.Services
             newAccountVerifiedPT.CreatedAt = DateTime.UtcNow;
             newAccountVerifiedPT.CreatedBy = null;
             newAccountVerifiedPT.UpdatedBy = null;
+            newAccountVerifiedPT.BodyParameters = BsonDocument.Parse(System.Text.Json.JsonSerializer.Serialize(new { name = "{{name}}", loginLink = "{{loginLink}}" }));
             emailTemplates.Add(newAccountVerifiedPT);
 
             EmailTemplate newAccountVerifiedEN = new EmailTemplate();
@@ -106,6 +111,7 @@ namespace EmailService.Services
             newAccountVerifiedEN.CreatedAt = DateTime.UtcNow;
             newAccountVerifiedEN.CreatedBy = null;
             newAccountVerifiedEN.UpdatedBy = null;
+            newAccountVerifiedEN.BodyParameters = BsonDocument.Parse(System.Text.Json.JsonSerializer.Serialize(new { name = "{{name}}", loginLink = "{{loginLink}}" }));
             emailTemplates.Add(newAccountVerifiedEN);
 
             EmailTemplate newAccountCompanyVerifiedPT = new EmailTemplate();
@@ -117,6 +123,7 @@ namespace EmailService.Services
             newAccountCompanyVerifiedPT.CreatedAt = DateTime.UtcNow;
             newAccountCompanyVerifiedPT.CreatedBy = null;
             newAccountCompanyVerifiedPT.UpdatedBy = null;
+            newAccountCompanyVerifiedPT.BodyParameters = BsonDocument.Parse(System.Text.Json.JsonSerializer.Serialize(new { name = "{{name}}", loginLink = "{{loginLink}}" }));
             emailTemplates.Add(newAccountCompanyVerifiedPT);
 
             EmailTemplate newAccountCompanyVerifiedEN = new EmailTemplate();
@@ -128,6 +135,7 @@ namespace EmailService.Services
             newAccountCompanyVerifiedEN.CreatedAt = DateTime.UtcNow;
             newAccountCompanyVerifiedEN.CreatedBy = null;
             newAccountCompanyVerifiedEN.UpdatedBy = null;
+            newAccountCompanyVerifiedEN.BodyParameters = BsonDocument.Parse(System.Text.Json.JsonSerializer.Serialize(new { name = "{{name}}", loginLink = "{{loginLink}}" }));
             emailTemplates.Add(newAccountCompanyVerifiedEN);
 
             EmailTemplate accountPasswordRecoveryPT = new EmailTemplate();
@@ -139,6 +147,7 @@ namespace EmailService.Services
             accountPasswordRecoveryPT.CreatedAt = DateTime.UtcNow;
             accountPasswordRecoveryPT.CreatedBy = null;
             accountPasswordRecoveryPT.UpdatedBy = null;
+            accountPasswordRecoveryPT.BodyParameters = BsonDocument.Parse(System.Text.Json.JsonSerializer.Serialize(new { name = "{{name}}", passwordRecoveryLink = "{{passwordRecoveryLink}}" }));
             emailTemplates.Add(accountPasswordRecoveryPT);
 
             EmailTemplate accountPasswordRecoveryEN = new EmailTemplate();
@@ -150,6 +159,7 @@ namespace EmailService.Services
             accountPasswordRecoveryEN.CreatedAt = DateTime.UtcNow;
             accountPasswordRecoveryEN.CreatedBy = null;
             accountPasswordRecoveryEN.UpdatedBy = null;
+            accountPasswordRecoveryEN.BodyParameters = BsonDocument.Parse(System.Text.Json.JsonSerializer.Serialize(new { name = "{{name}}", passwordRecoveryLink = "{{passwordRecoveryLink}}" }));
             emailTemplates.Add(accountPasswordRecoveryEN);
 
 
