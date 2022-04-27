@@ -26,31 +26,6 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: tp-postgres-ingress-nginx
-  #namespace: ingress-nginx
-  labels:
-    app.kubernetes.io/name: tp-postgres-ingress-nginx
-    app.kubernetes.io/part-of: tp-postgres-ingress-nginx
-  annotations:
-    kubernetes.digitalocean.com/load-balancer-id: <DO_LOADBALANCER_ID>
-    service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"
-    service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout: "60"
-spec:
-  type: LoadBalancer
-  loadBalancerIP: <EXTERNAL_DO_IP>
-  selector:
-    app: tp-apis
-  ports:
-    - port: 5432
-      targetPort: 5432
-      #protocol: TCP
-      nodePort: 31500
-  externalIPs: 
-    - <EXTERNAL_DO_IP>
----
-apiVersion: v1
-kind: Service
-metadata:
   name: tp-rabbitmq-service
   labels:
     run: tp-rabbitmq-service
