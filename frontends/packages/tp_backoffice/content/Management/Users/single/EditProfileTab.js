@@ -17,7 +17,7 @@ import Label from '../../../../components/Label';
 
 import UserDetailsForm from './detailsForm';
 
-function EditProfileTab({userData}) {
+function EditProfileTab({userData, userPutUrl}) {
   const { t } = i18nextUserDetails;
   const [isEditting, setIsEditting] = useState(false);
   const [edittingCard, setEdittingCard] = useState();
@@ -29,6 +29,15 @@ function EditProfileTab({userData}) {
   }
 
   const handleEditCancel = (value) => {
+    if (value.name) {
+      userData.name = value.name;
+    }
+    if (value.email) {
+      userData.email = value.email;
+    }
+    if (value.phone) {
+      userData.phone = value.phone;
+    }
     setEdittingCard('');
     setIsEditting(false);
   }
@@ -65,7 +74,7 @@ function EditProfileTab({userData}) {
           >
             { isEditting == true && edittingCard == "personalDetails" ? 
               (
-                <UserDetailsForm userData={userData} edittingCard={edittingCard} cancelEditting={handleEditCancel}/>
+                <UserDetailsForm userData={userData}  userPutUrl={userPutUrl} edittingCard={edittingCard} cancelEditting={handleEditCancel}/>
               ) : (
               <Typography variant="subtitle2">
                 <Grid container spacing={0}>
@@ -119,7 +128,7 @@ function EditProfileTab({userData}) {
               </Typography>
             </Box>
             { !isEditting &&
-              <Button variant="text"  data-editting-card="contacts" onClick={handleToggleEditting} startIcon={<EditTwoToneIcon />}>
+              <Button variant="text" data-editting-card="contacts" onClick={handleToggleEditting} startIcon={<EditTwoToneIcon />}>
                 {t('FORM.edit')}
               </Button>
             }
@@ -132,7 +141,7 @@ function EditProfileTab({userData}) {
           >
             { isEditting == true && edittingCard == "contacts" ? 
               (
-                <UserDetailsForm userData={userData} edittingCard={edittingCard} cancelEditting={handleEditCancel}/>
+                <UserDetailsForm userData={userData} userPutUrl={userPutUrl} edittingCard={edittingCard} cancelEditting={handleEditCancel}/>
               ) : (
                 <Typography variant="subtitle2">
                   <Grid container spacing={0}>

@@ -4,6 +4,7 @@ export declare const USERDETAILS_TRANSLATIONS: {
         readonly userDetails: "Detalhes do Utilizador - {{name}}";
         readonly userCreateSmall: "Registar Novo Utilizador";
         readonly goBack: "Voltar";
+        readonly view: "Visualizar Associação";
         readonly accountStatus: "Estado da Conta";
         readonly active: "Activa";
         readonly inactive: "Inactiva";
@@ -31,27 +32,39 @@ export declare const USERDETAILS_TRANSLATIONS: {
         readonly user: "Utilizador de Sistema";
     };
     readonly FORM: {
+        readonly personalDetails: "Detalhes Pessoais";
+        readonly personalDetailsMessage: "Gerir informações dos dados pessoais";
+        readonly accountContacts: "Contactos";
+        readonly accountContactsMessage: "Gerir contactos da conta";
+        readonly accountSettings: "Definições da conta";
+        readonly accountSettingsMessage: "Gerir definições relativas à conta";
+        readonly primaryContactType: "Tipo de Contacto Preferido";
         readonly name: "Nome";
         readonly userName: "Username";
         readonly email: "Email do Utilizador";
+        readonly phone: "Nº de Contacto do Utilizador";
         readonly association: "Associação/Entidade do Utilizador";
         readonly active: "Utilizador Activado";
         readonly verified: "Utilizador Verificado";
         readonly createdAt: "Registado em";
         readonly updatedAt: "Actualizado em";
         readonly saveButton: "Guardar";
+        readonly edit: "Editar";
+        readonly cancelButton: "Cancelar";
     };
     readonly MESSAGES: {
         readonly nameTooBig: "O Nome é demasiado grande. Máx. de caracteres: {{max}}";
         readonly nameRequired: "O Nome da Aplicação é obrigatório";
-        readonly descriptionTooBig: "A Descrição é demasiado grande. Máx. de caracteres: {{max}}";
-        readonly descriptionRequired: "A Descrição é obrigatória";
-        readonly clientIdTooBig: "O ID é demasiado grande. Máx. de caracteres: {{max}}";
-        readonly clientIdRequired: "ID da Aplicação Cliente é obrigatório";
-        readonly clientAppUpdatedSuccessfully: "A aplicação cliente cujo nome é {{clientName}} foi atualizada com sucesso";
-        readonly clientAppCreatedSuccessfully: "A aplicação cliente cujo nome é {{clientName}} foi registada com sucesso";
-        readonly clientAppGeneralError: "Erro ao registar/atualizar a aplicação cliente cujo nome é {{clientName}}. Por favor tente novamente";
-        readonly clientAppNotFound: "A aplicação cliente cujo nome é {{clientName}} não foi encontrada. Por favor verifica se o nome está correcto";
+        readonly usernameTooBig: "O Username é demasiado grande. Máx. de caracteres: {{max}}";
+        readonly usernameRequired: "O Username é obrigatório";
+        readonly emailTooBig: "O Email do Utilizador é demasiado grande. Máx. de caracteres: {{max}}";
+        readonly emailRequired: "O Email do Utilizador é obrigatório";
+        readonly emailInvalid: "O Email do Utilizador deverá ser um endereço de email válido";
+        readonly phoneNumberTooBig: "O Número de Contacto é demasiado grande. Máx. de caracteres: {{max}}";
+        readonly userUpdatedSuccessfully: "A aplicação cliente cujo nome é {{userName}} foi atualizada com sucesso";
+        readonly userCreatedSuccessfully: "A aplicação cliente cujo nome é {{userName}} foi registada com sucesso";
+        readonly userGeneralError: "Erro ao registar/atualizar a aplicação cliente cujo nome é {{userName}}. Por favor tente novamente";
+        readonly userNotFound: "A aplicação cliente cujo nome é {{userName}} não foi encontrada. Por favor verifica se o nome está correcto";
     };
 };
 //# sourceMappingURL=UserDetails.d.ts.map

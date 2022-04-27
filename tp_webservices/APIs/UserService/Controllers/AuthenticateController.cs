@@ -103,25 +103,6 @@ namespace UserService.Controllers
             return NotFound();
         }
 
-        [Authorize]
-        [HttpGet]
-        [Route("profile")]
-        public async Task<IActionResult> Profile()
-        {
-            string header = HttpContext.Request.Headers["Authorization"];
-            string[] claims = new string[] { "userId", "sub", "associationId" };
-            List<JwtClaim> userClaims = JwtHelper.ValidateToken(header, _configuration["JWT:ValidAudience"], _configuration["JWT:ValidIssuer"], _configuration["JWT:SecretPublicKey"], claims);
-            if (userClaims != null && userClaims.Count > 0)
-            {
-                //int requesterId = Convert.ToInt32(jwtClaims.Where(x => x.Claim == "userId").Single().Value);
-                string userId = userClaims.Where(x => x.Claim == "userId").Single().Value;
-                var user = _userManager.GetUserProfileById(userId);
-                
-                return Ok(user);
-            }
-            return Unauthorized();
-        }
-
         [HttpPost]
         [Route("register")]
         public async Task<IActionResult> Register([FromBody] RegisterModel model)

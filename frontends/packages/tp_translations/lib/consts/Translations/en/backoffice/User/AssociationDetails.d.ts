@@ -43,6 +43,7 @@ export declare const ASSOCIATIONDETAILS_TRANSLATIONS: {
         readonly descriptionRequired: "Client App Description is required";
         readonly clientIdTooBig: "Client App ID is too big. Max characters: {{max}}";
         readonly clientIdRequired: "Client App ID is required";
+        readonly emailInvalid: "Association email must be a valid email address";
         readonly associationUpdatedSuccessfully: "The Association with name {{associationName}} was updated successfully";
         readonly associationCreatedSuccessfully: "The Association with name {{associationName}} was created successfully";
         readonly associationGeneralError: "Error creating/updating Association with name {{associationName}}. Please try again";

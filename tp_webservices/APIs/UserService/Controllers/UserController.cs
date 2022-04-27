@@ -285,9 +285,81 @@ namespace UserService.Controllers
         }
 
         [Authorize]
+        [HttpGet]
+        [Route("profile")]
+        public async Task<IActionResult> Profile()
+        {
+            string header = HttpContext.Request.Headers["Authorization"];
+            string[] claims = new string[] { "userId", "sub", "associationId" };
+            List<JwtClaim> userClaims = JwtHelper.ValidateToken(header, _configuration["JWT:ValidAudience"], _configuration["JWT:ValidIssuer"], _configuration["JWT:SecretPublicKey"], claims);
+            if (userClaims != null && userClaims.Count > 0)
+            {
+                //int requesterId = Convert.ToInt32(jwtClaims.Where(x => x.Claim == "userId").Single().Value);
+                string userId = userClaims.Where(x => x.Claim == "userId").Single().Value;
+                var userProfile = await _userManager.GetUserProfileById(userId);
+
+                var userRole = _userRoleManager.GetUserRoleByUserId(userId);
+                if (userRole != null)
+                {
+                    userProfile.UserRole = userRole.Name;
+                }
+
+                return Ok(new
+                {
+                    userProfile = userProfile
+                });
+            }
+            return Unauthorized();
+        }
+
+        private async Task<IActionResult> updateUserData(string userId, string whoUpdated, ProfileModel model)
+        {
+            Expression<Func<User, bool>> filter = (x => x.Id == userId);
+
+            var user = this._uow.UserRepository.Get(null, null, filter, string.Empty, SortDirection.Ascending).FirstOrDefault();
+            if (user != null)
+            {
+                user.Name = model.Name;
+                user.Email = model.Email;
+                if (!string.IsNullOrEmpty(model.Phone))
+                {
+                    user.PhoneNumber = model.Phone;
+                }
+
+                user.UpdatedAt = DateTime.UtcNow;
+                user.UpdatedBy = !string.IsNullOrEmpty(whoUpdated) ? whoUpdated : userId;
+
+                ObjectResult _validate = this.ValidateUser(user);
+                if (_validate.StatusCode != StatusCodes.Status200OK)
+                {
+                    return _validate;
+                }
+
+                try
+                {
+                    _uow.UserRepository.Update(user);
+                    _uow.Save();
+
+                    return Ok(new
+                    {
+                        userId = user.Id
+                    });
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, null);
+                }
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
+        [Authorize]
         [HttpPut]
         [Route("update")]
-        public async Task<IActionResult> Put([FromBody] UserModel model)
+        public async Task<IActionResult> Put([FromBody] ProfileModel model)
         {
             string header = HttpContext.Request.Headers["Authorization"];
             string[] claims = new string[] { "userId", "sub", System.Security.Claims.ClaimTypes.Role, "scope" };
@@ -298,50 +370,26 @@ namespace UserService.Controllers
             if (PermissionsHelper.ValidateRoleClaimPermission(userClaims, new List<string> { "Admin" })
                 && PermissionsHelper.ValidateUserScopesPermissionAll(scopes, new List<string> { "users.write" }))
             {
-                Expression<Func<User, bool>> filter = (x => x.Id == model.UserId);
-
-                var user = this._uow.UserRepository.Get(null, null, filter, string.Empty, SortDirection.Ascending).FirstOrDefault();
-                if (user != null)
-                {
-                    if (model.IsVerifiedByAdmin.HasValue)
-                    {
-                        user.IsVerified = model.IsVerifiedByAdmin.Value;
-                    }
-                    if (model.IsActive.HasValue)
-                    {
-                        user.IsActive = model.IsActive.Value;
-                    }
-
-                    user.UpdatedAt = DateTime.UtcNow;
-                    user.UpdatedBy = userClaims.Where(x => x.Claim == "userId").Single().Value;
-
-                    ObjectResult _validate = this.ValidateUser(user);
-                    if (_validate.StatusCode != StatusCodes.Status200OK)
-                    {
-                        return _validate;
-                    }
-
-                    try
-                    {
-                        _uow.UserRepository.Update(user);
-                        _uow.Save();
-
-                        return Ok(new
-                        {
-                            userId = user.Id
-                        });
-                    }
-                    catch (Exception ex)
-                    {
-                        return StatusCode(StatusCodes.Status500InternalServerError, null);
-                    }
-                }
-                else
-                {
-                    return NotFound();
-                }
+                return await updateUserData(model.UserId, userClaims.Where(x => x.Claim == "userId").Single().Value, model);
             }
             return Forbid();
+        }
+
+        [Authorize]
+        [HttpPut]
+        [Route("profile")]
+        public async Task<IActionResult> UpdateProfile([FromBody] ProfileModel model)
+        {
+            string header = HttpContext.Request.Headers["Authorization"];
+            string[] claims = new string[] { "userId", "sub", "associationId" };
+            List<JwtClaim> userClaims = JwtHelper.ValidateToken(header, _configuration["JWT:ValidAudience"], _configuration["JWT:ValidIssuer"], _configuration["JWT:SecretPublicKey"], claims);
+            if (userClaims != null && userClaims.Count > 0)
+            {
+                //int requesterId = Convert.ToInt32(jwtClaims.Where(x => x.Claim == "userId").Single().Value);
+                string userId = userClaims.Where(x => x.Claim == "userId").Single().Value;
+                return await updateUserData(userId, userId, model);
+            }
+            return Unauthorized();
         }
 
         [Authorize]

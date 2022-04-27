@@ -102,14 +102,15 @@ const CardCoverAction = styled(Box)(
 `
 );
 
-const ProfileCover = ({ user, breadcrumbsDataJson }) => {
+const ProfileCover = ({ user, isProfile, breadcrumbsDataJson }) => {
   const { t } = i18nextUserDetails;
-  let associationDetailsBaseUri = "/management/associations/single/";
+  let associationDetailsBaseUri = isProfile ? "profile/association" : "/management/associations/single/";
 
   return (
     <>
       <Box display="flex" mb={3}>
-        <Tooltip arrow placement="top" title={t('Go back')}>
+        {!isProfile &&
+        <Tooltip arrow placement="top" title={t('LABELS.goBack')}>
           <IconButton
             href="/management/users"
             color="primary"
@@ -121,6 +122,7 @@ const ProfileCover = ({ user, breadcrumbsDataJson }) => {
             <ArrowBackTwoToneIcon />
           </IconButton>
         </Tooltip>
+        }
         <Box>
           <Typography variant="h3" component="h3" gutterBottom>
             {t('LABELS.userDetails', {name: user.name})}
@@ -128,7 +130,7 @@ const ProfileCover = ({ user, breadcrumbsDataJson }) => {
           {/* <Typography variant="subtitle2">
             {t('This is a profile page. Easy to modify, always blazing fast')}
           </Typography> */}
-          {breadcrumbsDataJson &&
+          {!isProfile && breadcrumbsDataJson &&
               <BreadcrumbsDetailsComponent urlDataJson={breadcrumbsDataJson}/>
           }
         </Box>
@@ -223,7 +225,7 @@ const ProfileCover = ({ user, breadcrumbsDataJson }) => {
           justifyContent="space-between"
         >
           <Box>
-            {user &&
+            {!isProfile && user &&
               <BulkActions isSingleRecord={true} recordId={user.id} recordIsVerified={user.isEmailVerified} recordIsActivated={user.isActive}/>
             }
             {/* <Button size="small" variant="contained">

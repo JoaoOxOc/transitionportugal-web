@@ -6,6 +6,7 @@ export const USERDETAILS_TRANSLATIONS = deepFreeze({
         userDetails: "User Details - {{name}}",
         userCreateSmall: "Register New User",
         goBack: "Go back",
+        view: "View Association",
         accountStatus: "Account status",
         active: "Active",
         inactive: "Inactive",
@@ -50,18 +51,21 @@ export const USERDETAILS_TRANSLATIONS = deepFreeze({
         createdAt: "Registered At",
         updatedAt: "Updated at",
         saveButton: "Save",
-        edit: "Edit"
+        edit: "Edit",
+        cancelButton: "Cancel"
     },
     MESSAGES: {
         nameTooBig: "Name is too big. Max characters: {{max}}",
-        nameRequired: "Client App Name is required",
-        descriptionTooBig: "Description is too big. Max characters: {{max}}",
-        descriptionRequired: "Client App Description is required",
-        clientIdTooBig: "Client App ID is too big. Max characters: {{max}}",
-        clientIdRequired: "Client App ID is required",
-        clientAppUpdatedSuccessfully: "The client app with name {{clientName}} was updated successfully",
-        clientAppCreatedSuccessfully: "The client app with name {{clientName}} was created successfully",
-        clientAppGeneralError: "Error creating/updating client app with name {{clientName}}. Please try again",
-        clientAppNotFound: "The client app with name {{clientName}} wasn't found. Please double check if the name is correct"
+        nameRequired: "Name is required",
+        usernameTooBig: "Username is too big. Max characters: {{max}}",
+        usernameRequired: "Username is required",
+        emailTooBig: "User Email is too big. Max characters: {{max}}",
+        emailRequired: "User Email is required",
+        emailInvalid: "User email must be a valid email address",
+        phoneNumberTooBig: "Phone number is too big. Max characters: {{max}}",
+        userUpdatedSuccessfully: "The user with name {{userName}} was updated successfully",
+        userCreatedSuccessfully: "The user with name {{userName}} was created successfully",
+        userGeneralError: "Error creating/updating user with name {{userName}}. Please try again",
+        userNotFound: "The cuser with name {{userName}} wasn't found. Please double check if the name is correct"
     }
 } as const);

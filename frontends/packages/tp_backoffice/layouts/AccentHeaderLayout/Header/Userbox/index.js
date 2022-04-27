@@ -14,12 +14,13 @@ import {
   Typography,
   styled
 } from '@mui/material';
-import { i18nextAbout } from "@transitionpt/translations";
 import InboxTwoToneIcon from '@mui/icons-material/InboxTwoTone';
 import ExpandMoreTwoToneIcon from '@mui/icons-material/ExpandMoreTwoTone';
 import AccountBoxTwoToneIcon from '@mui/icons-material/AccountBoxTwoTone';
 import LockOpenTwoToneIcon from '@mui/icons-material/LockOpenTwoTone';
 import AccountTreeTwoToneIcon from '@mui/icons-material/AccountTreeTwoTone';
+import Link from '../../../../components/Link';
+import { i18nextSidemenu } from "@transitionpt/translations";
 
 const UserBoxButton = styled(Button)(
   ({ theme }) => `
@@ -62,7 +63,7 @@ const UserBoxDescription = styled(Typography)(
 );
 
 function HeaderUserbox() {
-  const { t } = i18nextAbout;
+  const { t } = i18nextSidemenu;
 
   const router = useRouter();
   const auth = useAuth();
@@ -147,24 +148,26 @@ function HeaderUserbox() {
           }}
           component="nav"
         >
-          <ListItem
-            button
-            onClick={() => {
-              handleClose();
-            }}
-          >
-            <AccountBoxTwoToneIcon fontSize="small" />
-            <ListItemText primary={t('Profile')} />
-          </ListItem>
-          <ListItem
+          <Link href={"/profile/user"} isNextLink={true}>
+            <ListItem
+              button
+              onClick={() => {
+                handleClose();
+              }}
+            >
+                <AccountBoxTwoToneIcon fontSize="small" />
+                <ListItemText primary={t('SIDEMENU_USER.profile')} />
+            </ListItem>
+          </Link>
+          {/* <ListItem
             button
             onClick={() => {
               handleClose();
             }}
           >
             <InboxTwoToneIcon fontSize="small" />
-            <ListItemText primary={t('Inbox')} />
-          </ListItem>
+            <ListItemText primary={t('SIDEMENU_USER.inbox')} />
+          </ListItem> */}
           <ListItem
             button
             onClick={() => {
@@ -172,7 +175,7 @@ function HeaderUserbox() {
             }}
           >
             <AccountTreeTwoToneIcon fontSize="small" />
-            <ListItemText primary={t('Projects')} />
+            <ListItemText primary={t('SIDEMENU_USER.posts')} />
           </ListItem>
         </List>
         <Divider />
@@ -183,7 +186,7 @@ function HeaderUserbox() {
                 mr: 1
               }}
             />
-            {t('Sign out')}
+            {t('SIDEMENU_USER.logout')}
           </Button>
         </Box>
       </Popover>

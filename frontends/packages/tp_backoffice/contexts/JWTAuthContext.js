@@ -73,9 +73,9 @@ export const AuthProvider = (props) => {
         const accessToken = window.sessionStorage.getItem('accessToken');
 
         if (accessToken) {
-          const userProfile = await genericFetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/user/profile", "GET", accessToken,{});
-          if (userProfile.result) {
-            const user = userProfile.result;
+          const userProfileResponse = await genericFetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/user/profile", "GET", accessToken,{});
+          if (userProfileResponse.userProfile) {
+            const user = userProfileResponse.userProfile;
             //const user = await me(accessToken);
 
             dispatch({
@@ -87,8 +87,7 @@ export const AuthProvider = (props) => {
             });
           }
           else {
-            console.log(userProfile);
-            if (userProfile.redirectLogin == true) {
+            if (userProfileResponse.redirectLogin == true) {
               dispatch({
                 type: 'INITIALIZE',
                 payload: {
@@ -98,11 +97,11 @@ export const AuthProvider = (props) => {
                 }
               });
             }
-            else if (userProfile.requestAgain) {
-              userProfile = await genericFetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/user/profile", "GET", window.sessionStorage.getItem('accessToken'),{});
-              if (userProfile.result) {
+            else if (userProfileResponse.requestAgain) {
+              userProfileResponse = await genericFetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/user/profile", "GET", window.sessionStorage.getItem('accessToken'),{});
+              if (userProfileResponse.userProfile) {
                 //const user = await authApi.me(response.token);
-                const user = userProfile.result;
+                const user = userProfileResponse.userProfile;
       
                 dispatch({
                   type: 'INITIALIZE',
@@ -113,7 +112,7 @@ export const AuthProvider = (props) => {
                 });
               }
               else {
-                throw userProfile.statusText;
+                throw userProfileResponse.statusText;
               }
             }
           }
@@ -151,10 +150,10 @@ export const AuthProvider = (props) => {
           }
       );
       if (response.token) {
-        const userProfile = await genericFetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/user/profile", "GET", response.token,{});
-        if (userProfile.result) {
+        const userProfileResponse = await genericFetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/user/profile", "GET", response.token,{});
+        if (userProfileResponse.userProfile) {
           //const user = await authApi.me(response.token);
-          const user = userProfile.result;
+          const user = userProfileResponse.userProfile;
     
           sessionStorage.setItem('accessToken', response.token);
           sessionStorage.setItem('refreshToken', response.refreshToken);
@@ -168,7 +167,7 @@ export const AuthProvider = (props) => {
           });
         }
         else {
-          throw userProfile.statusText;
+          throw userProfileResponse.statusText;
         }
       }
       else {

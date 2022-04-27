@@ -25,7 +25,7 @@ import { UpdateUserData } from '../../../../services/users';
 
 import { i18nextUserDetails } from "@transitionpt/translations";
 
-function UserDetailsForm({userData, edittingCard, cancelEditting}) {
+function UserDetailsForm({userData, userPutUrl, edittingCard, cancelEditting}) {
     const { t } = i18nextUserDetails;
     const isMountedRef = useRefMounted();
     const { enqueueSnackbar } = useSnackbar();
@@ -36,40 +36,29 @@ function UserDetailsForm({userData, edittingCard, cancelEditting}) {
         initialValues: userData,
         enableReinitialize: true,
         validationSchema: Yup.object({
-            description: Yup.string()
-                .max(255, t('MESSAGES.descriptionTooBig', {max: 255})),
             name: Yup.string()
                 .max(70, t('MESSAGES.nameTooBig', {max: 70}))
                 .required(t('MESSAGES.nameRequired')),
+            userName: Yup.string()
+                .max(20, t('MESSAGES.usernameTooBig', {max: 20}))
+                .required(t('MESSAGES.usernameRequired')),
             email: Yup.string()
                 .max(100, t('MESSAGES.emailTooBig', {max: 100}))
                 .email(t('MESSAGES.emailInvalid'))
                 .required(t('MESSAGES.emailRequired')),
             phone: Yup.string()
                 .max(20, t('MESSAGES.phoneNumberTooBig', {max: 20})),
-            vat: Yup.string()
-                .max(20, t('MESSAGES.vatTooBig', {max: 20})),
-            website: Yup.string()
-                .max(255, t('MESSAGES.websiteTooBig', {max: 255})),
         }),
         onSubmit: async (values, helpers) => {
           try {
-              const associationModel = {
-                    id: values.id,
-                    name: values.name,
-                    description: values.description,
-                    email: values.email,
-                    vat: values.vat,
-                    phone: values.phone,
-                    website: values.website,
-                    address: values.address,
-                    town: values.town,
-                    postalCode: values.postalCode,
-                    logoImage: values.logoImage,
-                    logoImage: values.logoImage,
+              const userUpdateModel = {
+                userId: values.id,
+                name: values.name,
+                email: values.email,
+                phone: values.phone
               }
-              console.log(associationModel)
-              const result = await UpdateUserData(associationPutUrl, associationModel);
+              console.log(userUpdateModel)
+              const result = await UpdateUserData(userPutUrl, userUpdateModel);
     
               if (isMountedRef()) {
                   if (result.status) {
@@ -102,7 +91,7 @@ function UserDetailsForm({userData, edittingCard, cancelEditting}) {
                         TransitionComponent: Slide
                     });
                     helpers.setSubmitting(false);
-                    cancelEditting(true);
+                    cancelEditting(userUpdateModel);
                   }
               }
           } catch (err) {
@@ -128,69 +117,122 @@ function UserDetailsForm({userData, edittingCard, cancelEditting}) {
     });
 
     return (
-        <Typography variant="subtitle2">
-            <Grid container spacing={0}>
-                  <Grid item xs={12} sm={4} md={3} textAlign={{ sm: 'right' }}>
-                    <Box pr={3} pb={2}>
-                        <FormControl fullWidth variant="outlined">
-                            <TextField
-                                helperText={formik.touched.email && formik.errors.email}
-                                error={Boolean(formik.touched.email && formik.errors.email)}
-                                fullWidth
-                                margin="normal"
-                                label={t('FORM.email')}
-                                name="email"
-                                onBlur={formik.handleBlur}
-                                onChange={formik.handleChange}
-                                value={formik.values.email}
-                                variant="outlined"
-                            />
-                        </FormControl>
-                    </Box>
-                  </Grid>
-                  <Grid
+        <Typography variant="subtitle2">      
+            <form noValidate onSubmit={formik.handleSubmit}>
+                <Grid container direction="column" spacing={3}>
+                    {edittingCard == "personalDetails" &&
+                        <>
+                            {/* <Grid item xs={0} md={3}></Grid> */}
+                            <Grid item xs={12} md={3} textAlign={{ sm: 'right' }}>
+                                <Box pr={3} pb={2}>
+                                    <FormControl fullWidth variant="outlined">
+                                        <TextField
+                                            helperText={formik.touched.name && formik.errors.name}
+                                            error={Boolean(formik.touched.name && formik.errors.name)}
+                                            fullWidth
+                                            margin="normal"
+                                            label={t('FORM.name')}
+                                            name="name"
+                                            onBlur={formik.handleBlur}
+                                            onChange={formik.handleChange}
+                                            value={formik.values.name}
+                                            variant="outlined"
+                                        />
+                                    </FormControl>
+                                </Box>
+                            </Grid>
+                        </>
+                    }
+                    {edittingCard == "contacts" &&
+                        <>
+                            {/* <Grid item xs={0} md={3}></Grid> */}
+                            <Grid item xs={12} md={3} textAlign={{ sm: 'right' }}>
+                                <Box pr={3}>
+                                    <FormControl fullWidth variant="outlined">
+                                        <TextField
+                                            helperText={formik.touched.email && formik.errors.email}
+                                            error={Boolean(formik.touched.email && formik.errors.email)}
+                                            fullWidth
+                                            margin="normal"
+                                            label={t('FORM.email')}
+                                            name="email"
+                                            onBlur={formik.handleBlur}
+                                            onChange={formik.handleChange}
+                                            value={formik.values.email}
+                                            variant="outlined"
+                                        />
+                                    </FormControl>
+                                </Box>
+                            </Grid>
+                            {/* <Grid item xs={0} md={3}></Grid> */}
+                            <Grid item xs={12} md={3} textAlign={{ sm: 'right' }}>
+                                <Box pr={3} pb={2} >
+                                    <FormControl fullWidth variant="outlined">
+                                        <TextField
+                                            helperText={formik.touched.phone && formik.errors.phone}
+                                            error={Boolean(formik.touched.phone && formik.errors.phone)}
+                                            fullWidth
+                                            margin="normal"
+                                            label={t('FORM.phone')}
+                                            name="phone"
+                                            onBlur={formik.handleBlur}
+                                            onChange={formik.handleChange}
+                                            value={formik.values.phone}
+                                            variant="outlined"
+                                        />
+                                    </FormControl>
+                                </Box>
+                            </Grid>
+                        </>
+                    }
+                    <Grid
                         container
                         direction="row"
-                        xs={12}
+                        spacing={3}
                     >
-                        <Divider />
-                        <Button
-                        sx={{
-                            mt: 3,
-                            maxWidth: '300px !important'
-                        }}
-                        color="primary"
-                        startIcon={
-                            formik.isSubmitting ? <CircularProgress size="1rem" /> : null
-                        }
-                        disabled={formik.isSubmitting}
-                        type="submit"
-                        fullWidth
-                        size="large"
-                        variant="contained"
-                        >
-                        {t('FORM.saveButton')}
-                        </Button>
-                        <Button
-                        sx={{
-                            mt: 3,
-                            maxWidth: '300px !important'
-                        }}
-                        color="secondary"
-                        startIcon={
-                            formik.isSubmitting ? <CircularProgress size="1rem" /> : null
-                        }
-                        disabled={formik.isSubmitting}
-                        onClick={cancelEditting}
-                        type="submit"
-                        fullWidth
-                        size="large"
-                        variant="contained"
-                        >
-                        {t('FORM.cancelButton')}
-                        </Button>
+                        <Grid item xs={0} md={3}></Grid>
+                        <Grid item xs={12} md={9}>
+                            <Divider />
+                            <Button
+                                sx={{
+                                    mt: 3,
+                                    maxWidth: '200px !important'
+                                }}
+                                color="primary"
+                                startIcon={
+                                    formik.isSubmitting ? <CircularProgress size="1rem" /> : null
+                                }
+                                disabled={formik.isSubmitting}
+                                type="submit"
+                                fullWidth
+                                size="large"
+                                variant="contained"
+                                >
+                                {t('FORM.saveButton')}
+                            </Button>
+                            &nbsp;
+                            <Button
+                                sx={{
+                                    mt: 3,
+                                    maxWidth: '200px !important'
+                                }}
+                                color="secondary"
+                                startIcon={
+                                    formik.isSubmitting ? <CircularProgress size="1rem" /> : null
+                                }
+                                disabled={formik.isSubmitting}
+                                onClick={cancelEditting}
+                                type="submit"
+                                fullWidth
+                                size="large"
+                                variant="contained"
+                                >
+                                {t('FORM.cancelButton')}
+                            </Button>
+                        </Grid>
                     </Grid>
-            </Grid>
+                </Grid>
+            </form>
         </Typography>
     );
 }

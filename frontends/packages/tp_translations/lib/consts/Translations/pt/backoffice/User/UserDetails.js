@@ -5,6 +5,7 @@ export var USERDETAILS_TRANSLATIONS = deepFreeze({
         userDetails: "Detalhes do Utilizador - {{name}}",
         userCreateSmall: "Registar Novo Utilizador",
         goBack: "Voltar",
+        view: "Visualizar Associação",
         accountStatus: "Estado da Conta",
         active: "Activa",
         inactive: "Inactiva",
@@ -32,27 +33,39 @@ export var USERDETAILS_TRANSLATIONS = deepFreeze({
         user: "Utilizador de Sistema"
     },
     FORM: {
+        personalDetails: "Detalhes Pessoais",
+        personalDetailsMessage: "Gerir informações dos dados pessoais",
+        accountContacts: "Contactos",
+        accountContactsMessage: "Gerir contactos da conta",
+        accountSettings: "Definições da conta",
+        accountSettingsMessage: "Gerir definições relativas à conta",
+        primaryContactType: "Tipo de Contacto Preferido",
         name: "Nome",
         userName: "Username",
         email: "Email do Utilizador",
+        phone: "Nº de Contacto do Utilizador",
         association: "Associação/Entidade do Utilizador",
         active: "Utilizador Activado",
         verified: "Utilizador Verificado",
         createdAt: "Registado em",
         updatedAt: "Actualizado em",
-        saveButton: "Guardar"
+        saveButton: "Guardar",
+        edit: "Editar",
+        cancelButton: "Cancelar"
     },
     MESSAGES: {
         nameTooBig: "O Nome é demasiado grande. Máx. de caracteres: {{max}}",
         nameRequired: "O Nome da Aplicação é obrigatório",
-        descriptionTooBig: "A Descrição é demasiado grande. Máx. de caracteres: {{max}}",
-        descriptionRequired: "A Descrição é obrigatória",
-        clientIdTooBig: "O ID é demasiado grande. Máx. de caracteres: {{max}}",
-        clientIdRequired: "ID da Aplicação Cliente é obrigatório",
-        clientAppUpdatedSuccessfully: "A aplicação cliente cujo nome é {{clientName}} foi atualizada com sucesso",
-        clientAppCreatedSuccessfully: "A aplicação cliente cujo nome é {{clientName}} foi registada com sucesso",
-        clientAppGeneralError: "Erro ao registar/atualizar a aplicação cliente cujo nome é {{clientName}}. Por favor tente novamente",
-        clientAppNotFound: "A aplicação cliente cujo nome é {{clientName}} não foi encontrada. Por favor verifica se o nome está correcto"
+        usernameTooBig: "O Username é demasiado grande. Máx. de caracteres: {{max}}",
+        usernameRequired: "O Username é obrigatório",
+        emailTooBig: "O Email do Utilizador é demasiado grande. Máx. de caracteres: {{max}}",
+        emailRequired: "O Email do Utilizador é obrigatório",
+        emailInvalid: "O Email do Utilizador deverá ser um endereço de email válido",
+        phoneNumberTooBig: "O Número de Contacto é demasiado grande. Máx. de caracteres: {{max}}",
+        userUpdatedSuccessfully: "A aplicação cliente cujo nome é {{userName}} foi atualizada com sucesso",
+        userCreatedSuccessfully: "A aplicação cliente cujo nome é {{userName}} foi registada com sucesso",
+        userGeneralError: "Erro ao registar/atualizar a aplicação cliente cujo nome é {{userName}}. Por favor tente novamente",
+        userNotFound: "A aplicação cliente cujo nome é {{userName}} não foi encontrada. Por favor verifica se o nome está correcto"
     }
 });
 //# sourceMappingURL=UserDetails.js.map

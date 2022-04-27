@@ -34,7 +34,7 @@ const TabsWrapper = styled(Tabs)(
   `
   );
 
-function UserDetails({isCreate, userId}) {
+function UserDetails({isProfile, userId}) {
     const isMountedRef = useRefMounted();
     const theme = useTheme();
     const [user, setUser] = useState(null);
@@ -43,7 +43,7 @@ function UserDetails({isCreate, userId}) {
     const { t } = i18nextUserDetails;
     const usersListUri = "/management/users";
     let userUri = "/users/get/" + userId;
-    let userPutUri = process.env.NEXT_PUBLIC_API_BASE_URL + (isCreate ? "/users/create" : "/users/update");
+    let userPutUri = process.env.NEXT_PUBLIC_API_BASE_URL + (isProfile ? "/user/profile" : "/users/update");
 
     const [currentTab, setCurrentTab] = useState('edit_profile');
 
@@ -85,11 +85,11 @@ function UserDetails({isCreate, userId}) {
       return null;
     }
 
-    const breadcrumbsData = [
+    const breadcrumbsData = isProfile ? [] : [
         { url: "/", label: t('LIST.home'), isLink: true },
         { url: "", label: t('LIST.management'), isLink: false },
         { url: usersListUri, label: t('LIST.usersTitle'), isLink: true },
-        { url: "", label: isCreate ? t('LABELS.userCreateSmall') : user.name, ownPage: true },
+        { url: "", label: user.name, ownPage: true },
     ];
 
     return (
@@ -103,7 +103,7 @@ function UserDetails({isCreate, userId}) {
             spacing={3}
           >
             <Grid item xs={12} md={8}>
-              <ProfileCover user={user} breadcrumbsDataJson={breadcrumbsData}/>
+              <ProfileCover user={user} isProfile={isProfile} breadcrumbsDataJson={breadcrumbsData}/>
             </Grid>
             <Grid item xs={12}>
               <TabsWrapper
@@ -121,7 +121,7 @@ function UserDetails({isCreate, userId}) {
             </Grid>
             <Grid item xs={12}>
               {/* {currentTab === 'activity' && <ActivityTab />} */}
-              {currentTab === 'edit_profile' && <EditProfileTab userData={user}/>}
+              {currentTab === 'edit_profile' && <EditProfileTab userData={user} userPutUrl={userPutUri}/>}
               {/* {currentTab === 'notifications' && <NotificationsTab />} */}
               {currentTab === 'security' && <SecurityTab userData={user}/>}
             </Grid>

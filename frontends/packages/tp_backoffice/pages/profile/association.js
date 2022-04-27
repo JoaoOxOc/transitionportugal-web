@@ -19,7 +19,7 @@ function AssociationProfileView() {
     const [currentLang, setLang] = useState("pt");
     i18nextUserDetails.changeLanguage(currentLang);
 
-    //TODO: get association id from token
+    const userData = getUserIdAndAssociation(window.sessionStorage.getItem('accessToken'));
 
     useEffect(() => {
         const handleNewMessage = (event) => {

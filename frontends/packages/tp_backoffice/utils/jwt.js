@@ -67,6 +67,26 @@ export const verifyTokenScopes = (token, scopes) => {
   }
 }
 
+export const getUserIdAndAssociation = (token) => {
+  if (token) {
+    const [encodedHeader, encodedPayload, signature] = token.split('.');
+    const header = JSON.parse(atob(encodedHeader));
+    const payload = JSON.parse(atob(encodedPayload));
+    const userData = {};
+    
+    if (payload.userId) {
+      userData.userId = payload.userId;
+    }
+    if (payload.associationId) {
+      userData.associationId = payload.associationId;
+    }
+    return userData;
+  }
+  else {
+    return {};
+  }
+}
+
 export const verify = (token, privateKey) => {
   const [encodedHeader, encodedPayload, signature] = token.split('.');
   const header = JSON.parse(atob(encodedHeader));
