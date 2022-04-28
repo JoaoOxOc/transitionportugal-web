@@ -34,7 +34,7 @@ const EmailEditorComponent = (props) => {
             key: props.templateData.key,
             language: props.templateData.language,
             bodyHtml: htmlData,
-            bodyJson: designJson
+            templateDataJson: designJson
         }
         console.log(templateModel);
         const result = await UpdateEmailTemplateData(props.templatePutUrl, templateModel);

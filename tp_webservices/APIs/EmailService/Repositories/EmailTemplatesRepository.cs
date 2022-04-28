@@ -152,17 +152,18 @@ namespace EmailService.Repositories
                 var template = this.context.EmailTemplates.Find(filter).FirstOrDefaultAsync();
                 if (template.Result != null)
                 {
-                    //var update = Builders<EmailTemplate>.Update
-                    //                      .Set(x => x.Description, editedEmailTemplate.Description)
-                    //                      .Set(x => x.Language, editedEmailTemplate.Language)
-                    //                      .Set(x => x.Subject, editedEmailTemplate.Subject)
-                    //                      .Set(x => x.BodyHtml, editedEmailTemplate.BodyHtml);
+                    var update = Builders<EmailTemplate>.Update
+                                          .Set(x => x.Description, editedEmailTemplate.Description)
+                                          .Set(x => x.Language, editedEmailTemplate.Language)
+                                          .Set(x => x.Subject, editedEmailTemplate.Subject)
+                                          .Set(x => x.BodyJson, editedEmailTemplate.BodyJson)
+                                          .Set(x => x.BodyHtml, editedEmailTemplate.BodyHtml);
 
-                    DeleteResult result = await this.context.EmailTemplates.DeleteOneAsync(filter);
-                    await this.context.EmailTemplates.InsertOneAsync(editedEmailTemplate);
+                    //DeleteResult result = await this.context.EmailTemplates.DeleteOneAsync(filter);
+                    //await this.context.EmailTemplates.InsertOneAsync(editedEmailTemplate);
                     //var result = await this.context.EmailTemplates.ReplaceOneAsync(filter, editedEmailTemplate, new ReplaceOptions() { IsUpsert = false });
 
-                    //var result = await this.context.EmailTemplates.UpdateOneAsync(filter, update);
+                    var result = await this.context.EmailTemplates.UpdateOneAsync(filter, update);
                     if (result.IsAcknowledged)
                     {
                         return template.Result;

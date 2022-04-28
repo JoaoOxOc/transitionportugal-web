@@ -86,38 +86,21 @@ namespace EmailService.Controllers
 
         private EmailTemplate ProcessModelToEntity(EmailTemplateVM templateVM, EmailTemplate template)
         {
-            EmailTemplate newTemplate = new EmailTemplate();
             if (templateVM != null && template != null)
             {
-                newTemplate.Id = template.Id;
-                newTemplate.Key = template.Key;
-                newTemplate.Language = template.Language;
-                newTemplate.CreatedAt = template.CreatedAt;
-                newTemplate.CreatedBy = template.CreatedBy;
-                newTemplate.UpdatedAt = newTemplate.UpdatedAt;
-                newTemplate.UpdatedBy = template.UpdatedBy;
-                newTemplate.BodyParameters = template.BodyParameters;
                 if (!string.IsNullOrEmpty(templateVM.Description))
-                    newTemplate.Description = templateVM.Description;
-                else
-                    newTemplate.Description = template.Description;
+                    template.Description = templateVM.Description;
 
                 if (!string.IsNullOrEmpty(templateVM.Subject))
-                    newTemplate.Subject = templateVM.Subject;
-                else
-                    newTemplate.Subject = template.Subject;
+                    template.Subject = templateVM.Subject;
 
                 if (templateVM.TemplateDataJson != null)
-                {
-                    newTemplate.BodyJson = BsonDocument.Parse(templateVM.TemplateDataJson.ToJson());
-                }
+                    template.BodyJson = BsonDocument.Parse(JsonSerializer.Serialize(templateVM.TemplateDataJson));
 
                 if (!string.IsNullOrEmpty(templateVM.BodyHtml))
-                    newTemplate.BodyHtml = templateVM.BodyHtml;
-                else
-                    newTemplate.BodyHtml = template.BodyHtml;
+                    template.BodyHtml = templateVM.BodyHtml;
             }
-            return newTemplate;
+            return template;
         }
 
         [HttpGet]
@@ -216,8 +199,7 @@ namespace EmailService.Controllers
                     {
                         return Ok(new
                         {
-                            templateId = result.Result.Id,
-                            jsonTemplate = System.Text.Json.JsonDocument.Parse(_template.BodyJson.ToJson(new JsonWriterSettings { OutputMode = JsonOutputMode.RelaxedExtendedJson }))
+                            templateId = result.Result.Id
                     });
                     }
                     else
