@@ -61,7 +61,8 @@ namespace CommonLibrary.Extensions
 
             foreach (string obj in args)
             {
-                result.Add(new JwtClaim(obj, token.Claims.Where(x => x.Type == obj).Select(c => c.Value).SingleOrDefault()));
+                var claimsByType = token.Claims.Where(x => x.Type == obj).Select(c => c.Value);
+                result.Add(new JwtClaim(obj, claimsByType.Count() > 1 ? JsonExtensions.SerializeToJson(claimsByType) : claimsByType.FirstOrDefault()));
             }
 
             return result;
@@ -78,7 +79,7 @@ namespace CommonLibrary.Extensions
                 foreach (string claimId in claimsIdentifications)
                 {
                     var claim = jwtClaims.Where(x => x.Claim == claimId).FirstOrDefault();
-                    mappedClaimValues.Add(claimId, claim != null ? claim.Value : null);
+                    mappedClaimValues.Add(claimId, claim != null ? claim.Claim : null);
                 }
             }
             catch

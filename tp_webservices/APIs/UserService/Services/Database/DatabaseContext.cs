@@ -46,15 +46,22 @@ namespace UserService.Services.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<TermsConditionsTranslation>().HasKey(table => new {
+                table.LangKey,
+                table.TermsConditionsVersion
+            });
             base.OnModelCreating(modelBuilder);
             new DbSeeder(modelBuilder).Seed();
         }
 
         public DbSet<User> User { get; set; }
         public DbSet<Association> Association { get; set; }
+        public DbSet<TermsConditions> TermsConditions { get; set; }
+        public DbSet<TermsConditionsTranslation> TermsConditionsTranslation { get; set; }
         public DbSet<Scope> Scope { get; set; }
         public DbSet<RoleScope> RoleScope { get; set; }
         public DbSet<Setting> Setting { get; set; }
         public DbSet<ClientCredential> ClientCredential { get; set; }
+        public DbSet<NewsletterSubscription> NewsletterSubscription { get; set; }
     }
 }

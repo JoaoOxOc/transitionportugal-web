@@ -4,6 +4,7 @@ using EmailService.Repositories;
 using EmailService.Sender;
 using EmailService.Services;
 using MassTransit;
+using MicroservicesLibrary.HttpHandlers;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -47,6 +48,10 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 app.UseAuthorization();
+
+// global error handler
+// read: https://jasonwatmore.com/post/2022/01/24/net-6-jwt-authentication-with-refresh-tokens-tutorial-with-example-api
+app.UseMiddleware<ErrorHandlerMiddleware>();
 
 app.MapControllers();
 

@@ -1,4 +1,11 @@
 export declare const SIDEMENU_TRANSLATIONS: {
+    readonly SIDEMENU_USER: {
+        readonly profile: "Profile";
+        readonly inbox: "Inbox";
+        readonly projects: "Projects";
+        readonly posts: "Posts";
+        readonly logout: "Sign out";
+    };
     readonly SIDEMENU_HEADERS: {
         readonly general: "General";
         readonly content: "Website Content";
@@ -14,7 +21,9 @@ export declare const SIDEMENU_TRANSLATIONS: {
     };
     readonly SIDEMENU_MANAGEMENT: {
         readonly users: "Users";
+        readonly associations: "Associations/Entities";
         readonly profiles: "Profiles";
+        readonly scopes: "Permissions";
         readonly newsletter: "Newsletter Subscriptions";
         readonly privacy: "Policy & Privacy";
     };

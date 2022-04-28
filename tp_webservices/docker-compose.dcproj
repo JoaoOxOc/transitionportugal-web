@@ -14,6 +14,7 @@
     </None>
     <None Include="docker-compose.yml" />
     <None Include=".dockerignore" />
+    <None Include="cmservice.dockerfile" />
     <None Include="emailservice.dockerfile" />
     <None Include="userservice.dockerfile" />
     <None Include="tpgateway.dockerfile" />

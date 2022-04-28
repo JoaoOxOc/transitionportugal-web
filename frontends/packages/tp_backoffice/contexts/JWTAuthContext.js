@@ -70,12 +70,12 @@ export const AuthProvider = (props) => {
   useEffect(() => {
     const initialize = async () => {
       try {
-        const accessToken = window.localStorage.getItem('accessToken');
+        const accessToken = window.sessionStorage.getItem('accessToken');
 
         if (accessToken) {
-          const userProfile = await genericFetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/user/profile", "GET", accessToken,{});
-          if (userProfile.result) {
-            const user = userProfile.result;
+          const userProfileResponse = await genericFetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/user/profile", "GET", accessToken,{});
+          if (userProfileResponse.userProfile) {
+            const user = userProfileResponse.userProfile;
             //const user = await me(accessToken);
 
             dispatch({
@@ -87,8 +87,7 @@ export const AuthProvider = (props) => {
             });
           }
           else {
-            console.log(userProfile);
-            if (userProfile.redirectLogin == true) {
+            if (userProfileResponse.redirectLogin == true) {
               dispatch({
                 type: 'INITIALIZE',
                 payload: {
@@ -98,11 +97,11 @@ export const AuthProvider = (props) => {
                 }
               });
             }
-            else if (userProfile.requestAgain) {
-              userProfile = await genericFetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/user/profile", "GET", window.localStorage.getItem('accessToken'),{});
-              if (userProfile.result) {
+            else if (userProfileResponse.requestAgain) {
+              userProfileResponse = await genericFetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/user/profile", "GET", window.sessionStorage.getItem('accessToken'),{});
+              if (userProfileResponse.userProfile) {
                 //const user = await authApi.me(response.token);
-                const user = userProfile.result;
+                const user = userProfileResponse.userProfile;
       
                 dispatch({
                   type: 'INITIALIZE',
@@ -113,7 +112,7 @@ export const AuthProvider = (props) => {
                 });
               }
               else {
-                throw userProfile.statusText;
+                throw userProfileResponse.statusText;
               }
             }
           }
@@ -143,19 +142,21 @@ export const AuthProvider = (props) => {
   const login = async (email, password) => {
       //const accessToken = await login({ email, password });
       //console.log(accessToken);
+      const responseFingerprint = await genericFetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/user/fingerprint", "GET", null,null);
+      console.log(responseFingerprint);
       const response = await genericFetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/user/login", "POST", null,{
             username: email,
             password: password
           }
       );
       if (response.token) {
-        const userProfile = await genericFetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/user/profile", "GET", response.token,{});
-        if (userProfile.result) {
+        const userProfileResponse = await genericFetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/user/profile", "GET", response.token,{});
+        if (userProfileResponse.userProfile) {
           //const user = await authApi.me(response.token);
-          const user = userProfile.result;
+          const user = userProfileResponse.userProfile;
     
-          localStorage.setItem('accessToken', response.token);
-          localStorage.setItem('refreshToken', response.refreshToken);
+          sessionStorage.setItem('accessToken', response.token);
+          sessionStorage.setItem('refreshToken', response.refreshToken);
 
           dispatch({
             type: 'LOGIN',
@@ -166,7 +167,7 @@ export const AuthProvider = (props) => {
           });
         }
         else {
-          throw userProfile.statusText;
+          throw userProfileResponse.statusText;
         }
       }
       else {
@@ -175,11 +176,11 @@ export const AuthProvider = (props) => {
   };
 
   const logout = async () => {
-    const accessToken = window.localStorage.getItem('accessToken');
+    const accessToken = window.sessionStorage.getItem('accessToken');
     const userLogout = await genericFetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/user/logout", "GET", accessToken,{});
     
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
+    sessionStorage.removeItem('accessToken');
+    sessionStorage.removeItem('refreshToken');
     dispatch({ type: 'LOGOUT' });
   };
 
@@ -187,7 +188,7 @@ export const AuthProvider = (props) => {
     const accessToken = await authApi.register({ email, name, password });
     const user = await authApi.me(accessToken);
 
-    localStorage.setItem('accessToken', accessToken);
+    sessionStorage.setItem('accessToken', accessToken);
 
     dispatch({
       type: 'REGISTER',

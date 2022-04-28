@@ -1,46 +1,41 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 
 import Head from 'next/head';
 
 import AccentHeaderLayout from '../../../layouts/AccentHeaderLayout';
 import { Authenticated } from '../../../components/Authenticated';
+import { Authorized } from '../../../components/Authorized';
 
 import PageHeader from '../../../content/Management/Users/PageHeader';
 import Footer from '../../../components/Footer';
 
 import { Grid } from '@mui/material';
-import { useRefMounted } from '../../../hooks/useRefMounted';
-
-import { usersApi } from '../../../mocks/users';
 
 import PageTitleWrapper from '../../../components/PageTitleWrapper';
 
 import Results from '../../../content/Management/Users/Results';
 
+import { i18nextUsersList } from "@transitionpt/translations";
+
+import { UsersSearchProvider } from '../../../contexts/Search/UsersSearchContext';
+
 function ManagementUsers() {
-  const isMountedRef = useRefMounted();
-  const [users, setUsers] = useState([]);
-
-  const getUsers = useCallback(async () => {
-    try {
-      const response = await usersApi.getUsers();
-
-      if (isMountedRef()) {
-        setUsers(response);
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  }, [isMountedRef]);
+  const { t } = i18nextUsersList;
+  const [currentLang, setLang] = useState("pt");
+  i18nextUsersList.changeLanguage(currentLang);
 
   useEffect(() => {
-    getUsers();
-  }, [getUsers]);
+    const handleNewMessage = (event) => {
+      setLang(event.detail);
+    };
+          
+    window.addEventListener('newLang', handleNewMessage);
+  }, []);
 
   return (
     <>
       <Head>
-        <title>Users - Management</title>
+        <title>{t('LABELS.UsersManagement')}</title>
       </Head>
       <PageTitleWrapper>
         <PageHeader />
@@ -55,7 +50,9 @@ function ManagementUsers() {
         spacing={3}
       >
         <Grid item xs={12}>
-          <Results users={users} />
+          <UsersSearchProvider>
+            <Results />
+          </UsersSearchProvider>
         </Grid>
       </Grid>
       <Footer />
@@ -65,7 +62,9 @@ function ManagementUsers() {
 
 ManagementUsers.getLayout = (page) => (
   <Authenticated>
-    <AccentHeaderLayout>{page}</AccentHeaderLayout>
+    <Authorized scopes={["users.write"]}>
+      <AccentHeaderLayout>{page}</AccentHeaderLayout>
+    </Authorized>
   </Authenticated>
 );
 

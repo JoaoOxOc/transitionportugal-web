@@ -8,6 +8,9 @@ using UserService.Helpers;
 using UserService.Models;
 using UserService.Services.RabbitMQ;
 using UserService.Services.UserManager;
+using MicroservicesLibrary.Exceptions;
+using UserService.Services.Email;
+using UserService.Services.TermsManager;
 
 namespace UserService.Controllers
 {
@@ -18,15 +21,31 @@ namespace UserService.Controllers
         private readonly ITPUserManager _userManager;
         private readonly ITokenManager _tokenManager;
         private readonly IConfiguration _configuration;
-        private readonly IRabbitMQSender _rabbitMqSender;
+        private readonly IEmailSender _emailSender;
+        private readonly ITermsManager _termsManager;
 
-        public AuthenticateController(ITPUserManager userManager, ITokenManager tokenManager, IConfiguration configuration, IRabbitMQSender rabbitMqSender)
+        public AuthenticateController(ITPUserManager userManager, ITokenManager tokenManager, IConfiguration configuration, IEmailSender emailSender, ITermsManager termsManager)
         {
             //userManager.PasswordHasher = new CustomPasswordHasher();
             _userManager = userManager;
             _tokenManager = tokenManager;
             _configuration = configuration;
-            _rabbitMqSender = rabbitMqSender;
+            _emailSender = emailSender;
+            _termsManager = termsManager;
+        }
+
+        [HttpGet]
+        [Route("fingerprint")]
+        public async Task<IActionResult> Fingerprint()
+        {
+            var fingerprintData = _tokenManager.GenerateAuthFingerprint("TPSSID");
+
+            Response.Cookies.Append(fingerprintData.CookieName, fingerprintData.CookieValue, fingerprintData.CookieProperties);
+
+            return Ok(new
+            {
+                message = "Server fingerprint generated"
+            });
         }
 
         [HttpPost]
@@ -40,21 +59,31 @@ namespace UserService.Controllers
 
                 var userScopes = await _userManager.GetUserScopes(user);
 
-                var tokenData = _tokenManager.GetToken(authClaims.Concat(userScopes).ToList(), null);
-                var refreshTokenData = _tokenManager.GenerateRefreshToken(user.Id);
+                var fingerprintData = _tokenManager.GenerateAuthFingerprint("_TPSSID");
 
-
-                user.RefreshToken = refreshTokenData.Key;
-                user.RefreshTokenExpiryTime = DateTime.Now.AddDays(refreshTokenData.Value);
-
-                await _userManager.UpdateUser(user);
-
-                return Ok(new
+                //Response.Cookies.Append(fingerprintData.CookieName, fingerprintData.CookieValue, fingerprintData.CookieProperties);
+                try
                 {
-                    token = tokenData.Token,
-                    RefreshToken = refreshTokenData.Key,
-                    expiration = tokenData.ExpiresAt
-                });
+                    var tokenData = _tokenManager.GetToken(authClaims.Concat(userScopes).ToList(), null, fingerprintData.CookieValue);
+                    var refreshTokenData = _tokenManager.GenerateRefreshToken(user.Id, fingerprintData.CookieValue);
+
+
+                    user.RefreshToken = refreshTokenData.Key;
+                    user.RefreshTokenExpiryTime = DateTime.Now.AddDays(refreshTokenData.Value);
+
+                    await _userManager.UpdateUser(user);
+
+                    return Ok(new
+                    {
+                        token = tokenData.Token,
+                        RefreshToken = refreshTokenData.Key,
+                        expiration = tokenData.ExpiresAt
+                    });
+                }
+                catch(Exception ex)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, null);
+                }
             }
             return Unauthorized();
         }
@@ -72,25 +101,6 @@ namespace UserService.Controllers
                 });
             }
             return NotFound();
-        }
-
-        [Authorize]
-        [HttpGet]
-        [Route("profile")]
-        public async Task<IActionResult> Profile()
-        {
-            string header = HttpContext.Request.Headers["Authorization"];
-            string[] claims = new string[] { "userId", "sub", "associationId" };
-            List<JwtClaim> userClaims = JwtHelper.ValidateToken(header, _configuration["JWT:ValidAudience"], _configuration["JWT:ValidIssuer"], _configuration["JWT:SecretPublicKey"], claims);
-            if (userClaims != null && userClaims.Count > 0)
-            {
-                //int requesterId = Convert.ToInt32(jwtClaims.Where(x => x.Claim == "userId").Single().Value);
-                string userId = userClaims.Where(x => x.Claim == "userId").Single().Value;
-                var user = _userManager.GetUserProfileById(userId);
-                
-                return Ok(user);
-            }
-            return Unauthorized();
         }
 
         [HttpPost]
@@ -124,7 +134,9 @@ namespace UserService.Controllers
                 CreatedAt = DateTime.Now,
                 IsActive = false,
                 IsVerified = false,
-                IsEmailVerified = false
+                IsEmailVerified = false,
+                TermsConsent = model.TermsConfirmed.Value,
+                TermsConsentVersion = _termsManager.GetActiveTermsConditionsVersion()
             };
 
             User user = new()
@@ -137,7 +149,9 @@ namespace UserService.Controllers
                 NormalizedUserName = model.Username.ToUpper(),
                 IsVerified = false,
                 IsActive = false,
-                IsEmailVerified = false
+                IsEmailVerified = false,
+                TermsConsent = model.TermsConfirmed.Value,
+                TermsConsentVersion = _termsManager.GetActiveTermsConditionsVersion()
             };
             var result = await _userManager.CreateUserWithAssociation(user, association, model.Password);
             if (result.Key == null || string.IsNullOrEmpty(result.Key.Id))
@@ -146,28 +160,15 @@ namespace UserService.Controllers
             var userClaims = await _userManager.GetUserClaimsPasswordRecovery(result.Key);
             var associationClaims = await _userManager.GetAssociationClaimsConfirmEmail(result.Value);
 
-            var userTokenData = _tokenManager.GetToken(userClaims, 1440);
+            var userTokenData = _tokenManager.GetToken(userClaims, 1440, null);
 
-            var associationTokenData = _tokenManager.GetToken(associationClaims, 1440);
+            var associationTokenData = _tokenManager.GetToken(associationClaims, 1440, null);
 
-            //TODO: send email through the helper class with template
-            EmailVM userEmailData = new EmailVM();
-            userEmailData.To = new List<string> { "jp_69_7@hotmail.com" };//TODO: replace with user.Email, only use the current line for testing
             var userEmailLink = _configuration["ApplicationSettings:RecoverPasswordBaseUrl"] + _configuration["ApplicationSettings:ConfirmEmailUri"] + "?t=" + userTokenData.Token;
-            userEmailData.Body = "Please access the following url to confirm your email, you only have 24 hours to do so:<br/><a target='_blank' rel='noopener noreferrer' href='" + userEmailLink + "'>" + userEmailLink + "</a>";
-            userEmailData.Subject = "Confirm your email";
-            userEmailData.EmailTemplateKey = "";
+            bool userEmailSuccess = await _emailSender.SendActivateUserEmail(user.Email, "pt-PT", userEmailLink);
 
-            bool userEmailSuccess = await _rabbitMqSender.PublishEmailMessage(userEmailData);
-
-            EmailVM associationEmailData = new EmailVM();
-            associationEmailData.To = new List<string> { "jp_69_7@hotmail.com" };//TODO: replace with user.Email, only use the current line for testing
             var associationEmailLink = _configuration["ApplicationSettings:RecoverPasswordBaseUrl"] + _configuration["ApplicationSettings:ConfirmEmailUri"] + "?t=" + associationTokenData.Token;
-            associationEmailData.Body = "Please access the following url to confirm your email, you only have 24 hours to do so:<br/><a target='_blank' rel='noopener noreferrer' href='" + associationEmailLink + "'>" + associationEmailLink + "</a>";
-            associationEmailData.Subject = "Confirm your email";
-            associationEmailData.EmailTemplateKey = "";
-
-            bool associationEmailSuccess = await _rabbitMqSender.PublishEmailMessage(associationEmailData);
+            bool associationEmailSuccess = await _emailSender.SendActivateAssociationEmail(association.Email, "pt-PT", associationEmailLink);
 
             if (!userEmailSuccess)
             {
@@ -278,30 +279,45 @@ namespace UserService.Controllers
                 return BadRequest("Invalid access token or refresh token");
             }
 
-            #pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
-            #pragma warning disable CS8602 // Dereference of a possibly null reference.
-            string username = principal.Identity.Name;
-            #pragma warning restore CS8602 // Dereference of a possibly null reference.
-            #pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
-
-            var user = await _userManager.SearchUser(username);
-
-            if (user == null || user.RefreshToken != refreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
+            try
             {
-                return BadRequest("Invalid access token or refresh token");
+
+                //string cookieValueFromContext = HttpContext.Request.Cookies["TPSSID"];
+
+                var refreshPrincipals = _tokenManager.GetPrincipalFromRefreshToken(refreshToken);
+
+                //var fingerprintValid = _tokenManager.ValidateAuthFingerprint(cookieValueFromContext, refreshPrincipals.Claims.Where(x => x.Type == "userContext").FirstOrDefault()?.Value);
+
+                #pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
+                #pragma warning disable CS8602 // Dereference of a possibly null reference.
+                string username = principal.Identity.Name;
+                #pragma warning restore CS8602 // Dereference of a possibly null reference.
+                #pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
+
+                var user = await _userManager.SearchUser(username);
+
+                //!fingerprintValid || 
+                if (user == null || user.RefreshToken != refreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
+                {
+                    return BadRequest("Invalid access token or refresh token");
+                }
+
+                var newAccessTokenData = _tokenManager.GetToken(principal.Claims.ToList(), null, null);
+                var newRefreshTokenData = _tokenManager.GenerateRefreshToken(user.Id, null);
+
+                user.RefreshToken = newRefreshTokenData.Key;
+                await _userManager.UpdateUser(user);
+
+                return new ObjectResult(new
+                {
+                    accessToken = newAccessTokenData.Token,
+                    refreshToken = newRefreshTokenData.Key
+                });
             }
-
-            var newAccessTokenData = _tokenManager.GetToken(principal.Claims.ToList(), null);
-            var newRefreshTokenData = _tokenManager.GenerateRefreshToken(user.Id);
-
-            user.RefreshToken = newRefreshTokenData.Key;
-            await _userManager.UpdateUser(user);
-
-            return new ObjectResult(new
+            catch (Exception ex)
             {
-                accessToken = newAccessTokenData.Token,
-                refreshToken = newRefreshTokenData.Key
-            });
+                return StatusCode(StatusCodes.Status500InternalServerError, null);
+            }
         }
 
         [Authorize]
@@ -364,17 +380,11 @@ namespace UserService.Controllers
             var user = await _userManager.SearchUser(model.Username);
             if (user != null)
             {
-                EmailVM emailData = new EmailVM();
-                emailData.To = new List<string> { "jp_69_7@hotmail.com" };//TODO: replace with user.Email, only use the current line for testing
                 var authClaims = await _userManager.GetUserClaimsPasswordRecovery(user);
 
-                var tokenData = _tokenManager.GetToken(authClaims, null);
+                var tokenData = _tokenManager.GetToken(authClaims, null, null);
                 var emailLink = _configuration["ApplicationSettings:RecoverPasswordBaseUrl"] + _configuration["ApplicationSettings:RecoverPasswordUri"] + "?t=" + tokenData.Token;
-                emailData.Body = "Please access the following url to reset your password, you only have 15 minutes to reset your password:<br/><a target='_blank' rel='noopener noreferrer' href='" + emailLink + "'>" + emailLink + "</a>";
-                emailData.Subject = "Reset your password";
-                emailData.EmailTemplateKey = "";
-
-                bool success = await _rabbitMqSender.PublishEmailMessage(emailData);
+                bool success = await _emailSender.SendRecoverPasswordEmail(user.Email, "pt-PT", emailLink);
                 if (!success)
                 {
                     throw new AppException("Email send error");

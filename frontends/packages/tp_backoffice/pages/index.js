@@ -6,7 +6,7 @@ import { Authenticated } from '../components/Authenticated';
 import DashboardReportsContent from '../content/DashboardPages/reports';
 
 function DashboardReports({api_url}) {
-  console.log(api_url)
+  console.log("env API URL: ",api_url)
   return (
     <>
       <Head>

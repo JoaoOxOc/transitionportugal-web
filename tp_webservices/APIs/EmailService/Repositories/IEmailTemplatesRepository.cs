@@ -10,9 +10,9 @@ namespace EmailService.Repositories
     {
         Task<IEnumerable<EmailTemplate>> Get();
 
-        IEnumerable<EmailTemplate> GetFiltered(string searchText, int? offset, int? limit, string sort, string sortDirection, string ignoreId = null);
+        IEnumerable<EmailTemplate> GetFiltered(string searchText, string language, int? offset, int? limit, string sort, string sortDirection, string ignoreId = null);
 
-        int Count(string searchText, int? offset, int? limit, string sort);
+        int Count(string searchText, string language, int? offset, int? limit, string sort);
 
         Task<EmailTemplate> GetById(object id);
 

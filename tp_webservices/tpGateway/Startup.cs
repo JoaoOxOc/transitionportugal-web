@@ -21,6 +21,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using tpGateway.Services;
+using MicroservicesLibrary.OpenApi;
 
 namespace tpGateway
 {
@@ -110,7 +111,7 @@ namespace tpGateway
                 };
             });
             // TODO: apply the correct secret
-            services.AddOcelot(Configuration).AddAdministration("/administration", "secret");
+            services.AddOcelot(Configuration).AddDelegatingHandler<HeaderDelegatingHandler>(true).AddAdministration("/administration", "secret");
 
             services.AddSwaggerForOcelot(Configuration);
         }

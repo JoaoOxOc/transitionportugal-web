@@ -3,7 +3,9 @@ WORKDIR /app/
 #COPY ./package.json ./
 #COPY ./lerna.json ./
 COPY ./package.json /app/
-RUN npm install
+
+RUN npm install --force
+
 COPY ./lerna.json /app/
 
 
@@ -16,6 +18,9 @@ WORKDIR /app/
 # tp_translations is a dependency in tp_backoffice, install it's dependencies
 COPY  packages/tp_translations/package.json /app/packages/tp_translations/package.json
 COPY  packages/tp_translations/ /app/packages/tp_translations/ 
+
+RUN npm config set legacy-peer-deps true
+
 RUN npx lerna bootstrap --scope=@transitionpt/translations --includeDependencies
 
 # compile tp_translations
@@ -24,6 +29,8 @@ RUN npx lerna run tsc --stream
 # install tp_backoffice dependencies
 COPY  packages/tp_backoffice/package.json /app/packages/tp_backoffice/package.json
 COPY  packages/tp_backoffice/ /app/packages/tp_backoffice/ 
+
+RUN npm config set legacy-peer-deps true
 
 RUN npx lerna bootstrap --hoist --scope=@transitionpt/backoffice --includeDependencies
 
@@ -44,6 +51,18 @@ copy --from=transitionpt_backoffice-build /app/packages/tp_translations /app/pac
 copy --from=transitionpt_backoffice-build /app/node_modules /app/node_modules
 
 WORKDIR /app/packages/tp_backoffice
+
+ARG NEXT_PUBLIC_API_BASE_URL
+ENV NEXT_PUBLIC_API_BASE_URL=$NEXT_PUBLIC_API_BASE_URL
+
+ARG NEXT_PUBLIC_CLIENT_ID
+ENV NEXT_PUBLIC_CLIENT_ID=$NEXT_PUBLIC_CLIENT_ID
+
+ARG NEXT_PUBLIC_CLIENT_SECRET
+ENV NEXT_PUBLIC_CLIENT_SECRET=$NEXT_PUBLIC_CLIENT_SECRET
+
+ARG NEXT_PUBLIC_HOME_URL
+ENV NEXT_PUBLIC_HOME_URL=$NEXT_PUBLIC_HOME_URL
 
 RUN npm run build
 
@@ -74,18 +93,6 @@ USER nextjs
 EXPOSE 3000
 
 ENV PORT 3000
-
-ARG NEXT_PUBLIC_API_BASE_URL
-ENV NEXT_PUBLIC_API_BASE_URL=$NEXT_PUBLIC_API_BASE_URL
-
-ARG NEXT_PUBLIC_CLIENT_ID
-ENV NEXT_PUBLIC_CLIENT_ID=$NEXT_PUBLIC_CLIENT_ID
-
-ARG NEXT_PUBLIC_CLIENT_SECRET
-ENV NEXT_PUBLIC_CLIENT_SECRET=$NEXT_PUBLIC_CLIENT_SECRET
-
-ARG NEXT_PUBLIC_HOME_URL
-ENV NEXT_PUBLIC_HOME_URL=$NEXT_PUBLIC_HOME_URL
 
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry

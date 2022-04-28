@@ -39,6 +39,14 @@ namespace UserService.Repositories
             dbSet.Add(entity);
         }
 
+        public void Add(List<TEntity> entities)
+        {
+            foreach (TEntity entity in entities)
+            {
+                Add(entity);
+            }
+        }
+
         public int Count(Expression<Func<TEntity, bool>> filter = null)
         {
             IQueryable<TEntity> query = dbSet;
@@ -62,6 +70,14 @@ namespace UserService.Repositories
             }
 
             dbSet.Remove(entityToDelete);
+        }
+
+        public void Delete(List<TEntity> entitiesToDelete)
+        {
+            foreach (TEntity entity in entitiesToDelete)
+            {
+                Delete(entity);
+            }
         }
 
         public List<TEntity> Get(int? pageNum = null,
@@ -131,7 +147,14 @@ namespace UserService.Repositories
 
             if (!string.IsNullOrEmpty(orderBy))
             {
-                query = query.OrderBy(orderBy, sortDirection);
+                if (sortDirection == SortDirection.Ascending)
+                {
+                    query = query.OrderBy(orderBy);
+                }
+                else
+                {
+                    query = query.OrderByDescending(orderBy);
+                }
             }
             else
             {
@@ -167,6 +190,14 @@ namespace UserService.Repositories
 
             dbSet.Attach(entityToUpdate);
             context.Entry(entityToUpdate).State = EntityState.Modified;
+        }
+
+        public void Update(List<TEntity> entitiesToUpdate)
+        {
+            foreach (TEntity entity in entitiesToUpdate)
+            {
+                Update(entity);
+            }
         }
     }
 }

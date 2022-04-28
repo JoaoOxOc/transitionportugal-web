@@ -19,15 +19,21 @@
 
         public string? RefreshToken { get; set; }
 
+        public bool TermsConsent { get; set; }
+
+        public decimal TermsConsentVersion { get; set; }
+
         public DateTime RefreshTokenExpiryTime { get; set; }
 
         #region Metadata
 
-        public int? CreatedBy { get; set; }
+        public string? CreatedBy { get; set; }
         public DateTime CreatedAt { get; set; }
-        public int? UpdatedBy { get; set; }
+        public string? UpdatedBy { get; set; }
         public DateTime? UpdatedAt { get; set; }
 
         #endregion
+
+        public virtual ICollection<NewsletterSubscription> NewsletterSubscriptions { get; set; }
     }
 }

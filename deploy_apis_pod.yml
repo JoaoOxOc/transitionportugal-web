@@ -175,6 +175,16 @@ spec:
               value: "http://+:3020"
             - name: ASPNETCORE_ENVIRONMENT
               value: "Production"
+            - name: ApplicationSettings__CookiePolicy
+              valueFrom:
+                  secretKeyRef:
+                      name: userservice-data
+                      key: cookie-policy
+            - name: ApplicationSettings__CookieDomain
+              valueFrom:
+                  secretKeyRef:
+                      name: userservice-data
+                      key: main-domain
             - name: ApplicationSettings__RabbitMQHost
               valueFrom:
                   secretKeyRef:
@@ -263,5 +273,52 @@ spec:
                   secretKeyRef:
                       name: userservice-data
                       key: jwt-valid-issuer
+      - name: tpcmservice
+        image: <CMSERVICE_API_IMAGE>
+        ports:
+            - containerPort: 3030
+        env:
+            - name: ASPNETCORE_URLS
+              value: "http://+:3030"
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "Production"
+            - name: ConnectionStrings__DefaultConnectionString
+              valueFrom:
+                  secretKeyRef:
+                      name: cmservice-data
+                      key: db-conn-string
+            - name: DatabaseSettings__DbHost
+              valueFrom:
+                  secretKeyRef:
+                      name: cmservice-data
+                      key: db-host
+            - name: DatabaseSettings__DbPort
+              valueFrom:
+                  secretKeyRef:
+                      name: cmservice-data
+                      key: db-port
+            - name: DatabaseSettings__Database
+              valueFrom:
+                  secretKeyRef:
+                      name: cmservice-data
+                      key: db-name
+            - name: DatabaseSettings__DbUser
+              valueFrom:
+                  secretKeyRef:
+                      name: cmservice-data
+                      key: db-user
+            - name: DatabaseSettings__DbPassword
+              valueFrom:
+                  secretKeyRef:
+                      name: cmservice-data
+                      key: db-password
+            - name: DatabaseSettings__DbSslMode
+              value: "Require"
+            - name: DatabaseSettings__DbServerCompatibilityMode
+              value: "Redshift"
+            - name: DatabaseSettings__DbTrustCertificate
+              value: "true"
+            - name: DatabaseSettings__DbPooling
+              value: "false"
       imagePullSecrets:
       - name: do-photos-registry-secret

@@ -7,6 +7,7 @@ export const genericFetch = async (apiUrl, method, bearerToken, bodyJson) => {
         'Expires': 'Sat, 01 Jan 2000 00:00:00 GMT',
         'Accept': '*/*',
         "Content-Type": "application/json",
+        "credentials": 'include',
         "ClientId": process.env.NEXT_PUBLIC_CLIENT_ID,
         "ClientAuthorization": process.env.NEXT_PUBLIC_CLIENT_SECRET
     };
@@ -44,17 +45,19 @@ export const genericFetch = async (apiUrl, method, bearerToken, bodyJson) => {
             resultErrorBody = await response.text();
             resultData = {};
             resultData.totalCount = 0;
+            resultData.responseBody = resultErrorBody;
             throw response;
         }
         resultData = await response.json();
         resultData.totalCount = response.headers.get('x-total-count');
     }catch(err){
         resultData = err;
+        console.log(resultErrorBody)
         if (err.status == 400 && resultErrorBody == "Invalid access token or refresh token") {
             resultData.redirectLogin = true;
         }
         else if (bearerToken && err.status == 401) {
-            const refreshToken = window.localStorage.getItem('refreshToken');
+            const refreshToken = window.sessionStorage.getItem('refreshToken');
             if (refreshToken) {
               const refreshedTokenData = await genericFetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/user/refresh", "POST", null,
               {
@@ -62,8 +65,8 @@ export const genericFetch = async (apiUrl, method, bearerToken, bodyJson) => {
                 refreshToken: refreshToken,
               });
               if (refreshedTokenData.accessToken) {
-                  localStorage.setItem('accessToken', refreshedTokenData.accessToken);
-                  localStorage.setItem('refreshToken', refreshedTokenData.refreshToken);
+                  sessionStorage.setItem('accessToken', refreshedTokenData.accessToken);
+                  sessionStorage.setItem('refreshToken', refreshedTokenData.refreshToken);
                   resultData.requestAgain = true;
               }
               else {
@@ -72,6 +75,14 @@ export const genericFetch = async (apiUrl, method, bearerToken, bodyJson) => {
             }
             else {
                 resultData.redirectLogin = true;
+            }
+        }
+        else {
+            try {
+                resultData.responseBody = JSON.parse(resultErrorBody);
+            }
+            catch(ex) {
+                resultData.responseBody = resultErrorBody;
             }
         }
     }finally{

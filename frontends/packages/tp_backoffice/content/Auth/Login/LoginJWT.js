@@ -39,8 +39,8 @@ export const LoginJWT = (props) => {
 
   const formik = useFormik({
     initialValues: {
-      email: 'demo@example.com',
-      password: 'test',
+      email: '',
+      password: '',
       terms: true,
       submit: null
     },
@@ -99,6 +99,7 @@ export const LoginJWT = (props) => {
         aria-labelledby={ t('FORMS.usernameOrEmailAddress') } 
         aria-describedby={ t('FORMS.usernameOrEmailAddress_help') }
         name="email"
+        placeholder='username/email'
         onBlur={formik.handleBlur}
         onChange={formik.handleChange}
         type="text"

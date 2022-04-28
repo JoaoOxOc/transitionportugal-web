@@ -6,6 +6,7 @@ using EmailService.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq.Expressions;
 using System.Net;
+using System.Text.Json;
 
 namespace EmailService.Controllers
 {
@@ -56,10 +57,9 @@ namespace EmailService.Controllers
         {
             try
             {
-                string header = HttpContext.Request.Headers["Authorization"];
-                string[] claims = new string[] { "userId", "sub", System.Security.Claims.ClaimTypes.Role };
-                List<JwtClaim> userClaims = JwtHelper.ValidateToken(header, _configuration["JWT:ValidAudience"], _configuration["JWT:ValidIssuer"], _configuration["JWT:SecretPublicKey"], claims);
-                if (PermissionsHelper.ValidateRoleClaimPermission(userClaims, new List<string> { "Admin" }))
+                List<string> scopes = !string.IsNullOrEmpty(HttpContext.Request.Headers["UserClaims"]) ? JsonSerializer.Deserialize<List<string>>(HttpContext.Request.Headers["UserClaims"]) : null;
+                if (PermissionsHelper.ValidateRoleClaimPermission(HttpContext.Request.Headers["UserRole"], new List<string> { "Admin" })
+                    && PermissionsHelper.ValidateUserScopesPermissionAll(scopes, new List<string> { "settings.admin" }))
                 {
                     searchText = string.IsNullOrEmpty(searchText) ? string.Empty : searchText;
 
@@ -83,13 +83,13 @@ namespace EmailService.Controllers
                 }
                 else
                 {
-                    return Forbid();
+                    return StatusCode((int)HttpStatusCode.Forbidden, null);
                 }
 
             }
             catch (Exception ex)
             {
-                return StatusCode(500, null);
+                return StatusCode((int)HttpStatusCode.InternalServerError, null);
             }
         }
 
@@ -98,10 +98,9 @@ namespace EmailService.Controllers
         {
             try
             {
-                string header = HttpContext.Request.Headers["Authorization"];
-                string[] claims = new string[] { "userId", "sub", System.Security.Claims.ClaimTypes.Role };
-                List<JwtClaim> userClaims = JwtHelper.ValidateToken(header, _configuration["JWT:ValidAudience"], _configuration["JWT:ValidIssuer"], _configuration["JWT:SecretPublicKey"], claims);
-                if (PermissionsHelper.ValidateRoleClaimPermission(userClaims, new List<string> { "Admin" }))
+                List<string> scopes = !string.IsNullOrEmpty(HttpContext.Request.Headers["UserClaims"]) ? JsonSerializer.Deserialize<List<string>>(HttpContext.Request.Headers["UserClaims"]) : null;
+                if (PermissionsHelper.ValidateRoleClaimPermission(HttpContext.Request.Headers["UserRole"], new List<string> { "Admin" })
+                    && PermissionsHelper.ValidateUserScopesPermissionAll(scopes, new List<string> { "settings.admin" }))
                 {
                     var _setting = await this._settingsRepository.GetById(id);
 
@@ -110,7 +109,7 @@ namespace EmailService.Controllers
                 }
                 else
                 {
-                    return Forbid();
+                    return StatusCode((int)HttpStatusCode.Forbidden, null);
                 }
             }
             catch (Exception ex)
@@ -123,10 +122,9 @@ namespace EmailService.Controllers
         [Route("edit")]
         public async Task<IActionResult> EditSetting([FromBody] SettingModel model)
         {
-            string header = HttpContext.Request.Headers["Authorization"];
-            string[] claims = new string[] { "userId", "sub", System.Security.Claims.ClaimTypes.Role };
-            List<JwtClaim> userClaims = JwtHelper.ValidateToken(header, _configuration["JWT:ValidAudience"], _configuration["JWT:ValidIssuer"], _configuration["JWT:SecretPublicKey"], claims);
-            if (PermissionsHelper.ValidateRoleClaimPermission(userClaims, new List<string> { "Admin" }))
+            List<string> scopes = !string.IsNullOrEmpty(HttpContext.Request.Headers["UserClaims"]) ? JsonSerializer.Deserialize<List<string>>(HttpContext.Request.Headers["UserClaims"]) : null;
+            if (PermissionsHelper.ValidateRoleClaimPermission(HttpContext.Request.Headers["UserRole"], new List<string> { "Admin" })
+                && PermissionsHelper.ValidateUserScopesPermissionAll(scopes, new List<string> { "settings.admin" }))
             {
                 var _setting = this._settingsRepository.GetFiltered(model.Key, null, null, string.Empty, string.Empty).FirstOrDefault();
                 if (_setting != null)
@@ -141,7 +139,7 @@ namespace EmailService.Controllers
                         _setting.Value = model.Value;
 
                     _setting.UpdatedAt = DateTime.UtcNow;
-                    _setting.UpdatedBy = userClaims.Where(x => x.Claim == "userId").Single().Value;
+                    _setting.UpdatedBy = HttpContext.Request.Headers["UserId"];
 
                     ObjectResult _validate = this.ValidateSetting(_setting);
                     if (_validate.StatusCode != (int)HttpStatusCode.OK)
@@ -164,7 +162,7 @@ namespace EmailService.Controllers
                     return NotFound();
                 }
             }
-            return Forbid();
+            return StatusCode((int)HttpStatusCode.Forbidden, null);
         }
     }
 }

@@ -28,5 +28,75 @@ namespace CommonLibrary.Extensions
                 return false;
             }
         }
+
+        /// <summary>
+        /// Validates if the Role claim value is inside the permitted roles list
+        /// </summary>
+        /// <param name="userRole">the user role</param>
+        /// <param name="permittedRoles">permitted roles list</param>
+        /// <returns>true if user claim role is inside permitted roles list, false otherwise</returns>
+        public static bool ValidateRoleClaimPermission(string userRole, List<string> permittedRoles)
+        {
+            if (permittedRoles != null && permittedRoles.Count > 0 && !string.IsNullOrEmpty(userRole))
+            {
+                return permittedRoles.Contains(userRole);
+            }
+            else if (permittedRoles == null || permittedRoles.Count == 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Validates if the user as any scope defined for the action
+        /// </summary>
+        /// <param name="userScopes"> the list of user scopes registered on his token</param>
+        /// <param name="permittedScopes">the list of permitted scopes on a specific action</param>
+        /// <returns></returns>
+        public static bool ValidateUserScopesPermissionAny(List<string> userScopes, List<string> permittedScopes)
+        {
+            if (permittedScopes != null && permittedScopes.Count > 0 && userScopes != null)
+            {
+                return permittedScopes.Select(x => x)
+                          .Intersect(userScopes)
+                          .Any();
+            }
+            else if (permittedScopes == null || permittedScopes.Count == 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Validates if the user as any scope defined for the action
+        /// </summary>
+        /// <param name="userScopes"> the list of user scopes registered on his token</param>
+        /// <param name="permittedScopes">the list of permitted scopes on a specific action</param>
+        /// <returns></returns>
+        public static bool ValidateUserScopesPermissionAll(List<string> userScopes, List<string> permittedScopes)
+        {
+            if (permittedScopes != null && permittedScopes.Count > 0 && userScopes != null)
+            {
+                return permittedScopes.Select(x => x)
+                          .Intersect(userScopes).Count() == permittedScopes.Count;
+            }
+            else if (permittedScopes == null || permittedScopes.Count == 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
     }
 }
