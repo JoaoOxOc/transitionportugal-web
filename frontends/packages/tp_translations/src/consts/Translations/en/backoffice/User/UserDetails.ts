@@ -33,6 +33,12 @@ export const USERDETAILS_TRANSLATIONS = deepFreeze({
         admin: "System Administrator",
         user: "System User"
     },
+    CONNECTED_ACCOUNTS: {
+        discourse: "Discourse",
+        discourseDescription: "Defines if you're connected to Transição Portugal Discourse app",
+        connected: "Connected",
+        disconnected: "Disconnected"
+    },
     FORM: {
         personalDetails: "Personal Details",
         personalDetailsMessage: "Manage informations related to personal details",
@@ -41,6 +47,12 @@ export const USERDETAILS_TRANSLATIONS = deepFreeze({
         accountSettings: "Account Settings",
         accountSettingsMessage: "Manage settings related to account",
         primaryContactType: "Main Contact Type",
+        connectedAccounts: "Connected Accounts",
+        connectedAccountsMessage: "Manage connected accounts options",
+        security: "Security",
+        securityMessage: "Change your security preferences below",
+        changePassword: "Change Password",
+        changePasswordMessage: "You will receive an email with instructions on how to reset it",
         name: "Name",
         userName: "Username",
         email: "User Email",
@@ -66,6 +78,7 @@ export const USERDETAILS_TRANSLATIONS = deepFreeze({
         userUpdatedSuccessfully: "The user with name {{userName}} was updated successfully",
         userCreatedSuccessfully: "The user with name {{userName}} was created successfully",
         userGeneralError: "Error creating/updating user with name {{userName}}. Please try again",
-        userNotFound: "The cuser with name {{userName}} wasn't found. Please double check if the name is correct"
+        userNotFound: "The user with name {{userName}} wasn't found. Please double check if the name is correct",
+        passwordResetSuccess: "You will receive an email with instructions on how to reset the password"
     }
 } as const);

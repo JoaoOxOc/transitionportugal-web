@@ -32,6 +32,14 @@ export declare const USERSLIST_TRANSLATIONS: {
     };
     readonly MESSAGES: {
         readonly usersManagementDescription: "Todos os aspectos relativos aos utilizadores da aplicação podem ser geridos nesta página";
+        readonly usersNotFound: "O(s) utilizador(es) seleccionado(s) não foi/foram encontrado(s)";
+        readonly resentErrors: "Alguns emails não foram enviados para o(s) utilizador(es) seleccionado(s). Por favor tente novamente";
+        readonly resentEmails: "Email(s) de verificação reenviado(s) para o(s) utilizador(es) seleccionado(s)";
+        readonly usersApproved: "O(s) utilizador(es) seleccionado(s) está/estão agora aprovado(s)/activo(s)";
+        readonly usersRemoved: "O(s) utilizador(es) seleccionado(s) foi/foram removido(s)";
+        readonly approvingErrors: "O/alguns utilizador(es) seleccionado(s) não foi/foram aprovado(s). Por favor tente novamente";
+        readonly deleted: "O(s) utilizador(es) seleccionado(s) foi/foram removido(s)";
+        readonly deletingErrors: "O/alguns utilizador(es) seleccionado(s) não foi/foram eliminado(s). Por favor tente novamente";
     };
     readonly SEARCH: {
         readonly filters: "Filtros";

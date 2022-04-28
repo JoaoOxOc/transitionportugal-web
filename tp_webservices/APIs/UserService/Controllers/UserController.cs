@@ -179,7 +179,7 @@ namespace UserService.Controllers
                     && (x.Name.ToLower().Contains(searchText.ToLower()) || x.UserName.ToLower().Contains(searchText.ToLower()))
                     && (!associationId.HasValue || x.AssociationId == associationId.Value)
                     && (!isActive.HasValue || x.IsActive == isActive.Value)
-                    && (!isVerified.HasValue || x.IsVerified == isVerified.Value));
+                    && (!isVerified.HasValue || x.IsEmailVerified == isVerified.Value));
 
                     var _users = _uow.UserRepository.Get(offset, limit, filter, sort, direction, "Association");
 

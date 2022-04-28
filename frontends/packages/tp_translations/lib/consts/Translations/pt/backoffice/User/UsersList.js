@@ -32,7 +32,15 @@ export var USERSLIST_TRANSLATIONS = deepFreeze({
         updatedAt: "Actualizado em"
     },
     MESSAGES: {
-        usersManagementDescription: "Todos os aspectos relativos aos utilizadores da aplicação podem ser geridos nesta página"
+        usersManagementDescription: "Todos os aspectos relativos aos utilizadores da aplicação podem ser geridos nesta página",
+        usersNotFound: "O(s) utilizador(es) seleccionado(s) não foi/foram encontrado(s)",
+        resentErrors: "Alguns emails não foram enviados para o(s) utilizador(es) seleccionado(s). Por favor tente novamente",
+        resentEmails: "Email(s) de verificação reenviado(s) para o(s) utilizador(es) seleccionado(s)",
+        usersApproved: "O(s) utilizador(es) seleccionado(s) está/estão agora aprovado(s)/activo(s)",
+        usersRemoved: "O(s) utilizador(es) seleccionado(s) foi/foram removido(s)",
+        approvingErrors: "O/alguns utilizador(es) seleccionado(s) não foi/foram aprovado(s). Por favor tente novamente",
+        deleted: "O(s) utilizador(es) seleccionado(s) foi/foram removido(s)",
+        deletingErrors: "O/alguns utilizador(es) seleccionado(s) não foi/foram eliminado(s). Por favor tente novamente"
     },
     SEARCH: {
         filters: "Filtros",

@@ -42,7 +42,7 @@ function UserDetails({isProfile, userId}) {
     useErrorHandler(userError);
     const { t } = i18nextUserDetails;
     const usersListUri = "/management/users";
-    let userUri = "/users/get/" + userId;
+    let userUri = isProfile ? "/user/profile" : "/users/get/" + userId;
     let userPutUri = process.env.NEXT_PUBLIC_API_BASE_URL + (isProfile ? "/user/profile" : "/users/update");
 
     const [currentTab, setCurrentTab] = useState('edit_profile');
@@ -68,14 +68,14 @@ function UserDetails({isProfile, userId}) {
               setUser({});
             }
             else {
-                setUser(response.user);
+                setUser(isProfile ? response.userProfile : response.user);
             }
         }
       } catch (err) {
         setUserError(err);
         console.error(err);
       }
-    }, [isMountedRef,userUri]);
+    }, [isMountedRef,userUri,isProfile]);
 
     useEffect(() => {
       getUser();

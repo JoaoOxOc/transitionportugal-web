@@ -33,7 +33,15 @@ export const USERSLIST_TRANSLATIONS = deepFreeze({
         updatedAt: "Updated at"
     },
     MESSAGES: {
-        usersManagementDescription: "All aspects related to the app users can be managed from this page"
+        usersManagementDescription: "All aspects related to the app users can be managed from this page",
+        usersNotFound: "The selected user(s) weren't found",
+        resentErrors: "Some emails were not sent for the selected user(s). Please try again",
+        resentEmails: "Verification Email resent to the selected user(s)",
+        usersApproved: "The selected user(s) are now approved/activated",
+        usersRemoved: "The selected user(s) are now removed",
+        approvingErrors: "Some selected user(s) weren't approved. Please try again",
+        deleted: "The selected user(s) were deleted",
+        deletingErrors: "Some selected user(s) weren't deleted. Please try again"
     },
     SEARCH: {
         filters: "Filters",

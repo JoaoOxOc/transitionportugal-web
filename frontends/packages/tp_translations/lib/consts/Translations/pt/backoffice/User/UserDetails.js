@@ -32,6 +32,12 @@ export var USERDETAILS_TRANSLATIONS = deepFreeze({
         admin: "Administrador de Sistema",
         user: "Utilizador de Sistema"
     },
+    CONNECTED_ACCOUNTS: {
+        discourse: "Discourse",
+        discourseDescription: "Define se estás conectado ao Discourse da Transição Portugal",
+        connected: "Conectado",
+        disconnected: "Desconectado"
+    },
     FORM: {
         personalDetails: "Detalhes Pessoais",
         personalDetailsMessage: "Gerir informações dos dados pessoais",
@@ -40,6 +46,12 @@ export var USERDETAILS_TRANSLATIONS = deepFreeze({
         accountSettings: "Definições da conta",
         accountSettingsMessage: "Gerir definições relativas à conta",
         primaryContactType: "Tipo de Contacto Preferido",
+        connectedAccounts: "Contas Conectadas",
+        connectedAccountsMessage: "Gerir opções de Contas Conectadas",
+        security: "Segurança",
+        securityMessage: "Altere abaixo as suas preferências de segurança",
+        changePassword: "Alterar Palavra-passe",
+        changePasswordMessage: "Irás receber um email com instruções de como alterar a palavra-passe",
         name: "Nome",
         userName: "Username",
         email: "Email do Utilizador",
@@ -65,7 +77,8 @@ export var USERDETAILS_TRANSLATIONS = deepFreeze({
         userUpdatedSuccessfully: "A aplicação cliente cujo nome é {{userName}} foi atualizada com sucesso",
         userCreatedSuccessfully: "A aplicação cliente cujo nome é {{userName}} foi registada com sucesso",
         userGeneralError: "Erro ao registar/atualizar a aplicação cliente cujo nome é {{userName}}. Por favor tente novamente",
-        userNotFound: "A aplicação cliente cujo nome é {{userName}} não foi encontrada. Por favor verifica se o nome está correcto"
+        userNotFound: "A aplicação cliente cujo nome é {{userName}} não foi encontrada. Por favor verifica se o nome está correcto",
+        passwordResetSuccess: "Irás receber um email com instruções de como alterar a palavra-passe"
     }
 });
 //# sourceMappingURL=UserDetails.js.map
