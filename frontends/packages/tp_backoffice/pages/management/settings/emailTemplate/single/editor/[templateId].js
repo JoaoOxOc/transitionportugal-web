@@ -2,12 +2,12 @@ import { useState, useCallback, useEffect } from 'react';
 
 import Head from 'next/head';
 
-import AccentHeaderLayout from '../../../../../layouts/AccentHeaderLayout';
-import { Authenticated } from '../../../../../components/Authenticated';
-import { Authorized } from '../../../../../components/Authorized';
+import AccentHeaderLayout from '../../../../../../layouts/AccentHeaderLayout';
+import { Authenticated } from '../../../../../../components/Authenticated';
+import { Authorized } from '../../../../../../components/Authorized';
 
-import EmailTemplateDetails from '../../../../../content/Management/EmailTemplates/single/details';
-import Footer from '../../../../../components/Footer';
+import EmailTemplateDetails from '../../../../../../content/Management/EmailTemplates/single/details';
+import Footer from '../../../../../../components/Footer';
 
 import { i18nextEmailTemplateDetails } from "@transitionpt/translations";
 
@@ -27,10 +27,10 @@ function ManagementEmailTemplatesView() {
     return (
     <>
       <Head>
-        <title>{t('LABELS.emailTemplateDetails')}</title>
+        <title>{t('LABELS.emailTemplateEditor')}</title>
       </Head>
 
-      <EmailTemplateDetails isCreate={false} isEditor={false}/>
+      <EmailTemplateDetails isCreate={false} isEditor={true}/>
 
       <Footer />
     </>

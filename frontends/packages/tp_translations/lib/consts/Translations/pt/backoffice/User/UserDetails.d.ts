@@ -24,6 +24,7 @@ export declare const USERDETAILS_TRANSLATIONS: {
     readonly TABS: {
         readonly main: "Editar Perfil";
         readonly security: "Segurança/Password";
+        readonly roles: "Perfis do Utilizador";
     };
     readonly ROLES: {
         readonly associationAdmin: "Administrador da Associação";

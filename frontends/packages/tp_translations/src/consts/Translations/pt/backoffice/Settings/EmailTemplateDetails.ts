@@ -2,21 +2,24 @@ import * as deepFreeze from 'deep-freeze';
 
 export const EMAILTEMPLATEDETAILS_TRANSLATIONS = deepFreeze({
     LABELS: {
-        settingDetails: "Detalhes da Definição - {{name}}",
+        emailTemplateDetails: "Detalhes do Template de Email",
+        emailTemplateEditor: "Editor do Template de Email - {{name}}",
         goBack: "Voltar",
-        settingWarning: "Atenção à edição do Valor: pode provocar alterações no comportamento de toda a aplicação"
+        emailTemplateWarning: "Atenção à alteração dos parâmetros do assunto e corpo do email (dentro de \"{{ }}\"): pode causar o email não ser processado correctamente"
     },
     LIST: {
-        emailSettingsTitle: "Envio de Emails",
+        emailTemplatesTitle: "Templates de Email",
         userSettingsTitle: "Autenticação",
         home: "Home",
         settings: 'Definições'
     },
     FORM: {
-        key: "Chave",
-        description: "Descrição",
-        defaultValue: "Valor por Omissão",
-        value: "Valor",
+        key: "Chave do Template de Email",
+        templateLanguage: "Língua do Template de Email",
+        description: "Descrição do Template de Email",
+        subject: "Assunto do Template de Email",
+        bodyMessage: "Ver/Editar corpo do Template de Email",
+        bodyEditorLink: "Ir para o Editor",
         saveButton: "Guardar"
     },
     MESSAGES: {
@@ -24,8 +27,8 @@ export const EMAILTEMPLATEDETAILS_TRANSLATIONS = deepFreeze({
         valueRequired: "O Valor é obrigatório",
         descriptionTooBig: "A Descrição é demasiado grande. Máx. de caracteres: {{max}}",
         descriptionRequired: "A Descrição é obrigatória",
-        settingUpdatedSuccessfully: "A definição cuja chave é {{settingKey}} foi atualizada com sucesso",
-        settingGeneralError: "Erro ao atualizar a definição cuja chave é {{settingKey}}. Por favor tente novamente",
-        settingNotFound: "A definição cuja chave é {{settingKey}} não foi encontrada. Por favor verifica se a chave está correcta"
+        templateUpdatedSuccessfully: "O Template de Email cuja chave é {{templateKey}} foi atualizado com sucesso",
+        templateGeneralError: "Erro ao atualizar o Template de Email cuja chave é {{templateKey}}. Por favor tente novamente",
+        templateNotFound: "O Template de Email cuja chave é {{templateKey}} não foi encontrado. Por favor verifica se a chave está correcta"
     }
 } as const);

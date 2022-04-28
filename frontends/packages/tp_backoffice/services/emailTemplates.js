@@ -3,9 +3,9 @@ import { buildRouteQuery, genericFetch } from './genericFetch';
 export const GetEmailTemplates = async(emailTemplatesApiUri, searchDataJson) => {
     emailTemplatesApiUri += buildRouteQuery(searchDataJson);
     console.log(emailTemplatesApiUri);
-    let response = await genericFetch(emailTemplatesApiUri, "GET", window.sessionStorage.getItem('accessToken'),{});
+    let response = await genericFetch(emailTemplatesApiUri, "GET", window.localStorage.getItem('accessToken'),{});
     if (response.requestAgain) {
-        response = await genericFetch(emailTemplatesApiUri, "GET", window.sessionStorage.getItem('accessToken'),{});
+        response = await genericFetch(emailTemplatesApiUri, "GET", window.localStorage.getItem('accessToken'),{});
     }
     else if (response.status == 404) {
         response.templates = [];
@@ -15,9 +15,9 @@ export const GetEmailTemplates = async(emailTemplatesApiUri, searchDataJson) => 
 }
 
 export const GetEmailTemplateData = async(emailTemplatesApiUri) => {
-    let response = await genericFetch(emailTemplatesApiUri, "GET", window.sessionStorage.getItem('accessToken'),{});
+    let response = await genericFetch(emailTemplatesApiUri, "GET", window.localStorage.getItem('accessToken'),{});
     if (response.requestAgain) {
-        response = await genericFetch(emailTemplatesApiUri, "GET", window.sessionStorage.getItem('accessToken'),{});
+        response = await genericFetch(emailTemplatesApiUri, "GET", window.localStorage.getItem('accessToken'),{});
     }
     else if (response.status == 404) {
         response.template = {};
@@ -26,9 +26,9 @@ export const GetEmailTemplateData = async(emailTemplatesApiUri) => {
 }
 
 export const UpdateEmailTemplateData = async(emailTemplatesApiUri, templateJson) => {
-    let response = await genericFetch(emailTemplatesApiUri, "PUT", window.sessionStorage.getItem('accessToken'),templateJson);
+    let response = await genericFetch(emailTemplatesApiUri, "PUT", window.localStorage.getItem('accessToken'),templateJson);
     if (response.requestAgain) {
-        response = await genericFetch(emailTemplatesApiUri, "PUT", window.sessionStorage.getItem('accessToken'),templateJson);
+        response = await genericFetch(emailTemplatesApiUri, "PUT", window.localStorage.getItem('accessToken'),templateJson);
     }
     else if (response.status == 404) {
         response.association = {};
