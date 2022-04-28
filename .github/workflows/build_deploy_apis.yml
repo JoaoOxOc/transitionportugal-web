@@ -4,7 +4,7 @@ name: transition pt APIs Build and Deploy
 
 # Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the main branch
+  # Triggers the workflow on push or pull request events but only for the deployback branch
   push:
     branches: [ deployback ]
 
@@ -16,6 +16,7 @@ env:
   GATEWAY_IMAGE_NAME: tp_gatewayapi
   USERAPI_IMAGE_NAME: tp_userservice
   EMAILAPI_IMAGE_NAME: tp_emailservice
+  CMAPI_IMAGE_NAME: tp_cmservice
   DEPLOYMENT_NAME: tp-apis
   DO_CLUSTER: k8s-photos
   DIGITALOCEAN_ACCESS_TOKEN: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
@@ -46,11 +47,11 @@ jobs:
     - name: Log in to DigitalOcean Container Registry with short-lived credentials
       run: doctl registry login --expiry-seconds 6000
       
-    #- name: Build gateway container image
-    #  run: docker build -t "$REGISTRY_HOSTNAME/$GATEWAY_IMAGE_NAME" -f $GITHUB_WORKSPACE/tp_webservices/tpgateway.dockerfile ./tp_webservices/
+    - name: Build gateway container image
+      run: docker build -t "$REGISTRY_HOSTNAME/$GATEWAY_IMAGE_NAME" -f $GITHUB_WORKSPACE/tp_webservices/tpgateway.dockerfile ./tp_webservices/
     
-    #- name: Push gateway image to DigitalOcean Container Registry
-    #  run: docker push "$REGISTRY_HOSTNAME/$GATEWAY_IMAGE_NAME":latest
+    - name: Push gateway image to DigitalOcean Container Registry
+      run: docker push "$REGISTRY_HOSTNAME/$GATEWAY_IMAGE_NAME":latest
       
     - name: Build userservice container image
       run: docker build -t "$REGISTRY_HOSTNAME/$USERAPI_IMAGE_NAME" -f $GITHUB_WORKSPACE/tp_webservices/userservice.dockerfile ./tp_webservices/
@@ -58,11 +59,17 @@ jobs:
     - name: Push userservice image to DigitalOcean Container Registry
       run: docker push "$REGISTRY_HOSTNAME/$USERAPI_IMAGE_NAME":latest
       
-    #- name: Build emailservice container image
-    #  run: docker build -t "$REGISTRY_HOSTNAME/$EMAILAPI_IMAGE_NAME" -f $GITHUB_WORKSPACE/tp_webservices/emailservice.dockerfile ./tp_webservices/
+    - name: Build emailservice container image
+      run: docker build -t "$REGISTRY_HOSTNAME/$EMAILAPI_IMAGE_NAME" -f $GITHUB_WORKSPACE/tp_webservices/emailservice.dockerfile ./tp_webservices/
     
-    #- name: Push emailservice image to DigitalOcean Container Registry
-    #  run: docker push "$REGISTRY_HOSTNAME/$EMAILAPI_IMAGE_NAME":latest
+    - name: Push emailservice image to DigitalOcean Container Registry
+      run: docker push "$REGISTRY_HOSTNAME/$EMAILAPI_IMAGE_NAME":latest
+      
+    - name: Build cmservice container image
+      run: docker build -t "$REGISTRY_HOSTNAME/$CMAPI_IMAGE_NAME" -f $GITHUB_WORKSPACE/tp_webservices/cmservice.dockerfile ./tp_webservices/
+    
+    - name: Push cmservice image to DigitalOcean Container Registry
+      run: docker push "$REGISTRY_HOSTNAME/$CMAPI_IMAGE_NAME":latest
 
     - name: authenticate to DO
       run: doctl auth init
@@ -85,6 +92,9 @@ jobs:
     - name: Update deployment file with emailservice image registry name
       run: sed -i "s|<EMAILSERVICE_API_IMAGE>|$REGISTRY_HOSTNAME/$EMAILAPI_IMAGE_NAME:latest|" $GITHUB_WORKSPACE/$APIS_DEPLOYMENT_FILE_NAME
       
+    - name: Update deployment file with cmservice image registry name
+      run: sed -i "s|<CMSERVICE_API_IMAGE>|$REGISTRY_HOSTNAME/$CMAPI_IMAGE_NAME:latest|" $GITHUB_WORKSPACE/$APIS_DEPLOYMENT_FILE_NAME
+      
     #- name: replace private key
     #  run: sed -i "s|<REPLACE_PRIVATE_KEY>|$USER_PRIVATE_SECRET|" $GITHUB_WORKSPACE/private_key_store
       
@@ -100,13 +110,16 @@ jobs:
     - run: kubectl describe secret rabbitmq-data
       
     - name: process gateway environment variables
-      run: kubectl delete secret gateway-data --ignore-not-found && kubectl create secret generic gateway-data --from-literal=gateway-cors-urls=${{secrets.GATEWAY_CORS_URLS}} --from-literal=refresh-token-validity-days=${{secrets.USER_SERVICE_REFRESH_TOKEN_VALIDITY_DAYS}} --from-literal=jwt-public-secret=${{secrets.USER_SERVICE_PUBLIC_KEY}} --from-literal=jwt-token-validity-minutes=${{secrets.USER_SERVICE_TOKEN_VALIDITY_MINUTES}} --from-literal=jwt-valid-audience=${{secrets.USER_SERVICE_VALID_AUDIENCE}} --from-literal=jwt-valid-issuer=${{secrets.USER_SERVICE_VALID_ISSUER}}
+      run: kubectl delete secret gateway-data --ignore-not-found && kubectl create secret generic gateway-data --from-literal=gateway-cors-urls=${{secrets.GATEWAY_CORS_URLS}} --from-literal=refresh-token-validity-days=${{secrets.USER_SERVICE_REFRESH_TOKEN_VALIDITY_DAYS}} --from-literal=jwt-public-secret=${{secrets.USER_SERVICE_PUBLIC_KEY}} --from-literal=jwt-token-validity-minutes=${{secrets.USER_SERVICE_TOKEN_VALIDITY_MINUTES}} --from-literal=jwt-valid-audience=${{secrets.USER_SERVICE_VALID_AUDIENCE}} --from-literal=jwt-valid-issuer=${{secrets.USER_SERVICE_VALID_ISSUER}} --from-literal=jwt-remote-client-verify=${{secrets.REMOTE_CLIENT_VERIFICATION}}
       
     - name: process userservice environment variables
-      run: kubectl delete secret userservice-data --ignore-not-found && kubectl create secret generic userservice-data --from-literal=rabbitmq-host=${{secrets.API_MQTT_HOST}} --from-literal=rabbitmq-username=${{secrets.API_MQTT_USER}} --from-literal=rabbitmq-password=${{secrets.API_MQTT_PASSWORD}} --from-literal=frontend-recover-base-url=${{secrets.API_FRONTEND_BASE_URL}} --from-literal=db-conn-string=${{secrets.USER_DB_CONN_STRING}} --from-literal=db-host=${{secrets.USER_DB_HOST}} --from-literal=db-port=${{secrets.USER_DB_PORT}} --from-literal=db-name=${{secrets.USER_DB_NAME}} --from-literal=db-user=${{secrets.USER_DB_USERNAME}} --from-literal=db-password=${{secrets.USER_DB_PASSWORD}} --from-literal=refresh-token-validity-days=${{secrets.USER_SERVICE_REFRESH_TOKEN_VALIDITY_DAYS}} --from-literal=jwt-public-secret=${{secrets.USER_SERVICE_PUBLIC_KEY}} --from-literal=jwt-token-validity-minutes=${{secrets.USER_SERVICE_TOKEN_VALIDITY_MINUTES}} --from-literal=jwt-valid-audience=${{secrets.USER_SERVICE_VALID_AUDIENCE}} --from-literal=jwt-valid-issuer=${{secrets.USER_SERVICE_VALID_ISSUER}}
+      run: kubectl delete secret userservice-data --ignore-not-found && kubectl create secret generic userservice-data --from-literal=rabbitmq-host=${{secrets.API_MQTT_HOST}} --from-literal=rabbitmq-username=${{secrets.API_MQTT_USER}} --from-literal=rabbitmq-password=${{secrets.API_MQTT_PASSWORD}} --from-literal=frontend-recover-base-url=${{secrets.API_FRONTEND_BASE_URL}} --from-literal=db-conn-string=${{secrets.USER_DB_CONN_STRING}} --from-literal=db-host=${{secrets.USER_DB_HOST}} --from-literal=db-port=${{secrets.USER_DB_PORT}} --from-literal=db-name=${{secrets.USER_DB_NAME}} --from-literal=db-user=${{secrets.USER_DB_USERNAME}} --from-literal=db-password=${{secrets.USER_DB_PASSWORD}} --from-literal=refresh-token-validity-days=${{secrets.USER_SERVICE_REFRESH_TOKEN_VALIDITY_DAYS}} --from-literal=jwt-public-secret=${{secrets.USER_SERVICE_PUBLIC_KEY}} --from-literal=jwt-token-validity-minutes=${{secrets.USER_SERVICE_TOKEN_VALIDITY_MINUTES}} --from-literal=jwt-valid-audience=${{secrets.USER_SERVICE_VALID_AUDIENCE}} --from-literal=jwt-valid-issuer=${{secrets.USER_SERVICE_VALID_ISSUER}} --from-literal=cookie-policy=${{secrets.USER_SERVICE_COOKIE_POLICY}} --from-literal=main-domain=${{secrets.USER_SERVICE_DOMAIN}}
     
     - name: process emailservice environment variables
-      run: kubectl delete secret emailservice-data --ignore-not-found && kubectl create secret generic emailservice-data --from-literal=rabbitmq-host=${{secrets.API_MQTT_HOST}} --from-literal=rabbitmq-username=${{secrets.API_MQTT_USER}} --from-literal=rabbitmq-password=${{secrets.API_MQTT_PASSWORD}} --from-literal=db-name=${{secrets.EMAIL_DB_NAME}} --from-literal=db-conn-string=${{secrets.EMAIL_DB_CONN_STRING}}
+      run: kubectl delete secret emailservice-data --ignore-not-found && kubectl create secret generic emailservice-data --from-literal=rabbitmq-host=${{secrets.API_MQTT_HOST}} --from-literal=rabbitmq-username=${{secrets.API_MQTT_USER}} --from-literal=rabbitmq-password=${{secrets.API_MQTT_PASSWORD}} --from-literal=db-name=${{secrets.EMAIL_DB_NAME}} --from-literal=db-conn-string=${{secrets.EMAIL_DB_CONN_STRING}} --from-literal=jwt-public-secret=${{secrets.USER_SERVICE_PUBLIC_KEY}} --from-literal=jwt-valid-audience=${{secrets.USER_SERVICE_VALID_AUDIENCE}} --from-literal=jwt-valid-issuer=${{secrets.USER_SERVICE_VALID_ISSUER}}
+      
+    - name: process cmservice environment variables
+      run: kubectl delete secret cmservice-data --ignore-not-found && kubectl create secret generic cmservice-data --from-literal=db-conn-string=${{secrets.CMSERVICE_DB_CONN_STRING}} --from-literal=db-host=${{secrets.CMSERVICE_DB_HOST}} --from-literal=db-port=${{secrets.CMSERVICE_DB_PORT}} --from-literal=db-name=${{secrets.CMSERVICE_DB_NAME}} --from-literal=db-user=${{secrets.CMSERVICE_DB_USERNAME}} --from-literal=db-password=${{secrets.CMSERVICE_DB_PASSWORD}}
       
     
     - name: Deploy to DigitalOcean Kubernetes
