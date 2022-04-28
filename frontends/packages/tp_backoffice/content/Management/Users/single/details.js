@@ -22,6 +22,7 @@ import ActivityTab from './ActivityTab';
 import EditProfileTab from './EditProfileTab';
 import NotificationsTab from './NotificationsTab';
 import SecurityTab from './SecurityTab';
+import EditRolesTab from './EditRolesTab';
 
 import { usersApi } from '../../../../mocks/users';
 import { GetUserData } from '../../../../services/users';
@@ -51,7 +52,8 @@ function UserDetails({isProfile, userId}) {
     //   { value: 'activity', label: t('Activity') },
       { value: 'edit_profile', label: t('TABS.main') },
     //   { value: 'notifications', label: t('Notifications') },
-      { value: 'security', label: t('TABS.security') }
+      { value: 'security', label: t('TABS.security') },
+      isProfile ? {} : { value: 'roles', label: t('TABS.roles') }
     ];
 
     const handleTabsChange = (_event, value) => {
@@ -114,7 +116,7 @@ function UserDetails({isProfile, userId}) {
                 textColor="primary"
                 indicatorColor="primary"
               >
-                {tabs.map((tab) => (
+                {tabs.map((tab) => tab.value && (
                   <Tab key={tab.value} label={tab.label} value={tab.value} />
                 ))}
               </TabsWrapper>
@@ -124,6 +126,7 @@ function UserDetails({isProfile, userId}) {
               {currentTab === 'edit_profile' && <EditProfileTab userData={user} userPutUrl={userPutUri}/>}
               {/* {currentTab === 'notifications' && <NotificationsTab />} */}
               {currentTab === 'security' && <SecurityTab userData={user}/>}
+              {currentTab === 'roles' && <EditRolesTab userData={user}/>}
             </Grid>
           </Grid>
         </Box>

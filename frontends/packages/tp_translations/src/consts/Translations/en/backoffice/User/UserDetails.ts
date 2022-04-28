@@ -25,7 +25,8 @@ export const USERDETAILS_TRANSLATIONS = deepFreeze({
     },
     TABS: {
         main: "Edit Profile",
-        security: "Password/Security"
+        security: "Password/Security",
+        roles: "User Profiles"
     },
     ROLES: {
         associationAdmin: "Association Administrator",
