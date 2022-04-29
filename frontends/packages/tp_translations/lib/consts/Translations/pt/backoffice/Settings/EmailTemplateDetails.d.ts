@@ -3,7 +3,7 @@ export declare const EMAILTEMPLATEDETAILS_TRANSLATIONS: {
         readonly emailTemplateDetails: "Detalhes do Template de Email";
         readonly emailTemplateEditor: "Editor do Template de Email - {{name}}";
         readonly goBack: "Voltar";
-        readonly emailTemplateWarning: "Atenção à alteração dos parâmetros do assunto e corpo do email (dentro de \"{{}}\"): pode causar o email não ser processado correctamente";
+        readonly emailTemplateWarning: "Atenção à alteração dos parâmetros do assunto e corpo do email (dentro de \"{{ }}\"): pode causar o email não ser processado correctamente";
     };
     readonly LIST: {
         readonly emailTemplatesTitle: "Templates de Email";

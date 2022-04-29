@@ -3,7 +3,7 @@ export declare const EMAILTEMPLATEDETAILS_TRANSLATIONS: {
         readonly emailTemplateDetails: "Email Template Details";
         readonly emailTemplateEditor: "Email Template Editor - {{name}}";
         readonly goBack: "Go back";
-        readonly emailTemplateWarning: "Careful with subject and body parameters (inside \"{{}}\"): it can cause the email data to not be correctly processed";
+        readonly emailTemplateWarning: "Careful with subject and body parameters (inside \"{{ }}\"): it can cause the email data to not be correctly processed";
     };
     readonly LIST: {
         readonly emailTemplatesTitle: "Email Templates";
@@ -21,8 +21,8 @@ export declare const EMAILTEMPLATEDETAILS_TRANSLATIONS: {
         readonly saveButton: "Save";
     };
     readonly MESSAGES: {
-        readonly valueTooBig: "Value is too big. Max characters: {{max}}";
-        readonly valueRequired: "Email Template Value is required";
+        readonly subjectTooBig: "Subject is too big. Max characters: {{max}}";
+        readonly subjectRequired: "Email Template Subject is required";
         readonly descriptionTooBig: "Description is too big. Max characters: {{max}}";
         readonly descriptionRequired: "Email Template Description is required";
         readonly templateUpdatedSuccessfully: "The Email Template with key {{templateKey}} was updated successfully";

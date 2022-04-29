@@ -1,10 +1,13 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
-import { ListSubheader, Box, List, styled } from '@mui/material';
+import { ListSubheader, Box, Collapse, List, ListItemButton, ListItemIcon, ListItemText, styled } from '@mui/material';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
 import SidebarMenuItem from './item';
 import { useRouter } from 'next/router';
 import menuItems, { MenuItem } from './items';
-import { i18nextAbout } from "@transitionpt/translations";
+import { i18nextSidemenu } from "@transitionpt/translations";
+import { getTokenScopes, getTokenRole } from '../../../../utils/jwt';
 
 const MenuWrapper = styled(Box)(
   ({ theme }) => `
@@ -23,6 +26,15 @@ const MenuWrapper = styled(Box)(
       font-size: ${theme.typography.pxToRem(12)};
       color: ${theme.sidebar.menuItemIconColor};
       padding: ${theme.spacing(1, 3.5)};
+      line-height: 1.4;
+    }
+
+    .MuiTypography-root {
+      text-transform: uppercase;
+      font-weight: bold;
+      font-size: ${theme.typography.pxToRem(12)};
+      color: ${theme.sidebar.menuItemIconColor};
+      padding: ${theme.spacing(1, 2)};
       line-height: 1.4;
     }
 `
@@ -141,57 +153,32 @@ const SubMenuWrapper = styled(Box)(
 `
 );
 
-const renderSidebarMenuItems = ({ items, path }) => (
-  <SubMenuWrapper>
-    <List component="div">
-      {items.reduce((ev, item) => reduceChildRoutes({ ev, item, path }), [])}
-    </List>
-  </SubMenuWrapper>
-);
-
-const reduceChildRoutes = ({ ev, path, item }) => {
-  const key = item.name;
-  const partialMatch = path.includes(item.link);
-  const exactMatch = path === item.link;
-
-  if (item.items) {
-    ev.push(
-      <SidebarMenuItem
-        key={key}
-        active={partialMatch}
-        open={partialMatch}
-        name={item.name}
-        icon={item.icon}
-        link={item.link}
-        badge={item.badge}
-        badgeTooltip={item.badgeTooltip}
-      >
-        {renderSidebarMenuItems({
-          path,
-          items: item.items
-        })}
-      </SidebarMenuItem>
-    );
-  } else {
-    ev.push(
-      <SidebarMenuItem
-        key={key}
-        active={exactMatch}
-        name={item.name}
-        link={item.link}
-        badge={item.badge}
-        badgeTooltip={item.badgeTooltip}
-        icon={item.icon}
-      />
-    );
+const renderSectionOrItem = (sectionData, userRole, userScopes) => {
+  let validateRole = false;
+  let validateScope = false;
+  if(sectionData.roles && !sectionData.roles.some(tokenRole => tokenRole == "any")) {
+    validateRole = sectionData.roles.some(tokenRole => userRole == tokenRole);
+  }
+  else {
+    validateRole = true;
   }
 
-  return ev;
-};
+  if (validateRole && sectionData.scopes && !sectionData.scopes.some(tokenScope => tokenScope == "any")) {
+    validateScope = sectionData.scopes.some(tokenScope => userScopes.includes(tokenScope));
+  }
+  else {
+    validateScope = true;
+  }
+
+  return validateRole && validateScope;
+}
 
 function SidebarMenu() {
-  const { t } = i18nextAbout;
+  const { t } = i18nextSidemenu;
   const router = useRouter();
+  const userScopes = getTokenScopes(window.localStorage.getItem('accessToken'));
+  const userRole = getTokenRole(window.localStorage.getItem('accessToken'));
+  const [ selectedIndex, setSelectedIndex ] = useState(0);
 
   const handlePathChange = () => {
     if (!router.isReady) {
@@ -199,25 +186,116 @@ function SidebarMenu() {
     }
   };
 
+  const handleHeadingClick = (isCollapsable, index)  => {
+    if (isCollapsable == true) {
+      if (selectedIndex === index) {
+        setSelectedIndex("");
+      } else {
+        setSelectedIndex(index);
+      }
+    }
+  }
+
+  const renderSidebarMenuItems = ({ items, userRole, userScopes, path, collapsable, index }) => (
+    <SubMenuWrapper>
+      {collapsable == true ? 
+        (
+          <Collapse
+                in={selectedIndex == index}
+                timeout='auto'
+                unmountOnExit
+          >
+            <List component="div">
+              {items.reduce((ev, item) => renderSectionOrItem(item, userRole, userScopes) && reduceChildRoutes({ ev, item, path, userRole, userScopes }), [])}
+            </List>
+          </Collapse>
+        ) : (
+            <List component="div">
+              {items.reduce((ev, item) => renderSectionOrItem(item, userRole, userScopes) && reduceChildRoutes({ ev, item, path, userRole, userScopes }), [])}
+            </List>
+        )
+      }
+    </SubMenuWrapper>
+  );
+
+  const reduceChildRoutes = ({ ev, path, item, userRole, userScopes }) => {
+    const key = item.name;
+    const partialMatch = path.includes(item.link);
+    const exactMatch = path === item.link;
+
+    if (item.items) {
+      ev.push(
+        <SidebarMenuItem
+          key={key}
+          active={partialMatch}
+          open={partialMatch}
+          name={item.name}
+          icon={item.icon}
+          link={item.link}
+          badge={item.badge}
+          badgeTooltip={item.badgeTooltip}
+        >
+          {renderSidebarMenuItems({
+            path,
+            userRole: userRole,
+            userScopes: userScopes,
+            items: item.items
+          })}
+        </SidebarMenuItem>
+      );
+    } else {
+      ev.push(
+        <SidebarMenuItem
+          key={key}
+          active={exactMatch}
+          name={item.name}
+          link={item.link}
+          badge={item.badge}
+          badgeTooltip={item.badgeTooltip}
+          icon={item.icon}
+        />
+      );
+    }
+
+    return ev;
+  };
+
   useEffect(handlePathChange, [router.isReady, router.asPath]);
 
   return (
     <>
-      {menuItems.map((section) => (
+      {menuItems.map((section, index) => renderSectionOrItem(section, userRole, userScopes) && (
         <MenuWrapper key={section.heading}>
-          <List
-            component="div"
-            subheader={
-              <ListSubheader component="div" disableSticky>
-                {t(section.heading)}
-              </ListSubheader>
-            }
-          >
-            {renderSidebarMenuItems({
-              items: section.items,
-              path: router.asPath
-            })}
-          </List>
+            <List
+              component="div"
+              subheader={
+                section.collapsable == true ? 
+                (<ListItemButton 
+                    onClick={() => {
+                      handleHeadingClick(section.collapsable, index)
+                    }}>
+                    {/* <ListItemIcon>
+                    {section.icon}
+                    </ListItemIcon> */}
+                    <ListItemText primary={t(section.heading)} />
+                    {index === selectedIndex ? <ExpandLess /> : <ExpandMore />}
+                </ListItemButton>
+                ) : (
+                <ListSubheader component="div" disableSticky>
+                  {t(section.heading)}
+                </ListSubheader>
+                )
+              }
+            >
+              {renderSidebarMenuItems({
+                items: section.items,
+                userRole: userRole,
+                userScopes: userScopes,
+                path: router.asPath,
+                collapsable: section.collapsable,
+                index: index
+              })}
+            </List>
         </MenuWrapper>
       ))}
     </>

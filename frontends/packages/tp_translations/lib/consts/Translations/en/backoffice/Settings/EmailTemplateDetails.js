@@ -4,7 +4,7 @@ export var EMAILTEMPLATEDETAILS_TRANSLATIONS = deepFreeze({
         emailTemplateDetails: "Email Template Details",
         emailTemplateEditor: "Email Template Editor - {{name}}",
         goBack: "Go back",
-        emailTemplateWarning: "Careful with subject and body parameters (inside \"{{}}\"): it can cause the email data to not be correctly processed"
+        emailTemplateWarning: "Careful with subject and body parameters (inside \"{{ }}\"): it can cause the email data to not be correctly processed"
     },
     LIST: {
         emailTemplatesTitle: "Email Templates",
@@ -22,8 +22,8 @@ export var EMAILTEMPLATEDETAILS_TRANSLATIONS = deepFreeze({
         saveButton: "Save"
     },
     MESSAGES: {
-        valueTooBig: "Value is too big. Max characters: {{max}}",
-        valueRequired: "Email Template Value is required",
+        subjectTooBig: "Subject is too big. Max characters: {{max}}",
+        subjectRequired: "Email Template Subject is required",
         descriptionTooBig: "Description is too big. Max characters: {{max}}",
         descriptionRequired: "Email Template Description is required",
         templateUpdatedSuccessfully: "The Email Template with key {{templateKey}} was updated successfully",
