@@ -147,6 +147,8 @@ namespace UserService.Controllers
                 CreatedAt = DateTime.Now,
                 UserName = model.Username,
                 NormalizedUserName = model.Username.ToUpper(),
+                LangCode = model.LangCode,
+                Timezone = model.Timezone,
                 IsVerified = false,
                 IsActive = false,
                 IsEmailVerified = false,

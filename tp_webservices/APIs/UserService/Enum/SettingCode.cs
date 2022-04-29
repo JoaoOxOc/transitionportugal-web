@@ -4,6 +4,7 @@
     {
         MaxLoginAttempts,
         CaptchaSiteKey,
-        CaptchaSecretKey
+        CaptchaSecretKey,
+        MailchimpApiKey
     }
 }
