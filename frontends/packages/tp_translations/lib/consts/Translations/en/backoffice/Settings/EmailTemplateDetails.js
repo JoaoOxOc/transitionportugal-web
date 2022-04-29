@@ -4,6 +4,7 @@ export var EMAILTEMPLATEDETAILS_TRANSLATIONS = deepFreeze({
         emailTemplateDetails: "Email Template Details",
         emailTemplateEditor: "Email Template Editor - {{name}}",
         goBack: "Go back",
+        view: "Open Editor",
         emailTemplateWarning: "Careful with subject and body parameters (inside \"{{ }}\"): it can cause the email data to not be correctly processed"
     },
     LIST: {

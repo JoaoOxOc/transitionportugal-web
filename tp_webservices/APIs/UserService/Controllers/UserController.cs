@@ -417,7 +417,7 @@ namespace UserService.Controllers
                     var userTokenData = _tokenManager.GetToken(userToApproveClaims, 1440, null);
 
                     var userEmailLink = _configuration["ApplicationSettings:RecoverPasswordBaseUrl"] + _configuration["ApplicationSettings:ConfirmEmailUri"] + "?t=" + userTokenData.Token;
-                    bool userEmailSuccess = await _emailSender.SendActivateUserEmail(user.Email, "pt-PT", userEmailLink);
+                    bool userEmailSuccess = await _emailSender.SendActivateUserEmail(user.Email, "pt-PT", user, userEmailLink);
 
                     if (!userEmailSuccess)
                     {
@@ -465,7 +465,7 @@ namespace UserService.Controllers
                 _uow.Save();
 
                 var userEmailLink = _configuration["ApplicationSettings:RecoverPasswordBaseUrl"] + "/auth/login/cover";
-                bool userEmailSuccess = await _emailSender.SendBulkUserActivatedEmail(approvedEmails, "pt-PT", userEmailLink);
+                bool userEmailSuccess = await _emailSender.SendBulkUserActivatedEmail(approvedEmails, "pt-PT", usersToApprove, userEmailLink);
 
                 return Ok(new
                 {

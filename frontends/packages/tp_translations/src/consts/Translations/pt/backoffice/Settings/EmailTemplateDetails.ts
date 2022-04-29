@@ -5,6 +5,7 @@ export const EMAILTEMPLATEDETAILS_TRANSLATIONS = deepFreeze({
         emailTemplateDetails: "Detalhes do Template de Email",
         emailTemplateEditor: "Editor do Template de Email - {{name}}",
         goBack: "Voltar",
+        view: "Abrir Editor",
         emailTemplateWarning: "Atenção à alteração dos parâmetros do assunto e corpo do email (dentro de \"{{ }}\"): pode causar o email não ser processado correctamente"
     },
     LIST: {

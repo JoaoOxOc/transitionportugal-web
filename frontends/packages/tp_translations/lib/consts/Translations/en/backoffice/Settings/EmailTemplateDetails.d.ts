@@ -3,6 +3,7 @@ export declare const EMAILTEMPLATEDETAILS_TRANSLATIONS: {
         readonly emailTemplateDetails: "Email Template Details";
         readonly emailTemplateEditor: "Email Template Editor - {{name}}";
         readonly goBack: "Go back";
+        readonly view: "Open Editor";
         readonly emailTemplateWarning: "Careful with subject and body parameters (inside \"{{ }}\"): it can cause the email data to not be correctly processed";
     };
     readonly LIST: {
