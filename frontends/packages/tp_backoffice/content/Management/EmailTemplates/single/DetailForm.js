@@ -3,12 +3,17 @@ import {
     Grid, 
     Button, 
     FormControl, 
+    FormControlLabel,
+    FormHelperText,
     TextField, 
     Slide,
     Divider,
-    FormControlLabel,
-    FormHelperText,
-    CircularProgress 
+    Tooltip,
+    IconButton,
+    InputLabel,
+    Typography,
+    CircularProgress,
+    styled
 } from '@mui/material';
 
 import * as Yup from 'yup';
@@ -16,38 +21,52 @@ import { useFormik } from 'formik';
 import { useErrorHandler } from 'react-error-boundary';
 import { useSnackbar } from 'notistack';
 import { useRefMounted } from '../../../../hooks/useRefMounted';
+import Language from '../../../../components/Language';
+import Link from '../../../../components/Link';
 
-import { UpdateSettingData } from '../../../../services/settings';
+import { UpdateEmailTemplateData } from '../../../../services/emailTemplates';
 
-import { i18nextSettingDetails } from "@transitionpt/translations";
+import { i18nextEmailTemplateDetails } from "@transitionpt/translations";
+import LaunchTwoToneIcon from '@mui/icons-material/LaunchTwoTone';
 
-const DetailForm = ({settingData, settingPutUrl}) => {
-    const { t } = i18nextSettingDetails;
+const CustomInputLabel = styled(InputLabel)(
+    () =>`
+    label {
+        position: relative !important;
+        margin-top: 10px !important;
+    }
+    `
+)
+
+const DetailForm = ({templateData, templatePutUrl}) => {
+    const { t } = i18nextEmailTemplateDetails;
     const isMountedRef = useRefMounted();
     const { enqueueSnackbar } = useSnackbar();
-    const [settingsError, setSettingsError] = useState(null);
-    useErrorHandler(settingsError);
+    const [templateError, setTemplateError] = useState(null);
+    useErrorHandler(templateError);
+    const linkToEditor = "/management/settings/emailTemplate/single/editor/" + templateData.id + "?lang=" + templateData.language;
 
     const formik = useFormik({
-        initialValues: settingData,
+        initialValues: templateData,
         enableReinitialize: true,
         validationSchema: Yup.object({
             description: Yup.string()
                 .max(255, t('MESSAGES.descriptionTooBig', {max: 255}))
                 .required(t('MESSAGES.descriptionRequired')),
-            value: Yup.string()
-                .max(255, t('MESSAGES.valueTooBig', {max: 255}))
-                .required(t('MESSAGES.valueRequired'))
+            subject: Yup.string()
+                .max(255, t('MESSAGES.subjectTooBig', {max: 100}))
+                .required(t('MESSAGES.subjectRequired'))
         }),
         onSubmit: async (values, helpers) => {
           try {
-              const settingModel = {
+              const templateModel = {
+                  id: values.id,
                   key: values.key,
+                  language: values.language,
                   description: values.description,
-                  value: values.value
+                  subject: values.subject
               }
-              console.log(settingModel)
-              const result = await UpdateSettingData(settingPutUrl, settingModel);
+              const result = await UpdateEmailTemplateData(templatePutUrl, templateModel);
     
               if (isMountedRef()) {
                   if (result.status) {
@@ -55,7 +74,7 @@ const DetailForm = ({settingData, settingPutUrl}) => {
                     helpers.setErrors({ submit: result.statusText });
                     helpers.setSubmitting(false);
                     if (result.status === 404) {
-                        enqueueSnackbar(t('MESSAGES.settingNotFound', {settingKey: values.key}), {
+                        enqueueSnackbar(t('MESSAGES.templateNotFound', {templateKey: values.key}), {
                           variant: 'error',
                           anchorOrigin: {
                             vertical: 'top',
@@ -65,10 +84,10 @@ const DetailForm = ({settingData, settingPutUrl}) => {
                           TransitionComponent: Slide
                         });
                     }
-                    setSettingsError(result);
+                    setTemplateError(result);
                   }
                   else {
-                    enqueueSnackbar(t('MESSAGES.settingUpdatedSuccessfully', {settingKey: values.key}), {
+                    enqueueSnackbar(t('MESSAGES.templateUpdatedSuccessfully', {templateKey: values.key}), {
                         variant: 'success',
                         anchorOrigin: {
                           vertical: 'top',
@@ -87,7 +106,7 @@ const DetailForm = ({settingData, settingPutUrl}) => {
                 helpers.setStatus({ success: false });
                 helpers.setErrors({ submit: err.message });
                 helpers.setSubmitting(false);
-                enqueueSnackbar(t('MESSAGES.settingGeneralError', {settingKey: values.key}), {
+                enqueueSnackbar(t('MESSAGES.templateGeneralError', {templateKey: values.key}), {
                     variant: 'error',
                     anchorOrigin: {
                       vertical: 'top',
@@ -96,7 +115,7 @@ const DetailForm = ({settingData, settingPutUrl}) => {
                     autoHideDuration: 2000,
                     TransitionComponent: Slide
                 });
-                setSettingsError(err);
+                setTemplateError(err);
               }
           }
         }
@@ -137,6 +156,25 @@ const DetailForm = ({settingData, settingPutUrl}) => {
                     sm={8}
                     md={6}
                     >
+
+                    <FormControl fullWidth variant="outlined">
+                        <CustomInputLabel variant="standard" htmlFor="editor-language-dropdown" style={{ marginTop: '10px' }} >
+                            <Typography>
+                                {t("FORM.templateLanguage")}
+                            </Typography>
+                        </CustomInputLabel>
+                        <Language selectId={"editor-language-dropdown"} readonly={true} defaultValue={templateData.language} sendSelectedLanguage={() => {}} style={{ marginTop: '30px' }}/>
+                    </FormControl>
+                </Grid>
+                <Grid
+                    sx={{
+                        maxWidth: '600px !important'
+                    }}
+                    item
+                    xs={12}
+                    sm={8}
+                    md={6}
+                    >
                     <FormControl fullWidth variant="outlined">
                     <TextField
                         helperText={formik.touched.description && formik.errors.description}
@@ -163,15 +201,16 @@ const DetailForm = ({settingData, settingPutUrl}) => {
                     >
                     <FormControl fullWidth variant="outlined">
                     <TextField
+                        helperText={formik.touched.subject && formik.errors.subject}
+                        error={Boolean(formik.touched.subject && formik.errors.subject)}
                         fullWidth
                         margin="normal"
-                        label={t('FORM.defaultValue')}
-                        name="defaultValue"
-                        value={formik.values.defaultValue}
+                        label={t('FORM.subject')}
+                        name="subject"
+                        onBlur={formik.handleBlur}
+                        onChange={formik.handleChange}
+                        value={formik.values.subject}
                         variant="outlined"
-                        inputProps={
-					        { readOnly: true}
-				        }
                     />
                     </FormControl>
                 </Grid>
@@ -185,18 +224,25 @@ const DetailForm = ({settingData, settingPutUrl}) => {
                     md={6}
                     >
                     <FormControl fullWidth variant="outlined">
-                    <TextField
-                        helperText={formik.touched.value && formik.errors.value}
-                        error={Boolean(formik.touched.value && formik.errors.value)}
-                        fullWidth
-                        margin="normal"
-                        label={t('FORM.value')}
-                        name="value"
-                        onBlur={formik.handleBlur}
-                        onChange={formik.handleChange}
-                        value={formik.values.value}
-                        variant="outlined"
-                    />
+                        <Typography
+                            sx={{
+                                pt: '10px',
+                                pb: '20px'
+                            }}
+                        >
+                            <Typography noWrap>
+                                <Tooltip title={t('LABELS.view')} arrow>
+                                  <Link href={linkToEditor} target="_blank">
+                                  <IconButton
+                                    
+                                    color="primary"
+                                  >
+                                    {t("FORM.bodyMessage")}&nbsp;&nbsp;&nbsp;<LaunchTwoToneIcon fontSize="small" />
+                                  </IconButton>
+                                  </Link>
+                                </Tooltip>
+                              </Typography>
+                        </Typography>
                     </FormControl>
                 </Grid>
                 <Grid

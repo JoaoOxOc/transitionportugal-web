@@ -1,31 +1,35 @@
 import * as deepFreeze from 'deep-freeze';
 export var EMAILTEMPLATEDETAILS_TRANSLATIONS = deepFreeze({
     LABELS: {
-        settingDetails: "Setting Details - {{name}}",
+        emailTemplateDetails: "Email Template Details",
+        emailTemplateEditor: "Email Template Editor - {{name}}",
         goBack: "Go back",
-        settingWarning: "Careful editting setting value: it can change the app behaviour"
+        view: "Open Editor",
+        emailTemplateWarning: "Careful with subject and body parameters (inside \"{{ }}\"): it can cause the email data to not be correctly processed"
     },
     LIST: {
-        emailSettingsTitle: "Email Sending",
+        emailTemplatesTitle: "Email Templates",
         userSettingsTitle: "Authentication",
         home: "Home",
         settings: 'Settings'
     },
     FORM: {
-        key: "Key",
+        key: "Email Template Key",
+        templateLanguage: "Email Template Language",
         description: "Description",
-        defaultValue: "Default Value",
-        value: "Value",
+        subject: "Email Template Subject",
+        bodyMessage: "View/Edit Email Template body",
+        bodyEditorLink: "Go to Editor",
         saveButton: "Save"
     },
     MESSAGES: {
-        valueTooBig: "Value is too big. Max characters: {{max}}",
-        valueRequired: "Setting Value is required",
+        subjectTooBig: "Subject is too big. Max characters: {{max}}",
+        subjectRequired: "Email Template Subject is required",
         descriptionTooBig: "Description is too big. Max characters: {{max}}",
-        descriptionRequired: "Setting Description is required",
-        settingUpdatedSuccessfully: "The setting with key {{settingKey}} was updated successfully",
-        settingGeneralError: "Error updating setting with key {{settingKey}}. Please try again",
-        settingNotFound: "The setting with key {{settingKey}} wasn't found. Please double check if the key is correct"
+        descriptionRequired: "Email Template Description is required",
+        templateUpdatedSuccessfully: "The Email Template with key {{templateKey}} was updated successfully",
+        templateGeneralError: "Error updating Email Template with key {{templateKey}}. Please try again",
+        templateNotFound: "The Email Template with key {{templateKey}} wasn't found. Please double check if the key is correct"
     }
 });
 //# sourceMappingURL=EmailTemplateDetails.js.map

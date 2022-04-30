@@ -30,7 +30,7 @@ function ManagementEmailTemplatesView() {
         <title>{t('LABELS.emailTemplateDetails')}</title>
       </Head>
 
-      <EmailTemplateDetails/>
+      <EmailTemplateDetails isCreate={false} isEditor={false}/>
 
       <Footer />
     </>

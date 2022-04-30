@@ -36,6 +36,8 @@ namespace UserService.Models
         public string? AssociationVat { get; set; }
         public string? AssociationAddress { get; set; }
         public string? AssociationTown { get; set; }
+        public string? LangCode { get; set; }
+        public string? Timezone { get; set; }
 
         public string? UserRole { get; set; }
     }

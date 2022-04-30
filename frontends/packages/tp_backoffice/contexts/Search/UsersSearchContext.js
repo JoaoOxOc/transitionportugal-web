@@ -19,7 +19,7 @@ const handlers = {
       return {
         ...state,
         searchData: initialSearchState,
-        doSearch: true
+        doSearch: false
       };
     },
     SEARCH: (state, action) => {
@@ -36,7 +36,7 @@ const reducer = (state, action) =>
 
 export const UsersSearchContext = createContext({
     searchData: initialSearchState,
-    doSearch: true
+    doSearch: false
 });
 
 export const UsersSearchProvider = (props) => {
@@ -50,11 +50,19 @@ export const UsersSearchProvider = (props) => {
         });
     };
 
+    const cleanup = () => {
+      dispatch({
+        type: 'INITIALIZE',
+        payload: initialSearchState
+      });
+    }
+
     return (
         <UsersSearchContext.Provider
           value={{
             ...state,
-            search
+            search,
+            cleanup
           }}
         >
           {children}

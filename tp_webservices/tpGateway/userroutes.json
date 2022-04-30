@@ -394,6 +394,40 @@
         "AllowedScopes": [ "users.write" ]
       }
     },
+    {
+      "DownstreamPathTemplate": "/api/association/profile",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tpuserservice",
+          "Port": 3020
+        }
+      ],
+      "UpstreamPathTemplate": "/association/profile",
+      "UpstreamHttpMethod": [ "Get" ],
+      "SwaggerKey": "UserService",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "TpAuthKey",
+        "AllowedScopes": [ "association.admin" ]
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/association/profile",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tpuserservice",
+          "Port": 3020
+        }
+      ],
+      "UpstreamPathTemplate": "/association/profile",
+      "UpstreamHttpMethod": [ "Put" ],
+      "SwaggerKey": "UserService",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "TpAuthKey",
+        "AllowedScopes": [ "association.admin" ]
+      }
+    },
     // user management controllers - users, profiles and scopes
     {
       "DownstreamPathTemplate": "/api/user",

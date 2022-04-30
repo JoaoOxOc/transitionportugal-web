@@ -32,6 +32,14 @@ export declare const USERSLIST_TRANSLATIONS: {
     };
     readonly MESSAGES: {
         readonly usersManagementDescription: "All aspects related to the app users can be managed from this page";
+        readonly usersNotFound: "The selected user(s) weren't found";
+        readonly resentErrors: "Some emails were not sent for the selected user(s). Please try again";
+        readonly resentEmails: "Verification Email resent to the selected user(s)";
+        readonly usersApproved: "The selected user(s) are now approved/activated";
+        readonly usersRemoved: "The selected user(s) are now removed";
+        readonly approvingErrors: "Some selected user(s) weren't approved. Please try again";
+        readonly deleted: "The selected user(s) were deleted";
+        readonly deletingErrors: "Some selected user(s) weren't deleted. Please try again";
     };
     readonly SEARCH: {
         readonly filters: "Filters";

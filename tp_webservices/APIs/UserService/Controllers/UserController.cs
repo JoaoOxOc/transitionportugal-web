@@ -141,10 +141,12 @@ namespace UserService.Controllers
             if (model.IsEmailVerified.HasValue)
             {
                 user.IsEmailVerified = model.IsEmailVerified;
+                user.EmailConfirmed = model.IsEmailVerified.Value;
             }
             else if (!string.IsNullOrEmpty(user.Id))
             {
                 user.IsEmailVerified = model.IsEmailVerified;
+                user.EmailConfirmed = model.IsEmailVerified.HasValue ? model.IsEmailVerified.Value : false;
             }
 
             return user;
@@ -179,7 +181,7 @@ namespace UserService.Controllers
                     && (x.Name.ToLower().Contains(searchText.ToLower()) || x.UserName.ToLower().Contains(searchText.ToLower()))
                     && (!associationId.HasValue || x.AssociationId == associationId.Value)
                     && (!isActive.HasValue || x.IsActive == isActive.Value)
-                    && (!isVerified.HasValue || x.IsVerified == isVerified.Value));
+                    && (!isVerified.HasValue || (x.IsEmailVerified == isVerified.Value && x.EmailConfirmed == isVerified.Value)));
 
                     var _users = _uow.UserRepository.Get(offset, limit, filter, sort, direction, "Association");
 
@@ -262,6 +264,7 @@ namespace UserService.Controllers
                     IsVerified = false,
                     IsActive = false,
                     IsEmailVerified = false,
+                    EmailConfirmed = false,
                     TermsConsent = model.TermsConfirmed.HasValue ? model.TermsConfirmed.Value : true,
                     TermsConsentVersion = _termsManager.GetActiveTermsConditionsVersion()
                 };
@@ -407,7 +410,7 @@ namespace UserService.Controllers
                 && PermissionsHelper.ValidateUserScopesPermissionAll(scopes, new List<string> { "users.write" })
                 && model.UserIds != null && model.UserIds.Count > 0)
             {
-                Expression<Func<User, bool>> filter = (x => model.UserIds.Contains(x.Id) && x.IsEmailVerified == false);
+                Expression<Func<User, bool>> filter = (x => model.UserIds.Contains(x.Id) && x.IsEmailVerified == false && x.EmailConfirmed == false);
                 var usersToApprove = _uow.UserRepository.Get(null, null, filter, "UserName", SortDirection.Ascending);
                 var usersEmailError = new List<string>();
                 foreach (var user in usersToApprove)
@@ -417,7 +420,7 @@ namespace UserService.Controllers
                     var userTokenData = _tokenManager.GetToken(userToApproveClaims, 1440, null);
 
                     var userEmailLink = _configuration["ApplicationSettings:RecoverPasswordBaseUrl"] + _configuration["ApplicationSettings:ConfirmEmailUri"] + "?t=" + userTokenData.Token;
-                    bool userEmailSuccess = await _emailSender.SendActivateUserEmail(user.Email, "pt-PT", userEmailLink);
+                    bool userEmailSuccess = await _emailSender.SendActivateUserEmail(user.Email, "pt-PT", user, userEmailLink);
 
                     if (!userEmailSuccess)
                     {
@@ -465,7 +468,7 @@ namespace UserService.Controllers
                 _uow.Save();
 
                 var userEmailLink = _configuration["ApplicationSettings:RecoverPasswordBaseUrl"] + "/auth/login/cover";
-                bool userEmailSuccess = await _emailSender.SendBulkUserActivatedEmail(approvedEmails, "pt-PT", userEmailLink);
+                bool userEmailSuccess = await _emailSender.SendBulkUserActivatedEmail(approvedEmails, "pt-PT", usersToApprove, userEmailLink);
 
                 return Ok(new
                 {

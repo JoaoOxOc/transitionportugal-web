@@ -39,7 +39,7 @@ function ManagementScopesCreate() {
 
 ManagementScopesCreate.getLayout = (page) => (
   <Authenticated>
-    <Authorized scopes={["users.write"]}>
+    <Authorized scopes={["scopes.admin"]}>
         <AccentHeaderLayout>{page}</AccentHeaderLayout>
     </Authorized>
   </Authenticated>
