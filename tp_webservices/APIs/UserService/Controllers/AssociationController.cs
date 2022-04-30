@@ -245,6 +245,26 @@ namespace UserService.Controllers
             return Forbid();
         }
 
+        private async Task<IActionResult> GetAssociationData(int id)
+        {
+            var association = _uow.AssociationRepository.GetById(id);
+
+            if (association != null)
+            {
+                Expression<Func<User, bool>> filter = (x => x.AssociationId == association.Id);
+                var users = _uow.UserRepository.Get(null, null, filter, "Id", SortDirection.Ascending, String.Empty);
+
+                return Ok(new
+                {
+                    associationData = ParseEntityToModel(association, users)
+                });
+            }
+            else
+            {
+                return NotFound(null);
+            }
+        }
+
         [Authorize]
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
@@ -260,22 +280,7 @@ namespace UserService.Controllers
             {
                 try
                 {
-                    var association = _uow.AssociationRepository.GetById(id);
-
-                    if (association != null)
-                    {
-                        Expression<Func<User, bool>> filter = (x => x.AssociationId == association.Id);
-                        var users = _uow.UserRepository.Get(null, null, filter, "Id", SortDirection.Ascending, String.Empty);
-
-                        return Ok(new
-                        {
-                            associationData = ParseEntityToModel(association, users)
-                        });
-                    }
-                    else
-                    {
-                        return NotFound(null);
-                    }
+                    return await GetAssociationData(id);
                 }
                 catch (Exception ex)
                 {
@@ -283,6 +288,28 @@ namespace UserService.Controllers
                 }
             }
             return Forbid();
+        }
+
+        [Authorize]
+        [HttpGet]
+        [Route("profile")]
+        public async Task<IActionResult> Profile()
+        {
+            string header = HttpContext.Request.Headers["Authorization"];
+            string[] claims = new string[] { "userId", "sub", "associationId", System.Security.Claims.ClaimTypes.Role, "scope" };
+            List<JwtClaim> userClaims = JwtHelper.ValidateToken(header, _configuration["JWT:ValidAudience"], _configuration["JWT:ValidIssuer"], _configuration["JWT:SecretPublicKey"], claims);
+            var associationClaim = userClaims.Where(x => x.Claim == "associationId").FirstOrDefault();
+            string userScopesString = userClaims.Where(x => x.Claim == "scope").Single().Value;
+            List<string> scopes = !string.IsNullOrEmpty(userScopesString) ? JsonSerializer.Deserialize<List<string>>(userScopesString) : null;
+            if (PermissionsHelper.ValidateRoleClaimPermission(userClaims, new List<string> { "AssociationAdmin" })
+                && PermissionsHelper.ValidateUserScopesPermissionAll(scopes, new List<string> { "association.admin" })
+                && associationClaim != null)
+            {
+                int associationId = 0;
+                int.TryParse(associationClaim.Value, out associationId);
+                return await GetAssociationData(associationId);
+            }
+            return Unauthorized();
         }
 
         [Authorize]
@@ -318,6 +345,42 @@ namespace UserService.Controllers
             return Forbid();
         }
 
+        private async Task<IActionResult> updateAssociationData(int? associationId, AssociationModel model)
+        {
+            Expression<Func<Association, bool>> filter = (x => x.Id == associationId);
+
+            var association = this._uow.AssociationRepository.Get(null, null, filter, string.Empty, SortDirection.Ascending).FirstOrDefault();
+            if (association != null)
+            {
+                association = MapModelToEntity(association, model);
+
+                ObjectResult _validate = this.ValidateAssociation(association);
+                if (_validate.StatusCode != StatusCodes.Status200OK)
+                {
+                    return _validate;
+                }
+
+                try
+                {
+                    _uow.AssociationRepository.Update(association);
+                    _uow.Save();
+
+                    return Ok(new
+                    {
+                        associationId = association.Id
+                    });
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, null);
+                }
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
         [Authorize]
         [HttpPut]
         [Route("update")]
@@ -332,40 +395,31 @@ namespace UserService.Controllers
             if (PermissionsHelper.ValidateRoleClaimPermission(userClaims, new List<string> { "Admin" })
                 && PermissionsHelper.ValidateUserScopesPermissionAll(scopes, new List<string> { "users.write" }))
             {
-                Expression<Func<Association, bool>> filter = (x => x.Id == model.Id);
-
-                var association = this._uow.AssociationRepository.Get(null, null, filter, string.Empty, SortDirection.Ascending).FirstOrDefault();
-                if (association != null)
-                {
-                    association = MapModelToEntity(association, model);
-
-                    ObjectResult _validate = this.ValidateAssociation(association);
-                    if (_validate.StatusCode != StatusCodes.Status200OK)
-                    {
-                        return _validate;
-                    }
-
-                    try
-                    {
-                        _uow.AssociationRepository.Update(association);
-                        _uow.Save();
-
-                        return Ok(new
-                        {
-                            associationId = association.Id
-                        });
-                    }
-                    catch (Exception ex)
-                    {
-                        return StatusCode(StatusCodes.Status500InternalServerError, null);
-                    }
-                }
-                else
-                {
-                    return NotFound();
-                }
+                return await updateAssociationData(model.Id,model);
             }
             return Forbid();
+        }
+
+        [Authorize]
+        [HttpPut]
+        [Route("profile")]
+        public async Task<IActionResult> UpdateProfile([FromBody] AssociationModel model)
+        {
+            string header = HttpContext.Request.Headers["Authorization"];
+            string[] claims = new string[] { "userId", "sub", "associationId", System.Security.Claims.ClaimTypes.Role, "scope" };
+            List<JwtClaim> userClaims = JwtHelper.ValidateToken(header, _configuration["JWT:ValidAudience"], _configuration["JWT:ValidIssuer"], _configuration["JWT:SecretPublicKey"], claims);
+            var associationClaim = userClaims.Where(x => x.Claim == "associationId").FirstOrDefault();
+            string userScopesString = userClaims.Where(x => x.Claim == "scope").Single().Value;
+            List<string> scopes = !string.IsNullOrEmpty(userScopesString) ? JsonSerializer.Deserialize<List<string>>(userScopesString) : null;
+            if (PermissionsHelper.ValidateRoleClaimPermission(userClaims, new List<string> { "AssociationAdmin" })
+                && PermissionsHelper.ValidateUserScopesPermissionAll(scopes, new List<string> { "association.admin" })
+                && associationClaim != null)
+            {
+                int associationId = 0;
+                int.TryParse(associationClaim.Value, out associationId);
+                return await updateAssociationData(associationId, model);
+            }
+            return Unauthorized();
         }
 
         [Authorize]
@@ -393,7 +447,7 @@ namespace UserService.Controllers
                     var associationTokenData = _tokenManager.GetToken(associationClaims, 1440, null);
 
                     var associationEmailLink = _configuration["ApplicationSettings:RecoverPasswordBaseUrl"] + _configuration["ApplicationSettings:ConfirmEmailUri"] + "?t=" + associationTokenData.Token;
-                    bool associationEmailSuccess = await _emailSender.SendActivateAssociationEmail(association.Email, "pt-PT", associationEmailLink);
+                    bool associationEmailSuccess = await _emailSender.SendActivateAssociationEmail(association.Email, "pt-PT", association, associationEmailLink);
 
                     if (!associationEmailSuccess)
                     {
@@ -440,7 +494,7 @@ namespace UserService.Controllers
                 _uow.Save();
 
                 var associationEmailLink = _configuration["ApplicationSettings:RecoverPasswordBaseUrl"] + "/auth/login/cover";
-                bool associationEmailSuccess = await _emailSender.SendBulkAssociationActivatedEmail(approvedEmails, "pt-PT", associationEmailLink);
+                bool associationEmailSuccess = await _emailSender.SendBulkAssociationActivatedEmail(approvedEmails, "pt-PT", associationsToApprove, associationEmailLink);
 
                 return Ok(new
                 {

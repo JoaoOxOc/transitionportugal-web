@@ -104,7 +104,7 @@ const CardCoverAction = styled(Box)(
 
 const ProfileCover = ({ user, isProfile, breadcrumbsDataJson }) => {
   const { t } = i18nextUserDetails;
-  let associationDetailsBaseUri = isProfile ? "profile/association" : "/management/associations/single/";
+  let associationDetailsBaseUri = isProfile ? "/profile/association" : "/management/associations/single/";
 
   return (
     <>
@@ -141,7 +141,7 @@ const ProfileCover = ({ user, isProfile, breadcrumbsDataJson }) => {
               <CardMedia image={user.associationLogoImage} />
               <CardCoverAction>
                 <Tooltip title={t('LABELS.view')} arrow>
-                    <Link href={associationDetailsBaseUri + user.associationId} isNextLink={true}>
+                    <Link href={isProfile ? associationDetailsBaseUri : associationDetailsBaseUri + user.associationId} isNextLink={true}>
                         <Button
                           startIcon={<LaunchTwoToneIcon />}
                           variant="contained"

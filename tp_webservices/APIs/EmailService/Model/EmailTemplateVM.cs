@@ -8,15 +8,15 @@ namespace EmailService.Model
 
         public string Key { get; set; }
 
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         public string Language { get; set; }
 
-        public string Subject { get; set; }
+        public string? Subject { get; set; }
 
-        public JsonDocument TemplateDataJson { get; set; }
+        public JsonDocument? TemplateDataJson { get; set; }
 
-        public string BodyHtml { get; set; }
+        public string? BodyHtml { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
     }

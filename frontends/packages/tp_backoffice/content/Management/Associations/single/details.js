@@ -22,7 +22,7 @@ import { GetAssociationData } from '../../../../services/associations';
 
 import { i18nextAssociationDetails } from "@transitionpt/translations";
 
-function AssociationDetails({isCreate}) {
+function AssociationDetails({isCreate, isProfile, associationId}) {
     const router = useRouter();
     const isMountedRef = useRefMounted();
     const theme = useTheme();
@@ -31,7 +31,7 @@ function AssociationDetails({isCreate}) {
     useErrorHandler(associationError);
     const { t } = i18nextAssociationDetails;
     const associationsListUri = "/management/associations";
-    let associationUri = "/associations/get/" + router.query.associationId;
+    let associationUri = isProfile ? "/association/profile" : "/associations/get/" + router.query.associationId;
     let associationPutUri = process.env.NEXT_PUBLIC_API_BASE_URL + (isCreate ? "/associations/create" : "/associations/update");
 
     const getAssociationData = useCallback(async () => {

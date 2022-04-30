@@ -53,7 +53,7 @@ namespace UserService.Migrations.Config
 
             var users = new User[]
             {
-                new User { Name = "Administrator", UserName = "admin", NormalizedUserName = "ADMIN", Email = "admin@tp.int", PasswordHash = BCrypt.Net.BCrypt.HashPassword("123"), IsVerified = true, IsActive = true, IsEmailVerified = true, CreatedAt = DateTime.Now }
+                new User { Name = "Administrator", UserName = "admin", NormalizedUserName = "ADMIN", Email = "admin@tp.int", PasswordHash = BCrypt.Net.BCrypt.HashPassword("123"), IsVerified = true, IsActive = true, IsEmailVerified = true, EmailConfirmed = true, Timezone = "UTC", LangCode = "pt-pt", CreatedAt = DateTime.Now }
             };
 
             foreach (User obj in users)

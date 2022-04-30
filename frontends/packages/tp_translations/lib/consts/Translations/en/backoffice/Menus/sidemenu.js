@@ -5,6 +5,8 @@ export var SIDEMENU_TRANSLATIONS = deepFreeze({
         inbox: "Inbox",
         projects: "Projects",
         posts: "Posts",
+        eventsCalendar: "Events Calendar",
+        messenger: "Messenger",
         logout: "Sign out",
     },
     SIDEMENU_HEADERS: {
@@ -19,6 +21,12 @@ export var SIDEMENU_TRANSLATIONS = deepFreeze({
     SIDEMENU_CONTENT: {
         banner: "Banner",
         about: "About",
+        contacts: "Contacts",
+        circularEconomy: "Circular Economy",
+        events: "Events",
+        newsBlog: "News/Posts",
+        donations: "Donations",
+        partners: "Partners"
     },
     SIDEMENU_MANAGEMENT: {
         users: "Users",

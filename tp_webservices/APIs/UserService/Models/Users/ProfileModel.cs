@@ -8,6 +8,8 @@
         public string? Email { get; set; }
         public string? Phone { get; set; }
         public string? UserRole { get; set; }
+        public string? LangCode { get; set; }
+        public string? Timezone { get; set; }
 
         public string? AssociationName { get; set; }
         public string? AssociationLogoImage { get; set; }

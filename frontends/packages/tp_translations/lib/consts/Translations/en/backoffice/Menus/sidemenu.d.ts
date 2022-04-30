@@ -4,6 +4,8 @@ export declare const SIDEMENU_TRANSLATIONS: {
         readonly inbox: "Inbox";
         readonly projects: "Projects";
         readonly posts: "Posts";
+        readonly eventsCalendar: "Events Calendar";
+        readonly messenger: "Messenger";
         readonly logout: "Sign out";
     };
     readonly SIDEMENU_HEADERS: {
@@ -18,6 +20,12 @@ export declare const SIDEMENU_TRANSLATIONS: {
     readonly SIDEMENU_CONTENT: {
         readonly banner: "Banner";
         readonly about: "About";
+        readonly contacts: "Contacts";
+        readonly circularEconomy: "Circular Economy";
+        readonly events: "Events";
+        readonly newsBlog: "News/Posts";
+        readonly donations: "Donations";
+        readonly partners: "Partners";
     };
     readonly SIDEMENU_MANAGEMENT: {
         readonly users: "Users";

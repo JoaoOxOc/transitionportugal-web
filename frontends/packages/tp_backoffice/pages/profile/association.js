@@ -1,25 +1,25 @@
 import { useState, useEffect } from 'react';
 
 import Head from 'next/head';
-import { useRouter } from 'next/router';
 
 import AccentHeaderLayout from '../../layouts/AccentHeaderLayout';
 import { Authenticated } from '../../components/Authenticated';
 import { Authorized } from '../../components/Authorized';
+import { getUserIdAndAssociation } from '../../utils/jwt';
 
 import Footer from '../../components/Footer';
 
-import { i18nextUserDetails } from "@transitionpt/translations";
-import UserDetails from '../../content/Management/Users/single/details';
+import { i18nextAssociationDetails } from "@transitionpt/translations";
+import AssociationDetails from '../../content/Management/Associations/single/details';
 
 
 function AssociationProfileView() {
-    const router = useRouter();
-    const { t } = i18nextUserDetails;
+    const { t } = i18nextAssociationDetails;
     const [currentLang, setLang] = useState("pt");
-    i18nextUserDetails.changeLanguage(currentLang);
+    i18nextAssociationDetails.changeLanguage(currentLang);
 
-    const userData = getUserIdAndAssociation(window.sessionStorage.getItem('accessToken'));
+    const userData = getUserIdAndAssociation(window.localStorage.getItem('accessToken'));
+    console.log(userData);
 
     useEffect(() => {
         const handleNewMessage = (event) => {
@@ -32,10 +32,10 @@ function AssociationProfileView() {
     return (
     <>
       <Head>
-        <title>{t('LABELS.userDetails')}</title>
+        <title>{t('LABELS.associationDetails')}</title>
       </Head>
 
-      <UserDetails isCreate={false} userId={""}/>
+      <AssociationDetails isCreate={false} isProfile={true} associationId={userData.associationId}/>
       <Footer />
     </>
   );
@@ -43,7 +43,7 @@ function AssociationProfileView() {
 
 AssociationProfileView.getLayout = (page) => (
   <Authenticated>
-    <Authorized scopes={["user.write"]}>
+    <Authorized scopes={["association.admin"]}>
         <AccentHeaderLayout>{page}</AccentHeaderLayout>
     </Authorized>
   </Authenticated>
