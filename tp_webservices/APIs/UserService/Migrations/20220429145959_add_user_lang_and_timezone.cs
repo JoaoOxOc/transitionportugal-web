@@ -16,7 +16,7 @@ namespace UserService.Migrations
                 nullable: true);
 
             migrationBuilder.AddColumn<string>(
-                name: "TimeZone",
+                name: "Timezone",
                 table: "AspNetUsers",
                 type: "text",
                 nullable: true);
