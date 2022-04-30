@@ -152,6 +152,7 @@ namespace UserService.Controllers
                 IsVerified = false,
                 IsActive = false,
                 IsEmailVerified = false,
+                EmailConfirmed = false,
                 TermsConsent = model.TermsConfirmed.Value,
                 TermsConsentVersion = _termsManager.GetActiveTermsConditionsVersion()
             };
@@ -197,6 +198,7 @@ namespace UserService.Controllers
                 if (user != null)
                 {
                     user.IsEmailVerified = true;
+                    user.EmailConfirmed = true;
                     var result = await _userManager.UpdateUser(user);
                     if (result != null && result.Succeeded)
                     {
