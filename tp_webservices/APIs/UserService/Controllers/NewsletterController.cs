@@ -11,6 +11,7 @@ using System.Text.Json;
 using UserService.Entities;
 using UserService.Models;
 using UserService.Services.Database;
+using UserService.Services.Mailchimp;
 using UserService.Services.RabbitMQ;
 using UserService.Services.UserManager;
 
@@ -24,14 +25,16 @@ namespace UserService.Controllers
         private readonly IConfiguration _configuration;
         private readonly ITPUserManager _userManager;
         private readonly ITokenManager _tokenManager;
+        private readonly IMailchimpRepository _mailchimpRepository;
         private readonly IRabbitMQSender _rabbitSender;
 
-        public NewsletterController(IUnitOfWork uow, IConfiguration configuration, ITPUserManager userManager, ITokenManager tokenManager, IRabbitMQSender rabbitMQSender)
+        public NewsletterController(IUnitOfWork uow, IConfiguration configuration, ITPUserManager userManager, ITokenManager tokenManager, IMailchimpRepository mailchimpRepository, IRabbitMQSender rabbitMQSender)
         {
             _uow = uow;
             _configuration = configuration;
             _userManager = userManager;
             _tokenManager = tokenManager;
+            _mailchimpRepository = mailchimpRepository;
             _rabbitSender = rabbitMQSender;
         }
 
