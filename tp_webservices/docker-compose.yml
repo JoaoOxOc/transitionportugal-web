@@ -108,6 +108,20 @@ services:
     networks:
         - tp_bridge
 
+  tpnotificationservice:
+    image: ${DOCKER_REGISTRY-}tpnotificationservice
+    container_name: tpcmservice
+    environment:
+        ASPNETCORE_URLS: "http://+:3040"
+        ASPNETCORE_ENVIRONMENT: "Development"
+    build:
+        context: .
+        dockerfile: notificationservice.dockerfile
+    ports:
+        - "5040:3040"
+    networks:
+        - tp_bridge
+
 networks:
     tp_bridge:
         name: tp_bridge
