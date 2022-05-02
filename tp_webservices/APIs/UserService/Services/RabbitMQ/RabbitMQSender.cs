@@ -9,6 +9,8 @@ namespace UserService.Services.RabbitMQ
     {
         private readonly IConfiguration _configuration;
         private readonly IBus _bus;
+        private readonly string rabbitMqHost;
+        private readonly string[] rabbitMqExchanges;
 
         /// <summary>
         /// 
@@ -19,6 +21,9 @@ namespace UserService.Services.RabbitMQ
         {
             _configuration = configuration;
             _bus = bus;
+            rabbitMqHost = _configuration.GetSection("ApplicationSettings:RabbitMQHost").Get<string>();
+            string rabbitMqExchangesString = _configuration.GetSection("ApplicationSettings:RabbitMQExchanges").Get<string>();
+            rabbitMqExchanges = !string.IsNullOrEmpty(rabbitMqExchangesString) ? rabbitMqExchangesString.Split(',') : System.Array.Empty<string>();
         }
 
         public async Task<bool> PublishEmailMessage(EmailVM emailData)
@@ -26,12 +31,29 @@ namespace UserService.Services.RabbitMQ
             bool success = false;
             try
             {
-                string rabbitMqHost = _configuration.GetSection("ApplicationSettings:RabbitMQHost").Get<string>();
-                string rabbitMqExchange = _configuration.GetSection("ApplicationSettings:RabbitMQExchange").Get<string>();
 
-                Uri uri = new Uri("rabbitmq://" + rabbitMqHost + "/" + rabbitMqExchange);
+                Uri uri = new Uri("rabbitmq://" + rabbitMqHost + "/" + rabbitMqExchanges.Select(x => x.Contains("email")).FirstOrDefault());
                 var endPoint = await _bus.GetSendEndpoint(uri);
                 await endPoint.Send(emailData);
+                success = true;
+            }
+            catch (Exception ex)
+            {
+                success = false;
+                throw new AppException(ex.Message);
+            }
+            return success;
+        }
+
+        public async Task<bool> PublishExceptionMessage(ExceptionModel exceptionData)
+        {
+            bool success = false;
+            try
+            {
+
+                Uri uri = new Uri("rabbitmq://" + rabbitMqHost + "/" + rabbitMqExchanges.Select(x => x.Contains("exception")).FirstOrDefault());
+                var endPoint = await _bus.GetSendEndpoint(uri);
+                await endPoint.Send(exceptionData);
                 success = true;
             }
             catch (Exception ex)
