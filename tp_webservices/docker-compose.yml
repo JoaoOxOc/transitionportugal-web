@@ -110,7 +110,7 @@ services:
 
   tpnotificationservice:
     image: ${DOCKER_REGISTRY-}tpnotificationservice
-    container_name: tpcmservice
+    container_name: tpnotificationservice
     environment:
         ASPNETCORE_URLS: "http://+:3040"
         ASPNETCORE_ENVIRONMENT: "Development"

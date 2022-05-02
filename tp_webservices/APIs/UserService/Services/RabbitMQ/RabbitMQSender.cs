@@ -32,7 +32,7 @@ namespace UserService.Services.RabbitMQ
             try
             {
 
-                Uri uri = new Uri("rabbitmq://" + rabbitMqHost + "/" + rabbitMqExchanges.Select(x => x.Contains("email")).FirstOrDefault());
+                Uri uri = new Uri("rabbitmq://" + rabbitMqHost + "/" + Array.Find(rabbitMqExchanges, x => x.Contains("email")));
                 var endPoint = await _bus.GetSendEndpoint(uri);
                 await endPoint.Send(emailData);
                 success = true;
@@ -51,7 +51,7 @@ namespace UserService.Services.RabbitMQ
             try
             {
 
-                Uri uri = new Uri("rabbitmq://" + rabbitMqHost + "/" + rabbitMqExchanges.Select(x => x.Contains("exception")).FirstOrDefault());
+                Uri uri = new Uri("rabbitmq://" + rabbitMqHost + "/" + Array.Find(rabbitMqExchanges, x => x.Contains("exception")));
                 var endPoint = await _bus.GetSendEndpoint(uri);
                 await endPoint.Send(exceptionData);
                 success = true;
