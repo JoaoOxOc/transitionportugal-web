@@ -1,2 +1,2 @@
-from .setting import *
+from .setting_model import *
 

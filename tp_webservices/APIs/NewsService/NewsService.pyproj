@@ -34,22 +34,33 @@
     <Compile Include="manage.py" />
     <Compile Include="NewsServiceApp\admin.py" />
     <Compile Include="NewsServiceApp\apps.py" />
+    <Compile Include="NewsServiceApp\migrations\0001_initial.py" />
     <Compile Include="NewsServiceApp\migrations\__init__.py" />
-    <Compile Include="NewsServiceApp\models\models.py" />
-    <Compile Include="NewsServiceApp\models\setting.py">
+    <Compile Include="NewsServiceApp\models\setting_model.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="NewsServiceApp\models\__init__.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="NewsServiceApp\tests.py" />
-    <Compile Include="NewsServiceApp\viewModels\serializers\example_serializer.py">
+    <Compile Include="NewsServiceApp\tests\setting_test.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="NewsServiceApp\views\setting.py">
+    <Compile Include="NewsServiceApp\tests\tests.py" />
+    <Compile Include="NewsServiceApp\tests\__init__.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="NewsServiceApp\views\views.py" />
+    <Compile Include="NewsServiceApp\urls.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NewsServiceApp\viewModels\serializers\setting_serializer.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NewsServiceApp\views\setting_detail_view.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NewsServiceApp\views\setting_list_view.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="NewsServiceApp\views\__init__.py">
       <SubType>Code</SubType>
     </Compile>
@@ -60,10 +71,14 @@
     <Compile Include="NewsService\wsgi.py" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="NewsServiceApp\migrations\seed\settings.json" />
+    <Content Include="NewsServiceApp\migrations\migrate_and_seed.sh" />
     <Content Include="NewsServiceApp\templates\NewsServiceApp\index.html" />
     <Content Include="requirements.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="NewsServiceApp\migrations\seed\" />
+    <Folder Include="NewsServiceApp\tests\" />
     <Folder Include="NewsService\" />
     <Folder Include="NewsServiceApp\" />
     <Folder Include="NewsServiceApp\migrations\" />

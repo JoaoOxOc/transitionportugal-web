@@ -18,16 +18,19 @@ Including another URLconf
 
 # Uncomment next two lines to enable admin:
 #from django.contrib import admin
-from django.urls import path
+from django.urls import include, path
+from rest_framework.urlpatterns import format_suffix_patterns
 from rest_framework import routers
-from NewsServiceApp.views.setting import ExampleViewSet
+from NewsServiceApp import urls as news_service_urls
 
 router = routers.DefaultRouter()
-router.register(r'settings', views.ExampleViewSet)
+#router.register(r'settings', SettingViewSet)
 
 urlpatterns = [
-    path('', include(router.urls)),
-    path('api/', include('rest_framework.urls', namespace='rest_framework'))
+    path('api/', include('rest_framework.urls', namespace='rest_framework')),
+    path('api/news/', include(news_service_urls)),
     # Uncomment the next line to enable the admin:
     #path('admin/', admin.site.urls)
 ]
+
+urlpatterns = format_suffix_patterns(urlpatterns)
