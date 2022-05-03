@@ -67,6 +67,50 @@ export const verifyTokenScopes = (token, scopes) => {
   }
 }
 
+export const getTokenScopes = (token) => {
+  if (token) {
+    const [encodedHeader, encodedPayload, signature] = token.split('.');
+    const header = JSON.parse(atob(encodedHeader));
+    const payload = JSON.parse(atob(encodedPayload));
+    try {
+      if (payload.scope) {
+        return payload.scope;
+      }
+      else {
+        return [];
+      }
+    }
+    catch(ex){
+      throw ex;
+    }
+  }
+  else {
+    return [];
+  }
+}
+
+export const getTokenRole = (token) => {
+  if (token) {
+    const [encodedHeader, encodedPayload, signature] = token.split('.');
+    const header = JSON.parse(atob(encodedHeader));
+    const payload = JSON.parse(atob(encodedPayload));
+    try {
+      if (payload["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]) {
+        return payload["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
+      }
+      else {
+        return "";
+      }
+    }
+    catch(ex){
+      throw ex;
+    }
+  }
+  else {
+    return "[]";
+  }
+}
+
 export const getUserIdAndAssociation = (token) => {
   if (token) {
     const [encodedHeader, encodedPayload, signature] = token.split('.');

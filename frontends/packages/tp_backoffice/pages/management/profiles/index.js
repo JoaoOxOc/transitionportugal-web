@@ -62,7 +62,7 @@ function ManagementRoles() {
 
 ManagementRoles.getLayout = (page) => (
   <Authenticated>
-    <Authorized scopes={["users.write"]}>
+    <Authorized scopes={["roles.admin"]}>
       <AccentHeaderLayout>{page}</AccentHeaderLayout>
     </Authorized>
   </Authenticated>

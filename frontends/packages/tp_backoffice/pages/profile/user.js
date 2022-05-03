@@ -18,7 +18,7 @@ function UserProfileView() {
     const [currentLang, setLang] = useState("pt");
     i18nextUserDetails.changeLanguage(currentLang);
 
-    const userData = getUserIdAndAssociation(window.sessionStorage.getItem('accessToken'));
+    const userData = getUserIdAndAssociation(window.localStorage.getItem('accessToken'));
 
     useEffect(() => {
         const handleNewMessage = (event) => {

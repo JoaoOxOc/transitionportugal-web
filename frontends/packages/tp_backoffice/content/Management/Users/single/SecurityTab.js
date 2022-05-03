@@ -23,9 +23,13 @@ import {
   TableRow,
   TableContainer,
   useTheme,
+  Slide,
   styled
 } from '@mui/material';
-import { i18nextAbout } from "@transitionpt/translations";
+import { i18nextUserDetails } from "@transitionpt/translations";
+import {genericFetch} from '../../../../services/genericFetch';
+import { useSnackbar } from 'notistack';
+import { useRefMounted } from '../../../../hooks/useRefMounted';
 import DoneTwoToneIcon from '@mui/icons-material/DoneTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import { format, subHours, subWeeks, subDays } from 'date-fns';
@@ -57,8 +61,10 @@ const AvatarWrapper = styled(Avatar)(
 );
 
 function SecurityTab({userData}) {
-  const { t } = i18nextAbout;
+  const { t } = i18nextUserDetails;
   const theme = useTheme();
+  const { enqueueSnackbar } = useSnackbar();
+  const isMountedRef = useRefMounted();
 
   const [page, setPage] = useState(2);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -71,6 +77,56 @@ function SecurityTab({userData}) {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+
+  const handlePasswordReset = async() => {
+    const resetModel = {
+      username: userData.userName
+    }
+    console.log(resetModel);
+    try {
+      const resetResult = await genericFetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/user/recover", "POST", null,resetModel);
+      console.log(resetResult);
+      if (isMountedRef()) {
+        if (resetResult.status === "Success") {
+          enqueueSnackbar(t('MESSAGES.passwordResetSuccess'), {
+            variant: 'success',
+            anchorOrigin: {
+              vertical: 'top',
+              horizontal: 'center'
+            },
+            autoHideDuration: 2000,
+            TransitionComponent: Slide
+          });
+        }
+        else {
+            if (resetResult.statusText === "Unauthorized") {
+                enqueueSnackbar(t('MESSAGES.tokenExpiredError'), {
+                  variant: 'error',
+                  anchorOrigin: {
+                    vertical: 'top',
+                    horizontal: 'center'
+                  },
+                  autoHideDuration: 2000,
+                  TransitionComponent: Slide
+                });
+            }
+            else if (resetResult.status === 404) {
+                enqueueSnackbar(t('MESSAGES.userNotFound'), {
+                  variant: 'error',
+                  anchorOrigin: {
+                    vertical: 'top',
+                    horizontal: 'center'
+                  },
+                  autoHideDuration: 2000,
+                  TransitionComponent: Slide
+                });
+            }
+        }
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
 
   // const logs = [
   //   {
@@ -112,11 +168,60 @@ function SecurityTab({userData}) {
 
   return (
     <Grid container spacing={3}>
+    <Grid item xs={12}>
+      <Box pb={2}>
+        <Typography variant="h3">{t('FORM.security')}</Typography>
+        <Typography variant="subtitle2">
+          {t('FORM.securityMessage')}
+        </Typography>
+      </Box>
+      <Card>
+        <List>
+          <ListItem
+            sx={{
+              p: 3
+            }}
+          >
+            <ListItemText
+              primaryTypographyProps={{ variant: 'h5', gutterBottom: true }}
+              secondaryTypographyProps={{
+                variant: 'subtitle2',
+                lineHeight: 1
+              }}
+              primary={t('FORM.changePassword')}
+              secondary={t('FORM.changePasswordMessage')}
+            />
+            <Button size="large" variant="outlined" onClick={handlePasswordReset}>
+              {t('FORM.changePassword')}
+            </Button>
+          </ListItem>
+          {/* <Divider component="li" /> */}
+          {/* <ListItem
+            sx={{
+              p: 3
+            }}
+          >
+            <ListItemText
+              primaryTypographyProps={{ variant: 'h5', gutterBottom: true }}
+              secondaryTypographyProps={{
+                variant: 'subtitle2',
+                lineHeight: 1
+              }}
+              primary={t('Two-Factor Authentication')}
+              secondary={t(
+                'Enable PIN verification for all sign in attempts'
+              )}
+            />
+            <Switch color="primary" />
+          </ListItem> */}
+        </List>
+      </Card>
+    </Grid>
       <Grid item xs={12}>
         <Box pb={2}>
-          <Typography variant="h3">{t('Social Accounts')}</Typography>
+          <Typography variant="h3">{t('FORM.connectedAccounts')}</Typography>
           <Typography variant="subtitle2">
-            {t('Manage connected social accounts options')}
+            {t('FORM.connectedAccountsMessage')}
           </Typography>
         </Box>
         <Card>
@@ -131,7 +236,7 @@ function SecurityTab({userData}) {
                   pr: 2
                 }}
               >
-                <AvatarWrapper src="/static/images/logo/google.svg" />
+                <AvatarWrapper src="/static/images/logo/discourse_icon.svg" />
               </ListItemAvatar>
               <ListItemText
                 primaryTypographyProps={{ variant: 'h5', gutterBottom: true }}
@@ -139,19 +244,27 @@ function SecurityTab({userData}) {
                   variant: 'subtitle2',
                   lineHeight: 1
                 }}
-                primary={t('Google')}
+                primary={t('CONNECTED_ACCOUNTS.discourse')}
                 secondary={t(
-                  'A Google account hasn’t been yet added to your account'
+                  'CONNECTED_ACCOUNTS.discourseDescription'
                 )}
               />
-              <Button color="secondary" size="large" variant="contained">
-                {t('Connect')}
-              </Button>
+              {userData && userData.discourseConnected ?
+                (
+                  <Button color="success" size="large" variant="contained">
+                    {t('CONNECTED_ACCOUNTS.connected')}
+                  </Button>
+                ) : (
+                  <Button color="secondary" size="large" variant="contained">
+                    {t('CONNECTED_ACCOUNTS.disconnected')}
+                  </Button>
+                )
+              }
             </ListItem>
           </List>
         </Card>
       </Grid>
-      <Grid item xs={12}>
+      {/* <Grid item xs={12}>
         <Card>
           <List>
             <ListItem
@@ -215,56 +328,7 @@ function SecurityTab({userData}) {
             </ListItem>
           </List>
         </Card>
-      </Grid>
-      <Grid item xs={12}>
-        <Box pb={2}>
-          <Typography variant="h3">{t('Security')}</Typography>
-          <Typography variant="subtitle2">
-            {t('Change your security preferences below')}
-          </Typography>
-        </Box>
-        <Card>
-          <List>
-            <ListItem
-              sx={{
-                p: 3
-              }}
-            >
-              <ListItemText
-                primaryTypographyProps={{ variant: 'h5', gutterBottom: true }}
-                secondaryTypographyProps={{
-                  variant: 'subtitle2',
-                  lineHeight: 1
-                }}
-                primary={t('Change Password')}
-                secondary={t('You can change your password here')}
-              />
-              <Button size="large" variant="outlined">
-                {t('Change password')}
-              </Button>
-            </ListItem>
-            <Divider component="li" />
-            <ListItem
-              sx={{
-                p: 3
-              }}
-            >
-              <ListItemText
-                primaryTypographyProps={{ variant: 'h5', gutterBottom: true }}
-                secondaryTypographyProps={{
-                  variant: 'subtitle2',
-                  lineHeight: 1
-                }}
-                primary={t('Two-Factor Authentication')}
-                secondary={t(
-                  'Enable PIN verification for all sign in attempts'
-                )}
-              />
-              <Switch color="primary" />
-            </ListItem>
-          </List>
-        </Card>
-      </Grid>
+      </Grid> */}
       {/* <Grid item xs={12}>
         <Card>
           <CardHeader

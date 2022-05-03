@@ -17,6 +17,8 @@ env:
   USERAPI_IMAGE_NAME: tp_userservice
   EMAILAPI_IMAGE_NAME: tp_emailservice
   CMAPI_IMAGE_NAME: tp_cmservice
+  NOTIFYAPI_IMAGE_NAME: tp_notificationservice
+  NEWSAPI_IMAGE_NAME: tp_newsblogservice
   DEPLOYMENT_NAME: tp-apis
   DO_CLUSTER: k8s-photos
   DIGITALOCEAN_ACCESS_TOKEN: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
@@ -70,6 +72,18 @@ jobs:
     
     - name: Push cmservice image to DigitalOcean Container Registry
       run: docker push "$REGISTRY_HOSTNAME/$CMAPI_IMAGE_NAME":latest
+      
+    - name: Build notificationservice container image
+      run: docker build -t "$REGISTRY_HOSTNAME/$NOTIFYAPI_IMAGE_NAME" -f $GITHUB_WORKSPACE/tp_webservices/notificationservice.dockerfile ./tp_webservices/
+    
+    - name: Push notificationservice image to DigitalOcean Container Registry
+      run: docker push "$REGISTRY_HOSTNAME/$NOTIFYAPI_IMAGE_NAME":latest
+      
+    - name: Build newsblogservice container image
+      run: docker build -t "$REGISTRY_HOSTNAME/$NEWSAPI_IMAGE_NAME" -f $GITHUB_WORKSPACE/tp_webservices/newservice.dockerfile ./tp_webservices/
+    
+    - name: Push newsblogservice image to DigitalOcean Container Registry
+      run: docker push "$REGISTRY_HOSTNAME/$NEWSAPI_IMAGE_NAME":latest
 
     - name: authenticate to DO
       run: doctl auth init
@@ -94,6 +108,12 @@ jobs:
       
     - name: Update deployment file with cmservice image registry name
       run: sed -i "s|<CMSERVICE_API_IMAGE>|$REGISTRY_HOSTNAME/$CMAPI_IMAGE_NAME:latest|" $GITHUB_WORKSPACE/$APIS_DEPLOYMENT_FILE_NAME
+      
+    - name: Update deployment file with notificationservice image registry name
+      run: sed -i "s|<NOTIFICATIONSERVICE_API_IMAGE>|$REGISTRY_HOSTNAME/$NOTIFYAPI_IMAGE_NAME:latest|" $GITHUB_WORKSPACE/$APIS_DEPLOYMENT_FILE_NAME
+      
+    - name: Update deployment file with newsblogservice image registry name
+      run: sed -i "s|<NEWSBLOGSERVICE_API_IMAGE>|$REGISTRY_HOSTNAME/$NEWSAPI_IMAGE_NAME:latest|" $GITHUB_WORKSPACE/$APIS_DEPLOYMENT_FILE_NAME
       
     #- name: replace private key
     #  run: sed -i "s|<REPLACE_PRIVATE_KEY>|$USER_PRIVATE_SECRET|" $GITHUB_WORKSPACE/private_key_store
@@ -120,6 +140,13 @@ jobs:
       
     - name: process cmservice environment variables
       run: kubectl delete secret cmservice-data --ignore-not-found && kubectl create secret generic cmservice-data --from-literal=db-conn-string=${{secrets.CMSERVICE_DB_CONN_STRING}} --from-literal=db-host=${{secrets.CMSERVICE_DB_HOST}} --from-literal=db-port=${{secrets.CMSERVICE_DB_PORT}} --from-literal=db-name=${{secrets.CMSERVICE_DB_NAME}} --from-literal=db-user=${{secrets.CMSERVICE_DB_USERNAME}} --from-literal=db-password=${{secrets.CMSERVICE_DB_PASSWORD}}
+      
+    - name: process notificationservice environment variables
+      run: kubectl delete secret notificationservice-data --ignore-not-found && kubectl create secret generic notificationservice-data --from-literal=db-conn-string=${{secrets.NOTIFICATIONSERVICE_DB_CONN_STRING}} --from-literal=db-host=${{secrets.NOTIFICATIONSERVICE_DB_HOST}} --from-literal=db-port=${{secrets.NOTIFICATIONSERVICE_DB_PORT}} --from-literal=db-name=${{secrets.NOTIFICATIONSERVICE_DB_NAME}} --from-literal=db-user=${{secrets.NOTIFICATIONSERVICE_DB_USERNAME}} --from-literal=db-password=${{secrets.NOTIFICATIONSERVICE_DB_PASSWORD}}
+      
+    - name: process newsblogservice environment variables
+      run: kubectl delete secret newsblogservice-data --ignore-not-found && kubectl create secret generic newsblogservice-data --from-literal=db-host=${{secrets.NEWSBLOGSERVICE_DB_HOST}} --from-literal=db-port=${{secrets.NEWSBLOGSERVICE_DB_PORT}} --from-literal=db-name=${{secrets.NEWSBLOGSERVICE_DB_NAME}} --from-literal=db-user=${{secrets.NEWSBLOGSERVICE_DB_USERNAME}} --from-literal=db-password=${{secrets.NEWSBLOGSERVICE_DB_PASSWORD}}
+      
       
     
     - name: Deploy to DigitalOcean Kubernetes

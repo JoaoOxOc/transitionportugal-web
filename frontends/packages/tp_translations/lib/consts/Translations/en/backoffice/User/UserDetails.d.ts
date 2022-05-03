@@ -24,12 +24,19 @@ export declare const USERDETAILS_TRANSLATIONS: {
     readonly TABS: {
         readonly main: "Edit Profile";
         readonly security: "Password/Security";
+        readonly roles: "User Profiles";
     };
     readonly ROLES: {
         readonly associationAdmin: "Association Administrator";
         readonly associationUser: "Association User";
         readonly admin: "System Administrator";
         readonly user: "System User";
+    };
+    readonly CONNECTED_ACCOUNTS: {
+        readonly discourse: "Discourse";
+        readonly discourseDescription: "Defines if you're connected to Transição Portugal Discourse app";
+        readonly connected: "Connected";
+        readonly disconnected: "Disconnected";
     };
     readonly FORM: {
         readonly personalDetails: "Personal Details";
@@ -39,6 +46,12 @@ export declare const USERDETAILS_TRANSLATIONS: {
         readonly accountSettings: "Account Settings";
         readonly accountSettingsMessage: "Manage settings related to account";
         readonly primaryContactType: "Main Contact Type";
+        readonly connectedAccounts: "Connected Accounts";
+        readonly connectedAccountsMessage: "Manage connected accounts options";
+        readonly security: "Security";
+        readonly securityMessage: "Change your security preferences below";
+        readonly changePassword: "Change Password";
+        readonly changePasswordMessage: "You will receive an email with instructions on how to reset it";
         readonly name: "Name";
         readonly userName: "Username";
         readonly email: "User Email";
@@ -64,7 +77,8 @@ export declare const USERDETAILS_TRANSLATIONS: {
         readonly userUpdatedSuccessfully: "The user with name {{userName}} was updated successfully";
         readonly userCreatedSuccessfully: "The user with name {{userName}} was created successfully";
         readonly userGeneralError: "Error creating/updating user with name {{userName}}. Please try again";
-        readonly userNotFound: "The cuser with name {{userName}} wasn't found. Please double check if the name is correct";
+        readonly userNotFound: "The user with name {{userName}} wasn't found. Please double check if the name is correct";
+        readonly passwordResetSuccess: "You will receive an email with instructions on how to reset the password";
     };
 };
 //# sourceMappingURL=UserDetails.d.ts.map

@@ -19,6 +19,16 @@
 
         public string? RefreshToken { get; set; }
 
+        /// <summary>
+        /// Store the user language, for example as en-us 
+        /// </summary>
+        public string? LangCode { get; set; }
+
+        /// <summary>
+        /// store the timezone id has for example UTC or UTC+2
+        /// </summary>
+        public string? Timezone { get; set; }
+
         public bool TermsConsent { get; set; }
 
         public decimal TermsConsentVersion { get; set; }

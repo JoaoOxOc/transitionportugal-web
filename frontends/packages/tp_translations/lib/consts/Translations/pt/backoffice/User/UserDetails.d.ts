@@ -24,12 +24,19 @@ export declare const USERDETAILS_TRANSLATIONS: {
     readonly TABS: {
         readonly main: "Editar Perfil";
         readonly security: "Segurança/Password";
+        readonly roles: "Perfis do Utilizador";
     };
     readonly ROLES: {
         readonly associationAdmin: "Administrador da Associação";
         readonly associationUser: "Utilizador da Associação";
         readonly admin: "Administrador de Sistema";
         readonly user: "Utilizador de Sistema";
+    };
+    readonly CONNECTED_ACCOUNTS: {
+        readonly discourse: "Discourse";
+        readonly discourseDescription: "Define se estás conectado ao Discourse da Transição Portugal";
+        readonly connected: "Conectado";
+        readonly disconnected: "Desconectado";
     };
     readonly FORM: {
         readonly personalDetails: "Detalhes Pessoais";
@@ -39,6 +46,12 @@ export declare const USERDETAILS_TRANSLATIONS: {
         readonly accountSettings: "Definições da conta";
         readonly accountSettingsMessage: "Gerir definições relativas à conta";
         readonly primaryContactType: "Tipo de Contacto Preferido";
+        readonly connectedAccounts: "Contas Conectadas";
+        readonly connectedAccountsMessage: "Gerir opções de Contas Conectadas";
+        readonly security: "Segurança";
+        readonly securityMessage: "Altere abaixo as suas preferências de segurança";
+        readonly changePassword: "Alterar Palavra-passe";
+        readonly changePasswordMessage: "Irás receber um email com instruções de como alterar a palavra-passe";
         readonly name: "Nome";
         readonly userName: "Username";
         readonly email: "Email do Utilizador";
@@ -65,6 +78,7 @@ export declare const USERDETAILS_TRANSLATIONS: {
         readonly userCreatedSuccessfully: "A aplicação cliente cujo nome é {{userName}} foi registada com sucesso";
         readonly userGeneralError: "Erro ao registar/atualizar a aplicação cliente cujo nome é {{userName}}. Por favor tente novamente";
         readonly userNotFound: "A aplicação cliente cujo nome é {{userName}} não foi encontrada. Por favor verifica se o nome está correcto";
+        readonly passwordResetSuccess: "Irás receber um email com instruções de como alterar a palavra-passe";
     };
 };
 //# sourceMappingURL=UserDetails.d.ts.map

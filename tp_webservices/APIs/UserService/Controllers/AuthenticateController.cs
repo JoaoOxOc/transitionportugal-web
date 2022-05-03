@@ -23,8 +23,9 @@ namespace UserService.Controllers
         private readonly IConfiguration _configuration;
         private readonly IEmailSender _emailSender;
         private readonly ITermsManager _termsManager;
+        private readonly IRabbitMQSender _rabbitSender;
 
-        public AuthenticateController(ITPUserManager userManager, ITokenManager tokenManager, IConfiguration configuration, IEmailSender emailSender, ITermsManager termsManager)
+        public AuthenticateController(ITPUserManager userManager, ITokenManager tokenManager, IConfiguration configuration, IEmailSender emailSender, ITermsManager termsManager, IRabbitMQSender rabbitMQSender)
         {
             //userManager.PasswordHasher = new CustomPasswordHasher();
             _userManager = userManager;
@@ -32,6 +33,7 @@ namespace UserService.Controllers
             _configuration = configuration;
             _emailSender = emailSender;
             _termsManager = termsManager;
+            _rabbitSender = rabbitMQSender;
         }
 
         [HttpGet]
@@ -82,6 +84,17 @@ namespace UserService.Controllers
                 }
                 catch(Exception ex)
                 {
+                    CommonLibrary.Entities.ViewModel.ExceptionModel exceptionModel = new CommonLibrary.Entities.ViewModel.ExceptionModel();
+                    exceptionModel.Message = ex.Message;
+                    exceptionModel.StackTrace = ex.StackTrace;
+                    exceptionModel.DateLogging = DateTime.UtcNow;
+                    exceptionModel.AdminRole = "Admin";
+                    exceptionModel.InnerException = ex.InnerException;
+                    var claimUserId = authClaims.Where(x => x.Type == "userId").FirstOrDefault();
+                    exceptionModel.UserId = claimUserId != null ? claimUserId.Value : "";
+
+                    bool success = await _rabbitSender.PublishExceptionMessage(exceptionModel);
+
                     return StatusCode(StatusCodes.Status500InternalServerError, null);
                 }
             }
@@ -147,9 +160,12 @@ namespace UserService.Controllers
                 CreatedAt = DateTime.Now,
                 UserName = model.Username,
                 NormalizedUserName = model.Username.ToUpper(),
+                LangCode = model.LangCode,
+                Timezone = model.Timezone,
                 IsVerified = false,
                 IsActive = false,
                 IsEmailVerified = false,
+                EmailConfirmed = false,
                 TermsConsent = model.TermsConfirmed.Value,
                 TermsConsentVersion = _termsManager.GetActiveTermsConditionsVersion()
             };
@@ -165,17 +181,37 @@ namespace UserService.Controllers
             var associationTokenData = _tokenManager.GetToken(associationClaims, 1440, null);
 
             var userEmailLink = _configuration["ApplicationSettings:RecoverPasswordBaseUrl"] + _configuration["ApplicationSettings:ConfirmEmailUri"] + "?t=" + userTokenData.Token;
-            bool userEmailSuccess = await _emailSender.SendActivateUserEmail(user.Email, "pt-PT", userEmailLink);
+            bool userEmailSuccess = await _emailSender.SendActivateUserEmail(user.Email, "pt-PT", user, userEmailLink);
 
             var associationEmailLink = _configuration["ApplicationSettings:RecoverPasswordBaseUrl"] + _configuration["ApplicationSettings:ConfirmEmailUri"] + "?t=" + associationTokenData.Token;
-            bool associationEmailSuccess = await _emailSender.SendActivateAssociationEmail(association.Email, "pt-PT", associationEmailLink);
+            bool associationEmailSuccess = await _emailSender.SendActivateAssociationEmail(association.Email, "pt-PT", association, associationEmailLink);
 
             if (!userEmailSuccess)
             {
+                CommonLibrary.Entities.ViewModel.ExceptionModel exceptionModel = new CommonLibrary.Entities.ViewModel.ExceptionModel();
+                exceptionModel.Message = "User Email send error";
+                exceptionModel.StackTrace = "AuthenticateController.Register()";
+                exceptionModel.DateLogging = DateTime.UtcNow;
+                exceptionModel.AdminRole = "Admin";
+                exceptionModel.InnerException = null;
+                exceptionModel.UserId = result.Key.Id;
+
+                bool success = await _rabbitSender.PublishExceptionMessage(exceptionModel);
+
                 throw new AppException("User Email send error");
             }
             if (!associationEmailSuccess)
             {
+                CommonLibrary.Entities.ViewModel.ExceptionModel exceptionModel = new CommonLibrary.Entities.ViewModel.ExceptionModel();
+                exceptionModel.Message = "Association Email send error";
+                exceptionModel.StackTrace = "AuthenticateController.Register()";
+                exceptionModel.DateLogging = DateTime.UtcNow;
+                exceptionModel.AdminRole = "Admin";
+                exceptionModel.InnerException = null;
+                exceptionModel.UserId = result.Key.Id;
+
+                bool success = await _rabbitSender.PublishExceptionMessage(exceptionModel);
+
                 throw new AppException("Association Email send error");
             }
 
@@ -195,6 +231,7 @@ namespace UserService.Controllers
                 if (user != null)
                 {
                     user.IsEmailVerified = true;
+                    user.EmailConfirmed = true;
                     var result = await _userManager.UpdateUser(user);
                     if (result != null && result.Succeeded)
                     {
@@ -202,6 +239,17 @@ namespace UserService.Controllers
                     }
                     else
                     {
+                        CommonLibrary.Entities.ViewModel.ExceptionModel exceptionModel = new CommonLibrary.Entities.ViewModel.ExceptionModel();
+                        exceptionModel.Message = "Error verifying user email. Please try again";
+                        exceptionModel.StackTrace = "AuthenticateController.ConfirmEmail()";
+                        exceptionModel.DateLogging = DateTime.UtcNow;
+                        exceptionModel.AdminRole = "Admin";
+                        exceptionModel.InnerException = null;
+                        var claimUserId = userClaims.Where(x => x.Claim == "userId").FirstOrDefault();
+                        exceptionModel.UserId = claimUserId != null ? claimUserId.Value : "";
+
+                        bool success = await _rabbitSender.PublishExceptionMessage(exceptionModel);
+
                         throw new AuthException("Error verifying email. Please try again");
                     }
                 }
@@ -220,6 +268,17 @@ namespace UserService.Controllers
                         }
                         else
                         {
+                            CommonLibrary.Entities.ViewModel.ExceptionModel exceptionModel = new CommonLibrary.Entities.ViewModel.ExceptionModel();
+                            exceptionModel.Message = "Error verifying association email. Please try again";
+                            exceptionModel.StackTrace = "AuthenticateController.ConfirmEmail()";
+                            exceptionModel.DateLogging = DateTime.UtcNow;
+                            exceptionModel.AdminRole = "Admin";
+                            exceptionModel.InnerException = null;
+                            var claimUserId = userClaims.Where(x => x.Claim == "userId").FirstOrDefault();
+                            exceptionModel.UserId = claimUserId != null ? claimUserId.Value : "";
+
+                            bool success = await _rabbitSender.PublishExceptionMessage(exceptionModel);
+
                             throw new AuthException("Error verifying email. Please try again");
                         }
                     }
@@ -316,6 +375,15 @@ namespace UserService.Controllers
             }
             catch (Exception ex)
             {
+                CommonLibrary.Entities.ViewModel.ExceptionModel exceptionModel = new CommonLibrary.Entities.ViewModel.ExceptionModel();
+                exceptionModel.Message = ex.Message;
+                exceptionModel.StackTrace = ex.StackTrace;
+                exceptionModel.DateLogging = DateTime.UtcNow;
+                exceptionModel.AdminRole = "Admin";
+                exceptionModel.InnerException = ex.InnerException;
+                exceptionModel.UserId = "";
+
+                bool success = await _rabbitSender.PublishExceptionMessage(exceptionModel);
                 return StatusCode(StatusCodes.Status500InternalServerError, null);
             }
         }
@@ -384,9 +452,19 @@ namespace UserService.Controllers
 
                 var tokenData = _tokenManager.GetToken(authClaims, null, null);
                 var emailLink = _configuration["ApplicationSettings:RecoverPasswordBaseUrl"] + _configuration["ApplicationSettings:RecoverPasswordUri"] + "?t=" + tokenData.Token;
-                bool success = await _emailSender.SendRecoverPasswordEmail(user.Email, "pt-PT", emailLink);
+                bool success = await _emailSender.SendRecoverPasswordEmail(user.Email, "pt-PT", user, emailLink);
                 if (!success)
                 {
+                    CommonLibrary.Entities.ViewModel.ExceptionModel exceptionModel = new CommonLibrary.Entities.ViewModel.ExceptionModel();
+                    exceptionModel.Message = "Password Recovery Email send error";
+                    exceptionModel.StackTrace = "AuthenticateController.RecoverPasswordRequest()";
+                    exceptionModel.DateLogging = DateTime.UtcNow;
+                    exceptionModel.AdminRole = "Admin";
+                    exceptionModel.InnerException = null;
+                    exceptionModel.UserId = user.Id;
+
+                    bool rabbitSuccess = await _rabbitSender.PublishExceptionMessage(exceptionModel);
+
                     throw new AppException("Email send error");
                 }
                 return Ok(new Response { Status = "Success", Message = "recover_requested" });
@@ -413,6 +491,15 @@ namespace UserService.Controllers
                     }
                     else
                     {
+                        CommonLibrary.Entities.ViewModel.ExceptionModel exceptionModel = new CommonLibrary.Entities.ViewModel.ExceptionModel();
+                        exceptionModel.Message = "Error updating password";
+                        exceptionModel.StackTrace = "AuthenticateController.ResetPassword()";
+                        exceptionModel.DateLogging = DateTime.UtcNow;
+                        exceptionModel.AdminRole = "Admin";
+                        exceptionModel.InnerException = null;
+                        exceptionModel.UserId = user.Id;
+
+                        bool rabbitSuccess = await _rabbitSender.PublishExceptionMessage(exceptionModel);
                         throw new AuthException("Error updating password. Please try again");
                     }
                 }

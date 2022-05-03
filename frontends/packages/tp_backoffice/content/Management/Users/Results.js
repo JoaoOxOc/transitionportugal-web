@@ -230,6 +230,13 @@ const Results = ({associationId}) => {
               }
               getUsersData(usersSearchData.searchData);
           }
+          // Specify how to clean up after this effect:
+        //   return function cleanup() {
+        //       if (usersSearchData.doSearch) {
+        //         console.log("clean up")
+        //         usersSearchData.cleanup();
+        //       }
+        //   };
     }, [usersSearchData, getUsersData, associationId]);
 
     const tabs = [

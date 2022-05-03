@@ -95,7 +95,7 @@ namespace EmailService.Controllers
                     template.Subject = templateVM.Subject;
 
                 if (templateVM.TemplateDataJson != null)
-                    template.BodyJson = BsonDocument.Parse(templateVM.TemplateDataJson.ToJson());
+                    template.BodyJson = BsonDocument.Parse(JsonSerializer.Serialize(templateVM.TemplateDataJson));
 
                 if (!string.IsNullOrEmpty(templateVM.BodyHtml))
                     template.BodyHtml = templateVM.BodyHtml;
@@ -199,8 +199,8 @@ namespace EmailService.Controllers
                     {
                         return Ok(new
                         {
-                            userId = result.Result.Id
-                        });
+                            templateId = result.Result.Id
+                    });
                     }
                     else
                     {

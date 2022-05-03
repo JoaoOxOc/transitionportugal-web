@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq.Expressions;
 using System.Net;
+using System.Text.Json;
 using UserService.Entities;
 using UserService.Models;
 using UserService.Services.Database;
+using UserService.Services.RabbitMQ;
 using UserService.Services.UserManager;
 
 namespace UserService.Controllers
@@ -20,12 +22,14 @@ namespace UserService.Controllers
         private readonly ITokenManager _tokenManager;
         private readonly IConfiguration _configuration;
         private readonly IUnitOfWork _uow;
+        private readonly IRabbitMQSender _rabbitSender;
 
-        public ClientController(IUnitOfWork uow, ITokenManager tokenManager, IConfiguration configuration)
+        public ClientController(IUnitOfWork uow, ITokenManager tokenManager, IConfiguration configuration, IRabbitMQSender rabbitMQSender)
         {
             _uow = uow;
             _tokenManager = tokenManager;
             _configuration = configuration;
+            _rabbitSender = rabbitMQSender;
         }
 
         private ObjectResult ValidateClientApp(ClientCredential clientCredential)
@@ -67,9 +71,13 @@ namespace UserService.Controllers
         public async Task<IActionResult> Get(string? searchText, int? offset, int? limit, string sort, string sortDirection)
         {
             string header = HttpContext.Request.Headers["Authorization"];
-            string[] claims = new string[] { "userId", "sub", System.Security.Claims.ClaimTypes.Role };
+            string[] claims = new string[] { "userId", "sub", System.Security.Claims.ClaimTypes.Role, "scope" };
             List<JwtClaim> userClaims = JwtHelper.ValidateToken(header, _configuration["JWT:ValidAudience"], _configuration["JWT:ValidIssuer"], _configuration["JWT:SecretPublicKey"], claims);
-            if (PermissionsHelper.ValidateRoleClaimPermission(userClaims, new List<string> { "Admin" }))
+            string userScopesString = userClaims.Where(x => x.Claim == "scope").Single().Value;
+            List<string>? scopes = !string.IsNullOrEmpty(userScopesString) ? JsonSerializer.Deserialize<List<string>>(userScopesString) : null;
+
+            if (PermissionsHelper.ValidateRoleClaimPermission(userClaims, new List<string> { "Admin" })
+                && PermissionsHelper.ValidateUserScopesPermissionAll(scopes, new List<string> { "client.admin" }))
             {
                 try
                 {
@@ -95,6 +103,18 @@ namespace UserService.Controllers
                 }
                 catch (Exception ex)
                 {
+
+                    CommonLibrary.Entities.ViewModel.ExceptionModel exceptionModel = new CommonLibrary.Entities.ViewModel.ExceptionModel();
+                    exceptionModel.Message = ex.Message;
+                    exceptionModel.StackTrace = ex.StackTrace;
+                    exceptionModel.DateLogging = DateTime.UtcNow;
+                    exceptionModel.AdminRole = "Admin";
+                    exceptionModel.InnerException = ex.InnerException;
+                    var claimUserId = userClaims.Where(x => x.Claim == "userId").FirstOrDefault();
+                    exceptionModel.UserId = claimUserId != null ? claimUserId.Value : "";
+
+                    bool success = await _rabbitSender.PublishExceptionMessage(exceptionModel);
+
                     return StatusCode(500, null);
                 }
             }
@@ -106,9 +126,13 @@ namespace UserService.Controllers
         public async Task<IActionResult> Get(int id)
         {
             string header = HttpContext.Request.Headers["Authorization"];
-            string[] claims = new string[] { "userId", "sub", System.Security.Claims.ClaimTypes.Role };
+            string[] claims = new string[] { "userId", "sub", System.Security.Claims.ClaimTypes.Role, "scope" };
             List<JwtClaim> userClaims = JwtHelper.ValidateToken(header, _configuration["JWT:ValidAudience"], _configuration["JWT:ValidIssuer"], _configuration["JWT:SecretPublicKey"], claims);
-            if (PermissionsHelper.ValidateRoleClaimPermission(userClaims, new List<string> { "Admin" }))
+            string userScopesString = userClaims.Where(x => x.Claim == "scope").Single().Value;
+            List<string>? scopes = !string.IsNullOrEmpty(userScopesString) ? JsonSerializer.Deserialize<List<string>>(userScopesString) : null;
+
+            if (PermissionsHelper.ValidateRoleClaimPermission(userClaims, new List<string> { "Admin" })
+                && PermissionsHelper.ValidateUserScopesPermissionAll(scopes, new List<string> { "client.admin" }))
             {
                 try
                 {
@@ -122,6 +146,17 @@ namespace UserService.Controllers
                 }
                 catch (Exception ex)
                 {
+                    CommonLibrary.Entities.ViewModel.ExceptionModel exceptionModel = new CommonLibrary.Entities.ViewModel.ExceptionModel();
+                    exceptionModel.Message = ex.Message;
+                    exceptionModel.StackTrace = ex.StackTrace;
+                    exceptionModel.DateLogging = DateTime.UtcNow;
+                    exceptionModel.AdminRole = "Admin";
+                    exceptionModel.InnerException = ex.InnerException;
+                    var claimUserId = userClaims.Where(x => x.Claim == "userId").FirstOrDefault();
+                    exceptionModel.UserId = claimUserId != null ? claimUserId.Value : "";
+
+                    bool success = await _rabbitSender.PublishExceptionMessage(exceptionModel);
+
                     return StatusCode(500, null);
                 }
             }
@@ -144,6 +179,16 @@ namespace UserService.Controllers
             }
             catch (Exception ex)
             {
+                CommonLibrary.Entities.ViewModel.ExceptionModel exceptionModel = new CommonLibrary.Entities.ViewModel.ExceptionModel();
+                exceptionModel.Message = ex.Message;
+                exceptionModel.StackTrace = ex.StackTrace;
+                exceptionModel.DateLogging = DateTime.UtcNow;
+                exceptionModel.AdminRole = "Admin";
+                exceptionModel.InnerException = ex.InnerException;
+                exceptionModel.UserId = "";
+
+                bool success = await _rabbitSender.PublishExceptionMessage(exceptionModel);
+
                 return StatusCode(500, null);
             }
         }
@@ -154,9 +199,13 @@ namespace UserService.Controllers
         public async Task<IActionResult> Put([FromBody] ClientModel model)
         {
             string header = HttpContext.Request.Headers["Authorization"];
-            string[] claims = new string[] { "userId", "sub", System.Security.Claims.ClaimTypes.Role };
+            string[] claims = new string[] { "userId", "sub", System.Security.Claims.ClaimTypes.Role, "scope" };
             List<JwtClaim> userClaims = JwtHelper.ValidateToken(header, _configuration["JWT:ValidAudience"], _configuration["JWT:ValidIssuer"], _configuration["JWT:SecretPublicKey"], claims);
-            if (PermissionsHelper.ValidateRoleClaimPermission(userClaims, new List<string> { "Admin" }))
+            string userScopesString = userClaims.Where(x => x.Claim == "scope").Single().Value;
+            List<string>? scopes = !string.IsNullOrEmpty(userScopesString) ? JsonSerializer.Deserialize<List<string>>(userScopesString) : null;
+
+            if (PermissionsHelper.ValidateRoleClaimPermission(userClaims, new List<string> { "Admin" })
+                && PermissionsHelper.ValidateUserScopesPermissionAll(scopes, new List<string> { "client.admin" }))
             {
                 Expression<Func<ClientCredential, bool>> filter = (x => x.Name.ToLower().Contains(model.ClientName));
 
@@ -190,6 +239,17 @@ namespace UserService.Controllers
                     }
                     catch(Exception ex)
                     {
+
+                        CommonLibrary.Entities.ViewModel.ExceptionModel exceptionModel = new CommonLibrary.Entities.ViewModel.ExceptionModel();
+                        exceptionModel.Message = ex.Message;
+                        exceptionModel.StackTrace = ex.StackTrace;
+                        exceptionModel.DateLogging = DateTime.UtcNow;
+                        exceptionModel.AdminRole = "Admin";
+                        exceptionModel.InnerException = ex.InnerException;
+                        var claimUserId = userClaims.Where(x => x.Claim == "userId").FirstOrDefault();
+                        exceptionModel.UserId = claimUserId != null ? claimUserId.Value : "";
+
+                        bool success = await _rabbitSender.PublishExceptionMessage(exceptionModel);
                         return StatusCode(500, null);
                     }
                 }
@@ -209,7 +269,11 @@ namespace UserService.Controllers
             string header = HttpContext.Request.Headers["Authorization"];
             string[] claims = new string[] { "userId", "sub", System.Security.Claims.ClaimTypes.Role };
             List<JwtClaim> userClaims = JwtHelper.ValidateToken(header, _configuration["JWT:ValidAudience"], _configuration["JWT:ValidIssuer"], _configuration["JWT:SecretPublicKey"], claims);
-            if (PermissionsHelper.ValidateRoleClaimPermission(userClaims, new List<string> { "Admin" }))
+            string userScopesString = userClaims.Where(x => x.Claim == "scope").Single().Value;
+            List<string>? scopes = !string.IsNullOrEmpty(userScopesString) ? JsonSerializer.Deserialize<List<string>>(userScopesString) : null;
+
+            if (PermissionsHelper.ValidateRoleClaimPermission(userClaims, new List<string> { "Admin" })
+                && PermissionsHelper.ValidateUserScopesPermissionAll(scopes, new List<string> { "client.admin" }))
             {
                 ClientCredential clientCredential = new ClientCredential();
                 clientCredential.Description = model.ClientDescription;
@@ -240,6 +304,17 @@ namespace UserService.Controllers
                 }
                 catch (Exception ex)
                 {
+
+                    CommonLibrary.Entities.ViewModel.ExceptionModel exceptionModel = new CommonLibrary.Entities.ViewModel.ExceptionModel();
+                    exceptionModel.Message = ex.Message;
+                    exceptionModel.StackTrace = ex.StackTrace;
+                    exceptionModel.DateLogging = DateTime.UtcNow;
+                    exceptionModel.AdminRole = "Admin";
+                    exceptionModel.InnerException = ex.InnerException;
+                    var claimUserId = userClaims.Where(x => x.Claim == "userId").FirstOrDefault();
+                    exceptionModel.UserId = claimUserId != null ? claimUserId.Value : "";
+
+                    bool success = await _rabbitSender.PublishExceptionMessage(exceptionModel);
                     return StatusCode(500, null);
                 }
             }

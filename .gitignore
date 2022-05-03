@@ -67,3 +67,4 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+/tp_webservices/APIs/NewsService/env

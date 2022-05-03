@@ -17,6 +17,7 @@ using System.Net;
 using Npgsql;
 using UserService.Services.Email;
 using UserService.Services.TermsManager;
+using UserService.Services.Mailchimp;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
@@ -93,6 +94,7 @@ builder.Services.TryAddScoped<IRoleScopeManager, RoleScopeManager>();
 builder.Services.TryAddScoped<IUserRoleManager, UserRoleManager>();
 builder.Services.TryAddScoped<IEmailSender, EmailSender>();
 builder.Services.TryAddScoped<ITermsManager, TermsManager>();
+builder.Services.TryAddScoped<IMailchimpRepository, MailchimpRepository>();
 builder.Services.TryAddSingleton<IConfiguration>(configuration);
 builder.Services.TryAddSingleton<IRabbitMQSender, RabbitMQSender>();
 
@@ -117,7 +119,7 @@ using (var scope = app.Services.CreateScope())
     {
     context.Database.Migrate();
     }
-    catch (Exception ex)
+    catch (Exception)
     {
     }
     var tokenManager = scope.ServiceProvider.GetRequiredService<ITokenManager>();
