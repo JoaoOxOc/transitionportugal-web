@@ -1,8 +1,8 @@
 # !/bin/bash
-python3 manage.py migrate
-fixtures=$(ls seed/)
+python manage.py migrate
+fixtures=$(ls NewsServiceApp/migrations/seed/)
 while IFS= read -r fixture; do
     echo -n "Seeding "
     echo $fixture
-    python3 manage.py loaddata seed/$fixture
+    python manage.py loaddata NewsServiceApp/migrations/seed/$fixture
 done <<< "$fixtures"

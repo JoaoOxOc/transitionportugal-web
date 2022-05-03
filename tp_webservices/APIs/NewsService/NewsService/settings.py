@@ -25,7 +25,7 @@ SECRET_KEY = 'be5e50c0-9d7d-416b-89c2-efe6ed891545'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost','host.docker.internal', 'tpnewservice']
 
 # Application references
 # https://docs.djangoproject.com/en/2.1/ref/settings/#std:setting-INSTALLED_APPS
@@ -79,14 +79,18 @@ WSGI_APPLICATION = 'NewsService.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
+#'polling': os.environ.get('POSTGRES_POLLING'),
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'newsblogdb',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': 'host.docker.internal',
-        'PORT': '5433',
+        'NAME': os.environ.get('POSTGRES_DBNAME'),
+        'USER': os.environ.get('POSTGRES_USER'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+        'HOST': os.environ.get('POSTGRES_HOST'),
+        'PORT': os.environ.get('POSTGRES_PORT'),
+        'OPTIONS': {
+            'sslmode': os.environ.get('POSTGRES_SSLMODE'),
+            },
     }
 }
 

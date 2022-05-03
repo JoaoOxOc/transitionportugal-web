@@ -2,8 +2,10 @@ from rest_framework import viewsets, status, permissions
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from django.core.paginator import Paginator
 from NewsServiceApp.ViewModels.serializers.setting_serializer import SettingSerializer
 from NewsServiceApp.models.setting_model import Setting
+from NewsServiceApp.services.permissions_manager import PermissionsManager
 import json
 
 
@@ -24,6 +26,7 @@ import json
     https://www.django-rest-framework.org/tutorial/2-requests-and-responses/#request-objects
     https://www.django-rest-framework.org/tutorial/3-class-based-views/
     https://blog.logrocket.com/django-rest-framework-create-api/
+    https://www.w3schools.com/django/django_queryset_filter.php
 """
 class SettingsListApiView(APIView):
 
@@ -31,19 +34,35 @@ class SettingsListApiView(APIView):
     Get all settings.
     """
     def get(self, request, format=None):
-        queryset = Setting.objects.all().order_by('Key')
-        search_text = request.GET.get('searchText', None)
-        if search_text is not None:
-            queryset = queryset.filter(Key=search_text)
+        userScopes = None if request.headers.get('UserClaims') is None else json.loads(request.headers.get('UserClaims'))
+        if (PermissionsManager.validate_role_claim_permission(request.headers.get('UserRole'), ['Admin'])
+            and PermissionsManager.validate_user_scopes_permission_all(userScopes, ['newsblog.admin'])):
+            sortByField = 'Key' if request.GET.get('sortBy') is None else request.GET.get('sortBy')
+            sortByOrder = 'asc' if request.GET.get('sortDirection') is None else request.GET.get('sortDirection')
+            sortByField = sortByField if sortByOrder == 'asc' else '-' + sortByField
+            queryset = Setting.objects.all().order_by(sortByField)
+            search_text = request.GET.get('searchText', None)
+            if search_text is not None:
+                queryset = queryset.filter(Q(Key__contains=search_text) | Q(Description__contains=search_text))
 
-        settingsTotalCount = queryset.count()
-        serializer = SettingSerializer(queryset, many=True)
+            settingsTotalCount = queryset.count()
+            paginator = Paginator(queryset, request.GET.get('pageSize'))
+            try:
+                queryset = paginator.page(request.GET.get('pageNumber'))
+            except PageNotAnInteger:
+                queryset = paginator.page(1)
+            except EmptyPage:
+                queryset = paginator.page(paginator.num_pages)
 
-        #isItOk = serializer.is_valid()
-        headersJson = {'headers': ','.join(request.headers)}
-        response = Response({'settings': serializer.data, 'request_query_parameters': json.dumps(request.GET), 'request_query_headers': json.dumps(headersJson)})
-        response['X-Total-Count'] = settingsTotalCount
-        return response
+            serializer = SettingSerializer(queryset, many=True)
+
+            #isItOk = serializer.is_valid()
+            #headersJson = {'headers': ','.join(request.headers)}
+            response = Response({'settings': serializer.data})
+            response['X-Total-Count'] = settingsTotalCount
+            return response
+        else:
+            return Response('no_permissions', status=status.HTTP_403_FORBIDDEN)
 
     #def post(self, request, *args, **kwargs):
     #    '''

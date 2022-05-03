@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from NewsServiceApp.ViewModels.serializers.setting_serializer import SettingSerializer
 from NewsServiceApp.models.setting_model import Setting
 import json
+from datetime import datetime
 
 """
     This class contains settings REST getter methods
@@ -41,3 +42,25 @@ class SettingDetailApiView(APIView):
 
         serializer = SettingSerializer(setting_instance)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def put(self, request, setting_id, *args, **kwargs):
+        '''
+        Updates the setting with given setting_id if exists
+        '''
+        setting_instance = self.get_object(setting_id)
+        if not setting_instance:
+            return Response(
+                {"res": "Object with setting id " + str(setting_id) + " does not exists"}, 
+                status=status.HTTP_404_NOT_FOUND
+            )
+        data = {
+            'Description': request.data.get('description'), 
+            'Value': request.data.get('value'), 
+            'UpdatedAt': datetime.now(),
+            'UpdatedBy': request.headers.get('UserId')
+        }
+        serializer = SettingSerializer(instance = setting_instance, data=data, partial = True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
