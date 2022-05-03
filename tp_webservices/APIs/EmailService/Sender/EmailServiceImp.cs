@@ -93,7 +93,7 @@ namespace EmailService.Sender
                     client.Port = SMTPConfigurations.Port;
                     client.DeliveryMethod = SmtpDeliveryMethod.Network;
                     client.Host = SMTPConfigurations.Server;
-                    //client.UseDefaultCredentials = false;
+                    client.UseDefaultCredentials = false;
                     client.Credentials = new NetworkCredential(SMTPConfigurations.Username, SMTPConfigurations.Password);
                     client.EnableSsl = SMTPConfigurations.EnableSSL; 
                     if (client.EnableSsl)
