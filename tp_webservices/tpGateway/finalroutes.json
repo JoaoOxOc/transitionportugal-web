@@ -1099,7 +1099,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpnewservice",
+          "Host": "localhost",
           "Port": 3050
         }
       ],
@@ -1112,7 +1112,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpnewservice",
+          "Host": "localhost",
           "Port": 3050
         }
       ],
@@ -1129,7 +1129,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpnewservice",
+          "Host": "localhost",
           "Port": 3050
         }
       ],
@@ -1183,7 +1183,7 @@
         {
           "Name": "NotificationsService API",
           "Version": "v1",
-          "Url": "http://tpnotificationservice:3040/swagger/v1/swagger.json"
+          "Url": "http://localhost:3040/swagger/v1/swagger.json"
         }
       ]
     },
@@ -1193,7 +1193,7 @@
         {
           "Name": "NewsService API",
           "Version": "v1",
-          "Url": "http://tpnewservice:3050/swagger/v1/swagger.json"
+          "Url": "http://localhost:3050/swagger/v1/swagger.json"
         }
       ]
     }
