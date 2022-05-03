@@ -399,5 +399,7 @@ spec:
                       key: db-password
             - name: POSTGRES_SSLMODE
               value: "require"
+        command: ["bash"]
+        args: ["-c", "python manage.py makemigrations && chmod +x NewsServiceApp/migrations/migrate_and_seed.sh && NewsServiceApp/migrations/migrate_and_seed.sh && python manage.py runserver 0.0.0.0:3050"]
       imagePullSecrets:
       - name: do-photos-registry-secret
