@@ -51,7 +51,9 @@ namespace UserService.Migrations.Config
                 new Scope { Id = 13, ScopeName = "newsletter.admin", Description = "Read/write of newsletter subscriptions" },
                 new Scope { Id = 14, ScopeName = "discourse.admin", Description = "Discourse admin identity" },
                 new Scope { Id = 15, ScopeName = "discourse.user", Description = "Discourse user identity" },
-                new Scope { Id = 16, ScopeName = "association.admin", Description = "Read/write of association profile data" }
+                new Scope { Id = 16, ScopeName = "association.admin", Description = "Read/write of association profile data" },
+                new Scope { Id = 17, ScopeName = "newsblog.admin", Description = "Administration of news blog service API" },
+                new Scope { Id = 18, ScopeName = "newsblog.post", Description = "User can post on news blog service API" }
             );
 
             #endregion
@@ -196,6 +198,18 @@ namespace UserService.Migrations.Config
                     Id = 23,
                     RoleId = "244d3f1a-8594-4adb-9c59-5ec36fcdbf03",
                     ScopeId = 16
+                },
+                new RoleScope
+                {
+                    Id = 24,
+                    RoleId = "e762fd61-0f58-4c5d-ad0e-7bd322ae3ccf",
+                    ScopeId = 17
+                },
+                new RoleScope
+                {
+                    Id = 25,
+                    RoleId = "e762fd61-0f58-4c5d-ad0e-7bd322ae3ccf",
+                    ScopeId = 18
                 }
             );
 
