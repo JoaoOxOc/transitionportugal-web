@@ -15,7 +15,7 @@ namespace UserService.Services.UserManager
             _uow = uow;
         }
 
-        public List<RoleScope> ReplaceRoleScopes(string roleId, List<RoleScope> roleScopes)
+        public List<RoleScope> ReplaceRoleScopes(string roleId, List<RoleScope>? roleScopes)
         {
             Expression<Func<RoleScope, bool>> scopeFilter = (x => x.RoleId == roleId);
             if (roleScopes != null && roleScopes.Count > 0)
@@ -33,7 +33,7 @@ namespace UserService.Services.UserManager
             return _uow.RoleScopeRepository.Get(null, null, scopeFilter, "Scope.ScopeName", SortDirection.Ascending, "Scope");
         }
 
-        public List<RoleScope> ReplaceRoleScopes(string roleId, List<ScopeModel> scopes)
+        public List<RoleScope> ReplaceRoleScopes(string roleId, List<ScopeModel>? scopes)
         {
             List<RoleScope> roleScopes = new List<RoleScope>();
 
@@ -57,7 +57,7 @@ namespace UserService.Services.UserManager
             return roleScopes;
         }
 
-        public List<RoleScope> ReplaceScopeRoles(int scopeId, List<RoleScope> scopeRoles)
+        public List<RoleScope> ReplaceScopeRoles(int scopeId, List<RoleScope>? scopeRoles)
         {
             Expression<Func<RoleScope, bool>> scopeFilter = (x => x.ScopeId == scopeId);
             if (scopeRoles != null && scopeRoles.Count > 0)

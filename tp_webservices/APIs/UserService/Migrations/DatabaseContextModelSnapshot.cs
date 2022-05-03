@@ -67,7 +67,7 @@ namespace UserService.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2022, 4, 29, 15, 59, 59, 277, DateTimeKind.Local).AddTicks(5932),
+                            CreatedAt = new DateTime(2022, 5, 3, 12, 20, 21, 424, DateTimeKind.Local).AddTicks(5547),
                             DefaultValue = "3",
                             Description = "Número máximo de tentativas de autenticação falhadas",
                             Key = "MaxLoginAttempts",
@@ -77,7 +77,7 @@ namespace UserService.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2022, 4, 29, 15, 59, 59, 277, DateTimeKind.Local).AddTicks(5971),
+                            CreatedAt = new DateTime(2022, 5, 3, 12, 20, 21, 424, DateTimeKind.Local).AddTicks(5583),
                             DefaultValue = "6Lf2t0sUAAAAABiszBasjJuBZXTdqMy00zOKPOFt",
                             Description = "Site key usada pelo serviço de reCAPTCHA da Google",
                             Key = "CaptchaSiteKey",
@@ -87,12 +87,22 @@ namespace UserService.Migrations
                         new
                         {
                             Id = 3,
-                            CreatedAt = new DateTime(2022, 4, 29, 15, 59, 59, 277, DateTimeKind.Local).AddTicks(5975),
+                            CreatedAt = new DateTime(2022, 5, 3, 12, 20, 21, 424, DateTimeKind.Local).AddTicks(5586),
                             DefaultValue = "6Lf2t0sUAAAAAPwP3kIvpynFqPp-7_QLfQoDQtZd",
                             Description = "Secret key usada pelo serviço de reCAPTCHA da Google",
                             Key = "CaptchaSecretKey",
                             SettingType = 3,
                             Value = "6Lf2t0sUAAAAAPwP3kIvpynFqPp-7_QLfQoDQtZd"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CreatedAt = new DateTime(2022, 5, 3, 12, 20, 21, 424, DateTimeKind.Local).AddTicks(5589),
+                            DefaultValue = "123456",
+                            Description = "API key usada para comunicar com o Mailchimp",
+                            Key = "MailchimpApiKey",
+                            SettingType = 3,
+                            Value = "123456"
                         });
                 });
 
@@ -125,28 +135,28 @@ namespace UserService.Migrations
                         new
                         {
                             Id = "e762fd61-0f58-4c5d-ad0e-7bd322ae3ccf",
-                            ConcurrencyStamp = "ad43a258-257f-4b40-969d-8c2f2aa50a6b",
+                            ConcurrencyStamp = "1aba0372-bfec-4ade-86b0-a4c13299b76d",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "244d3f1a-8594-4adb-9c59-5ec36fcdbf03",
-                            ConcurrencyStamp = "4f61a46f-d1e2-430e-90f4-2447b4d29a72",
+                            ConcurrencyStamp = "2501c4ba-4047-48ab-8d45-e6f22d8d4311",
                             Name = "AssociationAdmin",
                             NormalizedName = "ASSOCIATIONADMIN"
                         },
                         new
                         {
                             Id = "179642d9-0f10-4d7d-a1a0-b485b3f6659f",
-                            ConcurrencyStamp = "b42a357f-62a3-4f37-8ec2-369b73083fe0",
+                            ConcurrencyStamp = "4fbf6642-caa2-4840-b384-9600c412963e",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
                             Id = "69d5274f-235d-4013-bbac-0c4eddf31ecc",
-                            ConcurrencyStamp = "ef5463af-d2d2-4bab-9d7d-67f0ccf72a75",
+                            ConcurrencyStamp = "a0468291-5e8e-4f68-af62-0261ab83fbcd",
                             Name = "AssociationUser",
                             NormalizedName = "ASSOCIATIONUSER"
                         });
@@ -588,6 +598,18 @@ namespace UserService.Migrations
                             Id = 23,
                             RoleId = "244d3f1a-8594-4adb-9c59-5ec36fcdbf03",
                             ScopeId = 16
+                        },
+                        new
+                        {
+                            Id = 24,
+                            RoleId = "e762fd61-0f58-4c5d-ad0e-7bd322ae3ccf",
+                            ScopeId = 17
+                        },
+                        new
+                        {
+                            Id = 25,
+                            RoleId = "e762fd61-0f58-4c5d-ad0e-7bd322ae3ccf",
+                            ScopeId = 18
                         });
                 });
 
@@ -707,6 +729,18 @@ namespace UserService.Migrations
                             Id = 16,
                             Description = "Read/write of association profile data",
                             ScopeName = "association.admin"
+                        },
+                        new
+                        {
+                            Id = 17,
+                            Description = "Administration of news blog service API",
+                            ScopeName = "newsblog.admin"
+                        },
+                        new
+                        {
+                            Id = 18,
+                            Description = "User can post on news blog service API",
+                            ScopeName = "newsblog.post"
                         });
                 });
 

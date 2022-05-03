@@ -147,7 +147,7 @@ namespace UserService.Services.UserManager
             return authClaims;
         }
 
-        public async Task<IdentityResult> CreateUser(User user, string password, string roleName)
+        public async Task<IdentityResult> CreateUser(User user, string? password, string? roleName)
         {
             IdentityResult creationResult;
             var validMessage = await this.ValidatePassword(password);
@@ -280,7 +280,7 @@ namespace UserService.Services.UserManager
             return false;
         }
 
-        private async Task<bool> ValidateRoleExists(string roleName)
+        private async Task<bool> ValidateRoleExists(string? roleName)
         {
             var roleExists = false;
 
@@ -300,7 +300,7 @@ namespace UserService.Services.UserManager
             return roleExists;
         }
 
-        public async Task<IdentityResult> AddUserToRole(User user, string role)
+        public async Task<IdentityResult> AddUserToRole(User user, string? role)
         {
             var creationResult = new IdentityResult();
 
@@ -388,7 +388,7 @@ namespace UserService.Services.UserManager
             return association;
         }
 
-        private async Task<string> ValidatePassword(string password)
+        private async Task<string> ValidatePassword(string? password)
         {
             var passwordValidator = new PasswordValidator<User>();
             var result = await passwordValidator.ValidateAsync(_userManager, null, password);

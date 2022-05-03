@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="JpProject.AspNetCore.PasswordHasher.Bcrypt" Version="3.0.3" />
+    <PackageReference Include="MailChimp.Net.V3" Version="5.3.1" />
     <PackageReference Include="MassTransit.AspNetCore" Version="7.3.1" />
     <PackageReference Include="MassTransit.RabbitMQ" Version="7.3.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.1" />

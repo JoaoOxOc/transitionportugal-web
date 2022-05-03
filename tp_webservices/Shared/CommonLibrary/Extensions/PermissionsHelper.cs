@@ -81,7 +81,7 @@ namespace CommonLibrary.Extensions
         /// <param name="userScopes"> the list of user scopes registered on his token</param>
         /// <param name="permittedScopes">the list of permitted scopes on a specific action</param>
         /// <returns></returns>
-        public static bool ValidateUserScopesPermissionAll(List<string> userScopes, List<string> permittedScopes)
+        public static bool ValidateUserScopesPermissionAll(List<string>? userScopes, List<string> permittedScopes)
         {
             if (permittedScopes != null && permittedScopes.Count > 0 && userScopes != null)
             {

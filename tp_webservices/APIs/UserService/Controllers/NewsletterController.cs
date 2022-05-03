@@ -11,6 +11,8 @@ using System.Text.Json;
 using UserService.Entities;
 using UserService.Models;
 using UserService.Services.Database;
+using UserService.Services.Mailchimp;
+using UserService.Services.RabbitMQ;
 using UserService.Services.UserManager;
 
 namespace UserService.Controllers
@@ -23,13 +25,17 @@ namespace UserService.Controllers
         private readonly IConfiguration _configuration;
         private readonly ITPUserManager _userManager;
         private readonly ITokenManager _tokenManager;
+        private readonly IMailchimpRepository _mailchimpRepository;
+        private readonly IRabbitMQSender _rabbitSender;
 
-        public NewsletterController(IUnitOfWork uow, IConfiguration configuration, ITPUserManager userManager, ITokenManager tokenManager)
+        public NewsletterController(IUnitOfWork uow, IConfiguration configuration, ITPUserManager userManager, ITokenManager tokenManager, IMailchimpRepository mailchimpRepository, IRabbitMQSender rabbitMQSender)
         {
             _uow = uow;
             _configuration = configuration;
             _userManager = userManager;
             _tokenManager = tokenManager;
+            _mailchimpRepository = mailchimpRepository;
+            _rabbitSender = rabbitMQSender;
         }
 
         private ObjectResult ValidateNewsletter(NewsletterSubscription newsletter)
@@ -51,7 +57,8 @@ namespace UserService.Controllers
 
                 if (existsNewsletter.Email.ToLower() == newsletter.Email.ToLower())
                 {
-                    conflict.Field = typeof(NewsletterSubscription).GetProperty("Email").Name;
+                    var propertyInfo = typeof(NewsletterSubscription).GetProperty("Email");
+                    conflict.Field = propertyInfo != null ? propertyInfo.Name : "Unknown";
                 }
 
                 return Conflict(conflict);
@@ -92,7 +99,7 @@ namespace UserService.Controllers
             string[] claims = new string[] { "userId", "sub", System.Security.Claims.ClaimTypes.Role, "scope" };
             List<JwtClaim> userClaims = JwtHelper.ValidateToken(header, _configuration["JWT:ValidAudience"], _configuration["JWT:ValidIssuer"], _configuration["JWT:SecretPublicKey"], claims);
             string userScopesString = userClaims.Where(x => x.Claim == "scope").Single().Value;
-            List<string> scopes = !string.IsNullOrEmpty(userScopesString) ? JsonSerializer.Deserialize<List<string>>(userScopesString) : null;
+            List<string>? scopes = !string.IsNullOrEmpty(userScopesString) ? JsonSerializer.Deserialize<List<string>>(userScopesString) : null;
 
             if (PermissionsHelper.ValidateRoleClaimPermission(userClaims, new List<string> { "Admin" })
                 && PermissionsHelper.ValidateUserScopesPermissionAll(scopes, new List<string> { "newsletter.admin" }))
@@ -121,7 +128,18 @@ namespace UserService.Controllers
                 }
                 catch (Exception ex)
                 {
-                    return StatusCode(StatusCodes.Status500InternalServerError, ex.Message + "| " + ex.StackTrace);
+                    CommonLibrary.Entities.ViewModel.ExceptionModel exceptionModel = new CommonLibrary.Entities.ViewModel.ExceptionModel();
+                    exceptionModel.Message = ex.Message;
+                    exceptionModel.StackTrace = ex.StackTrace;
+                    exceptionModel.DateLogging = DateTime.UtcNow;
+                    exceptionModel.AdminRole = "Admin";
+                    exceptionModel.InnerException = ex.InnerException;
+                    var claimUserId = userClaims.Where(x => x.Claim == "userId").FirstOrDefault();
+                    exceptionModel.UserId = claimUserId != null ? claimUserId.Value : "";
+
+                    bool success = await _rabbitSender.PublishExceptionMessage(exceptionModel);
+
+                    return StatusCode(StatusCodes.Status500InternalServerError, null);
                 }
             }
             return Forbid();
@@ -135,7 +153,7 @@ namespace UserService.Controllers
             string[] claims = new string[] { "userId", "sub", System.Security.Claims.ClaimTypes.Role, "scope" };
             List<JwtClaim> userClaims = JwtHelper.ValidateToken(header, _configuration["JWT:ValidAudience"], _configuration["JWT:ValidIssuer"], _configuration["JWT:SecretPublicKey"], claims);
             string userScopesString = userClaims.Where(x => x.Claim == "scope").Single().Value;
-            List<string> scopes = !string.IsNullOrEmpty(userScopesString) ? JsonSerializer.Deserialize<List<string>>(userScopesString) : null;
+            List<string>? scopes = !string.IsNullOrEmpty(userScopesString) ? JsonSerializer.Deserialize<List<string>>(userScopesString) : null;
 
             if (PermissionsHelper.ValidateRoleClaimPermission(userClaims, new List<string> { "Admin" })
                 && PermissionsHelper.ValidateUserScopesPermissionAll(scopes, new List<string> { "newsletter.admin" }))
@@ -159,13 +177,24 @@ namespace UserService.Controllers
                 }
                 catch (Exception ex)
                 {
-                    return StatusCode(StatusCodes.Status500InternalServerError, ex.Message + "| " + ex.StackTrace);
+                    CommonLibrary.Entities.ViewModel.ExceptionModel exceptionModel = new CommonLibrary.Entities.ViewModel.ExceptionModel();
+                    exceptionModel.Message = ex.Message;
+                    exceptionModel.StackTrace = ex.StackTrace;
+                    exceptionModel.DateLogging = DateTime.UtcNow;
+                    exceptionModel.AdminRole = "Admin";
+                    exceptionModel.InnerException = ex.InnerException;
+                    var claimUserId = userClaims.Where(x => x.Claim == "userId").FirstOrDefault();
+                    exceptionModel.UserId = claimUserId != null ? claimUserId.Value : "";
+
+                    bool success = await _rabbitSender.PublishExceptionMessage(exceptionModel);
+
+                    return StatusCode(StatusCodes.Status500InternalServerError, null);
                 }
             }
             return Forbid();
         }
 
-        private async Task<IActionResult> registNewsletter(string email, string userId)
+        private async Task<IActionResult> registNewsletter(string email, string? userId)
         {
             NewsletterSubscription subscription = new()
             {
@@ -207,7 +236,7 @@ namespace UserService.Controllers
             string[] claims = new string[] { "userId", "sub", System.Security.Claims.ClaimTypes.Role, "scope" };
             List<JwtClaim> userClaims = JwtHelper.ValidateToken(header, _configuration["JWT:ValidAudience"], _configuration["JWT:ValidIssuer"], _configuration["JWT:SecretPublicKey"], claims);
             string userScopesString = userClaims.Where(x => x.Claim == "scope").Single().Value;
-            List<string> scopes = !string.IsNullOrEmpty(userScopesString) ? JsonSerializer.Deserialize<List<string>>(userScopesString) : null;
+            List<string>? scopes = !string.IsNullOrEmpty(userScopesString) ? JsonSerializer.Deserialize<List<string>>(userScopesString) : null;
 
             if (PermissionsHelper.ValidateRoleClaimPermission(userClaims, new List<string> { "Admin" })
                 && PermissionsHelper.ValidateUserScopesPermissionAll(scopes, new List<string> { "newsletter.admin" }))
@@ -233,7 +262,7 @@ namespace UserService.Controllers
             string[] claims = new string[] { "userId", "sub", System.Security.Claims.ClaimTypes.Role, "scope" };
             List<JwtClaim> userClaims = JwtHelper.ValidateToken(header, _configuration["JWT:ValidAudience"], _configuration["JWT:ValidIssuer"], _configuration["JWT:SecretPublicKey"], claims);
             string userScopesString = userClaims.Where(x => x.Claim == "scope").Single().Value;
-            List<string> scopes = !string.IsNullOrEmpty(userScopesString) ? JsonSerializer.Deserialize<List<string>>(userScopesString) : null;
+            List<string>? scopes = !string.IsNullOrEmpty(userScopesString) ? JsonSerializer.Deserialize<List<string>>(userScopesString) : null;
 
             if (PermissionsHelper.ValidateRoleClaimPermission(userClaims, new List<string> { "Admin" })
                 && PermissionsHelper.ValidateUserScopesPermissionAll(scopes, new List<string> { "newsletter.admin" }))
@@ -270,6 +299,17 @@ namespace UserService.Controllers
                     }
                     catch (Exception ex)
                     {
+                        CommonLibrary.Entities.ViewModel.ExceptionModel exceptionModel = new CommonLibrary.Entities.ViewModel.ExceptionModel();
+                        exceptionModel.Message = ex.Message;
+                        exceptionModel.StackTrace = ex.StackTrace;
+                        exceptionModel.DateLogging = DateTime.UtcNow;
+                        exceptionModel.AdminRole = "Admin";
+                        exceptionModel.InnerException = ex.InnerException;
+                        var claimUserId = userClaims.Where(x => x.Claim == "userId").FirstOrDefault();
+                        exceptionModel.UserId = claimUserId != null ? claimUserId.Value : "";
+
+                        bool success = await _rabbitSender.PublishExceptionMessage(exceptionModel);
+
                         return StatusCode(StatusCodes.Status500InternalServerError, null);
                     }
                 }
@@ -281,7 +321,7 @@ namespace UserService.Controllers
             return Forbid();
         }
 
-        private async Task<IActionResult> removeSubscription(string email, bool isAdmin, string validationToken)
+        private async Task<IActionResult> removeSubscription(string email, bool isAdmin, string? validationToken)
         {
             Expression<Func<NewsletterSubscription, bool>> filter = (x => (isAdmin && x.Email == email) || (!string.IsNullOrEmpty(validationToken) && x.SubscriptionToken == validationToken && x.Email == email));
 
@@ -310,7 +350,7 @@ namespace UserService.Controllers
             string[] claims = new string[] { "userId", "sub", System.Security.Claims.ClaimTypes.Role, "scope" };
             List<JwtClaim> userClaims = JwtHelper.ValidateToken(header, _configuration["JWT:ValidAudience"], _configuration["JWT:ValidIssuer"], _configuration["JWT:SecretPublicKey"], claims);
             string userScopesString = userClaims.Where(x => x.Claim == "scope").Single().Value;
-            List<string> scopes = !string.IsNullOrEmpty(userScopesString) ? JsonSerializer.Deserialize<List<string>>(userScopesString) : null;
+            List<string>? scopes = !string.IsNullOrEmpty(userScopesString) ? JsonSerializer.Deserialize<List<string>>(userScopesString) : null;
 
             if (PermissionsHelper.ValidateRoleClaimPermission(userClaims, new List<string> { "Admin" })
                 && PermissionsHelper.ValidateUserScopesPermissionAll(scopes, new List<string> { "newsletter.admin" }))
@@ -350,7 +390,7 @@ namespace UserService.Controllers
             string[] claims = new string[] { "userId", "sub", System.Security.Claims.ClaimTypes.Role, "scope" };
             List<JwtClaim> userClaims = JwtHelper.ValidateToken(header, _configuration["JWT:ValidAudience"], _configuration["JWT:ValidIssuer"], _configuration["JWT:SecretPublicKey"], claims);
             string userScopesString = userClaims.Where(x => x.Claim == "scope").Single().Value;
-            List<string> scopes = !string.IsNullOrEmpty(userScopesString) ? JsonSerializer.Deserialize<List<string>>(userScopesString) : null;
+            List<string>? scopes = !string.IsNullOrEmpty(userScopesString) ? JsonSerializer.Deserialize<List<string>>(userScopesString) : null;
 
             if (PermissionsHelper.ValidateRoleClaimPermission(userClaims, new List<string> { "Admin" })
                 && PermissionsHelper.ValidateUserScopesPermissionAll(scopes, new List<string> { "newsletter.admin" }))

@@ -77,6 +77,8 @@ services:
         dockerfile: userservice.dockerfile
     ports:
         - "5010:3020"
+    depends_on:
+        - postgres
     networks:
         - tp_bridge
 
@@ -91,6 +93,8 @@ services:
         dockerfile: emailservice.dockerfile
     ports:
         - "5020:3010"
+    depends_on:
+        - postgres
     networks:
         - tp_bridge
 
@@ -105,6 +109,44 @@ services:
         dockerfile: cmservice.dockerfile
     ports:
         - "5030:3030"
+    depends_on:
+        - postgres
+    networks:
+        - tp_bridge
+
+  tpnotificationservice:
+    image: ${DOCKER_REGISTRY-}tpnotificationservice
+    container_name: tpnotificationservice
+    environment:
+        ASPNETCORE_URLS: "http://+:3040"
+        ASPNETCORE_ENVIRONMENT: "Development"
+    build:
+        context: .
+        dockerfile: notificationservice.dockerfile
+    ports:
+        - "5040:3040"
+    networks:
+        - tp_bridge
+
+  tpnewservice:
+    image: ${DOCKER_REGISTRY-}tpnewservice
+    container_name: tpnewservice
+    build:
+        context: .
+        dockerfile: newservice.dockerfile
+    command: bash -c "python manage.py makemigrations && chmod +x NewsServiceApp/migrations/migrate_and_seed.sh && NewsServiceApp/migrations/migrate_and_seed.sh && python manage.py runserver 0.0.0.0:3050"
+    environment:
+      - POSTGRES_NAME=newsblogdb
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_HOST=host.docker.internal
+      - POSTGRES_PORT=5433
+      - POSTGRES_SSLMODE=disable
+      - POSTGRES_POLLING=false
+    ports:
+        - "5045:3050"
+    depends_on:
+        - postgres
     networks:
         - tp_bridge
 
