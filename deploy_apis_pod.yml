@@ -382,7 +382,7 @@ spec:
                   secretKeyRef:
                       name: newsblogservice-data
                       key: db-port
-            - name: POSTGRES_NAME
+            - name: POSTGRES_DBNAME
               valueFrom:
                   secretKeyRef:
                       name: newsblogservice-data
