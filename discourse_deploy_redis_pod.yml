@@ -1,14 +1,14 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: tp-discourse
+  name: tp-discourse-redis
   labels:
-    app: tp-discourse
+    app: tp-discourse-redis
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: tp-discourse
+      app: tp-discourse-redis
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -17,7 +17,7 @@ spec:
   template:
     metadata:
       labels:
-        app: tp-discourse
+        app: tp-discourse-redis
     spec:
       volumes:
         - name: redis-data
@@ -44,7 +44,7 @@ spec:
             secretName: my-release-redis-token-cp8dw
             defaultMode: 420
       restartPolicy: Always
-      hostname: tpdiscoursepod
+      hostname: tpdiscourseredispod
       containers:
       - name: tpdiscourseredis
         image: docker.io/bitnami/redis:latest
