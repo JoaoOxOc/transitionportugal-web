@@ -23,26 +23,6 @@ spec:
         - name: discourse-data
           persistentVolumeClaim:
             claimName: tp-discourse-data
-        - name: start-scripts
-          configMap:
-            name: my-release-redis-scripts
-            defaultMode: 493
-        - name: health
-          configMap:
-            name: my-release-redis-health
-            defaultMode: 493
-        - name: config
-          configMap:
-            name: my-release-redis-configuration
-            defaultMode: 420
-        - name: redis-tmp-conf
-          emptyDir: {}
-        - name: tmp
-          emptyDir: {}
-        - name: my-release-redis-token-cp8dw
-          secret:
-            secretName: my-release-redis-token-cp8dw
-            defaultMode: 420
         - name: default-token-97f74
           secret:
             secretName: default-token-97f74
