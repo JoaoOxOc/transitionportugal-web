@@ -119,3 +119,4 @@ spec:
                 secretKeyRef:
                   name: tpdiscourse-data
                   key: database-name
+
