@@ -23,15 +23,20 @@ spec:
         - name: tp-discourse-pv
           persistentVolumeClaim:
             claimName: tp-discourse-data
-        - name: tp-discourse-sidekiq-pv
-          persistentVolumeClaim:
-            claimName: tp-discourse-sidekiq-data
+        - name: bootstrap
+          configMap:
+            name: kotlin-forum-bootstrap
       restartPolicy: Always
       hostname: tpdiscoursepod
       containers:
       - name: tpdiscoursebase
         image: geoffreychallen/discourse_base:latest
         imagePullPolicy: Always
+        volumeMounts:
+        - name: tp-discourse-pv
+          mountPath: /shared/
+        - name: bootstrap
+          mountPath: /bootstrap/
         ports:
             - containerPort: 80
         env:
