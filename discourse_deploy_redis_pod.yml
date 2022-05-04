@@ -22,7 +22,7 @@ spec:
       volumes:
         - name: redis-data
           persistentVolumeClaim:
-            claimName: tp-discourse-sidekiq-data
+            claimName: tp-discourse-redis-data
         - name: start-scripts
           configMap:
             name: my-release-redis-scripts
