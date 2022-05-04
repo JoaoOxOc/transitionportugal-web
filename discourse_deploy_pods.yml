@@ -20,51 +20,94 @@ spec:
         app: tp-discourse
     spec:
       volumes:
-        - name: tp-discourse-pv
+        - name: redis-data
           persistentVolumeClaim:
             claimName: tp-discourse-data
-        - name: bootstrap
+        - name: start-scripts
           configMap:
-            name: kotlin-forum-bootstrap
+            name: my-release-redis-scripts
+            defaultMode: 493
+        - name: health
+          configMap:
+            name: my-release-redis-health
+            defaultMode: 493
+        - name: config
+          configMap:
+            name: my-release-redis-configuration
+            defaultMode: 420
+        - name: redis-tmp-conf
+          emptyDir: {}
+        - name: tmp
+          emptyDir: {}
+        - name: my-release-redis-token-cp8dw
+          secret:
+            secretName: my-release-redis-token-cp8dw
+            defaultMode: 420
       restartPolicy: Always
       hostname: tpdiscoursepod
       containers:
-      - name: tpdiscoursebase
-        image: geoffreychallen/discourse_base:latest
-        imagePullPolicy: Always
-        volumeMounts:
-        - name: tp-discourse-pv
-          mountPath: /shared/
-        - name: bootstrap
-          mountPath: /bootstrap/
+      - name: tpdiscourseredis
+        image: docker.io/bitnami/redis:latest
+		    command: ["/bin/bash"]
+		    args: ["-c","/opt/bitnami/scripts/start-scripts/start-master.sh"]
         ports:
-            - containerPort: 80
+        - containerPort: 6379
         env:
-            - name: DISCOURSE_HOSTNAME
-              value: tpdiscourse.chain-of-change.com
-            - name: DISCOURSE_DB_USERNAME
+            - name: BITNAMI_DEBUG
+              value: 'false'
+            - name: REDIS_REPLICATION_MODE
+              value: master
+            - name: REDIS_TLS_ENABLED
+              value: 'no'
+            - name: REDIS_PORT
+              value: '6379'
+            - name: ALLOW_EMPTY_PASSWORD
+              value: "no"
+			      - name: REDIS_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: tpdiscourse-data
-                  key: database-user
-            - name: DISCOURSE_DB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: tpdiscourse-data
-                  key: database-password
-            - name: DISCOURSE_DB_HOST
-              valueFrom:
-                secretKeyRef:
-                  name: tpdiscourse-data
-                  key: database-host
-            - name: DISCOURSE_DB_NAME
-              valueFrom:
-                secretKeyRef:
-                  name: tpdiscourse-data
-                  key: database-name
-            - name: DISCOURSE_DB_PORT
-              valueFrom:
-                secretKeyRef:
-                  name: tpdiscourse-data
-                  key: database-port
-      
+                  key: redis-password
+        volumeMounts:
+        - name: start-scripts
+          mountPath: /opt/bitnami/scripts/start-scripts
+        - name: health
+          mountPath: /health
+        - name: redis-data
+          mountPath: /data
+        - name: config
+          mountPath: /opt/bitnami/redis/mounted-etc
+        - name: redis-tmp-conf
+          mountPath: /opt/bitnami/redis/etc/
+        - name: tmp
+          mountPath: /tmp
+        - name: my-release-redis-token-cp8dw
+          readOnly: true
+          mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        livenessProbe:
+            exec:
+              command:
+                - sh
+                - '-c'
+                - /health/ping_liveness_local.sh 5
+            initialDelaySeconds: 20
+            timeoutSeconds: 6
+            periodSeconds: 5
+            successThreshold: 1
+            failureThreshold: 5
+        readinessProbe:
+            exec:
+              command:
+                - sh
+                - '-c'
+                - /health/ping_readiness_local.sh 1
+            initialDelaySeconds: 20
+            timeoutSeconds: 2
+            periodSeconds: 5
+            successThreshold: 1
+            failureThreshold: 5
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        imagePullPolicy: IfNotPresent
+        securityContext:
+            runAsUser: 1001
