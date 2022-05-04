@@ -101,7 +101,7 @@ spec:
                   key: database-name
       - name: tpdiscoursesidekiq
         image: docker.io/bitnami/discourse:2
-        command: ["/opt/bitnami/scripts/discourse-sidekiq/setup.sh"]
+        command: ["/opt/bitnami/scripts/discourse-sidekiq/run.sh"]
         volumeMounts:
             - mountPath: /bitnami/discourse
               name: tp-discourse-sidekiq-pv
