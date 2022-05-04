@@ -29,6 +29,21 @@ spec:
       restartPolicy: Always
       hostname: tpdiscoursepod
       containers:
+      - name: tpdiscoursebase
+        image: docker.io/discourse/discourse:base
+        ports:
+            - containerPort: 3000
+        env:
+            - name: DISCOURSE_DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: tpdiscourse-data
+                  key: database-host
+            - name: DISCOURSE_DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: tpdiscourse-data
+                  key: database-port
       - name: tpdiscourseredis
         image: docker.io/bitnami/redis:6.0
         ports:
