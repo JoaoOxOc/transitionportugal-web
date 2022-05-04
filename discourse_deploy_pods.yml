@@ -30,7 +30,7 @@ spec:
       hostname: tpdiscoursepod
       containers:
       - name: tpdiscoursebase
-        image: docker.io/discourse/base
+        image: discourse:latest
         ports:
             - containerPort: 3000
         env:
