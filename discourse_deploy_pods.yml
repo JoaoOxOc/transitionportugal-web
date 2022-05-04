@@ -153,6 +153,11 @@ spec:
                 secretKeyRef:
                   name: tpdiscourse-data
                   key: database-user
+            - name: POSTGRESQL_CLIENT_CREATE_DATABASE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: tpdiscourse-data
+                  key: database-user
             - name: POSTGRESQL_CLIENT_POSTGRES_USER
               valueFrom:
                 secretKeyRef:
