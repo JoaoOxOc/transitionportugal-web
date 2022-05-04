@@ -46,6 +46,8 @@ spec:
         env:
             - name: ALLOW_EMPTY_PASSWORD
               value: "yes"
+            - name: DISCOURSE_SKIP_BOOTSTRAP
+              value: "yes"
             - name: DISCOURSE_REDIS_HOST
               value: "localhost"
             - name: DISCOURSE_REDIS_PORT_NUMBER
