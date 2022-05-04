@@ -36,9 +36,6 @@ spec:
         image: docker.io/bitnami/redis:6.0
         ports:
         - containerPort: 6379
-        volumeMounts:
-            - mountPath: /bitnami/redis
-              name: tp-discourse-redis-data-pv
         env:
             - name: ALLOW_EMPTY_PASSWORD
               value: "yes"
