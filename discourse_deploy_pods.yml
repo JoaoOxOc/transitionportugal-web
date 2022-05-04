@@ -34,11 +34,26 @@ spec:
         ports:
             - containerPort: 3000
         env:
+            - name: DISCOURSE_DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: tpdiscourse-data
+                  key: database-user
+            - name: DISCOURSE_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: tpdiscourse-data
+                  key: database-password
             - name: DISCOURSE_DB_HOST
               valueFrom:
                 secretKeyRef:
                   name: tpdiscourse-data
                   key: database-host
+            - name: DISCOURSE_DB_NAME
+              vvalueFrom:
+                secretKeyRef:
+                  name: tpdiscourse-data
+                  key: database-name
             - name: DISCOURSE_DB_PORT
               valueFrom:
                 secretKeyRef:
