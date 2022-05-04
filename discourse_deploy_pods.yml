@@ -30,7 +30,7 @@ spec:
       hostname: tpdiscoursepod
       containers:
       - name: tpdiscoursebase
-        image: docker.io/discourse/discourse:base
+        image: docker.io/discourse/base
         ports:
             - containerPort: 3000
         env:
@@ -54,7 +54,7 @@ spec:
       - name: tpdiscourse
         image: docker.io/bitnami/discourse:2
         ports:
-            - containerPort: 3000
+            - containerPort: 3005
         volumeMounts:
             - mountPath: /bitnami/discourse
               name: tp-discourse-pv
