@@ -1,0 +1,113 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tp-discourse
+  labels:
+    app: tp-discourse
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tp-discourse
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5
+  template:
+    metadata:
+      labels:
+        app: tp-discourse
+    spec:
+      volumes:
+        - name: redis-data
+          persistentVolumeClaim:
+            claimName: tp-discourse-sidekiq-data
+        - name: start-scripts
+          configMap:
+            name: my-release-redis-scripts
+            defaultMode: 493
+        - name: health
+          configMap:
+            name: my-release-redis-health
+            defaultMode: 493
+        - name: config
+          configMap:
+            name: my-release-redis-configuration
+            defaultMode: 420
+        - name: redis-tmp-conf
+          emptyDir: {}
+        - name: tmp
+          emptyDir: {}
+        - name: my-release-redis-token-cp8dw
+          secret:
+            secretName: my-release-redis-token-cp8dw
+            defaultMode: 420
+      restartPolicy: Always
+      hostname: tpdiscoursepod
+      containers:
+      - name: tpdiscourseredis
+        image: docker.io/bitnami/redis:latest
+        command: ["/bin/bash"]
+        args: ["-c","/opt/bitnami/scripts/start-scripts/start-master.sh"]
+        ports:
+        - containerPort: 6379
+        env:
+            - name: BITNAMI_DEBUG
+              value: 'false'
+            - name: REDIS_REPLICATION_MODE
+              value: master
+            - name: REDIS_TLS_ENABLED
+              value: 'no'
+            - name: REDIS_PORT
+              value: '6379'
+            - name: ALLOW_EMPTY_PASSWORD
+              value: "no"
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: tpdiscourse-data
+                  key: redis-password
+        volumeMounts:
+        - name: start-scripts
+          mountPath: /opt/bitnami/scripts/start-scripts
+        - name: health
+          mountPath: /health
+        - name: redis-data
+          mountPath: /data
+        - name: config
+          mountPath: /opt/bitnami/redis/mounted-etc
+        - name: redis-tmp-conf
+          mountPath: /opt/bitnami/redis/etc/
+        - name: tmp
+          mountPath: /tmp
+        - name: my-release-redis-token-cp8dw
+          readOnly: true
+          mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        livenessProbe:
+            exec:
+              command:
+                - sh
+                - '-c'
+                - /health/ping_liveness_local.sh 5
+            initialDelaySeconds: 20
+            timeoutSeconds: 6
+            periodSeconds: 5
+            successThreshold: 1
+            failureThreshold: 5
+        readinessProbe:
+            exec:
+              command:
+                - sh
+                - '-c'
+                - /health/ping_readiness_local.sh 1
+            initialDelaySeconds: 20
+            timeoutSeconds: 2
+            periodSeconds: 5
+            successThreshold: 1
+            failureThreshold: 5
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        imagePullPolicy: IfNotPresent
+        securityContext:
+            runAsUser: 1001
