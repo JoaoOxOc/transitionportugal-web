@@ -32,7 +32,7 @@ spec:
       - name: tpdiscoursebase
         image: discourse/base:release
         ports:
-            - containerPort: 3000
+            - containerPort: 80
         env:
             - name: DISCOURSE_DB_USERNAME
               valueFrom:
@@ -69,7 +69,7 @@ spec:
       - name: tpdiscourse
         image: docker.io/bitnami/discourse:2
         ports:
-            - containerPort: 3005
+            - containerPort: 3000
         volumeMounts:
             - mountPath: /bitnami/discourse
               name: tp-discourse-pv
