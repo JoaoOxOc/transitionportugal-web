@@ -25,7 +25,7 @@ spec:
             claimName: tp-discourse-data
         - name: redis-data
           persistentVolumeClaim:
-            claimName: tp-discourse-data
+            claimName: tp-discourse-sidekiq-data
         - name: start-scripts
           configMap:
             name: my-release-redis-scripts
