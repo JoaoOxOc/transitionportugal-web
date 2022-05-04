@@ -15,6 +15,7 @@ env:
   DIGITALOCEAN_LOADBALANCER_ID: ${{secrets.DIGITALOCEAN_LOADBALANCER_ID}}
   PV_DEPLOYMENT_FILENAME: discourse_persistent_volumes.yml
   APIS_DEPLOYMENT_FILE_NAME: discourse_deploy_pods.yml
+  REDIS_DEPLOYMENT_FILE_NAME: discourse_deploy_redis_pod.yml
   INGRESSES_DEPLOYMENT_FILE_NAME: discourse_ingresses.yml
 
 jobs:
@@ -51,7 +52,10 @@ jobs:
       run: kubectl delete secret tpdiscourse-data --ignore-not-found && kubectl create secret generic tpdiscourse-data --from-literal=redis-password=${{secrets.DISCOURSE_REDIS_PASSWORD}} --from-literal=database-host=${{secrets.DISCOURSE_DB_HOST}} --from-literal=database-port=${{secrets.DISCOURSE_DB_PORT}} --from-literal=database-name=${{secrets.DISCOURSE_DB_NAME}} --from-literal=database-user=${{secrets.DISCOURSE_DB_USER}} --from-literal=database-password=${{secrets.DISCOURSE_DB_PASSWORD}}
 
     
-    - name: Deploy to DigitalOcean Kubernetes
+    - name: Deploy REDIS to DigitalOcean Kubernetes
+      run: kubectl apply -f $GITHUB_WORKSPACE/$REDIS_DEPLOYMENT_FILE_NAME
+      
+    - name: Deploy discourse to DigitalOcean Kubernetes
       run: kubectl apply -f $GITHUB_WORKSPACE/$APIS_DEPLOYMENT_FILE_NAME
 
     - name: Verify deployment of the discourse pod
