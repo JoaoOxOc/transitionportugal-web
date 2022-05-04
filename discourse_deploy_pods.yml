@@ -1,0 +1,121 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tp-discourse
+  labels:
+    app: tp-discourse
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tp-discourse
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5
+  template:
+    metadata:
+      labels:
+        app: tp-discourse
+    spec:
+      volumes:
+        - name: tp-discourse-redis-data-pv
+          persistentVolumeClaim:
+            claimName: tp-discourse-redis-data
+        - name: tp-discourse-pv
+          persistentVolumeClaim:
+            claimName: tp-discourse-data
+        - name: tp-discourse-sidekiq-pv
+          persistentVolumeClaim:
+            claimName: tp-discourse-sidekiq-data
+      restartPolicy: Always
+      hostname: tpdiscoursepod
+      containers:
+      - name: tpdiscourseredis
+        image: docker.io/bitnami/redis:6.0
+        ports:
+        - containerPort: 6379
+        volumeMounts:
+            - mountPath: /bitnami/redis
+              name: tp-discourse-redis-data-pv
+        env:
+            - name: ALLOW_EMPTY_PASSWORD
+              value: "yes"
+      - name: tpdiscourse
+        image: docker.io/bitnami/discourse:2
+        ports:
+            - containerPort: 3000
+        volumeMounts:
+            - mountPath: /bitnami/discourse
+              name: tp-discourse-pv
+        env:
+            - name: DISCOURSE_REDIS_HOST
+              value: "localhost"
+            - name: DISCOURSE_REDIS_PORT_NUMBER
+              value: "6379"
+            - name: DISCOURSE_HOST
+              value: "tpdiscourse.chain-of-change.com"
+            - name: DISCOURSE_DATABASE_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: tpdiscourse-data
+                  key: database-host
+            - name: DISCOURSE_DATABASE_PORT_NUMBER
+              valueFrom:
+                secretKeyRef:
+                  name: tpdiscourse-data
+                  key: database-port
+            - name: DISCOURSE_DATABASE_USER
+              valueFrom:
+                secretKeyRef:
+                  name: tpdiscourse-data
+                  key: database-user
+            - name: DISCOURSE_DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: tpdiscourse-data
+                  key: database-password
+            - name: DISCOURSE_DATABASE_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: tpdiscourse-data
+                  key: database-name
+      - name: tpdiscoursesidekiq
+        image: docker.io/bitnami/discourse:2
+        command: ["/opt/bitnami/scripts/discourse-sidekiq/run.sh"]
+        volumeMounts:
+            - mountPath: /bitnami/discourse
+              name: tp-discourse-sidekiq-pv
+        env:
+            - name: DISCOURSE_REDIS_HOST
+              value: "localhost"
+            - name: DISCOURSE_REDIS_PORT_NUMBER
+              value: "6379"
+            - name: DISCOURSE_HOST
+              value: "tpdiscourse.chain-of-change.com"
+            - name: DISCOURSE_DATABASE_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: tpdiscourse-data
+                  key: database-host
+            - name: DISCOURSE_DATABASE_PORT_NUMBER
+              valueFrom:
+                secretKeyRef:
+                  name: tpdiscourse-data
+                  key: database-port
+            - name: DISCOURSE_DATABASE_USER
+              valueFrom:
+                secretKeyRef:
+                  name: tpdiscourse-data
+                  key: database-user
+            - name: DISCOURSE_DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: tpdiscourse-data
+                  key: database-password
+            - name: DISCOURSE_DATABASE_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: tpdiscourse-data
+                  key: database-name
