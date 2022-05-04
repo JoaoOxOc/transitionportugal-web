@@ -20,9 +20,6 @@ spec:
         app: tp-discourse
     spec:
       volumes:
-        - name: tp-discourse-redis-data-pv
-          persistentVolumeClaim:
-            claimName: tp-discourse-redis-data
         - name: tp-discourse-pv
           persistentVolumeClaim:
             claimName: tp-discourse-data
