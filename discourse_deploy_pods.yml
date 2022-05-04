@@ -20,6 +20,9 @@ spec:
         app: tp-discourse
     spec:
       volumes:
+        - name: discourse-data
+          persistentVolumeClaim:
+            claimName: tp-discourse-data
         - name: redis-data
           persistentVolumeClaim:
             claimName: tp-discourse-data
@@ -43,13 +46,17 @@ spec:
           secret:
             secretName: my-release-redis-token-cp8dw
             defaultMode: 420
+        - name: default-token-97f74
+          secret:
+            secretName: default-token-97f74
+            defaultMode: 420
       restartPolicy: Always
       hostname: tpdiscoursepod
       containers:
       - name: tpdiscourseredis
         image: docker.io/bitnami/redis:latest
-        command: ["/bin/bash"]
-        args: ["-c","/opt/bitnami/scripts/start-scripts/start-master.sh"]
+		command: ["/bin/bash"]
+		args: ["-c","/opt/bitnami/scripts/start-scripts/start-master.sh"]
         ports:
         - containerPort: 6379
         env:
@@ -63,7 +70,7 @@ spec:
               value: '6379'
             - name: ALLOW_EMPTY_PASSWORD
               value: "no"
-            - name: REDIS_PASSWORD
+			- name: REDIS_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: tpdiscourse-data
@@ -111,3 +118,129 @@ spec:
         imagePullPolicy: IfNotPresent
         securityContext:
             runAsUser: 1001
+
+      - name: discourse
+        image: docker.io/bitnami/discourse:2.8.3-debian-10-r7
+        ports:
+          - name: http
+            containerPort: 8080
+            protocol: TCP
+        envFrom:
+          - configMapRef:
+              name: my-release-discourse
+        env:
+        - name: BITNAMI_DEBUG
+          value: 'false'
+        - name: DISCOURSE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: my-release-discourse-discourse
+              key: discourse-password
+        - name: DISCOURSE_PORT_NUMBER
+          value: '8080'
+        - name: DISCOURSE_EXTERNAL_HTTP_PORT_NUMBER
+          value: '80'
+        - name: DISCOURSE_DATABASE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: tpdiscourse-data
+              key: database-password
+        - name: POSTGRESQL_CLIENT_POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: tpdiscourse-data
+              key: database-password
+        - name: DISCOURSE_REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: tpdiscourse-data
+              key: redis-password
+        volumeMounts:
+        - name: discourse-data
+          mountPath: /bitnami/discourse
+          subPath: discourse
+        - name: default-token-97f74
+          readOnly: true
+          mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        livenessProbe:
+          httpGet:
+            path: /srv/status
+            port: http
+            scheme: HTTP
+          initialDelaySeconds: 500
+          timeoutSeconds: 5
+          periodSeconds: 10
+          successThreshold: 1
+          failureThreshold: 6
+        readinessProbe:
+          httpGet:
+            path: /srv/status
+            port: http
+            scheme: HTTP
+          initialDelaySeconds: 30
+          timeoutSeconds: 5
+          periodSeconds: 10
+          successThreshold: 1
+          failureThreshold: 6
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        imagePullPolicy: IfNotPresent
+      - name: sidekiq
+        image: docker.io/bitnami/discourse:2.8.3-debian-10-r7
+        command:
+          - /opt/bitnami/scripts/discourse/entrypoint.sh
+        args:
+          - /opt/bitnami/scripts/discourse-sidekiq/run.sh
+        envFrom:
+          - configMapRef:
+              name: my-release-discourse
+        env:
+        - name: BITNAMI_DEBUG
+          value: 'false'
+        - name: DISCOURSE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: my-release-discourse-discourse
+              key: discourse-password
+        - name: DISCOURSE_POSTGRESQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: tpdiscourse-data
+              key: database-password
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: tpdiscourse-data
+              key: redis-password
+        volumeMounts:
+          - name: discourse-data
+            mountPath: /bitnami/discourse
+            subPath: discourse
+          - name: default-token-97f74
+            readOnly: true
+            mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        livenessProbe:
+          exec:
+            command:
+              - /bin/sh
+              - '-c'
+              - pgrep -f ^sidekiq
+          initialDelaySeconds: 500
+          timeoutSeconds: 5
+          periodSeconds: 10
+          successThreshold: 1
+          failureThreshold: 6
+        readinessProbe:
+          exec:
+            command:
+              - /bin/sh
+              - '-c'
+              - pgrep -f ^sidekiq
+          initialDelaySeconds: 30
+          timeoutSeconds: 5
+          periodSeconds: 10
+          successThreshold: 1
+          failureThreshold: 6
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        imagePullPolicy: IfNotPresent 
