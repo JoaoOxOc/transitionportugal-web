@@ -113,12 +113,22 @@ spec:
                 secretKeyRef:
                   name: tpdiscourse-data
                   key: database-host
+            - name: POSTGRESQL_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: tpdiscourse-data
+                  key: database-host
             - name: POSTGRESQL_CLIENT_DATABASE_HOST
               valueFrom:
                 secretKeyRef:
                   name: tpdiscourse-data
                   key: database-host
             - name: DISCOURSE_DATABASE_PORT_NUMBER
+              valueFrom:
+                secretKeyRef:
+                  name: tpdiscourse-data
+                  key: database-port
+            - name: POSTGRESQL_PORT_NUMBER
               valueFrom:
                 secretKeyRef:
                   name: tpdiscourse-data
