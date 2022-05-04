@@ -110,6 +110,10 @@ spec:
               value: "localhost"
             - name: DISCOURSE_REDIS_PORT_NUMBER
               value: "6379"
+            - name: REDIS_HOST
+              value: "localhost"
+            - name: REDIS_PORT_NUMBER
+              value: "6379"
             - name: DISCOURSE_HOST
               value: "tpdiscourse.chain-of-change.com"
             - name: DISCOURSE_DATABASE_HOST
