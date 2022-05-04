@@ -50,7 +50,7 @@ spec:
                   name: tpdiscourse-data
                   key: database-host
             - name: DISCOURSE_DB_NAME
-              vvalueFrom:
+              valueFrom:
                 secretKeyRef:
                   name: tpdiscourse-data
                   key: database-name
