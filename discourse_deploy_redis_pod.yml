@@ -8,41 +8,46 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: tp-discourse-redis
+      app.kubernetes.io/component: master
+      app.kubernetes.io/instance: tpdiscourse
+      app.kubernetes.io/name: redis
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app.kubernetes.io/component: master
+        app.kubernetes.io/instance: tpdiscourse
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: redis
+        helm.sh/chart: redis-16.8.7
+      annotations:
+        checksum/configmap: 64554ceedc64c619bc7bebd6bed4e4583bbb142fcea9ee02df22db4d0dc12a68
+        checksum/health: 3ac534a8a38d1545ba7c1d39381ef80ee7ba96c32b5411905963df2f0fd4a2b9
+        checksum/scripts: 06b32c1cd98a6fad9d9387b8f511b489a0b5db965373e5ace3e4a73fdb5b7186
+        checksum/secret: 5eb62bd1e6f67448df943e4e37621d3619233d87511e5c8c63c2d8577ec0cb34
   strategy:
     rollingUpdate:
       maxSurge: 1
       maxUnavailable: 1
   minReadySeconds: 5
-  template:
-    metadata:
-      labels:
-        app: tp-discourse-redis
     spec:
       volumes:
-        - name: redis-data
-          persistentVolumeClaim:
-            claimName: tp-discourse-redis-data
         - name: start-scripts
           configMap:
-            name: my-release-redis-scripts
+            name: second-release-redis-scripts
             defaultMode: 493
         - name: health
           configMap:
-            name: my-release-redis-health
+            name: second-release-redis-health
             defaultMode: 493
         - name: config
           configMap:
-            name: my-release-redis-configuration
+            name: second-release-redis-configuration
             defaultMode: 420
         - name: redis-tmp-conf
           emptyDir: {}
         - name: tmp
           emptyDir: {}
-        - name: my-release-redis-token-cp8dw
-          secret:
-            secretName: my-release-redis-token-cp8dw
-            defaultMode: 420
       restartPolicy: Always
       hostname: tpdiscourseredispod
       containers:
@@ -69,21 +74,18 @@ spec:
                   name: tpdiscourse-data
                   key: redis-password
         volumeMounts:
-        - name: start-scripts
-          mountPath: /opt/bitnami/scripts/start-scripts
-        - name: health
-          mountPath: /health
-        - name: redis-data
-          mountPath: /data
-        - name: config
-          mountPath: /opt/bitnami/redis/mounted-etc
-        - name: redis-tmp-conf
-          mountPath: /opt/bitnami/redis/etc/
-        - name: tmp
-          mountPath: /tmp
-        - name: my-release-redis-token-cp8dw
-          readOnly: true
-          mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+            - name: start-scripts
+              mountPath: /opt/bitnami/scripts/start-scripts
+            - name: health
+              mountPath: /health
+            - name: tpdiscourse-redis-data
+              mountPath: /data
+            - name: config
+              mountPath: /opt/bitnami/redis/mounted-etc
+            - name: redis-tmp-conf
+              mountPath: /opt/bitnami/redis/etc/
+            - name: tmp
+              mountPath: /tmp
         livenessProbe:
             exec:
               command:
@@ -110,4 +112,41 @@ spec:
         terminationMessagePolicy: File
         imagePullPolicy: IfNotPresent
         securityContext:
-            runAsUser: 1001
+          runAsUser: 1001
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      serviceAccountName: second-release-redis
+      serviceAccount: second-release-redis
+      securityContext:
+        fsGroup: 1001
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 1
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/component: master
+                    app.kubernetes.io/instance: tpdiscourse
+                    app.kubernetes.io/name: redis
+                namespaces:
+                  - default
+                topologyKey: kubernetes.io/hostname
+      schedulerName: default-scheduler
+  volumeClaimTemplates:
+    - kind: PersistentVolumeClaim
+      apiVersion: v1
+      metadata:
+        name: tpdiscourse-redis-data
+        labels:
+          app.kubernetes.io/component: master
+          app.kubernetes.io/instance: tpdiscourse
+          app.kubernetes.io/name: redis
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
+        volumeMode: Filesystem
