@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: tpdiscourse-redis-master
   labels:
@@ -129,10 +129,9 @@ spec:
                     app.kubernetes.io/name: redis
                 topologyKey: kubernetes.io/hostname
       schedulerName: default-scheduler
-  serviceName: tpdiscourse-redis-headless
   podManagementPolicy: OrderedReady
-  updateStrategy:
-    type: RollingUpdate
+  strategy:
     rollingUpdate:
-      partition: 0
+      maxSurge: 1
+      maxUnavailable: 1
   revisionHistoryLimit: 10
