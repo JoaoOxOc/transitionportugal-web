@@ -128,22 +128,6 @@ spec:
                   - default
                 topologyKey: kubernetes.io/hostname
       schedulerName: default-scheduler
-  volumeClaimTemplates:
-    - kind: PersistentVolumeClaim
-      apiVersion: v1
-      metadata:
-        name: tpdiscourse-redis-data
-        labels:
-          app.kubernetes.io/component: master
-          app.kubernetes.io/instance: tpdiscourse
-          app.kubernetes.io/name: redis
-      spec:
-        accessModes:
-          - ReadWriteOnce
-        resources:
-          requests:
-            storage: 1Gi
-        volumeMode: Filesystem
   strategy:
     rollingUpdate:
       maxSurge: 1
