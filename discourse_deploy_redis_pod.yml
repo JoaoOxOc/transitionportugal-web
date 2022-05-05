@@ -113,8 +113,8 @@ spec:
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
       dnsPolicy: ClusterFirst
-      serviceAccountName: tpdiscourse-redis-service
-      serviceAccount: tpdiscourse-redis-service
+      serviceAccountName: tpdiscourse-redis-master-service
+      serviceAccount: tpdiscourse-redis-master-service
       securityContext:
         fsGroup: 1001
       affinity:
