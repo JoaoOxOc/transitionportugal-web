@@ -27,6 +27,9 @@ spec:
         checksum/secret: 5eb62bd1e6f67448df943e4e37621d3619233d87511e5c8c63c2d8577ec0cb34
     spec:
       volumes:
+        - name: discourse-redis-data
+            persistentVolumeClaim:
+              claimName: tpdiscourse-redis-data
         - name: start-scripts
           configMap:
             name: second-release-redis-scripts
@@ -72,7 +75,7 @@ spec:
               mountPath: /opt/bitnami/scripts/start-scripts
             - name: health
               mountPath: /health
-            - name: tpdiscourse-redis-data
+            - name: discourse-redis-data
               mountPath: /data
             - name: config
               mountPath: /opt/bitnami/redis/mounted-etc
