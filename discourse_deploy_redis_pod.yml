@@ -130,8 +130,10 @@ spec:
                 topologyKey: kubernetes.io/hostname
       schedulerName: default-scheduler
   podManagementPolicy: OrderedReady
-  strategy:
+  serviceName: tpdiscourse-redis-headless
+  podManagementPolicy: OrderedReady
+  updateStrategy:
+    type: RollingUpdate
     rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 1
+      partition: 0
   revisionHistoryLimit: 10
