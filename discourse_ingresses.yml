@@ -1,6 +1,46 @@
 apiVersion: v1
 kind: Service
 metadata:
+  name: tpdiscourse-redis-headless
+  labels:
+    app.kubernetes.io/instance: tpdiscourse
+    app.kubernetes.io/name: redis
+  annotations:
+    meta.helm.sh/release-name: tpdiscourse
+spec:
+  ports:
+    - name: tcp-redis
+      protocol: TCP
+      port: 6379
+      targetPort: redis
+  selector:
+    app.kubernetes.io/instance: tpdiscourse
+    app.kubernetes.io/name: redis
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tpdiscourse-redis-master-service
+  labels:
+    app.kubernetes.io/component: master
+    app.kubernetes.io/instance: tpdiscourse
+    app.kubernetes.io/name: redis
+  annotations:
+    meta.helm.sh/release-name: tpdiscourse
+spec:
+  ports:
+    - name: tcp-redis
+      protocol: TCP
+      port: 6379
+      targetPort: redis
+  selector:
+    app.kubernetes.io/component: master
+    app.kubernetes.io/instance: tpdiscourse
+    app.kubernetes.io/name: redis
+---
+apiVersion: v1
+kind: Service
+metadata:
   name: tp-discourse-service
   labels:
     run: tp-discourse-service
