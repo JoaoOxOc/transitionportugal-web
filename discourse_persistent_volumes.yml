@@ -14,15 +14,18 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: tp-discourse-redis-data
-  namespace: default
-spec:
-  #storageClassName: do-block-storage
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi
+  name: tpdiscourse-redis-data
+  labels:
+    app.kubernetes.io/component: master
+    app.kubernetes.io/instance: tpdiscourse
+    app.kubernetes.io/name: redis
+  spec:
+    accessModes:
+      - ReadWriteOnce
+    resources:
+      requests:
+        storage: 1Gi
+    volumeMode: Filesystem
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
