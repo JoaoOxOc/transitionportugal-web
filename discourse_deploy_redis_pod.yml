@@ -28,8 +28,8 @@ spec:
     spec:
       volumes:
         - name: discourse-redis-data
-            persistentVolumeClaim:
-              claimName: tpdiscourse-redis-data
+          persistentVolumeClaim:
+            claimName: tpdiscourse-redis-data
         - name: start-scripts
           configMap:
             name: second-release-redis-scripts
