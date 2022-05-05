@@ -53,7 +53,9 @@ spec:
         command: ["/bin/bash"]
         args: ["-c","/opt/bitnami/scripts/start-scripts/start-master.sh"]
         ports:
-        - containerPort: 6379
+        - name: redis
+          containerPort: 6379
+          protocol: TCP
         env:
             - name: BITNAMI_DEBUG
               value: 'false'
