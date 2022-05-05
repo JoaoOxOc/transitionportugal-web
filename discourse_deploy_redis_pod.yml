@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: tp-discourse-redis
+  name: tpdiscourse-redis-master
   labels:
-    app: tp-discourse-redis
+    app: tpdiscourse-redis-master
 spec:
   replicas: 1
   selector:
@@ -25,11 +25,6 @@ spec:
         checksum/health: 3ac534a8a38d1545ba7c1d39381ef80ee7ba96c32b5411905963df2f0fd4a2b9
         checksum/scripts: 06b32c1cd98a6fad9d9387b8f511b489a0b5db965373e5ace3e4a73fdb5b7186
         checksum/secret: 5eb62bd1e6f67448df943e4e37621d3619233d87511e5c8c63c2d8577ec0cb34
-  strategy:
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 1
-  minReadySeconds: 5
     spec:
       volumes:
         - name: start-scripts
@@ -49,9 +44,8 @@ spec:
         - name: tmp
           emptyDir: {}
       restartPolicy: Always
-      hostname: tpdiscourseredispod
       containers:
-      - name: tpdiscourseredis
+      - name: redis
         image: docker.io/bitnami/redis:latest
         command: ["/bin/bash"]
         args: ["-c","/opt/bitnami/scripts/start-scripts/start-master.sh"]
@@ -116,8 +110,8 @@ spec:
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
       dnsPolicy: ClusterFirst
-      serviceAccountName: second-release-redis
-      serviceAccount: second-release-redis
+      serviceAccountName: tpdiscourse-redis-service
+      serviceAccount: tpdiscourse-redis-service
       securityContext:
         fsGroup: 1001
       affinity:
@@ -150,3 +144,8 @@ spec:
           requests:
             storage: 1Gi
         volumeMode: Filesystem
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5
