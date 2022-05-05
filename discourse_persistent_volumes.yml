@@ -19,12 +19,12 @@ metadata:
     app.kubernetes.io/component: master
     app.kubernetes.io/instance: tpdiscourse
     app.kubernetes.io/name: redis
-  spec:
-    accessModes:
-      - ReadWriteOnce
-    resources:
-      requests:
-        storage: 1Gi
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
