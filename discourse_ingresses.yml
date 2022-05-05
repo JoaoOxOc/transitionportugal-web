@@ -7,8 +7,6 @@ metadata:
     app.kubernetes.io/name: redis
   annotations:
     meta.helm.sh/release-name: tpdiscourse
-secrets:
-  - name: second-release-redis-token-n9m26
 automountServiceAccountToken: true
 ---
 apiVersion: v1
