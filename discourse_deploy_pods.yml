@@ -51,13 +51,13 @@ spec:
         - name: DISCOURSE_DATABASE_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: second-release-postgresql
-              key: password
+              name: tpdiscourse-data
+              key: database-password
         - name: POSTGRESQL_CLIENT_POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: second-release-postgresql
-              key: postgres-password
+              name: tpdiscourse-data
+              key: database-password
         - name: DISCOURSE_REDIS_PASSWORD
           valueFrom:
             secretKeyRef:
@@ -110,8 +110,8 @@ spec:
         - name: DISCOURSE_POSTGRESQL_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: second-release-postgresql
-              key: password
+              name: tpdiscourse-data
+              key: database-password
         - name: REDIS_PASSWORD
           valueFrom:
             secretKeyRef:
