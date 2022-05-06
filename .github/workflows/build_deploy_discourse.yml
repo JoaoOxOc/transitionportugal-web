@@ -8,7 +8,7 @@ env:
   GITHUB_SHA: ${{ github.sha }}
   GITHUB_REPOSITORY: joaooxoc/transitionportugal-web
   REGISTRY_HOSTNAME: registry.digitalocean.com/photosapi
-  DEPLOYMENT_NAME: tp-discourse
+  DEPLOYMENT_NAME: tp-discourse-deploy
   DO_CLUSTER: k8s-photos
   DIGITALOCEAN_ACCESS_TOKEN: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
   DO_EXTERNAL_IP: ${{secrets.DIGITALOCEAN_EXTERNAL_IP}}
