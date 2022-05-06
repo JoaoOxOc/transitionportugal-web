@@ -93,4 +93,4 @@ spec:
           service:
             name: tp-discourse-service
             port:
-              number: 80
+              number: 443
