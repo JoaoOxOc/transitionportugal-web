@@ -1,14 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: tp-discourse
+  name: tp-discourse-deploy
   labels:
-    app: tp-discourse
+    app.kubernetes.io/instance: tpdiscourse
+    app.kubernetes.io/name: discourse
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: tp-discourse
+      app.kubernetes.io/instance: tpdiscourse
+      app.kubernetes.io/name: discourse
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -17,35 +19,30 @@ spec:
   template:
     metadata:
       labels:
-        app: tp-discourse
+        app.kubernetes.io/instance: tpdiscourse
+        app.kubernetes.io/name: discourse
     spec:
       volumes:
         - name: discourse-data
           persistentVolumeClaim:
             claimName: tp-discourse-data
-        - name: default-token-97f74
-          secret:
-            secretName: default-token-97f74
-            defaultMode: 420
-      restartPolicy: Always
-      hostname: tpdiscoursepod
       containers:
       - name: discourse
-        image: docker.io/bitnami/discourse:2.8.3-debian-10-r7
+        image: docker.io/bitnami/discourse:latest
         ports:
           - name: http
             containerPort: 8080
             protocol: TCP
         envFrom:
           - configMapRef:
-              name: my-release-discourse
+              name: second-release-discourse
         env:
         - name: BITNAMI_DEBUG
           value: 'false'
         - name: DISCOURSE_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: my-release-discourse-discourse
+              name: second-release-discourse-discourse
               key: discourse-password
         - name: DISCOURSE_PORT_NUMBER
           value: '8080'
@@ -54,13 +51,13 @@ spec:
         - name: DISCOURSE_DATABASE_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: tpdiscourse-data
-              key: database-password
+              name: second-release-postgresql
+              key: password
         - name: POSTGRESQL_CLIENT_POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: tpdiscourse-data
-              key: database-password
+              name: second-release-postgresql
+              key: postgres-password
         - name: DISCOURSE_REDIS_PASSWORD
           valueFrom:
             secretKeyRef:
@@ -70,9 +67,6 @@ spec:
         - name: discourse-data
           mountPath: /bitnami/discourse
           subPath: discourse
-        - name: default-token-97f74
-          readOnly: true
-          mountPath: /var/run/secrets/kubernetes.io/serviceaccount
         livenessProbe:
           httpGet:
             path: /srv/status
@@ -97,27 +91,27 @@ spec:
         terminationMessagePolicy: File
         imagePullPolicy: IfNotPresent
       - name: sidekiq
-        image: docker.io/bitnami/discourse:2.8.3-debian-10-r7
+        image: docker.io/bitnami/discourse:latest
         command:
           - /opt/bitnami/scripts/discourse/entrypoint.sh
         args:
           - /opt/bitnami/scripts/discourse-sidekiq/run.sh
         envFrom:
           - configMapRef:
-              name: my-release-discourse
+              name: second-release-discourse
         env:
         - name: BITNAMI_DEBUG
           value: 'false'
         - name: DISCOURSE_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: my-release-discourse-discourse
+              name: second-release-discourse-discourse
               key: discourse-password
         - name: DISCOURSE_POSTGRESQL_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: tpdiscourse-data
-              key: database-password
+              name: second-release-postgresql
+              key: password
         - name: REDIS_PASSWORD
           valueFrom:
             secretKeyRef:
@@ -127,9 +121,6 @@ spec:
           - name: discourse-data
             mountPath: /bitnami/discourse
             subPath: discourse
-          - name: default-token-97f74
-            readOnly: true
-            mountPath: /var/run/secrets/kubernetes.io/serviceaccount
         livenessProbe:
           exec:
             command:
