@@ -35,7 +35,8 @@ namespace UserService.Migrations.Config
             var clientCredentials = new ClientCredential[]
             {
                 new ClientCredential { Name = "tpbackoffice", ClientId= "tpbackoffice", Description="transição portugal backoffice", ClientSecret = _tokenManager.GetClientToken().Token },
-                new ClientCredential { Name = "tphome", ClientId = "tphome", Description = "transição portugal homepage", ClientSecret = _tokenManager.GetClientToken().Token }
+                new ClientCredential { Name = "tphome", ClientId = "tphome", Description = "transição portugal homepage", ClientSecret = _tokenManager.GetClientToken().Token },
+                new ClientCredential { Name = "tp single sign on", ClientId = "tp_sso", Description = "transição portugal login/registo", ClientSecret = _tokenManager.GetClientToken().Token }
             };
 
             foreach (ClientCredential obj in clientCredentials)
