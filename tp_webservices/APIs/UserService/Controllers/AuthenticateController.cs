@@ -358,7 +358,7 @@ namespace UserService.Controllers
                 //!fingerprintValid || 
                 if (user == null || user.RefreshToken != refreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
                 {
-                    return BadRequest("Invalid access token or refresh token");
+                    return BadRequest("Invalid access token or refresh token" + user.RefreshTokenExpiryTime);
                 }
 
                 var newAccessTokenData = _tokenManager.GetToken(principal.Claims.ToList(), null, null);
@@ -370,7 +370,8 @@ namespace UserService.Controllers
                 return new ObjectResult(new
                 {
                     accessToken = newAccessTokenData.Token,
-                    refreshToken = newRefreshTokenData.Key
+                    refreshToken = newRefreshTokenData.Key,
+                    expiration = newAccessTokenData.ExpiresAt
                 });
             }
             catch (Exception ex)

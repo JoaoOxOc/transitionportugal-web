@@ -4,6 +4,57 @@ import Providers from 'next-auth'
 import Credentials from 'next-auth/providers/credentials'
 
 /**
+ * Takes a token, and returns a new token with updated
+ * `accessToken` and `accessTokenExpires`. If an error occurs,
+ * returns the old token and an error property
+ */
+ async function refreshAccessToken(token) {
+  try {
+    const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL+"/user/refresh";
+    const response = await fetch(apiUrl, {
+      method: 'POST',
+      body: JSON.stringify({
+        accessToken: token.user.token,
+        refreshToken: token.user.refreshToken,
+      }),
+      headers: { 
+        "Content-Type": "application/json",
+        "credentials": 'include',
+        "ClientId": process.env.AUTH_API_CLIENT_ID,
+        "ClientAuthorization": process.env.AUTH_API_CLIENT_SECRET
+      }
+    })
+    if (!response.ok) {
+      const resultErrorBody = await response.text();
+      throw resultErrorBody + token.user.token;
+    }
+    // The Credentials provider can only be used if JSON Web Tokens are enabled for sessions.
+    // Users authenticated with the Credentials provider are not persisted in the database.
+    const refreshedTokens = await response.json();
+
+    if (!response.ok) {
+      throw refreshedTokens
+    }
+
+    return {
+      ...token,
+      accessToken: refreshedTokens.accessToken,
+      accessTokenExpires: refreshedTokens.expiration * 1000,
+      refreshToken: refreshedTokens.refresh_token ?? token.refreshToken, // Fall back to old refresh token
+    }
+  } catch (error) {
+    console.log(error)
+
+    return {
+      ...token,
+      error: "RefreshAccessTokenError" + JSON.stringify({
+        error: error
+      }),
+    }
+  }
+}
+
+/**
  * Tutorials:
  * https://daily.dev/blog/authentication-in-nextjs
  * https://blog.logrocket.com/building-authorization-api-next-js/
@@ -72,48 +123,59 @@ export default NextAuth({
           })
           // The Credentials provider can only be used if JSON Web Tokens are enabled for sessions.
           // Users authenticated with the Credentials provider are not persisted in the database.
-          const user = await res.json()
+          const user = await res.json();
     
           // If no error and we have user data, return it
           if (res.ok && user) {
             // TODO: add authentication logic for microfrontend, for example session cookie (use user.sessionId)
             return user
           }
+          if (!credentials.username || !credentials.password) {
+            throw new Error("CredentialsEmptyLoginError")
+          }
           // Return null if user data could not be retrieved
           return null
         }
     })
   ],
-  session: { 
-    jwt: true, 
-    maxAge: 30 * 24 * 60 * 60 
-  }, // 30 days
+  // session: { 
+  //   jwt: true, 
+  //   //maxAge: 30 * 24 * 60 * 60 
+  // }, // 30 days
   // https://next-auth.js.org/v3/configuration/callbacks
   callbacks:  {
-    async signIn(user, account, profile) {
+    async signIn({user, account, profile}) {
       return true
     },
-    async redirect(url, baseUrl) {
+    async redirect({url, baseUrl}) {
       return baseUrl
     },
-    async session(session, token) {
+    async session({session, token, user}) {
       session.sessionId = token.sessionId;
-      const apiUrl = process.env.API_ENDPOINT+"odoorest/nextsession";
-      const res = await fetch(apiUrl, {
-          method: 'POST',
-          body: JSON.stringify({
-            "session": session,
-            "user": token
-          }),
-          headers: { "Content-Type": "application/json" }
-      })
-      const resData = await res.json()
+      session.user = token.user;
+      session.accessToken = token.accessToken;
+      session.scopes = token.scope;
+      session.error = token.error;
+      session.token = token;
+      session.user2 = user;
+
+      // const apiUrl = process.env.API_ENDPOINT+"odoorest/nextsession";
+      // const res = await fetch(apiUrl, {
+      //     method: 'POST',
+      //     body: JSON.stringify({
+      //       "session": session,
+      //       "user": token
+      //     }),
+      //     headers: { "Content-Type": "application/json" }
+      // })
+      // const resData = await res.json()
       return session
     },
-    async jwt(token, user, account, profile, isNewUser) {
+    async jwt({token, user, account, profile, isNewUser}) {
       if (user && user.sessionId) {
         token.sessionId = user.sessionId
       }
+      
       // const apiUrl = process.env.API_ENDPOINT+"odoorest/nextsession";
       // const res = await fetch(apiUrl, {
       //     method: 'POST',
@@ -127,7 +189,23 @@ export default NextAuth({
       //     headers: { "Content-Type": "application/json" }
       // })
       // const resData = await res.json()
-      return token
+      console.log(account, user)
+      // Initial sign in
+      if (account && user) {
+        return {
+          accessToken: user.token,
+          accessTokenExpires: user.expiration * 1000,
+          refreshToken: user.refreshToken,
+          user,
+        }
+      }
+      // Return previous token if the access token has not expired yet
+      if (Date.now() < token.accessTokenExpires) {
+        return token;
+      }
+
+      // Access token has expired, try to update it
+      return refreshAccessToken(token);
     }
   },
   pages: {
