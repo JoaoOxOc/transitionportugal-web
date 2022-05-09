@@ -18,7 +18,7 @@ import { useSnackbar } from 'notistack';
 import { useRefMounted } from '../../../../hooks/useRefMounted';
 
 import { UpdateSettingData } from '../../../../services/settings';
-
+import { useSession } from "next-auth/react";
 import { i18nextSettingDetails } from "@transitionpt/translations";
 
 const DetailForm = ({settingData, settingPutUrl}) => {
@@ -27,6 +27,7 @@ const DetailForm = ({settingData, settingPutUrl}) => {
     const { enqueueSnackbar } = useSnackbar();
     const [settingsError, setSettingsError] = useState(null);
     useErrorHandler(settingsError);
+    const { data: session, status } = useSession();
 
     const formik = useFormik({
         initialValues: settingData,
@@ -47,7 +48,7 @@ const DetailForm = ({settingData, settingPutUrl}) => {
                   value: values.value
               }
               console.log(settingModel)
-              const result = await UpdateSettingData(settingPutUrl, settingModel);
+              const result = await UpdateSettingData(settingPutUrl, settingModel, session.accessToken);
     
               if (isMountedRef()) {
                   if (result.status) {

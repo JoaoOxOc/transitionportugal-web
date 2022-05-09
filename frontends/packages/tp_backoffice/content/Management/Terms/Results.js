@@ -34,6 +34,7 @@ import {
 import Loader from '../../../components/Loader';
 import { useRefMounted } from '../../../hooks/useRefMounted';
 import { TermsSearchContext } from '../../../contexts/Search/TermsSearchContext';
+import { useSession } from "next-auth/react";
 import { GetAllTermsRecords } from '../../../services/terms';
 import { useErrorHandler } from 'react-error-boundary';
 
@@ -111,6 +112,7 @@ const Results = () => {
   useErrorHandler(termsError);
   const [terms, setTerms] = useState(null);
   const [totalTerms, setTotalTerms] = useState(0);
+  const { data: session, status } = useSession();
 
   let termsApiUri = "/terms/get";
   let termsDetailsBaseUri = "/management/privacy/single/";
@@ -148,7 +150,7 @@ const Results = () => {
 
   const getTermsData = useCallback(async (searchDataJson) => {
     try {
-      let termsData = await GetAllTermsRecords(process.env.NEXT_PUBLIC_API_BASE_URL + termsApiUri, searchDataJson);
+      let termsData = await GetAllTermsRecords(process.env.NEXT_PUBLIC_API_BASE_URL + termsApiUri, searchDataJson, session.accessToken);
       if (isMountedRef()) {
         if (termsData.termsRecords) {
             setTerms(termsData.termsRecords);

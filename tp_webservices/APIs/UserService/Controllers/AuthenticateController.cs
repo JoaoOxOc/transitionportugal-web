@@ -358,7 +358,7 @@ namespace UserService.Controllers
                 //!fingerprintValid || 
                 if (user == null || user.RefreshToken != refreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
                 {
-                    return BadRequest("Invalid access token or refresh token" + user.RefreshTokenExpiryTime);
+                    return BadRequest("Invalid access token or refresh token");
                 }
 
                 var newAccessTokenData = _tokenManager.GetToken(principal.Claims.ToList(), null, null);

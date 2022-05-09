@@ -36,6 +36,7 @@ import Loader from '../../../components/Loader';
 import { useRefMounted } from '../../../hooks/useRefMounted';
 import { AssociationsSearchContext } from '../../../contexts/Search/AssociationsSearchContext';
 import { AssociationsActionsContext } from '../../../contexts/Actions/AssociationsActionsContext';
+import { useSession } from "next-auth/react";
 import { GetAssociations } from '../../../services/associations';
 import { useErrorHandler } from 'react-error-boundary';
 
@@ -113,6 +114,7 @@ const Results = () => {
   const associationsActionsData = useContext(AssociationsActionsContext);
   const [associationsError, setAssociationsError] = useState(null);
   useErrorHandler(associationsError);
+  const { data: session, status } = useSession();
   const [associations, setAssociations] = useState(null);
   const [selectedItems, setSelectedAssociations] = useState([]);
   const [totalAssociations, setTotalAssociations] = useState(0);
@@ -164,7 +166,7 @@ const Results = () => {
 
   const getAssociationsData = useCallback(async (searchDataJson) => {
     try {
-      let associationsData = await GetAssociations(process.env.NEXT_PUBLIC_API_BASE_URL + associationsApiUri, searchDataJson);
+      let associationsData = await GetAssociations(process.env.NEXT_PUBLIC_API_BASE_URL + associationsApiUri, searchDataJson, session.accessToken);
       
       if (isMountedRef()) {
         if (associationsData.associations) {

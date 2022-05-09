@@ -10,6 +10,7 @@ import { useErrorHandler } from 'react-error-boundary';
 // import local libraries
 import { useRefMounted } from '../../hooks/useRefMounted';
 import { AssociationsSearchContext } from '../../contexts/Search/AssociationsSearchContext';
+import { useSession } from "next-auth/react";
 import { GetAssociations } from '../../services/associations';
 
 const CustomAutocomplete = styled(Autocomplete)(
@@ -28,13 +29,14 @@ export default function AssociationPicker({selectId, selectLabel, notFoundLabel,
     const [inputValue, setInputValue] = useState('');
     const [associationsError, setAssociationsError] = useState(null);
     useErrorHandler(associationsError);
+    const { data: session, status } = useSession();
     const loading = open && options.length === 0;
     const associationsSearchData = useContext(AssociationsSearchContext);
     const associationsApiUri = "/associations/get";
 
     const fetchAssociationOptions = useCallback(
         async (searchDataJson) => {
-            const associationsData = await GetAssociations(process.env.NEXT_PUBLIC_API_BASE_URL + associationsApiUri,searchDataJson);
+            const associationsData = await GetAssociations(process.env.NEXT_PUBLIC_API_BASE_URL + associationsApiUri,searchDataJson, session.accessToken);
             if (isMountedRef()) {
                 if (associationsData.associations && associationsData.associations.length > 0) {
                     let newOptions = [];

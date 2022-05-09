@@ -15,7 +15,7 @@ import { Box,
 } from '@mui/material';
 
 import { useRefMounted } from '../../../../hooks/useRefMounted';
-
+import { useSession } from "next-auth/react";
 import { GetScopeData } from '../../../../services/scopes';
 
 import { i18nextScopeDetails } from "@transitionpt/translations";
@@ -28,6 +28,7 @@ function ScopeDetails({isCreate}) {
     const [scopeRoles, setScopeRoles] = useState([]);
     const [scopeError, setScopeError] = useState(null);
     useErrorHandler(scopeError);
+    const { data: session, status } = useSession();
     const { t } = i18nextScopeDetails;
     const scopesListUri = "/management/scopes";
     let scopeAppUri = "/scopes/get/" + router.query.scopeId;
@@ -35,7 +36,7 @@ function ScopeDetails({isCreate}) {
 
     const getScopeData = useCallback(async () => {
         try {
-            let scopeData = await GetScopeData(process.env.NEXT_PUBLIC_API_BASE_URL + scopeAppUri);
+            let scopeData = await GetScopeData(process.env.NEXT_PUBLIC_API_BASE_URL + scopeAppUri, session.accessToken);
             if (isMountedRef()) {
               if (scopeData.status) {
                 setScopeError(scopeData);

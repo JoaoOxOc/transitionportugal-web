@@ -24,6 +24,7 @@ import ForwardToInboxTwoToneIcon from '@mui/icons-material/ForwardToInboxTwoTone
 
 import { UsersActionsContext } from '../../../contexts/Actions/UsersActionsContext';
 import { useRefMounted } from '../../../hooks/useRefMounted';
+import { useSession } from "next-auth/react";
 import { ResendEmails, ApproveUsers, DeleteUsers } from '../../../services/users';
 
 const ButtonError = styled(Button)(
@@ -57,7 +58,7 @@ function BulkActions({isSingleRecord, recordId, recordIsVerified, recordIsActiva
   useErrorHandler(actionsError);
   const { enqueueSnackbar } = useSnackbar();
   const { selectedUsers } = useContext(UsersActionsContext);
-  console.log(selectedUsers);
+  const { data: session, status } = useSession();
 
   const openMenu = () => {
     menuOpen(true);
@@ -69,7 +70,7 @@ function BulkActions({isSingleRecord, recordId, recordIsVerified, recordIsActiva
 
   const resendEmails = async() => {
     const ids = isSingleRecord == true ? [recordId] : selectedUsers;
-    const result = await ResendEmails(process.env.NEXT_PUBLIC_API_BASE_URL + '/users/resend',{userIds: ids});
+    const result = await ResendEmails(process.env.NEXT_PUBLIC_API_BASE_URL + '/users/resend',{userIds: ids}, session.accessToken);
     if (isMountedRef()) {
       if (result.status) {
         if (result.status === 404) {
@@ -103,7 +104,7 @@ function BulkActions({isSingleRecord, recordId, recordIsVerified, recordIsActiva
 
   const approve = async() => {
     const ids = isSingleRecord == true ? [recordId] : selectedUsers;
-    const result = await ApproveUsers(process.env.NEXT_PUBLIC_API_BASE_URL + '/users/approve',{userIds: ids});
+    const result = await ApproveUsers(process.env.NEXT_PUBLIC_API_BASE_URL + '/users/approve',{userIds: ids}, session.accessToken);
     if (isMountedRef()) {
       if (result.status) {
         if (result.status === 404) {
@@ -137,7 +138,7 @@ function BulkActions({isSingleRecord, recordId, recordIsVerified, recordIsActiva
 
   const deleteAccount = async() => {
     const ids = isSingleRecord == true ? [recordId] : selectedUsers;
-    const result = await DeleteUsers(process.env.NEXT_PUBLIC_API_BASE_URL + '/users/delete',{userIds: ids});
+    const result = await DeleteUsers(process.env.NEXT_PUBLIC_API_BASE_URL + '/users/delete',{userIds: ids}, session.accessToken);
     if (isMountedRef()) {
       if (result.status) {
         if (result.status === 404) {

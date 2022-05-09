@@ -6,12 +6,13 @@ import Sidebar from './Sidebar';
 import Header from './Header';
 
 const AccentHeaderLayout = ({ children }) => {
+  const session = children.props.session ? children.props.session : children.props.children.props.session;
   const theme = useTheme();
 
   return (
     <>
-      <Header />
-      <Sidebar />
+      <Header session={session}/>
+      <Sidebar session={session}/>
       <Box
         sx={{
           position: 'relative',

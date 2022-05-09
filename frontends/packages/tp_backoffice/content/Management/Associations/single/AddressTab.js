@@ -19,7 +19,7 @@ import { useFormik } from 'formik';
 import { useErrorHandler } from 'react-error-boundary';
 import { useSnackbar } from 'notistack';
 import { useRefMounted } from '../../../../hooks/useRefMounted';
-
+import { useSession } from "next-auth/react";
 import { UpdateAssociationData } from '../../../../services/associations';
 
 import { i18nextAssociationDetails } from "@transitionpt/translations";
@@ -30,6 +30,7 @@ function AddressTab({associationPutUrl, associationData}) {
     const { enqueueSnackbar } = useSnackbar();
     const [associationsError, setAssociationsError] = useState(null);
     useErrorHandler(associationsError);
+    const { data: session, status } = useSession();
 
     const formik = useFormik({
         initialValues: associationData,
@@ -66,7 +67,7 @@ function AddressTab({associationPutUrl, associationData}) {
                     logoImage: values.logoImage,
               }
               console.log(associationModel)
-              const result = await UpdateAssociationData(associationPutUrl, associationModel);
+              const result = await UpdateAssociationData(associationPutUrl, associationModel, session.accessToken);
     
               if (isMountedRef()) {
                   if (result.status) {

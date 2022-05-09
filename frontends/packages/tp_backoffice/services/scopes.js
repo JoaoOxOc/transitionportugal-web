@@ -1,11 +1,11 @@
 import { buildRouteQuery, genericFetch } from './genericFetch';
 
-export const GetScopes = async(scopesApiUri, searchDataJson) => {
+export const GetScopes = async(scopesApiUri, searchDataJson, bearerToken) => {
     scopesApiUri += buildRouteQuery(searchDataJson);
     console.log(scopesApiUri);
-    let response = await genericFetch(scopesApiUri, "GET", window.localStorage.getItem('accessToken'),{});
+    let response = await genericFetch(scopesApiUri, "GET", bearerToken,{});
     if (response.requestAgain) {
-        response = await genericFetch(scopesApiUri, "GET", window.localStorage.getItem('accessToken'),{});
+        response = await genericFetch(scopesApiUri, "GET", bearerToken,{});
     }
     else if (response.status == 404) {
         response.scopes = [];
@@ -14,10 +14,10 @@ export const GetScopes = async(scopesApiUri, searchDataJson) => {
     return response;
 }
 
-export const GetScopeData = async(scopesApiUri) => {
-    let response = await genericFetch(scopesApiUri, "GET", window.localStorage.getItem('accessToken'),{});
+export const GetScopeData = async(scopesApiUri, bearerToken) => {
+    let response = await genericFetch(scopesApiUri, "GET", bearerToken,{});
     if (response.requestAgain) {
-        response = await genericFetch(scopesApiUri, "GET", window.localStorage.getItem('accessToken'),{});
+        response = await genericFetch(scopesApiUri, "GET", bearerToken,{});
     }
     else if (response.status == 404) {
         response.scope = {};
@@ -26,10 +26,10 @@ export const GetScopeData = async(scopesApiUri) => {
     return response;
 }
 
-export const UpdateScopeData = async(scopesApiUri, scopeDataJson) => {
-    let response = await genericFetch(scopesApiUri, "PUT", window.localStorage.getItem('accessToken'),scopeDataJson);
+export const UpdateScopeData = async(scopesApiUri, scopeDataJson, bearerToken) => {
+    let response = await genericFetch(scopesApiUri, "PUT", bearerToken,scopeDataJson);
     if (response.requestAgain) {
-        response = await genericFetch(scopesApiUri, "PUT", window.localStorage.getItem('accessToken'),scopeDataJson);
+        response = await genericFetch(scopesApiUri, "PUT", bearerToken,scopeDataJson);
     }
     else if (response.status == 404) {
         response.scope = {};
@@ -37,10 +37,10 @@ export const UpdateScopeData = async(scopesApiUri, scopeDataJson) => {
     return response;
 }
 
-export const CreateScope = async(scopesApiUri, scopeDataJson) => {
-    let response = await genericFetch(scopesApiUri, "POST", window.localStorage.getItem('accessToken'),scopeDataJson);
+export const CreateScope = async(scopesApiUri, scopeDataJson, bearerToken) => {
+    let response = await genericFetch(scopesApiUri, "POST", bearerToken,scopeDataJson);
     if (response.requestAgain) {
-        response = await genericFetch(scopesApiUri, "POST", window.localStorage.getItem('accessToken'),scopeDataJson);
+        response = await genericFetch(scopesApiUri, "POST", bearerToken,scopeDataJson);
     }
     else if (response.status == 404) {
         response.scope = {};

@@ -4,9 +4,10 @@ import PropTypes from 'prop-types';
 import { useAuth } from '../../hooks/useAuth';
 import { useSnackbar } from 'notistack';
 import { Slide } from '@mui/material';
+import {getSession} from "next-auth/react";
 
 export const Authenticated = (props) => {
-  const { children } = props;
+  const { children, session } = props;
   const auth = useAuth();
   const router = useRouter();
   const [verified, setVerified] = useState(false);
@@ -17,7 +18,12 @@ export const Authenticated = (props) => {
       return;
     }
 
-    if (!auth.isAuthenticated || auth.redirectToLogin == true) {
+    // if (!auth.isAuthenticated || auth.redirectToLogin == true) {
+    //   router.push({
+    //     pathname: '/auth/login/cover',
+    //     query: { backTo: router.asPath }
+    //   });
+    if (!session.token || session.token.error) {
       router.push({
         pathname: '/auth/login/cover',
         query: { backTo: router.asPath }

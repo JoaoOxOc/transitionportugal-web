@@ -33,7 +33,7 @@ const TopSection = styled(Box)(
 `
 );
 
-function Sidebar() {
+function Sidebar({session}) {
   const { sidebarToggle, toggleSidebar } = useContext(SidebarContext);
   const closeSidebar = () => toggleSidebar();
   const theme = useTheme();
@@ -60,7 +60,7 @@ function Sidebar() {
                   background: theme.colors.alpha.black[10]
                 }}
               />
-          <SidebarMenu />
+          <SidebarMenu session={session} />
         </Scrollbar>
         <Divider
           sx={{

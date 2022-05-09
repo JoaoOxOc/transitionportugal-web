@@ -19,6 +19,7 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import useScrollTop from '../hooks/useScrollTop';
 import { SnackbarProvider } from 'notistack';
 import { AuthConsumer, AuthProvider } from '../contexts/JWTAuthContext';
+import { SessionProvider, Provider } from "next-auth/react"
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -61,7 +62,9 @@ function MyApp(props) {
                             
                             getLayout(
                               <ErrorBoundary FallbackComponent={ErrorBoundaryFallback} onError={myErrorHandler}>
-                                <Component {...pageProps} />
+                                <SessionProvider session={pageProps.session}>
+                                  <Component {...pageProps} />
+                                </SessionProvider>
                               </ErrorBoundary>
                             )
                         )

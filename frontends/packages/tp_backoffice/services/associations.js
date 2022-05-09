@@ -1,10 +1,10 @@
 import { buildRouteQuery, genericFetch } from './genericFetch';
 
-export const GetAssociations = async(associationsApiUri, searchDataJson) => {
+export const GetAssociations = async(associationsApiUri, searchDataJson, bearerToken) => {
     associationsApiUri += buildRouteQuery(searchDataJson);
-    let response = await genericFetch(associationsApiUri, "GET", window.localStorage.getItem('accessToken'),{});
+    let response = await genericFetch(associationsApiUri, "GET", bearerToken,{});
     if (response.requestAgain) {
-        response = await genericFetch(associationsApiUri, "GET", window.localStorage.getItem('accessToken'),{});
+        response = await genericFetch(associationsApiUri, "GET", bearerToken,{});
     }
     else if (response.status == 404) {
         response.associations = [];
@@ -13,10 +13,10 @@ export const GetAssociations = async(associationsApiUri, searchDataJson) => {
     return response;
 }
 
-export const GetAssociationData = async(associationsApiUri) => {
-    let response = await genericFetch(associationsApiUri, "GET", window.localStorage.getItem('accessToken'),{});
+export const GetAssociationData = async(associationsApiUri, bearerToken) => {
+    let response = await genericFetch(associationsApiUri, "GET", bearerToken,{});
     if (response.requestAgain) {
-        response = await genericFetch(associationsApiUri, "GET", window.localStorage.getItem('accessToken'),{});
+        response = await genericFetch(associationsApiUri, "GET", bearerToken,{});
     }
     else if (response.status == 404) {
         response.associationData = {};
@@ -24,10 +24,10 @@ export const GetAssociationData = async(associationsApiUri) => {
     return response;
 }
 
-export const UpdateAssociationData = async(associationsApiUri, associationDataJson) => {
-    let response = await genericFetch(associationsApiUri, "PUT", window.localStorage.getItem('accessToken'),associationDataJson);
+export const UpdateAssociationData = async(associationsApiUri, associationDataJson, bearerToken) => {
+    let response = await genericFetch(associationsApiUri, "PUT", bearerToken,associationDataJson);
     if (response.requestAgain) {
-        response = await genericFetch(associationsApiUri, "PUT", window.localStorage.getItem('accessToken'),associationDataJson);
+        response = await genericFetch(associationsApiUri, "PUT", bearerToken,associationDataJson);
     }
     else if (response.status == 404) {
         response.association = {};
@@ -35,10 +35,10 @@ export const UpdateAssociationData = async(associationsApiUri, associationDataJs
     return response;
 }
 
-export const CreateAssociation = async(associationsApiUri, associationDataJson) => {
-    let response = await genericFetch(associationsApiUri, "POST", window.localStorage.getItem('accessToken'),associationDataJson);
+export const CreateAssociation = async(associationsApiUri, associationDataJson, bearerToken) => {
+    let response = await genericFetch(associationsApiUri, "POST", bearerToken,associationDataJson);
     if (response.requestAgain) {
-        response = await genericFetch(associationsApiUri, "POST", window.localStorage.getItem('accessToken'),associationDataJson);
+        response = await genericFetch(associationsApiUri, "POST", bearerToken,associationDataJson);
     }
     else if (response.status == 404) {
         response.association = {};
@@ -46,10 +46,10 @@ export const CreateAssociation = async(associationsApiUri, associationDataJson) 
     return response;
 }
 
-export const ResendEmails = async(associationsApiUri, associationDataJson) => {
-    let response = await genericFetch(associationsApiUri, "POST", window.localStorage.getItem('accessToken'),associationDataJson);
+export const ResendEmails = async(associationsApiUri, associationDataJson, bearerToken) => {
+    let response = await genericFetch(associationsApiUri, "POST", bearerToken,associationDataJson);
     if (response.requestAgain) {
-        response = await genericFetch(associationsApiUri, "POST", window.localStorage.getItem('accessToken'),associationDataJson);
+        response = await genericFetch(associationsApiUri, "POST", bearerToken,associationDataJson);
     }
     else if (response.status == 404) {
         response.associations = [];
@@ -57,10 +57,10 @@ export const ResendEmails = async(associationsApiUri, associationDataJson) => {
     return response;
 }
 
-export const ApproveAssociations = async(associationsApiUri, associationDataJson) => {
-    let response = await genericFetch(associationsApiUri, "POST", window.localStorage.getItem('accessToken'),associationDataJson);
+export const ApproveAssociations = async(associationsApiUri, associationDataJson, bearerToken) => {
+    let response = await genericFetch(associationsApiUri, "POST", bearerToken,associationDataJson);
     if (response.requestAgain) {
-        response = await genericFetch(associationsApiUri, "POST", window.localStorage.getItem('accessToken'),associationDataJson);
+        response = await genericFetch(associationsApiUri, "POST", bearerToken,associationDataJson);
     }
     else if (response.status == 404) {
         response.associations = [];
@@ -68,10 +68,10 @@ export const ApproveAssociations = async(associationsApiUri, associationDataJson
     return response;
 }
 
-export const DeleteAssociations = async(associationsApiUri, associationDataJson) => {
-    let response = await genericFetch(associationsApiUri, "DELETE", window.localStorage.getItem('accessToken'),associationDataJson);
+export const DeleteAssociations = async(associationsApiUri, associationDataJson, bearerToken) => {
+    let response = await genericFetch(associationsApiUri, "DELETE", bearerToken,associationDataJson);
     if (response.requestAgain) {
-        response = await genericFetch(associationsApiUri, "DELETE", window.localStorage.getItem('accessToken'),associationDataJson);
+        response = await genericFetch(associationsApiUri, "DELETE", bearerToken,associationDataJson);
     }
     else if (response.status == 404) {
         response.associations = [];

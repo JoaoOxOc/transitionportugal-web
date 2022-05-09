@@ -209,9 +209,9 @@ export default NextAuth({
     }
   },
   pages: {
-    signIn: '/auth/login/nextauth',
+    signIn: '/auth/login/cover',
     //signOut: '/auth/signout',
-    error: '/auth/login/nextauth', // Error code passed in query string as ?error=
+    error: '/auth/login/cover', // Error code passed in query string as ?error=
     //verifyRequest: '/auth/verify-request', // (used for check email message)
     //newUser: null // If set, new users will be directed here on first sign in
   },

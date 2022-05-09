@@ -24,7 +24,7 @@ import NotificationsTab from './NotificationsTab';
 import SecurityTab from './SecurityTab';
 import EditRolesTab from './EditRolesTab';
 
-import { usersApi } from '../../../../mocks/users';
+import { useSession } from "next-auth/react";
 import { GetUserData } from '../../../../services/users';
 
 const TabsWrapper = styled(Tabs)(
@@ -41,6 +41,7 @@ function UserDetails({isProfile, userId}) {
     const [user, setUser] = useState(null);
     const [userError, setUserError] = useState(null);
     useErrorHandler(userError);
+    const { data: session, status } = useSession();
     const { t } = i18nextUserDetails;
     const usersListUri = "/management/users";
     let userUri = isProfile ? "/user/profile" : "/users/get/" + userId;
@@ -62,7 +63,7 @@ function UserDetails({isProfile, userId}) {
 
     const getUser = useCallback(async () => {
       try {
-        const response = await GetUserData(process.env.NEXT_PUBLIC_API_BASE_URL + userUri);
+        const response = await GetUserData(process.env.NEXT_PUBLIC_API_BASE_URL + userUri, session.accessToken);
 
         if (isMountedRef()) {
             if (response.status) {
