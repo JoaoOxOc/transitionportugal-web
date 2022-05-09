@@ -42,39 +42,39 @@ function MyApp(props) {
         />
       </Head>
         <ReduxProvider store={store}>
-          <SidebarProvider>
-            <ThemeProvider>
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <AuthProvider>
-                  <SnackbarProvider
-                    maxSnack={6}
-                    anchorOrigin={{
-                      vertical: 'bottom',
-                      horizontal: 'right'
-                    }}
-                  >
-                    <CssBaseline />
-                    <AuthConsumer>
-                      {(auth) =>
-                        !auth.isInitialized ? (
-                          <Loader />
-                        ) : (
-                            
-                            getLayout(
-                              <ErrorBoundary FallbackComponent={ErrorBoundaryFallback} onError={myErrorHandler}>
-                                <SessionProvider session={pageProps.session}>
-                                  <Component {...pageProps} />
-                                </SessionProvider>
-                              </ErrorBoundary>
-                            )
-                        )
-                      }
-                    </AuthConsumer>
-                  </SnackbarProvider>
-                </AuthProvider>
-              </LocalizationProvider>
-            </ThemeProvider>
-          </SidebarProvider>
+          <SessionProvider session={pageProps.session}>
+            <SidebarProvider>
+              <ThemeProvider>
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <AuthProvider>
+                    <SnackbarProvider
+                      maxSnack={6}
+                      anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'right'
+                      }}
+                    >
+                      <CssBaseline />
+                      <AuthConsumer>
+                        {(auth) =>
+                          !auth.isInitialized ? (
+                            <Loader />
+                          ) : (
+                              
+                              getLayout(
+                                <ErrorBoundary FallbackComponent={ErrorBoundaryFallback} onError={myErrorHandler}>
+                                    <Component {...pageProps} />
+                                </ErrorBoundary>
+                              )
+                          )
+                        }
+                      </AuthConsumer>
+                    </SnackbarProvider>
+                  </AuthProvider>
+                </LocalizationProvider>
+              </ThemeProvider>
+            </SidebarProvider>
+          </SessionProvider>
         </ReduxProvider>
     </CacheProvider>
   );

@@ -4,6 +4,43 @@ import Providers from 'next-auth'
 import Credentials from 'next-auth/providers/credentials'
 
 /**
+ * gets user profile data
+ * `accessToken`
+ */
+ async function getUserProfile(accessToken) {
+  try {
+    const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL+"/user/profile";
+    const response = await fetch(apiUrl, {
+      method: 'GET',
+      headers: { 
+        "Content-Type": "application/json",
+        "credentials": 'include',
+        "ClientId": process.env.AUTH_API_CLIENT_ID,
+        "ClientAuthorization": process.env.AUTH_API_CLIENT_SECRET,
+        "Authorization": "bearer "+ accessToken
+      }
+    });
+
+    if (!response.ok) {
+      const resultErrorBody = await response.text();
+      throw resultErrorBody;
+    }
+    
+    const userData = await response.json();
+    return userData;
+
+  } catch (error) {
+    console.log(error)
+
+    return {
+      error: "GetUserProfileError" + JSON.stringify({
+        error: error
+      }),
+    }
+  }
+ }
+
+/**
  * Takes a token, and returns a new token with updated
  * `accessToken` and `accessTokenExpires`. If an error occurs,
  * returns the old token and an error property
@@ -26,7 +63,7 @@ import Credentials from 'next-auth/providers/credentials'
     })
     if (!response.ok) {
       const resultErrorBody = await response.text();
-      throw resultErrorBody + token.user.token;
+      throw resultErrorBody + token.user.refreshToken;
     }
     // The Credentials provider can only be used if JSON Web Tokens are enabled for sessions.
     // Users authenticated with the Credentials provider are not persisted in the database.
@@ -147,9 +184,12 @@ export default NextAuth({
     async signIn({user, account, profile}) {
       return true
     },
-    async redirect({url, baseUrl}) {
-      return baseUrl
-    },
+    // async redirect({url, baseUrl}) {
+    //   // if (url.contains('auth/login/cover')) {
+    //   //   return baseUrl;
+    //   // }
+    //   return baseUrl;
+    // },
     async session({session, token, user}) {
       session.sessionId = token.sessionId;
       session.user = token.user;
@@ -192,11 +232,16 @@ export default NextAuth({
       console.log(account, user)
       // Initial sign in
       if (account && user) {
+        const userData = await getUserProfile(user.token);
+        if (userData && !userData.error) {
+          user.name = userData.userProfile.name;
+          user.username = userData.userProfile.userName;
+        }
         return {
           accessToken: user.token,
           accessTokenExpires: user.expiration * 1000,
           refreshToken: user.refreshToken,
-          user,
+          user
         }
       }
       // Return previous token if the access token has not expired yet

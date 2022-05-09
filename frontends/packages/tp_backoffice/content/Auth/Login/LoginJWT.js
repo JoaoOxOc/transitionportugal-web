@@ -90,9 +90,25 @@ export const LoginJWT = ({ providers, csrfToken, ...props }) => {
       )
     }),
     onSubmit: async (values, helpers) => {
-      helpers.validateForm(values).then((e) => {helpers.setSubmitting(true); formLoginElement.current.submit(values);})
-      console.log(helpers);
-      //setSubmitting(true);
+      // helpers.validateForm(values).then((e) => {helpers.setSubmitting(true); formLoginElement.current.submit(values);})
+      // console.log(helpers);
+      helpers.setSubmitting(true);
+      const res = await signIn('credentials', {
+        redirect: false,
+        username: values.username,
+        password: values.password,
+        terms: values.terms,
+        callbackUrl: `${window.location.origin}`,
+      });
+      if (res?.error) {
+        helpers.setStatus({ success: false });
+        helpers.setErrors({ submit: res.error });
+      } else {
+        helpers.setStatus({ success: false });
+        helpers.setErrors({ submit: null });
+      }
+      if (res.url) router.push(res.url);
+      helpers.setSubmitting(false);
 
       // try {
       //   await login(values.username, values.password);
@@ -213,7 +229,9 @@ export const LoginJWT = ({ providers, csrfToken, ...props }) => {
       return (
         <div key={providerData.name}>
           <div className="provider">
-                <button onClick={() => signIn(providerData.id)}>
+                <button onClick={() => signIn(providerData.id, {
+                    callbackUrl: `${window.location.origin}/`,
+                  })}>
                   Sign in with {providerData.name}
                 </button>
           </div>

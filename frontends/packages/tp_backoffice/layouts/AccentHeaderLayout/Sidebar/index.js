@@ -8,6 +8,7 @@ import SidebarMenu from './SidebarMenu';
 import SidebarFooter from './SidebarFooter';
 import SidebarTopSection from './SidebarTopSection';
 import Logo from '../../../components/LogoSign';
+import { useSession } from "next-auth/react";
 
 const SidebarWrapper = styled(Box)(
   ({ theme }) => `
@@ -33,10 +34,11 @@ const TopSection = styled(Box)(
 `
 );
 
-function Sidebar({session}) {
+function Sidebar() {
   const { sidebarToggle, toggleSidebar } = useContext(SidebarContext);
   const closeSidebar = () => toggleSidebar();
   const theme = useTheme();
+  const { data: session, status } = useSession();
 
   return (
     <>
