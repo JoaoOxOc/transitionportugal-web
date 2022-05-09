@@ -42,7 +42,7 @@ function SidebarFooter() {
     try {
       // await logout();
       // router.push('/auth/login/cover');
-      signOut({ callbackUrl: '/auth/login/cover' });
+      signOut({ callbackUrl: '/auth/login/cover?backTo=' + router.asPath });
     } catch (err) {
       console.error(err);
     }

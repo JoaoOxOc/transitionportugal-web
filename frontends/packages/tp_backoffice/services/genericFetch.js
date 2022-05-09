@@ -58,6 +58,7 @@ export const genericFetch = async (apiUrl, method, bearerToken, bodyJson) => {
         }
         else if (bearerToken && err.status == 401) {
             resultData.requestAgain = true;
+            window.location.reload(false);
             // const refreshToken = window.localStorage.getItem('refreshToken');
             // if (refreshToken) {
             //   const refreshedTokenData = await genericFetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/user/refresh", "POST", null,

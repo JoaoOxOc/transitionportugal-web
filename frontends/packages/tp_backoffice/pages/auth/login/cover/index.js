@@ -100,7 +100,6 @@ const TypographyH1 = styled(Typography)(
 
 
 function LoginCover({ providers, csrfToken }) {
-  console.log(providers, csrfToken);
   const { method } = useAuth();
   const { t } = i18nextLogin;
   const [currentLang, setLang] = useState("pt");

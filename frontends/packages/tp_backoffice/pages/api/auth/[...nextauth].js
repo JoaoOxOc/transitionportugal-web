@@ -9,7 +9,7 @@ import Credentials from 'next-auth/providers/credentials'
  */
  async function getUserProfile(accessToken) {
   try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL+"/user/profile";
+    const apiUrl = process.env.AUTH_API_URL+"/user/profile";
     const response = await fetch(apiUrl, {
       method: 'GET',
       headers: { 
@@ -47,7 +47,7 @@ import Credentials from 'next-auth/providers/credentials'
  */
  async function refreshAccessToken(token) {
   try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL+"/user/refresh";
+    const apiUrl = process.env.AUTH_API_URL+"/user/refresh";
     const response = await fetch(apiUrl, {
       method: 'POST',
       body: JSON.stringify({
@@ -147,7 +147,7 @@ export default NextAuth({
           // const user = { id: 1, name: 'J Smith', email: 'jsmith@example.com', sessionId: 'c6216a1fc74d7320cf78eadd1645750600f133d9' }
           // return user;
           console.log('next auth req: ', req, credentials);
-          const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL+"/user/login";
+          const apiUrl = process.env.AUTH_API_URL+"/user/login";
           const res = await fetch(apiUrl, {
             method: 'POST',
             body: JSON.stringify(credentials),

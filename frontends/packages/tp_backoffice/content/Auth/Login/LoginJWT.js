@@ -66,9 +66,10 @@ export const LoginJWT = ({ providers, csrfToken, ...props }) => {
   // const { login } = useAuth();
   const isMountedRef = useRefMounted();
   const router = useRouter();
+  const { backTo } = router.query;
   const { enqueueSnackbar } = useSnackbar();
   const formLoginElement = useRef(null);
-
+  
   const formik = useFormik({
     initialValues: {
       username: '',
@@ -98,7 +99,7 @@ export const LoginJWT = ({ providers, csrfToken, ...props }) => {
         username: values.username,
         password: values.password,
         terms: values.terms,
-        callbackUrl: `${window.location.origin}`,
+        callbackUrl: `${window.location.origin + (backTo ? backTo : '')}`,
       });
       if (res?.error) {
         helpers.setStatus({ success: false });
@@ -106,6 +107,9 @@ export const LoginJWT = ({ providers, csrfToken, ...props }) => {
       } else {
         helpers.setStatus({ success: false });
         helpers.setErrors({ submit: null });
+      }
+      if (res.error) {
+        router.push(window.location + (backTo ? '&error=' : '?error=') + res.error);
       }
       if (res.url) router.push(res.url);
       helpers.setSubmitting(false);
@@ -230,7 +234,7 @@ export const LoginJWT = ({ providers, csrfToken, ...props }) => {
         <div key={providerData.name}>
           <div className="provider">
                 <button onClick={() => signIn(providerData.id, {
-                    callbackUrl: `${window.location.origin}/`,
+                    callbackUrl: `${window.location.origin + backTo ?? backTo}`,
                   })}>
                   Sign in with {providerData.name}
                 </button>
