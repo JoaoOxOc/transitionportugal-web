@@ -1,11 +1,11 @@
 import { buildRouteQuery, genericFetch } from './genericFetch';
 
-export const GetEmailTemplates = async(emailTemplatesApiUri, searchDataJson) => {
+export const GetEmailTemplates = async(emailTemplatesApiUri, searchDataJson,bearerToken) => {
     emailTemplatesApiUri += buildRouteQuery(searchDataJson);
     console.log(emailTemplatesApiUri);
-    let response = await genericFetch(emailTemplatesApiUri, "GET", window.localStorage.getItem('accessToken'),{});
+    let response = await genericFetch(emailTemplatesApiUri, "GET", bearerToken,{});
     if (response.requestAgain) {
-        response = await genericFetch(emailTemplatesApiUri, "GET", window.localStorage.getItem('accessToken'),{});
+        response = await genericFetch(emailTemplatesApiUri, "GET", bearerToken,{});
     }
     else if (response.status == 404) {
         response.templates = [];
@@ -14,10 +14,10 @@ export const GetEmailTemplates = async(emailTemplatesApiUri, searchDataJson) => 
     return response;
 }
 
-export const GetEmailTemplateData = async(emailTemplatesApiUri) => {
-    let response = await genericFetch(emailTemplatesApiUri, "GET", window.localStorage.getItem('accessToken'),{});
+export const GetEmailTemplateData = async(emailTemplatesApiUri,bearerToken) => {
+    let response = await genericFetch(emailTemplatesApiUri, "GET", bearerToken,{});
     if (response.requestAgain) {
-        response = await genericFetch(emailTemplatesApiUri, "GET", window.localStorage.getItem('accessToken'),{});
+        response = await genericFetch(emailTemplatesApiUri, "GET", bearerToken,{});
     }
     else if (response.status == 404) {
         response.template = {};
@@ -25,10 +25,10 @@ export const GetEmailTemplateData = async(emailTemplatesApiUri) => {
     return response;
 }
 
-export const UpdateEmailTemplateData = async(emailTemplatesApiUri, templateJson) => {
-    let response = await genericFetch(emailTemplatesApiUri, "PUT", window.localStorage.getItem('accessToken'),templateJson);
+export const UpdateEmailTemplateData = async(emailTemplatesApiUri, templateJson,bearerToken) => {
+    let response = await genericFetch(emailTemplatesApiUri, "PUT", bearerToken,templateJson);
     if (response.requestAgain) {
-        response = await genericFetch(emailTemplatesApiUri, "PUT", window.localStorage.getItem('accessToken'),templateJson);
+        response = await genericFetch(emailTemplatesApiUri, "PUT", bearerToken,templateJson);
     }
     else if (response.status == 404) {
         response.association = {};

@@ -15,7 +15,7 @@ import { Box,
 } from '@mui/material';
 
 import { useRefMounted } from '../../../../hooks/useRefMounted';
-
+import { useSession } from "next-auth/react";
 import { GetSettingData } from '../../../../services/settings';
 
 import { i18nextSettingDetails } from "@transitionpt/translations";
@@ -27,6 +27,7 @@ function SettingDetails() {
     const [setting, setSetting] = useState(null);
     const [settingsError, setSettingsError] = useState(null);
     useErrorHandler(settingsError);
+    const { data: session, status } = useSession();
     const { t } = i18nextSettingDetails;
     let settingsListTitle = "";
     const settingListUri = "";
@@ -49,7 +50,7 @@ function SettingDetails() {
 
     const getSettingData = useCallback(async () => {
         try {
-            let settingsData = await GetSettingData(process.env.NEXT_PUBLIC_API_BASE_URL + settingsUri);
+            let settingsData = await GetSettingData(process.env.NEXT_PUBLIC_API_BASE_URL + settingsUri, session.accessToken);
             if (isMountedRef()) {
               if (settingsData.status) {
                 setSettingsError(settingsData);

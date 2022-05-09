@@ -25,7 +25,7 @@ import Language from '../../../../components/Language';
 import Link from '../../../../components/Link';
 
 import { UpdateEmailTemplateData } from '../../../../services/emailTemplates';
-
+import { useSession } from "next-auth/react";
 import { i18nextEmailTemplateDetails } from "@transitionpt/translations";
 import LaunchTwoToneIcon from '@mui/icons-material/LaunchTwoTone';
 
@@ -44,6 +44,7 @@ const DetailForm = ({templateData, templatePutUrl}) => {
     const { enqueueSnackbar } = useSnackbar();
     const [templateError, setTemplateError] = useState(null);
     useErrorHandler(templateError);
+    const { data: session, status } = useSession();
     const linkToEditor = "/management/settings/emailTemplate/single/editor/" + templateData.id + "?lang=" + templateData.language;
 
     const formik = useFormik({
@@ -66,7 +67,7 @@ const DetailForm = ({templateData, templatePutUrl}) => {
                   description: values.description,
                   subject: values.subject
               }
-              const result = await UpdateEmailTemplateData(templatePutUrl, templateModel);
+              const result = await UpdateEmailTemplateData(templatePutUrl, templateModel, session.accessToken);
     
               if (isMountedRef()) {
                   if (result.status) {

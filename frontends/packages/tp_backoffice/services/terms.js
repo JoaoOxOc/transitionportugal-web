@@ -1,11 +1,11 @@
 import { buildRouteQuery, genericFetch } from './genericFetch';
 
-export const GetAllTermsRecords = async(termsApiUri, searchDataJson) => {
+export const GetAllTermsRecords = async(termsApiUri, searchDataJson, bearerToken) => {
     termsApiUri += buildRouteQuery(searchDataJson);
     console.log(termsApiUri);
-    let response = await genericFetch(termsApiUri, "GET", window.localStorage.getItem('accessToken'),{});
+    let response = await genericFetch(termsApiUri, "GET", bearerToken,{});
     if (response.requestAgain) {
-        response = await genericFetch(termsApiUri, "GET", window.localStorage.getItem('accessToken'),{});
+        response = await genericFetch(termsApiUri, "GET", bearerToken,{});
     }
     else if (response.status == 404) {
         response.termsRecords = [];
@@ -14,10 +14,10 @@ export const GetAllTermsRecords = async(termsApiUri, searchDataJson) => {
     return response;
 }
 
-export const GetTermsRecord = async(termsApiUri) => {
-    let response = await genericFetch(termsApiUri, "GET", window.localStorage.getItem('accessToken'),{});
+export const GetTermsRecord = async(termsApiUri, bearerToken) => {
+    let response = await genericFetch(termsApiUri, "GET", bearerToken,{});
     if (response.requestAgain) {
-        response = await genericFetch(termsApiUri, "GET", window.localStorage.getItem('accessToken'),{});
+        response = await genericFetch(termsApiUri, "GET", bearerToken,{});
     }
     else if (response.status == 404) {
         response.termsRecord = {};
@@ -25,10 +25,10 @@ export const GetTermsRecord = async(termsApiUri) => {
     return response;
 }
 
-export const UpdateTermsRecord = async(termsApiUri, termsDataJson) => {
-    let response = await genericFetch(termsApiUri, "PUT", window.localStorage.getItem('accessToken'),termsDataJson);
+export const UpdateTermsRecord = async(termsApiUri, termsDataJson, bearerToken) => {
+    let response = await genericFetch(termsApiUri, "PUT", bearerToken,termsDataJson);
     if (response.requestAgain) {
-        response = await genericFetch(termsApiUri, "PUT", window.localStorage.getItem('accessToken'),termsDataJson);
+        response = await genericFetch(termsApiUri, "PUT", bearerToken,termsDataJson);
     }
     else if (response.status == 404) {
         response.termsId = -1;
@@ -37,10 +37,10 @@ export const UpdateTermsRecord = async(termsApiUri, termsDataJson) => {
     return response;
 }
 
-export const CreateTermsRecord = async(termsApiUri, termsDataJson) => {
-    let response = await genericFetch(termsApiUri, "POST", window.localStorage.getItem('accessToken'),termsDataJson);
+export const CreateTermsRecord = async(termsApiUri, termsDataJson, bearerToken) => {
+    let response = await genericFetch(termsApiUri, "POST", bearerToken,termsDataJson);
     if (response.requestAgain) {
-        response = await genericFetch(termsApiUri, "POST", window.localStorage.getItem('accessToken'),termsDataJson);
+        response = await genericFetch(termsApiUri, "POST", bearerToken,termsDataJson);
     }
     else if (response.status == 404) {
         response.termsId = -1;
@@ -49,10 +49,10 @@ export const CreateTermsRecord = async(termsApiUri, termsDataJson) => {
     return response;
 }
 
-export const CloneTermsRecord = async(termsApiUri, termsDataJson) => {
-    let response = await genericFetch(termsApiUri, "POST", window.localStorage.getItem('accessToken'),termsDataJson);
+export const CloneTermsRecord = async(termsApiUri, termsDataJson, bearerToken) => {
+    let response = await genericFetch(termsApiUri, "POST", bearerToken,termsDataJson);
     if (response.requestAgain) {
-        response = await genericFetch(termsApiUri, "POST", window.localStorage.getItem('accessToken'),termsDataJson);
+        response = await genericFetch(termsApiUri, "POST", bearerToken,termsDataJson);
     }
     else if (response.status == 404) {
         response.termsId = -1;

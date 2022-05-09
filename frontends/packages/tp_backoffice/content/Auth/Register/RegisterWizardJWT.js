@@ -34,6 +34,14 @@ const BoxActions = styled(Box)(
   `
   );
 
+const BoxFields = styled(Box)(
+    ({ theme }) => `
+    .invalid-feedback {
+      color: red !important;
+    }
+  `
+  );
+
 const AvatarSuccess = styled(Avatar)(
     ({ theme }) => `
         background-color: ${theme.colors.success.main};
@@ -82,33 +90,67 @@ export function RegisterWizardJWT() {
     };
 
     const checkEmailUnique = async (value) => {
-      const response = await genericFetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/user/search-user", "POST", null,{ username: value, password: "t" });
-
-      return response.ok !== undefined;
+      const response = await fetch(process.env.NEXT_PUBLIC_AUTH_URL + "/searchBy?searchUri=" + "/user/search-user", {
+        method: 'POST',
+        body: JSON.stringify({ u: value }),
+        headers: { 
+          "Content-Type": "application/json",
+          "credentials": 'include'
+        }
+      });
+      
+      return response.ok !== true;
     }
 
     const checkUsernameUnique = async (value) => {
-      const response = await genericFetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/user/search-user", "POST", null,{ username: value, password: "t" });
-
-      return response.ok !== undefined;
+      const response = await fetch(process.env.NEXT_PUBLIC_AUTH_URL + "/searchBy?searchUri=" + "/user/search-user", {
+        method: 'POST',
+        body: JSON.stringify({ u: value }),
+        headers: { 
+          "Content-Type": "application/json",
+          "credentials": 'include'
+        }
+      });
+      
+      return response.ok !== true;
     }
 
     const checkAssociationEmailUnique = async (value) => {
-          const response = await genericFetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/association/search", "POST", null,{ email: value });
+      const response = await fetch(process.env.NEXT_PUBLIC_AUTH_URL + "/searchBy?searchUri=" + "/association/search", {
+        method: 'POST',
+        body: JSON.stringify({ email: value }),
+        headers: { 
+          "Content-Type": "application/json",
+          "credentials": 'include'
+        }
+      });
 
-          return response.ok !== undefined;
+      return response.ok !== true;
     }
 
     const checkAssociationVatUnique = async (value) => {
-      const response = await genericFetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/association/search", "POST", null,{ vat: value });
+      const response = await fetch(process.env.NEXT_PUBLIC_AUTH_URL + "/searchBy?searchUri=" + "/association/search", {
+        method: 'POST',
+        body: JSON.stringify({ vat: value }),
+        headers: { 
+          "Content-Type": "application/json",
+          "credentials": 'include'
+        }
+      });
 
-      return response.ok !== undefined;
+      return response.ok !== true;
     }
 
     const checkAssociationVatValid = async (value) => {
-      const response = await genericFetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/association/validatevat", "POST", null,{ vat: value });
-
-      return response.ok !== undefined;
+      const response = await fetch(process.env.NEXT_PUBLIC_AUTH_URL + "/searchBy?searchUri=" + "/association/validatevat", {
+        method: 'POST',
+        body: JSON.stringify({ vat: value }),
+        headers: { 
+          "Content-Type": "application/json",
+          "credentials": 'include'
+        }
+      });
+      return response.ok !== true;
     }
 
     return (
@@ -131,7 +173,9 @@ export function RegisterWizardJWT() {
                 }}
                 onSubmit={async (values, helpers) => {
                   try {
-                    const resetResult = await genericFetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/user/register", "POST", null,{
+                    const registerResult = await fetch(process.env.NEXT_PUBLIC_AUTH_URL + "/register", {
+                      method: 'POST',
+                      body: JSON.stringify({
                         firstName: values.first_name,
                         lastName: values.last_name,
                         username: values.username,
@@ -144,16 +188,36 @@ export function RegisterWizardJWT() {
                         associationVat: values.association_vat,
                         associationAddress: values.association_address,
                         associationTown: values.association_town,
+                    }),
+                      headers: { 
+                        "Content-Type": "application/json",
+                        "credentials": 'include'
+                      }
                     });
-                    if (resetResult.status === "Success") {
+                    //             const registerResult = await genericFetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/user/register", "POST", null,{
+                    //     firstName: values.first_name,
+                    //     lastName: values.last_name,
+                    //     username: values.username,
+                    //     email: values.email,
+                    //     password: values.password,
+                    //     confirmPassword: values.password_confirm,
+                    //     termsConfirmed: values.terms,
+                    //     associationName: values.association_name,
+                    //     associationEmail: values.association_email,
+                    //     associationVat: values.association_vat,
+                    //     associationAddress: values.association_address,
+                    //     associationTown: values.association_town,
+                    // });
+                    const registerResultParsed = await registerResult.json();
+                    if (registerResultParsed.status === "Success") {
                         setUserRegistered(true);
                         helpers.setSubmitting(false);
                     }
                     else {
                         helpers.setStatus({ success: false });
-                        helpers.setErrors({ submit: resetResult.statusText });
+                        helpers.setErrors({ submit: registerResultParsed.statusText });
                         helpers.setSubmitting(false);
-                        if (resetResult.status === 403) {
+                        if (registerResult.status === 403) {
                             enqueueSnackbar(t('MESSAGES.passwordComplexityError'), {
                               variant: 'error',
                               anchorOrigin: {
@@ -164,7 +228,7 @@ export function RegisterWizardJWT() {
                               TransitionComponent: Slide
                             });
                         }
-                        if (resetResult.status === 500) {
+                        if (registerResult.status === 500) {
                             enqueueSnackbar(t('MESSAGES.serverError'), {
                               variant: 'error',
                               anchorOrigin: {
@@ -175,7 +239,7 @@ export function RegisterWizardJWT() {
                               TransitionComponent: Slide
                             });
                         }
-                        else if (resetResult.statusText === "Unauthorized") {
+                        else if (registerResultParsed.statusText === "Unauthorized") {
                             setDisplayRecoverLink(true);
                             enqueueSnackbar(t('MESSAGES.tokenExpiredError'), {
                               variant: 'error',
@@ -187,8 +251,8 @@ export function RegisterWizardJWT() {
                               TransitionComponent: Slide
                             });
                         }
-                        else if (resetResult.status === 409) {
-                            enqueueSnackbar(t('MESSAGES.userAlreadyExists'), {
+                        else if (registerResult.status === 409) {
+                            enqueueSnackbar(t('MESSAGES.usernameAlreadyTaken'), {
                               variant: 'error',
                               anchorOrigin: {
                                 vertical: 'top',
@@ -255,12 +319,12 @@ export function RegisterWizardJWT() {
                       )
                       .required(t('MESSAGES.confirmPasswordRequired')),
                     terms: Yup.bool()
-                      .oneOf([true], 'MESSAGES.termsRequired')
+                      .oneOf([true], t('MESSAGES.termsRequired'))
                       .required(t('MESSAGES.termsRequired'))
                   })}
                   label={t('LABELS.step1Title')}
                 >
-                  <Box p={4}>
+                  <BoxFields p={4}>
                     <Grid container spacing={4}>
                       <Grid item xs={12} md={6}>
                         <Field
@@ -363,7 +427,7 @@ export function RegisterWizardJWT() {
                         />
                       </Grid>
                     </Grid>
-                  </Box>
+                  </BoxFields>
                 </FormikStep>
                 <FormikStep
                   validationSchema={Yup.object().shape({

@@ -19,6 +19,8 @@ import { LoginAmplify } from '../../../../content/Auth/Login/LoginAmplify';
 import BaseLayout from '../../../../layouts/BaseLayout';
 import Link from '../../../../components/Link';
 import { useRouter } from 'next/router';
+import { getProviders } from "next-auth/react";
+import { getCsrfToken } from "next-auth/react";
 
 import { i18nextLogin } from "@transitionpt/translations";
 import Logo from '../../../../components/Logo';
@@ -96,7 +98,8 @@ const TypographyH1 = styled(Typography)(
 `
 );
 
-function LoginCover() {
+
+function LoginCover({ providers, csrfToken }) {
   const { method } = useAuth();
   const { t } = i18nextLogin;
   const [currentLang, setLang] = useState("pt");
@@ -296,7 +299,7 @@ function LoginCover() {
               </Box>
               {method === 'Auth0' && <LoginAuth0 />}
               {method === 'FirebaseAuth' && <LoginFirebaseAuth />}
-              {method === 'JWT' && <LoginJWT />}
+              {method === 'JWT' && <LoginJWT providers={providers} csrfToken={csrfToken}/>}
               {method === 'Amplify' && <LoginAmplify />}
               <Box my={4}>
                 <Typography
@@ -317,7 +320,7 @@ function LoginCover() {
                   <b>{t('LABELS.registerHere')}</b>
                 </Link>
               </Box>
-              {method !== 'Auth0' && method !== 'JWT' && (
+              {/* {method !== 'Auth0' && method !== 'JWT' && (
                 <Tooltip
                   title={t('Used only for the live preview demonstration !')}
                 >
@@ -325,7 +328,7 @@ function LoginCover() {
                     Use <b>demo@example.com</b> and password <b>TokyoPass1@</b>
                   </Alert>
                 </Tooltip>
-              )}
+              )} */}
             </Card>
           </Container>
         </MainContent>
@@ -339,5 +342,13 @@ LoginCover.getLayout = (page) => (
     <BaseLayout>{page}</BaseLayout>
   </Guest>
 );
+
+export async function getServerSideProps(context) {
+  const providers = await getProviders();
+  const csrfToken = await getCsrfToken(context);
+  return {
+    props: { providers, csrfToken },
+  }
+}
 
 export default LoginCover;

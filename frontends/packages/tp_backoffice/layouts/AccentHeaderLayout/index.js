@@ -10,8 +10,8 @@ const AccentHeaderLayout = ({ children }) => {
 
   return (
     <>
-      <Header />
-      <Sidebar />
+      <Header/>
+      <Sidebar/>
       <Box
         sx={{
           position: 'relative',

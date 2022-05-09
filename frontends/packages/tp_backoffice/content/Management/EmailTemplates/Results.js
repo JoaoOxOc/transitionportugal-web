@@ -22,6 +22,7 @@ import {
 import Loader from '../../../components/Loader';
 import { useRefMounted } from '../../../hooks/useRefMounted';
 import { EmailTemplatesSearchContext } from '../../../contexts/Search/EmailTemplatesSearchContext';
+import { useSession } from "next-auth/react";
 import { GetEmailTemplates } from '../../../services/emailTemplates';
 import { useErrorHandler } from 'react-error-boundary';
 
@@ -71,6 +72,7 @@ const Results = () => {
     useErrorHandler(emailTemplatesError);
     const [emailTemplates, setEmailTemplates] = useState(null);
     const [totalEmailTemplates, setTotalEmailTemplates] = useState(0);
+    const { data: session, status } = useSession();
 
     let emailTemplatesUri = "/emailTemplates/get";
     let emailTemplateDetailsBaseUri = "/management/settings/emailTemplate/single/";
@@ -116,7 +118,7 @@ const Results = () => {
 
     const getEmailTemplatesData = useCallback(async (searchDataJson) => {
       try {
-        let emailTemplatesData = await GetEmailTemplates(process.env.NEXT_PUBLIC_API_BASE_URL + emailTemplatesUri, searchDataJson);
+        let emailTemplatesData = await GetEmailTemplates(process.env.NEXT_PUBLIC_API_BASE_URL + emailTemplatesUri, searchDataJson, session.accessToken);
         
         if (isMountedRef()) {
           if (emailTemplatesData.templates) {

@@ -16,6 +16,7 @@ import { Box,
 
 import { useRefMounted } from '../../../../../hooks/useRefMounted';
 
+import { useSession } from "next-auth/react";
 import { GetClientAppData } from '../../../../../services/clientApps';
 
 import { i18nextClientDetails } from "@transitionpt/translations";
@@ -27,6 +28,7 @@ function ClientAppDetails({isCreate}) {
     const [clientApp, setClientApp] = useState(null);
     const [clientAppError, setClientAppError] = useState(null);
     useErrorHandler(clientAppError);
+    const { data: session, status } = useSession();
     const { t } = i18nextClientDetails;
     const clientAppsListUri = "/management/app/clients";
     let clientAppUri = "/app/client/" + router.query.clientId;
@@ -34,7 +36,7 @@ function ClientAppDetails({isCreate}) {
 
     const getClientData = useCallback(async () => {
         try {
-            let clientAppData = await GetClientAppData(process.env.NEXT_PUBLIC_API_BASE_URL + clientAppUri);
+            let clientAppData = await GetClientAppData(process.env.NEXT_PUBLIC_API_BASE_URL + clientAppUri, session.accessToken);
             if (isMountedRef()) {
               if (clientAppData.status) {
                 setClientAppError(clientAppData);

@@ -33,6 +33,7 @@ import {
 import Loader from '../../../components/Loader';
 import { useRefMounted } from '../../../hooks/useRefMounted';
 import { ScopesSearchContext } from '../../../contexts/Search/ScopesSearchContext';
+import { useSession } from "next-auth/react";
 import { GetScopes } from '../../../services/scopes';
 import { useErrorHandler } from 'react-error-boundary';
 
@@ -86,6 +87,7 @@ const Results = () => {
   useErrorHandler(scopesError);
   const [scopes, setScopes] = useState(null);
   const [totalScopes, setTotalScopes] = useState(0);
+  const { data: session, status } = useSession();
 
   let scopesApiUri = "/scopes/get";
   let scopeDetailsBaseUri = "/management/scopes/single/";
@@ -116,7 +118,7 @@ const Results = () => {
 
   const getScopesData = useCallback(async (searchDataJson) => {
     try {
-      let scopesData = await GetScopes(process.env.NEXT_PUBLIC_API_BASE_URL + scopesApiUri, searchDataJson);
+      let scopesData = await GetScopes(process.env.NEXT_PUBLIC_API_BASE_URL + scopesApiUri, searchDataJson, session.accessToken);
       
       if (isMountedRef()) {
         if (scopesData.scopes) {

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { verifyTokenScopes } from '../../utils/jwt';
 
 export const Authorized = (props) => {
-  const { children } = props;
+  const { children, session } = props;
   const router = useRouter();
   const [verified, setVerified] = useState(false);
 
@@ -13,7 +13,7 @@ export const Authorized = (props) => {
       return;
     }
 
-    if(!verifyTokenScopes(window.localStorage.getItem('accessToken'), props.scopes)) {
+    if(!verifyTokenScopes(session.accessToken, props.scopes)) {
       router.push({
         pathname: '/403',
         query: { access: router.pathname },
@@ -22,7 +22,7 @@ export const Authorized = (props) => {
     else {
       setVerified(true);
     }
-  }, [router,router.isReady, props.scopes]);
+  }, [router,router.isReady, session.accessToken, props.scopes]);
 
   if (!verified) {
     return null;

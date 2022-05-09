@@ -16,6 +16,7 @@ import {
 import { useSnackbar } from 'notistack';
 import { i18nextAssociationsList } from "@transitionpt/translations";
 import { useErrorHandler } from 'react-error-boundary';
+import { useSession } from "next-auth/react";
 import { ResendEmails, ApproveAssociations, DeleteAssociations } from '../../../services/associations';
 
 import CheckTwoToneIcon from '@mui/icons-material/CheckTwoTone';
@@ -57,7 +58,7 @@ function BulkActions({isSingleRecord, recordId, recordIsVerified, recordIsActiva
   const { enqueueSnackbar } = useSnackbar();
   const { t } = i18nextAssociationsList;
   const { selectedAssociations } = useContext(AssociationsActionsContext);
-  console.log(selectedAssociations);
+  const { data: session, status } = useSession();
 
   const openMenu = () => {
     menuOpen(true);
@@ -69,7 +70,7 @@ function BulkActions({isSingleRecord, recordId, recordIsVerified, recordIsActiva
 
   const resendEmails = async() => {
     const ids = isSingleRecord == true ? [recordId] : selectedAssociations;
-    const result = await ResendEmails(process.env.NEXT_PUBLIC_API_BASE_URL + '/associations/resend',{associationIds: ids});
+    const result = await ResendEmails(process.env.NEXT_PUBLIC_API_BASE_URL + '/associations/resend',{associationIds: ids}, session.accessToken);
     if (isMountedRef()) {
       if (result.status) {
         if (result.status === 404) {
@@ -103,7 +104,7 @@ function BulkActions({isSingleRecord, recordId, recordIsVerified, recordIsActiva
 
   const approve = async() => {
     const ids = isSingleRecord == true ? [recordId] : selectedAssociations;
-    const result = await ApproveAssociations(process.env.NEXT_PUBLIC_API_BASE_URL + '/associations/approve',{associationIds: ids});
+    const result = await ApproveAssociations(process.env.NEXT_PUBLIC_API_BASE_URL + '/associations/approve',{associationIds: ids}, session.accessToken);
     if (isMountedRef()) {
       if (result.status) {
         if (result.status === 404) {
@@ -137,7 +138,7 @@ function BulkActions({isSingleRecord, recordId, recordIsVerified, recordIsActiva
 
   const deleteAccount = async() => {
     const ids = isSingleRecord == true ? [recordId] : selectedAssociations;
-    const result = await DeleteAssociations(process.env.NEXT_PUBLIC_API_BASE_URL + '/associations/delete',{associationIds: ids});
+    const result = await DeleteAssociations(process.env.NEXT_PUBLIC_API_BASE_URL + '/associations/delete',{associationIds: ids}, session.accessToken);
     if (isMountedRef()) {
       if (result.status) {
         if (result.status === 404) {

@@ -15,7 +15,7 @@ import { Box,
 } from '@mui/material';
 
 import { useRefMounted } from '../../../../hooks/useRefMounted';
-
+import { useSession } from "next-auth/react";
 import { GetRoleData } from '../../../../services/roles';
 
 import { i18nextRoleDetails } from "@transitionpt/translations";
@@ -27,6 +27,7 @@ function RoleDetails({isCreate}) {
     const [role, setRole] = useState(null);
     const [roleError, setRoleError] = useState(null);
     useErrorHandler(roleError);
+    const { data: session, status } = useSession();
     const { t } = i18nextRoleDetails;
     const rolesListUri = "/management/profiles";
     let roleUri = "/roles/get/" + router.query.roleId;
@@ -34,7 +35,7 @@ function RoleDetails({isCreate}) {
 
     const getRoleData = useCallback(async () => {
         try {
-            let roleData = await GetRoleData(process.env.NEXT_PUBLIC_API_BASE_URL + roleUri);
+            let roleData = await GetRoleData(process.env.NEXT_PUBLIC_API_BASE_URL + roleUri, session.accessToken);
             if (isMountedRef()) {
               if (roleData.status) {
                 setRoleError(roleData);

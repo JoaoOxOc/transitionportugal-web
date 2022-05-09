@@ -32,6 +32,7 @@ import {
 
 import Loader from '../../../components/Loader';
 import { useRefMounted } from '../../../hooks/useRefMounted';
+import { useSession } from "next-auth/react";
 import { RolesSearchContext } from '../../../contexts/Search/RolesSearchContext';
 import { GetRoles } from '../../../services/roles';
 import { useErrorHandler } from 'react-error-boundary';
@@ -86,6 +87,7 @@ const Results = () => {
   useErrorHandler(rolesError);
   const [roles, setRoles] = useState(null);
   const [totalRoles, setTotalRoles] = useState(0);
+  const { data: session, status } = useSession();
 
   let rolesApiUri = "/roles/get";
   let roleDetailsBaseUri = "/management/profiles/single/";
@@ -109,7 +111,7 @@ const Results = () => {
 
   const getRolesData = useCallback(async (searchDataJson) => {
     try {
-      let rolesData = await GetRoles(process.env.NEXT_PUBLIC_API_BASE_URL + rolesApiUri, searchDataJson);
+      let rolesData = await GetRoles(process.env.NEXT_PUBLIC_API_BASE_URL + rolesApiUri, searchDataJson, session.accessToken);
       
       if (isMountedRef()) {
         if (rolesData.roles) {

@@ -36,7 +36,7 @@ import { useErrorHandler } from 'react-error-boundary';
 import { useRouter } from 'next/router';
 import { useSnackbar } from 'notistack';
 import { useRefMounted } from '../../../../hooks/useRefMounted';
-
+import { useSession } from "next-auth/react";
 import { UpdateTermsRecord, CreateTermsRecord } from '../../../../services/terms';
 
 import { i18nextTermsDetails } from "@transitionpt/translations";
@@ -139,6 +139,7 @@ const DetailForm = ({isCreate, termsData, termsPutUrl, imageArray, handleInstanc
     const { enqueueSnackbar } = useSnackbar();
     const [termsError, setTermsError] = useState(null);
     useErrorHandler(termsError);
+    const { data: session, status } = useSession();
     console.log(i18npt, termsData);
     const EDITOR_JS_TOOLS = {
         embed: Embed,
@@ -180,10 +181,10 @@ const DetailForm = ({isCreate, termsData, termsPutUrl, imageArray, handleInstanc
               console.log(termsModel,savedBlocks)
               let result = {};
               if (isCreate) {
-                result = await CreateTermsRecord(termsPutUrl, termsModel);
+                result = await CreateTermsRecord(termsPutUrl, termsModel, session.accessToken);
               }
               else {
-                result = await UpdateTermsRecord(termsPutUrl, termsModel);
+                result = await UpdateTermsRecord(termsPutUrl, termsModel, session.accessToken);
               }
               console.log(result);
               if (isMountedRef()) {

@@ -20,6 +20,7 @@ import { useSnackbar } from 'notistack';
 import { useRefMounted } from '../../../../hooks/useRefMounted';
 import TransferList from '../../../../components/TransferList';
 
+import { useSession } from "next-auth/react";
 import { UpdateRoleData, CreateRole } from '../../../../services/roles';
 import { GetScopes } from '../../../../services/scopes';
 
@@ -34,6 +35,7 @@ const DetailForm = ({roleData, rolePutUrl, isCreate}) => {
     const [scopesToUpdate, setScopesToUpdate] = useState(null);
     const [roleError, setRoleError] = useState(null);
     useErrorHandler(roleError);
+    const { data: session, status } = useSession();
 
     const receiveSelectedScopes = (selectedScopes) => {
         const scopesUpdate = [];
@@ -55,7 +57,7 @@ const DetailForm = ({roleData, rolePutUrl, isCreate}) => {
             sortDirection: "asc"
         };
         try {
-            let scopesData = await GetScopes(process.env.NEXT_PUBLIC_API_BASE_URL + "/scopes/get", scopesSearchDataJson);
+            let scopesData = await GetScopes(process.env.NEXT_PUBLIC_API_BASE_URL + "/scopes/get", scopesSearchDataJson, session.accessToken);
             if (isMountedRef()) {
               if (scopesData.scopes) {
                 setScopes(scopesData.scopes);
@@ -95,10 +97,10 @@ const DetailForm = ({roleData, rolePutUrl, isCreate}) => {
               let result = {};
               if (isCreate) {
                   console.log(rolePutUrl)
-                result = await CreateRole(rolePutUrl, roleModel);
+                result = await CreateRole(rolePutUrl, roleModel, session.accessToken);
               }
               else {
-                result = await UpdateRoleData(rolePutUrl, roleModel);
+                result = await UpdateRoleData(rolePutUrl, roleModel, session.accessToken);
               }
     
               if (isMountedRef()) {
