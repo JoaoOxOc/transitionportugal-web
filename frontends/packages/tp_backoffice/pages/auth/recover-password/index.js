@@ -115,19 +115,30 @@ function RecoverPasswordBasic() {
       }),
     onSubmit: async (values, helpers) => {
       try {
-        const resetResult = await genericFetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/user/recover", "POST", null,{
+        const resetResult = await fetch(process.env.NEXT_PUBLIC_AUTH_URL + "/requestUserRecover", {
+          method: 'POST',
+          body: JSON.stringify({
             username: values.username
+          }),
+          headers: { 
+            "Content-Type": "application/json",
+            "credentials": 'include'
+          }
         });
-        console.log(resetResult);
-        if (resetResult.status === "Success") {
+        // const resetResult = await genericFetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/user/recover", "POST", null,{
+        //     username: values.username
+        // });
+        const resetResultParsed = await resetResult.json();
+
+        if (resetResultParsed.status === "Success") {
             setOpenDialog(true);
             helpers.setSubmitting(false);
         }
         else {
             helpers.setStatus({ success: false });
-            helpers.setErrors({ submit: resetResult.statusText });
+            helpers.setErrors({ submit: resetResultParsed.statusText });
             helpers.setSubmitting(false);
-            if (resetResult.statusText === "Unauthorized") {
+            if (resetResultParsed.statusText === "Unauthorized") {
                 setDisplayRecoverLink(true);
                 enqueueSnackbar(t('MESSAGES.tokenExpiredError'), {
                   variant: 'error',
