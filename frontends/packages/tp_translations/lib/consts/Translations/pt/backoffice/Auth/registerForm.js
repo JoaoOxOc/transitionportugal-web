@@ -63,6 +63,7 @@ export var REGISTERFORM_TRANSLATIONS = deepFreeze({
         passwordTooSmall: "A tua palavra-passe tem de ter pelo menos {{number}} caracteres",
         passwordTooBig: "A tua palavra-passe não pode ter mais do que {{number}} caracteres",
         passwordsNoMatch: "As palavras-passe inseridas têm de ser idênticas",
+        passwordComplexityError: "A sua palavra-passe tem de conter, pelo menos, 1 símbolo, 1 número, 1 letra maiúscula e outra minúscula.",
         confirmPasswordRequired: "Por favor confirma a tua palavra-passe inserida",
         termsRequired: "Por favor aceite os nossos termos e condições",
         associationEmailInvalid: "O email fornecido deverá ser um endereço de email válido",
@@ -78,6 +79,7 @@ export var REGISTERFORM_TRANSLATIONS = deepFreeze({
         associationTownTooBig: "O concelho da Iniciativa/Movimento não pode ter mais do que {{number}} caracteres",
         associationTownRequired: "O concelho da Iniciativa/Movimento é obrigatório",
         confirmationEmailSent: "O pedido de confirmação do email foi enviado para cada um dos emails",
+        serverError: "Ocorreu um erro desconhecido. Por favor tente novamente",
         successfulMessage: "Obrigado pelo teu registo. Os teus dados estão agora a ser verificados. Por favor aguarda por um email com mais instruções"
     }
 });

@@ -370,7 +370,8 @@ namespace UserService.Controllers
                 return new ObjectResult(new
                 {
                     accessToken = newAccessTokenData.Token,
-                    refreshToken = newRefreshTokenData.Key
+                    refreshToken = newRefreshTokenData.Key,
+                    expiration = newAccessTokenData.ExpiresAt
                 });
             }
             catch (Exception ex)

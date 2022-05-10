@@ -79,11 +79,20 @@ function ConfirmEmail() {
         window.addEventListener('newLang', handleNewMessage);
 
         const verifyEmail = async (token) => {
-            const emailVerified = await genericFetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/user/confirmemail", "GET", token,{});
+            const emailVerified = await fetch(process.env.NEXT_PUBLIC_AUTH_URL + "/confirmEmail" + "?t="+ token, {
+              method: 'GET',
+              headers: { 
+                "Content-Type": "application/json",
+                "credentials": 'include'
+              }
+            });
+            const emailVerifiedParsed = await emailVerified.json();
+            console.log(emailVerifiedParsed);
+            // const emailVerified = await genericFetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/user/confirmemail", "GET", token,{});
             if (emailVerified.status == 401) {
                 setEmailVerified(false);
             }
-            else if (emailVerified.message == "email_verified") {
+            else if (emailVerifiedParsed.message == "email_verified") {
                 setEmailVerified(true);
             }
         };

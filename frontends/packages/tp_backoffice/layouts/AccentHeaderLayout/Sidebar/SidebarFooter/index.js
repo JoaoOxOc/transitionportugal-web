@@ -8,13 +8,14 @@ import {
   styled,
   useTheme
 } from '@mui/material';
-import { i18nextAbout } from "@transitionpt/translations";
+import { i18nextSidemenu } from "@transitionpt/translations";
 import EventTwoToneIcon from '@mui/icons-material/EventTwoTone';
 import PowerSettingsNewTwoToneIcon from '@mui/icons-material/PowerSettingsNewTwoTone';
 import SmsTwoToneIcon from '@mui/icons-material/SmsTwoTone';
 import Link from '../../../../components/Link';
-import { useAuth } from '../../../../hooks/useAuth';
+// import { useAuth } from '../../../../hooks/useAuth';
 import { useRouter } from 'next/router';
+import { signOut } from "next-auth/react";
 
 const LightTooltip = styled(({ className, ...props }) => (
   <Tooltip {...props} classes={{ popper: className }} />
@@ -32,15 +33,16 @@ const LightTooltip = styled(({ className, ...props }) => (
 }));
 
 function SidebarFooter() {
-  const { t } = i18nextAbout;
+  const { t } = i18nextSidemenu;
   const theme = useTheme();
-  const { logout } = useAuth();
+  // const { logout } = useAuth();
   const router = useRouter();
 
   const handleLogout = async () => {
     try {
-      await logout();
-      router.push('/auth/login/cover');
+      // await logout();
+      // router.push('/auth/login/cover');
+      signOut({ callbackUrl: '/auth/login/cover?backTo=' + router.asPath });
     } catch (err) {
       console.error(err);
     }
@@ -109,7 +111,7 @@ function SidebarFooter() {
           </IconButton>
         </Badge>
       </LightTooltip>
-      <LightTooltip placement="top" arrow title={t('Logout')}>
+      <LightTooltip placement="top" arrow title={t('SIDEMENU_USER.logout')}>
         <IconButton
           sx={{
             background: `${theme.colors.alpha.black[10]}`,

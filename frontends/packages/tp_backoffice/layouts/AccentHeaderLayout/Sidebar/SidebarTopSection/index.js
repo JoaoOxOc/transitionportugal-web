@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { useAuth } from '../../../../hooks/useAuth';
+// import { useAuth } from '../../../../hooks/useAuth';
 import { useRouter } from 'next/router';
 
 import {
@@ -22,6 +22,7 @@ import AccountBoxTwoToneIcon from '@mui/icons-material/AccountBoxTwoTone';
 import LockOpenTwoToneIcon from '@mui/icons-material/LockOpenTwoTone';
 import AccountTreeTwoToneIcon from '@mui/icons-material/AccountTreeTwoTone';
 import Link from '../../../../components/Link';
+import { useSession, signOut } from "next-auth/react";
 
 const UserBoxButton = styled(Button)(
   ({ theme }) => `
@@ -77,8 +78,9 @@ const UserBoxDescription = styled(Typography)(
 function SidebarTopSection() {
   const { t } = i18nextSidemenu;
 
-  const auth = useAuth();
-  const { logout } = useAuth();
+  // const auth = useAuth();
+  const { data: session, status } = useSession();
+  // const { logout } = useAuth();
   const router = useRouter();
 
   const ref = useRef(null);
@@ -95,8 +97,9 @@ function SidebarTopSection() {
   const handleLogout = async () => {
     try {
       handleClose();
-      await logout();
-      router.push('/auth/login/cover');
+      // await logout();
+      // router.push('/auth/login/cover');
+      signOut({ callbackUrl: '/auth/login/cover?backTo=' + router.asPath });
     } catch (err) {
       console.error(err);
     }
@@ -104,10 +107,10 @@ function SidebarTopSection() {
 
   return (
     <>
-      {(auth && auth.user) &&
+      {(session && session.user && !session.token.error) &&
         <>
       <UserBoxButton fullWidth color="secondary" ref={ref} onClick={handleOpen}>
-        <Avatar variant="rounded" alt={auth.user.name} src={auth.user.avatar} />
+        <Avatar variant="rounded" alt={session.user.name} src={session.user.avatar} />
         <Box
           display="flex"
           flex={1}
@@ -115,9 +118,9 @@ function SidebarTopSection() {
           justifyContent="space-between"
         >
           <UserBoxText>
-            <UserBoxLabel variant="body1">{auth.user.name}</UserBoxLabel>
+            <UserBoxLabel variant="body1">{session.user.name}</UserBoxLabel>
             <UserBoxDescription variant="body2">
-              {auth.user.jobTitle}
+              {session.user.jobTitle}
             </UserBoxDescription>
           </UserBoxText>
           <UnfoldMoreTwoToneIcon
@@ -148,13 +151,13 @@ function SidebarTopSection() {
           }}
           display="flex"
         >
-          <Avatar variant="rounded" alt={auth.user.name} src={auth.user.avatar} />
+          <Avatar variant="rounded" alt={session.user.name} src={session.user.avatar} />
           <UserBoxText>
             <UserBoxLabel className="popoverTypo" variant="body1">
-              {auth.user.name}
+              {session.user.name}
             </UserBoxLabel>
             <UserBoxDescription className="popoverTypo" variant="body2">
-              {auth.user.jobTitle}
+              {session.user.jobTitle}
             </UserBoxDescription>
           </UserBoxText>
         </MenuUserBox>

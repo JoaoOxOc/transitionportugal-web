@@ -16,7 +16,7 @@ import { Box,
 } from '@mui/material';
 
 import { useRefMounted } from '../../../../hooks/useRefMounted';
-
+import { useSession } from "next-auth/react";
 import { GetEmailTemplateData } from '../../../../services/emailTemplates';
 
 import { i18nextEmailTemplateDetails } from "@transitionpt/translations";
@@ -28,6 +28,7 @@ function EmailTemplateDetails({isCreate, isEditor}) {
     const [emailTemplate, setEmailTemplate] = useState(null);
     const [emailTemplateError, setEmailTemplateError] = useState(null);
     useErrorHandler(emailTemplateError);
+    const { data: session, status } = useSession();
     const { t } = i18nextEmailTemplateDetails;
     let emailTemplatesListTitle = t('LIST.emailTemplatesTitle');
     const emailTemplatesListUri = "/management/settings/emailTemplate";
@@ -36,7 +37,7 @@ function EmailTemplateDetails({isCreate, isEditor}) {
 
     const getTemplateData = useCallback(async () => {
         try {
-            let templateData = await GetEmailTemplateData(process.env.NEXT_PUBLIC_API_BASE_URL + emailTemplateGetUri);
+            let templateData = await GetEmailTemplateData(process.env.NEXT_PUBLIC_API_BASE_URL + emailTemplateGetUri, session.accessToken);
             if (isMountedRef()) {
               if (templateData.status) {
                 setEmailTemplateError(templateData);

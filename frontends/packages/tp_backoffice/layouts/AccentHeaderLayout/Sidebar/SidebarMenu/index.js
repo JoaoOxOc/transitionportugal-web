@@ -173,11 +173,11 @@ const renderSectionOrItem = (sectionData, userRole, userScopes) => {
   return validateRole && validateScope;
 }
 
-function SidebarMenu() {
+function SidebarMenu({session}) {
   const { t } = i18nextSidemenu;
   const router = useRouter();
-  const userScopes = getTokenScopes(window.localStorage.getItem('accessToken'));
-  const userRole = getTokenRole(window.localStorage.getItem('accessToken'));
+  const userScopes = getTokenScopes(session.accessToken);
+  const userRole = getTokenRole(session.accessToken);
   const [ selectedIndex, setSelectedIndex ] = useState(0);
 
   const handlePathChange = () => {

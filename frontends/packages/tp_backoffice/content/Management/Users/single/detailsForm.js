@@ -20,7 +20,7 @@ import { useFormik } from 'formik';
 import { useErrorHandler } from 'react-error-boundary';
 import { useSnackbar } from 'notistack';
 import { useRefMounted } from '../../../../hooks/useRefMounted';
-
+import { useSession } from "next-auth/react";
 import { UpdateUserData } from '../../../../services/users';
 
 import { i18nextUserDetails } from "@transitionpt/translations";
@@ -31,7 +31,8 @@ function UserDetailsForm({userData, userPutUrl, edittingCard, cancelEditting}) {
     const { enqueueSnackbar } = useSnackbar();
     const [userError, setUserError] = useState(null);
     useErrorHandler(userError);
-
+    const { data: session, status } = useSession();
+    
     const formik = useFormik({
         initialValues: userData,
         enableReinitialize: true,
@@ -58,7 +59,7 @@ function UserDetailsForm({userData, userPutUrl, edittingCard, cancelEditting}) {
                 phone: values.phone
               }
               console.log(userUpdateModel)
-              const result = await UpdateUserData(userPutUrl, userUpdateModel);
+              const result = await UpdateUserData(userPutUrl, userUpdateModel, session.accessToken);
     
               if (isMountedRef()) {
                   if (result.status) {

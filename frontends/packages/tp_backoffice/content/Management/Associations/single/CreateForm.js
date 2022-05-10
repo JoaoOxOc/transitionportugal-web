@@ -17,13 +17,13 @@ import { useErrorHandler } from 'react-error-boundary';
 import { useRouter } from 'next/router';
 import { useSnackbar } from 'notistack';
 import { useRefMounted } from '../../../../hooks/useRefMounted';
-
+import { useSession } from "next-auth/react";
 import { CreateAssociation } from '../../../../services/associations';
 
 import { i18nextAssociationDetails } from "@transitionpt/translations";
 
 const CreateForm = ({associationPutUrl}) => {
-
+    const { data: session, status } = useSession();
     
     
     enqueueSnackbar(t('MESSAGES.clientAppCreatedSuccessfully', {clientName: values.name}), {

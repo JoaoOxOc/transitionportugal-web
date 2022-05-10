@@ -1,11 +1,11 @@
 import { buildRouteQuery, genericFetch } from './genericFetch';
 
-export const GetRoles = async(rolesApiUri, searchDataJson) => {
+export const GetRoles = async(rolesApiUri, searchDataJson, bearerToken) => {
     rolesApiUri += buildRouteQuery(searchDataJson);
     console.log(rolesApiUri);
-    let response = await genericFetch(rolesApiUri, "GET", window.localStorage.getItem('accessToken'),{});
+    let response = await genericFetch(rolesApiUri, "GET", bearerToken,{});
     if (response.requestAgain) {
-        response = await genericFetch(rolesApiUri, "GET", window.localStorage.getItem('accessToken'),{});
+        response = await genericFetch(rolesApiUri, "GET", bearerToken,{});
     }
     else if (response.status == 404) {
         response.roles = [];
@@ -14,10 +14,10 @@ export const GetRoles = async(rolesApiUri, searchDataJson) => {
     return response;
 }
 
-export const GetRoleData = async(rolesApiUri) => {
-    let response = await genericFetch(rolesApiUri, "GET", window.localStorage.getItem('accessToken'),{});
+export const GetRoleData = async(rolesApiUri, bearerToken) => {
+    let response = await genericFetch(rolesApiUri, "GET", bearerToken,{});
     if (response.requestAgain) {
-        response = await genericFetch(rolesApiUri, "GET", window.localStorage.getItem('accessToken'),{});
+        response = await genericFetch(rolesApiUri, "GET", bearerToken,{});
     }
     else if (response.status == 404) {
         response.role = {};
@@ -25,10 +25,10 @@ export const GetRoleData = async(rolesApiUri) => {
     return response;
 }
 
-export const UpdateRoleData = async(rolesApiUri, roleDataJson) => {
-    let response = await genericFetch(rolesApiUri, "PUT", window.localStorage.getItem('accessToken'),roleDataJson);
+export const UpdateRoleData = async(rolesApiUri, roleDataJson, bearerToken) => {
+    let response = await genericFetch(rolesApiUri, "PUT", bearerToken,roleDataJson);
     if (response.requestAgain) {
-        response = await genericFetch(rolesApiUri, "PUT", window.localStorage.getItem('accessToken'),roleDataJson);
+        response = await genericFetch(rolesApiUri, "PUT", bearerToken,roleDataJson);
     }
     else if (response.status == 404) {
         response.role = {};
@@ -37,10 +37,10 @@ export const UpdateRoleData = async(rolesApiUri, roleDataJson) => {
     return response;
 }
 
-export const CreateRole = async(rolesApiUri, roleDataJson) => {
-    let response = await genericFetch(rolesApiUri, "POST", window.localStorage.getItem('accessToken'),roleDataJson);
+export const CreateRole = async(rolesApiUri, roleDataJson, bearerToken) => {
+    let response = await genericFetch(rolesApiUri, "POST", bearerToken,roleDataJson);
     if (response.requestAgain) {
-        response = await genericFetch(rolesApiUri, "POST", window.localStorage.getItem('accessToken'),roleDataJson);
+        response = await genericFetch(rolesApiUri, "POST", bearerToken,roleDataJson);
     }
     else if (response.status == 404) {
         response.role = {};

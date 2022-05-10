@@ -1,11 +1,11 @@
 import { buildRouteQuery, genericFetch } from './genericFetch';
 
-export const GetClientApps = async(clientAppsUri, searchDataJson) => {
+export const GetClientApps = async(clientAppsUri, searchDataJson, bearerToken) => {
     clientAppsUri += buildRouteQuery(searchDataJson);
     console.log(clientAppsUri);
-    let response = await genericFetch(clientAppsUri, "GET", window.localStorage.getItem('accessToken'),{});
+    let response = await genericFetch(clientAppsUri, "GET", bearerToken,{});
     if (response.requestAgain) {
-        response = await genericFetch(clientAppsUri, "GET", window.localStorage.getItem('accessToken'),{});
+        response = await genericFetch(clientAppsUri, "GET", bearerToken,{});
     }
     else if (response.status == 404) {
         response.clientApps = [];
@@ -14,10 +14,10 @@ export const GetClientApps = async(clientAppsUri, searchDataJson) => {
     return response;
 }
 
-export const GetClientAppData = async(clientAppsUri) => {
-    let response = await genericFetch(clientAppsUri, "GET", window.localStorage.getItem('accessToken'),{});
+export const GetClientAppData = async(clientAppsUri, bearerToken) => {
+    let response = await genericFetch(clientAppsUri, "GET", bearerToken,{});
     if (response.requestAgain) {
-        response = await genericFetch(clientAppsUri, "GET", window.localStorage.getItem('accessToken'),{});
+        response = await genericFetch(clientAppsUri, "GET", bearerToken,{});
     }
     else if (response.status == 404) {
         response.clientApp = {};
@@ -25,10 +25,10 @@ export const GetClientAppData = async(clientAppsUri) => {
     return response;
 }
 
-export const UpdateClientAppData = async(clientAppsUri, clientAppDataJson) => {
-    let response = await genericFetch(clientAppsUri, "PUT", window.localStorage.getItem('accessToken'),clientAppDataJson);
+export const UpdateClientAppData = async(clientAppsUri, clientAppDataJson, bearerToken) => {
+    let response = await genericFetch(clientAppsUri, "PUT", bearerToken,clientAppDataJson);
     if (response.requestAgain) {
-        response = await genericFetch(clientAppsUri, "PUT", window.localStorage.getItem('accessToken'),clientAppDataJson);
+        response = await genericFetch(clientAppsUri, "PUT", bearerToken,clientAppDataJson);
     }
     else if (response.status == 404) {
         response.clientApp = {};
@@ -36,10 +36,10 @@ export const UpdateClientAppData = async(clientAppsUri, clientAppDataJson) => {
     return response;
 }
 
-export const CreateClientAppData = async(clientAppsUri, clientAppDataJson) => {
-    let response = await genericFetch(clientAppsUri, "POST", window.localStorage.getItem('accessToken'),clientAppDataJson);
+export const CreateClientAppData = async(clientAppsUri, clientAppDataJson, bearerToken) => {
+    let response = await genericFetch(clientAppsUri, "POST", bearerToken,clientAppDataJson);
     if (response.requestAgain) {
-        response = await genericFetch(clientAppsUri, "POST", window.localStorage.getItem('accessToken'),clientAppDataJson);
+        response = await genericFetch(clientAppsUri, "POST", bearerToken,clientAppDataJson);
     }
     else if (response.status == 404) {
         response.clientApp = {};

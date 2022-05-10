@@ -22,6 +22,7 @@ import {
 import Loader from '../../../components/Loader';
 import { useRefMounted } from '../../../hooks/useRefMounted';
 import { SettingsSearchContext } from '../../../contexts/Search/SettingsSearchContext';
+import { useSession } from "next-auth/react";
 import { GetSettings } from '../../../services/settings';
 import { useErrorHandler } from 'react-error-boundary';
 
@@ -71,6 +72,7 @@ const Results = ({ settingsType }) => {
     useErrorHandler(settingsError);
     const [settings, setSettings] = useState(null);
     const [totalSsettings, setTotalSettings] = useState(0);
+    const { data: session, status } = useSession();
 
     let settingsUri = "";
     let settingDetailsBaseUri = "";
@@ -121,7 +123,7 @@ const Results = ({ settingsType }) => {
 
     const getSettingsData = useCallback(async (searchDataJson) => {
       try {
-        let settingsData = await GetSettings(process.env.NEXT_PUBLIC_API_BASE_URL + settingsUri, searchDataJson);
+        let settingsData = await GetSettings(process.env.NEXT_PUBLIC_API_BASE_URL + settingsUri, searchDataJson, session.accessToken);
         
         if (isMountedRef()) {
           if (settingsData.settings) {

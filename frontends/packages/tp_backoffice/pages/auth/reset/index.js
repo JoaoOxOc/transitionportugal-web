@@ -119,17 +119,30 @@ function ResetPassword() {
           }),
         onSubmit: async (values, helpers) => {
           try {
-            const resetResult = await genericFetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/user/reset", "POST", t,{
+            const resetResult = await fetch(process.env.NEXT_PUBLIC_AUTH_URL + "/userRecoverPassword" + "?t="+ t, {
+              method: 'POST',
+              body: JSON.stringify({
                 password: values.password,
                 confirmPassword: values.confirmPassword
+              }),
+              headers: { 
+                "Content-Type": "application/json",
+                "credentials": 'include'
+              }
             });
-            if (resetResult.status === "Success") {
+            // const resetResult = await genericFetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/user/reset", "POST", t,{
+            //     password: values.password,
+            //     confirmPassword: values.confirmPassword
+            // });
+            const resetResultParsed = await resetResult.json();
+
+            if (resetResultParsed.status === "Success") {
                 handleOpenDialog();
                 helpers.setSubmitting(false);
             }
             else {
                 helpers.setStatus({ success: false });
-                helpers.setErrors({ submit: resetResult.statusText });
+                helpers.setErrors({ submit: resetResultParsed.statusText });
                 helpers.setSubmitting(false);
                 if (resetResult.status === 403) {
                     enqueueSnackbar(i18nextReset.t('MESSAGES.passwordComplexityError'), {
@@ -142,7 +155,7 @@ function ResetPassword() {
                       TransitionComponent: Slide
                     });
                 }
-                else if (resetResult.statusText === "Unauthorized") {
+                else if (resetResult.status === 401) {
                     setDisplayRecoverLink(true);
                     enqueueSnackbar(i18nextReset.t('MESSAGES.tokenExpiredError'), {
                       variant: 'error',

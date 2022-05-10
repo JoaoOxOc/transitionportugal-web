@@ -18,6 +18,7 @@ import { useRouter } from 'next/router';
 import { useSnackbar } from 'notistack';
 import { useRefMounted } from '../../../../../hooks/useRefMounted';
 
+import { useSession } from "next-auth/react";
 import { UpdateClientAppData, CreateClientAppData } from '../../../../../services/clientApps';
 
 import { i18nextClientDetails } from "@transitionpt/translations";
@@ -29,6 +30,7 @@ const DetailForm = ({clientAppData, clientAppPutUrl, isCreate}) => {
     const { enqueueSnackbar } = useSnackbar();
     const [clientAppsError, setClientAppsError] = useState(null);
     useErrorHandler(clientAppsError);
+    const { data: session, status } = useSession();
 
     const initValues = {
         name: '',
@@ -62,10 +64,10 @@ const DetailForm = ({clientAppData, clientAppPutUrl, isCreate}) => {
               let result = {};
               if (isCreate) {
                   console.log(clientAppPutUrl)
-                result = await CreateClientAppData(clientAppPutUrl, clientAppModel);
+                result = await CreateClientAppData(clientAppPutUrl, clientAppModel, session.accessToken);
               }
               else {
-                result = await UpdateClientAppData(clientAppPutUrl, clientAppModel);
+                result = await UpdateClientAppData(clientAppPutUrl, clientAppModel, session.accessToken);
               }
     
               if (isMountedRef()) {

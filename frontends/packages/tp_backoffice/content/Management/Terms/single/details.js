@@ -17,7 +17,7 @@ import { Box,
 } from '@mui/material';
 
 import { useRefMounted } from '../../../../hooks/useRefMounted';
-
+import { useSession } from "next-auth/react";
 import { GetTermsRecord } from '../../../../services/terms';
 
 import { i18nextTermsDetails } from "@transitionpt/translations";
@@ -29,6 +29,7 @@ function TermsDetails({isCreate}) {
     const [terms, setTerms] = useState(null);
     const [termsError, setTermsError] = useState(null);
     useErrorHandler(termsError);
+    const { data: session, status } = useSession();
     const { t } = i18nextTermsDetails;
     const termsListUri = "/management/privacy";
     let termsUri = "/terms/get/" + router.query.termsId;
@@ -36,7 +37,7 @@ function TermsDetails({isCreate}) {
 
     const getTermsData = useCallback(async () => {
         try {
-            let termsData = await GetTermsRecord(process.env.NEXT_PUBLIC_API_BASE_URL + termsUri);
+            let termsData = await GetTermsRecord(process.env.NEXT_PUBLIC_API_BASE_URL + termsUri, session.accessToken);
             console.log(termsData)
             if (isMountedRef()) {
               if (termsData.status) {

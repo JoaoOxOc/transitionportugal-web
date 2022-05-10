@@ -1,11 +1,11 @@
 import { buildRouteQuery, genericFetch } from './genericFetch';
 
-export const GetSettings = async(settingsUri, searchDataJson) => {
+export const GetSettings = async(settingsUri, searchDataJson, bearerToken) => {
     settingsUri += buildRouteQuery(searchDataJson);
     console.log(settingsUri);
-    let response = await genericFetch(settingsUri, "GET", window.localStorage.getItem('accessToken'),{});
+    let response = await genericFetch(settingsUri, "GET", bearerToken,{});
     if (response.requestAgain) {
-        response = await genericFetch(settingsUri, "GET", window.localStorage.getItem('accessToken'),{});
+        response = await genericFetch(settingsUri, "GET", bearerToken,{});
     }
     else if (response.status == 404) {
         response.settings = [];
@@ -14,10 +14,10 @@ export const GetSettings = async(settingsUri, searchDataJson) => {
     return response;
 }
 
-export const GetSettingData = async(settingsUri) => {
-    let response = await genericFetch(settingsUri, "GET", window.localStorage.getItem('accessToken'),{});
+export const GetSettingData = async(settingsUri, bearerToken) => {
+    let response = await genericFetch(settingsUri, "GET", bearerToken,{});
     if (response.requestAgain) {
-        response = await genericFetch(settingsUri, "GET", window.localStorage.getItem('accessToken'),{});
+        response = await genericFetch(settingsUri, "GET", bearerToken,{});
     }
     else if (response.status == 404) {
         response.settings = {};
@@ -25,10 +25,10 @@ export const GetSettingData = async(settingsUri) => {
     return response;
 }
 
-export const UpdateSettingData = async(settingsUri, settingDataJson) => {
-    let response = await genericFetch(settingsUri, "PUT", window.localStorage.getItem('accessToken'),settingDataJson);
+export const UpdateSettingData = async(settingsUri, settingDataJson, bearerToken) => {
+    let response = await genericFetch(settingsUri, "PUT", bearerToken,settingDataJson);
     if (response.requestAgain) {
-        response = await genericFetch(settingsUri, "PUT", window.localStorage.getItem('accessToken'),settingDataJson);
+        response = await genericFetch(settingsUri, "PUT", bearerToken,settingDataJson);
     }
     else if (response.status == 404) {
         response.setting = {};

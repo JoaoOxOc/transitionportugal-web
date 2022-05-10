@@ -32,6 +32,7 @@ import {
 import Loader from '../../../../components/Loader';
 import { useRefMounted } from '../../../../hooks/useRefMounted';
 import { ClientAppsSearchContext } from '../../../../contexts/Search/ClientAppsSearchContext';
+import { useSession } from "next-auth/react";
 import { GetClientApps } from '../../../../services/clientApps';
 import { useErrorHandler } from 'react-error-boundary';
 
@@ -85,6 +86,7 @@ const Results = () => {
     useErrorHandler(clientAppsError);
     const [clientApps, setClientApps] = useState(null);
     const [totalClientApps, setTotalClientApps] = useState(0);
+    const { data: session, status } = useSession();
 
     let clientAppsUri = "/app/client/get";
     let clientAppDetailsBaseUri = "/management/app/clients/single/";
@@ -122,7 +124,7 @@ const Results = () => {
 
     const getClientAppsData = useCallback(async (searchDataJson) => {
       try {
-        let clientAppsData = await GetClientApps(process.env.NEXT_PUBLIC_API_BASE_URL + clientAppsUri, searchDataJson);
+        let clientAppsData = await GetClientApps(process.env.NEXT_PUBLIC_API_BASE_URL + clientAppsUri, searchDataJson, session.accessToken);
         
         if (isMountedRef()) {
           if (clientAppsData.clientApps) {
