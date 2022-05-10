@@ -77,7 +77,7 @@ import Credentials from 'next-auth/providers/credentials'
       ...token,
       accessToken: refreshedTokens.accessToken,
       accessTokenExpires: refreshedTokens.expiration * 1000,
-      refreshToken: refreshedTokens.refresh_token ?? token.refreshToken, // Fall back to old refresh token
+      refreshToken: refreshedTokens.refreshToken ?? token.refreshToken, // Fall back to old refresh token
     }
   } catch (error) {
     console.log(error)

@@ -62,6 +62,7 @@ export declare const REGISTERFORM_TRANSLATIONS: {
         readonly passwordTooSmall: "A tua palavra-passe tem de ter pelo menos {{number}} caracteres";
         readonly passwordTooBig: "A tua palavra-passe não pode ter mais do que {{number}} caracteres";
         readonly passwordsNoMatch: "As palavras-passe inseridas têm de ser idênticas";
+        readonly passwordComplexityError: "A sua palavra-passe tem de conter, pelo menos, 1 símbolo, 1 número, 1 letra maiúscula e outra minúscula.";
         readonly confirmPasswordRequired: "Por favor confirma a tua palavra-passe inserida";
         readonly termsRequired: "Por favor aceite os nossos termos e condições";
         readonly associationEmailInvalid: "O email fornecido deverá ser um endereço de email válido";
@@ -77,6 +78,7 @@ export declare const REGISTERFORM_TRANSLATIONS: {
         readonly associationTownTooBig: "O concelho da Iniciativa/Movimento não pode ter mais do que {{number}} caracteres";
         readonly associationTownRequired: "O concelho da Iniciativa/Movimento é obrigatório";
         readonly confirmationEmailSent: "O pedido de confirmação do email foi enviado para cada um dos emails";
+        readonly serverError: "Ocorreu um erro desconhecido. Por favor tente novamente";
         readonly successfulMessage: "Obrigado pelo teu registo. Os teus dados estão agora a ser verificados. Por favor aguarda por um email com mais instruções";
     };
 };
