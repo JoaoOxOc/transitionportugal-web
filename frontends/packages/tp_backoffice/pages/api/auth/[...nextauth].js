@@ -161,10 +161,10 @@ export default NextAuth({
               "ClientAuthorization": process.env.AUTH_API_CLIENT_SECRET
             }
           })
-          if (!res.ok) {
-            const resultErrorBody = await res.text();
-            throw new Error("ApiError: " + resultErrorBody);
-          }
+          // if (!res.ok) {
+          //   const resultErrorBody = await res.text();
+          //   throw new Error("ApiError: " + resultErrorBody);
+          // }
           // The Credentials provider can only be used if JSON Web Tokens are enabled for sessions.
           // Users authenticated with the Credentials provider are not persisted in the database.
           const user = await res.json();
@@ -200,7 +200,6 @@ export default NextAuth({
       session.scopes = token.scope;
       session.error = token.error;
       session.token = token;
-      session.user2 = user;
 
       // const apiUrl = process.env.API_ENDPOINT+"odoorest/nextsession";
       // const res = await fetch(apiUrl, {

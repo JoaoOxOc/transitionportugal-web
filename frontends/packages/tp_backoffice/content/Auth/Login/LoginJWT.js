@@ -101,7 +101,6 @@ export const LoginJWT = ({ providers, csrfToken, ...props }) => {
         terms: values.terms,
         callbackUrl: `${window.location.origin + (backTo ? backTo : '')}`,
       });
-      console.log(res);
       if (res?.error) {
         helpers.setStatus({ success: false });
         helpers.setErrors({ submit: res.error });
