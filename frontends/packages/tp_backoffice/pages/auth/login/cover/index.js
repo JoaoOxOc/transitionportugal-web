@@ -99,13 +99,20 @@ const TypographyH1 = styled(Typography)(
 );
 
 
-async function LoginCover({ providers, csrfToken }) {
-  const csrft = await getCsrfToken();
-  console.log(csrft, csrfToken)
+function LoginCover({ providers, csrfToken }) {
   const { method } = useAuth();
   const { t } = i18nextLogin;
   const [currentLang, setLang] = useState("pt");
+  const [csrft, setCsrfToken] = useState(csrfToken);
   i18nextLogin.changeLanguage(currentLang);
+
+  if (!csrft) {
+    getCsrfToken().then((t) => {
+      console.log(t)
+      setCsrfToken(t);
+    });
+  }
+  console.log(csrft)
 
   useEffect(() => {
     const handleNewMessage = (event) => {

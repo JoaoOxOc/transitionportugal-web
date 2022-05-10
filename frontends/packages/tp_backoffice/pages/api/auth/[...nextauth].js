@@ -107,6 +107,7 @@ import Credentials from 'next-auth/providers/credentials'
  */
  const authOptions = {
   secret: process.env.NEXTAUTH_SECRET,
+  useSecureCookies: false,
   providers: [
     // GitHub({
     //   clientId: process.env.GITHUB_CLIENT_ID,

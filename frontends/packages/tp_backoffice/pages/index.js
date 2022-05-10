@@ -24,12 +24,10 @@ function DashboardReports(props) {
   );
 }
 
-DashboardReports.getLayout = async (page) => {
+DashboardReports.getLayout = (page) => {
   const { props } = page;
-  const session = await getSession();
-  console.log(session);
     return (
-      <Authenticated session={props.children.props.session ?? session}>
+      <Authenticated session={props.children.props.session}>
         <AccentHeaderLayout>{page}</AccentHeaderLayout>
     </Authenticated>
     );
