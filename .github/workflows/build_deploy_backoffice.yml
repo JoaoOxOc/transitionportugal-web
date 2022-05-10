@@ -54,11 +54,11 @@ jobs:
       run: TAG=$(echo $GITHUB_SHA | head -c7) && sed -i "s|<BACKOFFICE_IMAGE>|$REGISTRY_HOSTNAME/$IMAGE_NAME:latest|" $GITHUB_WORKSPACE/$BACKOFFICE_DEPLOYMENT_FILE_NAME
       
       
-    - name: replace backoffice private key
-      run: sed -i "s|<REPLACE_PRIVATE_KEY>|$BACKOFFICE_PRIVATE_SECRET|" $GITHUB_WORKSPACE/backoffice_private_key_store
+    #- name: replace backoffice private key
+    #  run: sed -i "s|<REPLACE_PRIVATE_KEY>|$BACKOFFICE_PRIVATE_SECRET|" $GITHUB_WORKSPACE/backoffice_private_key_store
       
-    - name: create backoffice private key secret
-      run: kubectl create secret generic backoffice-private-key-secret --from-file=backoffice-privatekey=$GITHUB_WORKSPACE/backoffice_private_key_store
+    #- name: create backoffice private key secret
+    #  run: kubectl create secret generic backoffice-private-key-secret --from-file=backoffice-privatekey=$GITHUB_WORKSPACE/backoffice_private_key_store
       
       
     - name: process backoffice environment variables
