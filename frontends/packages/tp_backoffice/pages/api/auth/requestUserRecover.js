@@ -1,8 +1,5 @@
-import {getSession} from "next-auth/react";
-
 export default async function requestRecoverHandler(req, res) {
     try {
-      const session = await getSession({req});
         const apiUrl = process.env.AUTH_API_URL+"/user/recover";
         // const {username} = req.query;
         const response = await fetch(apiUrl, {
@@ -17,7 +14,7 @@ export default async function requestRecoverHandler(req, res) {
         })
         if (!response.ok) {
           const resultErrorBody = await response.text();
-          res.status(response.status).json({ error: resultErrorBody + response.status, statusText: response.statusText, session: session, request: req.cookies });
+          res.status(response.status).json({ error: resultErrorBody + response.status, statusText: response.statusText });
         }
         
         const resetResult = await response.json();

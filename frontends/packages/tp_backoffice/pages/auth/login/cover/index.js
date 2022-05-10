@@ -108,11 +108,9 @@ function LoginCover({ providers, csrfToken }) {
 
   if (!csrft) {
     getCsrfToken().then((t) => {
-      console.log(t)
       setCsrfToken(t);
     });
   }
-  console.log(csrft)
 
   useEffect(() => {
     const handleNewMessage = (event) => {
