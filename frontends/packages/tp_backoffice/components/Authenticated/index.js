@@ -4,11 +4,9 @@ import PropTypes from 'prop-types';
 import { useAuth } from '../../hooks/useAuth';
 import { useSnackbar } from 'notistack';
 import { Slide } from '@mui/material';
-import {getSession} from "next-auth/react";
 
 export const Authenticated = (props) => {
   const { children, session } = props;
-  console.log(session);
   const auth = useAuth();
   const router = useRouter();
   const [verified, setVerified] = useState(false);

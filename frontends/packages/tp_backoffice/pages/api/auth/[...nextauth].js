@@ -105,7 +105,7 @@ import Credentials from 'next-auth/providers/credentials'
  * https://javascript.plainenglish.io/how-to-create-a-custom-sign-in-page-in-next-auth-1612dc17beb7
  * https://github.com/nextauthjs/next-auth/issues/1843
  */
- export const authOptions = {
+ const authOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   providers: [
     // GitHub({
