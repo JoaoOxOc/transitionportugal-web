@@ -13,7 +13,7 @@ import DashboardReportsContent from '../content/DashboardPages/reports';
 // https://next-auth.js.org/tutorials/refresh-token-rotation
 function DashboardReports(props) {
   const { data: session, status } = useSession();
-  console.log(session, props.session);
+  console.log(session, props);
   return (
     <>
       <Head>
@@ -37,10 +37,10 @@ DashboardReports.getLayout = (page) => {
 export const getServerSideProps = async ({req}) => {
   // get the session
   const session = await getSession({ req });
-  console.log(session, req);
+  const t = JSON.stringify(req.cookies);
 
   // // passing the session object to the page  
-  return { props: {session: session} };
+  return { props: {session: session, request: req.cookies} };
 }; 
 
 
