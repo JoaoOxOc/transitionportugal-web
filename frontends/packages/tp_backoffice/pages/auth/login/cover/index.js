@@ -100,7 +100,8 @@ const TypographyH1 = styled(Typography)(
 
 
 function LoginCover({ providers, csrfToken }) {
-  console.log(csrfToken)
+  const csrft = getCsrfToken();
+  console.log(csrft, csrfToken)
   const { method } = useAuth();
   const { t } = i18nextLogin;
   const [currentLang, setLang] = useState("pt");
@@ -344,9 +345,9 @@ LoginCover.getLayout = (page) => (
   </Guest>
 );
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps({req}) {
   const providers = await getProviders();
-  const csrfToken = await getCsrfToken(context);
+  const csrfToken = await getCsrfToken({req});
   return {
     props: { providers, csrfToken },
   }

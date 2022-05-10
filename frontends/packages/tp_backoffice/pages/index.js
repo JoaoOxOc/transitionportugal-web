@@ -34,9 +34,10 @@ DashboardReports.getLayout = (page) => {
 }
 
 
-export const getServerSideProps = async (context) => {
+export const getServerSideProps = async ({req}) => {
   // get the session
-  const session = await getSession(context);
+  const session = await getSession({ req });
+  console.log(session, req);
 
   // // passing the session object to the page  
   return { props: {session: session} };
