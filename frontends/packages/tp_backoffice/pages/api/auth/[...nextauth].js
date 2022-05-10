@@ -146,6 +146,9 @@ export default NextAuth({
           // (i.e., the request IP address)
           // const user = { id: 1, name: 'J Smith', email: 'jsmith@example.com', sessionId: 'c6216a1fc74d7320cf78eadd1645750600f133d9' }
           // return user;
+          if (!credentials.username || !credentials.password) {
+            throw new Error("CredentialsEmptyLoginError");
+          }
           console.log('next auth req: ', req, credentials);
           const apiUrl = process.env.AUTH_API_URL+"/user/login";
           const res = await fetch(apiUrl, {
@@ -158,17 +161,17 @@ export default NextAuth({
               "ClientAuthorization": process.env.AUTH_API_CLIENT_SECRET
             }
           })
+          if (!res.ok) {
+            const resultErrorBody = await res.text();
+            throw new Error("ApiError: " + resultErrorBody);
+          }
           // The Credentials provider can only be used if JSON Web Tokens are enabled for sessions.
           // Users authenticated with the Credentials provider are not persisted in the database.
           const user = await res.json();
     
           // If no error and we have user data, return it
           if (res.ok && user) {
-            // TODO: add authentication logic for microfrontend, for example session cookie (use user.sessionId)
             return user
-          }
-          if (!credentials.username || !credentials.password) {
-            throw new Error("CredentialsEmptyLoginError")
           }
           // Return null if user data could not be retrieved
           return null
