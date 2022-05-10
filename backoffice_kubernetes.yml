@@ -45,6 +45,36 @@ spec:
              secretKeyRef:
                name: transbackoffice-data
                key: home-base-url
+        - name: NEXT_PUBLIC_AUTH_URL
+          valueFrom:
+             secretKeyRef:
+               name: transbackoffice-data
+               key: backoffice-auth-url
+        - name: AUTH_API_URL
+          valueFrom:
+             secretKeyRef:
+               name: transbackoffice-data
+               key: backoffice-auth-api-url
+        - name: NEXTAUTH_SECRET
+          valueFrom:
+             secretKeyRef:
+               name: backoffice-private-key-secret
+               key: backoffice-privatekey
+        - name: NEXTAUTH_URL
+          valueFrom:
+             secretKeyRef:
+               name: transbackoffice-data
+               key: next-auth-url
+        - name: AUTH_API_CLIENT_ID
+          valueFrom:
+             secretKeyRef:
+               name: transbackoffice-data
+               key: backoffice-auth-client-id
+        - name: AUTH_API_CLIENT_SECRET
+          valueFrom:
+             secretKeyRef:
+               name: transbackoffice-data
+               key: backoffice-auth-client-secret
       imagePullSecrets:
       - name: do-photos-registry-secret
 ---
