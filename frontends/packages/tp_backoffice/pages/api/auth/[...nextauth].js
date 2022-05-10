@@ -13,6 +13,7 @@ import Credentials from 'next-auth/providers/credentials'
     const response = await fetch(apiUrl, {
       method: 'GET',
       headers: { 
+        'User-Agent': '*',
         "Content-Type": "application/json",
         "credentials": 'include',
         "ClientId": process.env.AUTH_API_CLIENT_ID,
@@ -55,6 +56,7 @@ import Credentials from 'next-auth/providers/credentials'
         refreshToken: token.user.refreshToken,
       }),
       headers: { 
+        'User-Agent': '*',
         "Content-Type": "application/json",
         "credentials": 'include',
         "ClientId": process.env.AUTH_API_CLIENT_ID,
@@ -155,6 +157,8 @@ export default NextAuth({
             method: 'POST',
             body: JSON.stringify(credentials),
             headers: { 
+              "Accept": 'application/json, text/plain, */*',
+              'User-Agent': '*',
               "Content-Type": "application/json",
               "credentials": 'include',
               "ClientId": process.env.AUTH_API_CLIENT_ID,
