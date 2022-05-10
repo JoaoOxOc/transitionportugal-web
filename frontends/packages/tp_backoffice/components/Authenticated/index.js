@@ -8,6 +8,7 @@ import {getSession} from "next-auth/react";
 
 export const Authenticated = (props) => {
   const { children, session } = props;
+  console.log(session);
   const auth = useAuth();
   const router = useRouter();
   const [verified, setVerified] = useState(false);
@@ -23,7 +24,7 @@ export const Authenticated = (props) => {
     //     pathname: '/auth/login/cover',
     //     query: { backTo: router.asPath }
     //   });
-    if (!session.token || session.token.error) {
+    if (!session || !session.token || session.token.error) {
       router.push({
         pathname: '/auth/login/cover',
         query: { backTo: router.asPath }

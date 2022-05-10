@@ -105,13 +105,14 @@ import Credentials from 'next-auth/providers/credentials'
  * https://javascript.plainenglish.io/how-to-create-a-custom-sign-in-page-in-next-auth-1612dc17beb7
  * https://github.com/nextauthjs/next-auth/issues/1843
  */
-export default NextAuth({
+ export const authOptions = {
+  secret: process.env.NEXTAUTH_SECRET,
   providers: [
-    // Providers.GitHub({
+    // GitHub({
     //   clientId: process.env.GITHUB_CLIENT_ID,
     //   clientSecret: process.env.GITHUB_CLIENT_SECRET
     // }),
-    // Providers.Email({
+    // Email({
     //   server: {
     //     port: 465,
     //     host: 'smtp.gmail.com',
@@ -267,4 +268,6 @@ export default NextAuth({
     //newUser: null // If set, new users will be directed here on first sign in
   },
   theme: "auto"
-})
+}
+
+export default NextAuth(authOptions);
