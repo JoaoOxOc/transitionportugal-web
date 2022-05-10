@@ -39,7 +39,6 @@ function Sidebar() {
   const closeSidebar = () => toggleSidebar();
   const theme = useTheme();
   const { data: session, status } = useSession();
-  console.log(session)
 
   return (
     <>
