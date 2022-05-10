@@ -62,7 +62,7 @@ jobs:
       
       
     - name: process backoffice environment variables
-      run: kubectl delete secret transbackoffice-data --ignore-not-found && kubectl create secret generic transbackoffice-data --from-literal=api-base-url=${{secrets.API_BASE_URL}} --build-arg=backoffice-auth-url=${{secrets.BACKOFFICE_AUTH_URL}} --build-arg=backoffice-auth-api-url=${{secrets.API_AUTH_URL}} --build-arg=next-auth-secret=${{secrets.BACKOFFICE_AUTH_SECRET}} --build-arg=next-auth-url=${{secrets.BACKOFFICE_AUTH_URL}} --build-arg=backoffice-auth-client-id=${{secrets.BACKOFFICE_AUTH_CLIENT_ID}} --build-arg=backoffice-auth-client-secret=${{secrets.BACKOFFICE_AUTH_CLIENT_SECRET}} --from-literal=auth-client-id=${{secrets.BACKOFFICE_CLIENT_ID}} --from-literal=auth-client-secret=${{secrets.BACKOFFICE_CLIENT_SECRET}} --from-literal=home-base-url=${{secrets.API_FRONTEND_BASE_URL}}
+      run: kubectl delete secret transbackoffice-data --ignore-not-found && kubectl create secret generic transbackoffice-data --from-literal=api-base-url=${{secrets.API_BASE_URL}} --build-arg=backoffice-auth-url=${{secrets.BACKOFFICE_AUTH_URL}} --build-arg=backoffice-auth-api-url=${{secrets.API_AUTH_URL}} --build-arg=next-auth-url=${{secrets.BACKOFFICE_AUTH_URL}} --build-arg=backoffice-auth-client-id=${{secrets.BACKOFFICE_AUTH_CLIENT_ID}} --build-arg=backoffice-auth-client-secret=${{secrets.BACKOFFICE_AUTH_CLIENT_SECRET}} --from-literal=auth-client-id=${{secrets.BACKOFFICE_CLIENT_ID}} --from-literal=auth-client-secret=${{secrets.BACKOFFICE_CLIENT_SECRET}} --from-literal=home-base-url=${{secrets.API_FRONTEND_BASE_URL}}
     
 
     - name: Deploy to DigitalOcean Kubernetes
