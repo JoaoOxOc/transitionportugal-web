@@ -183,6 +183,10 @@ import Credentials from 'next-auth/providers/credentials'
         }
     })
   ],
+  session: {
+    // Set to jwt in order to CredentialsProvider works properly
+    strategy: 'jwt'
+  },
   // session: { 
   //   jwt: true, 
   //   //maxAge: 30 * 24 * 60 * 60 
