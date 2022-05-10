@@ -99,8 +99,8 @@ const TypographyH1 = styled(Typography)(
 );
 
 
-function LoginCover({ providers, csrfToken }) {
-  const csrft = getCsrfToken();
+async function LoginCover({ providers, csrfToken }) {
+  const csrft = await getCsrfToken();
   console.log(csrft, csrfToken)
   const { method } = useAuth();
   const { t } = i18nextLogin;
@@ -301,7 +301,7 @@ function LoginCover({ providers, csrfToken }) {
               </Box>
               {method === 'Auth0' && <LoginAuth0 />}
               {method === 'FirebaseAuth' && <LoginFirebaseAuth />}
-              {method === 'JWT' && <LoginJWT providers={providers} csrfToken={csrfToken}/>}
+              {method === 'JWT' && <LoginJWT providers={providers} csrfToken={csrft}/>}
               {method === 'Amplify' && <LoginAmplify />}
               <Box my={4}>
                 <Typography
