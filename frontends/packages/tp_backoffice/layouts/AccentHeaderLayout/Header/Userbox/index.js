@@ -101,7 +101,7 @@ function HeaderUserbox() {
         display: { xs: 'none', sm: 'inline-block' }
       }}
     >
-      {(session && session.user && !session.token.error) &&
+      {(session && session.user && !session.error) &&
       <>
       <UserBoxButton color="secondary" ref={ref} onClick={handleOpen}>
         <Avatar alt={session.user.name} src={session.user.avatar} />

@@ -107,7 +107,7 @@ function SidebarTopSection() {
 
   return (
     <>
-      {(session && session.user && !session.token.error) &&
+      {(session && session.user && !session.error) &&
         <>
       <UserBoxButton fullWidth color="secondary" ref={ref} onClick={handleOpen}>
         <Avatar variant="rounded" alt={session.user.name} src={session.user.avatar} />
