@@ -48,11 +48,12 @@ import Credentials from 'next-auth/providers/credentials'
  */
  async function refreshAccessToken(token) {
   try {
+    console.log("refreshAccessToken: ", token.user.refreshToken);
     const apiUrl = process.env.AUTH_API_URL+"/user/refresh";
     const response = await fetch(apiUrl, {
       method: 'POST',
       body: JSON.stringify({
-        accessToken: token.user.token,
+        accessToken: token.accessToken,
         refreshToken: token.user.refreshToken,
       }),
       headers: { 
@@ -65,7 +66,7 @@ import Credentials from 'next-auth/providers/credentials'
     })
     if (!response.ok) {
       const resultErrorBody = await response.text();
-      throw resultErrorBody + token.user.refreshToken;
+      throw resultErrorBody;
     }
     // The Credentials provider can only be used if JSON Web Tokens are enabled for sessions.
     // Users authenticated with the Credentials provider are not persisted in the database.
@@ -204,11 +205,15 @@ import Credentials from 'next-auth/providers/credentials'
     // },
     async session({session, token, user}) {
       session.sessionId = token.sessionId;
-      session.user = token.user;
+      session.user.token = token.user.token;
+      session.user.expiration = token.user.expiration;
+      session.user.name = token.user.name;
+      session.user.username = token.user.username;
       session.accessToken = token.accessToken;
       session.scopes = token.scope;
       session.error = token.error;
-      session.token = token;
+      // session.token = token;
+      console.log("session(): ", session);
 
       // const apiUrl = process.env.API_ENDPOINT+"odoorest/nextsession";
       // const res = await fetch(apiUrl, {
@@ -251,7 +256,7 @@ import Credentials from 'next-auth/providers/credentials'
         return {
           accessToken: user.token,
           accessTokenExpires: user.expiration * 1000,
-          refreshToken: user.refreshToken,
+          // refreshToken: user.refreshToken,
           user
         }
       }
