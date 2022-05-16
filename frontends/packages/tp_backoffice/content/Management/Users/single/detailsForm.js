@@ -32,25 +32,37 @@ function UserDetailsForm({userData, userPutUrl, edittingCard, cancelEditting}) {
     const [userError, setUserError] = useState(null);
     useErrorHandler(userError);
     const { data: session, status } = useSession();
+
+    const validationData = edittingCard == "personalDetails" ? {
+        name: Yup.string()
+            .max(70, t('MESSAGES.nameTooBig', {max: 70}))
+            .required(t('MESSAGES.nameRequired')),
+        userName: Yup.string()
+            .max(20, t('MESSAGES.usernameTooBig', {max: 20}))
+            .required(t('MESSAGES.usernameRequired')),
+    } : {
+        email: Yup.string()
+            .max(100, t('MESSAGES.emailTooBig', {max: 100}))
+            .email(t('MESSAGES.emailInvalid'))
+            .required(t('MESSAGES.emailRequired')),
+        phone: Yup.string()
+            .max(20, t('MESSAGES.phoneNumberTooBig', {max: 20})),
+    };
+
+    console.log(userData, validationData)
     
     const formik = useFormik({
-        initialValues: userData,
+        initialValues: {
+            id: userData.userId,
+            userName: userData.userName ?? "",
+            name: userData.name ?? "",
+            email: userData.email ?? "",
+            phone: userData.phone ?? ""
+        },
         enableReinitialize: true,
-        validationSchema: Yup.object({
-            name: Yup.string()
-                .max(70, t('MESSAGES.nameTooBig', {max: 70}))
-                .required(t('MESSAGES.nameRequired')),
-            userName: Yup.string()
-                .max(20, t('MESSAGES.usernameTooBig', {max: 20}))
-                .required(t('MESSAGES.usernameRequired')),
-            email: Yup.string()
-                .max(100, t('MESSAGES.emailTooBig', {max: 100}))
-                .email(t('MESSAGES.emailInvalid'))
-                .required(t('MESSAGES.emailRequired')),
-            phone: Yup.string()
-                .max(20, t('MESSAGES.phoneNumberTooBig', {max: 20})),
-        }),
+        validationSchema: Yup.object(validationData),
         onSubmit: async (values, helpers) => {
+            console.log(values)
           try {
               const userUpdateModel = {
                 userId: values.id,
@@ -223,7 +235,7 @@ function UserDetailsForm({userData, userPutUrl, edittingCard, cancelEditting}) {
                                 }
                                 disabled={formik.isSubmitting}
                                 onClick={cancelEditting}
-                                type="submit"
+                                type="button"
                                 fullWidth
                                 size="large"
                                 variant="contained"

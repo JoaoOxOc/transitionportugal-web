@@ -23,9 +23,10 @@ function EditProfileTab({userData, userPutUrl}) {
   const [edittingCard, setEdittingCard] = useState();
 
   const handleToggleEditting = (event) => {
-    console.log(event.target.dataset.edittingCard);
-    setEdittingCard(event.target.dataset.edittingCard);
-    setIsEditting(!isEditting);
+    setEdittingCard(event.currentTarget.dataset.edittingCard);
+    if (event.currentTarget.dataset.edittingCard) {
+      setIsEditting(!isEditting);
+    }
   }
 
   const handleEditCancel = (value) => {

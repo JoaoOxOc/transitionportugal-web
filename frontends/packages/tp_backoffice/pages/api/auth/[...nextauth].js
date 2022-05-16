@@ -213,7 +213,6 @@ import Credentials from 'next-auth/providers/credentials'
       session.scopes = token.scope;
       session.error = token.error;
       // session.token = token;
-      console.log("session(): ", session);
 
       // const apiUrl = process.env.API_ENDPOINT+"odoorest/nextsession";
       // const res = await fetch(apiUrl, {
