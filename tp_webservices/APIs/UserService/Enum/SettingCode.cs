@@ -5,6 +5,7 @@
         MaxLoginAttempts,
         CaptchaSiteKey,
         CaptchaSecretKey,
-        MailchimpApiKey
+        MailchimpApiKey,
+        MailchimpListQuantity
     }
 }

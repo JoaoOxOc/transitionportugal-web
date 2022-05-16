@@ -157,7 +157,7 @@ namespace UserService.Services.Mailchimp
         public async Task<Member> RegistNewMember(string listId, string tagName, string email)
         {
             var registered = await _mailChimpManager.Members.AddOrUpdateAsync(listId, new Member { EmailAddress = email, StatusIfNew = Status.Subscribed });
-            if (registered != null && !string.IsNullOrEmpty(registered.Id))
+            if (registered != null && !string.IsNullOrEmpty(registered.Id) && !string.IsNullOrEmpty(tagName))
             {
                 List<Tag> tags = new List<Tag>();
                 tags.Add(new Tag { Name = tagName });

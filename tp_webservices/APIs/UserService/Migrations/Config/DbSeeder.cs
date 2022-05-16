@@ -221,7 +221,8 @@ namespace UserService.Migrations.Config
                 new Setting() { Id = 1, Key = SettingCode.MaxLoginAttempts.ToString(), DefaultValue = "3", Value = "3", Description = "Número máximo de tentativas de autenticação falhadas", SettingType = (int)SettingsType.USER, CreatedAt = DateTime.Now },
                 new Setting() { Id = 2, Key = SettingCode.CaptchaSiteKey.ToString(), DefaultValue = "6Lf2t0sUAAAAABiszBasjJuBZXTdqMy00zOKPOFt", Value = "6Lf2t0sUAAAAABiszBasjJuBZXTdqMy00zOKPOFt", Description = "Site key usada pelo serviço de reCAPTCHA da Google", SettingType = (int)SettingsType.USER, CreatedAt = DateTime.Now },
                 new Setting() { Id = 3, Key = SettingCode.CaptchaSecretKey.ToString(), DefaultValue = "6Lf2t0sUAAAAAPwP3kIvpynFqPp-7_QLfQoDQtZd", Value = "6Lf2t0sUAAAAAPwP3kIvpynFqPp-7_QLfQoDQtZd", Description = "Secret key usada pelo serviço de reCAPTCHA da Google", SettingType = (int)SettingsType.USER, CreatedAt = DateTime.Now },
-                new Setting() { Id = 4, Key = SettingCode.MailchimpApiKey.ToString(), DefaultValue = "123456", Value = "123456", Description = "API key usada para comunicar com o Mailchimp", SettingType = (int)SettingsType.USER, CreatedAt = DateTime.Now }
+                new Setting() { Id = 4, Key = SettingCode.MailchimpApiKey.ToString(), DefaultValue = "123456", Value = "123456", Description = "API key usada para comunicar com o Mailchimp", SettingType = (int)SettingsType.USER, CreatedAt = DateTime.Now },
+                new Setting() { Id = 5, Key = SettingCode.MailchimpListQuantity.ToString(), DefaultValue = "20", Value = "20", Description = "Quantidade máxima de emails por lista", SettingType = (int)SettingsType.USER, CreatedAt = DateTime.Now }
             );
 
             #endregion
