@@ -19,7 +19,7 @@ export declare const NEWSLETTERSLIST_TRANSLATIONS: {
         readonly description: "Descrição";
         readonly email: "Endereço de Email";
         readonly name: "Nome da Aplicação Cliente";
-        readonly clientId: "ID da Aplicação Cliente";
+        readonly tags: "Tags";
         readonly clientSecret: "Chave da Aplicação Cliente";
         readonly createdAt: "Registado em";
         readonly updatedAt: "Actualizado em";

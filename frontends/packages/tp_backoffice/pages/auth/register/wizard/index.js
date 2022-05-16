@@ -422,7 +422,7 @@ function RegisterWizard(props) {
                 </Link>
               </Box>
 
-              <RegisterWizardJWT/>
+              <RegisterWizardJWT termsData={props.terms}/>
             </Card>
           </Container>
         </MainContent>
@@ -440,7 +440,7 @@ RegisterWizard.getLayout = (page) => (
 export async function getServerSideProps(context) {
   const { req } = context;
   const userBrowserLanguage = req.headers ? req.headers['accept-language'].split(",")[0].toLowerCase() : "pt-pt";
-  console.log(process.env.AUTH_API_CLIENT_ID);
+
   try {
     const headers = {
       'Cache-Control': 'no-cache',
@@ -452,6 +452,7 @@ export async function getServerSideProps(context) {
       "ClientId": process.env.AUTH_API_CLIENT_ID,
       "ClientAuthorization": process.env.AUTH_API_CLIENT_SECRET
     };
+    // TODO: replace constant lang with the browser 'userBrowserLanguage'?
     const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/terms/public/get" + "?langCode=" + "pt-pt", {
       method: "GET",
       resolveWithFullResponse: true,
@@ -473,7 +474,7 @@ export async function getServerSideProps(context) {
     }
   
     return {
-      props: {terms: data.termsRecord} // will be passed to the page component as props
+      props: {terms: data.termsRecord}
     }
   }
   catch(ex) {

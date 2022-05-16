@@ -20,7 +20,7 @@ export var NEWSLETTERSLIST_TRANSLATIONS = deepFreeze({
         description: "Descrição",
         email: "Endereço de Email",
         name: "Nome da Aplicação Cliente",
-        clientId: "ID da Aplicação Cliente",
+        tags: "Tags",
         clientSecret: "Chave da Aplicação Cliente",
         createdAt: "Registado em",
         updatedAt: "Actualizado em"
