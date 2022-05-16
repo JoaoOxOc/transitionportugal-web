@@ -293,7 +293,7 @@ namespace UserService.Controllers
             {
                 Expression<Func<TermsConditionsTranslation, bool>> filter = (x => x.TermsConditions.IsActive == true && x.LangKey == langCode);
 
-                var terms = _uow.TermsConditionsTranslationRepository.Get(1, 1, filter, "TermsConditions.Version", SortDirection.Descending, "TermsConditions");
+                var terms = _uow.TermsConditionsTranslationRepository.Get(1, 1, filter, "TermsConditionsVersion", SortDirection.Descending, "TermsConditions");
 
                 if (terms != null)
                 {
