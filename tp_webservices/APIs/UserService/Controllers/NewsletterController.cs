@@ -135,7 +135,7 @@ namespace UserService.Controllers
 
                     bool success = await _rabbitSender.PublishExceptionMessage(exceptionModel);
 
-                    return StatusCode(StatusCodes.Status500InternalServerError, exceptionModel);
+                    return StatusCode(StatusCodes.Status500InternalServerError, null);
                 }
             }
             return Forbid();
@@ -186,7 +186,7 @@ namespace UserService.Controllers
 
                     bool success = await _rabbitSender.PublishExceptionMessage(exceptionModel);
 
-                    return StatusCode(StatusCodes.Status500InternalServerError, exceptionModel);
+                    return StatusCode(StatusCodes.Status500InternalServerError, null);
                 }
             }
             return Forbid();

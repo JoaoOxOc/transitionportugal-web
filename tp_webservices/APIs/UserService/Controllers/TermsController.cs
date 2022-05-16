@@ -285,8 +285,8 @@ namespace UserService.Controllers
             return Forbid();
         }
 
-        [AllowAnonymous]
-        [HttpGet("get/public")]
+        [HttpGet]
+        [Route("public")]
         public async Task<IActionResult> GetActivePublic(string langCode)
         {
             try

@@ -794,7 +794,7 @@
           "Port": 3020
         }
       ],
-      "UpstreamPathTemplate": "/terms/get/public",
+      "UpstreamPathTemplate": "/terms/public/get",
       "UpstreamhttpMethod": [ "Get" ]
     },
     // end of terms management controllers
