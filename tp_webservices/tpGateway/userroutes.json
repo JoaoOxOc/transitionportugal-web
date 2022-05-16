@@ -800,6 +800,22 @@
     // end of terms management controllers
     // newsletter subscription management controllers
     {
+      "DownstreamPathTemplate": "/api/newsletter/lists",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tpuserservice",
+          "Port": 3020
+        }
+      ],
+      "UpstreamPathTemplate": "/newsletter/get/lists",
+      "UpstreamHttpMethod": [ "Get" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "TpAuthKey",
+        "AllowedScopes": [ "newsletter.admin" ]
+      }
+    },
+    {
       "DownstreamPathTemplate": "/api/newsletter",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [

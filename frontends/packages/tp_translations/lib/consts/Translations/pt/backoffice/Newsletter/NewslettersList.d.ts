@@ -1,21 +1,23 @@
 export declare const NEWSLETTERSLIST_TRANSLATIONS: {
     readonly LABELS: {
-        readonly createTemplate: "Registar Template de Email";
+        readonly createNewsletterSubscription: "Registar Nova Subscrição de Newsletter";
         readonly actions: "Ações";
         readonly view: "Visualizar";
         readonly actualValue: "Valor Actual";
-        readonly emailTemplatesManagement: "Gestão dos Templates de Email";
-        readonly noEmailTemplatesFound: "Não foi possível encontrar nenhum template de email de acordo com os critérios de pesquisa definidos";
-        readonly chooseGrid: "Escolha entre as vistas de tabela ou grelha para apresentar a lista de templates de email.";
+        readonly newsletterSubscriptionsManagement: "Gestão das Subscrições de Newsletter (Integrado com o Mailchimp)";
+        readonly noNewsletterSubscriptionsFound: "Não foi possível encontrar nenhuma Subscrição de Newsletter de acordo com os critérios de pesquisa definidos";
+        readonly mailingListNotFound: "A Lista de Mailing com o nome inserido não existe";
+        readonly chooseGrid: "Escolha entre as vistas de tabela ou grelha para apresentar a listagem de Subscrições de Newsletter.";
         readonly ofSmall: "de";
         readonly paginationRowsPerPage: "Linhas por pág.:";
         readonly showing: "Mostrando";
     };
     readonly LIST: {
-        readonly templatesTitle: "Templates de Email";
+        readonly newsletterSubscriptionsTitle: "Subscrições de Newsletter";
     };
     readonly NEWSLETTEROBJECT: {
-        readonly description: "Description";
+        readonly description: "Descrição";
+        readonly email: "Endereço de Email";
         readonly name: "Nome da Aplicação Cliente";
         readonly clientId: "ID da Aplicação Cliente";
         readonly clientSecret: "Chave da Aplicação Cliente";
@@ -23,10 +25,12 @@ export declare const NEWSLETTERSLIST_TRANSLATIONS: {
         readonly updatedAt: "Actualizado em";
     };
     readonly MESSAGES: {
-        readonly templatesDescription: "Todos os aspectos relativos aos templates de email podem ser geridos nesta página";
+        readonly newsletterSubscriptionsDescription: "Todos os aspectos relativos às Subscrições de Newsletter podem ser geridos nesta página. Começa por selecionar uma lista de mailing por forma a apresentar os seus membros (subscrições)";
     };
     readonly SEARCH: {
-        readonly searchByNamePlaceholder: "Pesquisar por Chave, Descrição ou Assunto do template de Email...";
+        readonly filters: "Filtros";
+        readonly searchByMailingList: "Seleccione a Lista de Mailing";
+        readonly searchByNamePlaceholder: "Pesquisar por Nome ou Email do membro...";
     };
 };
 //# sourceMappingURL=NewslettersList.d.ts.map
