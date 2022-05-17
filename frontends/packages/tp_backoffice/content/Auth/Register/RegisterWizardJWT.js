@@ -64,6 +64,7 @@ export function RegisterWizardJWT({termsData}) {
     const { enqueueSnackbar } = useSnackbar();
     const [openAlert, setOpenAlert] = useState(true);
     const [userRegistered, setUserRegistered] = useState(false);
+    const [termsConsented, setTermsConsented] = useState('');
     const [isOpen, setIsOpen] = useState(false);
     const [currentLang, setLang] = useState("pt");
     i18nextRegisterForm.changeLanguage(currentLang);
@@ -155,6 +156,22 @@ export function RegisterWizardJWT({termsData}) {
       return response.ok !== true;
     }
 
+    const termsDialogJson = {
+      closeLabel: t("LABELS.closeTermsDialog"),
+      okReturnOption: "consented",
+      okButton: t("LABELS.termsConsentButton"),
+      cancelButton: t("LABELS.termsCancelButton"),
+    }
+
+    const receiveCancelConsentAction = (eventValue) => {
+      setIsOpen(false);
+    }
+
+    const receiveConsentAction = (eventValue) => {
+      setTermsConsented(true);
+      setIsOpen(false);
+    }
+
     return (
         <FormikStepper
                 isRegistered={userRegistered}
@@ -162,7 +179,7 @@ export function RegisterWizardJWT({termsData}) {
                   first_name: '',
                   last_name: '',
                   username: '',
-                  terms: '',
+                  terms: termsConsented == true ? true : false,
                   promo: true,
                   password: '',
                   password_confirm: '',
@@ -412,6 +429,7 @@ export function RegisterWizardJWT({termsData}) {
                         <Field
                           name="terms"
                           type="checkbox"
+                          value="terms"
                           component={CheckboxWithLabel}
                           aria-labelledby={ t('FORMS.confirmTerms') } 
                           aria-describedby={ t('FORMS.confirmTerms_help') }
@@ -430,7 +448,7 @@ export function RegisterWizardJWT({termsData}) {
                       </Grid>
                     </Grid>
                   </BoxFields>
-                  {isOpen && <Modal setIsOpen={setIsOpen}><TermsModal termsLanguages={termsData.termsLanguages}/></Modal>}
+                  {isOpen && <Modal dialogOkAction={receiveConsentAction} dialogCancelAction={receiveCancelConsentAction} dialogJson={termsDialogJson} setIsOpen={isOpen}><TermsModal termsLanguages={termsData.termsLanguages}/></Modal>}
                 </FormikStep>
                 <FormikStep
                   validationSchema={Yup.object().shape({

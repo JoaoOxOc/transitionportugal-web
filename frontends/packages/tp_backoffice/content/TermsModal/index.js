@@ -1,41 +1,59 @@
-/** @jsxImportSource theme-ui */
-
 import React, { useEffect, useState } from "react";
+import {
+  Typography,
+  Container,
+  Divider,
+  Button,
+  Slide,
+  CircularProgress,
+  Grid,
+  Box,
+  Step,
+  StepLabel,
+  Stepper,
+  Collapse,
+  Alert,
+  Avatar,
+  IconButton,
+  styled
+} from '@mui/material';
+// import { 
+//     TermsModalContainer,
+//     TermsModalHeader,
+//     TermsModalHeading,
+//     TermsModalContent,
+//     TermsModalActions,
+//     TermsModalActionsContainer,
+//     TermsModalCloseBtn,
+//     TermsModalConfirmBtn,
+//     TermsModalCancelBtn
+//  } from './termsmodal.style';
 
-import { 
-    TermsModalContainer,
-    TermsModalHeader,
-    TermsModalHeading,
-    TermsModalContent,
-    TermsModalActions,
-    TermsModalActionsContainer,
-    TermsModalCloseBtn,
-    TermsModalConfirmBtn,
-    TermsModalCancelBtn
- } from './termsmodal.style';
-
- import CloseTwoToneIcon from '@mui/icons-material/CloseTwoTone';
+ import { i18nextTermsDetails } from "@transitionpt/translations";
 import EditorViewerFragmentsWrapper from '../../components/EditorComponent/ViewerFragments';
 
 export default function TermsModal({termsLanguages}) {
-
-    const closeModal = () => {
-        const customEvent = new CustomEvent('closeModal', null);
-        window.dispatchEvent(customEvent);
-    }
+    const { t } = i18nextTermsDetails;
 
     return(
-        <TermsModalContainer>
-          <TermsModalHeader>
-            <TermsModalHeading>Dialog</TermsModalHeading>
-          </TermsModalHeader>
-          <TermsModalCloseBtn onClick={() => closeModal()}>
-            <CloseTwoToneIcon style={{ marginBottom: "-3px" }} />
-          </TermsModalCloseBtn>
-          <TermsModalContent>
+      <Box>
+        <Typography variant="h3" style={{textAlign: 'center'}}>
+          {t("READING.termsAndConditions")}
+        </Typography>
+        <Grid container>
+          <Grid item>
             <EditorViewerFragmentsWrapper termsLanguages={termsLanguages}/>
-          </TermsModalContent>
-          <TermsModalActions>
+          </Grid>
+          {/* <TermsModalHeader>
+            <TermsModalHeading>Dialog</TermsModalHeading>
+          </TermsModalHeader> */}
+          {/* <TermsModalCloseBtn onClick={() => closeModal()}>
+            <CloseTwoToneIcon style={{ marginBottom: "-3px" }} />
+          </TermsModalCloseBtn> */}
+          {/* <TermsModalContent>
+            <EditorViewerFragmentsWrapper termsLanguages={termsLanguages}/>
+          </TermsModalContent> */}
+          {/* <TermsModalActions>
             <TermsModalActionsContainer>
               <TermsModalConfirmBtn onClick={() => closeModal()}>
                 Consent
@@ -46,7 +64,8 @@ export default function TermsModal({termsLanguages}) {
                 Close
               </TermsModalCancelBtn>
             </TermsModalActionsContainer>
-          </TermsModalActions>
-        </TermsModalContainer>
+          </TermsModalActions> */}
+        </Grid>
+      </Box>
     );
 };

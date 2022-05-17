@@ -13,7 +13,10 @@ export const REGISTERFORM_TRANSLATIONS = deepFreeze({
         step2Title: "Initiative/movement Information",
         step3Title: "Complete Registration",
         buttonToLogin: "Button link to login page",
-        goLogIn: "Continue to login"
+        goLogIn: "Continue to login",
+        closeTermsDialog: "Close Terms & Conditions reading",
+        termsConsentButton: "Consent",
+        termsCancelButton: "Cancel"
     },
     FORMS: {
         emailAddress: "Email address",

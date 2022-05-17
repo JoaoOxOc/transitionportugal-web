@@ -1,7 +1,9 @@
+import {
+    Typography
+  } from '@mui/material';
 
 export default function ViewerParagraph({paragraphData}) {
-    console.log(paragraphData)
     return (
-        <p>test</p>
+        <Typography dangerouslySetInnerHTML={{__html: paragraphData.text}}></Typography>
     )
 }
