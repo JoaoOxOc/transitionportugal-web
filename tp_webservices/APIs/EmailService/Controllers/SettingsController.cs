@@ -3,6 +3,7 @@ using CommonLibrary.Enums;
 using CommonLibrary.Extensions;
 using EmailService.Model;
 using EmailService.Repositories;
+using EmailService.Sender;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq.Expressions;
 using System.Net;
@@ -16,11 +17,13 @@ namespace EmailService.Controllers
     {
         private readonly ISettingsRepository _settingsRepository;
         private readonly IConfiguration _configuration;
+        private readonly IEmailService _emailService;
 
-        public SettingsController(ISettingsRepository settingsRepository, IConfiguration configuration)
+        public SettingsController(ISettingsRepository settingsRepository, IConfiguration configuration, IEmailService emailService)
         {
             _settingsRepository = settingsRepository;
             _configuration = configuration;
+            _emailService = emailService;
         }
 
         private ObjectResult ValidateSetting(Setting setting)
@@ -114,7 +117,33 @@ namespace EmailService.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, null);
+                return StatusCode((int)HttpStatusCode.InternalServerError, null);
+            }
+        }
+
+        [HttpGet]
+        [Route("test/sendemail")]
+        public async Task<IActionResult> TestSendEmail(string emailTo)
+        {
+            try
+            {
+                List<string> scopes = !string.IsNullOrEmpty(HttpContext.Request.Headers["UserClaims"]) ? JsonSerializer.Deserialize<List<string>>(HttpContext.Request.Headers["UserClaims"]) : null;
+                if (PermissionsHelper.ValidateRoleClaimPermission(HttpContext.Request.Headers["UserRole"], new List<string> { "Admin" })
+                    && PermissionsHelper.ValidateUserScopesPermissionAll(scopes, new List<string> { "settings.admin" }))
+                {
+                    bool sent = _emailService.SendMail(emailTo, "transicao portugal - teste envio email", "ignore este email. Serve apenas para testar o envio de acordo com a configuração na aplicação");
+
+                    ObjectResult response = sent == true ? StatusCode((int)HttpStatusCode.OK, sent) : StatusCode((int)HttpStatusCode.InternalServerError, "not_sent");
+                    return response;
+                }
+                else
+                {
+                    return StatusCode((int)HttpStatusCode.Forbidden, null);
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex);
             }
         }
 
