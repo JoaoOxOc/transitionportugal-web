@@ -463,6 +463,67 @@ namespace UserService.Controllers
         }
 
         [Authorize]
+        [HttpPut]
+        [Route("activate")]
+        public async Task<IActionResult> Activate([FromBody] TermsModel model)
+        {
+            string header = HttpContext.Request.Headers["Authorization"];
+            string[] claims = new string[] { "userId", "sub", System.Security.Claims.ClaimTypes.Role, "scope" };
+            List<JwtClaim> userClaims = JwtHelper.ValidateToken(header, _configuration["JWT:ValidAudience"], _configuration["JWT:ValidIssuer"], _configuration["JWT:SecretPublicKey"], claims);
+            string userScopesString = userClaims.Where(x => x.Claim == "scope").Single().Value;
+            List<string>? scopes = !string.IsNullOrEmpty(userScopesString) ? JsonSerializer.Deserialize<List<string>>(userScopesString) : null;
+
+            if (PermissionsHelper.ValidateRoleClaimPermission(userClaims, new List<string> { "Admin" })
+                && PermissionsHelper.ValidateUserScopesPermissionAll(scopes, new List<string> { "terms.admin" }))
+            {
+                Expression<Func<TermsConditions, bool>> filter = (x => x.Id == model.Id);
+
+                var terms = this._uow.TermsConditionsRepository.Get(null, null, filter, string.Empty, SortDirection.Ascending).FirstOrDefault();
+                if (terms != null)
+                {
+                    terms.UpdatedAt = DateTime.UtcNow;
+                    terms.UpdatedBy = userClaims.Where(x => x.Claim == "userId").Single().Value;
+
+                    _termsManager.DeactivateTermsConditions(terms);
+                    terms.BeenActive = true;
+                    terms.IsActive = true;
+
+                    try
+                    {
+                        _uow.TermsConditionsRepository.Update(terms);
+                        _uow.Save();
+
+                        return Ok(new
+                        {
+                            termsId = terms.Id,
+                            termsVersion = terms.Version
+                        });
+                    }
+                    catch (Exception ex)
+                    {
+                        CommonLibrary.Entities.ViewModel.ExceptionModel exceptionModel = new CommonLibrary.Entities.ViewModel.ExceptionModel();
+                        exceptionModel.Message = ex.Message;
+                        exceptionModel.StackTrace = ex.StackTrace;
+                        exceptionModel.DateLogging = DateTime.UtcNow;
+                        exceptionModel.AdminRole = "Admin";
+                        exceptionModel.InnerException = ex.InnerException;
+                        var claimUserId = userClaims.Where(x => x.Claim == "userId").FirstOrDefault();
+                        exceptionModel.UserId = claimUserId != null ? claimUserId.Value : "";
+
+                        bool success = await _rabbitSender.PublishExceptionMessage(exceptionModel);
+
+                        return StatusCode(StatusCodes.Status500InternalServerError, null);
+                    }
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            return Forbid();
+        }
+
+        [Authorize]
         [HttpPost]
         [Route("clone")]
         public async Task<IActionResult> Clone([FromBody] TermsModel model)
