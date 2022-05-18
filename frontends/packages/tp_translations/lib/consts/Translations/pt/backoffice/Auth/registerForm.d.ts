@@ -14,7 +14,7 @@ export declare const REGISTERFORM_TRANSLATIONS: {
         readonly goLogIn: "Continuar para a autenticação";
         readonly closeTermsDialog: "Fechar leitura dos Termos & Condições";
         readonly termsConsentButton: "Consentir";
-        readonly termsCancelButton: "Cancelar";
+        readonly termsCancelButton: "Fechar";
     };
     readonly FORMS: {
         readonly emailAddress: "Endereço de Email";
