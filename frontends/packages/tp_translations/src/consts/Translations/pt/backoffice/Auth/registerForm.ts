@@ -16,7 +16,7 @@ export const REGISTERFORM_TRANSLATIONS = deepFreeze({
         goLogIn: "Continuar para a autenticação",
         closeTermsDialog: "Fechar leitura dos Termos & Condições",
         termsConsentButton: "Consentir",
-        termsCancelButton: "Cancelar"
+        termsCancelButton: "Fechar"
     },
     FORMS: {
         emailAddress: "Endereço de Email",

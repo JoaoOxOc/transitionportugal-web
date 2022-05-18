@@ -20,7 +20,7 @@ import {
 import { useSnackbar } from 'notistack';
 import { i18nextRegisterForm } from "@transitionpt/translations";
 import Link from '../../../components/Link';
-import { Field, Form, Formik, ErrorMessage } from 'formik';
+import { Field, Form, Formik, withFormik, ErrorMessage } from 'formik';
 import { CheckboxWithLabel, TextField } from 'formik-mui';
 import * as Yup from 'yup';
 import CloseIcon from '@mui/icons-material/Close';
@@ -59,7 +59,8 @@ const AvatarSuccess = styled(Avatar)(
   `
   );
 
-export function RegisterWizardJWT({termsData}) {
+// TODO: terms modal get consent - https://stackoverflow.com/questions/66193822/react-bootstrap-form-check-with-formik and https://formik.org/docs/api/withFormik
+export const RegisterWizardJWT = ({termsData}) => {
     const { t } = i18nextRegisterForm;
     const { enqueueSnackbar } = useSnackbar();
     const [openAlert, setOpenAlert] = useState(true);
@@ -159,7 +160,9 @@ export function RegisterWizardJWT({termsData}) {
     const termsDialogJson = {
       closeLabel: t("LABELS.closeTermsDialog"),
       okReturnOption: "consented",
+      showOkButton: false,
       okButton: t("LABELS.termsConsentButton"),
+      showCancelButton: true,
       cancelButton: t("LABELS.termsCancelButton"),
     }
 
@@ -171,6 +174,11 @@ export function RegisterWizardJWT({termsData}) {
       setTermsConsented(true);
       setIsOpen(false);
     }
+
+    const stepperSetFieldValue = (fieldName, isChecked) => {
+      formikInstance.setFieldValue(fieldName,isChecked);
+    } 
+    console.log(stepperSetFieldValue);
 
     return (
         <FormikStepper
@@ -429,7 +437,6 @@ export function RegisterWizardJWT({termsData}) {
                         <Field
                           name="terms"
                           type="checkbox"
-                          value="terms"
                           component={CheckboxWithLabel}
                           aria-labelledby={ t('FORMS.confirmTerms') } 
                           aria-describedby={ t('FORMS.confirmTerms_help') }
@@ -641,7 +648,7 @@ export function FormikStep({ children }) {
           }
         }}
       >
-        {({ isSubmitting }) => (
+        {({ isSubmitting, setFieldValue }) => (
           <Form autoComplete="off">
             <Stepper alternativeLabel activeStep={step}>
               {childrenArray.map((child, index) => (

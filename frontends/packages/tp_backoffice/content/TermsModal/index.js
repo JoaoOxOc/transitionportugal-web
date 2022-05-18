@@ -1,21 +1,8 @@
-import React, { useEffect, useState } from "react";
 import {
   Typography,
-  Container,
   Divider,
-  Button,
-  Slide,
-  CircularProgress,
   Grid,
-  Box,
-  Step,
-  StepLabel,
-  Stepper,
-  Collapse,
-  Alert,
-  Avatar,
-  IconButton,
-  styled
+  Box
 } from '@mui/material';
 // import { 
 //     TermsModalContainer,
@@ -37,10 +24,11 @@ export default function TermsModal({termsLanguages}) {
 
     return(
       <Box>
-        <Typography variant="h3" style={{textAlign: 'center'}}>
+        <Typography variant="h3" style={{textAlign: 'center', paddingBottom: "10px"}}>
           {t("READING.termsAndConditions")}
         </Typography>
-        <Grid container>
+        <Divider/>
+        <Grid container sx={{pt: "10px", pb: "20px"}}>
           <Grid item>
             <EditorViewerFragmentsWrapper termsLanguages={termsLanguages}/>
           </Grid>
@@ -66,6 +54,7 @@ export default function TermsModal({termsLanguages}) {
             </TermsModalActionsContainer>
           </TermsModalActions> */}
         </Grid>
+        <Divider/>
       </Box>
     );
 };

@@ -15,9 +15,9 @@ const EditorViewerFragmentsWrapper = ({termsLanguages}) => {
         console.log(blockJson);
 
         switch(blockJson.type) {
-            case "header": return <ViewerHeading key={blockJson.id} paragraphData={blockJson.data}/>; break;
-            case "paragraph": return <ViewerParagraph key={blockJson.id} paragraphData={blockJson.data}/>; break;
-            case "list": return <ViewerLists key={blockJson.id} listsData={blockJson.data}/>; break;
+            case "header": return <ViewerHeading key={blockJson.id} paragraphData={blockJson.data}/>;
+            case "paragraph": return <ViewerParagraph key={blockJson.id} paragraphData={blockJson.data}/>;
+            case "list": return <ViewerLists key={blockJson.id} listsData={blockJson.data}/>;
             default: return <></>;
         }
     }

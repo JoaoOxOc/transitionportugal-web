@@ -8,6 +8,8 @@ import {
     Grid,
     Box,
     Dialog,
+    DialogContent,
+    DialogActions,
     Collapse,
     Alert,
     styled
@@ -81,44 +83,51 @@ const Modal = ({ setIsOpen, dialogOkAction, dialogCancelAction, children, dialog
                   <CloseIcon fontSize="inherit" />
             </IconButton>
           </Box>
-        <Box
-          sx={{
-            px: 4,
-            pb: 4,
-            pt: 4
-          }}
-        >
-            {children}
+          <DialogContent>
+            <Box
+              sx={{
+                px: 4,
+              }}
+            >
+                {children}
+            </Box>
+
+          </DialogContent>
+          <DialogActions>
             <Grid
                 container
                 justifyContent="center"
                 direction="row">
-                <Grid item>
-                    <Button
-                        fullWidth
-                        size="large"
-                        color="primary"
-                        variant="contained"
-                        onClick={() => dialogOkAction(dialogJson.okReturnOption)}
-                        aria-label={dialogJson.okButton}
-                    >
-                        {dialogJson.okButton}
-                    </Button>
-                </Grid>
-                <Grid item sx={{pl: '10px'}}>
-                    <Button
-                        fullWidth
-                        size="large"
-                        color="secondary"
-                        variant="contained"
-                        onClick={handleCloseDialog}
-                        aria-label={dialogJson.cancelButton}
-                    >
-                        {dialogJson.cancelButton}
-                    </Button>
-                </Grid>
+                  {dialogJson.showOkButton == true && 
+                  <Grid item>
+                      <Button
+                          fullWidth
+                          size="large"
+                          color="primary"
+                          variant="contained"
+                          onClick={() => dialogOkAction(dialogJson.okReturnOption)}
+                          aria-label={dialogJson.okButton}
+                      >
+                          {dialogJson.okButton}
+                      </Button>
+                  </Grid>
+                  }
+                  {dialogJson.showCancelButton == true && 
+                    <Grid item sx={{pl: '10px'}}>
+                        <Button
+                            fullWidth
+                            size="large"
+                            color="secondary"
+                            variant="contained"
+                            onClick={handleCloseDialog}
+                            aria-label={dialogJson.cancelButton}
+                        >
+                            {dialogJson.cancelButton}
+                        </Button>
+                    </Grid>
+                  }
             </Grid>
-        </Box>
+          </DialogActions>
       </DialogWrapper>
   );
 };
