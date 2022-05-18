@@ -1,7 +1,7 @@
 
 const optimizedImages = require('next-optimized-images');
 const withPlugins = require("next-compose-plugins");
-const withTM = require("next-transpile-modules")(["@transitionpt/translations"], { setExternals: true });
+const withTM = require("next-transpile-modules")(["@transitionpt/translations","@transitionpt/geolocation"], { setExternals: true });
 
 module.exports = withPlugins([optimizedImages, withTM], {
     reactStrictMode: true,
