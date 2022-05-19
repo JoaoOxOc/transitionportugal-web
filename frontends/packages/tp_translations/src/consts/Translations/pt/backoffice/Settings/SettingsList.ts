@@ -30,5 +30,14 @@ export const SETTINGSLIST_TRANSLATIONS = deepFreeze({
     },
     SEARCH: {
         searchByKeyPlaceholder: "Pesquisar por descrição ou chave..."
+    },
+    ACTIONS: {
+        testEmailSend: "Testar Envio de Emails",
+        sendToEmailField: "Insira o email que irá receber o teste",
+        testSendEmailButton: "Testar Envio de Email",
+        sendEmailResult: "Resultado do teste de envio",
+        closeTestEmailSendDialog: "Fechar janela do teste de envio de emails",
+        cancelTestEmailSendButton: "Fechar",
+        testSendSuccess: "Email enviado com sucesso para '{{sendToEmail}}'. Verifica a caixa de entrada do email"
     }
 } as const);

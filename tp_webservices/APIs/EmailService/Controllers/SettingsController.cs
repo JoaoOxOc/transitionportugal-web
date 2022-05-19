@@ -143,7 +143,7 @@ namespace EmailService.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode((int)HttpStatusCode.InternalServerError, ex);
+                return StatusCode((int)HttpStatusCode.InternalServerError, new { error= ex.Message, stackTrace= ex.StackTrace });
             }
         }
 
