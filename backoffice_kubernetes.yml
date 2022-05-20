@@ -111,6 +111,17 @@ spec:
   - host: transicaoportugal.org
     http:
       paths:
-      - backend:
-          serviceName: transportugal-backoffice-service
-          servicePort: 40010
+          - pathType: ImplementationSpecific
+            path: /
+            backend:
+              service:
+                name: transportugal-frontoffice-service
+                port:
+                  number: 40000
+          - pathType: ImplementationSpecific
+            path: /admin
+            backend:
+              service:
+                name: transportugal-backoffice-service
+                port:
+                  number: 40010
