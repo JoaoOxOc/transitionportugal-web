@@ -6,7 +6,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -19,7 +19,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -32,7 +32,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -45,7 +45,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -62,7 +62,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -75,7 +75,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -88,7 +88,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -101,7 +101,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -116,7 +116,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -132,7 +132,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -149,7 +149,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -166,7 +166,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -182,7 +182,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -198,7 +198,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -215,7 +215,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -228,7 +228,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -245,7 +245,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -262,7 +262,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -275,7 +275,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -288,7 +288,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -304,7 +304,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -320,7 +320,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -336,7 +336,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -352,7 +352,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -368,7 +368,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -384,7 +384,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -400,7 +400,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -417,7 +417,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -435,7 +435,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -451,7 +451,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -467,7 +467,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -483,7 +483,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -500,7 +500,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -517,7 +517,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -533,7 +533,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -549,7 +549,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -565,7 +565,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -581,7 +581,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -597,7 +597,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -613,7 +613,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -629,7 +629,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -645,7 +645,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -661,7 +661,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -677,7 +677,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -693,7 +693,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -711,7 +711,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -727,7 +727,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -743,7 +743,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -759,7 +759,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -776,7 +776,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -792,7 +792,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -808,7 +808,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -822,7 +822,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -838,7 +838,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -854,7 +854,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -870,7 +870,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -886,7 +886,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -902,7 +902,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -918,7 +918,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -930,7 +930,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -945,7 +945,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpemailservice",
+          "Host": "localhost",
           "Port": 3010
         }
       ],
@@ -962,7 +962,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpemailservice",
+          "Host": "localhost",
           "Port": 3010
         }
       ],
@@ -979,7 +979,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpemailservice",
+          "Host": "localhost",
           "Port": 3010
         }
       ],
@@ -996,7 +996,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpemailservice",
+          "Host": "localhost",
           "Port": 3010
         }
       ],
@@ -1013,7 +1013,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpemailservice",
+          "Host": "localhost",
           "Port": 3010
         }
       ],
@@ -1030,7 +1030,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpemailservice",
+          "Host": "localhost",
           "Port": 3010
         }
       ],
@@ -1047,7 +1047,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpemailservice",
+          "Host": "localhost",
           "Port": 3010
         }
       ],
@@ -1066,7 +1066,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpcmservice",
+          "Host": "localhost",
           "Port": 3030
         }
       ],
@@ -1083,7 +1083,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpcmservice",
+          "Host": "localhost",
           "Port": 3030
         }
       ],
@@ -1096,7 +1096,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpcmservice",
+          "Host": "localhost",
           "Port": 3030
         }
       ],
@@ -1113,7 +1113,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpcmservice",
+          "Host": "localhost",
           "Port": 3030
         }
       ],
@@ -1129,7 +1129,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpcmservice",
+          "Host": "localhost",
           "Port": 3030
         }
       ],
@@ -1149,7 +1149,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpnewservice",
+          "Host": "localhost",
           "Port": 3050
         }
       ],
@@ -1162,7 +1162,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpnewservice",
+          "Host": "localhost",
           "Port": 3050
         }
       ],
@@ -1179,7 +1179,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpnewservice",
+          "Host": "localhost",
           "Port": 3050
         }
       ],
@@ -1203,7 +1203,7 @@
         {
           "Name": "UserService API",
           "Version": "v1",
-          "Url": "http://tpuserservice:3020/swagger/v1/swagger.json"
+          "Url": "http://localhost:3020/swagger/v1/swagger.json"
         }
       ]
     },
@@ -1213,7 +1213,7 @@
         {
           "Name": "EmailService API",
           "Version": "v1",
-          "Url": "http://tpemailservice:3010/swagger/v1/swagger.json"
+          "Url": "http://localhost:3010/swagger/v1/swagger.json"
         }
       ]
     },
@@ -1223,7 +1223,7 @@
         {
           "Name": "ContentManagementService API",
           "Version": "v1",
-          "Url": "http://tpcmservice:3030/swagger/v1/swagger.json"
+          "Url": "http://localhost:3030/swagger/v1/swagger.json"
         }
       ]
     },
@@ -1233,7 +1233,7 @@
         {
           "Name": "NotificationsService API",
           "Version": "v1",
-          "Url": "http://tpnotificationservice:3040/swagger/v1/swagger.json"
+          "Url": "http://localhost:3040/swagger/v1/swagger.json"
         }
       ]
     },
@@ -1243,7 +1243,7 @@
         {
           "Name": "NewsService API",
           "Version": "v1",
-          "Url": "http://tpnewservice:3050/swagger/v1/swagger.json"
+          "Url": "http://localhost:3050/swagger/v1/swagger.json"
         }
       ]
     }
