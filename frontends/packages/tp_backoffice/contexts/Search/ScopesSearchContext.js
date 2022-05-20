@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 
 const initialSearchState = {
     searchText: "",
-    page: 1,
-    size: 10,
+    offset: 1,
+    limit: 10,
     sort: "ScopeName",
     sortDirection: "asc"
 };

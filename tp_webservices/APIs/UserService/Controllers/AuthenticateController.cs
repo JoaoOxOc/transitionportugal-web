@@ -362,15 +362,15 @@ namespace UserService.Controllers
                 }
 
                 var newAccessTokenData = _tokenManager.GetToken(principal.Claims.ToList(), null, null);
-                var newRefreshTokenData = _tokenManager.GenerateRefreshToken(user.Id, null);
+                //var newRefreshTokenData = _tokenManager.GenerateRefreshToken(user.Id, null);
 
-                user.RefreshToken = newRefreshTokenData.Key;
-                await _userManager.UpdateUser(user);
+                //user.RefreshToken = newRefreshTokenData.Key;
+                //await _userManager.UpdateUser(user);
 
                 return new ObjectResult(new
                 {
                     accessToken = newAccessTokenData.Token,
-                    refreshToken = newRefreshTokenData.Key,
+                    //refreshToken = newRefreshTokenData.Key,
                     expiration = newAccessTokenData.ExpiresAt
                 });
             }

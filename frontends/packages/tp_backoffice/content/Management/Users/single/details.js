@@ -78,7 +78,7 @@ function UserDetails({isProfile, userId}) {
         setUserError(err);
         console.error(err);
       }
-    }, [isMountedRef,userUri,isProfile]);
+    }, [isMountedRef,userUri,isProfile, session.accessToken]);
 
     useEffect(() => {
       getUser();

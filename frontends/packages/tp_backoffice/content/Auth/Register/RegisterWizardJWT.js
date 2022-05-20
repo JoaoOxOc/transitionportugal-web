@@ -20,12 +20,13 @@ import {
 import { useSnackbar } from 'notistack';
 import { i18nextRegisterForm } from "@transitionpt/translations";
 import Link from '../../../components/Link';
-import { Field, Form, Formik, ErrorMessage } from 'formik';
+import { Field, Form, Formik, withFormik, ErrorMessage } from 'formik';
 import { CheckboxWithLabel, TextField } from 'formik-mui';
 import * as Yup from 'yup';
 import CloseIcon from '@mui/icons-material/Close';
 import CheckTwoToneIcon from '@mui/icons-material/CheckTwoTone';
-import {genericFetch} from '../../../services/genericFetch';
+import Modal from '../../../components/Modal';
+import TermsModal from '../../../content/TermsModal';
 
 
 const BoxActions = styled(Box)(
@@ -58,11 +59,14 @@ const AvatarSuccess = styled(Avatar)(
   `
   );
 
-export function RegisterWizardJWT() {
+// TODO: terms modal get consent - https://stackoverflow.com/questions/66193822/react-bootstrap-form-check-with-formik and https://formik.org/docs/api/withFormik
+export const RegisterWizardJWT = ({termsData}) => {
     const { t } = i18nextRegisterForm;
     const { enqueueSnackbar } = useSnackbar();
     const [openAlert, setOpenAlert] = useState(true);
     const [userRegistered, setUserRegistered] = useState(false);
+    const [termsConsented, setTermsConsented] = useState('');
+    const [isOpen, setIsOpen] = useState(false);
     const [currentLang, setLang] = useState("pt");
     i18nextRegisterForm.changeLanguage(currentLang);
 
@@ -153,6 +157,29 @@ export function RegisterWizardJWT() {
       return response.ok !== true;
     }
 
+    const termsDialogJson = {
+      closeLabel: t("LABELS.closeTermsDialog"),
+      okReturnOption: "consented",
+      showOkButton: false,
+      okButton: t("LABELS.termsConsentButton"),
+      showCancelButton: true,
+      cancelButton: t("LABELS.termsCancelButton"),
+    }
+
+    const receiveCancelConsentAction = (eventValue) => {
+      setIsOpen(false);
+    }
+
+    const receiveConsentAction = (eventValue) => {
+      setTermsConsented(true);
+      setIsOpen(false);
+    }
+
+    const stepperSetFieldValue = (fieldName, isChecked) => {
+      formikInstance.setFieldValue(fieldName,isChecked);
+    } 
+    console.log(stepperSetFieldValue);
+
     return (
         <FormikStepper
                 isRegistered={userRegistered}
@@ -160,7 +187,7 @@ export function RegisterWizardJWT() {
                   first_name: '',
                   last_name: '',
                   username: '',
-                  terms: '',
+                  terms: termsConsented == true ? true : false,
                   promo: true,
                   password: '',
                   password_confirm: '',
@@ -418,7 +445,7 @@ export function RegisterWizardJWT() {
                               <>
                                 <Typography variant="body2">
                                   {t('LABELS.accept')}{' '}
-                                  <Link href="#" aria-label={ t('FORMS.confirmTermsPopup') } >{t('LABELS.terms')}</Link>.
+                                  <Link href="#" onClick={() => setIsOpen(true)} aria-label={ t('FORMS.confirmTermsPopup') } >{t('LABELS.terms')}</Link>.
                                 </Typography>
                                 <ErrorMessage name="terms" component="div" className="invalid-feedback" />
                               </>
@@ -428,6 +455,7 @@ export function RegisterWizardJWT() {
                       </Grid>
                     </Grid>
                   </BoxFields>
+                  {isOpen && <Modal dialogOkAction={receiveConsentAction} dialogCancelAction={receiveCancelConsentAction} dialogJson={termsDialogJson} setIsOpen={isOpen}><TermsModal termsLanguages={termsData.termsLanguages}/></Modal>}
                 </FormikStep>
                 <FormikStep
                   validationSchema={Yup.object().shape({
@@ -620,7 +648,7 @@ export function FormikStep({ children }) {
           }
         }}
       >
-        {({ isSubmitting }) => (
+        {({ isSubmitting, setFieldValue }) => (
           <Form autoComplete="off">
             <Stepper alternativeLabel activeStep={step}>
               {childrenArray.map((child, index) => (

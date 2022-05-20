@@ -60,3 +60,15 @@ export const CloneTermsRecord = async(termsApiUri, termsDataJson, bearerToken) =
     }
     return response;
 }
+
+export const ActivateTermsRecord = async(termsApiUri, termsDataJson, bearerToken) => {
+    let response = await genericFetch(termsApiUri, "PUT", bearerToken,termsDataJson);
+    if (response.requestAgain) {
+        response = await genericFetch(termsApiUri, "PUT", bearerToken,termsDataJson);
+    }
+    else if (response.status == 404) {
+        response.termsId = -1;
+        response.termsVersion = 0;
+    }
+    return response;
+}

@@ -36,5 +36,8 @@ export declare const TERMSDETAILS_TRANSLATIONS: {
         readonly termsNotFound: "The Terms & Conditions version {{termsName}} wasn't found. Please double check if the version is correct";
         readonly termsLockedForEdition: "The Terms & Conditions version {{termsName}} are locked for edition - this version is/was active in the past. Clone it to edit it";
     };
+    readonly READING: {
+        readonly termsAndConditions: "Terms & Conditions of using Transição Portugal Portal";
+    };
 };
 //# sourceMappingURL=TermsDetails.d.ts.map

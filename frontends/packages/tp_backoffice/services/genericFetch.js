@@ -49,7 +49,9 @@ export const genericFetch = async (apiUrl, method, bearerToken, bodyJson) => {
             throw response;
         }
         resultData = await response.json();
-        resultData.totalCount = response.headers.get('x-total-count');
+        if (response.headers.get('x-total-count')) {
+            resultData.totalCount = response.headers.get('x-total-count');
+        }
     }catch(err){
         resultData = err;
         console.log(resultErrorBody)

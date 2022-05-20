@@ -5,8 +5,8 @@ const initialSearchState = {
     searchText: "",
     isActive: "",
     version: "",
-    page: 1,
-    size: 10,
+    offset: 1,
+    limit: 10,
     sort: "Version",
     sortDirection: "desc"
 };

@@ -26,6 +26,7 @@ import Image from "@editorjs/image";
 import InlineCode from "@editorjs/inline-code";
 import LinkTool from "@editorjs/link";
 import List from "@editorjs/list";
+import NestedList from '@editorjs/nested-list';
 import Quote from "@editorjs/quote";
 import SimpleImage from "@editorjs/simple-image";
 import Header from "@editorjs/header"
@@ -144,7 +145,10 @@ const DetailForm = ({isCreate, termsData, termsPutUrl, imageArray, handleInstanc
     const EDITOR_JS_TOOLS = {
         embed: Embed,
         header: Header,
-        list: List,
+        list: {
+          class: NestedList,
+          inlineToolbar: true,
+        },
         linkTool: LinkTool,
         quote: Quote,
         checklist: CheckList,

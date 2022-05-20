@@ -1,5 +1,6 @@
 
 import { i18nextSettingsList } from "@transitionpt/translations";
+import SingleActions from './SingleActions';
 
 import {
   Grid,
@@ -20,6 +21,11 @@ function PageHeader({settingsType}) {
             {settingsType == "email" ? t('MESSAGES.emailSettingsDescription') : t('MESSAGES.userAuthSettingsDescription')}
           </Typography>
         </Grid>
+          { settingsType && settingsType == "email" &&
+            <Grid item>
+                  <SingleActions settingsType={settingsType}/>
+            </Grid>
+          }
       </Grid>
     </>
   );

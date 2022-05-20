@@ -92,8 +92,8 @@ namespace UserService.Controllers
         }
 
         [Authorize]
-        [HttpGet]
-        public async Task<IActionResult> Get(string? searchText, int? offset, int? limit, string sort, string sortDirection)
+        [HttpGet("lists")]
+        public async Task<IActionResult> GetLists(string? searchText, int? offset, int? limit, string? sort, string? sortDirection)
         {
             string header = HttpContext.Request.Headers["Authorization"];
             string[] claims = new string[] { "userId", "sub", System.Security.Claims.ClaimTypes.Role, "scope" };
@@ -109,22 +109,69 @@ namespace UserService.Controllers
                     offset = offset ?? 1;
 
                     searchText = searchText == null ? string.Empty : searchText.Trim().ToLower();
-                    sort = sort ?? "ScopeName";
+                    sort = sort ?? "Name";
                     SortDirection direction = sortDirection == "desc" ? SortDirection.Descending : SortDirection.Ascending;
 
-                    Expression<Func<NewsletterSubscription, bool>> filter = (x => x.Email.ToLower().Contains(searchText.ToLower()));
+                    var mailingLists = this._mailchimpRepository.GetAllMailingLists();
 
-                    var _subscriptions = _uow.NewsletterSubscriptionRepository.Get(offset, limit, filter, sort, direction, string.Empty);
+                    Request.HttpContext.Response.Headers.Add("X-Total-Count", mailingLists != null ? mailingLists.Count.ToString() : "0");
 
-                    int totalCount = _uow.NewsletterSubscriptionRepository.Count(filter);
-
-                    Request.HttpContext.Response.Headers.Add("X-Total-Count", totalCount.ToString());
-
-                    return _subscriptions != null ? Ok(new
+                    return mailingLists != null ? Ok(new
                     {
-                        subscriptions = ParseEntitiesToModel(_subscriptions)
+                        mailingLists = mailingLists
                     })
-                    : NotFound(new List<NewsletterSubscription>());
+                    : NotFound(new List<MailChimp.Net.Models.List>());
+                }
+                catch (Exception ex)
+                {
+                    CommonLibrary.Entities.ViewModel.ExceptionModel exceptionModel = new CommonLibrary.Entities.ViewModel.ExceptionModel();
+                    exceptionModel.Message = ex.Message;
+                    exceptionModel.StackTrace = ex.StackTrace;
+                    exceptionModel.DateLogging = DateTime.UtcNow;
+                    exceptionModel.AdminRole = "Admin";
+                    exceptionModel.InnerException = ex.InnerException;
+                    var claimUserId = userClaims.Where(x => x.Claim == "userId").FirstOrDefault();
+                    exceptionModel.UserId = claimUserId != null ? claimUserId.Value : "";
+
+                    bool success = await _rabbitSender.PublishExceptionMessage(exceptionModel);
+
+                    return StatusCode(StatusCodes.Status500InternalServerError, null);
+                }
+            }
+            return Forbid();
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> Get(string? searchText, string mailingListId, int? offset, int? limit, string? sort, string? sortDirection)
+        {
+            string header = HttpContext.Request.Headers["Authorization"];
+            string[] claims = new string[] { "userId", "sub", System.Security.Claims.ClaimTypes.Role, "scope" };
+            List<JwtClaim> userClaims = JwtHelper.ValidateToken(header, _configuration["JWT:ValidAudience"], _configuration["JWT:ValidIssuer"], _configuration["JWT:SecretPublicKey"], claims);
+            string userScopesString = userClaims.Where(x => x.Claim == "scope").Single().Value;
+            List<string>? scopes = !string.IsNullOrEmpty(userScopesString) ? JsonSerializer.Deserialize<List<string>>(userScopesString) : null;
+
+            if (PermissionsHelper.ValidateRoleClaimPermission(userClaims, new List<string> { "Admin" })
+                && PermissionsHelper.ValidateUserScopesPermissionAll(scopes, new List<string> { "newsletter.admin" }))
+            {
+                try
+                {
+                    offset = offset.HasValue ? offset - 1 : 0;
+                    limit = limit ?? 10;
+
+                    searchText = searchText == null ? string.Empty : searchText.Trim().ToLower();
+                    sort = sort ?? "EmailAddress";
+                    MailChimp.Net.Core.MemberSortOrder direction = sortDirection == "desc" ? MailChimp.Net.Core.MemberSortOrder.DESC : MailChimp.Net.Core.MemberSortOrder.ASC;
+
+                    var listMembers = this._mailchimpRepository.GetAllMembers(mailingListId, null, offset.Value, limit.Value, direction);
+
+                    Request.HttpContext.Response.Headers.Add("X-Total-Count", this._mailchimpRepository.GetAllMembersCount(mailingListId, null).ToString());
+
+                    return listMembers != null ? Ok(new
+                    {
+                        listMembers = listMembers
+                    })
+                    : NotFound(new List<MailChimp.Net.Models.Member>());
                 }
                 catch (Exception ex)
                 {

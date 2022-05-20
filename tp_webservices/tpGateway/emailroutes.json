@@ -35,6 +35,23 @@
       }
     },
     {
+      "DownstreamPathTemplate": "/api/settings/test/sendemail",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tpemailservice",
+          "Port": 3010
+        }
+      ],
+      "UpstreamPathTemplate": "/email/test/send",
+      "UpstreamHttpMethod": [ "Get" ],
+      "SwaggerKey": "EmailService",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "TpAuthKey",
+        "AllowedScopes": [ "settings.admin" ]
+      }
+    },
+    {
       "DownstreamPathTemplate": "/api/settings/edit",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [

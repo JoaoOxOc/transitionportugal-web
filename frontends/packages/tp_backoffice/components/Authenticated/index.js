@@ -22,7 +22,7 @@ export const Authenticated = (props) => {
     //     pathname: '/auth/login/cover',
     //     query: { backTo: router.asPath }
     //   });
-    if (!session || !session.token || session.token.error) {
+    if (!session || !session.accessToken || session.error) {
       router.push({
         pathname: '/auth/login/cover',
         query: { backTo: router.asPath }
