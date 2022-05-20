@@ -387,7 +387,7 @@ function FileManagerSidebar() {
             {t('Increase storage')}
           </ButtonContrast>
           <img
-            src="/static/images/placeholders/illustrations/2.png"
+            src="/admin/static/images/placeholders/illustrations/2.png"
             alt="..."
           />
         </BoxUpgrade>

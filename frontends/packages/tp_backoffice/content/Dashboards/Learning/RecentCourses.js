@@ -172,7 +172,7 @@ function RecentCourses() {
                   href="#"
                 >
                   <img
-                    src="/static/images/placeholders/fitness/1.jpg"
+                    src="/admin/static/images/placeholders/fitness/1.jpg"
                     alt="..."
                   />
                 </Link>
@@ -304,7 +304,7 @@ function RecentCourses() {
                   href="#"
                 >
                   <img
-                    src="/static/images/placeholders/fitness/2.jpg"
+                    src="/admin/static/images/placeholders/fitness/2.jpg"
                     alt="..."
                   />
                 </Link>

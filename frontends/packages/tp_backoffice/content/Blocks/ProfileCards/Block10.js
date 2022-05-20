@@ -67,7 +67,7 @@ function Block10() {
             width: 95,
             height: 95
           }}
-          src="/static/images/avatars/3.jpg"
+          src="/admin/static/images/avatars/3.jpg"
         />
         <Box
           sx={{

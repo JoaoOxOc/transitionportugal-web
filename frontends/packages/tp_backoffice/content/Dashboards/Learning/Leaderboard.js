@@ -157,7 +157,7 @@ function Leaderboard() {
                     />
                   }
                 >
-                  <Avatar src="/static/images/avatars/2.jpg" />
+                  <Avatar src="/admin/static/images/avatars/2.jpg" />
                 </Badge>
                 <Typography variant="h5">Brandon Jonas</Typography>
               </Box>
@@ -198,7 +198,7 @@ function Leaderboard() {
                     />
                   }
                 >
-                  <Avatar src="/static/images/avatars/4.jpg" />
+                  <Avatar src="/admin/static/images/avatars/4.jpg" />
                 </Badge>
                 <Typography variant="h5">Erin Donin</Typography>
               </Box>
@@ -239,7 +239,7 @@ function Leaderboard() {
                     />
                   }
                 >
-                  <Avatar src="/static/images/avatars/5.jpg" />
+                  <Avatar src="/admin/static/images/avatars/5.jpg" />
                 </Badge>
                 <Typography variant="h5">Charlie Rhiel Madsen</Typography>
               </Box>

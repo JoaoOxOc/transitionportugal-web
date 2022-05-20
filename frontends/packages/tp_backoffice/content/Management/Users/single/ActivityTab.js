@@ -33,7 +33,7 @@ function ActivityTab() {
   return (
     <Card>
       <CardHeader
-        avatar={<Avatar src="/static/images/avatars/5.jpg" />}
+        avatar={<Avatar src="/admin/static/images/avatars/5.jpg" />}
         action={
           <IconButton color="primary">
             <MoreHorizTwoToneIcon />
@@ -58,7 +58,7 @@ function ActivityTab() {
         sx={{
           minHeight: 280
         }}
-        image="/static/images/placeholders/covers/6.jpg"
+        image="/admin/static/images/placeholders/covers/6.jpg"
         title="Card Cover"
       />
       <Box p={3}>

@@ -81,7 +81,7 @@ function Block13() {
           boxShadow: `0 .113rem .5rem ${theme.colors.alpha.black[10]}, 0 .126rem .225rem ${theme.colors.alpha.black[30]}`,
           border: `${theme.colors.alpha.white[100]} solid 3px`
         }}
-        src="/static/images/avatars/3.jpg"
+        src="/admin/static/images/avatars/3.jpg"
       />
       <Typography
         sx={{

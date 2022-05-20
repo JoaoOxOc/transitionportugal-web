@@ -255,7 +255,7 @@ function Block9() {
               sx={{
                 opacity: 0.4,
                 backgroundImage:
-                  'url("/static/images/placeholders/covers/1.jpg")'
+                  'url("/admin/static/images/placeholders/covers/1.jpg")'
               }}
             />
             <BoxComposedContent px={8} pt={8} pb={4}>
@@ -513,7 +513,7 @@ function Block9() {
                       <img
                         style={{ height: 28 }}
                         alt="Google"
-                        src="/static/images/logo/google.svg"
+                        src="/admin/static/images/logo/google.svg"
                       />
                     </ButtonWrapper>
                   </Tooltip>
@@ -528,7 +528,7 @@ function Block9() {
                       <img
                         style={{ height: 28 }}
                         alt="Amplify"
-                        src="/static/images/logo/amplify.svg"
+                        src="/admin/static/images/logo/amplify.svg"
                       />
                     </ButtonWrapper>
                   </Tooltip>
@@ -537,7 +537,7 @@ function Block9() {
                       <img
                         style={{ height: 28 }}
                         alt="Amplify"
-                        src="/static/images/logo/auth0.svg"
+                        src="/admin/static/images/logo/auth0.svg"
                       />
                     </ButtonWrapper>
                   </Tooltip>
@@ -748,7 +748,7 @@ function Block9() {
                               }}
                               href="#"
                               alt="Remy Sharp"
-                              src="/static/images/avatars/1.jpg"
+                              src="/admin/static/images/avatars/1.jpg"
                             />
                           </Tooltip>
                           <Tooltip arrow title="Travis Howard">
@@ -760,7 +760,7 @@ function Block9() {
                               }}
                               href="#"
                               alt="Travis Howard"
-                              src="/static/images/avatars/2.jpg"
+                              src="/admin/static/images/avatars/2.jpg"
                             />
                           </Tooltip>
                           <Tooltip arrow title="Cindy Baker">
@@ -772,7 +772,7 @@ function Block9() {
                               }}
                               href="#"
                               alt="Cindy Baker"
-                              src="/static/images/avatars/3.jpg"
+                              src="/admin/static/images/avatars/3.jpg"
                             />
                           </Tooltip>
                           <Tooltip arrow title="Cindy Baker">
@@ -784,7 +784,7 @@ function Block9() {
                               }}
                               href="#"
                               alt="Cindy Baker"
-                              src="/static/images/avatars/4.jpg"
+                              src="/admin/static/images/avatars/4.jpg"
                             />
                           </Tooltip>
                           <Tooltip arrow title="Agnes Walker">
@@ -796,7 +796,7 @@ function Block9() {
                               }}
                               href="#"
                               alt="Agnes Walker"
-                              src="/static/images/avatars/5.jpg"
+                              src="/admin/static/images/avatars/5.jpg"
                             />
                           </Tooltip>
                         </AvatarGroup>
@@ -848,7 +848,7 @@ function Block9() {
                             <CardMedia
                               component="img"
                               height="64"
-                              image="/static/images/placeholders/fitness/1.jpg"
+                              image="/admin/static/images/placeholders/fitness/1.jpg"
                               alt="..."
                             />
                           </CardActionArea>
@@ -862,7 +862,7 @@ function Block9() {
                             <CardMedia
                               component="img"
                               height="64"
-                              image="/static/images/placeholders/fitness/2.jpg"
+                              image="/admin/static/images/placeholders/fitness/2.jpg"
                               alt="..."
                             />
                           </CardActionArea>
@@ -876,7 +876,7 @@ function Block9() {
                             <CardMedia
                               component="img"
                               height="64"
-                              image="/static/images/placeholders/fitness/3.jpg"
+                              image="/admin/static/images/placeholders/fitness/3.jpg"
                               alt="..."
                             />
                           </CardActionArea>

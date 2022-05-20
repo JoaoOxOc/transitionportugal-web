@@ -76,7 +76,7 @@ function UpcomingConsults() {
               </Box>
               <Box display="flex" alignItems="center">
                 <Avatar
-                  src="/static/images/avatars/2.jpg"
+                  src="/admin/static/images/avatars/2.jpg"
                   sx={{
                     mr: 1
                   }}
@@ -120,7 +120,7 @@ function UpcomingConsults() {
               </Box>
               <Box display="flex" alignItems="center">
                 <Avatar
-                  src="/static/images/avatars/1.jpg"
+                  src="/admin/static/images/avatars/1.jpg"
                   sx={{
                     mr: 1
                   }}
@@ -164,7 +164,7 @@ function UpcomingConsults() {
               </Box>
               <Box display="flex" alignItems="center">
                 <Avatar
-                  src="/static/images/avatars/4.jpg"
+                  src="/admin/static/images/avatars/4.jpg"
                   sx={{
                     mr: 1
                   }}

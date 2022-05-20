@@ -9,11 +9,11 @@ class ProductsApi {
         stock: 56,
         rating: 4.8,
         images: [
-          '/static/images/placeholders/products/1.png',
-          '/static/images/placeholders/fitness/1.jpg',
-          '/static/images/placeholders/fitness/2.jpg',
-          '/static/images/placeholders/fitness/3.jpg',
-          '/static/images/placeholders/fitness/4.jpg'
+          '/admin/static/images/placeholders/products/1.png',
+          '/admin/static/images/placeholders/fitness/1.jpg',
+          '/admin/static/images/placeholders/fitness/2.jpg',
+          '/admin/static/images/placeholders/fitness/3.jpg',
+          '/admin/static/images/placeholders/fitness/4.jpg'
         ],
         orders: 34,
         summary:
@@ -35,11 +35,11 @@ class ProductsApi {
         stock: 99,
         rating: 4.9,
         images: [
-          '/static/images/placeholders/products/2.png',
-          '/static/images/placeholders/fitness/1.jpg',
-          '/static/images/placeholders/fitness/2.jpg',
-          '/static/images/placeholders/fitness/3.jpg',
-          '/static/images/placeholders/fitness/4.jpg'
+          '/admin/static/images/placeholders/products/2.png',
+          '/admin/static/images/placeholders/fitness/1.jpg',
+          '/admin/static/images/placeholders/fitness/2.jpg',
+          '/admin/static/images/placeholders/fitness/3.jpg',
+          '/admin/static/images/placeholders/fitness/4.jpg'
         ],
         orders: 75,
         summary:
@@ -61,11 +61,11 @@ class ProductsApi {
         stock: 68,
         rating: 5,
         images: [
-          '/static/images/placeholders/products/3.png',
-          '/static/images/placeholders/fitness/1.jpg',
-          '/static/images/placeholders/fitness/2.jpg',
-          '/static/images/placeholders/fitness/3.jpg',
-          '/static/images/placeholders/fitness/4.jpg'
+          '/admin/static/images/placeholders/products/3.png',
+          '/admin/static/images/placeholders/fitness/1.jpg',
+          '/admin/static/images/placeholders/fitness/2.jpg',
+          '/admin/static/images/placeholders/fitness/3.jpg',
+          '/admin/static/images/placeholders/fitness/4.jpg'
         ],
         orders: 75,
         summary:
@@ -87,11 +87,11 @@ class ProductsApi {
         stock: 35,
         rating: 4.5,
         images: [
-          '/static/images/placeholders/products/4.png',
-          '/static/images/placeholders/fitness/1.jpg',
-          '/static/images/placeholders/fitness/2.jpg',
-          '/static/images/placeholders/fitness/3.jpg',
-          '/static/images/placeholders/fitness/4.jpg'
+          '/admin/static/images/placeholders/products/4.png',
+          '/admin/static/images/placeholders/fitness/1.jpg',
+          '/admin/static/images/placeholders/fitness/2.jpg',
+          '/admin/static/images/placeholders/fitness/3.jpg',
+          '/admin/static/images/placeholders/fitness/4.jpg'
         ],
         orders: 19,
         summary:
@@ -113,11 +113,11 @@ class ProductsApi {
         stock: 99,
         rating: 4.9,
         images: [
-          '/static/images/placeholders/products/5.png',
-          '/static/images/placeholders/fitness/1.jpg',
-          '/static/images/placeholders/fitness/2.jpg',
-          '/static/images/placeholders/fitness/3.jpg',
-          '/static/images/placeholders/fitness/4.jpg'
+          '/admin/static/images/placeholders/products/5.png',
+          '/admin/static/images/placeholders/fitness/1.jpg',
+          '/admin/static/images/placeholders/fitness/2.jpg',
+          '/admin/static/images/placeholders/fitness/3.jpg',
+          '/admin/static/images/placeholders/fitness/4.jpg'
         ],
         orders: 98,
         summary:
@@ -139,11 +139,11 @@ class ProductsApi {
         stock: 83,
         rating: 4.6,
         images: [
-          '/static/images/placeholders/products/6.png',
-          '/static/images/placeholders/fitness/1.jpg',
-          '/static/images/placeholders/fitness/2.jpg',
-          '/static/images/placeholders/fitness/3.jpg',
-          '/static/images/placeholders/fitness/4.jpg'
+          '/admin/static/images/placeholders/products/6.png',
+          '/admin/static/images/placeholders/fitness/1.jpg',
+          '/admin/static/images/placeholders/fitness/2.jpg',
+          '/admin/static/images/placeholders/fitness/3.jpg',
+          '/admin/static/images/placeholders/fitness/4.jpg'
         ],
         orders: 185,
         summary:
@@ -165,11 +165,11 @@ class ProductsApi {
         stock: 99,
         rating: 4.4,
         images: [
-          '/static/images/placeholders/products/7.png',
-          '/static/images/placeholders/fitness/1.jpg',
-          '/static/images/placeholders/fitness/2.jpg',
-          '/static/images/placeholders/fitness/3.jpg',
-          '/static/images/placeholders/fitness/4.jpg'
+          '/admin/static/images/placeholders/products/7.png',
+          '/admin/static/images/placeholders/fitness/1.jpg',
+          '/admin/static/images/placeholders/fitness/2.jpg',
+          '/admin/static/images/placeholders/fitness/3.jpg',
+          '/admin/static/images/placeholders/fitness/4.jpg'
         ],
         orders: 26,
         summary:
@@ -191,11 +191,11 @@ class ProductsApi {
         stock: 38,
         rating: 4.9,
         images: [
-          '/static/images/placeholders/products/8.png',
-          '/static/images/placeholders/fitness/1.jpg',
-          '/static/images/placeholders/fitness/2.jpg',
-          '/static/images/placeholders/fitness/3.jpg',
-          '/static/images/placeholders/fitness/4.jpg'
+          '/admin/static/images/placeholders/products/8.png',
+          '/admin/static/images/placeholders/fitness/1.jpg',
+          '/admin/static/images/placeholders/fitness/2.jpg',
+          '/admin/static/images/placeholders/fitness/3.jpg',
+          '/admin/static/images/placeholders/fitness/4.jpg'
         ],
         orders: 9,
         summary:
@@ -217,11 +217,11 @@ class ProductsApi {
         stock: 4,
         rating: 4.3,
         images: [
-          '/static/images/placeholders/products/9.png',
-          '/static/images/placeholders/fitness/1.jpg',
-          '/static/images/placeholders/fitness/2.jpg',
-          '/static/images/placeholders/fitness/3.jpg',
-          '/static/images/placeholders/fitness/4.jpg'
+          '/admin/static/images/placeholders/products/9.png',
+          '/admin/static/images/placeholders/fitness/1.jpg',
+          '/admin/static/images/placeholders/fitness/2.jpg',
+          '/admin/static/images/placeholders/fitness/3.jpg',
+          '/admin/static/images/placeholders/fitness/4.jpg'
         ],
         orders: 73,
         summary:
@@ -243,11 +243,11 @@ class ProductsApi {
         stock: 2,
         rating: 4.1,
         images: [
-          '/static/images/placeholders/products/10.png',
-          '/static/images/placeholders/fitness/1.jpg',
-          '/static/images/placeholders/fitness/2.jpg',
-          '/static/images/placeholders/fitness/3.jpg',
-          '/static/images/placeholders/fitness/4.jpg'
+          '/admin/static/images/placeholders/products/10.png',
+          '/admin/static/images/placeholders/fitness/1.jpg',
+          '/admin/static/images/placeholders/fitness/2.jpg',
+          '/admin/static/images/placeholders/fitness/3.jpg',
+          '/admin/static/images/placeholders/fitness/4.jpg'
         ],
         orders: 94,
         summary:
@@ -275,11 +275,11 @@ class ProductsApi {
       stock: 56,
       rating: 4.8,
       images: [
-        '/static/images/placeholders/products/1.png',
-        '/static/images/placeholders/fitness/1.jpg',
-        '/static/images/placeholders/fitness/2.jpg',
-        '/static/images/placeholders/fitness/3.jpg',
-        '/static/images/placeholders/fitness/4.jpg'
+        '/admin/static/images/placeholders/products/1.png',
+        '/admin/static/images/placeholders/fitness/1.jpg',
+        '/admin/static/images/placeholders/fitness/2.jpg',
+        '/admin/static/images/placeholders/fitness/3.jpg',
+        '/admin/static/images/placeholders/fitness/4.jpg'
       ],
       orders: 34,
       summary:

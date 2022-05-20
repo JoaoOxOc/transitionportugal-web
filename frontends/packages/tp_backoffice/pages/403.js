@@ -70,7 +70,7 @@ import {
                 </Container>
                 <Container maxWidth="sm">
                 <Card sx={{ textAlign: 'center', mt: 3, p: 4 }}>
-                    <Button href="/" variant="outlined">
+                    <Button href="/admin" variant="outlined">
                     {t('LABELS.homepage')}
                     </Button>
                 </Card>
@@ -78,7 +78,7 @@ import {
                 <img
                   alt={t('LABELS.forbiddenImage')}
                   height={250}
-                  src="/static/images/status/maintenance.svg"
+                  src="/admin/static/images/status/maintenance.svg"
                 />
               </Box>
               <Divider sx={{ my: 4 }} />

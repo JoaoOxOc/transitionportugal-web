@@ -116,7 +116,7 @@ function Appointments() {
                   component={Link}
                   href="#"
                   alt="Remy Sharp"
-                  src="/static/images/avatars/1.jpg"
+                  src="/admin/static/images/avatars/1.jpg"
                 />
               </Tooltip>
               <Tooltip arrow title={t('View profile for') + ' Travis Howard'}>
@@ -128,7 +128,7 @@ function Appointments() {
                   component={Link}
                   href="#"
                   alt="Travis Howard"
-                  src="/static/images/avatars/2.jpg"
+                  src="/admin/static/images/avatars/2.jpg"
                 />
               </Tooltip>
               <Tooltip arrow title={t('View profile for') + ' Cindy Baker'}>
@@ -140,7 +140,7 @@ function Appointments() {
                   component={Link}
                   href="#"
                   alt="Cindy Baker"
-                  src="/static/images/avatars/3.jpg"
+                  src="/admin/static/images/avatars/3.jpg"
                 />
               </Tooltip>
               <Tooltip arrow title={t('View profile for') + ' Agnes Walker'}>
@@ -152,7 +152,7 @@ function Appointments() {
                   component={Link}
                   href="#"
                   alt="Agnes Walker"
-                  src="/static/images/avatars/4.jpg"
+                  src="/admin/static/images/avatars/4.jpg"
                 />
               </Tooltip>
               <Tooltip
@@ -167,7 +167,7 @@ function Appointments() {
                   component={Link}
                   href="#"
                   alt="Trevor Henderson"
-                  src="/static/images/avatars/5.jpg"
+                  src="/admin/static/images/avatars/5.jpg"
                 />
               </Tooltip>
               <Tooltip arrow title={t('View profile for') + ' Remy Sharp'}>
@@ -179,7 +179,7 @@ function Appointments() {
                   component={Link}
                   href="#"
                   alt="Remy Sharp"
-                  src="/static/images/avatars/1.jpg"
+                  src="/admin/static/images/avatars/1.jpg"
                 />
               </Tooltip>
               <Tooltip arrow title={t('View profile for') + ' Remy Sharp'}>
@@ -191,7 +191,7 @@ function Appointments() {
                   component={Link}
                   href="#"
                   alt="Remy Sharp"
-                  src="/static/images/avatars/2.jpg"
+                  src="/admin/static/images/avatars/2.jpg"
                 />
               </Tooltip>
             </AvatarGroup>

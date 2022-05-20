@@ -135,7 +135,7 @@ function Block1() {
                   height: 34
                 }}
                 alt="Cindy Baker"
-                src="/static/images/avatars/3.jpg"
+                src="/admin/static/images/avatars/3.jpg"
               />
               <Avatar
                 variant="rounded"
@@ -146,7 +146,7 @@ function Block1() {
                   height: 34
                 }}
                 alt="Agnes Walker"
-                src="/static/images/avatars/4.jpg"
+                src="/admin/static/images/avatars/4.jpg"
               />
             </Box>
           </Box>
@@ -268,7 +268,7 @@ function Block1() {
                   height: 44
                 }}
                 alt="Cindy Baker"
-                src="/static/images/avatars/1.jpg"
+                src="/admin/static/images/avatars/1.jpg"
               />
               <Avatar
                 sx={{
@@ -276,7 +276,7 @@ function Block1() {
                   height: 44
                 }}
                 alt="Shelly Hays"
-                src="/static/images/avatars/2.jpg"
+                src="/admin/static/images/avatars/2.jpg"
               />
               <Avatar
                 sx={{
@@ -284,7 +284,7 @@ function Block1() {
                   height: 44
                 }}
                 alt="Agnes Walker"
-                src="/static/images/avatars/5.jpg"
+                src="/admin/static/images/avatars/5.jpg"
               />
             </AvatarGroup>
           </Box>
@@ -410,7 +410,7 @@ function Block1() {
                       height: 44
                     }}
                     alt="Cindy Baker"
-                    src="/static/images/avatars/1.jpg"
+                    src="/admin/static/images/avatars/1.jpg"
                   />
                 </Badge>
               </Box>
@@ -421,7 +421,7 @@ function Block1() {
                   height: 44
                 }}
                 alt="Travis Howard"
-                src="/static/images/avatars/2.jpg"
+                src="/admin/static/images/avatars/2.jpg"
               />
               <Avatar
                 sx={{
@@ -430,7 +430,7 @@ function Block1() {
                   height: 44
                 }}
                 alt="Remy Sharp"
-                src="/static/images/avatars/3.jpg"
+                src="/admin/static/images/avatars/3.jpg"
               />
               <Avatar
                 sx={{
@@ -439,7 +439,7 @@ function Block1() {
                   height: 44
                 }}
                 alt="Shelly Hays"
-                src="/static/images/avatars/4.jpg"
+                src="/admin/static/images/avatars/4.jpg"
               />
               <Avatar
                 sx={{
@@ -448,7 +448,7 @@ function Block1() {
                   height: 44
                 }}
                 alt="Agnes Walker"
-                src="/static/images/avatars/5.jpg"
+                src="/admin/static/images/avatars/5.jpg"
               />
             </Box>
           </Box>
@@ -618,7 +618,7 @@ function Block1() {
                     '0 .113rem .5rem rgba(7,9,25,.3), 0 .126rem .225rem rgba(7,9,25,.1)'
                 }}
                 alt="Cindy Baker"
-                src="/static/images/avatars/3.jpg"
+                src="/admin/static/images/avatars/3.jpg"
               />
               <Avatar
                 variant="rounded"
@@ -631,7 +631,7 @@ function Block1() {
                     '0 .113rem .5rem rgba(7,9,25,.3), 0 .126rem .225rem rgba(7,9,25,.1)'
                 }}
                 alt="Agnes Walker"
-                src="/static/images/avatars/4.jpg"
+                src="/admin/static/images/avatars/4.jpg"
               />
             </Box>
           </Box>
@@ -757,7 +757,7 @@ function Block1() {
                     '0 .113rem .5rem rgba(7,9,25,.3), 0 .126rem .225rem rgba(7,9,25,.1)'
                 }}
                 alt="Cindy Baker"
-                src="/static/images/avatars/1.jpg"
+                src="/admin/static/images/avatars/1.jpg"
               />
               <Avatar
                 sx={{
@@ -768,7 +768,7 @@ function Block1() {
                     '0 .113rem .5rem rgba(7,9,25,.3), 0 .126rem .225rem rgba(7,9,25,.1)'
                 }}
                 alt="Shelly Hays"
-                src="/static/images/avatars/2.jpg"
+                src="/admin/static/images/avatars/2.jpg"
               />
               <Avatar
                 sx={{
@@ -778,7 +778,7 @@ function Block1() {
                     '0 .113rem .5rem rgba(7,9,25,.3), 0 .126rem .225rem rgba(7,9,25,.1)'
                 }}
                 alt="Agnes Walker"
-                src="/static/images/avatars/5.jpg"
+                src="/admin/static/images/avatars/5.jpg"
               />
             </Box>
           </Box>
@@ -913,7 +913,7 @@ function Block1() {
                         '0 .113rem .5rem rgba(7,9,25,.3), 0 .126rem .225rem rgba(7,9,25,.1)'
                     }}
                     alt="Cindy Baker"
-                    src="/static/images/avatars/1.jpg"
+                    src="/admin/static/images/avatars/1.jpg"
                   />
                 </Badge>
               </Box>
@@ -926,7 +926,7 @@ function Block1() {
                     '0 .113rem .5rem rgba(7,9,25,.3), 0 .126rem .225rem rgba(7,9,25,.1)'
                 }}
                 alt="Travis Howard"
-                src="/static/images/avatars/2.jpg"
+                src="/admin/static/images/avatars/2.jpg"
               />
               <Avatar
                 sx={{
@@ -937,7 +937,7 @@ function Block1() {
                     '0 .113rem .5rem rgba(7,9,25,.3), 0 .126rem .225rem rgba(7,9,25,.1)'
                 }}
                 alt="Remy Sharp"
-                src="/static/images/avatars/3.jpg"
+                src="/admin/static/images/avatars/3.jpg"
               />
               <Avatar
                 sx={{
@@ -948,7 +948,7 @@ function Block1() {
                     '0 .113rem .5rem rgba(7,9,25,.3), 0 .126rem .225rem rgba(7,9,25,.1)'
                 }}
                 alt="Shelly Hays"
-                src="/static/images/avatars/4.jpg"
+                src="/admin/static/images/avatars/4.jpg"
               />
               <Avatar
                 sx={{
@@ -959,7 +959,7 @@ function Block1() {
                     '0 .113rem .5rem rgba(7,9,25,.3), 0 .126rem .225rem rgba(7,9,25,.1)'
                 }}
                 alt="Agnes Walker"
-                src="/static/images/avatars/5.jpg"
+                src="/admin/static/images/avatars/5.jpg"
               />
             </Box>
           </Box>

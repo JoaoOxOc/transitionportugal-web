@@ -218,7 +218,7 @@ function MyCards() {
   };
 
   const data = {
-    logo1: '/static/images/placeholders/logo/deutschebank_light.svg'
+    logo1: '/admin/static/images/placeholders/logo/deutschebank_light.svg'
   };
 
   return (
@@ -424,7 +424,7 @@ function MyCards() {
           >
             <img
               alt="Spotify"
-              src="/static/images/placeholders/logo/spotify.svg"
+              src="/admin/static/images/placeholders/logo/spotify.svg"
             />
           </ListItemAvatar>
           <ListItemText
@@ -451,7 +451,7 @@ function MyCards() {
               alignItems: 'center'
             }}
           >
-            <img alt="Slack" src="/static/images/placeholders/logo/slack.svg" />
+            <img alt="Slack" src="/admin/static/images/placeholders/logo/slack.svg" />
           </ListItemAvatar>
           <ListItemText
             primary="Slack"
@@ -479,7 +479,7 @@ function MyCards() {
           >
             <img
               alt="AirBnB"
-              src="/static/images/placeholders/logo/airbnb.svg"
+              src="/admin/static/images/placeholders/logo/airbnb.svg"
             />
           </ListItemAvatar>
           <ListItemText
@@ -554,7 +554,7 @@ function MyCards() {
               component={Link}
               href="#"
               alt="Remy Sharp"
-              src="/static/images/avatars/1.jpg"
+              src="/admin/static/images/avatars/1.jpg"
             />
           </Tooltip>
           <Tooltip arrow title={t('View profile for') + ' Travis Howard'}>
@@ -562,7 +562,7 @@ function MyCards() {
               component={Link}
               href="#"
               alt="Travis Howard"
-              src="/static/images/avatars/2.jpg"
+              src="/admin/static/images/avatars/2.jpg"
             />
           </Tooltip>
           <Tooltip arrow title={t('View profile for') + ' Cindy Baker'}>
@@ -570,7 +570,7 @@ function MyCards() {
               component={Link}
               href="#"
               alt="Cindy Baker"
-              src="/static/images/avatars/3.jpg"
+              src="/admin/static/images/avatars/3.jpg"
             />
           </Tooltip>
           <Tooltip arrow title={t('View profile for') + ' Agnes Walker'}>
@@ -578,7 +578,7 @@ function MyCards() {
               component={Link}
               href="#"
               alt="Agnes Walker"
-              src="/static/images/avatars/4.jpg"
+              src="/admin/static/images/avatars/4.jpg"
             />
           </Tooltip>
           <Tooltip arrow title={t('View profile for') + ' Trevor Henderson'}>
@@ -586,7 +586,7 @@ function MyCards() {
               component={Link}
               href="#"
               alt="Trevor Henderson"
-              src="/static/images/avatars/5.jpg"
+              src="/admin/static/images/avatars/5.jpg"
             />
           </Tooltip>
           <Tooltip arrow title={t('View profile for') + ' Remy Sharp'}>
@@ -594,7 +594,7 @@ function MyCards() {
               component={Link}
               href="#"
               alt="Remy Sharp"
-              src="/static/images/avatars/1.jpg"
+              src="/admin/static/images/avatars/1.jpg"
             />
           </Tooltip>
           <Tooltip arrow title={t('View profile for') + ' Remy Sharp'}>
@@ -602,7 +602,7 @@ function MyCards() {
               component={Link}
               href="#"
               alt="Remy Sharp"
-              src="/static/images/avatars/2.jpg"
+              src="/admin/static/images/avatars/2.jpg"
             />
           </Tooltip>
         </AvatarGroup>

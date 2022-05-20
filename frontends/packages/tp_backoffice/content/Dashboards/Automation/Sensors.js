@@ -122,7 +122,7 @@ function Sensors() {
                 <CoverImage>
                   <img
                     alt="can't win - Chilling Sunday"
-                    src="/static/images/placeholders/fitness/4.jpg"
+                    src="/admin/static/images/placeholders/fitness/4.jpg"
                   />
                 </CoverImage>
                 <Box

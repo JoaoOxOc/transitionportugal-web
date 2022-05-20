@@ -175,7 +175,7 @@ function Weather() {
       <TopBarImage
         sx={{
           backgroundImage:
-            'url("/static/images/placeholders/covers/automation-bg.jpg")'
+            'url("/admin/static/images/placeholders/covers/automation-bg.jpg")'
         }}
       />
       <WeatherBoxContent>
@@ -351,7 +351,7 @@ function Weather() {
                 <Grid item md={6}>
                   <WeatherIcon>
                     <img
-                      src="/static/images/placeholders/illustrations/partly-cloudy-day-rain.svg"
+                      src="/admin/static/images/placeholders/illustrations/partly-cloudy-day-rain.svg"
                       alt="Partly cloudy"
                     />
                   </WeatherIcon>

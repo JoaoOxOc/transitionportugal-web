@@ -78,7 +78,7 @@ function Block13() {
               minWidth: 0
             }}
           >
-            <Avatar src="/static/images/avatars/1.jpg" />
+            <Avatar src="/admin/static/images/avatars/1.jpg" />
           </ListItemAvatar>
           <ListItemText
             primary={
@@ -122,7 +122,7 @@ function Block13() {
               minWidth: 0
             }}
           >
-            <Avatar src="/static/images/avatars/2.jpg" />
+            <Avatar src="/admin/static/images/avatars/2.jpg" />
           </ListItemAvatar>
           <ListItemText
             primary={<Typography variant="h5">{t('Inez Conley')}</Typography>}

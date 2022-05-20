@@ -91,7 +91,7 @@ function Block3() {
               <Link href="#">
                 <img
                   style={{ height: 120 }}
-                  src="/static/images/placeholders/products/8.png"
+                  src="/admin/static/images/placeholders/products/8.png"
                   alt="..."
                 />
               </Link>
@@ -190,7 +190,7 @@ function Block3() {
               <Link href="#">
                 <img
                   style={{ height: 120 }}
-                  src="/static/images/placeholders/products/3.png"
+                  src="/admin/static/images/placeholders/products/3.png"
                   alt="..."
                 />
               </Link>
@@ -284,7 +284,7 @@ function Block3() {
               <Link href="#">
                 <img
                   style={{ height: 120 }}
-                  src="/static/images/placeholders/products/5.png"
+                  src="/admin/static/images/placeholders/products/5.png"
                   alt="..."
                 />
               </Link>

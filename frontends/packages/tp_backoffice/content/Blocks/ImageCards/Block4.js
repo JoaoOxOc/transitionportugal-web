@@ -162,7 +162,7 @@ function Block4() {
               position: 'relative',
               zIndex: 5
             }}
-            image="/static/images/placeholders/covers/5.jpg"
+            image="/admin/static/images/placeholders/covers/5.jpg"
             alt="..."
           />
           <CardActions
@@ -228,7 +228,7 @@ function Block4() {
                 mb: 1,
                 border: `${theme.colors.alpha.trueWhite[100]} solid 3px`
               }}
-              src="/static/images/avatars/3.jpg"
+              src="/admin/static/images/avatars/3.jpg"
             />
             <Typography
               variant="h4"
@@ -279,7 +279,7 @@ function Block4() {
               position: 'relative',
               zIndex: 5
             }}
-            image="/static/images/placeholders/covers/3.jpg"
+            image="/admin/static/images/placeholders/covers/3.jpg"
             alt="..."
           />
           <CardActions
@@ -378,7 +378,7 @@ function Block4() {
               position: 'relative',
               zIndex: 5
             }}
-            image="/static/images/placeholders/covers/4.jpg"
+            image="/admin/static/images/placeholders/covers/4.jpg"
             alt="..."
           />
           <CardActions

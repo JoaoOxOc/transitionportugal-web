@@ -79,31 +79,31 @@ function Block6() {
     {
       id: 1,
       title: 'Amazon Dot Echo 3',
-      image: '/static/images/placeholders/products/1.png',
+      image: '/admin/static/images/placeholders/products/1.png',
       price: '79'
     },
     {
       id: 2,
       title: 'Autodesk 3D Printer PRO',
-      image: '/static/images/placeholders/products/2.png',
+      image: '/admin/static/images/placeholders/products/2.png',
       price: '399'
     },
     {
       id: 3,
       title: 'Apple iPhone 12 PRO',
-      image: '/static/images/placeholders/products/3.png',
+      image: '/admin/static/images/placeholders/products/3.png',
       price: '749'
     },
     {
       id: 4,
       title: 'GoPro Action Camera 3',
-      image: '/static/images/placeholders/products/4.png',
+      image: '/admin/static/images/placeholders/products/4.png',
       price: '289'
     },
     {
       id: 5,
       title: 'Apple Watch 42mm Gen. 4',
-      image: '/static/images/placeholders/products/5.png',
+      image: '/admin/static/images/placeholders/products/5.png',
       price: '199'
     }
   ];

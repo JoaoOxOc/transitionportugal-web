@@ -88,13 +88,13 @@ const mails = [
       {
         name: 'Michele Rodrigues',
         email: 'michele.r@example.com',
-        avatar: '/static/images/avatars/1.jpg'
+        avatar: '/admin/static/images/avatars/1.jpg'
       }
     ],
     from: {
       name: 'Veer Moody',
       email: 'veer@example.com',
-      avatar: '/static/images/avatars/2.jpg'
+      avatar: '/admin/static/images/avatars/2.jpg'
     },
     date: subHours(new Date(), 20).getTime()
   },
@@ -122,13 +122,13 @@ const mails = [
       {
         name: 'Drew Hawes',
         email: 'drew.hawes@example.com',
-        avatar: '/static/images/avatars/2.jpg'
+        avatar: '/admin/static/images/avatars/2.jpg'
       }
     ],
     from: {
       name: 'Kianna Keeling',
       email: 'kia@example.com',
-      avatar: '/static/images/avatars/5.jpg'
+      avatar: '/admin/static/images/avatars/5.jpg'
     },
     date: subDays(new Date(), 1).getTime()
   },
@@ -154,13 +154,13 @@ const mails = [
       {
         name: 'Drew Hawes',
         email: 'drew.hawes@example.com',
-        avatar: '/static/images/avatars/3.jpg'
+        avatar: '/admin/static/images/avatars/3.jpg'
       }
     ],
     from: {
       name: 'Eileen Morgan',
       email: 'eileen@morgan.com',
-      avatar: '/static/images/avatars/4.jpg'
+      avatar: '/admin/static/images/avatars/4.jpg'
     },
     date: subDays(new Date(), 2).getTime()
   },
@@ -188,13 +188,13 @@ const mails = [
       {
         name: 'Drew Hawes',
         email: 'drew.hawes@example.com',
-        avatar: '/static/images/avatars/4.jpg'
+        avatar: '/admin/static/images/avatars/4.jpg'
       }
     ],
     from: {
       name: 'Ferne Berry',
       email: 'ferne.s@example.com',
-      avatar: '/static/images/avatars/1.jpg'
+      avatar: '/admin/static/images/avatars/1.jpg'
     },
     date: subDays(new Date(), 3).getTime()
   },
@@ -222,13 +222,13 @@ const mails = [
       {
         name: 'Drew Hawes',
         email: 'drew.hawes@example.com',
-        avatar: '/static/images/avatars/5.jpg'
+        avatar: '/admin/static/images/avatars/5.jpg'
       }
     ],
     from: {
       name: 'Ryley Hardin',
       email: 'ryleyhar.2@example.com',
-      avatar: '/static/images/avatars/3.jpg'
+      avatar: '/admin/static/images/avatars/3.jpg'
     },
     date: subDays(new Date(), 4).getTime()
   },
@@ -251,13 +251,13 @@ const mails = [
       {
         name: 'Drew Hawes',
         email: 'drew.hawes@example.com',
-        avatar: '/static/images/avatars/1.jpg'
+        avatar: '/admin/static/images/avatars/1.jpg'
       }
     ],
     from: {
       name: 'Edison Finnegan',
       email: 'edisonss1@example.com',
-      avatar: '/static/images/avatars/2.jpg'
+      avatar: '/admin/static/images/avatars/2.jpg'
     },
     date: subDays(new Date(), 4).getTime()
   },
@@ -286,13 +286,13 @@ const mails = [
       {
         name: 'Drew Hawes',
         email: 'drew.hawes@example.com',
-        avatar: '/static/images/avatars/2.jpg'
+        avatar: '/admin/static/images/avatars/2.jpg'
       }
     ],
     from: {
       name: 'Manraj Steele',
       email: 'manraj.steele@example.com',
-      avatar: '/static/images/avatars/1.jpg'
+      avatar: '/admin/static/images/avatars/1.jpg'
     },
     date: subDays(new Date(), 6).getTime()
   },
@@ -320,13 +320,13 @@ const mails = [
       {
         name: 'Drew Hawes',
         email: 'drew.hawes@example.com',
-        avatar: '/static/images/avatars/2.jpg'
+        avatar: '/admin/static/images/avatars/2.jpg'
       }
     ],
     from: {
       name: 'Kianna Keeling',
       email: 'kia@example.com',
-      avatar: '/static/images/avatars/5.jpg'
+      avatar: '/admin/static/images/avatars/5.jpg'
     },
     date: subDays(new Date(), 7).getTime()
   },
@@ -352,13 +352,13 @@ const mails = [
       {
         name: 'Drew Hawes',
         email: 'drew.hawes@example.com',
-        avatar: '/static/images/avatars/3.jpg'
+        avatar: '/admin/static/images/avatars/3.jpg'
       }
     ],
     from: {
       name: 'Eileen Morgan',
       email: 'eileen@morgan.com',
-      avatar: '/static/images/avatars/4.jpg'
+      avatar: '/admin/static/images/avatars/4.jpg'
     },
     date: new Date().getTime()
   }

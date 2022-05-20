@@ -71,7 +71,7 @@ function Block2() {
       name: 'Munroe Dacks',
       jobtitle: 'Senior Cost Accountant',
       company: 'Trudoo',
-      avatar: '/static/images/avatars/1.jpg',
+      avatar: '/admin/static/images/avatars/1.jpg',
       value: 65
     },
     {
@@ -79,7 +79,7 @@ function Block2() {
       name: 'Gunilla Canario',
       jobtitle: 'Associate Professor',
       company: 'Buzzdog',
-      avatar: '/static/images/avatars/2.jpg',
+      avatar: '/admin/static/images/avatars/2.jpg',
       value: 76
     },
     {
@@ -87,7 +87,7 @@ function Block2() {
       name: 'Rowena Geistmann',
       jobtitle: 'Pharmacist',
       company: 'Yozio',
-      avatar: '/static/images/avatars/3.jpg',
+      avatar: '/admin/static/images/avatars/3.jpg',
       value: 54
     },
     {
@@ -95,7 +95,7 @@ function Block2() {
       name: 'Ede Stoving',
       jobtitle: 'VP Product Management',
       company: 'Cogibox',
-      avatar: '/static/images/avatars/4.jpg',
+      avatar: '/admin/static/images/avatars/4.jpg',
       value: 23
     },
     {
@@ -103,7 +103,7 @@ function Block2() {
       name: 'Haydn Porter',
       jobtitle: 'Social Worker',
       company: 'Babbleblab',
-      avatar: '/static/images/avatars/5.jpg',
+      avatar: '/admin/static/images/avatars/5.jpg',
       value: 16
     },
     {
@@ -111,7 +111,7 @@ function Block2() {
       name: 'Rueben Hays',
       jobtitle: 'Senior Cost Accountant',
       company: 'Trudoo',
-      avatar: '/static/images/avatars/1.jpg',
+      avatar: '/admin/static/images/avatars/1.jpg',
       value: 65
     },
     {
@@ -119,7 +119,7 @@ function Block2() {
       name: 'Anabel Mayo',
       jobtitle: 'Associate Professor',
       company: 'Buzzdog',
-      avatar: '/static/images/avatars/2.jpg',
+      avatar: '/admin/static/images/avatars/2.jpg',
       value: 76
     },
     {
@@ -127,7 +127,7 @@ function Block2() {
       name: 'Celine Goulding',
       jobtitle: 'Pharmacist',
       company: 'Yozio',
-      avatar: '/static/images/avatars/3.jpg',
+      avatar: '/admin/static/images/avatars/3.jpg',
       value: 54
     }
   ];

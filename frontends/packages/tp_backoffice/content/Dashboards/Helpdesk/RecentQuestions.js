@@ -76,7 +76,7 @@ function RecentQuestions() {
                 mb: { xs: 2, sm: 0 }
               }}
               variant="rounded"
-              src="/static/images/avatars/2.jpg"
+              src="/admin/static/images/avatars/2.jpg"
             />
           </ListItemAvatar>
           <ListItemText
@@ -169,7 +169,7 @@ function RecentQuestions() {
                 mb: { xs: 2, sm: 0 }
               }}
               variant="rounded"
-              src="/static/images/avatars/4.jpg"
+              src="/admin/static/images/avatars/4.jpg"
             />
           </ListItemAvatar>
           <ListItemText

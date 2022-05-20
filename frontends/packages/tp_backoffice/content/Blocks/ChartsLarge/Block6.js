@@ -212,7 +212,7 @@ function Block6() {
                   >
                     <AvatarWrapper
                       alt="Leonardo Delgado"
-                      src="/static/images/avatars/3.jpg"
+                      src="/admin/static/images/avatars/3.jpg"
                     />
                   </Badge>
                   <Box
@@ -287,7 +287,7 @@ function Block6() {
                   >
                     <AvatarWrapper
                       alt="Brynn Kayghton"
-                      src="/static/images/avatars/5.jpg"
+                      src="/admin/static/images/avatars/5.jpg"
                     />
                   </Badge>
                   <Box

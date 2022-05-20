@@ -50,31 +50,31 @@ function Block8() {
       id: 1,
       username: 'Shanelle Wynn',
       jobtitle: 'UI Engineer, Apple Inc.',
-      avatar: '/static/images/avatars/1.jpg'
+      avatar: '/admin/static/images/avatars/1.jpg'
     },
     {
       id: 2,
       username: 'Akeem Griffith',
       jobtitle: 'Manager, Google Inc.',
-      avatar: '/static/images/avatars/2.jpg'
+      avatar: '/admin/static/images/avatars/2.jpg'
     },
     {
       id: 3,
       username: 'Abigayle Hicks',
       jobtitle: 'Project Manager, Spotify',
-      avatar: '/static/images/avatars/3.jpg'
+      avatar: '/admin/static/images/avatars/3.jpg'
     },
     {
       id: 4,
       username: 'Reece Corbett',
       jobtitle: 'Senior Designer, Amazon Inc.',
-      avatar: '/static/images/avatars/4.jpg'
+      avatar: '/admin/static/images/avatars/4.jpg'
     },
     {
       id: 5,
       username: 'Zain Baptista',
       jobtitle: 'Senior Accountant, Microsoft',
-      avatar: '/static/images/avatars/5.jpg'
+      avatar: '/admin/static/images/avatars/5.jpg'
     }
   ];
 

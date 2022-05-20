@@ -67,7 +67,7 @@ function AssociationDetails({isCreate, isProfile, associationId}) {
     console.log(associationUri)
 
     const breadcrumbsData = [
-      { url: "/", label: t('LIST.home'), isLink: true },
+      { url: "/admin", label: t('LIST.home'), isLink: true },
       { url: "", label: t('LIST.management'), isLink: false },
       { url: associationsListUri, label: t('LIST.associationsTitle'), isLink: true },
       { url: "", label: isCreate ? t('LABELS.associationCreateSmall') : association.name, ownPage: true },

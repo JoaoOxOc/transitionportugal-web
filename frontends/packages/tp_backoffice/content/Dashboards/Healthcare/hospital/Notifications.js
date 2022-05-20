@@ -40,7 +40,7 @@ function Notifications() {
         >
           <Box display="flex" alignItems="center">
             <ListItemAvatar>
-              <Avatar src="/static/images/avatars/1.jpg" />
+              <Avatar src="/admin/static/images/avatars/1.jpg" />
             </ListItemAvatar>
             <ListItemText
               primary="Makenna Arcand"
@@ -87,7 +87,7 @@ function Notifications() {
         >
           <Box display="flex" alignItems="center">
             <ListItemAvatar>
-              <Avatar src="/static/images/avatars/3.jpg" />
+              <Avatar src="/admin/static/images/avatars/3.jpg" />
             </ListItemAvatar>
             <ListItemText
               primary="Emerson Lubin"

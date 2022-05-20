@@ -139,7 +139,7 @@ function PopularTags() {
                 width: 38,
                 height: 38
               }}
-              src="/static/images/logo/google.svg"
+              src="/admin/static/images/logo/google.svg"
             />
           </ListItemAvatar>
           <ListItemText

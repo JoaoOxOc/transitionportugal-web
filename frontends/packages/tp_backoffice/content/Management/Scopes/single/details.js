@@ -64,7 +64,7 @@ function ScopeDetails({isCreate}) {
     }
 
     const breadcrumbsData = [
-      { url: "/", label: t('LIST.home'), isLink: true },
+      { url: "/admin", label: t('LIST.home'), isLink: true },
       { url: "", label: t('LIST.management'), isLink: false },
       { url: scopesListUri, label: t('LIST.scopesTitle'), isLink: true },
       { url: "", label: isCreate ? t('LABELS.scopeCreateSmall') : scope.scopeName, ownPage: true },

@@ -146,7 +146,7 @@ function Block6() {
                   border: `${theme.colors.alpha.white[100]} solid 3px`,
                   boxShadow: `0 0 0 3px ${theme.colors.primary.main}`
                 }}
-                src="/static/images/avatars/5.jpg"
+                src="/admin/static/images/avatars/5.jpg"
               />
               <Typography gutterBottom variant="h3">
                 Marion Devine
@@ -288,7 +288,7 @@ function Block6() {
                       boxShadow: `0 .113rem .5rem ${theme.colors.alpha.black[10]}, 0 .126rem .225rem ${theme.colors.alpha.black[30]}`
                     }}
                     alt="Cindy Baker"
-                    src="/static/images/avatars/3.jpg"
+                    src="/admin/static/images/avatars/3.jpg"
                   />
                   <Avatar
                     variant="rounded"
@@ -299,7 +299,7 @@ function Block6() {
                       boxShadow: `0 .113rem .5rem ${theme.colors.alpha.black[10]}, 0 .126rem .225rem ${theme.colors.alpha.black[30]}`
                     }}
                     alt="Agnes Walker"
-                    src="/static/images/avatars/4.jpg"
+                    src="/admin/static/images/avatars/4.jpg"
                   />
                 </Box>
               </Box>
@@ -379,7 +379,7 @@ function Block6() {
               sx={{
                 opacity: 0.5,
                 backgroundImage:
-                  'url("/static/images/placeholders/covers/5.jpg")'
+                  'url("/admin/static/images/placeholders/covers/5.jpg")'
               }}
             />
             <BoxComposedContent

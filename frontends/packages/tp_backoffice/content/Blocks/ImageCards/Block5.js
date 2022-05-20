@@ -120,7 +120,7 @@ function Block5() {
                 mx: 'auto',
                 mb: 1
               }}
-              src="/static/images/avatars/1.jpg"
+              src="/admin/static/images/avatars/1.jpg"
             />
             <Typography
               variant="h4"
@@ -172,7 +172,7 @@ function Block5() {
               borderRadius: 'inherit',
               zIndex: 5
             }}
-            image="/static/images/placeholders/covers/5.jpg"
+            image="/admin/static/images/placeholders/covers/5.jpg"
             alt="..."
           />
           <CardActions>
@@ -228,7 +228,7 @@ function Block5() {
                     width: 44,
                     height: 44
                   }}
-                  src="/static/images/avatars/3.jpg"
+                  src="/admin/static/images/avatars/3.jpg"
                 />
 
                 <Box ml={1.5}>
@@ -354,7 +354,7 @@ function Block5() {
               borderRadius: 'inherit',
               zIndex: 5
             }}
-            image="/static/images/placeholders/covers/3.jpg"
+            image="/admin/static/images/placeholders/covers/3.jpg"
             alt="..."
           />
         </Card>

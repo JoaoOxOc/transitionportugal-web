@@ -198,7 +198,7 @@ function Hero() {
           </Button>
           <ListItemWrapper sx={{ mt: 5, mb: 2 }}>
             <NextJsAvatar>
-              <img src="/static/images/logo/next-js.svg" alt="NextJS" />
+              <img src="/admin/static/images/logo/next-js.svg" alt="NextJS" />
             </NextJsAvatar>
             <Typography variant="h6">
               <b>Built with Next.js </b>
@@ -216,7 +216,7 @@ function Hero() {
           >
             <MuiAvatar>
               <img
-                src="/static/images/logo/material-ui.svg"
+                src="/admin/static/images/logo/material-ui.svg"
                 alt="MUI (Material-UI)"
               />
             </MuiAvatar>
@@ -231,7 +231,7 @@ function Hero() {
           </ListItemWrapper>
           <ListItemWrapper>
             <JsAvatar>
-              <img src="/static/images/logo/javascript.svg" alt="Javascript" />
+              <img src="/admin/static/images/logo/javascript.svg" alt="Javascript" />
             </JsAvatar>
             <Typography variant="h6">
               <b>Built with Javascript</b>
@@ -249,7 +249,7 @@ function Hero() {
               <ImgWrapper>
                 <img
                   alt="Tokyo"
-                  src="/static/images/overview/hero-screenshot.png"
+                  src="/admin/static/images/overview/hero-screenshot.png"
                 />
               </ImgWrapper>
             </Link>

@@ -103,7 +103,7 @@ function TopTrainers() {
                 >
                   <AvatarWrapper
                     variant="rounded"
-                    src="/static/images/avatars/1.jpg"
+                    src="/admin/static/images/avatars/1.jpg"
                   />
                 </Badge>
               </ListItemAvatar>
@@ -174,7 +174,7 @@ function TopTrainers() {
                 >
                   <AvatarWrapper
                     variant="rounded"
-                    src="/static/images/avatars/3.jpg"
+                    src="/admin/static/images/avatars/3.jpg"
                   />
                 </Badge>
               </ListItemAvatar>
@@ -221,7 +221,7 @@ function TopTrainers() {
               >
                 <AvatarWrapper
                   variant="rounded"
-                  src="/static/images/avatars/4.jpg"
+                  src="/admin/static/images/avatars/4.jpg"
                 />
               </ListItemAvatar>
               <ListItemText
@@ -267,7 +267,7 @@ function TopTrainers() {
               >
                 <AvatarWrapper
                   variant="rounded"
-                  src="/static/images/avatars/5.jpg"
+                  src="/admin/static/images/avatars/5.jpg"
                 />
               </ListItemAvatar>
               <ListItemText
@@ -337,7 +337,7 @@ function TopTrainers() {
                 >
                   <AvatarWrapper
                     variant="rounded"
-                    src="/static/images/avatars/2.jpg"
+                    src="/admin/static/images/avatars/2.jpg"
                   />
                 </Badge>
               </ListItemAvatar>

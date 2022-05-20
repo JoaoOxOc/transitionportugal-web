@@ -17,7 +17,7 @@ class MyDocument extends Document {
           <meta name="theme-color" content="#000000" />
           <link
             rel="shortcut icon"
-            href="/favicon.ico"
+            href="/admin/favicon.ico"
           />
           <link
             rel="apple-touch-icon"

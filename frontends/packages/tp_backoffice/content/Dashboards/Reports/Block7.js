@@ -109,7 +109,7 @@ function Block7() {
         <CardMedia
           component="img"
           height="222"
-          image="/static/images/placeholders/covers/1.jpg"
+          image="/admin/static/images/placeholders/covers/1.jpg"
           alt="..."
         />
         <CardActions>

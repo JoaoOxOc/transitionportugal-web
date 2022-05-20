@@ -152,7 +152,7 @@ function Block5() {
                       objectFit: 'contain'
                     }
                   }}
-                  src="/static/images/placeholders/logo/coinbase.svg"
+                  src="/admin/static/images/placeholders/logo/coinbase.svg"
                 />
                 <Rating defaultValue={4} precision={0.5} />
                 <Typography
@@ -277,7 +277,7 @@ function Block5() {
                       objectFit: 'contain'
                     }
                   }}
-                  src="/static/images/placeholders/logo/netflix.svg"
+                  src="/admin/static/images/placeholders/logo/netflix.svg"
                 />
                 <Rating defaultValue={3.5} precision={0.5} />
                 <Typography
@@ -403,7 +403,7 @@ function Block5() {
                       objectFit: 'contain'
                     }
                   }}
-                  src="/static/images/placeholders/logo/slack-big.svg"
+                  src="/admin/static/images/placeholders/logo/slack-big.svg"
                 />
                 <Rating defaultValue={5} precision={0.5} />
                 <Typography
