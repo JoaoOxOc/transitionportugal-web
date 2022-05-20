@@ -66,7 +66,7 @@ spec:
                name: transbackoffice-data
                key: next-auth-url
         - name: NEXTAUTH_URL_INTERNAL
-          value: "http://localhost:3000"
+          value: "http://localhost:3000/admin"
         - name: AUTH_API_CLIENT_ID
           valueFrom:
              secretKeyRef:
@@ -105,10 +105,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - tpback.chain-of-change.com
+    - transicaoportugal.org
     secretName: transportugal-backoffice-tls-secret
   rules:
-  - host: tpback.chain-of-change.com
+  - host: transicaoportugal.org
     http:
       paths:
       - backend:
