@@ -217,7 +217,7 @@ function Block4() {
         <BoxComposedImage
           sx={{
             opacity: 0.1,
-            backgroundImage: 'url("/static/images/placeholders/covers/2.jpg")'
+            backgroundImage: 'url("/admin/static/images/placeholders/covers/2.jpg")'
           }}
         />
         <BoxComposedContent py={4}>
@@ -345,7 +345,7 @@ function Block4() {
                     Java exam day
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    Bill Clinton's presidential scandal makes it online.
+                    Bill Clinton&apos;s presidential scandal makes it online.
                   </Typography>
                   <Box display="flex" mt={1} alignItems="flex-start">
                     <AvatarGroup max={4}>
@@ -358,7 +358,7 @@ function Block4() {
                           }}
                           href="#"
                           alt="Remy Sharp"
-                          src="/static/images/avatars/1.jpg"
+                          src="/admin/static/images/avatars/1.jpg"
                         />
                       </Tooltip>
                       <Tooltip arrow title="Travis Howard">
@@ -370,7 +370,7 @@ function Block4() {
                           }}
                           href="#"
                           alt="Travis Howard"
-                          src="/static/images/avatars/2.jpg"
+                          src="/admin/static/images/avatars/2.jpg"
                         />
                       </Tooltip>
                       <Tooltip arrow title="Cindy Baker">
@@ -382,7 +382,7 @@ function Block4() {
                           }}
                           href="#"
                           alt="Cindy Baker"
-                          src="/static/images/avatars/3.jpg"
+                          src="/admin/static/images/avatars/3.jpg"
                         />
                       </Tooltip>
                       <Tooltip arrow title="Cindy Baker">
@@ -394,7 +394,7 @@ function Block4() {
                           }}
                           href="#"
                           alt="Cindy Baker"
-                          src="/static/images/avatars/4.jpg"
+                          src="/admin/static/images/avatars/4.jpg"
                         />
                       </Tooltip>
                       <Tooltip arrow title="Agnes Walker">
@@ -406,7 +406,7 @@ function Block4() {
                           }}
                           href="#"
                           alt="Agnes Walker"
-                          src="/static/images/avatars/5.jpg"
+                          src="/admin/static/images/avatars/5.jpg"
                         />
                       </Tooltip>
                     </AvatarGroup>
@@ -464,7 +464,7 @@ function Block4() {
                         <CardMedia
                           component="img"
                           height="64"
-                          image="/static/images/placeholders/fitness/1.jpg"
+                          image="/admin/static/images/placeholders/fitness/1.jpg"
                           alt="..."
                         />
                       </CardActionArea>
@@ -478,7 +478,7 @@ function Block4() {
                         <CardMedia
                           component="img"
                           height="64"
-                          image="/static/images/placeholders/fitness/2.jpg"
+                          image="/admin/static/images/placeholders/fitness/2.jpg"
                           alt="..."
                         />
                       </CardActionArea>
@@ -492,7 +492,7 @@ function Block4() {
                         <CardMedia
                           component="img"
                           height="64"
-                          image="/static/images/placeholders/fitness/3.jpg"
+                          image="/admin/static/images/placeholders/fitness/3.jpg"
                           alt="..."
                         />
                       </CardActionArea>

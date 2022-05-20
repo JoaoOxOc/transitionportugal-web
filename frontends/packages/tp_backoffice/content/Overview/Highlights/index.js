@@ -341,10 +341,10 @@ const LayoutImgButton = styled(Link)(
 );
 
 const icons = {
-  Auth0: '/static/images/logo/auth0.svg',
-  FirebaseAuth: '/static/images/logo/firebase.svg',
-  JWT: '/static/images/logo/jwt.svg',
-  Amplify: '/static/images/logo/amplify.svg'
+  Auth0: '/admin/static/images/logo/auth0.svg',
+  FirebaseAuth: '/admin/static/images/logo/firebase.svg',
+  JWT: '/admin/static/images/logo/jwt.svg',
+  Amplify: '/admin/static/images/logo/amplify.svg'
 };
 
 function Highlights() {
@@ -379,7 +379,7 @@ function Highlights() {
         </BoxWave>
         <BoxLayoutsImage
           sx={{
-            backgroundImage: 'url("/static/images/placeholders/covers/7.jpg")'
+            backgroundImage: 'url("/admin/static/images/placeholders/covers/7.jpg")'
           }}
         />
         <BoxLayoutsContent maxWidth="lg">
@@ -429,7 +429,7 @@ function Highlights() {
               >
                 <Typography variant="h4">{t('Accent Header')}</Typography>
                 <img
-                  src="/static/images/overview/accent_header.png"
+                  src="/admin/static/images/overview/accent_header.png"
                   alt="Accent Header"
                 />
               </LayoutImgButton>
@@ -442,7 +442,7 @@ function Highlights() {
               >
                 <Typography variant="h4">{t('Extended Sidebar')}</Typography>
                 <img
-                  src="/static/images/overview/extended_sidebar.png"
+                  src="/admin/static/images/overview/extended_sidebar.png"
                   alt="Extended Sidebar"
                 />
               </LayoutImgButton>
@@ -455,7 +455,7 @@ function Highlights() {
               >
                 <Typography variant="h4">{t('Accent Sidebar')}</Typography>
                 <img
-                  src="/static/images/overview/accent_sidebar.png"
+                  src="/admin/static/images/overview/accent_sidebar.png"
                   alt="Accent Sidebar"
                 />
               </LayoutImgButton>
@@ -468,7 +468,7 @@ function Highlights() {
               >
                 <Typography variant="h4">{t('Boxed Sidebar')}</Typography>
                 <img
-                  src="/static/images/overview/boxed_sidebar.png"
+                  src="/admin/static/images/overview/boxed_sidebar.png"
                   alt="Boxed Sidebar"
                 />
               </LayoutImgButton>
@@ -481,7 +481,7 @@ function Highlights() {
               >
                 <Typography variant="h4">{t('Collapsed Sidebar')}</Typography>
                 <img
-                  src="/static/images/overview/collapsed_sidebar.png"
+                  src="/admin/static/images/overview/collapsed_sidebar.png"
                   alt="Collapsed Sidebar"
                 />
               </LayoutImgButton>
@@ -494,7 +494,7 @@ function Highlights() {
               >
                 <Typography variant="h4">{t('Top Navigation')}</Typography>
                 <img
-                  src="/static/images/overview/top_navigation.png"
+                  src="/admin/static/images/overview/top_navigation.png"
                   alt="Bottom Navigation"
                 />
               </LayoutImgButton>
@@ -507,7 +507,7 @@ function Highlights() {
               >
                 <Typography variant="h4">{t('Bottom Navigation')}</Typography>
                 <img
-                  src="/static/images/overview/bottom_navigation.png"
+                  src="/admin/static/images/overview/bottom_navigation.png"
                   alt="Bottom Navigation"
                 />
               </LayoutImgButton>
@@ -1308,7 +1308,7 @@ function Highlights() {
                           rel="noopener"
                           startIcon={<LaunchTwoToneIcon />}
                           component={Link}
-                          href="/applications/calendar"
+                          href="/content/events"
                         >
                           {t('View')}
                         </Button>
@@ -1360,7 +1360,7 @@ function Highlights() {
                     }}
                   >
                     <img
-                      src="/static/images/overview/management_screen_1.png"
+                      src="/admin/static/images/overview/management_screen_1.png"
                       alt="Management Section 1"
                     />
                   </Card>
@@ -1388,7 +1388,7 @@ function Highlights() {
                     }}
                   >
                     <img
-                      src="/static/images/overview/management_screen_3.png"
+                      src="/admin/static/images/overview/management_screen_3.png"
                       alt="Management Section 3"
                     />
                   </Card>
@@ -1416,7 +1416,7 @@ function Highlights() {
                     }}
                   >
                     <img
-                      src="/static/images/overview/management_screen_2.png"
+                      src="/admin/static/images/overview/management_screen_2.png"
                       alt="Management Section 2"
                     />
                   </Card>
@@ -1687,7 +1687,7 @@ function Highlights() {
                 <Blob2 />
                 <CardImageWrapper>
                   <img
-                    src="/static/images/overview/performance.png"
+                    src="/admin/static/images/overview/performance.png"
                     alt="Tokyo Performance"
                   />
                 </CardImageWrapper>
@@ -1922,7 +1922,7 @@ function Highlights() {
                 <Grid item xs={12} md={7}>
                   <ScreenshotWrapper>
                     <Screenshot
-                      src="/static/images/overview/rtl-preview.jpg"
+                      src="/admin/static/images/overview/rtl-preview.jpg"
                       alt="RTL Preview"
                     />
                   </ScreenshotWrapper>
@@ -2021,7 +2021,7 @@ function Highlights() {
                 alignItems="flex-start"
               >
                 <img
-                  src="/static/images/overview/figma.svg"
+                  src="/admin/static/images/overview/figma.svg"
                   style={{ width: 60 }}
                   alt="Figma Design Files"
                 />
@@ -2072,7 +2072,7 @@ function Highlights() {
                 alignItems="flex-start"
               >
                 <img
-                  src="/static/images/overview/sketch.svg"
+                  src="/admin/static/images/overview/sketch.svg"
                   style={{ width: 60 }}
                   alt="Sketch Design Files"
                 />

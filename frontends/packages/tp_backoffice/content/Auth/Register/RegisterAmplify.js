@@ -48,7 +48,7 @@ export const RegisterAmplify = (props) => {
         await register(values.email, values.password);
 
         if (isMountedRef()) {
-          const backTo = router.query.backTo || '/dashboards/reports';
+          const backTo = router.query.backTo || '/admin/dashboards/reports';
           router.push(backTo);
         }
       } catch (err) {

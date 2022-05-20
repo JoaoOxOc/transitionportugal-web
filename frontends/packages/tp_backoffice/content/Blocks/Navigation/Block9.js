@@ -113,7 +113,7 @@ function Block9() {
               0.4
             )}, 0 .226rem .225rem ${alpha(theme.colors.alpha.black[100], 0.1)}`
           }}
-          src="/static/images/avatars/3.jpg"
+          src="/admin/static/images/avatars/3.jpg"
         />
         <Typography
           sx={{

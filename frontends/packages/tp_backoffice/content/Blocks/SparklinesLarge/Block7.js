@@ -310,7 +310,7 @@ function Block7() {
               sx={{
                 opacity: 0.4,
                 backgroundImage:
-                  'url("/static/images/placeholders/covers/1.jpg")'
+                  'url("/admin/static/images/placeholders/covers/1.jpg")'
               }}
             />
             <BoxComposedContent

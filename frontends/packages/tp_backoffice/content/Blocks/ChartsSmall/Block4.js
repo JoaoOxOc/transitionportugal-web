@@ -175,7 +175,7 @@ function Block4() {
             >
               <AvatarWrapper
                 alt="Spotify"
-                src="/static/images/placeholders/logo/spotify.svg"
+                src="/admin/static/images/placeholders/logo/spotify.svg"
               />
             </Badge>
             <Box pl={1}>
@@ -262,7 +262,7 @@ function Block4() {
           <Box display="flex" alignItems="center" p={2}>
             <AvatarWrapper
               alt="Slack"
-              src="/static/images/placeholders/logo/slack.svg"
+              src="/admin/static/images/placeholders/logo/slack.svg"
             />
             <Box pl={1}>
               <Typography variant="h4" noWrap>

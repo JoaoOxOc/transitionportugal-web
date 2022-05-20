@@ -56,7 +56,7 @@ function Users() {
                   width: 62,
                   height: 62
                 }}
-                src="/static/images/avatars/3.jpg"
+                src="/admin/static/images/avatars/3.jpg"
               />
             </Tooltip>
             <Typography variant="h4">Randy</Typography>
@@ -79,7 +79,7 @@ function Users() {
                   width: 62,
                   height: 62
                 }}
-                src="/static/images/avatars/1.jpg"
+                src="/admin/static/images/avatars/1.jpg"
               />
             </Tooltip>
             <Typography variant="h4">Adeline</Typography>
@@ -102,7 +102,7 @@ function Users() {
                   width: 62,
                   height: 62
                 }}
-                src="/static/images/avatars/4.jpg"
+                src="/admin/static/images/avatars/4.jpg"
               />
             </Tooltip>
             <Typography variant="h4">Benjamin</Typography>

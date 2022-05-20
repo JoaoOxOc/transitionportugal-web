@@ -172,7 +172,7 @@ function Block2() {
                       objectFit: 'contain'
                     }
                   }}
-                  src="/static/images/placeholders/logo/stripe.svg"
+                  src="/admin/static/images/placeholders/logo/stripe.svg"
                 />
                 <Typography variant="subtitle2" textAlign="center">
                   {t(
@@ -305,7 +305,7 @@ function Block2() {
               sx={{
                 opacity: 0.3,
                 backgroundImage:
-                  'url("/static/images/placeholders/covers/3.jpg")'
+                  'url("/admin/static/images/placeholders/covers/3.jpg")'
               }}
             />
             <BoxComposedContent

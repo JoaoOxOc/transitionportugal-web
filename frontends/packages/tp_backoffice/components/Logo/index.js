@@ -108,7 +108,7 @@ function Logo() {
   return (
     <LogoWrapper href={process.env.NEXT_PUBLIC_HOME_URL}>
       <LogoSignWrapper>
-        <Image src='/static/images/logo/logotipo_transicaoportugal.svg' width="250px" height="100%" sx={{margin: '0 auto'}} alt="Transição Portugal"/>
+        <Image src='/admin/static/images/logo/logotipo_transicaoportugal.svg' width="250px" height="100%" sx={{margin: '0 auto'}} alt="Transição Portugal"/>
         {/* <LogoSign>
           <LogoSignInner />
         </LogoSign> */}

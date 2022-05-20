@@ -134,7 +134,7 @@ function Block12() {
                               0.1
                             )}`
           }}
-          src="/static/images/avatars/3.jpg"
+          src="/admin/static/images/avatars/3.jpg"
         />
         <Link
           href="#"

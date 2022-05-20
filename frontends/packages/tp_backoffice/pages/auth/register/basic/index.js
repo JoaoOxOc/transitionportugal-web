@@ -21,10 +21,10 @@ import Link from '../../../../components/Link';
 import { useRouter } from 'next/router';
 
 const icons = {
-  Auth0: '/static/images/logo/auth0.svg',
-  FirebaseAuth: '/static/images/logo/firebase.svg',
-  JWT: '/static/images/logo/jwt.svg',
-  Amplify: '/static/images/logo/amplify.svg'
+  Auth0: '/admin/static/images/logo/auth0.svg',
+  FirebaseAuth: '/admin/static/images/logo/firebase.svg',
+  JWT: '/admin/static/images/logo/jwt.svg',
+  Amplify: '/admin/static/images/logo/amplify.svg'
 };
 
 const CardImg = styled(Card)(

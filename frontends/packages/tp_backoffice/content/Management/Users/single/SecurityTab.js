@@ -236,7 +236,7 @@ function SecurityTab({userData}) {
                   pr: 2
                 }}
               >
-                <AvatarWrapper src="/static/images/logo/discourse_icon.svg" />
+                <AvatarWrapper src="/admin/static/images/logo/discourse_icon.svg" />
               </ListItemAvatar>
               <ListItemText
                 primaryTypographyProps={{ variant: 'h5', gutterBottom: true }}

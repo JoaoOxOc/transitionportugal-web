@@ -202,7 +202,7 @@ function PendingTickets() {
                     >
                       <AvatarWrapper
                         alt="Remy Sharp"
-                        src="/static/images/avatars/4.jpg"
+                        src="/admin/static/images/avatars/4.jpg"
                       />
                     </Badge>
                     <Box
@@ -297,7 +297,7 @@ function PendingTickets() {
                     >
                       <AvatarWrapper
                         alt="Remy Sharp"
-                        src="/static/images/avatars/1.jpg"
+                        src="/admin/static/images/avatars/1.jpg"
                       />
                     </Badge>
                     <Box
@@ -394,7 +394,7 @@ function PendingTickets() {
                     >
                       <AvatarWrapper
                         alt="Remy Sharp"
-                        src="/static/images/avatars/2.jpg"
+                        src="/admin/static/images/avatars/2.jpg"
                       />
                     </Badge>
                     <Box

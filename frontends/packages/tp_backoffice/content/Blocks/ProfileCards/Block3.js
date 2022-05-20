@@ -168,7 +168,7 @@ function Block3() {
             position: 'relative',
             zIndex: 5
           }}
-          image="/static/images/placeholders/covers/1.jpg"
+          image="/admin/static/images/placeholders/covers/1.jpg"
           alt="..."
         />
         <CardActions
@@ -196,7 +196,7 @@ function Block3() {
             mx: 'auto',
             boxShadow: `0 0 0 4px ${theme.colors.alpha.white[100]}`
           }}
-          src="/static/images/avatars/3.jpg"
+          src="/admin/static/images/avatars/3.jpg"
         />
         <Typography
           sx={{

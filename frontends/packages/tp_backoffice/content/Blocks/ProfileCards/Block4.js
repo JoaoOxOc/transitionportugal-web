@@ -191,7 +191,7 @@ function Block4() {
                   height: 50,
                   boxShadow: `0 .113rem .5rem ${theme.colors.alpha.black[10]}, 0 .126rem .225rem ${theme.colors.alpha.black[30]}`
                 }}
-                src="/static/images/avatars/3.jpg"
+                src="/admin/static/images/avatars/3.jpg"
               />
               <Box ml={1.5}>
                 <Link
@@ -331,7 +331,7 @@ function Block4() {
                   height: 50,
                   boxShadow: `0 .113rem .5rem ${theme.colors.alpha.black[10]}, 0 .126rem .225rem ${theme.colors.alpha.black[30]}`
                 }}
-                src="/static/images/avatars/2.jpg"
+                src="/admin/static/images/avatars/2.jpg"
               />
               <Box ml={1.5}>
                 <Link

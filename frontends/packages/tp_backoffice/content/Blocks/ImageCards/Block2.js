@@ -93,7 +93,7 @@ function Block2() {
             <CardMedia
               component="img"
               height="250"
-              image="/static/images/placeholders/covers/2.jpg"
+              image="/admin/static/images/placeholders/covers/2.jpg"
               alt="..."
             />
             <CardActions>
@@ -115,7 +115,7 @@ function Block2() {
               pb: 3
             }}
           >
-            <AvatarWrapper src="/static/images/avatars/1.jpg" />
+            <AvatarWrapper src="/admin/static/images/avatars/1.jpg" />
             <Link
               lineHeight={1.5}
               href="#"
@@ -211,7 +211,7 @@ function Block2() {
             <CardMedia
               component="img"
               height="250"
-              image="/static/images/placeholders/covers/4.jpg"
+              image="/admin/static/images/placeholders/covers/4.jpg"
               alt="..."
             />
             <CardActions
@@ -246,7 +246,7 @@ function Block2() {
                 boxShadow: 'none',
                 borderWidth: 5
               }}
-              src="/static/images/avatars/2.jpg"
+              src="/admin/static/images/avatars/2.jpg"
             />
             <Link
               lineHeight={1.5}

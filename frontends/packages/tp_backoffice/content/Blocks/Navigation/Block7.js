@@ -105,7 +105,7 @@ function Block7() {
             width: 94,
             height: 94
           }}
-          src="/static/images/avatars/2.jpg"
+          src="/admin/static/images/avatars/2.jpg"
         />
         <LabelWrapper
           sx={{

@@ -3,7 +3,7 @@ class TopProductsApi {
     const products = [
       {
         id: '1',
-        image: '/static/images/placeholders/products/1.png',
+        image: '/admin/static/images/placeholders/products/1.png',
         name: 'Apple Macbook PRO 16',
         orders: 321,
         inventory: 99,
@@ -13,7 +13,7 @@ class TopProductsApi {
       },
       {
         id: '2',
-        image: '/static/images/placeholders/products/2.png',
+        image: '/admin/static/images/placeholders/products/2.png',
         name: 'Apple TV Gen. 5 2021 ',
         orders: 756,
         inventory: 76,
@@ -23,7 +23,7 @@ class TopProductsApi {
       },
       {
         id: '3',
-        image: '/static/images/placeholders/products/3.png',
+        image: '/admin/static/images/placeholders/products/3.png',
         name: 'iPhone 12 PRO Max 512MB',
         orders: 34,
         inventory: 5,

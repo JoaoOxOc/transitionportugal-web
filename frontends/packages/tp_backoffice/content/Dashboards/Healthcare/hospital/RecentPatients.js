@@ -83,7 +83,7 @@ function RecentPatients() {
             <TableRow hover>
               <TableCell>
                 <Box display="flex" alignItems="center">
-                  <Avatar src="/static/images/avatars/1.jpg" />
+                  <Avatar src="/admin/static/images/avatars/1.jpg" />
                   <Box
                     sx={{
                       ml: 1
@@ -107,7 +107,7 @@ function RecentPatients() {
               <TableCell>
                 <Box display="flex" alignItems="center">
                   <Avatar>
-                    <img alt="..." src="/static/images/avatars/5.jpg" />
+                    <img alt="..." src="/admin/static/images/avatars/5.jpg" />
                   </Avatar>
                   <Box
                     sx={{
@@ -196,7 +196,7 @@ function RecentPatients() {
               <TableCell>
                 <Box display="flex" alignItems="center">
                   <Avatar>
-                    <img alt="..." src="/static/images/avatars/4.jpg" />
+                    <img alt="..." src="/admin/static/images/avatars/4.jpg" />
                   </Avatar>
                   <Box
                     sx={{
@@ -285,7 +285,7 @@ function RecentPatients() {
               <TableCell>
                 <Box display="flex" alignItems="center">
                   <Avatar>
-                    <img alt="..." src="/static/images/avatars/3.jpg" />
+                    <img alt="..." src="/admin/static/images/avatars/3.jpg" />
                   </Avatar>
                   <Box
                     sx={{

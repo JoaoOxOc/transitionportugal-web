@@ -195,7 +195,7 @@ function Block6() {
                       component={Link}
                       href="#"
                       alt="Travis Howard"
-                      src="/static/images/avatars/1.jpg"
+                      src="/admin/static/images/avatars/1.jpg"
                     />
                   </Tooltip>
                 </Box>
@@ -238,7 +238,7 @@ function Block6() {
                       component={Link}
                       href="#"
                       alt="Chad Wright"
-                      src="/static/images/avatars/2.jpg"
+                      src="/admin/static/images/avatars/2.jpg"
                     />
                   </Tooltip>
                 </Box>
@@ -281,7 +281,7 @@ function Block6() {
                       component={Link}
                       href="#"
                       alt="Alaina Henry"
-                      src="/static/images/avatars/3.jpg"
+                      src="/admin/static/images/avatars/3.jpg"
                     />
                   </Tooltip>
                 </Box>
@@ -324,7 +324,7 @@ function Block6() {
                       component={Link}
                       href="#"
                       alt="Vlad Jacobson"
-                      src="/static/images/avatars/4.jpg"
+                      src="/admin/static/images/avatars/4.jpg"
                     />
                   </Tooltip>
                 </Box>
@@ -367,7 +367,7 @@ function Block6() {
                       component={Link}
                       href="#"
                       alt="Cerys Mckinney"
-                      src="/static/images/avatars/5.jpg"
+                      src="/admin/static/images/avatars/5.jpg"
                     />
                   </Tooltip>
                 </Box>
