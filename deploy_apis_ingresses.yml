@@ -88,10 +88,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - tpapi.chain-of-change.com
+    - tpapi.transicaoportugal.org
     secretName: tp-gateway-letsencrypt-crt-secret
   rules:
-  - host: tpapi.chain-of-change.com
+  - host: tpapi.transicaoportugal.org
     http:
       paths:
       - path: /
