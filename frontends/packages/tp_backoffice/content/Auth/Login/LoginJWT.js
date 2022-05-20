@@ -247,7 +247,7 @@ export const LoginJWT = ({ providers, csrfToken, ...props }) => {
   return (
     <>
       {error && <SignInError error={error} t={t} />}
-      {Object.values(providers).map((provider) => (
+      {providers && Object.values(providers).map((provider) => (
         setProviderLayout(provider)
       ))}
     </>
