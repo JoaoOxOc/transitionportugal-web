@@ -1,0 +1,265 @@
+0 silly argv {
+0 silly argv   _: [ 'bootstrap' ],
+0 silly argv   hoist: true,
+0 silly argv   lernaVersion: '4.0.0',
+0 silly argv   '$0': 'node_modules\\lerna\\cli.js'
+0 silly argv }
+1 notice cli v4.0.0
+2 verbose rootPath F:\jpit\projecto transition network\frontends
+3 verbose hoist using globs ["**"]
+4 silly npmConfig {
+4 silly npmConfig   registry: undefined,
+4 silly npmConfig   npmClient: 'npm',
+4 silly npmConfig   npmClientArgs: [],
+4 silly npmConfig   mutex: undefined
+4 silly npmConfig }
+5 info Bootstrapping 4 packages
+6 verbose lifecycle preinstall
+7 silly lifecycle No script for "preinstall" in "@transitionpt/backoffice", continuing
+8 silly lifecycle No script for "preinstall" in "@transitionpt/translations", continuing
+9 silly lifecycle No script for "preinstall" in "@transitionpt/generic_header", continuing
+10 silly lifecycle No script for "preinstall" in "@transitionpt/home", continuing
+11 warn EHOIST_PKG_VERSION "@transitionpt/backoffice" package depends on react@17.0.2, which differs from the hoisted react@^17.0.2.
+12 warn EHOIST_PKG_VERSION "@transitionpt/home" package depends on react@17.0.2, which differs from the hoisted react@^17.0.2.
+13 warn EHOIST_PKG_VERSION "@transitionpt/backoffice" package depends on react-dom@17.0.2, which differs from the hoisted react-dom@^17.0.2.
+14 warn EHOIST_PKG_VERSION "@transitionpt/home" package depends on react-dom@17.0.2, which differs from the hoisted react-dom@^17.0.2.
+15 silly hasDependencyInstalled @transitionpt/root lerna
+16 silly hasDependencyInstalled @transitionpt/root eslint
+17 silly hasDependencyInstalled @transitionpt/root eslint-config-next
+18 silly hasDependencyInstalled @transitionpt/root next
+19 silly hasDependencyInstalled @transitionpt/root next-compose-plugins
+20 silly hasDependencyInstalled @transitionpt/root next-images
+21 silly hasDependencyInstalled @transitionpt/root next-transpile-modules
+22 silly hasDependencyInstalled @transitionpt/root react
+23 silly hasDependencyInstalled @transitionpt/root react-dom
+24 silly hasDependencyInstalled @transitionpt/root @testing-library/jest-dom
+25 silly hasDependencyInstalled @transitionpt/root @testing-library/react
+26 silly hasDependencyInstalled @transitionpt/root @testing-library/user-event
+27 silly hasDependencyInstalled @transitionpt/root react-scripts
+28 silly hasDependencyInstalled @transitionpt/root web-vitals
+29 silly hasDependencyInstalled @transitionpt/root @types/deep-freeze
+30 silly hasDependencyInstalled @transitionpt/root @types/jest
+31 silly hasDependencyInstalled @transitionpt/root @types/node
+32 silly hasDependencyInstalled @transitionpt/root @types/react
+33 silly hasDependencyInstalled @transitionpt/root @types/react-dom
+34 silly hasDependencyInstalled @transitionpt/root deep-freeze
+35 silly hasDependencyInstalled @transitionpt/root i18next
+36 silly hasDependencyInstalled @transitionpt/root typescript
+37 silly hasDependencyInstalled @transitionpt/backoffice react
+38 silly hasDependencyInstalled @transitionpt/home react
+39 silly hasDependencyInstalled @transitionpt/backoffice react-dom
+40 silly hasDependencyInstalled @transitionpt/home react-dom
+41 silly root dependencies {}
+42 silly leaf dependencies {}
+43 info Installing external dependencies
+44 verbose actions 4 actions, concurrency 4
+45 info hoist Installing hoisted dependencies into root
+46 silly npmInstallDependencies @transitionpt/root [
+46 silly npmInstallDependencies   'lerna@^4.0.0',
+46 silly npmInstallDependencies   'eslint@8.5.0',
+46 silly npmInstallDependencies   'eslint-config-next@12.0.7',
+46 silly npmInstallDependencies   'next@12.0.7',
+46 silly npmInstallDependencies   'next-compose-plugins@^2.2.1',
+46 silly npmInstallDependencies   'next-images@^1.8.4',
+46 silly npmInstallDependencies   'next-transpile-modules@^9.0.0',
+46 silly npmInstallDependencies   'react@^17.0.2',
+46 silly npmInstallDependencies   'react-dom@^17.0.2',
+46 silly npmInstallDependencies   '@testing-library/jest-dom@^5.16.1',
+46 silly npmInstallDependencies   '@testing-library/react@^12.1.2',
+46 silly npmInstallDependencies   '@testing-library/user-event@^13.5.0',
+46 silly npmInstallDependencies   'react-scripts@5.0.0',
+46 silly npmInstallDependencies   'web-vitals@^2.1.2',
+46 silly npmInstallDependencies   '@types/deep-freeze@^0.1.2',
+46 silly npmInstallDependencies   '@types/jest@^27.4.0',
+46 silly npmInstallDependencies   '@types/node@^17.0.8',
+46 silly npmInstallDependencies   '@types/react@^17.0.38',
+46 silly npmInstallDependencies   '@types/react-dom@^17.0.11',
+46 silly npmInstallDependencies   'deep-freeze@^0.0.1',
+46 silly npmInstallDependencies   'i18next@^21.6.5',
+46 silly npmInstallDependencies   'typescript@^4.5.4'
+46 silly npmInstallDependencies ]
+47 silly npmInstallDependencies backup F:\jpit\projecto transition network\frontends\package.json
+48 info hoist Pruning hoisted dependencies
+49 silly prune [
+49 silly prune   'F:\\jpit\\projecto transition network\\frontends\\packages\\tp_backoffice\\node_modules\\eslint',
+49 silly prune   'F:\\jpit\\projecto transition network\\frontends\\packages\\tp_home\\node_modules\\eslint',
+49 silly prune   'F:\\jpit\\projecto transition network\\frontends\\packages\\tp_backoffice\\node_modules\\eslint-config-next',
+49 silly prune   'F:\\jpit\\projecto transition network\\frontends\\packages\\tp_home\\node_modules\\eslint-config-next',
+49 silly prune   'F:\\jpit\\projecto transition network\\frontends\\packages\\tp_backoffice\\node_modules\\next',
+49 silly prune   'F:\\jpit\\projecto transition network\\frontends\\packages\\tp_home\\node_modules\\next',
+49 silly prune   'F:\\jpit\\projecto transition network\\frontends\\packages\\tp_backoffice\\node_modules\\next-compose-plugins',
+49 silly prune   'F:\\jpit\\projecto transition network\\frontends\\packages\\tp_home\\node_modules\\next-compose-plugins',
+49 silly prune   'F:\\jpit\\projecto transition network\\frontends\\packages\\tp_backoffice\\node_modules\\next-images',
+49 silly prune   'F:\\jpit\\projecto transition network\\frontends\\packages\\tp_home\\node_modules\\next-images',
+49 silly prune   'F:\\jpit\\projecto transition network\\frontends\\packages\\tp_backoffice\\node_modules\\next-transpile-modules',
+49 silly prune   'F:\\jpit\\projecto transition network\\frontends\\packages\\tp_home\\node_modules\\next-transpile-modules',
+49 silly prune   'F:\\jpit\\projecto transition network\\frontends\\packages\\tp_generic_header\\node_modules\\react',
+49 silly prune   'F:\\jpit\\projecto transition network\\frontends\\packages\\tp_translations\\node_modules\\react',
+49 silly prune   'F:\\jpit\\projecto transition network\\frontends\\packages\\tp_generic_header\\node_modules\\react-dom',
+49 silly prune   'F:\\jpit\\projecto transition network\\frontends\\packages\\tp_translations\\node_modules\\react-dom',
+49 silly prune   'F:\\jpit\\projecto transition network\\frontends\\packages\\tp_generic_header\\node_modules\\@testing-library\\jest-dom',
+49 silly prune   'F:\\jpit\\projecto transition network\\frontends\\packages\\tp_translations\\node_modules\\@testing-library\\jest-dom',
+49 silly prune   'F:\\jpit\\projecto transition network\\frontends\\packages\\tp_generic_header\\node_modules\\@testing-library\\react',
+49 silly prune   'F:\\jpit\\projecto transition network\\frontends\\packages\\tp_translations\\node_modules\\@testing-library\\react',
+49 silly prune   'F:\\jpit\\projecto transition network\\frontends\\packages\\tp_generic_header\\node_modules\\@testing-library\\user-event',
+49 silly prune   'F:\\jpit\\projecto transition network\\frontends\\packages\\tp_translations\\node_modules\\@testing-library\\user-event',
+49 silly prune   'F:\\jpit\\projecto transition network\\frontends\\packages\\tp_generic_header\\node_modules\\react-scripts',
+49 silly prune   'F:\\jpit\\projecto transition network\\frontends\\packages\\tp_translations\\node_modules\\react-scripts',
+49 silly prune   'F:\\jpit\\projecto transition network\\frontends\\packages\\tp_generic_header\\node_modules\\web-vitals',
+49 silly prune   'F:\\jpit\\projecto transition network\\frontends\\packages\\tp_translations\\node_modules\\web-vitals',
+49 silly prune   'F:\\jpit\\projecto transition network\\frontends\\packages\\tp_translations\\node_modules\\@types\\deep-freeze',
+49 silly prune   'F:\\jpit\\projecto transition network\\frontends\\packages\\tp_translations\\node_modules\\@types\\jest',
+49 silly prune   'F:\\jpit\\projecto transition network\\frontends\\packages\\tp_translations\\node_modules\\@types\\node',
+49 silly prune   'F:\\jpit\\projecto transition network\\frontends\\packages\\tp_translations\\node_modules\\@types\\react',
+49 silly prune   'F:\\jpit\\projecto transition network\\frontends\\packages\\tp_translations\\node_modules\\@types\\react-dom',
+49 silly prune   'F:\\jpit\\projecto transition network\\frontends\\packages\\tp_translations\\node_modules\\deep-freeze',
+49 silly prune   'F:\\jpit\\projecto transition network\\frontends\\packages\\tp_translations\\node_modules\\i18next',
+49 silly prune   'F:\\jpit\\projecto transition network\\frontends\\packages\\tp_translations\\node_modules\\typescript'
+49 silly prune ]
+50 silly npmInstallDependencies @transitionpt/backoffice [ 'react@17.0.2', 'react-dom@17.0.2' ]
+51 silly npmInstallDependencies backup F:\jpit\projecto transition network\frontends\packages\tp_backoffice\package.json
+52 silly npmInstallDependencies @transitionpt/home [ 'react@17.0.2', 'react-dom@17.0.2' ]
+53 silly npmInstallDependencies backup F:\jpit\projecto transition network\frontends\packages\tp_home\package.json
+54 silly rimrafDir F:\jpit\projecto transition network\frontends\packages\tp_backoffice\node_modules\eslint
+55 silly rimrafDir F:\jpit\projecto transition network\frontends\packages\tp_home\node_modules\eslint
+56 silly rimrafDir F:\jpit\projecto transition network\frontends\packages\tp_backoffice\node_modules\eslint-config-next
+57 silly rimrafDir F:\jpit\projecto transition network\frontends\packages\tp_home\node_modules\eslint-config-next
+58 silly npmInstallDependencies writing tempJson {
+58 silly npmInstallDependencies   name: '@transitionpt/root',
+58 silly npmInstallDependencies   version: '1.0.0',
+58 silly npmInstallDependencies   private: true,
+58 silly npmInstallDependencies   author: 'Joao Almeida',
+58 silly npmInstallDependencies   license: 'MIT',
+58 silly npmInstallDependencies   workspaces: [ 'packages/*' ],
+58 silly npmInstallDependencies   devDependencies: { lerna: '^4.0.0' },
+58 silly npmInstallDependencies   dependencies: {
+58 silly npmInstallDependencies     eslint: '8.5.0',
+58 silly npmInstallDependencies     'eslint-config-next': '12.0.7',
+58 silly npmInstallDependencies     next: '12.0.7',
+58 silly npmInstallDependencies     'next-compose-plugins': '^2.2.1',
+58 silly npmInstallDependencies     'next-images': '^1.8.4',
+58 silly npmInstallDependencies     'next-transpile-modules': '^9.0.0',
+58 silly npmInstallDependencies     react: '^17.0.2',
+58 silly npmInstallDependencies     'react-dom': '^17.0.2',
+58 silly npmInstallDependencies     '@testing-library/jest-dom': '^5.16.1',
+58 silly npmInstallDependencies     '@testing-library/react': '^12.1.2',
+58 silly npmInstallDependencies     '@testing-library/user-event': '^13.5.0',
+58 silly npmInstallDependencies     'react-scripts': '5.0.0',
+58 silly npmInstallDependencies     'web-vitals': '^2.1.2',
+58 silly npmInstallDependencies     '@types/deep-freeze': '^0.1.2',
+58 silly npmInstallDependencies     '@types/jest': '^27.4.0',
+58 silly npmInstallDependencies     '@types/node': '^17.0.8',
+58 silly npmInstallDependencies     '@types/react': '^17.0.38',
+58 silly npmInstallDependencies     '@types/react-dom': '^17.0.11',
+58 silly npmInstallDependencies     'deep-freeze': '^0.0.1',
+58 silly npmInstallDependencies     i18next: '^21.6.5',
+58 silly npmInstallDependencies     typescript: '^4.5.4'
+58 silly npmInstallDependencies   }
+58 silly npmInstallDependencies }
+59 silly npmInstallDependencies writing tempJson {
+59 silly npmInstallDependencies   name: '@transitionpt/backoffice',
+59 silly npmInstallDependencies   private: true,
+59 silly npmInstallDependencies   dependencies: { react: '17.0.2', 'react-dom': '17.0.2' },
+59 silly npmInstallDependencies   devDependencies: {}
+59 silly npmInstallDependencies }
+60 silly npmInstallDependencies writing tempJson {
+60 silly npmInstallDependencies   name: '@transitionpt/home',
+60 silly npmInstallDependencies   private: true,
+60 silly npmInstallDependencies   dependencies: { react: '17.0.2', 'react-dom': '17.0.2' },
+60 silly npmInstallDependencies   devDependencies: {}
+60 silly npmInstallDependencies }
+61 verbose prune F:\jpit\projecto transition network\frontends\packages\tp_backoffice\node_modules\eslint
+62 silly rimrafDir F:\jpit\projecto transition network\frontends\packages\tp_backoffice\node_modules\next
+63 verbose prune F:\jpit\projecto transition network\frontends\packages\tp_home\node_modules\eslint
+64 silly rimrafDir F:\jpit\projecto transition network\frontends\packages\tp_home\node_modules\next
+65 verbose prune F:\jpit\projecto transition network\frontends\packages\tp_backoffice\node_modules\eslint-config-next
+66 silly rimrafDir F:\jpit\projecto transition network\frontends\packages\tp_backoffice\node_modules\next-compose-plugins
+67 verbose prune F:\jpit\projecto transition network\frontends\packages\tp_home\node_modules\eslint-config-next
+68 silly rimrafDir F:\jpit\projecto transition network\frontends\packages\tp_home\node_modules\next-compose-plugins
+69 verbose prune F:\jpit\projecto transition network\frontends\packages\tp_backoffice\node_modules\next
+70 silly rimrafDir F:\jpit\projecto transition network\frontends\packages\tp_backoffice\node_modules\next-images
+71 verbose prune F:\jpit\projecto transition network\frontends\packages\tp_home\node_modules\next
+72 silly rimrafDir F:\jpit\projecto transition network\frontends\packages\tp_home\node_modules\next-images
+73 verbose prune F:\jpit\projecto transition network\frontends\packages\tp_backoffice\node_modules\next-compose-plugins
+74 silly rimrafDir F:\jpit\projecto transition network\frontends\packages\tp_backoffice\node_modules\next-transpile-modules
+75 verbose prune F:\jpit\projecto transition network\frontends\packages\tp_home\node_modules\next-compose-plugins
+76 silly rimrafDir F:\jpit\projecto transition network\frontends\packages\tp_home\node_modules\next-transpile-modules
+77 verbose prune F:\jpit\projecto transition network\frontends\packages\tp_backoffice\node_modules\next-images
+78 silly rimrafDir F:\jpit\projecto transition network\frontends\packages\tp_generic_header\node_modules\react
+79 verbose prune F:\jpit\projecto transition network\frontends\packages\tp_home\node_modules\next-images
+80 silly rimrafDir F:\jpit\projecto transition network\frontends\packages\tp_translations\node_modules\react
+81 verbose prune F:\jpit\projecto transition network\frontends\packages\tp_backoffice\node_modules\next-transpile-modules
+82 silly rimrafDir F:\jpit\projecto transition network\frontends\packages\tp_generic_header\node_modules\react-dom
+83 verbose prune F:\jpit\projecto transition network\frontends\packages\tp_home\node_modules\next-transpile-modules
+84 silly rimrafDir F:\jpit\projecto transition network\frontends\packages\tp_translations\node_modules\react-dom
+85 verbose prune F:\jpit\projecto transition network\frontends\packages\tp_generic_header\node_modules\react
+86 silly rimrafDir F:\jpit\projecto transition network\frontends\packages\tp_generic_header\node_modules\@testing-library\jest-dom
+87 verbose prune F:\jpit\projecto transition network\frontends\packages\tp_generic_header\node_modules\react-dom
+88 silly rimrafDir F:\jpit\projecto transition network\frontends\packages\tp_translations\node_modules\@testing-library\jest-dom
+89 verbose prune F:\jpit\projecto transition network\frontends\packages\tp_generic_header\node_modules\@testing-library\jest-dom
+90 silly rimrafDir F:\jpit\projecto transition network\frontends\packages\tp_generic_header\node_modules\@testing-library\react
+91 verbose prune F:\jpit\projecto transition network\frontends\packages\tp_generic_header\node_modules\@testing-library\react
+92 silly rimrafDir F:\jpit\projecto transition network\frontends\packages\tp_translations\node_modules\@testing-library\react
+93 silly getNpmExecOpts F:\jpit\projecto transition network\frontends undefined
+94 silly npmInstall [ 'npm', [ 'install' ] ]
+95 silly getNpmExecOpts F:\jpit\projecto transition network\frontends\packages\tp_home undefined
+96 silly npmInstall [ 'npm', [ 'install', '--global-style' ] ]
+97 silly getNpmExecOpts F:\jpit\projecto transition network\frontends\packages\tp_backoffice undefined
+98 silly npmInstall [ 'npm', [ 'install', '--global-style' ] ]
+99 verbose rimrafDir removed F:\jpit\projecto transition network\frontends\packages\tp_translations\node_modules\@testing-library\jest-dom
+100 verbose prune F:\jpit\projecto transition network\frontends\packages\tp_translations\node_modules\@testing-library\jest-dom
+101 silly rimrafDir F:\jpit\projecto transition network\frontends\packages\tp_generic_header\node_modules\@testing-library\user-event
+102 verbose prune F:\jpit\projecto transition network\frontends\packages\tp_generic_header\node_modules\@testing-library\user-event
+103 silly rimrafDir F:\jpit\projecto transition network\frontends\packages\tp_translations\node_modules\@testing-library\user-event
+104 verbose rimrafDir removed F:\jpit\projecto transition network\frontends\packages\tp_translations\node_modules\@testing-library\react
+105 verbose prune F:\jpit\projecto transition network\frontends\packages\tp_translations\node_modules\@testing-library\react
+106 silly rimrafDir F:\jpit\projecto transition network\frontends\packages\tp_generic_header\node_modules\react-scripts
+107 verbose prune F:\jpit\projecto transition network\frontends\packages\tp_generic_header\node_modules\react-scripts
+108 silly rimrafDir F:\jpit\projecto transition network\frontends\packages\tp_translations\node_modules\react-scripts
+109 verbose rimrafDir removed F:\jpit\projecto transition network\frontends\packages\tp_translations\node_modules\react-dom
+110 verbose prune F:\jpit\projecto transition network\frontends\packages\tp_translations\node_modules\react-dom
+111 silly rimrafDir F:\jpit\projecto transition network\frontends\packages\tp_generic_header\node_modules\web-vitals
+112 verbose prune F:\jpit\projecto transition network\frontends\packages\tp_generic_header\node_modules\web-vitals
+113 silly rimrafDir F:\jpit\projecto transition network\frontends\packages\tp_translations\node_modules\web-vitals
+114 verbose rimrafDir removed F:\jpit\projecto transition network\frontends\packages\tp_translations\node_modules\react
+115 verbose prune F:\jpit\projecto transition network\frontends\packages\tp_translations\node_modules\react
+116 silly rimrafDir F:\jpit\projecto transition network\frontends\packages\tp_translations\node_modules\@types\deep-freeze
+117 verbose rimrafDir removed F:\jpit\projecto transition network\frontends\packages\tp_translations\node_modules\@testing-library\user-event
+118 verbose prune F:\jpit\projecto transition network\frontends\packages\tp_translations\node_modules\@testing-library\user-event
+119 silly rimrafDir F:\jpit\projecto transition network\frontends\packages\tp_translations\node_modules\@types\jest
+120 verbose rimrafDir removed F:\jpit\projecto transition network\frontends\packages\tp_translations\node_modules\react-scripts
+121 verbose prune F:\jpit\projecto transition network\frontends\packages\tp_translations\node_modules\react-scripts
+122 silly rimrafDir F:\jpit\projecto transition network\frontends\packages\tp_translations\node_modules\@types\node
+123 verbose rimrafDir removed F:\jpit\projecto transition network\frontends\packages\tp_translations\node_modules\@types\deep-freeze
+124 verbose prune F:\jpit\projecto transition network\frontends\packages\tp_translations\node_modules\@types\deep-freeze
+125 silly rimrafDir F:\jpit\projecto transition network\frontends\packages\tp_translations\node_modules\@types\react
+126 verbose rimrafDir removed F:\jpit\projecto transition network\frontends\packages\tp_translations\node_modules\web-vitals
+127 verbose prune F:\jpit\projecto transition network\frontends\packages\tp_translations\node_modules\web-vitals
+128 silly rimrafDir F:\jpit\projecto transition network\frontends\packages\tp_translations\node_modules\@types\react-dom
+129 verbose rimrafDir removed F:\jpit\projecto transition network\frontends\packages\tp_translations\node_modules\@types\jest
+130 verbose prune F:\jpit\projecto transition network\frontends\packages\tp_translations\node_modules\@types\jest
+131 silly rimrafDir F:\jpit\projecto transition network\frontends\packages\tp_translations\node_modules\deep-freeze
+132 verbose rimrafDir removed F:\jpit\projecto transition network\frontends\packages\tp_translations\node_modules\@types\react
+133 verbose prune F:\jpit\projecto transition network\frontends\packages\tp_translations\node_modules\@types\react
+134 silly rimrafDir F:\jpit\projecto transition network\frontends\packages\tp_translations\node_modules\i18next
+135 verbose rimrafDir removed F:\jpit\projecto transition network\frontends\packages\tp_translations\node_modules\@types\node
+136 verbose prune F:\jpit\projecto transition network\frontends\packages\tp_translations\node_modules\@types\node
+137 silly rimrafDir F:\jpit\projecto transition network\frontends\packages\tp_translations\node_modules\typescript
+138 verbose rimrafDir removed F:\jpit\projecto transition network\frontends\packages\tp_translations\node_modules\@types\react-dom
+139 verbose prune F:\jpit\projecto transition network\frontends\packages\tp_translations\node_modules\@types\react-dom
+140 verbose rimrafDir removed F:\jpit\projecto transition network\frontends\packages\tp_translations\node_modules\i18next
+141 verbose prune F:\jpit\projecto transition network\frontends\packages\tp_translations\node_modules\i18next
+142 verbose rimrafDir removed F:\jpit\projecto transition network\frontends\packages\tp_translations\node_modules\deep-freeze
+143 verbose prune F:\jpit\projecto transition network\frontends\packages\tp_translations\node_modules\deep-freeze
+144 verbose rimrafDir removed F:\jpit\projecto transition network\frontends\packages\tp_translations\node_modules\typescript
+145 verbose prune F:\jpit\projecto transition network\frontends\packages\tp_translations\node_modules\typescript
+146 info hoist Finished pruning hoisted dependencies
+147 silly npmInstallDependencies cleanup F:\jpit\projecto transition network\frontends\packages\tp_backoffice\package.json
+148 verbose installed leaf @transitionpt/backoffice
+149 silly npmInstallDependencies cleanup F:\jpit\projecto transition network\frontends\packages\tp_home\package.json
+150 error Error: EPERM: operation not permitted, rename 'F:\jpit\projecto transition network\frontends\packages\tp_home\package.json.lerna_backup' -> 'F:\jpit\projecto transition network\frontends\packages\tp_home\package.json'
+150 error     at Object.renameSync (node:fs:980:3)
+150 error     at cleanup (F:\jpit\projecto transition network\frontends\node_modules\@lerna\npm-install\npm-install.js:70:10)
+150 error     at done (F:\jpit\projecto transition network\frontends\node_modules\@lerna\npm-install\npm-install.js:78:7)
+150 error     at F:\jpit\projecto transition network\frontends\node_modules\@lerna\npm-install\npm-install.js:94:19
+150 error     at processTicksAndRejections (node:internal/process/task_queues:96:5)

@@ -1,0 +1,405 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tp-apis
+  labels:
+    app: tp-apis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tp-apis
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5
+  template:
+    metadata:
+      labels:
+        app: tp-apis
+    spec:
+      volumes:
+        - name: tp-mongo-data-pv
+          persistentVolumeClaim:
+            claimName: tp-mongo-data
+        - name: tp-rabbitmq-pv
+          persistentVolumeClaim:
+            claimName: tp-rabbit-data
+      restartPolicy: Always
+      hostname: tpapispod
+      containers:
+      - name: tpmongo
+        image: mongo:latest
+        ports:
+        - containerPort: 27017
+        volumeMounts:
+            - mountPath: /data/db
+              name: tp-mongo-data-pv
+        env:
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-data
+                  key: mongo-password
+            - name: MONGO_INITDB_ROOT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-data
+                  key: mongo-username
+      - name: tprabbitmq
+        image: rabbitmq:3.9-management
+        ports:
+            - containerPort: 5672
+            - containerPort: 15672
+        volumeMounts:
+            - mountPath: /etc/rabbitmq/rabbitmq.conf
+              name: tp-rabbitmq-pv
+            - mountPath: /etc/rabbitmq/definitions.json
+              name: tp-rabbitmq-pv
+            - mountPath: /var/lib/rabbitmq/mnesia
+              name: tp-rabbitmq-pv
+            - mountPath: /var/log/rabbitmq
+              name: tp-rabbitmq-pv
+        env:
+            - name: RABBITMQ_DEFAULT_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: rabbitmq-data
+                  key: rabbitmq-password
+            - name: RABBITMQ_DEFAULT_USER
+              valueFrom:
+                secretKeyRef:
+                  name: rabbitmq-data
+                  key: rabbitmq-username
+      - name: tpgateway
+        image: <GATEWAY_API_IMAGE>
+        ports:
+            - containerPort: 3005
+        env:
+            - name: ASPNETCORE_URLS
+              value: "http://+:3005"
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "Production"
+            - name: ApplicationSettings__Cors
+              valueFrom:
+                  secretKeyRef:
+                      name: gateway-data
+                      key: gateway-cors-urls
+            - name: JWT__RefreshTokenValidityInDays
+              valueFrom:
+                  secretKeyRef:
+                      name: gateway-data
+                      key: refresh-token-validity-days
+            - name: JWT__SecretPublicKey
+              valueFrom:
+                  secretKeyRef:
+                      name: gateway-data
+                      key: jwt-public-secret
+            - name: JWT__TokenValidityInMinutes
+              valueFrom:
+                  secretKeyRef:
+                      name: gateway-data
+                      key: jwt-token-validity-minutes
+            - name: JWT__ValidAudience
+              valueFrom:
+                  secretKeyRef:
+                      name: gateway-data
+                      key: jwt-valid-audience
+            - name: JWT__ValidIssuer
+              valueFrom:
+                  secretKeyRef:
+                      name: gateway-data
+                      key: jwt-valid-issuer
+            - name: JWT__RemoteClientVerification
+              valueFrom:
+                  secretKeyRef:
+                      name: gateway-data
+                      key: jwt-remote-client-verify
+                      
+      - name: tpemailservice
+        image: <EMAILSERVICE_API_IMAGE>
+        ports:
+            - containerPort: 3010
+        env:
+            - name: ASPNETCORE_URLS
+              value: "http://+:3010"
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "Production"
+            - name: ApplicationSettings__RabbitMQHost
+              valueFrom:
+                  secretKeyRef:
+                      name: emailservice-data
+                      key: rabbitmq-host
+            - name: ApplicationSettings__RabbitMQPassword
+              valueFrom:
+                  secretKeyRef:
+                      name: emailservice-data
+                      key: rabbitmq-password
+            - name: ApplicationSettings__RabbitMQUser
+              valueFrom:
+                  secretKeyRef:
+                      name: emailservice-data
+                      key: rabbitmq-username
+            - name: ConnectionStrings__Database
+              valueFrom:
+                  secretKeyRef:
+                      name: emailservice-data
+                      key: db-name
+            - name: ConnectionStrings__DefaultConnectionString
+              valueFrom:
+                  secretKeyRef:
+                      name: emailservice-data
+                      key: db-conn-string
+            - name: JWT__SecretPublicKey
+              valueFrom:
+                  secretKeyRef:
+                      name: emailservice-data
+                      key: jwt-public-secret
+            - name: JWT__ValidAudience
+              valueFrom:
+                  secretKeyRef:
+                      name: emailservice-data
+                      key: jwt-valid-audience
+            - name: JWT__ValidIssuer
+              valueFrom:
+                  secretKeyRef:
+                      name: emailservice-data
+                      key: jwt-valid-issuer
+      - name: tpuserservice
+        image: <USERSERVICE_API_IMAGE>
+        ports:
+            - containerPort: 3020
+        env:
+            - name: ASPNETCORE_URLS
+              value: "http://+:3020"
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "Production"
+            - name: ApplicationSettings__CookiePolicy
+              valueFrom:
+                  secretKeyRef:
+                      name: userservice-data
+                      key: cookie-policy
+            - name: ApplicationSettings__CookieDomain
+              valueFrom:
+                  secretKeyRef:
+                      name: userservice-data
+                      key: main-domain
+            - name: ApplicationSettings__RabbitMQHost
+              valueFrom:
+                  secretKeyRef:
+                      name: userservice-data
+                      key: rabbitmq-host
+            - name: ApplicationSettings__RabbitMQPassword
+              valueFrom:
+                  secretKeyRef:
+                      name: userservice-data
+                      key: rabbitmq-password
+            - name: ApplicationSettings__RabbitMQUser
+              valueFrom:
+                  secretKeyRef:
+                      name: userservice-data
+                      key: rabbitmq-username
+            - name: ApplicationSettings__RecoverPasswordBaseUrl
+              valueFrom:
+                  secretKeyRef:
+                      name: userservice-data
+                      key: frontend-recover-base-url
+            - name: ConnectionStrings__DefaultConnectionString
+              valueFrom:
+                  secretKeyRef:
+                      name: userservice-data
+                      key: db-conn-string
+            - name: DatabaseSettings__DbHost
+              valueFrom:
+                  secretKeyRef:
+                      name: userservice-data
+                      key: db-host
+            - name: DatabaseSettings__DbPort
+              valueFrom:
+                  secretKeyRef:
+                      name: userservice-data
+                      key: db-port
+            - name: DatabaseSettings__Database
+              valueFrom:
+                  secretKeyRef:
+                      name: userservice-data
+                      key: db-name
+            - name: DatabaseSettings__DbUser
+              valueFrom:
+                  secretKeyRef:
+                      name: userservice-data
+                      key: db-user
+            - name: DatabaseSettings__DbPassword
+              valueFrom:
+                  secretKeyRef:
+                      name: userservice-data
+                      key: db-password
+            - name: DatabaseSettings__DbSslMode
+              value: "Require"
+            - name: DatabaseSettings__DbServerCompatibilityMode
+              value: "Redshift"
+            - name: DatabaseSettings__DbTrustCertificate
+              value: "true"
+            - name: DatabaseSettings__DbPooling
+              value: "false"
+            - name: JWT__SecretPrivateKey
+              valueFrom:
+                  secretKeyRef:
+                      name: user-private-key-secret
+                      key: user-privatekey
+            - name: JWT__RefreshTokenValidityInDays
+              valueFrom:
+                  secretKeyRef:
+                      name: userservice-data
+                      key: refresh-token-validity-days
+            - name: JWT__SecretPublicKey
+              valueFrom:
+                  secretKeyRef:
+                      name: userservice-data
+                      key: jwt-public-secret
+            - name: JWT__TokenValidityInMinutes
+              valueFrom:
+                  secretKeyRef:
+                      name: userservice-data
+                      key: jwt-token-validity-minutes
+            - name: JWT__ValidAudience
+              valueFrom:
+                  secretKeyRef:
+                      name: userservice-data
+                      key: jwt-valid-audience
+            - name: JWT__ValidIssuer
+              valueFrom:
+                  secretKeyRef:
+                      name: userservice-data
+                      key: jwt-valid-issuer
+      - name: tpcmservice
+        image: <CMSERVICE_API_IMAGE>
+        ports:
+            - containerPort: 3030
+        env:
+            - name: ASPNETCORE_URLS
+              value: "http://+:3030"
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "Production"
+            - name: ConnectionStrings__DefaultConnectionString
+              valueFrom:
+                  secretKeyRef:
+                      name: cmservice-data
+                      key: db-conn-string
+            - name: DatabaseSettings__DbHost
+              valueFrom:
+                  secretKeyRef:
+                      name: cmservice-data
+                      key: db-host
+            - name: DatabaseSettings__DbPort
+              valueFrom:
+                  secretKeyRef:
+                      name: cmservice-data
+                      key: db-port
+            - name: DatabaseSettings__Database
+              valueFrom:
+                  secretKeyRef:
+                      name: cmservice-data
+                      key: db-name
+            - name: DatabaseSettings__DbUser
+              valueFrom:
+                  secretKeyRef:
+                      name: cmservice-data
+                      key: db-user
+            - name: DatabaseSettings__DbPassword
+              valueFrom:
+                  secretKeyRef:
+                      name: cmservice-data
+                      key: db-password
+            - name: DatabaseSettings__DbSslMode
+              value: "Require"
+            - name: DatabaseSettings__DbServerCompatibilityMode
+              value: "Redshift"
+            - name: DatabaseSettings__DbTrustCertificate
+              value: "true"
+            - name: DatabaseSettings__DbPooling
+              value: "false"
+      - name: tpnotificationservice
+        image: <NOTIFICATIONSERVICE_API_IMAGE>
+        ports:
+            - containerPort: 3040
+        env:
+            - name: ASPNETCORE_URLS
+              value: "http://+:3040"
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "Production"
+            - name: ConnectionStrings__DefaultConnectionString
+              valueFrom:
+                  secretKeyRef:
+                      name: notificationservice-data
+                      key: db-conn-string
+            - name: DatabaseSettings__DbHost
+              valueFrom:
+                  secretKeyRef:
+                      name: notificationservice-data
+                      key: db-host
+            - name: DatabaseSettings__DbPort
+              valueFrom:
+                  secretKeyRef:
+                      name: notificationservice-data
+                      key: db-port
+            - name: DatabaseSettings__Database
+              valueFrom:
+                  secretKeyRef:
+                      name: notificationservice-data
+                      key: db-name
+            - name: DatabaseSettings__DbUser
+              valueFrom:
+                  secretKeyRef:
+                      name: notificationservice-data
+                      key: db-user
+            - name: DatabaseSettings__DbPassword
+              valueFrom:
+                  secretKeyRef:
+                      name: notificationservice-data
+                      key: db-password
+            - name: DatabaseSettings__DbSslMode
+              value: "Require"
+            - name: DatabaseSettings__DbServerCompatibilityMode
+              value: "Redshift"
+            - name: DatabaseSettings__DbTrustCertificate
+              value: "true"
+            - name: DatabaseSettings__DbPooling
+              value: "false"
+      - name: tpnewservice
+        image: <NEWSBLOGSERVICE_API_IMAGE>
+        ports:
+            - containerPort: 3050
+        env:
+            - name: POSTGRES_HOST
+              valueFrom:
+                  secretKeyRef:
+                      name: newsblogservice-data
+                      key: db-host
+            - name: POSTGRES_PORT
+              valueFrom:
+                  secretKeyRef:
+                      name: newsblogservice-data
+                      key: db-port
+            - name: POSTGRES_DBNAME
+              valueFrom:
+                  secretKeyRef:
+                      name: newsblogservice-data
+                      key: db-name
+            - name: POSTGRES_USER
+              valueFrom:
+                  secretKeyRef:
+                      name: newsblogservice-data
+                      key: db-user
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                  secretKeyRef:
+                      name: newsblogservice-data
+                      key: db-password
+            - name: POSTGRES_SSLMODE
+              value: "require"
+        command: ["bash"]
+        args: ["-c", "python manage.py makemigrations && chmod +x NewsServiceApp/migrations/migrate_and_seed.sh && NewsServiceApp/migrations/migrate_and_seed.sh && python manage.py runserver 0.0.0.0:3050"]
+      imagePullSecrets:
+      - name: do-photos-registry-secret

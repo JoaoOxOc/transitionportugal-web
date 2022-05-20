@@ -1,0 +1,10 @@
+import * as deepFreeze from 'deep-freeze';
+
+export const NEWSLETTER_TRANSLATIONS = deepFreeze({
+    NEWSLETTER: {
+        email_input_label: "Subscreva a nossa newsletter",
+        email_input_help: "Insira o seu email que irá receber a newsletter",
+        email_input_placeholder: "Seu email...",
+        subscribe_button: "Subscrever"
+    },
+} as const);

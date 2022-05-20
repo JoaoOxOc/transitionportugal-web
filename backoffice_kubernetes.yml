@@ -1,0 +1,116 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: transportugal-backoffice
+  labels:
+    app: transportugal-backoffice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: transportugal-backoffice
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5
+  template:
+    metadata:
+      labels:
+        app: transportugal-backoffice
+    spec:
+      containers:
+      - name: transportugal-backoffice
+        image: <BACKOFFICE_IMAGE>
+        ports:
+        - containerPort: 80
+        env:
+        - name: NEXT_PUBLIC_API_BASE_URL
+          valueFrom:
+             secretKeyRef:
+               name: transbackoffice-data
+               key: api-base-url
+        - name: NEXT_PUBLIC_CLIENT_ID
+          valueFrom:
+             secretKeyRef:
+               name: transbackoffice-data
+               key: auth-client-id
+        - name: NEXT_PUBLIC_CLIENT_SECRET
+          valueFrom:
+             secretKeyRef:
+               name: transbackoffice-data
+               key: auth-client-secret
+        - name: NEXT_PUBLIC_HOME_URL
+          valueFrom:
+             secretKeyRef:
+               name: transbackoffice-data
+               key: home-base-url
+        - name: NEXT_PUBLIC_AUTH_URL
+          valueFrom:
+             secretKeyRef:
+               name: transbackoffice-data
+               key: backoffice-auth-url
+        - name: AUTH_API_URL
+          valueFrom:
+             secretKeyRef:
+               name: transbackoffice-data
+               key: backoffice-auth-api-url
+        - name: NEXTAUTH_SECRET
+          valueFrom:
+             secretKeyRef:
+               name: backoffice-private-key-secret
+               key: backoffice-privatekey
+        - name: NEXTAUTH_URL
+          valueFrom:
+             secretKeyRef:
+               name: transbackoffice-data
+               key: next-auth-url
+        - name: NEXTAUTH_URL_INTERNAL
+          value: "http://localhost:3000/admin/api/auth"
+        - name: AUTH_API_CLIENT_ID
+          valueFrom:
+             secretKeyRef:
+               name: transbackoffice-data
+               key: backoffice-auth-client-id
+        - name: AUTH_API_CLIENT_SECRET
+          valueFrom:
+             secretKeyRef:
+               name: transbackoffice-data
+               key: backoffice-auth-client-secret
+      imagePullSecrets:
+      - name: do-photos-registry-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: transportugal-backoffice-service
+  labels:
+    run: transportugal-backoffice-service
+spec:
+  ports:
+    - port: 40010
+      targetPort: 3000
+  selector:
+    app: transportugal-backoffice
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: transportugal-backoffice-nginx-controller
+  annotations:
+      kubernetes.io/ingress.class: nginx
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      service.beta.kubernetes.io/do-loadbalancer-protocol: https
+      service.beta.kubernetes.io/do-loadbalancer-tls-passthrough: "true"
+spec:
+  tls:
+  - hosts:
+    - transicaoportugal.org
+    secretName: transportugal-backoffice-tls-secret
+  rules:
+  - host: transicaoportugal.org
+    http:
+      paths:
+      - backend:
+          serviceName: transportugal-backoffice-service
+          servicePort: 40010

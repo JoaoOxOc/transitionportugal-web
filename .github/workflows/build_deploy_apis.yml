@@ -1,0 +1,159 @@
+# This is a basic workflow to help you get started with Actions
+
+name: transition pt APIs Build and Deploy
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the deployback branch
+  push:
+    branches: [ deployback ]
+
+
+env:
+  GITHUB_SHA: ${{ github.sha }}
+  GITHUB_REPOSITORY: joaooxoc/transitionportugal-web
+  REGISTRY_HOSTNAME: registry.digitalocean.com/photosapi
+  GATEWAY_IMAGE_NAME: tp_gatewayapi
+  USERAPI_IMAGE_NAME: tp_userservice
+  EMAILAPI_IMAGE_NAME: tp_emailservice
+  CMAPI_IMAGE_NAME: tp_cmservice
+  NOTIFYAPI_IMAGE_NAME: tp_notificationservice
+  NEWSAPI_IMAGE_NAME: tp_newsblogservice
+  DEPLOYMENT_NAME: tp-apis
+  DO_CLUSTER: k8s-photos
+  DIGITALOCEAN_ACCESS_TOKEN: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+  DO_EXTERNAL_IP: ${{secrets.DIGITALOCEAN_EXTERNAL_IP}}
+  DIGITALOCEAN_LOADBALANCER_ID: ${{secrets.DIGITALOCEAN_LOADBALANCER_ID}}
+  PV_DEPLOYMENT_FILENAME: deploy_persistent_volumes.yml
+  APIS_DEPLOYMENT_FILE_NAME: deploy_apis_pod.yml
+  INGRESSES_DEPLOYMENT_FILE_NAME: deploy_apis_ingresses.yml
+  USER_PRIVATE_SECRET: ${{secrets.USER_SERVICE_PRIVATE_KEY}}
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    name: Build docker images and deploy to DO kubernetes
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v1
+
+    - name: Install doctl
+      uses: digitalocean/action-doctl@v2.1.0
+      with:
+        token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
+    
+    - name: Log in to DigitalOcean Container Registry with short-lived credentials
+      run: doctl registry login --expiry-seconds 6000
+      
+    - name: Build gateway container image
+      run: docker build -t "$REGISTRY_HOSTNAME/$GATEWAY_IMAGE_NAME" -f $GITHUB_WORKSPACE/tp_webservices/tpgateway.dockerfile ./tp_webservices/
+    
+    - name: Push gateway image to DigitalOcean Container Registry
+      run: docker push "$REGISTRY_HOSTNAME/$GATEWAY_IMAGE_NAME":latest
+      
+    - name: Build userservice container image
+      run: docker build -t "$REGISTRY_HOSTNAME/$USERAPI_IMAGE_NAME" -f $GITHUB_WORKSPACE/tp_webservices/userservice.dockerfile ./tp_webservices/
+    
+    - name: Push userservice image to DigitalOcean Container Registry
+      run: docker push "$REGISTRY_HOSTNAME/$USERAPI_IMAGE_NAME":latest
+      
+    - name: Build emailservice container image
+      run: docker build -t "$REGISTRY_HOSTNAME/$EMAILAPI_IMAGE_NAME" -f $GITHUB_WORKSPACE/tp_webservices/emailservice.dockerfile ./tp_webservices/
+    
+    - name: Push emailservice image to DigitalOcean Container Registry
+      run: docker push "$REGISTRY_HOSTNAME/$EMAILAPI_IMAGE_NAME":latest
+      
+    - name: Build cmservice container image
+      run: docker build -t "$REGISTRY_HOSTNAME/$CMAPI_IMAGE_NAME" -f $GITHUB_WORKSPACE/tp_webservices/cmservice.dockerfile ./tp_webservices/
+    
+    - name: Push cmservice image to DigitalOcean Container Registry
+      run: docker push "$REGISTRY_HOSTNAME/$CMAPI_IMAGE_NAME":latest
+      
+    - name: Build notificationservice container image
+      run: docker build -t "$REGISTRY_HOSTNAME/$NOTIFYAPI_IMAGE_NAME" -f $GITHUB_WORKSPACE/tp_webservices/notificationservice.dockerfile ./tp_webservices/
+    
+    - name: Push notificationservice image to DigitalOcean Container Registry
+      run: docker push "$REGISTRY_HOSTNAME/$NOTIFYAPI_IMAGE_NAME":latest
+      
+    - name: Build newsblogservice container image
+      run: docker build -t "$REGISTRY_HOSTNAME/$NEWSAPI_IMAGE_NAME" -f $GITHUB_WORKSPACE/tp_webservices/newservice.dockerfile ./tp_webservices/
+    
+    - name: Push newsblogservice image to DigitalOcean Container Registry
+      run: docker push "$REGISTRY_HOSTNAME/$NEWSAPI_IMAGE_NAME":latest
+
+    - name: authenticate to DO
+      run: doctl auth init
+
+    - name: Save DigitalOcean kubeconfig
+      run: doctl -t $DIGITALOCEAN_ACCESS_TOKEN k8s cluster config save $DO_CLUSTER
+      
+    - name: deploy persistent volumes in DO
+      run: kubectl apply -f $GITHUB_WORKSPACE/$PV_DEPLOYMENT_FILENAME
+    
+    - name: Update ingresses deployment file
+      run: sed -i "s|<EXTERNAL_DO_IP>|$DO_EXTERNAL_IP|" $GITHUB_WORKSPACE/$INGRESSES_DEPLOYMENT_FILE_NAME && sed -i "s|<DO_LOADBALANCER_ID>|$DIGITALOCEAN_LOADBALANCER_ID|" $GITHUB_WORKSPACE/$INGRESSES_DEPLOYMENT_FILE_NAME
+      
+    - name: Update deployment file with gateway image registry name
+      run: sed -i "s|<GATEWAY_API_IMAGE>|$REGISTRY_HOSTNAME/$GATEWAY_IMAGE_NAME:latest|" $GITHUB_WORKSPACE/$APIS_DEPLOYMENT_FILE_NAME
+      
+    - name: Update deployment file with userservice image registry name
+      run: sed -i "s|<USERSERVICE_API_IMAGE>|$REGISTRY_HOSTNAME/$USERAPI_IMAGE_NAME:latest|" $GITHUB_WORKSPACE/$APIS_DEPLOYMENT_FILE_NAME
+      
+    - name: Update deployment file with emailservice image registry name
+      run: sed -i "s|<EMAILSERVICE_API_IMAGE>|$REGISTRY_HOSTNAME/$EMAILAPI_IMAGE_NAME:latest|" $GITHUB_WORKSPACE/$APIS_DEPLOYMENT_FILE_NAME
+      
+    - name: Update deployment file with cmservice image registry name
+      run: sed -i "s|<CMSERVICE_API_IMAGE>|$REGISTRY_HOSTNAME/$CMAPI_IMAGE_NAME:latest|" $GITHUB_WORKSPACE/$APIS_DEPLOYMENT_FILE_NAME
+      
+    - name: Update deployment file with notificationservice image registry name
+      run: sed -i "s|<NOTIFICATIONSERVICE_API_IMAGE>|$REGISTRY_HOSTNAME/$NOTIFYAPI_IMAGE_NAME:latest|" $GITHUB_WORKSPACE/$APIS_DEPLOYMENT_FILE_NAME
+      
+    - name: Update deployment file with newsblogservice image registry name
+      run: sed -i "s|<NEWSBLOGSERVICE_API_IMAGE>|$REGISTRY_HOSTNAME/$NEWSAPI_IMAGE_NAME:latest|" $GITHUB_WORKSPACE/$APIS_DEPLOYMENT_FILE_NAME
+      
+    #- name: replace private key
+    #  run: sed -i "s|<REPLACE_PRIVATE_KEY>|$USER_PRIVATE_SECRET|" $GITHUB_WORKSPACE/private_key_store
+      
+    #- name: create private key secret
+    #  run: kubectl create secret generic user-private-key-secret --from-file=user-privatekey=$GITHUB_WORKSPACE/private_key_store
+    
+
+    - name: process mongo environment variables
+      run: kubectl delete secret mongodb-data --ignore-not-found && kubectl create secret generic mongodb-data --from-literal=mongo-username=${{secrets.MONGO_USERNAME}} --from-literal=mongo-password=${{secrets.MONGO_PASSWORD}}
+    
+    - name: process MQTT environment variables
+      run: kubectl delete secret rabbitmq-data --ignore-not-found && kubectl create secret generic rabbitmq-data --from-literal=rabbitmq-username=${{secrets.API_MQTT_USER}} --from-literal=rabbitmq-password=${{secrets.API_MQTT_PASSWORD}}
+    - run: kubectl describe secret rabbitmq-data
+      
+    - name: process gateway environment variables
+      run: kubectl delete secret gateway-data --ignore-not-found && kubectl create secret generic gateway-data --from-literal=gateway-cors-urls=${{secrets.GATEWAY_CORS_URLS}} --from-literal=refresh-token-validity-days=${{secrets.USER_SERVICE_REFRESH_TOKEN_VALIDITY_DAYS}} --from-literal=jwt-public-secret=${{secrets.USER_SERVICE_PUBLIC_KEY}} --from-literal=jwt-token-validity-minutes=${{secrets.USER_SERVICE_TOKEN_VALIDITY_MINUTES}} --from-literal=jwt-valid-audience=${{secrets.USER_SERVICE_VALID_AUDIENCE}} --from-literal=jwt-valid-issuer=${{secrets.USER_SERVICE_VALID_ISSUER}} --from-literal=jwt-remote-client-verify=${{secrets.REMOTE_CLIENT_VERIFICATION}}
+      
+    - name: process userservice environment variables
+      run: kubectl delete secret userservice-data --ignore-not-found && kubectl create secret generic userservice-data --from-literal=rabbitmq-host=${{secrets.API_MQTT_HOST}} --from-literal=rabbitmq-username=${{secrets.API_MQTT_USER}} --from-literal=rabbitmq-password=${{secrets.API_MQTT_PASSWORD}} --from-literal=frontend-recover-base-url=${{secrets.API_FRONTEND_BASE_URL}} --from-literal=db-conn-string=${{secrets.USER_DB_CONN_STRING}} --from-literal=db-host=${{secrets.USER_DB_HOST}} --from-literal=db-port=${{secrets.USER_DB_PORT}} --from-literal=db-name=${{secrets.USER_DB_NAME}} --from-literal=db-user=${{secrets.USER_DB_USERNAME}} --from-literal=db-password=${{secrets.USER_DB_PASSWORD}} --from-literal=refresh-token-validity-days=${{secrets.USER_SERVICE_REFRESH_TOKEN_VALIDITY_DAYS}} --from-literal=jwt-public-secret=${{secrets.USER_SERVICE_PUBLIC_KEY}} --from-literal=jwt-token-validity-minutes=${{secrets.USER_SERVICE_TOKEN_VALIDITY_MINUTES}} --from-literal=jwt-valid-audience=${{secrets.USER_SERVICE_VALID_AUDIENCE}} --from-literal=jwt-valid-issuer=${{secrets.USER_SERVICE_VALID_ISSUER}} --from-literal=cookie-policy=${{secrets.USER_SERVICE_COOKIE_POLICY}} --from-literal=main-domain=${{secrets.USER_SERVICE_DOMAIN}}
+    
+    - name: process emailservice environment variables
+      run: kubectl delete secret emailservice-data --ignore-not-found && kubectl create secret generic emailservice-data --from-literal=rabbitmq-host=${{secrets.API_MQTT_HOST}} --from-literal=rabbitmq-username=${{secrets.API_MQTT_USER}} --from-literal=rabbitmq-password=${{secrets.API_MQTT_PASSWORD}} --from-literal=db-name=${{secrets.EMAIL_DB_NAME}} --from-literal=db-conn-string=${{secrets.EMAIL_DB_CONN_STRING}} --from-literal=jwt-public-secret=${{secrets.USER_SERVICE_PUBLIC_KEY}} --from-literal=jwt-valid-audience=${{secrets.USER_SERVICE_VALID_AUDIENCE}} --from-literal=jwt-valid-issuer=${{secrets.USER_SERVICE_VALID_ISSUER}}
+      
+    - name: process cmservice environment variables
+      run: kubectl delete secret cmservice-data --ignore-not-found && kubectl create secret generic cmservice-data --from-literal=db-conn-string=${{secrets.CMSERVICE_DB_CONN_STRING}} --from-literal=db-host=${{secrets.CMSERVICE_DB_HOST}} --from-literal=db-port=${{secrets.CMSERVICE_DB_PORT}} --from-literal=db-name=${{secrets.CMSERVICE_DB_NAME}} --from-literal=db-user=${{secrets.CMSERVICE_DB_USERNAME}} --from-literal=db-password=${{secrets.CMSERVICE_DB_PASSWORD}}
+      
+    - name: process notificationservice environment variables
+      run: kubectl delete secret notificationservice-data --ignore-not-found && kubectl create secret generic notificationservice-data --from-literal=db-conn-string=${{secrets.NOTIFICATIONSERVICE_DB_CONN_STRING}} --from-literal=db-host=${{secrets.NOTIFICATIONSERVICE_DB_HOST}} --from-literal=db-port=${{secrets.NOTIFICATIONSERVICE_DB_PORT}} --from-literal=db-name=${{secrets.NOTIFICATIONSERVICE_DB_NAME}} --from-literal=db-user=${{secrets.NOTIFICATIONSERVICE_DB_USERNAME}} --from-literal=db-password=${{secrets.NOTIFICATIONSERVICE_DB_PASSWORD}}
+      
+    - name: process newsblogservice environment variables
+      run: kubectl delete secret newsblogservice-data --ignore-not-found && kubectl create secret generic newsblogservice-data --from-literal=db-host=${{secrets.NEWSBLOGSERVICE_DB_HOST}} --from-literal=db-port=${{secrets.NEWSBLOGSERVICE_DB_PORT}} --from-literal=db-name=${{secrets.NEWSBLOGSERVICE_DB_NAME}} --from-literal=db-user=${{secrets.NEWSBLOGSERVICE_DB_USERNAME}} --from-literal=db-password=${{secrets.NEWSBLOGSERVICE_DB_PASSWORD}}
+      
+      
+    
+    - name: Deploy to DigitalOcean Kubernetes
+      run: kubectl apply -f $GITHUB_WORKSPACE/$APIS_DEPLOYMENT_FILE_NAME
+
+    - name: Verify deployment of the apis pod
+      run: kubectl rollout status deployment/$DEPLOYMENT_NAME
+      
+    - name: Deploy services and ingresses to DigitalOcean Kubernetes
+      run: kubectl apply -f $GITHUB_WORKSPACE/$INGRESSES_DEPLOYMENT_FILE_NAME

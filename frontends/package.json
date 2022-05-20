@@ -1,0 +1,26 @@
+{
+    "name": "@transitionpt/root",
+    "version": "1.0.0",
+    "private": true,
+    "author": "Joao Almeida",
+    "license": "MIT",
+    "workspaces": [
+        "packages/*"
+    ],
+    "devDependencies": {
+        "lerna": "^4.0.0",
+        "lerna-dockerize": "^0.8.3"
+    },
+    "scripts": {
+        "bootstrap": "lerna bootstrap --hoist",
+        "tsc": "lerna run tsc --stream",
+        "watch": "tsc --watch",
+        "run:home:dev": "lerna run tsc --stream && lerna run --scope @transitionpt/home --stream dev",
+        "run:home:prod": "lerna run tsc --stream && lerna run --scope @transitionpt/home --stream build",
+        "run:home:prodstart": "lerna run tsc --stream && lerna run --scope @transitionpt/home --stream start",
+        "run:backoffice:dev": "lerna run tsc --stream && lerna run --scope @transitionpt/backoffice --stream dev",
+        "run:backoffice:prod": "lerna run tsc --stream && lerna run --scope @transitionpt/backoffice --stream build",
+        "run:backoffice:prodstart": "lerna run tsc --stream && lerna run --scope @transitionpt/backoffice --stream start",
+        "lerna-dockerize": "lerna-dockerize --template-dockerfile-name Dockerfile.template"
+    }
+}
