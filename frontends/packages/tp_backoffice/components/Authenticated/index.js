@@ -6,7 +6,7 @@ import { useSnackbar } from 'notistack';
 import { Slide } from '@mui/material';
 
 export const Authenticated = (props) => {
-  const { children } = props;
+  const { children, session } = props;
   const auth = useAuth();
   const router = useRouter();
   const [verified, setVerified] = useState(false);
@@ -17,7 +17,12 @@ export const Authenticated = (props) => {
       return;
     }
 
-    if (!auth.isAuthenticated || auth.redirectToLogin == true) {
+    // if (!auth.isAuthenticated || auth.redirectToLogin == true) {
+    //   router.push({
+    //     pathname: '/auth/login/cover',
+    //     query: { backTo: router.asPath }
+    //   });
+    if (!session || !session.accessToken || session.error) {
       router.push({
         pathname: '/auth/login/cover',
         query: { backTo: router.asPath }

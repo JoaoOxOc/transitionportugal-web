@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { useAuth } from '../../../../hooks/useAuth';
+// import { useAuth } from '../../../../hooks/useAuth';
 import { useRouter } from 'next/router';
 
 import {
@@ -21,6 +21,7 @@ import LockOpenTwoToneIcon from '@mui/icons-material/LockOpenTwoTone';
 import AccountTreeTwoToneIcon from '@mui/icons-material/AccountTreeTwoTone';
 import Link from '../../../../components/Link';
 import { i18nextSidemenu } from "@transitionpt/translations";
+import { useSession, signOut } from "next-auth/react";
 
 const UserBoxButton = styled(Button)(
   ({ theme }) => `
@@ -66,9 +67,10 @@ function HeaderUserbox() {
   const { t } = i18nextSidemenu;
 
   const router = useRouter();
-  const auth = useAuth();
+  const { data: session, status } = useSession();
+  // const auth = useAuth();
 
-  const { logout } = useAuth();
+  // const { logout } = useAuth();
 
   const ref = useRef(null);
   const [isOpen, setOpen] = useState(false);
@@ -84,8 +86,9 @@ function HeaderUserbox() {
   const handleLogout = async () => {
     try {
       handleClose();
-      await logout();
-      router.push('/auth/login/cover');
+      // await logout();
+      // router.push('/auth/login/cover');
+      signOut({ callbackUrl: '/auth/login/cover?backTo=' + router.asPath });
     } catch (err) {
       console.error(err);
     }
@@ -98,10 +101,10 @@ function HeaderUserbox() {
         display: { xs: 'none', sm: 'inline-block' }
       }}
     >
-      {(auth && auth.user) &&
+      {(session && session.user && !session.error) &&
       <>
       <UserBoxButton color="secondary" ref={ref} onClick={handleOpen}>
-        <Avatar alt={auth.user.name} src={auth.user.avatar} />
+        <Avatar alt={session.user.name} src={session.user.avatar} />
         <ExpandMoreTwoToneIcon
           fontSize="small"
           sx={{
@@ -129,11 +132,11 @@ function HeaderUserbox() {
           }}
           display="flex"
         >
-          <Avatar variant="rounded" alt={auth.user.name} src={auth.user.avatar} />
+          <Avatar variant="rounded" alt={session.user.name} src={session.user.avatar} />
           <UserBoxText>
-            <UserBoxLabel variant="body1">{auth.user.name}</UserBoxLabel>
+            <UserBoxLabel variant="body1">{session.user.name}</UserBoxLabel>
             <UserBoxDescription variant="body2">
-              {auth.user.jobTitle}
+              {session.user.jobTitle}
             </UserBoxDescription>
           </UserBoxText>
         </MenuUserBox>

@@ -1,33 +1,37 @@
 import * as deepFreeze from 'deep-freeze';
 export var NEWSLETTERSLIST_TRANSLATIONS = deepFreeze({
     LABELS: {
-        createTemplate: "Registar Template de Email",
+        createNewsletterSubscription: "Registar Nova Subscrição de Newsletter",
         actions: "Ações",
         view: "Visualizar",
         actualValue: "Valor Actual",
-        emailTemplatesManagement: "Gestão dos Templates de Email",
-        noEmailTemplatesFound: "Não foi possível encontrar nenhum template de email de acordo com os critérios de pesquisa definidos",
-        chooseGrid: "Escolha entre as vistas de tabela ou grelha para apresentar a lista de templates de email.",
+        newsletterSubscriptionsManagement: "Gestão das Subscrições de Newsletter (Integrado com o Mailchimp)",
+        noNewsletterSubscriptionsFound: "Não foi possível encontrar nenhuma Subscrição de Newsletter de acordo com os critérios de pesquisa definidos",
+        mailingListNotFound: "A Lista de Mailing com o nome inserido não existe",
+        chooseGrid: "Escolha entre as vistas de tabela ou grelha para apresentar a listagem de Subscrições de Newsletter.",
         ofSmall: "de",
         paginationRowsPerPage: "Linhas por pág.:",
         showing: "Mostrando"
     },
     LIST: {
-        templatesTitle: "Templates de Email"
+        newsletterSubscriptionsTitle: "Subscrições de Newsletter"
     },
     NEWSLETTEROBJECT: {
-        description: "Description",
+        description: "Descrição",
+        email: "Endereço de Email",
         name: "Nome da Aplicação Cliente",
-        clientId: "ID da Aplicação Cliente",
+        tags: "Tags",
         clientSecret: "Chave da Aplicação Cliente",
         createdAt: "Registado em",
         updatedAt: "Actualizado em"
     },
     MESSAGES: {
-        templatesDescription: "Todos os aspectos relativos aos templates de email podem ser geridos nesta página"
+        newsletterSubscriptionsDescription: "Todos os aspectos relativos às Subscrições de Newsletter podem ser geridos nesta página. Começa por selecionar uma lista de mailing por forma a apresentar os seus membros (subscrições)"
     },
     SEARCH: {
-        searchByNamePlaceholder: "Pesquisar por Chave, Descrição ou Assunto do template de Email..."
+        filters: "Filtros",
+        searchByMailingList: "Seleccione a Lista de Mailing",
+        searchByNamePlaceholder: "Pesquisar por Nome ou Email do membro..."
     }
 });
 //# sourceMappingURL=NewslettersList.js.map

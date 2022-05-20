@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 
 import Head from 'next/head';
+import {getSession} from "next-auth/react";
 
 import AccentHeaderLayout from '../../../layouts/AccentHeaderLayout';
 import { Authenticated } from '../../../components/Authenticated';
@@ -60,12 +61,24 @@ function ManagementUsers() {
   );
 }
 
-ManagementUsers.getLayout = (page) => (
-  <Authenticated>
-    <Authorized scopes={["users.write"]}>
-      <AccentHeaderLayout>{page}</AccentHeaderLayout>
-    </Authorized>
-  </Authenticated>
-);
+
+ManagementUsers.getLayout = (page) => {
+  const { props } = page;
+  return (
+    <Authenticated session={props.children.props.session}>
+      <Authorized session={props.children.props.session} scopes={["users.write"]}>
+        <AccentHeaderLayout>{page}</AccentHeaderLayout>
+      </Authorized>
+    </Authenticated>
+  );
+}
+
+export const getServerSideProps = async (context) => {
+  // get the session
+  const session = await getSession(context);
+
+  // passing the session object to the page  
+  return { props: {session: session} };
+};
 
 export default ManagementUsers;

@@ -131,7 +131,7 @@ const menuItems = [
       {
         name: i18nextSidemenu.t('SIDEMENU_MANAGEMENT.newsletter'),
         icon: SmartToyTwoToneIcon,
-        link: '/management/newsletter',
+        link: '/management/newsletters',
         roles: ["Admin", "User"],
         scopes: ["newsletter.admin"],
       },

@@ -48,7 +48,7 @@ const SearchBar = ({itemsSelected}) => {
             searchContext.searchData.isActive = true;
         }
         else if (selectables.filter((selected) => { return selected == "IsActive"; }).length == 0) {
-            searchContext.searchData.isActive = false;
+            searchContext.searchData.isActive = "";
         }
         searchContext.search(searchContext.searchData);
     };

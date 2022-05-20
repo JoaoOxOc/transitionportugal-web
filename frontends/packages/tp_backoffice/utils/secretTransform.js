@@ -2,7 +2,7 @@
 export default function SecretTransform(textToTransform, evaluationText) {
     if (evaluationText) {
         const text = evaluationText.toLowerCase();
-        const CONTAINS_REGEXP = /secret|password/;
+        const CONTAINS_REGEXP = /secret|password|key/;
 
         if(CONTAINS_REGEXP.test(text)) {
             let valueTransformed= '';

@@ -26,6 +26,7 @@ import Image from "@editorjs/image";
 import InlineCode from "@editorjs/inline-code";
 import LinkTool from "@editorjs/link";
 import List from "@editorjs/list";
+import NestedList from '@editorjs/nested-list';
 import Quote from "@editorjs/quote";
 import SimpleImage from "@editorjs/simple-image";
 import Header from "@editorjs/header"
@@ -36,7 +37,7 @@ import { useErrorHandler } from 'react-error-boundary';
 import { useRouter } from 'next/router';
 import { useSnackbar } from 'notistack';
 import { useRefMounted } from '../../../../hooks/useRefMounted';
-
+import { useSession } from "next-auth/react";
 import { UpdateTermsRecord, CreateTermsRecord } from '../../../../services/terms';
 
 import { i18nextTermsDetails } from "@transitionpt/translations";
@@ -139,11 +140,15 @@ const DetailForm = ({isCreate, termsData, termsPutUrl, imageArray, handleInstanc
     const { enqueueSnackbar } = useSnackbar();
     const [termsError, setTermsError] = useState(null);
     useErrorHandler(termsError);
+    const { data: session, status } = useSession();
     console.log(i18npt, termsData);
     const EDITOR_JS_TOOLS = {
         embed: Embed,
         header: Header,
-        list: List,
+        list: {
+          class: NestedList,
+          inlineToolbar: true,
+        },
         linkTool: LinkTool,
         quote: Quote,
         checklist: CheckList,
@@ -180,10 +185,10 @@ const DetailForm = ({isCreate, termsData, termsPutUrl, imageArray, handleInstanc
               console.log(termsModel,savedBlocks)
               let result = {};
               if (isCreate) {
-                result = await CreateTermsRecord(termsPutUrl, termsModel);
+                result = await CreateTermsRecord(termsPutUrl, termsModel, session.accessToken);
               }
               else {
-                result = await UpdateTermsRecord(termsPutUrl, termsModel);
+                result = await UpdateTermsRecord(termsPutUrl, termsModel, session.accessToken);
               }
               console.log(result);
               if (isMountedRef()) {

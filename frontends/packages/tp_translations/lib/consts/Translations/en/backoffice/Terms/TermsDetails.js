@@ -36,6 +36,9 @@ export var TERMSDETAILS_TRANSLATIONS = deepFreeze({
         termsGeneralError: "Error creating/updating Terms & Conditions version {{termsName}}. Please try again",
         termsNotFound: "The Terms & Conditions version {{termsName}} wasn't found. Please double check if the version is correct",
         termsLockedForEdition: "The Terms & Conditions version {{termsName}} are locked for edition - this version is/was active in the past. Clone it to edit it",
+    },
+    READING: {
+        termsAndConditions: "Terms & Conditions of using Transição Portugal Portal"
     }
 });
 //# sourceMappingURL=TermsDetails.js.map

@@ -49,7 +49,9 @@ export const genericFetch = async (apiUrl, method, bearerToken, bodyJson) => {
             throw response;
         }
         resultData = await response.json();
-        resultData.totalCount = response.headers.get('x-total-count');
+        if (response.headers.get('x-total-count')) {
+            resultData.totalCount = response.headers.get('x-total-count');
+        }
     }catch(err){
         resultData = err;
         console.log(resultErrorBody)
@@ -57,25 +59,27 @@ export const genericFetch = async (apiUrl, method, bearerToken, bodyJson) => {
             resultData.redirectLogin = true;
         }
         else if (bearerToken && err.status == 401) {
-            const refreshToken = window.localStorage.getItem('refreshToken');
-            if (refreshToken) {
-              const refreshedTokenData = await genericFetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/user/refresh", "POST", null,
-              {
-                accessToken: bearerToken,
-                refreshToken: refreshToken,
-              });
-              if (refreshedTokenData.accessToken) {
-                  localStorage.setItem('accessToken', refreshedTokenData.accessToken);
-                  localStorage.setItem('refreshToken', refreshedTokenData.refreshToken);
-                  resultData.requestAgain = true;
-              }
-              else {
-                resultData.redirectLogin = refreshedTokenData.redirectLogin;
-              }
-            }
-            else {
-                resultData.redirectLogin = true;
-            }
+            resultData.requestAgain = true;
+            window.location.reload(false);
+            // const refreshToken = window.localStorage.getItem('refreshToken');
+            // if (refreshToken) {
+            //   const refreshedTokenData = await genericFetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/user/refresh", "POST", null,
+            //   {
+            //     accessToken: bearerToken,
+            //     refreshToken: refreshToken,
+            //   });
+            //   if (refreshedTokenData.accessToken) {
+            //       localStorage.setItem('accessToken', refreshedTokenData.accessToken);
+            //       localStorage.setItem('refreshToken', refreshedTokenData.refreshToken);
+            //       resultData.requestAgain = true;
+            //   }
+            //   else {
+            //     resultData.redirectLogin = refreshedTokenData.redirectLogin;
+            //   }
+            // }
+            // else {
+            //     resultData.redirectLogin = true;
+            // }
         }
         else {
             try {

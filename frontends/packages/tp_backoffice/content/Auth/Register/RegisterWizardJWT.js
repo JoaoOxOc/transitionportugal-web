@@ -20,17 +20,26 @@ import {
 import { useSnackbar } from 'notistack';
 import { i18nextRegisterForm } from "@transitionpt/translations";
 import Link from '../../../components/Link';
-import { Field, Form, Formik, ErrorMessage } from 'formik';
+import { Field, Form, Formik, withFormik, ErrorMessage } from 'formik';
 import { CheckboxWithLabel, TextField } from 'formik-mui';
 import * as Yup from 'yup';
 import CloseIcon from '@mui/icons-material/Close';
 import CheckTwoToneIcon from '@mui/icons-material/CheckTwoTone';
-import {genericFetch} from '../../../services/genericFetch';
+import Modal from '../../../components/Modal';
+import TermsModal from '../../../content/TermsModal';
 
 
 const BoxActions = styled(Box)(
     ({ theme }) => `
       background: ${theme.colors.alpha.black[5]}
+  `
+  );
+
+const BoxFields = styled(Box)(
+    ({ theme }) => `
+    .invalid-feedback {
+      color: red !important;
+    }
   `
   );
 
@@ -50,11 +59,14 @@ const AvatarSuccess = styled(Avatar)(
   `
   );
 
-export function RegisterWizardJWT() {
+// TODO: terms modal get consent - https://stackoverflow.com/questions/66193822/react-bootstrap-form-check-with-formik and https://formik.org/docs/api/withFormik
+export const RegisterWizardJWT = ({termsData}) => {
     const { t } = i18nextRegisterForm;
     const { enqueueSnackbar } = useSnackbar();
     const [openAlert, setOpenAlert] = useState(true);
     const [userRegistered, setUserRegistered] = useState(false);
+    const [termsConsented, setTermsConsented] = useState('');
+    const [isOpen, setIsOpen] = useState(false);
     const [currentLang, setLang] = useState("pt");
     i18nextRegisterForm.changeLanguage(currentLang);
 
@@ -82,34 +94,91 @@ export function RegisterWizardJWT() {
     };
 
     const checkEmailUnique = async (value) => {
-      const response = await genericFetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/user/search-user", "POST", null,{ username: value, password: "t" });
-
-      return response.ok !== undefined;
+      const response = await fetch(process.env.NEXT_PUBLIC_AUTH_URL + "/searchBy?searchUri=" + "/user/search-user", {
+        method: 'POST',
+        body: JSON.stringify({ u: value }),
+        headers: { 
+          "Content-Type": "application/json",
+          "credentials": 'include'
+        }
+      });
+      
+      return response.ok !== true;
     }
 
     const checkUsernameUnique = async (value) => {
-      const response = await genericFetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/user/search-user", "POST", null,{ username: value, password: "t" });
-
-      return response.ok !== undefined;
+      const response = await fetch(process.env.NEXT_PUBLIC_AUTH_URL + "/searchBy?searchUri=" + "/user/search-user", {
+        method: 'POST',
+        body: JSON.stringify({ u: value }),
+        headers: { 
+          "Content-Type": "application/json",
+          "credentials": 'include'
+        }
+      });
+      
+      return response.ok !== true;
     }
 
     const checkAssociationEmailUnique = async (value) => {
-          const response = await genericFetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/association/search", "POST", null,{ email: value });
+      const response = await fetch(process.env.NEXT_PUBLIC_AUTH_URL + "/searchBy?searchUri=" + "/association/search", {
+        method: 'POST',
+        body: JSON.stringify({ email: value }),
+        headers: { 
+          "Content-Type": "application/json",
+          "credentials": 'include'
+        }
+      });
 
-          return response.ok !== undefined;
+      return response.ok !== true;
     }
 
     const checkAssociationVatUnique = async (value) => {
-      const response = await genericFetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/association/search", "POST", null,{ vat: value });
+      const response = await fetch(process.env.NEXT_PUBLIC_AUTH_URL + "/searchBy?searchUri=" + "/association/search", {
+        method: 'POST',
+        body: JSON.stringify({ vat: value }),
+        headers: { 
+          "Content-Type": "application/json",
+          "credentials": 'include'
+        }
+      });
 
-      return response.ok !== undefined;
+      return response.ok !== true;
     }
 
     const checkAssociationVatValid = async (value) => {
-      const response = await genericFetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/association/validatevat", "POST", null,{ vat: value });
-
-      return response.ok !== undefined;
+      const response = await fetch(process.env.NEXT_PUBLIC_AUTH_URL + "/searchBy?searchUri=" + "/association/validatevat", {
+        method: 'POST',
+        body: JSON.stringify({ vat: value }),
+        headers: { 
+          "Content-Type": "application/json",
+          "credentials": 'include'
+        }
+      });
+      return response.ok !== true;
     }
+
+    const termsDialogJson = {
+      closeLabel: t("LABELS.closeTermsDialog"),
+      okReturnOption: "consented",
+      showOkButton: false,
+      okButton: t("LABELS.termsConsentButton"),
+      showCancelButton: true,
+      cancelButton: t("LABELS.termsCancelButton"),
+    }
+
+    const receiveCancelConsentAction = (eventValue) => {
+      setIsOpen(false);
+    }
+
+    const receiveConsentAction = (eventValue) => {
+      setTermsConsented(true);
+      setIsOpen(false);
+    }
+
+    const stepperSetFieldValue = (fieldName, isChecked) => {
+      formikInstance.setFieldValue(fieldName,isChecked);
+    } 
+    console.log(stepperSetFieldValue);
 
     return (
         <FormikStepper
@@ -118,7 +187,7 @@ export function RegisterWizardJWT() {
                   first_name: '',
                   last_name: '',
                   username: '',
-                  terms: '',
+                  terms: termsConsented == true ? true : false,
                   promo: true,
                   password: '',
                   password_confirm: '',
@@ -131,7 +200,9 @@ export function RegisterWizardJWT() {
                 }}
                 onSubmit={async (values, helpers) => {
                   try {
-                    const resetResult = await genericFetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/user/register", "POST", null,{
+                    const registerResult = await fetch(process.env.NEXT_PUBLIC_AUTH_URL + "/register", {
+                      method: 'POST',
+                      body: JSON.stringify({
                         firstName: values.first_name,
                         lastName: values.last_name,
                         username: values.username,
@@ -144,16 +215,36 @@ export function RegisterWizardJWT() {
                         associationVat: values.association_vat,
                         associationAddress: values.association_address,
                         associationTown: values.association_town,
+                    }),
+                      headers: { 
+                        "Content-Type": "application/json",
+                        "credentials": 'include'
+                      }
                     });
-                    if (resetResult.status === "Success") {
+                    //             const registerResult = await genericFetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/user/register", "POST", null,{
+                    //     firstName: values.first_name,
+                    //     lastName: values.last_name,
+                    //     username: values.username,
+                    //     email: values.email,
+                    //     password: values.password,
+                    //     confirmPassword: values.password_confirm,
+                    //     termsConfirmed: values.terms,
+                    //     associationName: values.association_name,
+                    //     associationEmail: values.association_email,
+                    //     associationVat: values.association_vat,
+                    //     associationAddress: values.association_address,
+                    //     associationTown: values.association_town,
+                    // });
+                    const registerResultParsed = await registerResult.json();
+                    if (registerResultParsed.status === "Success") {
                         setUserRegistered(true);
                         helpers.setSubmitting(false);
                     }
                     else {
                         helpers.setStatus({ success: false });
-                        helpers.setErrors({ submit: resetResult.statusText });
+                        helpers.setErrors({ submit: registerResultParsed.statusText });
                         helpers.setSubmitting(false);
-                        if (resetResult.status === 403) {
+                        if (registerResult.status === 403) {
                             enqueueSnackbar(t('MESSAGES.passwordComplexityError'), {
                               variant: 'error',
                               anchorOrigin: {
@@ -164,7 +255,7 @@ export function RegisterWizardJWT() {
                               TransitionComponent: Slide
                             });
                         }
-                        if (resetResult.status === 500) {
+                        if (registerResult.status === 500) {
                             enqueueSnackbar(t('MESSAGES.serverError'), {
                               variant: 'error',
                               anchorOrigin: {
@@ -175,7 +266,7 @@ export function RegisterWizardJWT() {
                               TransitionComponent: Slide
                             });
                         }
-                        else if (resetResult.statusText === "Unauthorized") {
+                        else if (registerResultParsed.statusText === "Unauthorized") {
                             setDisplayRecoverLink(true);
                             enqueueSnackbar(t('MESSAGES.tokenExpiredError'), {
                               variant: 'error',
@@ -187,8 +278,8 @@ export function RegisterWizardJWT() {
                               TransitionComponent: Slide
                             });
                         }
-                        else if (resetResult.status === 409) {
-                            enqueueSnackbar(t('MESSAGES.userAlreadyExists'), {
+                        else if (registerResult.status === 409) {
+                            enqueueSnackbar(t('MESSAGES.usernameAlreadyTaken'), {
                               variant: 'error',
                               anchorOrigin: {
                                 vertical: 'top',
@@ -255,12 +346,12 @@ export function RegisterWizardJWT() {
                       )
                       .required(t('MESSAGES.confirmPasswordRequired')),
                     terms: Yup.bool()
-                      .oneOf([true], 'MESSAGES.termsRequired')
+                      .oneOf([true], t('MESSAGES.termsRequired'))
                       .required(t('MESSAGES.termsRequired'))
                   })}
                   label={t('LABELS.step1Title')}
                 >
-                  <Box p={4}>
+                  <BoxFields p={4}>
                     <Grid container spacing={4}>
                       <Grid item xs={12} md={6}>
                         <Field
@@ -354,7 +445,7 @@ export function RegisterWizardJWT() {
                               <>
                                 <Typography variant="body2">
                                   {t('LABELS.accept')}{' '}
-                                  <Link href="#" aria-label={ t('FORMS.confirmTermsPopup') } >{t('LABELS.terms')}</Link>.
+                                  <Link href="#" onClick={() => setIsOpen(true)} aria-label={ t('FORMS.confirmTermsPopup') } >{t('LABELS.terms')}</Link>.
                                 </Typography>
                                 <ErrorMessage name="terms" component="div" className="invalid-feedback" />
                               </>
@@ -363,7 +454,8 @@ export function RegisterWizardJWT() {
                         />
                       </Grid>
                     </Grid>
-                  </Box>
+                  </BoxFields>
+                  {isOpen && <Modal dialogOkAction={receiveConsentAction} dialogCancelAction={receiveCancelConsentAction} dialogJson={termsDialogJson} setIsOpen={isOpen}><TermsModal termsLanguages={termsData.termsLanguages}/></Modal>}
                 </FormikStep>
                 <FormikStep
                   validationSchema={Yup.object().shape({
@@ -556,7 +648,7 @@ export function FormikStep({ children }) {
           }
         }}
       >
-        {({ isSubmitting }) => (
+        {({ isSubmitting, setFieldValue }) => (
           <Form autoComplete="off">
             <Stepper alternativeLabel activeStep={step}>
               {childrenArray.map((child, index) => (

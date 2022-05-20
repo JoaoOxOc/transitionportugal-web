@@ -36,5 +36,8 @@ export declare const TERMSDETAILS_TRANSLATIONS: {
         readonly termsNotFound: "Termos & Condições versão {{termsName}} não foi encontrada. Por favor verifica se a versão está correcta";
         readonly termsLockedForEdition: "Termos & Condições versão {{termsName}} está bloqueado para edição - esta versão está/esteve activa. Clone a mesma para editá-la";
     };
+    readonly READING: {
+        readonly termsAndConditions: "Termos & Condições de utilização do portal Transição Portugal";
+    };
 };
 //# sourceMappingURL=TermsDetails.d.ts.map

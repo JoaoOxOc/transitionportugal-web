@@ -36,6 +36,7 @@ import Loader from '../../../components/Loader';
 import { useRefMounted } from '../../../hooks/useRefMounted';
 import { UsersSearchContext } from '../../../contexts/Search/UsersSearchContext';
 import { UsersActionsContext } from '../../../contexts/Actions/UsersActionsContext';
+import { useSession } from "next-auth/react";
 import { GetUsers } from '../../../services/users';
 import { useErrorHandler } from 'react-error-boundary';
 
@@ -149,6 +150,7 @@ const Results = ({associationId}) => {
     const [selectedItems, setSelectedUsers] = useState([]);
     const [totalUsers, setTotalUsers] = useState(0);
     const [tabSelected, setTabSelected] = useState('all');
+    const { data: session, status } = useSession();
 
     let usersApiUri = "/users/get";
     let userDetailsBaseUri = "/management/users/single/";
@@ -204,7 +206,7 @@ const Results = ({associationId}) => {
 
     const getUsersData = useCallback(async (searchDataJson) => {
         try {
-          let usersData = await GetUsers(process.env.NEXT_PUBLIC_API_BASE_URL + usersApiUri, searchDataJson);
+          let usersData = await GetUsers(process.env.NEXT_PUBLIC_API_BASE_URL + usersApiUri, searchDataJson, session.accessToken);
           
           if (isMountedRef()) {
             if (usersData.users) {

@@ -34,6 +34,7 @@ import {
 import Loader from '../../../components/Loader';
 import { useRefMounted } from '../../../hooks/useRefMounted';
 import { TermsSearchContext } from '../../../contexts/Search/TermsSearchContext';
+import { useSession } from "next-auth/react";
 import { GetAllTermsRecords } from '../../../services/terms';
 import { useErrorHandler } from 'react-error-boundary';
 
@@ -41,6 +42,9 @@ import SecretTransform from '../../../utils/secretTransform';
 import Link from '../../../components/Link';
 import clsx from 'clsx';
 import LaunchTwoToneIcon from '@mui/icons-material/LaunchTwoTone';
+import FileCopyTwoToneIcon from '@mui/icons-material/FileCopyTwoTone';
+import DoNotDisturbOnTwoToneIcon from '@mui/icons-material/DoNotDisturbOnTwoTone';
+import AddCircleTwoToneIcon from '@mui/icons-material/AddCircleTwoTone';
 import Label from '../../../components/Label';
 // import BulkActions from './BulkActions';
 import GridViewTwoToneIcon from '@mui/icons-material/GridViewTwoTone';
@@ -52,6 +56,7 @@ import CheckTwoToneIcon from '@mui/icons-material/CheckTwoTone';
 import CloseTwoToneIcon from '@mui/icons-material/CloseTwoTone';
 
 import SearchBar from './SearchBar';
+import SingleActions from './SingleActions';
 import ResultsHeader from '../../../components/Table/Header';
 import ResultsPagination from '../../../components/Table/Pagination';
 
@@ -111,6 +116,8 @@ const Results = () => {
   useErrorHandler(termsError);
   const [terms, setTerms] = useState(null);
   const [totalTerms, setTotalTerms] = useState(0);
+  const [refreshTermsList, setRefreshTermsList] = useState(false);
+  const { data: session, status } = useSession();
 
   let termsApiUri = "/terms/get";
   let termsDetailsBaseUri = "/management/privacy/single/";
@@ -148,7 +155,7 @@ const Results = () => {
 
   const getTermsData = useCallback(async (searchDataJson) => {
     try {
-      let termsData = await GetAllTermsRecords(process.env.NEXT_PUBLIC_API_BASE_URL + termsApiUri, searchDataJson);
+      let termsData = await GetAllTermsRecords(process.env.NEXT_PUBLIC_API_BASE_URL + termsApiUri, searchDataJson, session.accessToken);
       if (isMountedRef()) {
         if (termsData.termsRecords) {
             setTerms(termsData.termsRecords);
@@ -164,19 +171,27 @@ const Results = () => {
         setTermsError(err);
         console.error(err);
     }
-  }, [isMountedRef, termsApiUri]);
+  }, [isMountedRef, termsApiUri, session.accessToken]);
 
   useEffect(() => {
-        if (termsSearchData.doSearch) {
+        if (refreshTermsList == true || termsSearchData.doSearch) {
             getTermsData(termsSearchData.searchData);
         }
-  }, [termsSearchData, getTermsData]);
+        if (refreshTermsList == true) {
+            termsSearchData.doSearch = false;
+            setRefreshTermsList(false);
+        }
+  }, [termsSearchData, getTermsData, refreshTermsList]);
 
   const [toggleView, setToggleView] = useState('table_view');
 
     const handleViewOrientation = (_event, newValue) => {
       setToggleView(newValue);
     };
+
+    const receiveRefreshedData = (eventValue) => {
+        setRefreshTermsList(eventValue);
+    }
 
     return (
       <>
@@ -268,15 +283,16 @@ const Results = () => {
                                           </TableCell>
                                           <TableCell align="center">
                                               <Typography noWrap>
-                                              <Tooltip title={t('LABELS.view')} arrow>
-                                                  <Link href={termsDetailsBaseUri + term.id} isNextLink={true}>
-                                                      <IconButton
-                                                      color="primary"
-                                                      >
-                                                      <LaunchTwoToneIcon fontSize="small" />
-                                                      </IconButton>
-                                                  </Link>
-                                              </Tooltip>
+                                                <Tooltip title={t('LABELS.view')} arrow>
+                                                    <Link href={termsDetailsBaseUri + term.id} isNextLink={true}>
+                                                        <IconButton
+                                                        color="primary"
+                                                        >
+                                                            <LaunchTwoToneIcon fontSize="small" />
+                                                        </IconButton>
+                                                    </Link>
+                                                </Tooltip>
+                                                <SingleActions refreshData={receiveRefreshedData} termsId={term.id} termsBeenActive={term.beenActive} termsIsActive={term.isActive} termsVersion={term.version}/>
                                               </Typography>
                                           </TableCell>
                                       </TableRow>
@@ -331,7 +347,21 @@ const Results = () => {
                                           zIndex: '2'
                                       }}
                                       >
+                                          
                                       <Box
+                                          pl={2}
+                                          py={1}
+                                          pr={1}
+                                          display="flex"
+                                          alignItems="center"
+                                          justifyContent="space-between"
+                                      >
+                                        <Typography>
+                                            <SingleActions refreshData={receiveRefreshedData} termsId={term.id} termsBeenActive={term.beenActive} termsIsActive={term.isActive} termsVersion={term.version}/>
+                                        </Typography>
+                                      </Box>
+                                      <Divider />
+                                      {/* <Box
                                           px={2}
                                           pt={2}
                                           display="flex"
@@ -346,7 +376,7 @@ const Results = () => {
                                               >
                                               <MoreVertTwoToneIcon />
                                           </IconButton>
-                                      </Box>
+                                      </Box> */}
                                       <Box p={2} display="flex" alignItems="flex-start">
                                           <Box>
                                               <Box>

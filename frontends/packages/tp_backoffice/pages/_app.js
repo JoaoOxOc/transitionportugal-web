@@ -19,6 +19,7 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import useScrollTop from '../hooks/useScrollTop';
 import { SnackbarProvider } from 'notistack';
 import { AuthConsumer, AuthProvider } from '../contexts/JWTAuthContext';
+import { SessionProvider, Provider } from "next-auth/react"
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -41,37 +42,39 @@ function MyApp(props) {
         />
       </Head>
         <ReduxProvider store={store}>
-          <SidebarProvider>
-            <ThemeProvider>
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <AuthProvider>
-                  <SnackbarProvider
-                    maxSnack={6}
-                    anchorOrigin={{
-                      vertical: 'bottom',
-                      horizontal: 'right'
-                    }}
-                  >
-                    <CssBaseline />
-                    <AuthConsumer>
-                      {(auth) =>
-                        !auth.isInitialized ? (
-                          <Loader />
-                        ) : (
-                            
-                            getLayout(
-                              <ErrorBoundary FallbackComponent={ErrorBoundaryFallback} onError={myErrorHandler}>
-                                <Component {...pageProps} />
-                              </ErrorBoundary>
-                            )
-                        )
-                      }
-                    </AuthConsumer>
-                  </SnackbarProvider>
-                </AuthProvider>
-              </LocalizationProvider>
-            </ThemeProvider>
-          </SidebarProvider>
+          <SessionProvider session={pageProps.session} refetchInterval={5 * 60}>
+            <SidebarProvider>
+              <ThemeProvider>
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <AuthProvider>
+                    <SnackbarProvider
+                      maxSnack={6}
+                      anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'right'
+                      }}
+                    >
+                      <CssBaseline />
+                      <AuthConsumer>
+                        {(auth) =>
+                          !auth.isInitialized ? (
+                            <Loader />
+                          ) : (
+                              
+                              getLayout(
+                                <ErrorBoundary FallbackComponent={ErrorBoundaryFallback} onError={myErrorHandler}>
+                                    <Component {...pageProps} />
+                                </ErrorBoundary>
+                              )
+                          )
+                        }
+                      </AuthConsumer>
+                    </SnackbarProvider>
+                  </AuthProvider>
+                </LocalizationProvider>
+              </ThemeProvider>
+            </SidebarProvider>
+          </SessionProvider>
         </ReduxProvider>
     </CacheProvider>
   );

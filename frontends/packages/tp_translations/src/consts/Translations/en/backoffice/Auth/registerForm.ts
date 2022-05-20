@@ -13,7 +13,10 @@ export const REGISTERFORM_TRANSLATIONS = deepFreeze({
         step2Title: "Initiative/movement Information",
         step3Title: "Complete Registration",
         buttonToLogin: "Button link to login page",
-        goLogIn: "Continue to login"
+        goLogIn: "Continue to login",
+        closeTermsDialog: "Close Terms & Conditions reading",
+        termsConsentButton: "Consent",
+        termsCancelButton: "Close"
     },
     FORMS: {
         emailAddress: "Email address",
@@ -64,6 +67,7 @@ export const REGISTERFORM_TRANSLATIONS = deepFreeze({
         passwordTooSmall: "Password must be at least {{number}} characters",
         passwordTooBig: "Your password cannot have more than {{number}} characters",
         passwordsNoMatch: "Both password fields need to be the same",
+        passwordComplexityError: "Your new password must contain a non alphanumeric character, a number, an uppercase and a lowercase.",
         confirmPasswordRequired: "Please confirm your inserted password",
         termsRequired: "You must agree to our terms and conditions",
         associationEmailInvalid: "The email provided should be a valid email address",
@@ -79,6 +83,7 @@ export const REGISTERFORM_TRANSLATIONS = deepFreeze({
         associationTownTooBig: "Your Initiative/movement town cannot have more than {{number}} characters",
         associationTownRequired: "Your Initiative/movement town is required",
         confirmationEmailSent: "An email confirmation request was sent to each email",
+        serverError: "An unknown error ocurred. Please try again",
         successfulMessage: "Thank you for registering. Your account will now be verified. Please check your email for more instructions"
     }
 } as const);

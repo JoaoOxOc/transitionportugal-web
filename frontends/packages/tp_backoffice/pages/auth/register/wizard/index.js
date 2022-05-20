@@ -170,9 +170,9 @@ const SwiperWrapper = styled(Box)(
 `
 );
 
-function RegisterWizard() {
+function RegisterWizard(props) {
   const { t } = i18nextRegister;
-
+  console.log(props);
   return (
     <>
       <Head>
@@ -422,7 +422,7 @@ function RegisterWizard() {
                 </Link>
               </Box>
 
-              <RegisterWizardJWT/>
+              <RegisterWizardJWT termsData={props.terms}/>
             </Card>
           </Container>
         </MainContent>
@@ -436,5 +436,55 @@ RegisterWizard.getLayout = (page) => (
     <BaseLayout>{page}</BaseLayout>
   </Guest>
 );
+
+export async function getServerSideProps(context) {
+  const { req } = context;
+  const userBrowserLanguage = req.headers ? req.headers['accept-language'].split(",")[0].toLowerCase() : "pt-pt";
+
+  try {
+    const headers = {
+      'Cache-Control': 'no-cache',
+      'Pragma': 'no-cache',
+      'Expires': 'Sat, 01 Jan 2000 00:00:00 GMT',
+      'Accept': '*/*',
+      "Content-Type": "application/json",
+      "credentials": 'include',
+      "ClientId": process.env.AUTH_API_CLIENT_ID,
+      "ClientAuthorization": process.env.AUTH_API_CLIENT_SECRET
+    };
+    // TODO: replace constant lang with the browser 'userBrowserLanguage'?
+    const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/terms/public/get" + "?langCode=" + "pt-pt", {
+      method: "GET",
+      resolveWithFullResponse: true,
+      headers: headers,
+    });
+
+    if (!res.ok){
+      const resultErrorBody = await res.text();
+      return {
+        props: { error: resultErrorBody, statusText: res.statusText}
+      }
+    }
+    const data = await res.json();
+
+    if (!data || !data.termsRecord) {
+      return {
+        props: { termsnotFound: true}
+      }
+    }
+  
+    return {
+      props: {terms: data.termsRecord}
+    }
+  }
+  catch(ex) {
+    return {
+      props: {
+        termsnotFound: true,
+        error: ex.message
+      }
+    }
+  }
+}
 
 export default RegisterWizard;

@@ -13,6 +13,7 @@ import { useErrorHandler } from 'react-error-boundary';
 
 import EmailEditor from '../../../../components/EmailEditor';
 import { useRefMounted } from '../../../../hooks/useRefMounted';
+import { useSession } from "next-auth/react";
 import { UpdateEmailTemplateData } from '../../../../services/emailTemplates';
 import { i18nextEmailTemplateDetails } from "@transitionpt/translations";
 import sample from './sample.json';
@@ -26,6 +27,7 @@ const EmailEditorComponent = (props) => {
     const [editorIsLoaded, setEditorLoaded] = useState(false);
     const [templateError, setTemplateError] = useState(null);
     useErrorHandler(templateError);
+    const { data: session, status } = useSession();
 
   const submitToServer = async(designJson, htmlData) => {
     try {
@@ -37,7 +39,7 @@ const EmailEditorComponent = (props) => {
             templateDataJson: designJson
         }
         console.log(templateModel);
-        const result = await UpdateEmailTemplateData(props.templatePutUrl, templateModel);
+        const result = await UpdateEmailTemplateData(props.templatePutUrl, templateModel, session.accessToken);
 
         if (isMountedRef()) {
             if (result.status) {

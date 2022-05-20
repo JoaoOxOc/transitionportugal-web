@@ -17,7 +17,7 @@ import { Box,
 
 import BulkActions from '../BulkActions';
 import { useRefMounted } from '../../../../hooks/useRefMounted';
-
+import { useSession } from "next-auth/react";
 import { GetAssociationData } from '../../../../services/associations';
 
 import { i18nextAssociationDetails } from "@transitionpt/translations";
@@ -29,6 +29,7 @@ function AssociationDetails({isCreate, isProfile, associationId}) {
     const [association, setAssociation] = useState(null);
     const [associationError, setAssociationError] = useState(null);
     useErrorHandler(associationError);
+    const { data: session, status } = useSession();
     const { t } = i18nextAssociationDetails;
     const associationsListUri = "/management/associations";
     let associationUri = isProfile ? "/association/profile" : "/associations/get/" + router.query.associationId;
@@ -36,7 +37,7 @@ function AssociationDetails({isCreate, isProfile, associationId}) {
 
     const getAssociationData = useCallback(async () => {
         try {
-            let associationData = await GetAssociationData(process.env.NEXT_PUBLIC_API_BASE_URL + associationUri);
+            let associationData = await GetAssociationData(process.env.NEXT_PUBLIC_API_BASE_URL + associationUri, session.accessToken);
             console.log(associationData)
             if (isMountedRef()) {
               if (associationData.status) {
