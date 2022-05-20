@@ -70,7 +70,7 @@ function TermsDetails({isCreate}) {
     }
 
     const breadcrumbsData = [
-      { url: "/admin", label: t('LIST.home'), isLink: true },
+      { url: "/", label: t('LIST.home'), isLink: true },
       { url: "", label: t('LIST.management'), isLink: false },
       { url: termsListUri, label: t('LIST.termsTitle'), isLink: true },
       { url: "", label: isCreate ? t('LABELS.termsCreateSmall') : t("LABELS.versionSmall",{versionNumber:terms.version}), ownPage: true },
@@ -87,6 +87,7 @@ function TermsDetails({isCreate}) {
         (
         <PageTitleWrapper>
           <DetailsPageHeader breadcrumbsDataJson={breadcrumbsData} detailsTitle={isCreate ? t('LABELS.termsCreate') : t("LABELS.versionSmall",{versionNumber:terms.version})} goBackLabel={t('LABELS.goBack')} goBackUrl={termsListUri}/>
+          { !isCreate && 
           <Box
             sx={{
               float: 'left',
@@ -96,6 +97,7 @@ function TermsDetails({isCreate}) {
           >
             <SingleActions refreshData={receiveRefreshData} termsId={terms.id} termsBeenActive={terms.beenActive} termsIsActive={terms.isActive} termsVersion={terms.version}/>
           </Box>
+          }
         </PageTitleWrapper>
         ) : (<></>)
       }
