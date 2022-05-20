@@ -81,10 +81,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - tpdiscourse.chain-of-change.com
+    - forum.transicaoportugal.org
     secretName: tp-discourse-letsencrypt-crt-secret
   rules:
-  - host: tpdiscourse.chain-of-change.com
+  - host: forum.transicaoportugal.org
     http:
       paths:
       - path: /
