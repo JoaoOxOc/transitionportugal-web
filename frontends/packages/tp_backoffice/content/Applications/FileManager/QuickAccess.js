@@ -168,7 +168,7 @@ function QuickAccess() {
               <Card>
                 <CardActionAreaWrapper onClick={handleDrawerToggle}>
                   <img
-                    src="/static/images/placeholders/fitness/4.jpg"
+                    src="/admin/static/images/placeholders/fitness/4.jpg"
                     alt="..."
                   />
                 </CardActionAreaWrapper>
@@ -400,7 +400,7 @@ function QuickAccess() {
                             sx={{
                               mr: 1
                             }}
-                            src="/static/images/avatars/3.jpg"
+                            src="/admin/static/images/avatars/3.jpg"
                           />
                           <Typography variant="h6" noWrap>
                             Kitty Herbert
@@ -466,7 +466,7 @@ function QuickAccess() {
                             sx={{
                               mr: 1
                             }}
-                            src="/static/images/avatars/4.jpg"
+                            src="/admin/static/images/avatars/4.jpg"
                           />
                           <Typography variant="h6" noWrap>
                             Ash Carleton

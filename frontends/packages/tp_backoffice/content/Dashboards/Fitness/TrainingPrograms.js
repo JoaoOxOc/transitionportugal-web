@@ -168,7 +168,7 @@ function TrainingPrograms() {
                   <CardMedia
                     component="img"
                     height="230"
-                    image="/static/images/placeholders/fitness/1.jpg"
+                    image="/admin/static/images/placeholders/fitness/1.jpg"
                     alt="..."
                   />
                   <CardActions>
@@ -255,7 +255,7 @@ function TrainingPrograms() {
                   <CardMedia
                     component="img"
                     height="230"
-                    image="/static/images/placeholders/fitness/2.jpg"
+                    image="/admin/static/images/placeholders/fitness/2.jpg"
                     alt="..."
                   />
                 </CardActionAreaWrapper>
@@ -339,7 +339,7 @@ function TrainingPrograms() {
                   <CardMedia
                     component="img"
                     height="230"
-                    image="/static/images/placeholders/fitness/3.jpg"
+                    image="/admin/static/images/placeholders/fitness/3.jpg"
                     alt="..."
                   />
                 </CardActionAreaWrapper>
@@ -423,7 +423,7 @@ function TrainingPrograms() {
                   <CardMedia
                     component="img"
                     height="230"
-                    image="/static/images/placeholders/fitness/4.jpg"
+                    image="/admin/static/images/placeholders/fitness/4.jpg"
                     alt="..."
                   />
                 </CardActionAreaWrapper>

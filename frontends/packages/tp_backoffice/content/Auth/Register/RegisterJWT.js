@@ -51,7 +51,7 @@ export const RegisterJWT = (props) => {
         await register(values.email, values.name, values.password);
 
         if (isMountedRef()) {
-          const backTo = router.query.backTo || '/';
+          const backTo = router.query.backTo || '/admin';
           router.push(backTo);
         }
       } catch (err) {

@@ -38,7 +38,7 @@ function Block1() {
           <Box display="flex" alignItems="center" p={2}>
             <img
               style={{ height: 130 }}
-              src="/static/images/placeholders/illustrations/analysis.svg"
+              src="/admin/static/images/placeholders/illustrations/analysis.svg"
               alt="..."
             />
             <Box pl={1}>
@@ -70,7 +70,7 @@ function Block1() {
           <Box display="flex" alignItems="center" p={2}>
             <img
               style={{ height: 130 }}
-              src="/static/images/placeholders/illustrations/businessman.svg"
+              src="/admin/static/images/placeholders/illustrations/businessman.svg"
               alt="..."
             />
             <Box pl={1}>
@@ -102,7 +102,7 @@ function Block1() {
           <Box display="flex" alignItems="center" p={2}>
             <img
               style={{ height: 130 }}
-              src="/static/images/placeholders/illustrations/handshake.svg"
+              src="/admin/static/images/placeholders/illustrations/handshake.svg"
               alt="..."
             />
             <Box pl={1}>
@@ -134,7 +134,7 @@ function Block1() {
           <Box display="flex" alignItems="center" p={2}>
             <img
               style={{ height: 130 }}
-              src="/static/images/placeholders/illustrations/moving.svg"
+              src="/admin/static/images/placeholders/illustrations/moving.svg"
               alt="..."
             />
             <Box pl={1}>

@@ -255,23 +255,23 @@ function ApplicationsProjectsBoard() {
 
   const assignees = [
     {
-      avatar: '/static/images/avatars/1.jpg',
+      avatar: '/admin/static/images/avatars/1.jpg',
       name: 'Maren Lipshutz'
     },
     {
-      avatar: '/static/images/avatars/2.jpg',
+      avatar: '/admin/static/images/avatars/2.jpg',
       name: 'Zain Vetrovs'
     },
     {
-      avatar: '/static/images/avatars/3.jpg',
+      avatar: '/admin/static/images/avatars/3.jpg',
       name: 'Hanna Siphron'
     },
     {
-      avatar: '/static/images/avatars/4.jpg',
+      avatar: '/admin/static/images/avatars/4.jpg',
       name: 'Cristofer Aminoff'
     },
     {
-      avatar: '/static/images/avatars/5.jpg',
+      avatar: '/admin/static/images/avatars/5.jpg',
       name: 'Maria Calzoni'
     }
   ];

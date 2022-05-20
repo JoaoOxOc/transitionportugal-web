@@ -119,7 +119,7 @@ function Block6() {
               width: 104,
               height: 104
             }}
-            src="/static/images/avatars/4.jpg"
+            src="/admin/static/images/avatars/4.jpg"
           />
         </Badge>
         <Box ml={2.5}>

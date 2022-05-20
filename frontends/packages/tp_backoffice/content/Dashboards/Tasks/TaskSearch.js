@@ -247,7 +247,7 @@ function TaskSearch() {
                     component={Link}
                     href="#"
                     alt="Remy Sharp"
-                    src="/static/images/avatars/3.jpg"
+                    src="/admin/static/images/avatars/3.jpg"
                   />
                 </Tooltip>
                 <Tooltip
@@ -262,7 +262,7 @@ function TaskSearch() {
                     component={Link}
                     href="#"
                     alt="Trevor Henderson"
-                    src="/static/images/avatars/4.jpg"
+                    src="/admin/static/images/avatars/4.jpg"
                   />
                 </Tooltip>
               </AvatarGroup>
@@ -358,7 +358,7 @@ function TaskSearch() {
                     component={Link}
                     href="#"
                     alt="Remy Sharp"
-                    src="/static/images/avatars/2.jpg"
+                    src="/admin/static/images/avatars/2.jpg"
                   />
                 </Tooltip>
                 <Tooltip arrow title={t('View profile for') + ' Travis Howard'}>
@@ -370,7 +370,7 @@ function TaskSearch() {
                     component={Link}
                     href="#"
                     alt="Travis Howard"
-                    src="/static/images/avatars/3.jpg"
+                    src="/admin/static/images/avatars/3.jpg"
                   />
                 </Tooltip>
                 <Tooltip
@@ -385,7 +385,7 @@ function TaskSearch() {
                     component={Link}
                     href="#"
                     alt="Trevor Henderson"
-                    src="/static/images/avatars/4.jpg"
+                    src="/admin/static/images/avatars/4.jpg"
                   />
                 </Tooltip>
               </AvatarGroup>
@@ -481,7 +481,7 @@ function TaskSearch() {
                     component={Link}
                     href="#"
                     alt="Remy Sharp"
-                    src="/static/images/avatars/1.jpg"
+                    src="/admin/static/images/avatars/1.jpg"
                   />
                 </Tooltip>
                 <Tooltip arrow title={t('View profile for') + ' Travis Howard'}>
@@ -493,7 +493,7 @@ function TaskSearch() {
                     component={Link}
                     href="#"
                     alt="Travis Howard"
-                    src="/static/images/avatars/2.jpg"
+                    src="/admin/static/images/avatars/2.jpg"
                   />
                 </Tooltip>
                 <Tooltip
@@ -508,7 +508,7 @@ function TaskSearch() {
                     component={Link}
                     href="#"
                     alt="Trevor Henderson"
-                    src="/static/images/avatars/5.jpg"
+                    src="/admin/static/images/avatars/5.jpg"
                   />
                 </Tooltip>
               </AvatarGroup>

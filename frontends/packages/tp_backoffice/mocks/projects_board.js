@@ -157,27 +157,27 @@ let project = {
   members: [
     {
       id: '1',
-      avatar: '/static/images/avatars/1.jpg',
+      avatar: '/admin/static/images/avatars/1.jpg',
       name: 'Maren Lipshutz'
     },
     {
       id: '2',
-      avatar: '/static/images/avatars/2.jpg',
+      avatar: '/admin/static/images/avatars/2.jpg',
       name: 'Zain Vetrovs'
     },
     {
       id: '3',
-      avatar: '/static/images/avatars/3.jpg',
+      avatar: '/admin/static/images/avatars/3.jpg',
       name: 'Hanna Siphron'
     },
     {
       id: '4',
-      avatar: '/static/images/avatars/4.jpg',
+      avatar: '/admin/static/images/avatars/4.jpg',
       name: 'Cristofer Aminoff'
     },
     {
       id: '5',
-      avatar: '/static/images/avatars/5.jpg',
+      avatar: '/admin/static/images/avatars/5.jpg',
       name: 'Maria Calzoni'
     }
   ]

@@ -76,7 +76,7 @@ function Block5() {
               height: 84
             }}
             alt="Remy Sharp"
-            src="/static/images/avatars/3.jpg"
+            src="/admin/static/images/avatars/3.jpg"
           />
           <Typography
             sx={{
@@ -136,7 +136,7 @@ function Block5() {
               height: 84
             }}
             alt="Agnes Walker"
-            src="/static/images/avatars/2.jpg"
+            src="/admin/static/images/avatars/2.jpg"
           />
           <Typography
             sx={{
@@ -196,7 +196,7 @@ function Block5() {
               height: 84
             }}
             alt="Anabel Mayo"
-            src="/static/images/avatars/1.jpg"
+            src="/admin/static/images/avatars/1.jpg"
           />
           <Typography
             sx={{
@@ -256,7 +256,7 @@ function Block5() {
               height: 84
             }}
             alt="Travis Howard"
-            src="/static/images/avatars/4.jpg"
+            src="/admin/static/images/avatars/4.jpg"
           />
           <Typography
             sx={{
@@ -316,7 +316,7 @@ function Block5() {
               height: 84
             }}
             alt="Monique Hanna"
-            src="/static/images/avatars/5.jpg"
+            src="/admin/static/images/avatars/5.jpg"
           />
           <Typography
             sx={{

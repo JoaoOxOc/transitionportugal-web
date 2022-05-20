@@ -153,7 +153,7 @@ function Block9() {
                   borderRadius: 'inherit'
                 }
               }}
-              src="/static/images/placeholders/logo/bitcoin.png"
+              src="/admin/static/images/placeholders/logo/bitcoin.png"
             />
           </ListItemAvatar>
           <ListItemText
@@ -208,7 +208,7 @@ function Block9() {
                   borderRadius: 'inherit'
                 }
               }}
-              src="/static/images/placeholders/logo/ethereum.png"
+              src="/admin/static/images/placeholders/logo/ethereum.png"
             />
           </ListItemAvatar>
           <ListItemText

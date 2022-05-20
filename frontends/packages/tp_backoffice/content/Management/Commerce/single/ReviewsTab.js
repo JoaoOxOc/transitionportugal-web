@@ -324,7 +324,7 @@ function ReviewsTab() {
               pb: { xs: 2, sm: 0 }
             }}
           >
-            <Avatar src="/static/images/avatars/5.jpg" />
+            <Avatar src="/admin/static/images/avatars/5.jpg" />
             <Typography
               sx={{
                 mt: 1,
@@ -409,7 +409,7 @@ function ReviewsTab() {
               pb: { xs: 2, sm: 0 }
             }}
           >
-            <Avatar src="/static/images/avatars/4.jpg" />
+            <Avatar src="/admin/static/images/avatars/4.jpg" />
             <Typography
               sx={{
                 mt: 1,

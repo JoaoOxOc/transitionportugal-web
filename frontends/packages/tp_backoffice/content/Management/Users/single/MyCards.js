@@ -130,7 +130,7 @@ function MyCards() {
             >
               <Box display="flex" alignItems="center">
                 <CardLogo
-                  src="/static/images/placeholders/logo/visa.png"
+                  src="/admin/static/images/placeholders/logo/visa.png"
                   alt="Visa"
                 />
                 <Box>
@@ -182,7 +182,7 @@ function MyCards() {
             >
               <Box display="flex" alignItems="center">
                 <CardLogo
-                  src="/static/images/placeholders/logo/mastercard.png"
+                  src="/admin/static/images/placeholders/logo/mastercard.png"
                   alt="Visa"
                 />
                 <Box>

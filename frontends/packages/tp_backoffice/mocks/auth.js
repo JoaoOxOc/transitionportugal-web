@@ -5,7 +5,7 @@ import { wait } from '../utils/wait';
 const users = [
   {
     id: '1',
-    avatar: '/static/images/avatars/3.jpg',
+    avatar: '/admin/static/images/avatars/3.jpg',
     location: 'San Francisco, USA',
     username: 'admin',
     email: 'demo@example.com',
@@ -14,7 +14,7 @@ const users = [
     password: 'TokyoPass1@',
     role: 'admin',
     posts: '27',
-    coverImg: '/static/images/placeholders/covers/5.jpg',
+    coverImg: '/admin/static/images/placeholders/covers/5.jpg',
     followers: '6513',
     description: 'Curabitur at ipsum ac tellus semper interdum.'
   }

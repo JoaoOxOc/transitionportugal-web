@@ -185,7 +185,7 @@ function UpgradeAccount() {
             }}
           >
             <img
-              src="/static/images/placeholders/illustrations/4.svg"
+              src="/admin/static/images/placeholders/illustrations/4.svg"
               alt="..."
             />
           </Box>

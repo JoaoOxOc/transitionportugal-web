@@ -40,7 +40,7 @@ function MonthlyGoals() {
         <Grid container spacing={3}>
           <Grid item>
             <img
-              src="/static/images/placeholders/illustrations/3.svg"
+              src="/admin/static/images/placeholders/illustrations/3.svg"
               alt="..."
               style={{ height: '100%' }}
             />

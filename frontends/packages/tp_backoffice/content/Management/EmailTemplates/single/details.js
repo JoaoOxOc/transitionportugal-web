@@ -62,7 +62,7 @@ function EmailTemplateDetails({isCreate, isEditor}) {
     }
 
     const breadcrumbsData = [
-      { url: "/", label: t('LIST.home'), isLink: true },
+      { url: "/admin", label: t('LIST.home'), isLink: true },
       { url: "", label: t('LIST.settings'), isLink: false },
       { url: emailTemplatesListUri, label: emailTemplatesListTitle, isLink: true },
       { url: "", label: emailTemplate.key, ownPage: true },

@@ -264,7 +264,7 @@ function Block6() {
                         height: 'auto',
                         width: 80
                       }}
-                      src="/static/images/placeholders/products/1.png"
+                      src="/admin/static/images/placeholders/products/1.png"
                     />
                     <Box pl={1}>
                       <Link
@@ -402,7 +402,7 @@ function Block6() {
                         height: 'auto',
                         width: 80
                       }}
-                      src="/static/images/placeholders/products/2.png"
+                      src="/admin/static/images/placeholders/products/2.png"
                     />
                     <Box pl={1}>
                       <Link
@@ -535,7 +535,7 @@ function Block6() {
                         height: 'auto',
                         width: 80
                       }}
-                      src="/static/images/placeholders/products/3.png"
+                      src="/admin/static/images/placeholders/products/3.png"
                     />
                     <Box pl={1}>
                       <Link

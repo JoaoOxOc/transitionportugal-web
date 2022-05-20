@@ -103,7 +103,7 @@ function Block8() {
             width: 123,
             height: 123
           }}
-          src="/static/images/avatars/4.jpg"
+          src="/admin/static/images/avatars/4.jpg"
         />
         <Typography
           sx={{

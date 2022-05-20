@@ -57,7 +57,7 @@ export const RegisterFirebaseAuth = (props) => {
         await createUserWithEmailAndPassword(values.email, values.password);
 
         if (isMountedRef()) {
-          const backTo = router.query.backTo || '/dashboards/reports';
+          const backTo = router.query.backTo || '/admin/dashboards/reports';
           router.push(backTo);
         }
       } catch (err) {
@@ -88,7 +88,7 @@ export const RegisterFirebaseAuth = (props) => {
         size="large"
         variant="outlined"
       >
-        <ImgWrapper alt="Google" src="/static/images/logo/google.svg" />
+        <ImgWrapper alt="Google" src="/admin/static/images/logo/google.svg" />
         Register with Google
       </Button>
       <Divider

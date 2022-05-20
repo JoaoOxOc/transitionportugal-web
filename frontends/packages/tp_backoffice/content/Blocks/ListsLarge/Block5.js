@@ -56,7 +56,7 @@ function Block5() {
       title: 'Apple MacBook PRO 14"',
       excerpt:
         'Acccess this page in order to manage and customize all aspects of your profile data and accounts.',
-      image: '/static/images/placeholders/fitness/1.jpg',
+      image: '/admin/static/images/placeholders/fitness/1.jpg',
       info_value: '12.589',
       info_title: 'visits',
       date: format(subHours(new Date(), 5), 'MMMM dd yyyy')
@@ -66,7 +66,7 @@ function Block5() {
       title: 'iPhone 13 Pro',
       excerpt:
         'Control everything related to your profile and trading accounts as shown in this page.',
-      image: '/static/images/placeholders/fitness/2.jpg',
+      image: '/admin/static/images/placeholders/fitness/2.jpg',
       info_value: '345',
       info_title: 'reports',
       date: format(subDays(new Date(), 8), 'MMMM dd yyyy')
@@ -76,7 +76,7 @@ function Block5() {
       title: 'Apple Watch Series 7',
       excerpt:
         'Complete your profile verifications to take full advantage of your account right away.',
-      image: '/static/images/placeholders/fitness/3.jpg',
+      image: '/admin/static/images/placeholders/fitness/3.jpg',
       info_value: '$68,593',
       info_title: 'sales',
       date: format(subDays(new Date(), 12), 'MMMM dd yyyy')
@@ -86,7 +86,7 @@ function Block5() {
       title: 'Xiaomi Headphones 3',
       excerpt:
         'You can view, manage and customize your wallets and balances from this wallets page.',
-      image: '/static/images/placeholders/fitness/4.jpg',
+      image: '/admin/static/images/placeholders/fitness/4.jpg',
       info_value: '65',
       info_title: 'orders',
       date: format(subDays(new Date(), 13), 'MMMM dd yyyy')

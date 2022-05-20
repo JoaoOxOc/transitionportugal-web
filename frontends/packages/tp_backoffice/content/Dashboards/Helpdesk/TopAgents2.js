@@ -71,7 +71,7 @@ function TopAgents2() {
             mb: 2
           }}
           variant="rounded"
-          src="/static/images/avatars/4.jpg"
+          src="/admin/static/images/avatars/4.jpg"
         />
         <Typography variant="h3">Zain Vetrovs</Typography>
         <Typography variant="subtitle2" gutterBottom>

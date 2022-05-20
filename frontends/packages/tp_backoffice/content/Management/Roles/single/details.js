@@ -62,7 +62,7 @@ function RoleDetails({isCreate}) {
     }
 
     const breadcrumbsData = [
-      { url: "/", label: t('LIST.home'), isLink: true },
+      { url: "/admin", label: t('LIST.home'), isLink: true },
       { url: "", label: t('LIST.management'), isLink: false },
       { url: rolesListUri, label: t('LIST.rolesTitle'), isLink: true },
       { url: "", label: isCreate ? t('LABELS.roleCreateSmall') : role.roleName, ownPage: true },

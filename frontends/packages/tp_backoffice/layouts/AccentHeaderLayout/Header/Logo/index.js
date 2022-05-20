@@ -78,7 +78,7 @@ function Logo() {
   const theme = useTheme();
 
   return (
-    <LogoWrapper href="/">
+    <LogoWrapper href="/admin">
       <Tooltip
         arrow
         placement="right"

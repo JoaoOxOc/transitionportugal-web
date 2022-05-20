@@ -42,7 +42,7 @@ function MyApp(props) {
         />
       </Head>
         <ReduxProvider store={store}>
-          <SessionProvider session={pageProps.session} refetchInterval={5 * 60}>
+          <SessionProvider session={pageProps.session} basePath="/admin/api/auth" refetchInterval={5 * 60}>
             <SidebarProvider>
               <ThemeProvider>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>

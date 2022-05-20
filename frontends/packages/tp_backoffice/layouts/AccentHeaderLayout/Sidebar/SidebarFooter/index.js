@@ -42,7 +42,7 @@ function SidebarFooter() {
     try {
       // await logout();
       // router.push('/auth/login/cover');
-      signOut({ callbackUrl: '/auth/login/cover?backTo=' + router.asPath });
+      signOut({ callbackUrl: '/admin/auth/login/cover?backTo=' + router.asPath });
     } catch (err) {
       console.error(err);
     }
@@ -69,7 +69,7 @@ function SidebarFooter() {
               color: `${theme.colors.alpha.black[100]}`
             }
           }}
-          href="/applications/calendar"
+          href="/content/events"
           component={Link}
         >
           <EventTwoToneIcon fontSize="small" />

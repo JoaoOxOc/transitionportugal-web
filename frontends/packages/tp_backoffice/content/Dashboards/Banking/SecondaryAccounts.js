@@ -12,8 +12,8 @@ import MoreVertTwoToneIcon from '@mui/icons-material/MoreVertTwoTone';
 
 function SecondaryAccounts() {
   const data = {
-    logo1: '/static/images/placeholders/logo/deutschebank.svg',
-    logo2: '/static/images/placeholders/logo/wellsfargo.svg'
+    logo1: '/admin/static/images/placeholders/logo/deutschebank.svg',
+    logo2: '/admin/static/images/placeholders/logo/wellsfargo.svg'
   };
 
   const theme = useTheme();

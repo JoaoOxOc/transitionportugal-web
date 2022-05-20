@@ -162,7 +162,7 @@ function WatchListRow() {
               <AvatarWrapper>
                 <img
                   alt="BTC"
-                  src="/static/images/placeholders/logo/bitcoin.png"
+                  src="/admin/static/images/placeholders/logo/bitcoin.png"
                 />
               </AvatarWrapper>
               <Box>
@@ -231,7 +231,7 @@ function WatchListRow() {
               <AvatarWrapper>
                 <img
                   alt="ETH"
-                  src="/static/images/placeholders/logo/ethereum.png"
+                  src="/admin/static/images/placeholders/logo/ethereum.png"
                 />
               </AvatarWrapper>
               <Box>
@@ -300,7 +300,7 @@ function WatchListRow() {
               <AvatarWrapper>
                 <img
                   alt="ADA"
-                  src="/static/images/placeholders/logo/cardano.png"
+                  src="/admin/static/images/placeholders/logo/cardano.png"
                 />
               </AvatarWrapper>
               <Box>

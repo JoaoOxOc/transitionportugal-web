@@ -178,7 +178,7 @@ function Block7() {
         <BoxComposedImage
           sx={{
             opacity: 0.3,
-            backgroundImage: 'url("/static/images/placeholders/covers/1.jpg")'
+            backgroundImage: 'url("/admin/static/images/placeholders/covers/1.jpg")'
           }}
         />
         <BoxComposedContent
@@ -245,7 +245,7 @@ function Block7() {
                         height: 50,
                         boxShadow: `0 .113rem .5rem ${theme.colors.alpha.black[10]}, 0 .126rem .225rem ${theme.colors.alpha.black[30]}`
                       }}
-                      src="/static/images/avatars/1.jpg"
+                      src="/admin/static/images/avatars/1.jpg"
                     />
                     <Box ml={1.5}>
                       <Link
@@ -301,7 +301,7 @@ function Block7() {
                         height: 50,
                         boxShadow: `0 .113rem .5rem ${theme.colors.alpha.black[10]}, 0 .126rem .225rem ${theme.colors.alpha.black[30]}`
                       }}
-                      src="/static/images/avatars/2.jpg"
+                      src="/admin/static/images/avatars/2.jpg"
                     />
                     <Box ml={1.5}>
                       <Link
@@ -357,7 +357,7 @@ function Block7() {
                         height: 50,
                         boxShadow: `0 .113rem .5rem ${theme.colors.alpha.black[10]}, 0 .126rem .225rem ${theme.colors.alpha.black[30]}`
                       }}
-                      src="/static/images/avatars/2.jpg"
+                      src="/admin/static/images/avatars/2.jpg"
                     />
                     <Box ml={1.5}>
                       <Link

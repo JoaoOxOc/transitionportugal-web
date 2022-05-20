@@ -214,7 +214,7 @@ function SidebarDrawer() {
                       component={Link}
                       href="#"
                       alt="Remy Sharp"
-                      src="/static/images/avatars/1.jpg"
+                      src="/admin/static/images/avatars/1.jpg"
                     />
                   </Tooltip>
                   <Tooltip arrow title="Travis Howard">
@@ -222,7 +222,7 @@ function SidebarDrawer() {
                       component={Link}
                       href="#"
                       alt="Travis Howard"
-                      src="/static/images/avatars/2.jpg"
+                      src="/admin/static/images/avatars/2.jpg"
                     />
                   </Tooltip>
                   <Tooltip arrow title="Cindy Baker">
@@ -230,7 +230,7 @@ function SidebarDrawer() {
                       component={Link}
                       href="#"
                       alt="Cindy Baker"
-                      src="/static/images/avatars/3.jpg"
+                      src="/admin/static/images/avatars/3.jpg"
                     />
                   </Tooltip>
                   <Tooltip arrow title="Agnes Walker">
@@ -238,7 +238,7 @@ function SidebarDrawer() {
                       component={Link}
                       href="#"
                       alt="Agnes Walker"
-                      src="/static/images/avatars/4.jpg"
+                      src="/admin/static/images/avatars/4.jpg"
                     />
                   </Tooltip>
                 </AvatarGroup>
@@ -455,7 +455,7 @@ function SidebarDrawer() {
               }}
             >
               <ListItemAvatar>
-                <Avatar src="/static/images/avatars/2.jpg" />
+                <Avatar src="/admin/static/images/avatars/2.jpg" />
               </ListItemAvatar>
               <ListItemText
                 primary={t('You uploaded two new files')}
@@ -545,7 +545,7 @@ function SidebarDrawer() {
               }}
             >
               <ListItemAvatar>
-                <Avatar src="/static/images/avatars/2.jpg" />
+                <Avatar src="/admin/static/images/avatars/2.jpg" />
               </ListItemAvatar>
               <ListItemText
                 primary={t('You uploaded one file')}

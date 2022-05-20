@@ -33,7 +33,7 @@ function ActiveSubscriptions() {
               <Box display="flex" alignItems="center">
                 <img
                   alt="Spotify"
-                  src="/static/images/placeholders/logo/spotify.svg"
+                  src="/admin/static/images/placeholders/logo/spotify.svg"
                 />
                 <Typography
                   variant="h5"
@@ -91,7 +91,7 @@ function ActiveSubscriptions() {
               <Box display="flex" alignItems="center">
                 <img
                   alt="Slack"
-                  src="/static/images/placeholders/logo/slack.svg"
+                  src="/admin/static/images/placeholders/logo/slack.svg"
                 />
                 <Typography
                   variant="h5"
@@ -148,7 +148,7 @@ function ActiveSubscriptions() {
                 <img
                   height={28}
                   alt="Google"
-                  src="/static/images/logo/google.svg"
+                  src="/admin/static/images/logo/google.svg"
                 />
                 <Typography
                   variant="h5"
@@ -207,7 +207,7 @@ function ActiveSubscriptions() {
                 <img
                   height={28}
                   alt="Airbnb"
-                  src="/static/images/placeholders/logo/airbnb.svg"
+                  src="/admin/static/images/placeholders/logo/airbnb.svg"
                 />
                 <Typography
                   variant="h5"

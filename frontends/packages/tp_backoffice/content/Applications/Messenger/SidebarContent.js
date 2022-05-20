@@ -216,7 +216,7 @@ function SidebarContent() {
           <List disablePadding component="div">
             <ListItemWrapper selected>
               <ListItemAvatar>
-                <Avatar src="/static/images/avatars/1.jpg" />
+                <Avatar src="/admin/static/images/avatars/1.jpg" />
               </ListItemAvatar>
               <ListItemText
                 sx={{
@@ -240,7 +240,7 @@ function SidebarContent() {
             </ListItemWrapper>
             <ListItemWrapper>
               <ListItemAvatar>
-                <Avatar src="/static/images/avatars/2.jpg" />
+                <Avatar src="/admin/static/images/avatars/2.jpg" />
               </ListItemAvatar>
               <ListItemText
                 sx={{
@@ -261,7 +261,7 @@ function SidebarContent() {
             </ListItemWrapper>
             <ListItemWrapper>
               <ListItemAvatar>
-                <Avatar src="/static/images/avatars/3.jpg" />
+                <Avatar src="/admin/static/images/avatars/3.jpg" />
               </ListItemAvatar>
               <ListItemText
                 sx={{
@@ -282,7 +282,7 @@ function SidebarContent() {
             </ListItemWrapper>
             <ListItemWrapper>
               <ListItemAvatar>
-                <Avatar src="/static/images/avatars/4.jpg" />
+                <Avatar src="/admin/static/images/avatars/4.jpg" />
               </ListItemAvatar>
               <ListItemText
                 sx={{
@@ -310,7 +310,7 @@ function SidebarContent() {
           <List disablePadding component="div">
             <ListItemWrapper>
               <ListItemAvatar>
-                <Avatar src="/static/images/avatars/1.jpg" />
+                <Avatar src="/admin/static/images/avatars/1.jpg" />
               </ListItemAvatar>
               <ListItemText
                 sx={{
@@ -334,7 +334,7 @@ function SidebarContent() {
             </ListItemWrapper>
             <ListItemWrapper>
               <ListItemAvatar>
-                <Avatar src="/static/images/avatars/4.jpg" />
+                <Avatar src="/admin/static/images/avatars/4.jpg" />
               </ListItemAvatar>
               <ListItemText
                 sx={{
@@ -431,7 +431,7 @@ function SidebarContent() {
                 component={Link}
                 href="#"
                 alt="Remy Sharp"
-                src="/static/images/avatars/1.jpg"
+                src="/admin/static/images/avatars/1.jpg"
               />
             </Tooltip>
             <Tooltip arrow title={t('View profile for') + ' Travis Howard'}>
@@ -443,7 +443,7 @@ function SidebarContent() {
                 component={Link}
                 href="#"
                 alt="Travis Howard"
-                src="/static/images/avatars/2.jpg"
+                src="/admin/static/images/avatars/2.jpg"
               />
             </Tooltip>
             <Tooltip arrow title={t('View profile for') + ' Craig Vaccaro'}>
@@ -455,7 +455,7 @@ function SidebarContent() {
                 component={Link}
                 href="#"
                 alt="Craig Vaccaro"
-                src="/static/images/avatars/3.jpg"
+                src="/admin/static/images/avatars/3.jpg"
               />
             </Tooltip>
           </AvatarGroup>
@@ -499,7 +499,7 @@ function SidebarContent() {
                 component={Link}
                 href="#"
                 alt="Travis Howard"
-                src="/static/images/avatars/4.jpg"
+                src="/admin/static/images/avatars/4.jpg"
               />
             </Tooltip>
             <Tooltip arrow title={t('View profile for') + ' Craig Vaccaro'}>
@@ -511,7 +511,7 @@ function SidebarContent() {
                 component={Link}
                 href="#"
                 alt="Craig Vaccaro"
-                src="/static/images/avatars/5.jpg"
+                src="/admin/static/images/avatars/5.jpg"
               />
             </Tooltip>
           </AvatarGroup>

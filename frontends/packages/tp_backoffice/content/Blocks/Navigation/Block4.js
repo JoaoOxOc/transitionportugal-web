@@ -141,7 +141,7 @@ function Block4() {
               background: `${theme.colors.primary.lighter}`,
               color: `${theme.colors.primary.main}`
             }}
-            src="/static/images/avatars/5.jpg"
+            src="/admin/static/images/avatars/5.jpg"
           />
         </Badge>
         <Box ml={2.5}>

@@ -212,7 +212,7 @@ function Block1() {
               sx={{
                 opacity: 0.3,
                 backgroundImage:
-                  'url("/static/images/placeholders/covers/2.jpg")'
+                  'url("/admin/static/images/placeholders/covers/2.jpg")'
               }}
             />
             <BoxComposedContent
@@ -314,7 +314,7 @@ function Block1() {
                   width: 94,
                   height: 94
                 }}
-                src="/static/images/avatars/2.jpg"
+                src="/admin/static/images/avatars/2.jpg"
               />
               <LabelWrapper
                 sx={{

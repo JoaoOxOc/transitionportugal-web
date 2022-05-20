@@ -235,7 +235,7 @@ function RecentTransactions() {
             <AvatarWrapperSuccess>
               <img
                 alt="Spotify"
-                src="/static/images/placeholders/logo/spotify.svg"
+                src="/admin/static/images/placeholders/logo/spotify.svg"
               />
             </AvatarWrapperSuccess>
           </ListItemAvatar>

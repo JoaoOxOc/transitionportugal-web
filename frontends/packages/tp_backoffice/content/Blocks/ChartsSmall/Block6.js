@@ -75,7 +75,7 @@ function Block6() {
             <AvatarWrapper
               variant="rounded"
               alt="Spotify"
-              src="/static/images/placeholders/logo/spotify.svg"
+              src="/admin/static/images/placeholders/logo/spotify.svg"
             />
             <Typography
               gutterBottom
@@ -106,7 +106,7 @@ function Block6() {
                   component={Link}
                   href="#"
                   alt="Remy Sharp"
-                  src="/static/images/avatars/1.jpg"
+                  src="/admin/static/images/avatars/1.jpg"
                 />
               </Tooltip>
               <Tooltip arrow title="Travis Howard">
@@ -118,7 +118,7 @@ function Block6() {
                   component={Link}
                   href="#"
                   alt="Travis Howard"
-                  src="/static/images/avatars/2.jpg"
+                  src="/admin/static/images/avatars/2.jpg"
                 />
               </Tooltip>
               <Tooltip arrow title="Cindy Baker">
@@ -130,7 +130,7 @@ function Block6() {
                   component={Link}
                   href="#"
                   alt="Cindy Baker"
-                  src="/static/images/avatars/3.jpg"
+                  src="/admin/static/images/avatars/3.jpg"
                 />
               </Tooltip>
               <Tooltip arrow title="Agnes Walker">
@@ -142,7 +142,7 @@ function Block6() {
                   component={Link}
                   href="#"
                   alt="Agnes Walker"
-                  src="/static/images/avatars/4.jpg"
+                  src="/admin/static/images/avatars/4.jpg"
                 />
               </Tooltip>
             </AvatarGroup>
@@ -191,7 +191,7 @@ function Block6() {
             <AvatarWrapper
               variant="rounded"
               alt="Adobe"
-              src="/static/images/placeholders/logo/adobe.jpg"
+              src="/admin/static/images/placeholders/logo/adobe.jpg"
             />
             <Typography
               gutterBottom
@@ -222,7 +222,7 @@ function Block6() {
                   component={Link}
                   href="#"
                   alt="Remy Sharp"
-                  src="/static/images/avatars/5.jpg"
+                  src="/admin/static/images/avatars/5.jpg"
                 />
               </Tooltip>
               <Tooltip arrow title="Travis Howard">
@@ -234,7 +234,7 @@ function Block6() {
                   component={Link}
                   href="#"
                   alt="Travis Howard"
-                  src="/static/images/avatars/3.jpg"
+                  src="/admin/static/images/avatars/3.jpg"
                 />
               </Tooltip>
               <Tooltip arrow title="Cindy Baker">
@@ -246,7 +246,7 @@ function Block6() {
                   component={Link}
                   href="#"
                   alt="Cindy Baker"
-                  src="/static/images/avatars/2.jpg"
+                  src="/admin/static/images/avatars/2.jpg"
                 />
               </Tooltip>
             </AvatarGroup>
@@ -295,7 +295,7 @@ function Block6() {
             <AvatarWrapper
               variant="rounded"
               alt="Slack"
-              src="/static/images/placeholders/logo/slack.svg"
+              src="/admin/static/images/placeholders/logo/slack.svg"
             />
             <Typography
               gutterBottom
@@ -326,7 +326,7 @@ function Block6() {
                   component={Link}
                   href="#"
                   alt="Remy Sharp"
-                  src="/static/images/avatars/3.jpg"
+                  src="/admin/static/images/avatars/3.jpg"
                 />
               </Tooltip>
               <Tooltip arrow title="Travis Howard">
@@ -338,7 +338,7 @@ function Block6() {
                   component={Link}
                   href="#"
                   alt="Travis Howard"
-                  src="/static/images/avatars/5.jpg"
+                  src="/admin/static/images/avatars/5.jpg"
                 />
               </Tooltip>
               <Tooltip arrow title="Cindy Baker">
@@ -350,7 +350,7 @@ function Block6() {
                   component={Link}
                   href="#"
                   alt="Cindy Baker"
-                  src="/static/images/avatars/1.jpg"
+                  src="/admin/static/images/avatars/1.jpg"
                 />
               </Tooltip>
               <Tooltip arrow title="Agnes Walker">
@@ -362,7 +362,7 @@ function Block6() {
                   component={Link}
                   href="#"
                   alt="Agnes Walker"
-                  src="/static/images/avatars/2.jpg"
+                  src="/admin/static/images/avatars/2.jpg"
                 />
               </Tooltip>
             </AvatarGroup>

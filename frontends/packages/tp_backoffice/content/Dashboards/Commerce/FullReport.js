@@ -42,7 +42,7 @@ function FullReport() {
           subheaderTypographyProps={{ variant: 'body1' }}
           titleTypographyProps={{ variant: 'h3', gutterBottom: true }}
         ></CardHeader>
-        <ImgWrapper src="/static/images/placeholders/illustrations/5.svg" />
+        <ImgWrapper src="/admin/static/images/placeholders/illustrations/5.svg" />
         <CardActions
           sx={{
             px: 0,

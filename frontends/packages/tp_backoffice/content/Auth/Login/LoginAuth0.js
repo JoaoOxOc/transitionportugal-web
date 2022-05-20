@@ -24,7 +24,7 @@ export const LoginAuth0 = (props) => {
       await loginWithPopup();
 
       if (isMountedRef()) {
-        const backTo = router.query.backTo || '/dashboards/reports';
+        const backTo = router.query.backTo || '/admin/dashboards/reports';
         router.push(backTo);
       }
     } catch (err) {
@@ -48,7 +48,7 @@ export const LoginAuth0 = (props) => {
         }}
         variant="outlined"
       >
-        <ImgWrapper alt="Auth0" src="/static/images/logo/auth0.svg" />
+        <ImgWrapper alt="Auth0" src="/admin/static/images/logo/auth0.svg" />
         {t('Sign in with')} Auth0
       </Button>
     </Box>
