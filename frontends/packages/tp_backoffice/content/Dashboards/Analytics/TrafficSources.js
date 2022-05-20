@@ -266,7 +266,7 @@ function TrafficSources() {
               textAlign: 'center'
             }}
           >
-            <EmptyResultsWrapper src="/static/images/placeholders/illustrations/1.svg" />
+            <EmptyResultsWrapper src="/admin/static/images/placeholders/illustrations/1.svg" />
             <Typography
               align="center"
               variant="h4"
@@ -303,7 +303,7 @@ function TrafficSources() {
               textAlign: 'center'
             }}
           >
-            <EmptyResultsWrapper src="/static/images/placeholders/illustrations/1.svg" />
+            <EmptyResultsWrapper src="/admin/static/images/placeholders/illustrations/1.svg" />
 
             <Typography
               align="center"
@@ -333,7 +333,7 @@ function TrafficSources() {
               textAlign: 'center'
             }}
           >
-            <EmptyResultsWrapper src="/static/images/placeholders/illustrations/1.svg" />
+            <EmptyResultsWrapper src="/admin/static/images/placeholders/illustrations/1.svg" />
 
             <Typography
               align="center"

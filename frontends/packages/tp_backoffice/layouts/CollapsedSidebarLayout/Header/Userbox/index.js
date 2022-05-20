@@ -63,7 +63,7 @@ function HeaderUserbox() {
   const { logout } = useAuth();
 
   const user = {
-    avatar: '/static/images/avatars/1.jpg',
+    avatar: '/admin/static/images/avatars/1.jpg',
     name: 'Rachael Simons',
     jobtitle: 'Lead Developer'
   };

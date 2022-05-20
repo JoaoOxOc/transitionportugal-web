@@ -224,7 +224,7 @@ function Block8() {
                             }}
                             href="#"
                             alt="Remy Sharp"
-                            src="/static/images/avatars/1.jpg"
+                            src="/admin/static/images/avatars/1.jpg"
                           />
                         </Tooltip>
                         <Tooltip arrow title="Travis Howard">
@@ -236,7 +236,7 @@ function Block8() {
                             }}
                             href="#"
                             alt="Travis Howard"
-                            src="/static/images/avatars/2.jpg"
+                            src="/admin/static/images/avatars/2.jpg"
                           />
                         </Tooltip>
                         <Tooltip arrow title="Cindy Baker">
@@ -248,7 +248,7 @@ function Block8() {
                             }}
                             href="#"
                             alt="Cindy Baker"
-                            src="/static/images/avatars/4.jpg"
+                            src="/admin/static/images/avatars/4.jpg"
                           />
                         </Tooltip>
                         <Tooltip arrow title="Agnes Walker">
@@ -260,7 +260,7 @@ function Block8() {
                             }}
                             href="#"
                             alt="Agnes Walker"
-                            src="/static/images/avatars/5.jpg"
+                            src="/admin/static/images/avatars/5.jpg"
                           />
                         </Tooltip>
                       </AvatarGroup>
@@ -318,7 +318,7 @@ function Block8() {
                           <CardMedia
                             component="img"
                             height="64"
-                            image="/static/images/placeholders/fitness/1.jpg"
+                            image="/admin/static/images/placeholders/fitness/1.jpg"
                             alt="..."
                           />
                         </CardActionArea>
@@ -332,7 +332,7 @@ function Block8() {
                           <CardMedia
                             component="img"
                             height="64"
-                            image="/static/images/placeholders/fitness/2.jpg"
+                            image="/admin/static/images/placeholders/fitness/2.jpg"
                             alt="..."
                           />
                         </CardActionArea>

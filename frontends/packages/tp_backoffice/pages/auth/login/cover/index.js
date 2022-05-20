@@ -27,10 +27,10 @@ import Logo from '../../../../components/Logo';
 import Scrollbar from '../../../../components/Scrollbar';
 
 const icons = {
-  CircularEconomy: '/static/images/logo/circular-economy-icon-green.png',
-  InnerTransition: '/static/images/logo/inner-transition.png',
-  InnerCircle: '/static/images/logo/inner-circle.png',
-  TransitionTowns: '/static/images/logo/transition-towns.png'
+  CircularEconomy: '/admin/static/images/logo/circular-economy-icon-green.png',
+  InnerTransition: '/admin/static/images/logo/inner-transition.png',
+  InnerCircle: '/admin/static/images/logo/inner-circle.png',
+  TransitionTowns: '/admin/static/images/logo/transition-towns.png'
 };
 
 const Content = styled(Box)(

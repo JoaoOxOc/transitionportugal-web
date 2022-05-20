@@ -63,7 +63,7 @@ function ClientAppDetails({isCreate}) {
     }
 
     const breadcrumbsData = [
-      { url: "/", label: t('LIST.home'), isLink: true },
+      { url: "/admin", label: t('LIST.home'), isLink: true },
       { url: "", label: t('LIST.settings'), isLink: false },
       { url: clientAppsListUri, label: t('LIST.clientsTitle'), isLink: true },
       { url: "", label: isCreate ? t('LABELS.clientAppCreateSmall') : clientApp.name, ownPage: true },

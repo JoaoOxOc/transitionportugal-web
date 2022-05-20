@@ -51,7 +51,7 @@ function Block9() {
           border: `${theme.colors.alpha.white[100]} solid 4px`,
           boxShadow: `0 0 0 3px ${theme.colors.error.main}`
         }}
-        src="/static/images/avatars/2.jpg"
+        src="/admin/static/images/avatars/2.jpg"
       />
       <Typography gutterBottom variant="h3">
         Marion Devine

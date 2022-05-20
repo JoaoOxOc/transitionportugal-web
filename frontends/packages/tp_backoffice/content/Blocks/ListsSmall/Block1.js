@@ -98,7 +98,7 @@ function Block1() {
                           width: 28,
                           height: 28
                         }}
-                        src="/static/images/avatars/1.jpg"
+                        src="/admin/static/images/avatars/1.jpg"
                       />
                       <Link
                         sx={{
@@ -163,7 +163,7 @@ function Block1() {
                           width: 28,
                           height: 28
                         }}
-                        src="/static/images/avatars/2.jpg"
+                        src="/admin/static/images/avatars/2.jpg"
                       />
                       <Link
                         sx={{
@@ -228,7 +228,7 @@ function Block1() {
                           width: 28,
                           height: 28
                         }}
-                        src="/static/images/avatars/3.jpg"
+                        src="/admin/static/images/avatars/3.jpg"
                       />
                       <Link
                         sx={{
@@ -293,7 +293,7 @@ function Block1() {
                           width: 28,
                           height: 28
                         }}
-                        src="/static/images/avatars/4.jpg"
+                        src="/admin/static/images/avatars/4.jpg"
                       />
                       <Link
                         sx={{
@@ -358,7 +358,7 @@ function Block1() {
                           width: 28,
                           height: 28
                         }}
-                        src="/static/images/avatars/5.jpg"
+                        src="/admin/static/images/avatars/5.jpg"
                       />
                       <Link
                         sx={{

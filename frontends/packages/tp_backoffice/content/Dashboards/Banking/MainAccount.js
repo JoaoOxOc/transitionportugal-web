@@ -52,7 +52,7 @@ function MainAccount() {
     account: '00 2222 5555 2222 72',
     acc: '3544 57214',
     bsb: '721 352',
-    logo: '/static/images/placeholders/logo/bankofamerica.svg'
+    logo: '/admin/static/images/placeholders/logo/bankofamerica.svg'
   };
 
   const theme = useTheme();

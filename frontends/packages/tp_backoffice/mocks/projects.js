@@ -6,7 +6,7 @@ class ProjectsApi {
       {
         id: '1',
         name: 'Cebus apella',
-        screenshot: '/static/images/placeholders/fitness/1.jpg',
+        screenshot: '/admin/static/images/placeholders/fitness/1.jpg',
         description: 'Proin interdum mauris non ligula pellentesque ultrices.',
         tags: ['Software'],
         startDate: subDays(new Date(), 1).getTime(),
@@ -15,27 +15,27 @@ class ProjectsApi {
           {
             id: '1',
             name: 'Lauree MacFadzean',
-            avatar: '/static/images/avatars/1.jpg'
+            avatar: '/admin/static/images/avatars/1.jpg'
           },
           {
             id: '2',
             name: 'Darice Malyon',
-            avatar: '/static/images/avatars/2.jpg'
+            avatar: '/admin/static/images/avatars/2.jpg'
           },
           {
             id: '3',
             name: 'Dwain Culpan',
-            avatar: '/static/images/avatars/3.jpg'
+            avatar: '/admin/static/images/avatars/3.jpg'
           },
           {
             id: '4',
             name: 'Carleton Henric',
-            avatar: '/static/images/avatars/4.jpg'
+            avatar: '/admin/static/images/avatars/4.jpg'
           },
           {
             id: '5',
             name: 'Dillie Considine',
-            avatar: '/static/images/avatars/5.jpg'
+            avatar: '/admin/static/images/avatars/5.jpg'
           }
         ],
         progress: 56,
@@ -44,7 +44,7 @@ class ProjectsApi {
       {
         id: '2',
         name: 'Macropus agilis',
-        screenshot: '/static/images/placeholders/fitness/2.jpg',
+        screenshot: '/admin/static/images/placeholders/fitness/2.jpg',
         description:
           'Praesent id massa id nisl venenatis lacinia. Aenean sit amet justo. Morbi ut odio.',
         tags: ['Backend'],
@@ -54,12 +54,12 @@ class ProjectsApi {
           {
             id: '1',
             name: 'Lauree MacFadzean',
-            avatar: '/static/images/avatars/1.jpg'
+            avatar: '/admin/static/images/avatars/1.jpg'
           },
           {
             id: '3',
             name: 'Dwain Culpan',
-            avatar: '/static/images/avatars/3.jpg'
+            avatar: '/admin/static/images/avatars/3.jpg'
           }
         ],
         progress: 45,
@@ -68,7 +68,7 @@ class ProjectsApi {
       {
         id: '3',
         name: 'Phalacrocorax carbo',
-        screenshot: '/static/images/placeholders/fitness/3.jpg',
+        screenshot: '/admin/static/images/placeholders/fitness/3.jpg',
         description:
           'Duis consequat dui nec nisi volutpat eleifend. Donec ut dolor. Morbi vel lectus in quam fringilla rhoncus.',
         tags: ['Development', 'Software'],
@@ -78,12 +78,12 @@ class ProjectsApi {
           {
             id: '1',
             name: 'Lauree MacFadzean',
-            avatar: '/static/images/avatars/1.jpg'
+            avatar: '/admin/static/images/avatars/1.jpg'
           },
           {
             id: '5',
             name: 'Dillie Considine',
-            avatar: '/static/images/avatars/5.jpg'
+            avatar: '/admin/static/images/avatars/5.jpg'
           }
         ],
         progress: 35,
@@ -92,7 +92,7 @@ class ProjectsApi {
       {
         id: '4',
         name: 'Felis libyca',
-        screenshot: '/static/images/placeholders/fitness/4.jpg',
+        screenshot: '/admin/static/images/placeholders/fitness/4.jpg',
         description:
           'Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat.',
         tags: ['Design Project'],
@@ -102,17 +102,17 @@ class ProjectsApi {
           {
             id: '2',
             name: 'Darice Malyon',
-            avatar: '/static/images/avatars/2.jpg'
+            avatar: '/admin/static/images/avatars/2.jpg'
           },
           {
             id: '4',
             name: 'Carleton Henric',
-            avatar: '/static/images/avatars/4.jpg'
+            avatar: '/admin/static/images/avatars/4.jpg'
           },
           {
             id: '3',
             name: 'Dwain Culpan',
-            avatar: '/static/images/avatars/3.jpg'
+            avatar: '/admin/static/images/avatars/3.jpg'
           }
         ],
         progress: 76,
@@ -121,7 +121,7 @@ class ProjectsApi {
       {
         id: '5',
         name: 'Nucifraga columbiana',
-        screenshot: '/static/images/placeholders/fitness/1.jpg',
+        screenshot: '/admin/static/images/placeholders/fitness/1.jpg',
         description:
           'Praesent blandit. Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede.',
         tags: ['UX', 'Marketing Research'],
@@ -131,12 +131,12 @@ class ProjectsApi {
           {
             id: '1',
             name: 'Lauree MacFadzean',
-            avatar: '/static/images/avatars/1.jpg'
+            avatar: '/admin/static/images/avatars/1.jpg'
           },
           {
             id: '2',
             name: 'Darice Malyon',
-            avatar: '/static/images/avatars/2.jpg'
+            avatar: '/admin/static/images/avatars/2.jpg'
           }
         ],
         progress: 15,
@@ -145,7 +145,7 @@ class ProjectsApi {
       {
         id: '6',
         name: 'Drymarchon corias couperi',
-        screenshot: '/static/images/placeholders/fitness/2.jpg',
+        screenshot: '/admin/static/images/placeholders/fitness/2.jpg',
         description:
           'Duis bibendum. Morbi non quam nec dui luctus rutrum. Nulla tellus.',
         tags: ['Frontend', 'Marketing'],
@@ -155,27 +155,27 @@ class ProjectsApi {
           {
             id: '1',
             name: 'Lauree MacFadzean',
-            avatar: '/static/images/avatars/1.jpg'
+            avatar: '/admin/static/images/avatars/1.jpg'
           },
           {
             id: '2',
             name: 'Darice Malyon',
-            avatar: '/static/images/avatars/2.jpg'
+            avatar: '/admin/static/images/avatars/2.jpg'
           },
           {
             id: '3',
             name: 'Dwain Culpan',
-            avatar: '/static/images/avatars/3.jpg'
+            avatar: '/admin/static/images/avatars/3.jpg'
           },
           {
             id: '4',
             name: 'Carleton Henric',
-            avatar: '/static/images/avatars/4.jpg'
+            avatar: '/admin/static/images/avatars/4.jpg'
           },
           {
             id: '5',
             name: 'Dillie Considine',
-            avatar: '/static/images/avatars/5.jpg'
+            avatar: '/admin/static/images/avatars/5.jpg'
           }
         ],
         progress: 98,
@@ -184,7 +184,7 @@ class ProjectsApi {
       {
         id: '7',
         name: 'Gazella granti',
-        screenshot: '/static/images/placeholders/fitness/3.jpg',
+        screenshot: '/admin/static/images/placeholders/fitness/3.jpg',
         description: 'Fusce consequat. Nulla nisl. Nunc nisl.',
         tags: ['UX', 'React', 'Software'],
         startDate: subDays(new Date(), 7).getTime(),
@@ -193,22 +193,22 @@ class ProjectsApi {
           {
             id: '1',
             name: 'Lauree MacFadzean',
-            avatar: '/static/images/avatars/1.jpg'
+            avatar: '/admin/static/images/avatars/1.jpg'
           },
           {
             id: '3',
             name: 'Dwain Culpan',
-            avatar: '/static/images/avatars/3.jpg'
+            avatar: '/admin/static/images/avatars/3.jpg'
           },
           {
             id: '2',
             name: 'Darice Malyon',
-            avatar: '/static/images/avatars/2.jpg'
+            avatar: '/admin/static/images/avatars/2.jpg'
           },
           {
             id: '5',
             name: 'Dillie Considine',
-            avatar: '/static/images/avatars/5.jpg'
+            avatar: '/admin/static/images/avatars/5.jpg'
           }
         ],
         progress: 76,
@@ -217,7 +217,7 @@ class ProjectsApi {
       {
         id: '8',
         name: 'Ovis orientalis',
-        screenshot: '/static/images/placeholders/fitness/4.jpg',
+        screenshot: '/admin/static/images/placeholders/fitness/4.jpg',
         description:
           'In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.',
         tags: ['Angular', 'UI', 'Frontend'],
@@ -227,12 +227,12 @@ class ProjectsApi {
           {
             id: '3',
             name: 'Dwain Culpan',
-            avatar: '/static/images/avatars/3.jpg'
+            avatar: '/admin/static/images/avatars/3.jpg'
           },
           {
             id: '4',
             name: 'Carleton Henric',
-            avatar: '/static/images/avatars/4.jpg'
+            avatar: '/admin/static/images/avatars/4.jpg'
           }
         ],
         progress: 38,
@@ -241,7 +241,7 @@ class ProjectsApi {
       {
         id: '9',
         name: 'Pseudocheirus peregrinus',
-        screenshot: '/static/images/placeholders/fitness/1.jpg',
+        screenshot: '/admin/static/images/placeholders/fitness/1.jpg',
         description:
           'Duis bibendum. Morbi non quam nec dui luctus rutrum. Nulla tellus.',
         tags: ['Design'],
@@ -251,17 +251,17 @@ class ProjectsApi {
           {
             id: '1',
             name: 'Lauree MacFadzean',
-            avatar: '/static/images/avatars/1.jpg'
+            avatar: '/admin/static/images/avatars/1.jpg'
           },
           {
             id: '2',
             name: 'Darice Malyon',
-            avatar: '/static/images/avatars/2.jpg'
+            avatar: '/admin/static/images/avatars/2.jpg'
           },
           {
             id: '5',
             name: 'Dillie Considine',
-            avatar: '/static/images/avatars/5.jpg'
+            avatar: '/admin/static/images/avatars/5.jpg'
           }
         ],
         progress: 93,
@@ -270,7 +270,7 @@ class ProjectsApi {
       {
         id: '10',
         name: 'Tiliqua scincoides',
-        screenshot: '/static/images/placeholders/fitness/2.jpg',
+        screenshot: '/admin/static/images/placeholders/fitness/2.jpg',
         description:
           'Praesent blandit. Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede.',
         tags: ['Frontend', 'Software'],
@@ -280,7 +280,7 @@ class ProjectsApi {
           {
             id: '4',
             name: 'Carleton Henric',
-            avatar: '/static/images/avatars/4.jpg'
+            avatar: '/admin/static/images/avatars/4.jpg'
           }
         ],
         progress: 66,
@@ -289,7 +289,7 @@ class ProjectsApi {
       {
         id: '11',
         name: 'Chelodina longicollis',
-        screenshot: '/static/images/placeholders/fitness/3.jpg',
+        screenshot: '/admin/static/images/placeholders/fitness/3.jpg',
         description:
           'Praesent id massa id nisl venenatis lacinia. Aenean sit amet justo. Morbi ut odio.',
         tags: ['Design', 'Backend'],
@@ -299,17 +299,17 @@ class ProjectsApi {
           {
             id: '1',
             name: 'Lauree MacFadzean',
-            avatar: '/static/images/avatars/1.jpg'
+            avatar: '/admin/static/images/avatars/1.jpg'
           },
           {
             id: '2',
             name: 'Darice Malyon',
-            avatar: '/static/images/avatars/2.jpg'
+            avatar: '/admin/static/images/avatars/2.jpg'
           },
           {
             id: '5',
             name: 'Dillie Considine',
-            avatar: '/static/images/avatars/5.jpg'
+            avatar: '/admin/static/images/avatars/5.jpg'
           }
         ],
         progress: 54,
@@ -318,7 +318,7 @@ class ProjectsApi {
       {
         id: '12',
         name: 'Otocyon megalotis',
-        screenshot: '/static/images/placeholders/fitness/4.jpg',
+        screenshot: '/admin/static/images/placeholders/fitness/4.jpg',
         description:
           'Etiam vel augue. Vestibulum rutrum rutrum neque. Aenean auctor gravida sem.',
         tags: ['Frontend'],
@@ -328,27 +328,27 @@ class ProjectsApi {
           {
             id: '1',
             name: 'Lauree MacFadzean',
-            avatar: '/static/images/avatars/1.jpg'
+            avatar: '/admin/static/images/avatars/1.jpg'
           },
           {
             id: '2',
             name: 'Darice Malyon',
-            avatar: '/static/images/avatars/2.jpg'
+            avatar: '/admin/static/images/avatars/2.jpg'
           },
           {
             id: '3',
             name: 'Dwain Culpan',
-            avatar: '/static/images/avatars/3.jpg'
+            avatar: '/admin/static/images/avatars/3.jpg'
           },
           {
             id: '4',
             name: 'Carleton Henric',
-            avatar: '/static/images/avatars/4.jpg'
+            avatar: '/admin/static/images/avatars/4.jpg'
           },
           {
             id: '5',
             name: 'Dillie Considine',
-            avatar: '/static/images/avatars/5.jpg'
+            avatar: '/admin/static/images/avatars/5.jpg'
           }
         ],
         progress: 26,
@@ -357,7 +357,7 @@ class ProjectsApi {
       {
         id: '13',
         name: 'Equus burchelli',
-        screenshot: '/static/images/placeholders/fitness/1.jpg',
+        screenshot: '/admin/static/images/placeholders/fitness/1.jpg',
         description:
           'Pellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.',
         tags: ['Development'],
@@ -367,17 +367,17 @@ class ProjectsApi {
           {
             id: '2',
             name: 'Darice Malyon',
-            avatar: '/static/images/avatars/2.jpg'
+            avatar: '/admin/static/images/avatars/2.jpg'
           },
           {
             id: '3',
             name: 'Dwain Culpan',
-            avatar: '/static/images/avatars/3.jpg'
+            avatar: '/admin/static/images/avatars/3.jpg'
           },
           {
             id: '4',
             name: 'Carleton Henric',
-            avatar: '/static/images/avatars/4.jpg'
+            avatar: '/admin/static/images/avatars/4.jpg'
           }
         ],
         progress: 87,
@@ -386,7 +386,7 @@ class ProjectsApi {
       {
         id: '14',
         name: 'Bison bison',
-        screenshot: '/static/images/placeholders/fitness/2.jpg',
+        screenshot: '/admin/static/images/placeholders/fitness/2.jpg',
         description:
           'Integer ac leo. Pellentesque ultrices mattis odio. Donec vitae nisi.',
         tags: ['Frontend'],
@@ -396,12 +396,12 @@ class ProjectsApi {
           {
             id: '1',
             name: 'Lauree MacFadzean',
-            avatar: '/static/images/avatars/1.jpg'
+            avatar: '/admin/static/images/avatars/1.jpg'
           },
           {
             id: '5',
             name: 'Dillie Considine',
-            avatar: '/static/images/avatars/5.jpg'
+            avatar: '/admin/static/images/avatars/5.jpg'
           }
         ],
         progress: 18,
@@ -410,7 +410,7 @@ class ProjectsApi {
       {
         id: '15',
         name: 'Alcelaphus buselaphus caama',
-        screenshot: '/static/images/placeholders/fitness/3.jpg',
+        screenshot: '/admin/static/images/placeholders/fitness/3.jpg',
         description: 'Sed ante. Vivamus tortor. Duis mattis egestas metus.',
         tags: ['Development'],
         startDate: subDays(new Date(), 15).getTime(),
@@ -419,17 +419,17 @@ class ProjectsApi {
           {
             id: '1',
             name: 'Lauree MacFadzean',
-            avatar: '/static/images/avatars/1.jpg'
+            avatar: '/admin/static/images/avatars/1.jpg'
           },
           {
             id: '4',
             name: 'Carleton Henric',
-            avatar: '/static/images/avatars/4.jpg'
+            avatar: '/admin/static/images/avatars/4.jpg'
           },
           {
             id: '5',
             name: 'Dillie Considine',
-            avatar: '/static/images/avatars/5.jpg'
+            avatar: '/admin/static/images/avatars/5.jpg'
           }
         ],
         progress: 69,
@@ -438,7 +438,7 @@ class ProjectsApi {
       {
         id: '16',
         name: 'Butorides striatus',
-        screenshot: '/static/images/placeholders/fitness/4.jpg',
+        screenshot: '/admin/static/images/placeholders/fitness/4.jpg',
         description:
           'Pellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.',
         tags: ['Design'],
@@ -448,17 +448,17 @@ class ProjectsApi {
           {
             id: '1',
             name: 'Lauree MacFadzean',
-            avatar: '/static/images/avatars/1.jpg'
+            avatar: '/admin/static/images/avatars/1.jpg'
           },
           {
             id: '2',
             name: 'Darice Malyon',
-            avatar: '/static/images/avatars/2.jpg'
+            avatar: '/admin/static/images/avatars/2.jpg'
           },
           {
             id: '4',
             name: 'Carleton Henric',
-            avatar: '/static/images/avatars/4.jpg'
+            avatar: '/admin/static/images/avatars/4.jpg'
           }
         ],
         progress: 30,
@@ -467,7 +467,7 @@ class ProjectsApi {
       {
         id: '17',
         name: 'Haematopus ater',
-        screenshot: '/static/images/placeholders/fitness/1.jpg',
+        screenshot: '/admin/static/images/placeholders/fitness/1.jpg',
         description:
           'Pellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.',
         tags: ['Backend'],
@@ -477,27 +477,27 @@ class ProjectsApi {
           {
             id: '1',
             name: 'Lauree MacFadzean',
-            avatar: '/static/images/avatars/1.jpg'
+            avatar: '/admin/static/images/avatars/1.jpg'
           },
           {
             id: '2',
             name: 'Darice Malyon',
-            avatar: '/static/images/avatars/2.jpg'
+            avatar: '/admin/static/images/avatars/2.jpg'
           },
           {
             id: '3',
             name: 'Dwain Culpan',
-            avatar: '/static/images/avatars/3.jpg'
+            avatar: '/admin/static/images/avatars/3.jpg'
           },
           {
             id: '4',
             name: 'Carleton Henric',
-            avatar: '/static/images/avatars/4.jpg'
+            avatar: '/admin/static/images/avatars/4.jpg'
           },
           {
             id: '5',
             name: 'Dillie Considine',
-            avatar: '/static/images/avatars/5.jpg'
+            avatar: '/admin/static/images/avatars/5.jpg'
           }
         ],
         progress: 52,
@@ -506,7 +506,7 @@ class ProjectsApi {
       {
         id: '18',
         name: 'Aonyx capensis',
-        screenshot: '/static/images/placeholders/fitness/2.jpg',
+        screenshot: '/admin/static/images/placeholders/fitness/2.jpg',
         description:
           'Integer ac leo. Pellentesque ultrices mattis odio. Donec vitae nisi.',
         tags: ['Backend'],
@@ -516,17 +516,17 @@ class ProjectsApi {
           {
             id: '1',
             name: 'Lauree MacFadzean',
-            avatar: '/static/images/avatars/1.jpg'
+            avatar: '/admin/static/images/avatars/1.jpg'
           },
           {
             id: '2',
             name: 'Darice Malyon',
-            avatar: '/static/images/avatars/2.jpg'
+            avatar: '/admin/static/images/avatars/2.jpg'
           },
           {
             id: '5',
             name: 'Dillie Considine',
-            avatar: '/static/images/avatars/5.jpg'
+            avatar: '/admin/static/images/avatars/5.jpg'
           }
         ],
         progress: 82,
@@ -535,7 +535,7 @@ class ProjectsApi {
       {
         id: '19',
         name: 'Ceratotherium simum',
-        screenshot: '/static/images/placeholders/fitness/3.jpg',
+        screenshot: '/admin/static/images/placeholders/fitness/3.jpg',
         description:
           'Etiam vel augue. Vestibulum rutrum rutrum neque. Aenean auctor gravida sem.',
         tags: ['Development'],
@@ -545,17 +545,17 @@ class ProjectsApi {
           {
             id: '1',
             name: 'Lauree MacFadzean',
-            avatar: '/static/images/avatars/1.jpg'
+            avatar: '/admin/static/images/avatars/1.jpg'
           },
           {
             id: '2',
             name: 'Darice Malyon',
-            avatar: '/static/images/avatars/2.jpg'
+            avatar: '/admin/static/images/avatars/2.jpg'
           },
           {
             id: '3',
             name: 'Dwain Culpan',
-            avatar: '/static/images/avatars/3.jpg'
+            avatar: '/admin/static/images/avatars/3.jpg'
           }
         ],
         progress: 19,
@@ -564,7 +564,7 @@ class ProjectsApi {
       {
         id: '20',
         name: 'Porphyrio porphyrio',
-        screenshot: '/static/images/placeholders/fitness/4.jpg',
+        screenshot: '/admin/static/images/placeholders/fitness/4.jpg',
         description:
           'Aenean lectus. Pellentesque eget nunc. Donec quis orci eget orci vehicula condimentum.',
         tags: ['Development'],
@@ -574,17 +574,17 @@ class ProjectsApi {
           {
             id: '1',
             name: 'Lauree MacFadzean',
-            avatar: '/static/images/avatars/1.jpg'
+            avatar: '/admin/static/images/avatars/1.jpg'
           },
           {
             id: '4',
             name: 'Carleton Henric',
-            avatar: '/static/images/avatars/4.jpg'
+            avatar: '/admin/static/images/avatars/4.jpg'
           },
           {
             id: '5',
             name: 'Dillie Considine',
-            avatar: '/static/images/avatars/5.jpg'
+            avatar: '/admin/static/images/avatars/5.jpg'
           }
         ],
         progress: 92,
@@ -599,7 +599,7 @@ class ProjectsApi {
     const project = {
       id: '1',
       name: 'Cebus apella',
-      screenshot: '/static/images/placeholders/fitness/1.jpg',
+      screenshot: '/admin/static/images/placeholders/fitness/1.jpg',
       description: 'Proin interdum mauris non ligula pellentesque ultrices.',
       tags: ['Software'],
       startDate: subDays(new Date(), 1).getTime(),
@@ -608,27 +608,27 @@ class ProjectsApi {
         {
           id: '1',
           name: 'Lauree MacFadzean',
-          avatar: '/static/images/avatars/1.jpg'
+          avatar: '/admin/static/images/avatars/1.jpg'
         },
         {
           id: '2',
           name: 'Darice Malyon',
-          avatar: '/static/images/avatars/2.jpg'
+          avatar: '/admin/static/images/avatars/2.jpg'
         },
         {
           id: '3',
           name: 'Dwain Culpan',
-          avatar: '/static/images/avatars/3.jpg'
+          avatar: '/admin/static/images/avatars/3.jpg'
         },
         {
           id: '4',
           name: 'Carleton Henric',
-          avatar: '/static/images/avatars/4.jpg'
+          avatar: '/admin/static/images/avatars/4.jpg'
         },
         {
           id: '5',
           name: 'Dillie Considine',
-          avatar: '/static/images/avatars/5.jpg'
+          avatar: '/admin/static/images/avatars/5.jpg'
         }
       ],
       progress: 56,

@@ -229,7 +229,7 @@ function Block6() {
               component={Link}
               href="#"
               alt="Remy Sharp"
-              src="/static/images/avatars/1.jpg"
+              src="/admin/static/images/avatars/1.jpg"
             />
           </Tooltip>
         </Box>
@@ -263,7 +263,7 @@ function Block6() {
               }}
               href="#"
               alt="Cindy Baker"
-              src="/static/images/avatars/3.jpg"
+              src="/admin/static/images/avatars/3.jpg"
             />
           </Tooltip>
         </Box>
@@ -297,7 +297,7 @@ function Block6() {
               component={Link}
               href="#"
               alt="Travis Howard"
-              src="/static/images/avatars/2.jpg"
+              src="/admin/static/images/avatars/2.jpg"
             />
           </Tooltip>
         </Box>

@@ -9,7 +9,7 @@ class InvoicesApi {
         issuedDate: subHours(new Date(), 18).getTime(),
         dueDate: subHours(new Date(), 15).getTime(),
         clientName: 'Nlounge',
-        clientAvatar: '/static/images/avatars/1.jpg',
+        clientAvatar: '/admin/static/images/avatars/1.jpg',
         amount: 1497,
         currency: '$',
         status: 'progress'
@@ -20,7 +20,7 @@ class InvoicesApi {
         issuedDate: subHours(new Date(), 21).getTime(),
         dueDate: subHours(new Date(), 18).getTime(),
         clientName: 'Thoughtmix',
-        clientAvatar: '/static/images/avatars/2.jpg',
+        clientAvatar: '/admin/static/images/avatars/2.jpg',
         amount: 5689,
         currency: '$',
         status: 'draft'
@@ -31,7 +31,7 @@ class InvoicesApi {
         issuedDate: subHours(new Date(), 44).getTime(),
         dueDate: subHours(new Date(), 21).getTime(),
         clientName: 'Oyoba',
-        clientAvatar: '/static/images/avatars/3.jpg',
+        clientAvatar: '/admin/static/images/avatars/3.jpg',
         amount: 611,
         currency: '$',
         status: 'progress'
@@ -42,7 +42,7 @@ class InvoicesApi {
         issuedDate: subHours(new Date(), 36).getTime(),
         dueDate: subHours(new Date(), 24).getTime(),
         clientName: 'Twimm',
-        clientAvatar: '/static/images/avatars/4.jpg',
+        clientAvatar: '/admin/static/images/avatars/4.jpg',
         amount: 8792,
         currency: '$',
         status: 'completed'
@@ -53,7 +53,7 @@ class InvoicesApi {
         issuedDate: subHours(new Date(), 44).getTime(),
         dueDate: subHours(new Date(), 27).getTime(),
         clientName: 'Meembee',
-        clientAvatar: '/static/images/avatars/5.jpg',
+        clientAvatar: '/admin/static/images/avatars/5.jpg',
         amount: 3947,
         currency: '$',
         status: 'progress'
@@ -64,7 +64,7 @@ class InvoicesApi {
         issuedDate: subHours(new Date(), 65).getTime(),
         dueDate: subHours(new Date(), 32).getTime(),
         clientName: 'Trudoo',
-        clientAvatar: '/static/images/avatars/1.jpg',
+        clientAvatar: '/admin/static/images/avatars/1.jpg',
         amount: 5133,
         currency: '$',
         status: 'completed'
@@ -75,7 +75,7 @@ class InvoicesApi {
         issuedDate: subHours(new Date(), 44).getTime(),
         dueDate: subHours(new Date(), 35).getTime(),
         clientName: 'Buzzdog',
-        clientAvatar: '/static/images/avatars/2.jpg',
+        clientAvatar: '/admin/static/images/avatars/2.jpg',
         amount: 7255,
         currency: '$',
         status: 'draft'
@@ -86,7 +86,7 @@ class InvoicesApi {
         issuedDate: subHours(new Date(), 43).getTime(),
         dueDate: subHours(new Date(), 41).getTime(),
         clientName: 'Realcube',
-        clientAvatar: '/static/images/avatars/3.jpg',
+        clientAvatar: '/admin/static/images/avatars/3.jpg',
         amount: 6091,
         currency: '$',
         status: 'pending'
@@ -97,7 +97,7 @@ class InvoicesApi {
         issuedDate: subHours(new Date(), 76).getTime(),
         dueDate: subHours(new Date(), 51).getTime(),
         clientName: 'Zoomzone',
-        clientAvatar: '/static/images/avatars/4.jpg',
+        clientAvatar: '/admin/static/images/avatars/4.jpg',
         amount: 7087,
         currency: '$',
         status: 'draft'
@@ -108,7 +108,7 @@ class InvoicesApi {
         issuedDate: subHours(new Date(), 87).getTime(),
         dueDate: subHours(new Date(), 65).getTime(),
         clientName: 'Eabox',
-        clientAvatar: '/static/images/avatars/5.jpg',
+        clientAvatar: '/admin/static/images/avatars/5.jpg',
         amount: 3999,
         currency: '$',
         status: 'draft'
@@ -119,7 +119,7 @@ class InvoicesApi {
         issuedDate: subHours(new Date(), 78).getTime(),
         dueDate: subHours(new Date(), 76).getTime(),
         clientName: 'Ozu',
-        clientAvatar: '/static/images/avatars/1.jpg',
+        clientAvatar: '/admin/static/images/avatars/1.jpg',
         amount: 5867,
         currency: '$',
         status: 'progress'
@@ -130,7 +130,7 @@ class InvoicesApi {
         issuedDate: subHours(new Date(), 91).getTime(),
         dueDate: subHours(new Date(), 87).getTime(),
         clientName: 'Fivespan',
-        clientAvatar: '/static/images/avatars/2.jpg',
+        clientAvatar: '/admin/static/images/avatars/2.jpg',
         amount: 6337,
         currency: '$',
         status: 'completed'
@@ -141,7 +141,7 @@ class InvoicesApi {
         issuedDate: subHours(new Date(), 102).getTime(),
         dueDate: subHours(new Date(), 91).getTime(),
         clientName: 'Twitternation',
-        clientAvatar: '/static/images/avatars/3.jpg',
+        clientAvatar: '/admin/static/images/avatars/3.jpg',
         amount: 6712,
         currency: '$',
         status: 'progress'
@@ -152,7 +152,7 @@ class InvoicesApi {
         issuedDate: subHours(new Date(), 122).getTime(),
         dueDate: subHours(new Date(), 94).getTime(),
         clientName: 'Rhyzio',
-        clientAvatar: '/static/images/avatars/4.jpg',
+        clientAvatar: '/admin/static/images/avatars/4.jpg',
         amount: 6004,
         currency: '$',
         status: 'pending'
@@ -163,7 +163,7 @@ class InvoicesApi {
         issuedDate: subHours(new Date(), 196).getTime(),
         dueDate: subHours(new Date(), 99).getTime(),
         clientName: 'Trudeo',
-        clientAvatar: '/static/images/avatars/5.jpg',
+        clientAvatar: '/admin/static/images/avatars/5.jpg',
         amount: 5188,
         currency: '$',
         status: 'draft'
@@ -180,7 +180,7 @@ class InvoicesApi {
       issuedDate: subHours(new Date(), 18).getTime(),
       dueDate: subHours(new Date(), 15).getTime(),
       clientName: 'Nlounge',
-      clientAvatar: '/static/images/avatars/1.jpg',
+      clientAvatar: '/admin/static/images/avatars/1.jpg',
       amount: 1497,
       currency: '$',
       status: 'progress'

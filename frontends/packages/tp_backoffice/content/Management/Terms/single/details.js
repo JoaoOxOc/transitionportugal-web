@@ -70,7 +70,7 @@ function TermsDetails({isCreate}) {
     }
 
     const breadcrumbsData = [
-      { url: "/", label: t('LIST.home'), isLink: true },
+      { url: "/admin", label: t('LIST.home'), isLink: true },
       { url: "", label: t('LIST.management'), isLink: false },
       { url: termsListUri, label: t('LIST.termsTitle'), isLink: true },
       { url: "", label: isCreate ? t('LABELS.termsCreateSmall') : t("LABELS.versionSmall",{versionNumber:terms.version}), ownPage: true },

@@ -186,7 +186,7 @@ function Block1() {
         <BoxComposedImage
           sx={{
             opacity: 0.1,
-            backgroundImage: 'url("/static/images/placeholders/covers/2.jpg")'
+            backgroundImage: 'url("/admin/static/images/placeholders/covers/2.jpg")'
           }}
         />
         <BoxComposedContent pb={9} pt={7}>

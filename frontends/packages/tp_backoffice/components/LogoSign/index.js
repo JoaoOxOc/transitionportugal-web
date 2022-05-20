@@ -103,7 +103,7 @@ function Logo() {
 
   return (
     // <TooltipWrapper title={'Tokyo Next.js Javascript Admin Dashboard'} arrow>
-    //   <LogoWrapper href="/">
+    //   <LogoWrapper href="/admin">
     //     <Badge
     //       sx={{
     //         '.MuiBadge-badge': {
@@ -126,7 +126,7 @@ function Logo() {
     // </TooltipWrapper>
     <LogoWrapper href={process.env.NEXT_PUBLIC_HOME_URL}>
       <LogoSignWrapper>
-        <Image src='/static/images/logo/logotipo_transicaoportugal.svg' width="250px" height="100%" sx={{margin: '0 auto'}} alt="Transição Portugal"/>
+        <Image src='/admin/static/images/logo/logotipo_transicaoportugal.svg' width="250px" height="100%" sx={{margin: '0 auto'}} alt="Transição Portugal"/>
       </LogoSignWrapper>
     </LogoWrapper>
   );

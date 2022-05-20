@@ -95,7 +95,7 @@ function Block1() {
               <CardMedia
                 component="img"
                 height="230"
-                image="/static/images/placeholders/covers/1.jpg"
+                image="/admin/static/images/placeholders/covers/1.jpg"
                 alt="..."
               />
               <CardActions>
@@ -184,7 +184,7 @@ function Block1() {
               <CardMedia
                 component="img"
                 height="230"
-                image="/static/images/placeholders/covers/3.jpg"
+                image="/admin/static/images/placeholders/covers/3.jpg"
                 alt="..."
               />
               <CardActions
@@ -298,7 +298,7 @@ function Block1() {
               <CardMedia
                 component="img"
                 height="230"
-                image="/static/images/placeholders/covers/5.jpg"
+                image="/admin/static/images/placeholders/covers/5.jpg"
                 alt="..."
               />
               <CardActions

@@ -64,7 +64,7 @@ function Block5() {
               border: `${theme.colors.alpha.white[100]} solid 3px`,
               boxShadow: `0 0 0 3px ${theme.colors.primary.main}`
             }}
-            src="/static/images/avatars/2.jpg"
+            src="/admin/static/images/avatars/2.jpg"
           />
           <Typography gutterBottom variant="h3">
             Lexie Livingston
@@ -139,7 +139,7 @@ function Block5() {
               border: `${theme.colors.alpha.white[100]} solid 3px`,
               boxShadow: `0 0 0 3px ${theme.colors.warning.main}`
             }}
-            src="/static/images/avatars/1.jpg"
+            src="/admin/static/images/avatars/1.jpg"
           />
           <Typography gutterBottom variant="h3">
             Cinar Aguilar
@@ -250,7 +250,7 @@ function Block5() {
               boxShadow: `0 .113rem .5rem ${theme.colors.alpha.black[10]}, 0 .126rem .225rem ${theme.colors.alpha.black[30]}`,
               border: `${theme.colors.alpha.white[100]} solid 3px`
             }}
-            src="/static/images/avatars/3.jpg"
+            src="/admin/static/images/avatars/3.jpg"
           />
           <Typography
             sx={{

@@ -69,7 +69,7 @@ function ChatContent() {
             height: 50
           }}
           alt="Zain Baptista"
-          src="/static/images/avatars/1.jpg"
+          src="/admin/static/images/avatars/1.jpg"
         />
         <Box
           display="flex"
@@ -216,7 +216,7 @@ function ChatContent() {
             height: 50
           }}
           alt="Zain Baptista"
-          src="/static/images/avatars/1.jpg"
+          src="/admin/static/images/avatars/1.jpg"
         />
         <Box
           display="flex"

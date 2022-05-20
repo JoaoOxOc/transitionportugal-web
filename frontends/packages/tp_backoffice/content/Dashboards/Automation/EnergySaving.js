@@ -184,7 +184,7 @@ function EnergySaving() {
               />
             </Box>
             <img
-              src="/static/images/placeholders/illustrations/pressure-high.svg"
+              src="/admin/static/images/placeholders/illustrations/pressure-high.svg"
               alt="Partly cloudy"
             />
           </EnergyBox>

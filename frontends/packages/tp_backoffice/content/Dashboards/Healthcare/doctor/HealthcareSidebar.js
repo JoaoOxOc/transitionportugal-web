@@ -69,7 +69,7 @@ function HealthcareSidebar() {
   const theme = useTheme();
 
   const user = {
-    avatar: '/static/images/avatars/1.jpg',
+    avatar: '/admin/static/images/avatars/1.jpg',
     name: 'Rachael Simons'
   };
 
@@ -223,7 +223,7 @@ function HealthcareSidebar() {
         <Button variant="contained" size="small">
           {t('Learn more')}
         </Button>
-        <img src="/static/images/placeholders/illustrations/6.png" alt="..." />
+        <img src="/admin/static/images/placeholders/illustrations/6.png" alt="..." />
       </BoxUpgrade>
     </Box>
   );

@@ -121,7 +121,7 @@ function Block8() {
         <CardMedia
           component="img"
           height="257"
-          image="/static/images/placeholders/covers/5.jpg"
+          image="/admin/static/images/placeholders/covers/5.jpg"
           alt="..."
         />
         <CardActions>

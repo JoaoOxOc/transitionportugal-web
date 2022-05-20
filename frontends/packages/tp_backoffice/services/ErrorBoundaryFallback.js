@@ -6,7 +6,7 @@ export function ErrorBoundaryFallback({error, resetErrorBoundary}) {
     console.log(error);
     if (error && error.redirectToLogin) {
         router.push({
-            pathname: '/auth/login/cover',
+            pathname: '/admin/auth/login/cover',
             query: { backTo: router.asPath }
         });
     }

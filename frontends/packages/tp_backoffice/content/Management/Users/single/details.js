@@ -89,7 +89,7 @@ function UserDetails({isProfile, userId}) {
     }
 
     const breadcrumbsData = isProfile ? [] : [
-        { url: "/", label: t('LIST.home'), isLink: true },
+        { url: "/admin", label: t('LIST.home'), isLink: true },
         { url: "", label: t('LIST.management'), isLink: false },
         { url: usersListUri, label: t('LIST.usersTitle'), isLink: true },
         { url: "", label: user.name, ownPage: true },

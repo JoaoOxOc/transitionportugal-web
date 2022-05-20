@@ -49,14 +49,14 @@ function Block7() {
       id: 1,
       title: 'Build React Interface',
       category: 'Development',
-      logo: '/static/images/placeholders/logo/discord-icon.svg',
+      logo: '/admin/static/images/placeholders/logo/discord-icon.svg',
       value: '4,685'
     },
     {
       id: 2,
       title: 'Create Ads Campaigns',
       category: 'Marketing',
-      logo: '/static/images/placeholders/logo/google-icon.svg',
+      logo: '/admin/static/images/placeholders/logo/google-icon.svg',
       value: '8,434',
       budget: 'over'
     },
@@ -64,7 +64,7 @@ function Block7() {
       id: 3,
       title: 'Resolve Github issues',
       category: 'Bugfixes',
-      logo: '/static/images/placeholders/logo/spotify-icon.svg',
+      logo: '/admin/static/images/placeholders/logo/spotify-icon.svg',
       value: '5,167',
       budget: ''
     },
@@ -72,7 +72,7 @@ function Block7() {
       id: 4,
       title: 'Build UI for Angular',
       category: 'Development',
-      logo: '/static/images/placeholders/logo/slack-icon.svg',
+      logo: '/admin/static/images/placeholders/logo/slack-icon.svg',
       value: '43,584',
       budget: ''
     },
@@ -80,7 +80,7 @@ function Block7() {
       id: 5,
       title: 'Create User Workflows',
       category: 'Marketing',
-      logo: '/static/images/placeholders/logo/pinterest-icon.svg',
+      logo: '/admin/static/images/placeholders/logo/pinterest-icon.svg',
       value: '5,978',
       budget: 'over'
     }

@@ -55,7 +55,7 @@ export const AuthProvider = (props) => {
                 location: 'San Francisco, USA',
                 username: 'admin',
                 posts: '4',
-                coverImg: '/static/images/placeholders/covers/1.jpg',
+                coverImg: '/admin/static/images/placeholders/covers/1.jpg',
                 followers: '5684',
                 description:
                   'Lorem ipsum is placeholder text commonly used in the graphic.'

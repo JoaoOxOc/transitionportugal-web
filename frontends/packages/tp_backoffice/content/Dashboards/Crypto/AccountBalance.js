@@ -235,7 +235,7 @@ function AccountBalance() {
                     <ListItemAvatarWrapper>
                       <img
                         alt="BTC"
-                        src="/static/images/placeholders/logo/bitcoin.png"
+                        src="/admin/static/images/placeholders/logo/bitcoin.png"
                       />
                     </ListItemAvatarWrapper>
                     <ListItemText
@@ -258,7 +258,7 @@ function AccountBalance() {
                     <ListItemAvatarWrapper>
                       <img
                         alt="XRP"
-                        src="/static/images/placeholders/logo/ripple.png"
+                        src="/admin/static/images/placeholders/logo/ripple.png"
                       />
                     </ListItemAvatarWrapper>
                     <ListItemText
@@ -281,7 +281,7 @@ function AccountBalance() {
                     <ListItemAvatarWrapper>
                       <img
                         alt="ADA"
-                        src="/static/images/placeholders/logo/cardano.png"
+                        src="/admin/static/images/placeholders/logo/cardano.png"
                       />
                     </ListItemAvatarWrapper>
                     <ListItemText
@@ -304,7 +304,7 @@ function AccountBalance() {
                     <ListItemAvatarWrapper>
                       <img
                         alt="ETH"
-                        src="/static/images/placeholders/logo/ethereum.png"
+                        src="/admin/static/images/placeholders/logo/ethereum.png"
                       />
                     </ListItemAvatarWrapper>
                     <ListItemText

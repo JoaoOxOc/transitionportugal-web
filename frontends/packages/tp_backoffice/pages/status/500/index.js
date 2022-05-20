@@ -80,7 +80,7 @@ function Status500() {
                 <img
                   alt="500"
                   height={260}
-                  src="/static/images/status/500.svg"
+                  src="/admin/static/images/status/500.svg"
                 />
                 <Typography variant="h2" sx={{ my: 2 }}>
                   {t('There was an error, please try again later')}
@@ -104,7 +104,7 @@ function Status500() {
                 >
                   {t('Refresh view')}
                 </LoadingButton>
-                <Button href="/" variant="contained" sx={{ ml: 1 }}>
+                <Button href="/admin" variant="contained" sx={{ ml: 1 }}>
                   {t('Go back')}
                 </Button>
               </Box>
@@ -133,7 +133,7 @@ function Status500() {
                       'High performance React template built with lots of powerful Material-UI components across multiple product niches for fast & perfect apps development processes.'
                     )}
                   </TypographySecondary>
-                  <Button href="/" size="large" variant="contained">
+                  <Button href="/admin" size="large" variant="contained">
                     {t('Overview')}
                   </Button>
                 </Box>

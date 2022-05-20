@@ -297,7 +297,7 @@ function DatacenterClusters() {
             >
               <img
                 style={{ height: '30px' }}
-                src="/static/images/placeholders/logo/netflix-logo.jpg"
+                src="/admin/static/images/placeholders/logo/netflix-logo.jpg"
                 alt="..."
               />
               <Typography
@@ -373,7 +373,7 @@ function DatacenterClusters() {
             >
               <img
                 style={{ height: '30px' }}
-                src="/static/images/placeholders/logo/google-logo.jpg"
+                src="/admin/static/images/placeholders/logo/google-logo.jpg"
                 alt="..."
               />
               <Typography

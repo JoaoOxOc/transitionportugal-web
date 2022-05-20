@@ -120,7 +120,7 @@ function HeaderMenu() {
         onClose={handleClose}
         open={isOpen}
       >
-        <MenuItem component={Link} href="/">
+        <MenuItem component={Link} href="/admin">
           {t('Features tour')}
         </MenuItem>
         <MenuItem component={Link} href="/docs">

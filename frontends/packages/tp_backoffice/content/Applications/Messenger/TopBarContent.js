@@ -115,7 +115,7 @@ function TopBarContent() {
               height: 50
             }}
             alt="Zain Baptista"
-            src="/static/images/avatars/1.jpg"
+            src="/admin/static/images/avatars/1.jpg"
           />
           <Box
             sx={{
@@ -182,7 +182,7 @@ function TopBarContent() {
               }}
               variant="rounded"
               alt="Zain Baptista"
-              src="/static/images/avatars/1.jpg"
+              src="/admin/static/images/avatars/1.jpg"
             />
             <Typography variant="h4">Zain Baptista</Typography>
             <Typography variant="subtitle2">

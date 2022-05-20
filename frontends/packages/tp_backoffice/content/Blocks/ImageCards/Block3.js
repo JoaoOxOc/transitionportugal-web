@@ -93,7 +93,7 @@ function Block3() {
             <CardMedia
               component="img"
               height="280"
-              image="/static/images/placeholders/covers/2.jpg"
+              image="/admin/static/images/placeholders/covers/2.jpg"
               alt="..."
             />
             <CardActions>
@@ -135,7 +135,7 @@ function Block3() {
                     width: 44,
                     height: 44
                   }}
-                  src="/static/images/avatars/3.jpg"
+                  src="/admin/static/images/avatars/3.jpg"
                 />
 
                 <Box ml={1.5}>
@@ -212,7 +212,7 @@ function Block3() {
             <CardMedia
               component="img"
               height="199"
-              image="/static/images/placeholders/covers/1.jpg"
+              image="/admin/static/images/placeholders/covers/1.jpg"
               alt="..."
             />
             <CardActions>
@@ -258,7 +258,7 @@ function Block3() {
                   height: 74,
                   mb: 1
                 }}
-                src="/static/images/avatars/5.jpg"
+                src="/admin/static/images/avatars/5.jpg"
               />
               <Link href="#" variant="h3" gutterBottom>
                 Johanna Becks

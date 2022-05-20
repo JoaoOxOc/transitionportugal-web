@@ -69,7 +69,7 @@ function Block2() {
         <CardMedia
           component="img"
           height="230"
-          image="/static/images/placeholders/covers/2.jpg"
+          image="/admin/static/images/placeholders/covers/2.jpg"
           alt="..."
         />
         <CardActions>
@@ -86,7 +86,7 @@ function Block2() {
             mx: 'auto',
             boxShadow: `0 0 0 4px ${theme.colors.alpha.white[100]}`
           }}
-          src="/static/images/avatars/5.jpg"
+          src="/admin/static/images/avatars/5.jpg"
         />
         <Typography
           sx={{

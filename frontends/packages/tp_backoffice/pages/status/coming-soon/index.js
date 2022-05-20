@@ -139,7 +139,7 @@ function StatusComingSoon() {
               <img
                 alt="Coming Soon"
                 height={200}
-                src="/static/images/status/coming-soon.svg"
+                src="/admin/static/images/status/coming-soon.svg"
               />
             </Box>
 

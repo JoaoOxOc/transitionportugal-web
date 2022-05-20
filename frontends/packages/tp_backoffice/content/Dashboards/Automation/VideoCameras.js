@@ -365,12 +365,12 @@ function VideoCameras() {
                   </TalkButton>
                 </Box>
                 <Box>
-                  <CameraImage src="/static/images/placeholders/fitness/3.jpg" />
+                  <CameraImage src="/admin/static/images/placeholders/fitness/3.jpg" />
                 </Box>
               </Box>
             </CameraActions>
             <img
-              src="/static/images/placeholders/covers/garden_camera.jpg"
+              src="/admin/static/images/placeholders/covers/garden_camera.jpg"
               alt="..."
             />
           </CardCamera>

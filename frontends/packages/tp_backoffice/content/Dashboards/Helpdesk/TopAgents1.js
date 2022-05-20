@@ -71,7 +71,7 @@ function TopAgents1() {
             mb: 2
           }}
           variant="rounded"
-          src="/static/images/avatars/5.jpg"
+          src="/admin/static/images/avatars/5.jpg"
         />
         <Typography variant="h3">Maren Lipshutz</Typography>
         <Typography variant="subtitle2" gutterBottom>
