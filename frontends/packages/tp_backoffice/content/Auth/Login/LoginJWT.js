@@ -99,7 +99,7 @@ export const LoginJWT = ({ providers, csrfToken, ...props }) => {
         username: values.username,
         password: values.password,
         terms: values.terms,
-        callbackUrl: `${window.location.origin + (backTo ? backTo : '')}`,
+        callbackUrl: `${window.location.origin + (backTo ? backTo : '/admin')}`,
       });
       if (res?.error) {
         helpers.setStatus({ success: false });
