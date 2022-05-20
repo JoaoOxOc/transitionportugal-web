@@ -12,6 +12,9 @@ export declare const REGISTERFORM_TRANSLATIONS: {
         readonly step3Title: "Complete Registration";
         readonly buttonToLogin: "Button link to login page";
         readonly goLogIn: "Continue to login";
+        readonly closeTermsDialog: "Close Terms & Conditions reading";
+        readonly termsConsentButton: "Consent";
+        readonly termsCancelButton: "Close";
     };
     readonly FORMS: {
         readonly emailAddress: "Email address";
@@ -62,6 +65,7 @@ export declare const REGISTERFORM_TRANSLATIONS: {
         readonly passwordTooSmall: "Password must be at least {{number}} characters";
         readonly passwordTooBig: "Your password cannot have more than {{number}} characters";
         readonly passwordsNoMatch: "Both password fields need to be the same";
+        readonly passwordComplexityError: "Your new password must contain a non alphanumeric character, a number, an uppercase and a lowercase.";
         readonly confirmPasswordRequired: "Please confirm your inserted password";
         readonly termsRequired: "You must agree to our terms and conditions";
         readonly associationEmailInvalid: "The email provided should be a valid email address";
@@ -77,6 +81,7 @@ export declare const REGISTERFORM_TRANSLATIONS: {
         readonly associationTownTooBig: "Your Initiative/movement town cannot have more than {{number}} characters";
         readonly associationTownRequired: "Your Initiative/movement town is required";
         readonly confirmationEmailSent: "An email confirmation request was sent to each email";
+        readonly serverError: "An unknown error ocurred. Please try again";
         readonly successfulMessage: "Thank you for registering. Your account will now be verified. Please check your email for more instructions";
     };
 };

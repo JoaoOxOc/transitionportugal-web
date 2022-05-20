@@ -7,8 +7,8 @@ const initialSearchState = {
     userRole: "",
     isActive: "",
     isVerified: "",
-    page: 1,
-    size: 10,
+    offset: 1,
+    limit: 10,
     sort: "UserName",
     sortDirection: "asc"
 };

@@ -78,16 +78,6 @@ export const getServerSideProps = async (context) => {
   // get the session
   const session = await getSession(context);
 
-  // redirect the user if there is no session   
-  if (!session) {
-    return {
-      redirect: {
-        destination: "/management/app/clients",
-        permanent: false,
-      },
-    };
-  }
-
   // passing the session object to the page  
   return { props: {session: session} };
 }; 

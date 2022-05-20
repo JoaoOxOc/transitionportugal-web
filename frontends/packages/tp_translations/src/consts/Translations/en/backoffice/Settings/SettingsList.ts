@@ -30,5 +30,14 @@ export const SETTINGSLIST_TRANSLATIONS = deepFreeze({
     },
     SEARCH: {
         searchByKeyPlaceholder: "Search by description or key..."
+    },
+    ACTIONS: {
+        testEmailSend: "Test Email Send",
+        sendToEmailField: "Insert the Recipient Email",
+        testSendEmailButton: "Test Email Send",
+        sendEmailResult: "Test result",
+        closeTestEmailSendDialog: "Close Test Send Email Popup",
+        cancelTestEmailSendButton: "Close",
+        testSendSuccess: "Email sent successfully to '{{sendToEmail}}'. Check it's inbox"
     }
 } as const);

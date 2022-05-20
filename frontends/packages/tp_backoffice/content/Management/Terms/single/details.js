@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect } from 'react';
 
 import { useRouter } from 'next/router';
 import { useErrorHandler } from 'react-error-boundary';
+import SingleActions from '../SingleActions';
 import dynamic from "next/dynamic";
 let DetailForm = dynamic(() => import('./DetailForm'), {
   ssr: false
@@ -29,6 +30,7 @@ function TermsDetails({isCreate}) {
     const [terms, setTerms] = useState(null);
     const [termsError, setTermsError] = useState(null);
     useErrorHandler(termsError);
+    const [refreshTerms, setRefreshTerms] = useState(true);
     const { data: session, status } = useSession();
     const { t } = i18nextTermsDetails;
     const termsListUri = "/management/privacy";
@@ -55,10 +57,13 @@ function TermsDetails({isCreate}) {
     }, [isMountedRef, termsUri]);
 
     useEffect(() => {
-      if (!isCreate) {
+      if (!isCreate && refreshTerms) {
         getTermsData();
       }
-    }, [isCreate,getTermsData]);
+      if (refreshTerms) {
+        setRefreshTerms(false);
+      }
+    }, [isCreate,getTermsData, refreshTerms]);
 
     if (!isCreate && !terms) {
       return null;
@@ -71,12 +76,26 @@ function TermsDetails({isCreate}) {
       { url: "", label: isCreate ? t('LABELS.termsCreateSmall') : t("LABELS.versionSmall",{versionNumber:terms.version}), ownPage: true },
     ];
 
+    const receiveRefreshData = (eventValue) => {
+      setRefreshTerms(eventValue);
+
+    }
+
     return (
     <>
       {(isCreate || terms) ?
         (
         <PageTitleWrapper>
           <DetailsPageHeader breadcrumbsDataJson={breadcrumbsData} detailsTitle={isCreate ? t('LABELS.termsCreate') : t("LABELS.versionSmall",{versionNumber:terms.version})} goBackLabel={t('LABELS.goBack')} goBackUrl={termsListUri}/>
+          <Box
+            sx={{
+              float: 'left',
+              pt: '20px',
+              pl: '10vw'
+            }}
+          >
+            <SingleActions refreshData={receiveRefreshData} termsId={terms.id} termsBeenActive={terms.beenActive} termsIsActive={terms.isActive} termsVersion={terms.version}/>
+          </Box>
         </PageTitleWrapper>
         ) : (<></>)
       }

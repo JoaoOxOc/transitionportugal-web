@@ -13,6 +13,7 @@ import Credentials from 'next-auth/providers/credentials'
     const response = await fetch(apiUrl, {
       method: 'GET',
       headers: { 
+        'User-Agent': '*',
         "Content-Type": "application/json",
         "credentials": 'include',
         "ClientId": process.env.AUTH_API_CLIENT_ID,
@@ -47,14 +48,16 @@ import Credentials from 'next-auth/providers/credentials'
  */
  async function refreshAccessToken(token) {
   try {
+    console.log("refreshAccessToken: ", token.user.refreshToken);
     const apiUrl = process.env.AUTH_API_URL+"/user/refresh";
     const response = await fetch(apiUrl, {
       method: 'POST',
       body: JSON.stringify({
-        accessToken: token.user.token,
+        accessToken: token.accessToken,
         refreshToken: token.user.refreshToken,
       }),
       headers: { 
+        'User-Agent': '*',
         "Content-Type": "application/json",
         "credentials": 'include',
         "ClientId": process.env.AUTH_API_CLIENT_ID,
@@ -63,7 +66,7 @@ import Credentials from 'next-auth/providers/credentials'
     })
     if (!response.ok) {
       const resultErrorBody = await response.text();
-      throw resultErrorBody + token.user.refreshToken;
+      throw resultErrorBody;
     }
     // The Credentials provider can only be used if JSON Web Tokens are enabled for sessions.
     // Users authenticated with the Credentials provider are not persisted in the database.
@@ -77,7 +80,7 @@ import Credentials from 'next-auth/providers/credentials'
       ...token,
       accessToken: refreshedTokens.accessToken,
       accessTokenExpires: refreshedTokens.expiration * 1000,
-      refreshToken: refreshedTokens.refresh_token ?? token.refreshToken, // Fall back to old refresh token
+      refreshToken: refreshedTokens.refreshToken ?? token.refreshToken, // Fall back to old refresh token
     }
   } catch (error) {
     console.log(error)
@@ -103,13 +106,14 @@ import Credentials from 'next-auth/providers/credentials'
  * https://javascript.plainenglish.io/how-to-create-a-custom-sign-in-page-in-next-auth-1612dc17beb7
  * https://github.com/nextauthjs/next-auth/issues/1843
  */
-export default NextAuth({
+ const authOptions = {
+  secret: process.env.NEXTAUTH_SECRET,
   providers: [
-    // Providers.GitHub({
+    // GitHub({
     //   clientId: process.env.GITHUB_CLIENT_ID,
     //   clientSecret: process.env.GITHUB_CLIENT_SECRET
     // }),
-    // Providers.Email({
+    // Email({
     //   server: {
     //     port: 465,
     //     host: 'smtp.gmail.com',
@@ -146,35 +150,44 @@ export default NextAuth({
           // (i.e., the request IP address)
           // const user = { id: 1, name: 'J Smith', email: 'jsmith@example.com', sessionId: 'c6216a1fc74d7320cf78eadd1645750600f133d9' }
           // return user;
+          if (!credentials.username || !credentials.password) {
+            throw new Error("CredentialsEmptyLoginError");
+          }
           console.log('next auth req: ', req, credentials);
           const apiUrl = process.env.AUTH_API_URL+"/user/login";
           const res = await fetch(apiUrl, {
             method: 'POST',
             body: JSON.stringify(credentials),
             headers: { 
+              "Accept": 'application/json, text/plain, */*',
+              'User-Agent': '*',
               "Content-Type": "application/json",
               "credentials": 'include',
               "ClientId": process.env.AUTH_API_CLIENT_ID,
               "ClientAuthorization": process.env.AUTH_API_CLIENT_SECRET
             }
           })
+          // if (!res.ok) {
+          //   const resultErrorBody = await res.text();
+          //   throw new Error("ApiError: " + resultErrorBody);
+          // }
           // The Credentials provider can only be used if JSON Web Tokens are enabled for sessions.
           // Users authenticated with the Credentials provider are not persisted in the database.
           const user = await res.json();
     
           // If no error and we have user data, return it
           if (res.ok && user) {
-            // TODO: add authentication logic for microfrontend, for example session cookie (use user.sessionId)
             return user
-          }
-          if (!credentials.username || !credentials.password) {
-            throw new Error("CredentialsEmptyLoginError")
           }
           // Return null if user data could not be retrieved
           return null
         }
     })
   ],
+  session: {
+    // Set to jwt in order to CredentialsProvider works properly
+    strategy: 'jwt'
+  },
   // session: { 
   //   jwt: true, 
   //   //maxAge: 30 * 24 * 60 * 60 
@@ -192,12 +205,14 @@ export default NextAuth({
     // },
     async session({session, token, user}) {
       session.sessionId = token.sessionId;
-      session.user = token.user;
+      session.user.token = token.user.token;
+      session.user.expiration = token.user.expiration;
+      session.user.name = token.user.name;
+      session.user.username = token.user.username;
       session.accessToken = token.accessToken;
       session.scopes = token.scope;
       session.error = token.error;
-      session.token = token;
-      session.user2 = user;
+      // session.token = token;
 
       // const apiUrl = process.env.API_ENDPOINT+"odoorest/nextsession";
       // const res = await fetch(apiUrl, {
@@ -240,7 +255,7 @@ export default NextAuth({
         return {
           accessToken: user.token,
           accessTokenExpires: user.expiration * 1000,
-          refreshToken: user.refreshToken,
+          // refreshToken: user.refreshToken,
           user
         }
       }
@@ -261,4 +276,6 @@ export default NextAuth({
     //newUser: null // If set, new users will be directed here on first sign in
   },
   theme: "auto"
-})
+}
+
+export default (req, res) => NextAuth(req, res, authOptions);

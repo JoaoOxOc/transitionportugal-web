@@ -1,5 +1,17 @@
 import { buildRouteQuery, genericFetch } from './genericFetch';
 
+export const GetMailingLists = async(mailingListsApiUri, searchDataJson, bearerToken) => {
+    let response = await genericFetch(mailingListsApiUri, "GET", bearerToken,{});
+    if (response.requestAgain) {
+        response = await genericFetch(mailingListsApiUri, "GET", bearerToken,{});
+    }
+    else if (response.status == 404) {
+        response.mailingLists = [];
+        response.totalCount = 0;
+    }
+    return response;
+}
+
 export const GetNewsletterSubscriptions = async(newsletterSubscriptionsApiUri, searchDataJson, bearerToken) => {
     newsletterSubscriptionsApiUri += buildRouteQuery(searchDataJson);
     console.log(newsletterSubscriptionsApiUri);

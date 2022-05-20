@@ -35,3 +35,17 @@ export const UpdateSettingData = async(settingsUri, settingDataJson, bearerToken
     }
     return response;
 }
+
+export const TestSendEmail = async(settingsUri, searchDataJson, bearerToken) => {
+    settingsUri += buildRouteQuery(searchDataJson);
+    console.log(settingsUri);
+    let response = await genericFetch(settingsUri, "GET", bearerToken,{});
+    if (response.requestAgain) {
+        response = await genericFetch(settingsUri, "GET", bearerToken,{});
+    }
+    else if (response.status == 404) {
+        response.settings = [];
+        response.totalCount = 0;
+    }
+    return response;
+}

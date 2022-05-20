@@ -29,5 +29,14 @@ export declare const SETTINGSLIST_TRANSLATIONS: {
     readonly SEARCH: {
         readonly searchByKeyPlaceholder: "Pesquisar por descrição ou chave...";
     };
+    readonly ACTIONS: {
+        readonly testEmailSend: "Testar Envio de Emails";
+        readonly sendToEmailField: "Insira o email que irá receber o teste";
+        readonly testSendEmailButton: "Testar Envio de Email";
+        readonly sendEmailResult: "Resultado do teste de envio";
+        readonly closeTestEmailSendDialog: "Fechar janela do teste de envio de emails";
+        readonly cancelTestEmailSendButton: "Fechar";
+        readonly testSendSuccess: "Email enviado com sucesso para '{{sendToEmail}}'. Verifica a caixa de entrada do email";
+    };
 };
 //# sourceMappingURL=SettingsList.d.ts.map

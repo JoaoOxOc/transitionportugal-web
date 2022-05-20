@@ -29,5 +29,14 @@ export declare const SETTINGSLIST_TRANSLATIONS: {
     readonly SEARCH: {
         readonly searchByKeyPlaceholder: "Search by description or key...";
     };
+    readonly ACTIONS: {
+        readonly testEmailSend: "Test Email Send";
+        readonly sendToEmailField: "Insert the Recipient Email";
+        readonly testSendEmailButton: "Test Email Send";
+        readonly sendEmailResult: "Test result";
+        readonly closeTestEmailSendDialog: "Close Test Send Email Popup";
+        readonly cancelTestEmailSendButton: "Close";
+        readonly testSendSuccess: "Email sent successfully to '{{sendToEmail}}'. Check it's inbox";
+    };
 };
 //# sourceMappingURL=SettingsList.d.ts.map

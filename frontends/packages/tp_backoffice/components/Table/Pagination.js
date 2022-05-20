@@ -11,14 +11,14 @@ const ResultsPagination = ({gridDisplay, pageElementsCount, totalElements, searc
     const [limit, setLimit] = useState(10);
 
     const handlePageChange = (_event, newPage) => {
-        searchContext.searchData.page = newPage;
-        setPage(searchContext.searchData.page);
+        searchContext.searchData.offset = newPage + 1;
+        setPage(newPage);
         searchContext.search(searchContext.searchData);
     };
   
     const handleLimitChange = (event) => {
-        searchContext.searchData.size = parseInt(event.target.value);
-        setLimit(searchContext.searchData.size);
+        searchContext.searchData.limit = parseInt(event.target.value);
+        setLimit(searchContext.searchData.limit);
         searchContext.search(searchContext.searchData);
     };
 

@@ -103,7 +103,14 @@ function LoginCover({ providers, csrfToken }) {
   const { method } = useAuth();
   const { t } = i18nextLogin;
   const [currentLang, setLang] = useState("pt");
+  const [csrft, setCsrfToken] = useState(csrfToken);
   i18nextLogin.changeLanguage(currentLang);
+
+  if (!csrft) {
+    getCsrfToken().then((t) => {
+      setCsrfToken(t);
+    });
+  }
 
   useEffect(() => {
     const handleNewMessage = (event) => {
@@ -299,7 +306,7 @@ function LoginCover({ providers, csrfToken }) {
               </Box>
               {method === 'Auth0' && <LoginAuth0 />}
               {method === 'FirebaseAuth' && <LoginFirebaseAuth />}
-              {method === 'JWT' && <LoginJWT providers={providers} csrfToken={csrfToken}/>}
+              {method === 'JWT' && <LoginJWT providers={providers} csrfToken={csrft}/>}
               {method === 'Amplify' && <LoginAmplify />}
               <Box my={4}>
                 <Typography
@@ -343,9 +350,9 @@ LoginCover.getLayout = (page) => (
   </Guest>
 );
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps({req}) {
   const providers = await getProviders();
-  const csrfToken = await getCsrfToken(context);
+  const csrfToken = await getCsrfToken({req});
   return {
     props: { providers, csrfToken },
   }
