@@ -1,0 +1,85 @@
+version: '3.4'
+
+services:
+  postgresql:
+    image: postgres:12
+    volumes:
+      - postgresql_data:/var/lib/postgresql/data
+    ports:
+      - 5444:5432
+    environment:
+      - POSTGRES_USER=odoo
+      - POSTGRES_PASSWORD=odoo
+    networks:
+      - discourse_bridge
+      
+  redis:
+    image: docker.io/bitnami/redis:6.0
+    environment:
+      # ALLOW_EMPTY_PASSWORD is recommended only for development.
+      - ALLOW_EMPTY_PASSWORD=yes
+    volumes:
+      - 'redis_data:/bitnami/redis'
+    networks:
+      - discourse_bridge
+    
+  discourse:
+    image: docker.io/bitnami/discourse:2
+    ports:
+      - '8282:3000'
+    volumes:
+      - 'discourse_data:/bitnami/discourse'
+    depends_on:
+      - redis
+    environment:
+      # ALLOW_EMPTY_PASSWORD is recommended only for development.
+      - ALLOW_EMPTY_PASSWORD=yes
+      - DISCOURSE_HOST=localhost
+      - DISCOURSE_DATABASE_HOST=postgresql
+      - DISCOURSE_DATABASE_PORT_NUMBER=5432
+      - DISCOURSE_DATABASE_USER=odoo
+      - DISCOURSE_DATABASE_PASSWORD=odoo
+      - DISCOURSE_DATABASE_NAME=bitnami_discourse
+      - DISCOURSE_REDIS_HOST=redis
+      - DISCOURSE_REDIS_PORT_NUMBER=6379
+      - POSTGRESQL_CLIENT_POSTGRES_USER=odoo
+      - POSTGRESQL_CLIENT_CREATE_DATABASE_NAME=bitnami_discourse
+      - POSTGRESQL_CLIENT_CREATE_DATABASE_EXTENSIONS=hstore,pg_trgm
+    networks:
+      - discourse_bridge
+      
+  sidekiq:
+    image: docker.io/bitnami/discourse:2
+    depends_on:
+      - postgresql
+      - discourse
+    volumes:
+      - 'sidekiq_data:/bitnami/discourse'
+    command: /opt/bitnami/scripts/discourse-sidekiq/run.sh
+    environment:
+      # ALLOW_EMPTY_PASSWORD is recommended only for development.
+      - ALLOW_EMPTY_PASSWORD=yes
+      - DISCOURSE_HOST=localhost
+      - DISCOURSE_DATABASE_HOST=postgresql
+      - DISCOURSE_DATABASE_PORT_NUMBER=5432
+      - DISCOURSE_DATABASE_USER=odoo
+      - DISCOURSE_DATABASE_PASSWORD=odoo
+      - DISCOURSE_DATABASE_NAME=bitnami_discourse
+      - DISCOURSE_REDIS_HOST=redis
+      - DISCOURSE_REDIS_PORT_NUMBER=6379
+    networks:
+      - discourse_bridge
+      
+networks:
+    discourse_bridge:
+        name: discourse_bridge
+        driver: bridge
+volumes:
+  postgresql_data:
+    driver: local
+  redis_data:
+    driver: local
+  discourse_data:
+    driver: local
+  sidekiq_data:
+    driver: local

@@ -1,0 +1,141 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: tpdiscourse-redis-master
+  labels:
+    app: tpdiscourse-redis-master
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: master
+      app.kubernetes.io/instance: tpdiscourse
+      app.kubernetes.io/name: redis
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app.kubernetes.io/component: master
+        app.kubernetes.io/instance: tpdiscourse
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: redis
+        helm.sh/chart: redis-16.8.7
+      annotations:
+        checksum/configmap: 64554ceedc64c619bc7bebd6bed4e4583bbb142fcea9ee02df22db4d0dc12a68
+        checksum/health: 3ac534a8a38d1545ba7c1d39381ef80ee7ba96c32b5411905963df2f0fd4a2b9
+        checksum/scripts: 06b32c1cd98a6fad9d9387b8f511b489a0b5db965373e5ace3e4a73fdb5b7186
+        checksum/secret: 5eb62bd1e6f67448df943e4e37621d3619233d87511e5c8c63c2d8577ec0cb34
+    spec:
+      volumes:
+        - name: discourse-redis-data
+          persistentVolumeClaim:
+            claimName: tpdiscourse-redis-data
+        - name: start-scripts
+          configMap:
+            name: second-release-redis-scripts
+            defaultMode: 493
+        - name: health
+          configMap:
+            name: second-release-redis-health
+            defaultMode: 493
+        - name: config
+          configMap:
+            name: second-release-redis-configuration
+            defaultMode: 420
+        - name: redis-tmp-conf
+          emptyDir: {}
+        - name: tmp
+          emptyDir: {}
+      restartPolicy: Always
+      containers:
+      - name: redis
+        image: docker.io/bitnami/redis:latest
+        command: ["/bin/bash"]
+        args: ["-c","/opt/bitnami/scripts/start-scripts/start-master.sh"]
+        ports:
+        - name: redis
+          containerPort: 6379
+          protocol: TCP
+        env:
+            - name: BITNAMI_DEBUG
+              value: 'false'
+            - name: REDIS_REPLICATION_MODE
+              value: master
+            - name: REDIS_TLS_ENABLED
+              value: 'no'
+            - name: REDIS_PORT
+              value: '6379'
+            - name: ALLOW_EMPTY_PASSWORD
+              value: "no"
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: tpdiscourse-data
+                  key: redis-password
+        volumeMounts:
+            - name: start-scripts
+              mountPath: /opt/bitnami/scripts/start-scripts
+            - name: health
+              mountPath: /health
+            - name: discourse-redis-data
+              mountPath: /data
+            - name: config
+              mountPath: /opt/bitnami/redis/mounted-etc
+            - name: redis-tmp-conf
+              mountPath: /opt/bitnami/redis/etc/
+            - name: tmp
+              mountPath: /tmp
+        livenessProbe:
+            exec:
+              command:
+                - sh
+                - '-c'
+                - /health/ping_liveness_local.sh 5
+            initialDelaySeconds: 20
+            timeoutSeconds: 6
+            periodSeconds: 5
+            successThreshold: 1
+            failureThreshold: 5
+        readinessProbe:
+            exec:
+              command:
+                - sh
+                - '-c'
+                - /health/ping_readiness_local.sh 1
+            initialDelaySeconds: 20
+            timeoutSeconds: 2
+            periodSeconds: 5
+            successThreshold: 1
+            failureThreshold: 5
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        imagePullPolicy: IfNotPresent
+        securityContext:
+          runAsUser: 1001
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      serviceAccountName: tpdiscourse-redis-serviceaccount
+      serviceAccount: tpdiscourse-redis-serviceaccount
+      securityContext:
+        fsGroup: 1001
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 1
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/component: master
+                    app.kubernetes.io/instance: tpdiscourse
+                    app.kubernetes.io/name: redis
+                topologyKey: kubernetes.io/hostname
+      schedulerName: default-scheduler
+  podManagementPolicy: OrderedReady
+  serviceName: tpdiscourse-redis-headless
+  podManagementPolicy: OrderedReady
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      partition: 0
+  revisionHistoryLimit: 10
