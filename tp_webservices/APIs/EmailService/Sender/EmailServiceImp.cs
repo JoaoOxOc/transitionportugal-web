@@ -30,6 +30,7 @@ namespace EmailService.Sender
             SMTPConfigurations.Port = Convert.ToInt32(allSettings.SingleOrDefault(x => x.Key == SettingCode.SMTP_Port.ToString()).Value);
             SMTPConfigurations.From = allSettings.SingleOrDefault(x => x.Key == SettingCode.SMTP_From.ToString()).Value;
             SMTPConfigurations.EnableSSL = Convert.ToBoolean(allSettings.SingleOrDefault(x => x.Key == SettingCode.SMTP_SSL.ToString()).Value);
+            SMTPConfigurations.FromName = allSettings.SingleOrDefault(x => x.Key == SettingCode.SMTP_FromName.ToString()).Value;
         }
 
         public bool SendMail(string to, string subject, string body)
@@ -81,7 +82,7 @@ namespace EmailService.Sender
             try
             {
                     MailMessage mail = new MailMessage();
-                    mail.From = new MailAddress(SMTPConfigurations.From);
+                    mail.From = new MailAddress(SMTPConfigurations.From, SMTPConfigurations.FromName, Encoding.UTF8);
                     mail.IsBodyHtml = true;
                     
                     foreach (string s in to)
@@ -90,6 +91,7 @@ namespace EmailService.Sender
                     }
 
                     SmtpClient client = new SmtpClient();
+                
                     client.Port = SMTPConfigurations.Port;
                     client.DeliveryMethod = SmtpDeliveryMethod.Network;
                     client.Host = SMTPConfigurations.Server;

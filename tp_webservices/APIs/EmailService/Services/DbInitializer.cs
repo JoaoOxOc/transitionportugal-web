@@ -15,8 +15,7 @@ namespace EmailService.Services
 
             var allSettings = settingsRepository.Get().Result;
 
-            if (allSettings.Count() == 0)
-                SeedSettings(settingsRepository);
+            SeedSettings(settingsRepository);
 
             SeedEmailTemplates(emailTemplatesRepository);
         }
@@ -31,10 +30,14 @@ namespace EmailService.Services
             settings.Add(new Setting() { Key = SettingCode.SMTP_Password.ToString(), SettingType = (int)SettingsType.EMAIL, Value = "test", DefaultValue = "test", Description = "Password SMTP", CreatedBy = null, UpdatedBy = null });
             settings.Add(new Setting() { Key = SettingCode.SMTP_From.ToString(), SettingType = (int)SettingsType.EMAIL, Value = "test@hotmail.com", DefaultValue = "test@hotmail.com", Description = "Endereço de envio SMTP", CreatedBy = null, UpdatedBy = null });
             settings.Add(new Setting() { Key = SettingCode.SMTP_SSL.ToString(), SettingType = (int)SettingsType.EMAIL, Value = "true", DefaultValue = "true", Description = "Required SSL", CreatedBy = null, UpdatedBy = null });
+            settings.Add(new Setting() { Key = SettingCode.SMTP_FromName.ToString(), SettingType = (int)SettingsType.EMAIL, Value = "test", DefaultValue = "test", Description = "Identificação da organização no envio SMTP", CreatedBy = null, UpdatedBy = null });
 
             foreach (var setting in settings)
             {
-                settingsRepository.Add(setting);
+                if (!settingsRepository.GetFiltered(setting.Key, null,null, string.Empty, "asc").Any())
+                {
+                    settingsRepository.Add(setting);
+                }
             }
         }
 
