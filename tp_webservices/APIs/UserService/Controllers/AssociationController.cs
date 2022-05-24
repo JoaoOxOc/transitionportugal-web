@@ -71,7 +71,7 @@ namespace UserService.Controllers
             return Ok(null);
         }
 
-        private AssociationModel ParseEntityToModel(Association association, List<User>? users)
+        private AssociationModel ParseEntityToModel(Association association, List<AssociationProfileTranslation>? profileDataTranslations, List<User>? users)
         {
             AssociationModel model = new AssociationModel();
             model.Id = association.Id;
@@ -81,7 +81,10 @@ namespace UserService.Controllers
             model.Address = association.Address;
             model.Town = association.Town;
             model.PostalCode = association.PostalCode;
+            model.DistrictCode = association.DistrictCode;
+            model.MunicipalityCode = association.MunicipalityCode;
             model.Vat = association.Vat;
+            model.CoverImage = association.CoverImage;
             model.LogoImage = association.LogoImage;
             model.Filename = association.Filename;
             model.Description = association.Description;
@@ -116,15 +119,46 @@ namespace UserService.Controllers
                 }
             }
 
+            if (profileDataTranslations != null)
+            {
+                model.AssociationProfileDataList = new List<AssociationModel.ProfileDataModel>();
+                foreach (var translation in profileDataTranslations)
+                {
+                    if (model.AssociationProfileDataList != null && !model.AssociationProfileDataList.Any(x => x.PageWidgetKey == translation.PageContentKey))
+                    {
+                        model.AssociationProfileDataList.Add(new AssociationModel.ProfileDataModel
+                        {
+                            PageWidgetKey = translation.PageContentKey,
+                            DataLanguages = new List<AssociationModel.DataLanguageModel>{
+                                new AssociationModel.DataLanguageModel
+                                {
+                                    LangCode = translation.LangKey,
+                                    PageWidgetData = translation.DataBlocksJson
+                                }
+                            }
+                        });
+                    }
+                    else if (model.AssociationProfileDataList != null)
+                    {
+                        model.AssociationProfileDataList.Find(x => x.PageWidgetKey == translation.PageContentKey).DataLanguages.Add(
+                            new AssociationModel.DataLanguageModel
+                            {
+                                LangCode = translation.LangKey,
+                                PageWidgetData = translation.DataBlocksJson
+                            });
+                    }
+                }
+            }
+
             return model;
         }
 
-        private List<AssociationModel> ParseEntitiesToModel(List<Association> associations)
+        private List<AssociationModel> ParseEntitiesToModel(List<Association> associations, List<AssociationProfileTranslation>? profileDataTranslations)
         {
             List<AssociationModel> models = new List<AssociationModel>();
             foreach (var association in associations)
             {
-                models.Add(ParseEntityToModel(association, null));
+                models.Add(ParseEntityToModel(association, profileDataTranslations, null));
             }
             return models;
         }
@@ -137,7 +171,10 @@ namespace UserService.Controllers
             if (!string.IsNullOrEmpty(model.Address)) association.Address = model.Address;
             if (!string.IsNullOrEmpty(model.Town)) association.Town = model.Town;
             if (!string.IsNullOrEmpty(model.PostalCode)) association.PostalCode = model.PostalCode;
+            if (!string.IsNullOrEmpty(model.DistrictCode)) association.PostalCode = model.DistrictCode;
+            if (!string.IsNullOrEmpty(model.MunicipalityCode)) association.PostalCode = model.MunicipalityCode;
             if (!string.IsNullOrEmpty(model.Vat)) association.Vat = model.Vat;
+            if (!string.IsNullOrEmpty(model.CoverImage)) association.LogoImage = model.CoverImage;
             if (!string.IsNullOrEmpty(model.LogoImage)) association.LogoImage = model.LogoImage;
             if (!string.IsNullOrEmpty(model.Filename)) association.Filename = model.Filename;
             if (!string.IsNullOrEmpty(model.Description)) association.Description = model.Description;
@@ -270,9 +307,12 @@ namespace UserService.Controllers
                 Expression<Func<User, bool>> filter = (x => x.AssociationId == association.Id);
                 var users = _uow.UserRepository.Get(null, null, filter, "Id", SortDirection.Ascending, String.Empty);
 
+                Expression<Func<AssociationProfileTranslation, bool>> filterProfileData = (x => x.AssociationId == association.Id);
+                var profileDataTranslations = _uow.AssociationProfileTranslationRepository.Get(null, null, filterProfileData, "PageContentKey", SortDirection.Ascending, String.Empty);
+
                 return Ok(new
                 {
-                    associationData = ParseEntityToModel(association, users)
+                    associationData = ParseEntityToModel(association, profileDataTranslations, users)
                 });
             }
             else
