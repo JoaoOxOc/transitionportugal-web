@@ -11,6 +11,7 @@ import { getUserIdAndAssociation } from '../../utils/jwt';
 import Footer from '../../components/Footer';
 
 import { i18nextAssociationDetails } from "@transitionpt/translations";
+import ProfileCover from '../../content/Profile/Association/ProfileCover';
 import AssociationDetails from '../../content/Management/Associations/single/details';
 
 
@@ -36,7 +37,7 @@ function AssociationProfileView() {
         <title>{t('LABELS.associationDetails')}</title>
       </Head>
 
-      <AssociationDetails isCreate={false} isProfile={true} associationId={userData.associationId}/>
+      {/* <AssociationDetails isCreate={false} isProfile={true} associationId={userData.associationId}/> */}
       <Footer />
     </>
   );
@@ -47,7 +48,7 @@ AssociationProfileView.getLayout = (page) => {
   const { props } = page;
   return (
     <Authenticated session={props.children.props.session}>
-      <Authorized session={props.children.props.session} scopes={["association.admin"]}>
+      <Authorized session={props.children.props.session} scopes={["users.write","association.admin"]}>
         <AccentHeaderLayout>{page}</AccentHeaderLayout>
       </Authorized>
     </Authenticated>

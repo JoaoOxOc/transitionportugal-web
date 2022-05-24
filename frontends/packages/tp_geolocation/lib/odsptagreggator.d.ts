@@ -3697,4 +3697,6 @@ export declare const OdsPtData: {
         };
     }];
 };
+export declare function getOdsPtDistricts(): any;
+export declare function getOdsPtCountiesByDistrict(districtCode: string): any;
 //# sourceMappingURL=odsptagreggator.d.ts.map
