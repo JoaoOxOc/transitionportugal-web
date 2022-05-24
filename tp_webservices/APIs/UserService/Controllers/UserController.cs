@@ -186,7 +186,7 @@ namespace UserService.Controllers
 
                     var filterbyUserIds = _userRoleManager.GetUserIdsByRole(userRole);
 
-                    Expression<Func<User, bool>> filter = (x => (filterbyUserIds.Count == 0 || filterbyUserIds.Contains(x.Id))
+                    Expression<Func<User, bool>> filter = (x => (string.IsNullOrEmpty(userRole) || userRole == "all" || filterbyUserIds.Contains(x.Id))
                     && (x.Name.ToLower().Contains(searchText.ToLower()) || x.UserName.ToLower().Contains(searchText.ToLower()))
                     && (!associationId.HasValue || x.AssociationId == associationId.Value)
                     && (!isActive.HasValue || x.IsActive == isActive.Value)
