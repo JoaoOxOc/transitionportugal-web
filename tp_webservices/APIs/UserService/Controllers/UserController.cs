@@ -432,6 +432,67 @@ namespace UserService.Controllers
 
         [Authorize]
         [HttpPut]
+        [Route("updaterole")]
+        public async Task<IActionResult> UpdateRole([FromBody] UserReadModel model)
+        {
+            string header = HttpContext.Request.Headers["Authorization"];
+            string[] claims = new string[] { "userId", "sub", System.Security.Claims.ClaimTypes.Role, "scope" };
+            List<JwtClaim> userClaims = JwtHelper.ValidateToken(header, _configuration["JWT:ValidAudience"], _configuration["JWT:ValidIssuer"], _configuration["JWT:SecretPublicKey"], claims);
+            string userScopesString = userClaims.Where(x => x.Claim == "scope").Single().Value;
+            List<string>? scopes = !string.IsNullOrEmpty(userScopesString) ? JsonSerializer.Deserialize<List<string>>(userScopesString) : null;
+            string claimUserRole = PermissionsHelper.GetUserRoleFromClaim(userClaims);
+            var associationClaim = userClaims.Where(x => x.Claim == "associationId").FirstOrDefault();
+            int claimAssociationId = 0;
+            if (associationClaim != null)
+            {
+                int.TryParse(associationClaim.Value, out claimAssociationId);
+            }
+
+            if (PermissionsHelper.ValidateRoleClaimPermission(userClaims, new List<string> { "Admin", "AssociationAdmin" })
+                && PermissionsHelper.ValidateUserScopesPermissionAny(scopes, new List<string> { "users.write", "associationusers.write" }))
+            {
+                Expression<Func<User, bool>> filter = (x => (claimUserRole == "Admin" || (claimUserRole == "AssociationAdmin" && claimAssociationId > 0 && x.AssociationId == claimAssociationId))
+                    && x.Id == model.Id);
+                var userToUpdate = _uow.UserRepository.Get(null, null, filter, "UserName", SortDirection.Ascending).FirstOrDefault();
+                if (userToUpdate != null && !string.IsNullOrEmpty(model.UserRole))
+                {
+                    if (claimUserRole == "Admin" || model.UserRole.ToLower().Contains("association"))
+                    {
+                        var currentUserRole = _userRoleManager.GetUserRoleByUserId(userToUpdate.Id);
+                        var removeResult = await _userManager.RemoveFromRoleAsync(userToUpdate, currentUserRole.Name);
+                        if (removeResult != null && removeResult.Succeeded)
+                        {
+                            var addResult = await _userManager.AddUserToRole(userToUpdate, model.UserRole);
+                            if (addResult != null && addResult.Succeeded)
+                            {
+                                userToUpdate.RefreshToken = null;
+                                userToUpdate.UpdatedAt = DateTime.UtcNow;
+                                userToUpdate.UpdatedBy = userClaims.Where(x => x.Claim == "userId").Single().Value;
+                                _uow.UserRepository.Update(userToUpdate);
+                                _uow.Save();
+                                return Ok();
+                            }
+                            else
+                            {
+                                return NotFound("add_user_role");
+                            }
+                        }
+                        else
+                        {
+                            return NotFound("current_user_role");
+                        }
+                    }
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            return Forbid();
+        }
+
+        [Authorize]
+        [HttpPut]
         [Route("profile")]
         public async Task<IActionResult> UpdateProfile([FromBody] ProfileModel model)
         {
