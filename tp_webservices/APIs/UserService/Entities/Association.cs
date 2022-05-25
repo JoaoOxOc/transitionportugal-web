@@ -10,6 +10,12 @@ namespace UserService.Entities
         [Required]
         public string Name { get; set; }
 
+        /// <summary>
+        /// Alias as an international canonical name
+        /// To be used in URIs
+        /// </summary>
+        public string CanonicalNameAlias { get; set; }
+
         [Required]
         public string Email { get; set; }
 

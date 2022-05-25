@@ -11,6 +11,7 @@ namespace UserService.Services.UserManager
         Task<User> SearchUserById(string userId);
         Task<User> ValidateLoginUser(string username, string password);
         Task<IList<string>> GetRolesAsync(User user);
+        Task<IdentityResult> RemoveFromRoleAsync(User user, string roleToRemove);
         Task<List<Claim>> GetUserClaims(User user);
         Task<List<Claim>> GetUserClaimsPasswordRecovery(User user);
         Task<List<Claim>> GetAssociationClaimsConfirmEmail(Association association);

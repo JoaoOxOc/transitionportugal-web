@@ -454,6 +454,8 @@ namespace UserService.Controllers
                 {
                     return _validate;
                 }
+                association.CanonicalNameAlias = association.Name.ToLower().Replace(" ", "-");
+                association.CanonicalNameAlias = System.Text.Encoding.UTF8.GetString(System.Text.Encoding.GetEncoding("ISO-8859-8").GetBytes(association.CanonicalNameAlias));
 
                 _uow.AssociationRepository.Add(association);
                 _uow.Save();
