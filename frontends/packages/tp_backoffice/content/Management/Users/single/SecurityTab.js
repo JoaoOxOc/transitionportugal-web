@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import {
   Box,
   Typography,
@@ -28,6 +28,8 @@ import {
 } from '@mui/material';
 import { i18nextUserDetails } from "@transitionpt/translations";
 import {genericFetch} from '../../../../services/genericFetch';
+import { GetRoles } from '../../../../services/roles';
+import { useSession } from "next-auth/react";
 import { useSnackbar } from 'notistack';
 import { useRefMounted } from '../../../../hooks/useRefMounted';
 import DoneTwoToneIcon from '@mui/icons-material/DoneTwoTone';
@@ -60,14 +62,40 @@ const AvatarWrapper = styled(Avatar)(
 `
 );
 
-function SecurityTab({userData}) {
+function SecurityTab({userData, isProfile}) {
   const { t } = i18nextUserDetails;
   const theme = useTheme();
   const { enqueueSnackbar } = useSnackbar();
   const isMountedRef = useRefMounted();
+  const { data: session, status } = useSession();
 
   const [page, setPage] = useState(2);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  const getRolesData = useCallback(async (searchDataJson) => {
+    try {
+      let rolesData = await GetRoles(process.env.NEXT_PUBLIC_API_BASE_URL + "/roles/get", searchDataJson, session.accessToken);
+      console.log(rolesData);
+      // if (isMountedRef()) {
+      //   if (rolesData.roles) {
+      //       setRoles(rolesData.roles);
+      //       setTotalRoles(rolesData.totalCount);
+      //   }
+      //   else {
+      //       setRolesError(rolesData);
+      //       setRoles([]);
+      //       setTotalRoles(0);
+      //   }
+      // }
+    } catch (err) {
+        // setRolesError(err);
+        console.error(err);
+    }
+  }, [isMountedRef]);
+
+  useEffect(() => {
+    getRolesData({offset: "", limit: "", searchText: "", sort: "Name", sortDirection: "asc" });
+  }, [getRolesData]);
 
   const handleChangePage = (_event, newPage) => {
     setPage(newPage);
@@ -126,6 +154,10 @@ function SecurityTab({userData}) {
     } catch (err) {
       console.error(err);
     }
+  }
+
+  const handleChangeUserRole = async() => {
+
   }
 
   // const logs = [
@@ -264,6 +296,39 @@ function SecurityTab({userData}) {
           </List>
         </Card>
       </Grid>
+      { !isProfile &&
+      <Grid item xs={12}>
+        <Box pb={2}>
+          <Typography variant="h3">{t('FORM.userRoles')}</Typography>
+          <Typography variant="subtitle2">
+            {t('FORM.userRolesMessage')}
+          </Typography>
+        </Box>
+        <Card>
+          <List>
+            <ListItem
+              sx={{
+                p: 3
+              }}
+            >
+              <ListItemText
+                primaryTypographyProps={{ variant: 'h5', gutterBottom: true }}
+                secondaryTypographyProps={{
+                  variant: 'subtitle2',
+                  lineHeight: 1
+                }}
+                primary={t('FORM.currentUserRole')}
+              />
+              <Button size="large" variant="outlined" onClick={handleChangeUserRole}>
+                {t('FORM.changeUserRole')}
+              </Button>
+            </ListItem>
+          </List>
+
+        </Card>
+
+      </Grid>
+      }
       {/* <Grid item xs={12}>
         <Card>
           <List>
