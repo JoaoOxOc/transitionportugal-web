@@ -63,7 +63,7 @@ namespace UserService.Controllers
             return Ok(null);
         }
 
-        private RoleModel ParseEntityToModel(IdentityRole role, List<RoleScope>? scopes)
+        private RoleModel ParseEntityToModel(IdentityRole role, List<RoleScope>? scopes, bool isSysAdmin)
         {
             RoleModel model = new RoleModel();
             model.RoleId = role.Id;
@@ -75,24 +75,26 @@ namespace UserService.Controllers
                 model.Scopes = new List<ScopeModel>();
                 foreach (var scope in scopes)
                 {
-                    model.Scopes.Add(new ScopeModel
+                    var scopeModel = new ScopeModel();
+                    if (isSysAdmin)
                     {
-                        ScopeId = scope.Scope.Id,
-                        ScopeIdentifier = scope.Scope.ScopeName,
-                        Description = scope.Scope.Description
-                    });
+                        scopeModel.ScopeId = scope.Scope.Id;
+                    }
+                    scopeModel.ScopeIdentifier = scope.Scope.ScopeName;
+                    scopeModel.Description = scope.Scope.Description;
+                    model.Scopes.Add(scopeModel);
                 }
             }
 
             return model;
         }
 
-        private List<RoleModel> ParseEntitiesToModel(List<IdentityRole> roles)
+        private List<RoleModel> ParseEntitiesToModel(List<IdentityRole> roles, bool isSysAdmin)
         {
             List<RoleModel> models = new List<RoleModel>();
             foreach (var role in roles)
             {
-                models.Add(ParseEntityToModel(role, null));
+                models.Add(ParseEntityToModel(role, null, isSysAdmin));
             }
             return models;
         }
@@ -136,7 +138,7 @@ namespace UserService.Controllers
 
                     return _roles != null ? Ok(new
                     {
-                        roles = ParseEntitiesToModel(_roles)
+                        roles = ParseEntitiesToModel(_roles, claimUserRole == "Admin" ? true : false)
                     })
                     : NotFound(new List<RoleModel>());
                 }
@@ -182,7 +184,7 @@ namespace UserService.Controllers
 
                         return Ok(new
                         {
-                            role = ParseEntityToModel(role, roleScopes)
+                            role = ParseEntityToModel(role, roleScopes, true)
                         });
                     }
                     else
