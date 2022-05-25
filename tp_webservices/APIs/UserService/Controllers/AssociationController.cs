@@ -124,28 +124,32 @@ namespace UserService.Controllers
                 model.AssociationProfileDataList = new List<AssociationModel.ProfileDataModel>();
                 foreach (var translation in profileDataTranslations)
                 {
-                    if (model.AssociationProfileDataList != null && !model.AssociationProfileDataList.Any(x => x.PageWidgetKey == translation.PageContentKey))
+                    if (model.AssociationProfileDataList != null)
                     {
-                        model.AssociationProfileDataList.Add(new AssociationModel.ProfileDataModel
+                        var profileDataExists = model.AssociationProfileDataList.Find(x => x.PageWidgetKey == translation.PageContentKey);
+                        if (profileDataExists != null)
                         {
-                            PageWidgetKey = translation.PageContentKey,
-                            DataLanguages = new List<AssociationModel.DataLanguageModel>{
+                            profileDataExists.DataLanguages.Add(
+                            new AssociationModel.DataLanguageModel
+                            {
+                                LangCode = translation.LangKey,
+                                PageWidgetData = translation.DataBlocksJson
+                            });
+                        }
+                        else
+                        {
+                            model.AssociationProfileDataList.Add(new AssociationModel.ProfileDataModel
+                            {
+                                PageWidgetKey = translation.PageContentKey,
+                                DataLanguages = new List<AssociationModel.DataLanguageModel>{
                                 new AssociationModel.DataLanguageModel
                                 {
                                     LangCode = translation.LangKey,
                                     PageWidgetData = translation.DataBlocksJson
                                 }
                             }
-                        });
-                    }
-                    else if (model.AssociationProfileDataList != null)
-                    {
-                        model.AssociationProfileDataList.Find(x => x.PageWidgetKey == translation.PageContentKey).DataLanguages.Add(
-                            new AssociationModel.DataLanguageModel
-                            {
-                                LangCode = translation.LangKey,
-                                PageWidgetData = translation.DataBlocksJson
                             });
+                        }
                     }
                 }
             }
@@ -161,6 +165,55 @@ namespace UserService.Controllers
                 models.Add(ParseEntityToModel(association, profileDataTranslations, null));
             }
             return models;
+        }
+
+        private KeyValuePair<List<AssociationProfileTranslation>, List<AssociationProfileTranslation>> MapModelTranslationsToEntities(bool isCreate, Association association, AssociationModel model)
+        {
+            KeyValuePair<List<AssociationProfileTranslation>, List<AssociationProfileTranslation>> translationsProcessed = new KeyValuePair<List<AssociationProfileTranslation>, List<AssociationProfileTranslation>>();
+            if (model != null)
+            {
+                List<AssociationProfileTranslation> toUpdate = new List<AssociationProfileTranslation>();
+                List<AssociationProfileTranslation> toCreate = new List<AssociationProfileTranslation>();
+
+                List<AssociationProfileTranslation> transformedBlocks = new List<AssociationProfileTranslation>();
+                foreach (var dataBlock in model.AssociationProfileDataList)
+                {
+                    foreach(var dataTranslation in dataBlock.DataLanguages)
+                    {
+                        var transformedBlock = new AssociationProfileTranslation();
+                        if (!isCreate && association.Id.HasValue)
+                        {
+                            transformedBlock.AssociationId = association.Id.Value;
+                        }
+                        transformedBlock.PageContentKey = dataBlock.PageWidgetKey;
+                        transformedBlock.LangKey = dataTranslation.LangCode;
+                        transformedBlock.DataBlocksJson = dataTranslation.PageWidgetData;
+                        transformedBlocks.Add(transformedBlock);
+                    }
+                }
+                foreach (var dataBlock in transformedBlocks)
+                {
+                    AssociationProfileTranslation? associationProfileTranslationFound = null;
+                    if (!isCreate)
+                    {
+                        Expression<Func<AssociationProfileTranslation, bool>> filterTranslation = (x => x.LangKey == dataBlock.LangKey && x.AssociationId == association.Id);
+                        associationProfileTranslationFound = this._uow.AssociationProfileTranslationRepository.Get(null, null, filterTranslation, "LangKey", SortDirection.Ascending).FirstOrDefault();
+                    }
+                    if (associationProfileTranslationFound != null)
+                    {
+                        associationProfileTranslationFound.DataBlocksJson = dataBlock.DataBlocksJson;
+                        toUpdate.Add(associationProfileTranslationFound);
+                    }
+                    else
+                    {
+                        toCreate.Add(dataBlock);
+                    }
+                }
+                translationsProcessed = new KeyValuePair<List<AssociationProfileTranslation>, List<AssociationProfileTranslation>>(toUpdate, toCreate);
+            }
+
+
+            return translationsProcessed;
         }
 
         private Association MapModelToEntity(Association association, AssociationModel model)
@@ -431,6 +484,18 @@ namespace UserService.Controllers
                 try
                 {
                     _uow.AssociationRepository.Update(association);
+                    _uow.Save();
+
+                    var updateCreatePairsBlocks = MapModelTranslationsToEntities(false, association, model);
+
+                    if (updateCreatePairsBlocks.Key != null && updateCreatePairsBlocks.Key.Count > 0)
+                    {
+                        _uow.AssociationProfileTranslationRepository.Update(updateCreatePairsBlocks.Key);
+                    }
+                    if (updateCreatePairsBlocks.Value != null && updateCreatePairsBlocks.Value.Count > 0)
+                    {
+                        _uow.AssociationProfileTranslationRepository.Add(updateCreatePairsBlocks.Value);
+                    }
                     _uow.Save();
 
                     return Ok(new
