@@ -42,5 +42,8 @@ export const SIDEMENU_TRANSLATIONS = deepFreeze({
         emailTemplates: "Email Templates",
         userAuth: "Auth Settings",
         clientApps: "Authorized Client Applications"
+    },
+    SIDEMENU_PROFILE: {
+        association: "Your Association Profile"
     }
 } as const);
