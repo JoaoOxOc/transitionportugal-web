@@ -106,9 +106,16 @@ namespace UserService.Controllers
             List<JwtClaim> userClaims = JwtHelper.ValidateToken(header, _configuration["JWT:ValidAudience"], _configuration["JWT:ValidIssuer"], _configuration["JWT:SecretPublicKey"], claims);
             string userScopesString = userClaims.Where(x => x.Claim == "scope").Single().Value;
             List<string>? scopes = !string.IsNullOrEmpty(userScopesString) ? JsonSerializer.Deserialize<List<string>>(userScopesString) : null;
+            string claimUserRole = PermissionsHelper.GetUserRoleFromClaim(userClaims);
+            var associationClaim = userClaims.Where(x => x.Claim == "associationId").FirstOrDefault();
+            int claimAssociationId = 0;
+            if (associationClaim != null)
+            {
+                int.TryParse(associationClaim.Value, out claimAssociationId);
+            }
 
-            if (PermissionsHelper.ValidateRoleClaimPermission(userClaims, new List<string> { "Admin" })
-                && PermissionsHelper.ValidateUserScopesPermissionAll(scopes, new List<string> { "users.write" }))
+            if (PermissionsHelper.ValidateRoleClaimPermission(userClaims, new List<string> { "Admin", "AssociationAdmin" })
+                && PermissionsHelper.ValidateUserScopesPermissionAny(scopes, new List<string> { "users.write", "associationusers.write" }))
             {
                 try
                 {
@@ -118,7 +125,8 @@ namespace UserService.Controllers
                     sort = sort ?? "Name";
                     SortDirection direction = sortDirection == "desc" ? SortDirection.Descending : SortDirection.Ascending;
 
-                    Expression<Func<IdentityRole, bool>> filter = (x => x.Name.ToLower().Contains(searchText.ToLower()));
+                    Expression<Func<IdentityRole, bool>> filter = (x => (claimUserRole == "Admin" || (claimUserRole == "AssociationAdmin" && (x.Name.ToLower().Contains("association"))))
+                        && x.Name.ToLower().Contains(searchText.ToLower()));
 
                     var _roles = _uow.IdentityRoleRepository.Get(offset, limit, filter, sort, direction, string.Empty);
 

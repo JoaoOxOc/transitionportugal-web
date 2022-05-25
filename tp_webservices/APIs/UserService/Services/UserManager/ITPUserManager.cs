@@ -10,6 +10,7 @@ namespace UserService.Services.UserManager
         Task<User> SearchUser(string username);
         Task<User> SearchUserById(string userId);
         Task<User> ValidateLoginUser(string username, string password);
+        Task<IList<string>> GetRolesAsync(User user);
         Task<List<Claim>> GetUserClaims(User user);
         Task<List<Claim>> GetUserClaimsPasswordRecovery(User user);
         Task<List<Claim>> GetAssociationClaimsConfirmEmail(Association association);

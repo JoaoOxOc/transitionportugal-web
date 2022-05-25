@@ -77,6 +77,11 @@ namespace UserService.Services.UserManager
             }
         }
 
+        public async Task<IList<string>> GetRolesAsync(User user)
+        {
+            return await _userManager.GetRolesAsync(user);
+        }
+
         public async Task<List<Claim>> GetUserClaims(User user)
         {
             var userRoles = await _userManager.GetRolesAsync(user);

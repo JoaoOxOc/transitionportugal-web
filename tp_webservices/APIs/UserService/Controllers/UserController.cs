@@ -89,6 +89,7 @@ namespace UserService.Controllers
             UserReadModel model = new UserReadModel();
 
             var userRole = _userRoleManager.GetUserRoleByUserId(user.Id);
+            //var userRoles = await _userManager.GetRolesAsync(user);
 
             if (user != null)
             {
@@ -172,9 +173,16 @@ namespace UserService.Controllers
             List<JwtClaim> userClaims = JwtHelper.ValidateToken(header, _configuration["JWT:ValidAudience"], _configuration["JWT:ValidIssuer"], _configuration["JWT:SecretPublicKey"], claims);
             string userScopesString = userClaims.Where(x => x.Claim == "scope").Single().Value;
             List<string>? scopes = !string.IsNullOrEmpty(userScopesString) ? JsonSerializer.Deserialize<List<string>>(userScopesString) : null;
+            string claimUserRole = PermissionsHelper.GetUserRoleFromClaim(userClaims);
+            var associationClaim = userClaims.Where(x => x.Claim == "associationId").FirstOrDefault();
+            int claimAssociationId = 0;
+            if (associationClaim != null)
+            {
+                int.TryParse(associationClaim.Value, out claimAssociationId);
+            }
 
-            if (PermissionsHelper.ValidateRoleClaimPermission(userClaims, new List<string> { "Admin" })
-                && PermissionsHelper.ValidateUserScopesPermissionAll(scopes, new List<string> { "users.write" }))
+            if (PermissionsHelper.ValidateRoleClaimPermission(userClaims, new List<string> { "Admin", "AssociationAdmin" })
+                && PermissionsHelper.ValidateUserScopesPermissionAny(scopes, new List<string> { "users.write", "associationusers.write" }))
             {
                 try
                 {
@@ -186,9 +194,9 @@ namespace UserService.Controllers
 
                     var filterbyUserIds = _userRoleManager.GetUserIdsByRole(userRole);
 
-                    Expression<Func<User, bool>> filter = (x => (string.IsNullOrEmpty(userRole) || userRole == "all" || filterbyUserIds.Contains(x.Id))
+                    Expression<Func<User, bool>> filter = (x => (claimUserRole == "AssociationAdmin" || string.IsNullOrEmpty(userRole) || userRole == "all" || filterbyUserIds.Contains(x.Id))
                     && (x.Name.ToLower().Contains(searchText.ToLower()) || x.UserName.ToLower().Contains(searchText.ToLower()))
-                    && (!associationId.HasValue || x.AssociationId == associationId.Value)
+                    && (claimUserRole == "AssociationAdmin" && (claimAssociationId > 0 && x.AssociationId == claimAssociationId) || (!associationId.HasValue || x.AssociationId == associationId.Value))
                     && (!isActive.HasValue || x.IsActive == isActive.Value)
                     && (!isVerified.HasValue || (x.IsEmailVerified == isVerified.Value && x.EmailConfirmed == isVerified.Value)));
 
@@ -452,10 +460,13 @@ namespace UserService.Controllers
             string userRole = PermissionsHelper.GetUserRoleFromClaim(userClaims);
             var associationClaim = userClaims.Where(x => x.Claim == "associationId").FirstOrDefault();
             int associationId = 0;
-            int.TryParse(associationClaim.Value, out associationId);
+            if (associationClaim != null)
+            {
+                int.TryParse(associationClaim.Value, out associationId);
+            }
 
             if (PermissionsHelper.ValidateRoleClaimPermission(userClaims, new List<string> { "Admin", "AssociationAdmin" })
-                && PermissionsHelper.ValidateUserScopesPermissionAll(scopes, new List<string> { "users.write" })
+                && PermissionsHelper.ValidateUserScopesPermissionAny(scopes, new List<string> { "users.write", "associationusers.write" })
                 && model.UserIds != null && model.UserIds.Count > 0)
             {
                 Expression<Func<User, bool>> filter = (x => model.UserIds.Contains(x.Id) && x.IsEmailVerified == false && x.EmailConfirmed == false
@@ -499,10 +510,13 @@ namespace UserService.Controllers
             string userRole = PermissionsHelper.GetUserRoleFromClaim(userClaims);
             var associationClaim = userClaims.Where(x => x.Claim == "associationId").FirstOrDefault();
             int associationId = 0;
-            int.TryParse(associationClaim.Value, out associationId);
+            if (associationClaim != null)
+            {
+                int.TryParse(associationClaim.Value, out associationId);
+            }
 
             if (PermissionsHelper.ValidateRoleClaimPermission(userClaims, new List<string> { "Admin", "AssociationAdmin" })
-                && PermissionsHelper.ValidateUserScopesPermissionAll(scopes, new List<string> { "users.write" })
+                && PermissionsHelper.ValidateUserScopesPermissionAny(scopes, new List<string> { "users.write", "associationusers.write" })
                 && model.UserIds != null && model.UserIds.Count > 0)
             {
                 Expression<Func<User, bool>> filter = (x => model.UserIds.Contains(x.Id) && (x.IsActive == false || x.IsVerified == false)
