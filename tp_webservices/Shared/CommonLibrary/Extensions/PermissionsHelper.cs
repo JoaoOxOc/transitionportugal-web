@@ -8,6 +8,25 @@ namespace CommonLibrary.Extensions
     public class PermissionsHelper
     {
         /// <summary>
+        /// Get the role from JWT claim
+        /// </summary>
+        /// <param name="userClaims">the user token extracted claims</param>
+        /// <returns>the user role, or string empty case it doesn't exist</returns>
+        public static string GetUserRoleFromClaim(List<JwtClaim> userClaims)
+        {
+            string userRole = string.Empty;
+            if (userClaims != null && userClaims.Count > 0)
+            {
+                var roleClaim = userClaims.Where(x => x.Claim == System.Security.Claims.ClaimTypes.Role).SingleOrDefault();
+                if (roleClaim != null)
+                {
+                    userRole = roleClaim.Value;
+                }
+            }
+            return userRole;
+        }
+
+        /// <summary>
         /// Validates if the Role claim value is inside the permitted roles list
         /// </summary>
         /// <param name="userClaims">the user token extracted claims</param>

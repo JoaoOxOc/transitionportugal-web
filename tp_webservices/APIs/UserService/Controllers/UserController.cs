@@ -449,12 +449,17 @@ namespace UserService.Controllers
             List<JwtClaim> userClaims = JwtHelper.ValidateToken(header, _configuration["JWT:ValidAudience"], _configuration["JWT:ValidIssuer"], _configuration["JWT:SecretPublicKey"], claims);
             string userScopesString = userClaims.Where(x => x.Claim == "scope").Single().Value;
             List<string>? scopes = !string.IsNullOrEmpty(userScopesString) ? JsonSerializer.Deserialize<List<string>>(userScopesString) : null;
+            string userRole = PermissionsHelper.GetUserRoleFromClaim(userClaims);
+            var associationClaim = userClaims.Where(x => x.Claim == "associationId").FirstOrDefault();
+            int associationId = 0;
+            int.TryParse(associationClaim.Value, out associationId);
 
-            if (PermissionsHelper.ValidateRoleClaimPermission(userClaims, new List<string> { "Admin" })
+            if (PermissionsHelper.ValidateRoleClaimPermission(userClaims, new List<string> { "Admin", "AssociationAdmin" })
                 && PermissionsHelper.ValidateUserScopesPermissionAll(scopes, new List<string> { "users.write" })
                 && model.UserIds != null && model.UserIds.Count > 0)
             {
-                Expression<Func<User, bool>> filter = (x => model.UserIds.Contains(x.Id) && x.IsEmailVerified == false && x.EmailConfirmed == false);
+                Expression<Func<User, bool>> filter = (x => model.UserIds.Contains(x.Id) && x.IsEmailVerified == false && x.EmailConfirmed == false
+                    && (userRole == "Admin" || (userRole == "AssociationAdmin" && associationId > 0 && x.AssociationId == associationId)));
                 var usersToApprove = _uow.UserRepository.Get(null, null, filter, "UserName", SortDirection.Ascending);
                 var usersEmailError = new List<string>();
                 foreach (var user in usersToApprove)
@@ -491,12 +496,17 @@ namespace UserService.Controllers
             List<JwtClaim> userClaims = JwtHelper.ValidateToken(header, _configuration["JWT:ValidAudience"], _configuration["JWT:ValidIssuer"], _configuration["JWT:SecretPublicKey"], claims);
             string userScopesString = userClaims.Where(x => x.Claim == "scope").Single().Value;
             List<string>? scopes = !string.IsNullOrEmpty(userScopesString) ? JsonSerializer.Deserialize<List<string>>(userScopesString) : null;
+            string userRole = PermissionsHelper.GetUserRoleFromClaim(userClaims);
+            var associationClaim = userClaims.Where(x => x.Claim == "associationId").FirstOrDefault();
+            int associationId = 0;
+            int.TryParse(associationClaim.Value, out associationId);
 
-            if (PermissionsHelper.ValidateRoleClaimPermission(userClaims, new List<string> { "Admin" })
+            if (PermissionsHelper.ValidateRoleClaimPermission(userClaims, new List<string> { "Admin", "AssociationAdmin" })
                 && PermissionsHelper.ValidateUserScopesPermissionAll(scopes, new List<string> { "users.write" })
                 && model.UserIds != null && model.UserIds.Count > 0)
             {
-                Expression<Func<User, bool>> filter = (x => model.UserIds.Contains(x.Id) && (x.IsActive == false || x.IsVerified == false));
+                Expression<Func<User, bool>> filter = (x => model.UserIds.Contains(x.Id) && (x.IsActive == false || x.IsVerified == false)
+                    && (userRole == "Admin" || (userRole == "AssociationAdmin" && associationId > 0 && x.AssociationId == associationId)));
                 var usersToApprove = _uow.UserRepository.Get(null, null, filter, "UserName", SortDirection.Ascending);
                 List<string> approvedEmails = new List<string>();
                 foreach (var user in usersToApprove)
@@ -506,12 +516,21 @@ namespace UserService.Controllers
                     user.UpdatedAt = DateTime.UtcNow;
                     user.UpdatedBy = userClaims.Where(x => x.Claim == "userId").Single().Value;
                     approvedEmails.Add(user.Email);
+
+                    if (userRole == "Admin" && !user.AssociationId.HasValue)
+                    {
+                        await _userManager.AddUserToRole(user, "User");
+                    }
+                    else if (userRole == "AssociationAdmin")
+                    {
+                        await _userManager.AddUserToRole(user, "AssociationUser");
+                    }
                 }
 
                 _uow.UserRepository.Update(usersToApprove);
                 _uow.Save();
 
-                var userEmailLink = _configuration["ApplicationSettings:RecoverPasswordBaseUrl"] + "/auth/login/cover";
+                var userEmailLink = _configuration["ApplicationSettings:RecoverPasswordBaseUrl"] + _configuration["ApplicationSettings:AuthPageUri"];
                 bool userEmailSuccess = await _emailSender.SendBulkUserActivatedEmail(approvedEmails, "pt-PT", usersToApprove, userEmailLink);
 
                 return Ok(new
