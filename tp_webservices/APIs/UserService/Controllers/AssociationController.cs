@@ -216,7 +216,7 @@ namespace UserService.Controllers
             return translationsProcessed;
         }
 
-        private Association MapModelToEntity(Association association, AssociationModel model)
+        private Association MapModelToEntity(Association association, AssociationModel model, bool isProfileUpdate)
         {
             if (!string.IsNullOrEmpty(model.Name)) association.Name = model.Name;
             if (!string.IsNullOrEmpty(model.Email)) association.Email = model.Email;
@@ -236,29 +236,32 @@ namespace UserService.Controllers
             if (model.Longitude.HasValue) association.Longitude = model.Longitude;
             if (model.ContractStartDate.HasValue) association.ContractStartDate = model.ContractStartDate;
             if (model.ContractEndDate.HasValue) association.ContractEndDate = model.ContractEndDate;
-            if (model.IsActive.HasValue)
+            if (!isProfileUpdate)
             {
-                association.IsActive = model.IsActive;
-            }
-            else if (!association.Id.HasValue)
-            {
-                association.IsActive = model.IsActive;
-            }
-            if (model.IsVerified.HasValue)
-            {
-                association.IsVerified = model.IsVerified;
-            }
-            else if (!association.Id.HasValue)
-            {
-                association.IsVerified = model.IsVerified;
-            }
-            if (model.IsEmailVerified.HasValue)
-            {
-                association.IsEmailVerified = model.IsEmailVerified;
-            }
-            else if (!association.Id.HasValue)
-            {
-                association.IsEmailVerified = model.IsEmailVerified;
+                if (model.IsActive.HasValue)
+                {
+                    association.IsActive = model.IsActive;
+                }
+                else if (!association.Id.HasValue)
+                {
+                    association.IsActive = model.IsActive;
+                }
+                if (model.IsVerified.HasValue)
+                {
+                    association.IsVerified = model.IsVerified;
+                }
+                else if (!association.Id.HasValue)
+                {
+                    association.IsVerified = model.IsVerified;
+                }
+                if (model.IsEmailVerified.HasValue)
+                {
+                    association.IsEmailVerified = model.IsEmailVerified;
+                }
+                else if (!association.Id.HasValue)
+                {
+                    association.IsEmailVerified = model.IsEmailVerified;
+                }
             }
 
             return association;
@@ -447,7 +450,7 @@ namespace UserService.Controllers
             if (PermissionsHelper.ValidateRoleClaimPermission(userClaims, new List<string> { "Admin" })
                 && PermissionsHelper.ValidateUserScopesPermissionAll(scopes, new List<string> { "users.write" }))
             {
-                Association association = MapModelToEntity(new Association(), model);
+                Association association = MapModelToEntity(new Association(), model, false);
 
                 ObjectResult _validate = this.ValidateAssociation(association);
                 if (_validate.StatusCode != StatusCodes.Status200OK)
@@ -468,14 +471,14 @@ namespace UserService.Controllers
             return Forbid();
         }
 
-        private async Task<IActionResult> updateAssociationData(int? associationId, AssociationModel model, string? whoUpdated)
+        private async Task<IActionResult> updateAssociationData(int? associationId, AssociationModel model, string? whoUpdated, bool isProfileUpdate)
         {
             Expression<Func<Association, bool>> filter = (x => x.Id == associationId);
 
             var association = this._uow.AssociationRepository.Get(null, null, filter, string.Empty, SortDirection.Ascending).FirstOrDefault();
             if (association != null)
             {
-                association = MapModelToEntity(association, model);
+                association = MapModelToEntity(association, model, isProfileUpdate);
 
                 ObjectResult _validate = this.ValidateAssociation(association);
                 if (_validate.StatusCode != StatusCodes.Status200OK)
@@ -541,7 +544,7 @@ namespace UserService.Controllers
             if (PermissionsHelper.ValidateRoleClaimPermission(userClaims, new List<string> { "Admin" })
                 && PermissionsHelper.ValidateUserScopesPermissionAll(scopes, new List<string> { "users.write" }))
             {
-                return await updateAssociationData(model.Id,model, userClaims.Where(x => x.Claim == "userId").First().Value);
+                return await updateAssociationData(model.Id,model, userClaims.Where(x => x.Claim == "userId").First().Value, false);
             }
             return Forbid();
         }
@@ -563,7 +566,7 @@ namespace UserService.Controllers
             {
                 int associationId = 0;
                 int.TryParse(associationClaim.Value, out associationId);
-                return await updateAssociationData(associationId, model, userClaims.Where(x => x.Claim == "userId").First().Value);
+                return await updateAssociationData(associationId, model, userClaims.Where(x => x.Claim == "userId").First().Value, true);
             }
             return Unauthorized();
         }
