@@ -66,7 +66,10 @@ namespace UserService.Controllers
         private RoleModel ParseEntityToModel(IdentityRole role, List<RoleScope>? scopes, bool isSysAdmin)
         {
             RoleModel model = new RoleModel();
-            model.RoleId = role.Id;
+            if (isSysAdmin)
+            {
+                model.RoleId = role.Id;
+            }
             model.NormalizedRoleName = role.NormalizedName;
             model.RoleName = role.Name;
 

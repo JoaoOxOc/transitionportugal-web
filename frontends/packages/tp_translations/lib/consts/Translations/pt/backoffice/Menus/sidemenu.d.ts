@@ -41,5 +41,8 @@ export declare const SIDEMENU_TRANSLATIONS: {
         readonly userAuth: "Definições de Autenticação";
         readonly clientApps: "Aplicações Cliente Autorizadas";
     };
+    readonly SIDEMENU_PROFILE: {
+        readonly association: "Perfil da Sua Associação";
+    };
 };
 //# sourceMappingURL=sidemenu.d.ts.map

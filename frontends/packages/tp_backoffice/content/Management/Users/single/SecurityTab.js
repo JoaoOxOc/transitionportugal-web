@@ -11,25 +11,14 @@ import {
   Button,
   ListItemAvatar,
   Avatar,
-  Switch,
-  CardHeader,
-  Tooltip,
-  IconButton,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TablePagination,
-  TableRow,
-  TableContainer,
+  FormControl,
   useTheme,
   Slide,
   styled
 } from '@mui/material';
+import UserRolePicker from '../../../../components/RolePick';
 import { i18nextUserDetails } from "@transitionpt/translations";
 import {genericFetch} from '../../../../services/genericFetch';
-import { GetRoles } from '../../../../services/roles';
-import { useSession } from "next-auth/react";
 import { useSnackbar } from 'notistack';
 import { useRefMounted } from '../../../../hooks/useRefMounted';
 import DoneTwoToneIcon from '@mui/icons-material/DoneTwoTone';
@@ -67,35 +56,9 @@ function SecurityTab({userData, isProfile}) {
   const theme = useTheme();
   const { enqueueSnackbar } = useSnackbar();
   const isMountedRef = useRefMounted();
-  const { data: session, status } = useSession();
 
   const [page, setPage] = useState(2);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-
-  const getRolesData = useCallback(async (searchDataJson) => {
-    try {
-      let rolesData = await GetRoles(process.env.NEXT_PUBLIC_API_BASE_URL + "/roles/get", searchDataJson, session.accessToken);
-      console.log(rolesData);
-      // if (isMountedRef()) {
-      //   if (rolesData.roles) {
-      //       setRoles(rolesData.roles);
-      //       setTotalRoles(rolesData.totalCount);
-      //   }
-      //   else {
-      //       setRolesError(rolesData);
-      //       setRoles([]);
-      //       setTotalRoles(0);
-      //   }
-      // }
-    } catch (err) {
-        // setRolesError(err);
-        console.error(err);
-    }
-  }, [isMountedRef]);
-
-  useEffect(() => {
-    getRolesData({offset: "", limit: "", searchText: "", sort: "Name", sortDirection: "asc" });
-  }, [getRolesData]);
 
   const handleChangePage = (_event, newPage) => {
     setPage(newPage);
@@ -153,6 +116,12 @@ function SecurityTab({userData, isProfile}) {
       }
     } catch (err) {
       console.error(err);
+    }
+  }
+
+  const receiveSelectedRole = async(eventValue) => {
+    if (eventValue != userData.userRole) {
+      console.log(eventValue);
     }
   }
 
@@ -319,6 +288,7 @@ function SecurityTab({userData, isProfile}) {
                 }}
                 primary={t('FORM.currentUserRole')}
               />
+                  <UserRolePicker selectId={"user-role-dropdown"} notFoundLabel={t("SEARCH.roleNotFound")} selectLabel={""} defaultValue={{label: t("ROLES."+userData.userRole), key: userData.userRole}} sendSelectedRole={receiveSelectedRole}/>
               <Button size="large" variant="outlined" onClick={handleChangeUserRole}>
                 {t('FORM.changeUserRole')}
               </Button>

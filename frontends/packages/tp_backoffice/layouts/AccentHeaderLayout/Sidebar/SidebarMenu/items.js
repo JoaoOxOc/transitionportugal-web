@@ -39,7 +39,7 @@ const menuItems = [
       {
         name: i18nextSidemenu.t('SIDEMENU_PROFILE.association'),
         icon: AccountBalanceTwoToneIcon,
-        link: '/',
+        link: '/profile/association',
         roles: ["AssociationAdmin", "AssociationUser"],
         scopes: ["association.read", "association.admin"]
       }

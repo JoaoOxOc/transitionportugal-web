@@ -28,10 +28,10 @@ export var USERDETAILS_TRANSLATIONS = deepFreeze({
         roles: "Perfis do Utilizador"
     },
     ROLES: {
-        associationAdmin: "Administrador da Associação",
-        associationUser: "Utilizador da Associação",
-        admin: "Administrador de Sistema",
-        user: "Utilizador de Sistema"
+        AssociationAdmin: "Administrador da Associação",
+        AssociationUser: "Utilizador da Associação",
+        Admin: "Administrador de Sistema",
+        User: "Utilizador de Sistema"
     },
     CONNECTED_ACCOUNTS: {
         discourse: "Discourse",
@@ -49,6 +49,11 @@ export var USERDETAILS_TRANSLATIONS = deepFreeze({
         primaryContactType: "Tipo de Contacto Preferido",
         connectedAccounts: "Contas Conectadas",
         connectedAccountsMessage: "Gerir opções de Contas Conectadas",
+        userRoles: "Perfis do Utilizador",
+        userRolesMessage: "O Perfil do Utilizador define os seus acessos às diferentes funcionalidades da aplicação",
+        userRolesAlert: "Atenção à alteração do Perfil do Utilizador: o mesmo pode perder ou ganhar acessos a diferentes funcionalidades da aplicação",
+        currentUserRole: "Actual Perfil do Utilizador",
+        changeUserRole: "Alterar Perfil do Utilizador",
         security: "Segurança",
         securityMessage: "Altere abaixo as suas preferências de segurança",
         changePassword: "Alterar Palavra-passe",

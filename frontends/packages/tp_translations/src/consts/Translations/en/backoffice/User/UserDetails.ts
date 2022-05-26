@@ -29,10 +29,10 @@ export const USERDETAILS_TRANSLATIONS = deepFreeze({
         roles: "User Profiles"
     },
     ROLES: {
-        associationAdmin: "Association Administrator",
-        associationUser: "Association User",
-        admin: "System Administrator",
-        user: "System User"
+        AssociationAdmin: "Association Administrator",
+        AssociationUser: "Association User",
+        Admin: "System Administrator",
+        User: "System User"
     },
     CONNECTED_ACCOUNTS: {
         discourse: "Discourse",
