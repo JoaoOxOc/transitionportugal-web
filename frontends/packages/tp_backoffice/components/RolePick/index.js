@@ -68,8 +68,8 @@ export default function UserRolePicker({selectId, selectLabel, notFoundLabel, de
             getRolesData({offset: "", limit: "", searchText: "", sort: "Name", sortDirection: "asc" });
         }
 
-        if (!value && options.length > 0) {
-            handleSelectRole(defaultValue ? defaultValue : options[0]);
+        if (!value && options.length > 0 && defaultValue) {
+            setValue(roleValue);
         }
 
         return () => {
