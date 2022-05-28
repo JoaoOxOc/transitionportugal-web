@@ -15,7 +15,8 @@ import Footer from '../../components/Footer';
 
 import { i18nextAssociationDetails } from "@transitionpt/translations";
 // import ProfileCover from '../../content/Management/Associations/single/ProfileCover';
-import {ProfileCoverCustomTheme} from "@transitionpt/components";
+import {ProfileCover} from "@transitionpt/components";
+import {DistrictSelect} from "@transitionpt/geolocation";
 
 
 function AssociationProfileView(props) {
@@ -44,7 +45,7 @@ function AssociationProfileView(props) {
       </Head>
 
       {/* <ProfileCover association={props.associationData}/> */}
-      <ProfileCoverCustomTheme association={props.associationData} theme={PureLightTheme}/>
+      <ProfileCover association={props.associationData}/>
       {/* <AssociationDetails isCreate={false} isProfile={true} associationId={userData.associationId}/> */}
       <Footer />
     </>
@@ -64,26 +65,26 @@ AssociationProfileView.getLayout = (page) => {
 }
 
 export const getServerSideProps = async (context) => {
-  let associationUri = "/association/profile";
-  // get the session
-  const session = await getSession(context);
-  let associationGetResponse = null;
-  let associationGetResponseError = null;
-  try {
-    associationGetResponse = await GetAssociationData(process.env.NEXT_PUBLIC_API_BASE_URL + associationUri, session.accessToken);
-    console.log(associationGetResponse)
-    
-    if (associationGetResponse.status) {
-      associationGetResponseError = associationGetResponse;
+    let associationUri = "/association/profile";
+    // get the session
+    const session = await getSession(context);
+    let associationGetResponse = null;
+    let associationGetResponseError = null;
+    try {
+      associationGetResponse = await GetAssociationData(process.env.NEXT_PUBLIC_API_BASE_URL + associationUri, session.accessToken);
+      console.log(associationGetResponse)
+      
+      if (associationGetResponse.status) {
+        associationGetResponseError = associationGetResponse;
+      }
+    } catch (err) {
+      associationGetResponseError = err;
     }
-  } catch (err) {
-    associationGetResponseError = err;
-  }
 
-  const associationData = associationGetResponseError ? { session: session, associationProfileError: associationGetResponseError } : {session: session, associationData: associationGetResponse.associationData};
+    const associationData = associationGetResponseError ? { session: session, associationProfileError: associationGetResponseError } : {session: session, associationData: associationGetResponse.associationData};
 
-  // passing the session object to the page  
-  return { props: associationData };
+    // passing the session object to the page  
+    return { props: associationData };
 };
 
 export default AssociationProfileView;
