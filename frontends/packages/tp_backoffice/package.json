@@ -30,6 +30,7 @@
     "@mui/styles": "5.2.1",
     "@mui/system": "5.4.0",
     "@reduxjs/toolkit": "1.6.2",
+    "@transitionpt/components": "1.0.0",
     "apexcharts": "3.30.0",
     "auth0-spa-js": "1.6.5",
     "axios": "0.24.0",

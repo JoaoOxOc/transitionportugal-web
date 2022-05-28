@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect } from 'react';
 
 import Head from 'next/head';
 import {getSession} from "next-auth/react";
+import { PureLightTheme } from '../../theme/schemes/PureLightTheme';
 
 import { useRefMounted } from '../../hooks/useRefMounted';
 import AccentHeaderLayout from '../../layouts/AccentHeaderLayout';
@@ -13,7 +14,8 @@ import { getUserIdAndAssociation } from '../../utils/jwt';
 import Footer from '../../components/Footer';
 
 import { i18nextAssociationDetails } from "@transitionpt/translations";
-import ProfileCover from '../../content/Management/Associations/single/ProfileCover';
+// import ProfileCover from '../../content/Management/Associations/single/ProfileCover';
+import {ProfileCoverCustomTheme} from "@transitionpt/components";
 
 
 function AssociationProfileView(props) {
@@ -41,7 +43,8 @@ function AssociationProfileView(props) {
         <title>{t('LABELS.associationDetails')}</title>
       </Head>
 
-      <ProfileCover association={props.associationData}/>
+      {/* <ProfileCover association={props.associationData}/> */}
+      <ProfileCoverCustomTheme association={props.associationData} theme={PureLightTheme}/>
       {/* <AssociationDetails isCreate={false} isProfile={true} associationId={userData.associationId}/> */}
       <Footer />
     </>
