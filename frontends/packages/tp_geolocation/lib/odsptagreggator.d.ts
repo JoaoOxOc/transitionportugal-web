@@ -3697,6 +3697,7 @@ export declare const OdsPtData: {
         };
     }];
 };
+export declare function addAndSortJsonArray(arr: any, comparerElement: string, newValue: any): any;
 export declare function getOdsPtDistricts(): any[];
 export declare function getOdsPtCountiesByDistrict(districtCode: string): any[];
 //# sourceMappingURL=odsptagreggator.d.ts.map

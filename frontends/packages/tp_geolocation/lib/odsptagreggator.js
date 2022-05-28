@@ -1,6 +1,6 @@
 import { ODS_PT_DATA } from './consts/odspt/odsptdata';
 export const OdsPtData = ODS_PT_DATA;
-function addAndSortJsonArray(arr, comparerElement, newValue) {
+export function addAndSortJsonArray(arr, comparerElement, newValue) {
     arr.push(newValue);
     let i = arr.length - 1;
     let item = arr[i];
