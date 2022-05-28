@@ -2,7 +2,7 @@ import {ODS_PT_DATA} from './consts/odspt/odsptdata';
 
 export const OdsPtData = ODS_PT_DATA;
 
-function addAndSortJsonArray(arr: any, comparerElement: string, newValue: any) {
+export function addAndSortJsonArray(arr: any, comparerElement: string, newValue: any) {
     arr.push(newValue);
 	let i = arr.length - 1;
 	let item = arr[i];
@@ -14,7 +14,7 @@ function addAndSortJsonArray(arr: any, comparerElement: string, newValue: any) {
     return arr;
 }
 
-export function getOdsPtDistricts() {
+export function getOdsPtDistricts(): any[] {
     let districts: any = [];
     for (let index = 0; index < ODS_PT_DATA.FEATURES.length; index++) {
         const feature = ODS_PT_DATA.FEATURES[index];
@@ -28,7 +28,7 @@ export function getOdsPtDistricts() {
     return districts;
 }
 
-export function getOdsPtCountiesByDistrict(districtCode: string) {
+export function getOdsPtCountiesByDistrict(districtCode: string): any[] {
     let counties: any = [];
     for (let index = 0; index < ODS_PT_DATA.FEATURES.length; index++) {
         const feature = ODS_PT_DATA.FEATURES[index];

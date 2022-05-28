@@ -5,7 +5,7 @@ import { StylesProvider } from '@mui/styles';
 
 export const ThemeContext = createContext((_themeName) => {});
 
-const ThemeProviderWrapper = (props) => {
+const ThemeProviderWrapper = ({children}) => {
   const [themeName, _setThemeName] = useState('PureLightTheme');
 
   useEffect(() => {
@@ -23,10 +23,18 @@ const ThemeProviderWrapper = (props) => {
   return (
     <StylesProvider injectFirst>
       <ThemeContext.Provider value={setThemeName}>
-        <ThemeProvider theme={theme}>{props.children}</ThemeProvider>
+        <ThemeProvider theme={theme}>{children}</ThemeProvider>
       </ThemeContext.Provider>
     </StylesProvider>
   );
 };
 
 export default ThemeProviderWrapper;
+
+
+
+// const LibraryThemeProvider: React.FC<LibraryThemeProviderProps> = ({ children, theme }) => (
+//   <ThemeProvider theme={theme}>
+//     {children}
+//   </ThemeProvider>
+// )

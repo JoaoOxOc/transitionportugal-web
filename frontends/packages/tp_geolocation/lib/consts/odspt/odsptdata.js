@@ -1,6 +1,6 @@
 import * as deepFreeze from 'deep-freeze';
 //from: https://odslocal.pt/static/geojson/caop2019_low3.geojson
-export var ODS_PT_DATA = deepFreeze({
+export const ODS_PT_DATA = deepFreeze({
     FEATURES: [
         {
             "type": "Feature",

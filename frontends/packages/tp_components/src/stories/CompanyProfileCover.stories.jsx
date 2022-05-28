@@ -1,11 +1,11 @@
 import React from "react";
-import { storiesOf, addDecorator } from '@storybook/react';
-import {muiTheme} from 'storybook-addon-material-ui';
+// import { storiesOf, addDecorator } from '@storybook/react';
+// import {muiTheme} from 'storybook-addon-material-ui';
 
-import ProfileCover from "../../components/Profiles/CompanyProfileCover";
+import ProfileCover from "../components/Profiles/CompanyProfileCover";
 
 export default {
-  title: "Component/ProfileCover",
+  title: "Example/ProfileCover",
   component: ProfileCover,
 };
 
