@@ -18,8 +18,8 @@ const CustomAutocomplete = styled(Autocomplete)(
 export default function DistrictSelect({selectId, selectLabel, notFoundLabel, defaultValue, sendSelectedDistrict, ...extraProps}: any): ReactElement {
     const [open, setOpen] = useState(false);
     const [options, setOptions] = useState<any[]>([]);
-    const [value, setValue] = useState<any>(null);
-    const [inputValue, setInputValue] = useState<any>('');
+    const [value, setValue] = useState(null);
+    // const [inputValue, setInputValue] = useState<any>('');
     const loading = open && options.length === 0;
 
     const fetchDistrictOptions = () => {
@@ -32,9 +32,17 @@ export default function DistrictSelect({selectId, selectLabel, notFoundLabel, de
             newOptions.push(opt);
         });
         setOptions(newOptions);
+        if (defaultValue) {
+            const defaultOption: any = newOptions.filter((x:any) => x.key === defaultValue);
+            if (defaultOption && defaultOption.length > 0) {
+                setValue(defaultOption[0]);
+            }
+        }
     };
 
-    fetchDistrictOptions();
+    if (!options || options.length === 0) {
+        fetchDistrictOptions();
+    }
 
     const handleSelectDistrict = (districtValue: any) => {
         setValue(districtValue);
@@ -60,14 +68,14 @@ export default function DistrictSelect({selectId, selectLabel, notFoundLabel, de
             autoComplete
             includeInputInList
             filterSelectedOptions
+            value={value}
             options={options}
             loading={loading}
             onChange={(event:any, newValue: any) => {
-                setOptions(newValue ? [newValue, ...options] : options);
                 handleSelectDistrict(newValue);
             }}
             onInputChange={(event:any, newInputValue:any) => {
-                setInputValue(newInputValue);
+                // setInputValue(newInputValue);
             }}
             renderInput={(params:any) => (
                 <TextField

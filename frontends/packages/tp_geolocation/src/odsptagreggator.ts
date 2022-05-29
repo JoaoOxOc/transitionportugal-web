@@ -14,15 +14,24 @@ export function addAndSortJsonArray(arr: any, comparerElement: string, newValue:
     return arr;
 }
 
+function capitalizeFirstLetterEachWord(text: string) {
+    const words: string[] = text.toLowerCase().split(" ");
+    for (let i = 0; i < words.length; i++) {
+        words[i] = words[i][0].toUpperCase() + words[i].slice(1);
+    }
+    return words.join(" ");
+}
+
 export function getOdsPtDistricts(): any[] {
     let districts: any = [];
     for (let index = 0; index < ODS_PT_DATA.FEATURES.length; index++) {
         const feature = ODS_PT_DATA.FEATURES[index];
         if (!districts.some((element: any) => element.district_code === feature.properties.district_code)) {
-            districts.push({
-                distrito: feature.properties.distrito,
+            const newElement:any = {
+                distrito: capitalizeFirstLetterEachWord(feature.properties.distrito),
                 district_code: feature.properties.district_code
-            });
+            };
+            districts = addAndSortJsonArray(districts, "district_code",newElement);
         }
     }
     return districts;
@@ -33,10 +42,11 @@ export function getOdsPtCountiesByDistrict(districtCode: string): any[] {
     for (let index = 0; index < ODS_PT_DATA.FEATURES.length; index++) {
         const feature = ODS_PT_DATA.FEATURES[index];
         if (districtCode === feature.properties.district_code) {
-            counties.push({
-                concelho: feature.properties.concelho,
+            const newElement:any = {
+                concelho: capitalizeFirstLetterEachWord(feature.properties.concelho),
                 municipality_code: feature.properties.municipality_code
-            });
+            };
+            counties = addAndSortJsonArray(counties, "municipality_code",newElement);
         }
     }
     return counties;

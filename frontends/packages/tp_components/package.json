@@ -4,7 +4,8 @@
   "main": "./src/index.js",
   "dependencies": {
     "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "@transitionpt/geolocation": "1.0.0"
   },
   "scripts": {
     "start": "react-scripts start",

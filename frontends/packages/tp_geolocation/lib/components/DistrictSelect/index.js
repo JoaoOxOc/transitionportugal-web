@@ -12,7 +12,7 @@ export default function DistrictSelect(_a) {
     const [open, setOpen] = useState(false);
     const [options, setOptions] = useState([]);
     const [value, setValue] = useState(null);
-    const [inputValue, setInputValue] = useState('');
+    // const [inputValue, setInputValue] = useState<any>('');
     const loading = open && options.length === 0;
     const fetchDistrictOptions = () => {
         let newOptions = [];
@@ -24,8 +24,16 @@ export default function DistrictSelect(_a) {
             newOptions.push(opt);
         });
         setOptions(newOptions);
+        if (defaultValue) {
+            const defaultOption = newOptions.filter((x) => x.key === defaultValue);
+            if (defaultOption && defaultOption.length > 0) {
+                setValue(defaultOption[0]);
+            }
+        }
     };
-    fetchDistrictOptions();
+    if (!options || options.length === 0) {
+        fetchDistrictOptions();
+    }
     const handleSelectDistrict = (districtValue) => {
         setValue(districtValue);
         if (sendSelectedDistrict) {
@@ -36,11 +44,10 @@ export default function DistrictSelect(_a) {
             setOpen(true);
         }, onClose: () => {
             setOpen(false);
-        }, isOptionEqualToValue: (option, value) => option.key === value.key, getOptionLabel: (option) => option.label, autoComplete: true, includeInputInList: true, filterSelectedOptions: true, options: options, loading: loading, onChange: (event, newValue) => {
-            setOptions(newValue ? [newValue, ...options] : options);
+        }, isOptionEqualToValue: (option, value) => option.key === value.key, getOptionLabel: (option) => option.label, autoComplete: true, includeInputInList: true, filterSelectedOptions: true, value: value, options: options, loading: loading, onChange: (event, newValue) => {
             handleSelectDistrict(newValue);
         }, onInputChange: (event, newInputValue) => {
-            setInputValue(newInputValue);
+            // setInputValue(newInputValue);
         }, renderInput: (params) => (React.createElement(TextField, Object.assign({}, params, { label: selectLabel, InputProps: Object.assign(Object.assign({}, params.InputProps), { endAdornment: (React.createElement(Fragment, null,
                     loading ? React.createElement(CircularProgress, { color: "inherit", size: 20 }) : null,
                     params.InputProps.endAdornment)) }) }))) }));

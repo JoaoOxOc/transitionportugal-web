@@ -16,7 +16,6 @@ import Footer from '../../components/Footer';
 import { i18nextAssociationDetails } from "@transitionpt/translations";
 // import ProfileCover from '../../content/Management/Associations/single/ProfileCover';
 import {ProfileCover} from "@transitionpt/components";
-import {DistrictSelect} from "@transitionpt/geolocation";
 
 
 function AssociationProfileView(props) {
@@ -75,10 +74,10 @@ export const getServerSideProps = async (context) => {
       console.log(associationGetResponse)
       
       if (associationGetResponse.status) {
-        associationGetResponseError = associationGetResponse;
+        associationGetResponseError = {status: associationGetResponse.status, statusText: associationGetResponse.statusText };
       }
     } catch (err) {
-      associationGetResponseError = err;
+      associationGetResponseError = {status: err.status, statusText: err.statusText };
     }
 
     const associationData = associationGetResponseError ? { session: session, associationProfileError: associationGetResponseError } : {session: session, associationData: associationGetResponse.associationData};
