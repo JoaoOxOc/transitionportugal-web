@@ -69,7 +69,7 @@ export default function UserRolePicker({selectId, selectLabel, notFoundLabel, de
         }
 
         if (!value && options.length > 0 && defaultValue) {
-            setValue(roleValue);
+            setValue(defaultValue);
         }
 
         return () => {
@@ -98,7 +98,6 @@ export default function UserRolePicker({selectId, selectLabel, notFoundLabel, de
             options={options}
             loading={loading}
             onChange={(event, newValue) => {
-                setOptions(newValue ? [newValue, ...options] : options);
                 handleSelectRole(newValue);
             }}
             onInputChange={(event, newInputValue) => {
