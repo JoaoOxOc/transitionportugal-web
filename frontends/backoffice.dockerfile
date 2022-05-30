@@ -62,7 +62,7 @@ COPY --from=transitionpt_backoffice-build /app/packages/tp_components /app/packa
 copy --from=transitionpt_backoffice-build /app/packages/tp_translations /app/packages/tp_backoffice/node_modules/@transitionpt/translations/
 copy --from=transitionpt_backoffice-build /app/packages/tp_geolocation /app/packages/tp_backoffice/node_modules/@transitionpt/geolocation/
 copy --from=transitionpt_backoffice-build /app/packages/tp_components /app/packages/tp_backoffice/node_modules/@transitionpt/components/
-copy --from=transitionpt_backoffice-build /app/node_modules /app/node_modules
+#copy --from=transitionpt_backoffice-build /app/node_modules /app/node_modules
 
 WORKDIR /app/packages/tp_backoffice
 
