@@ -61,7 +61,7 @@ RUN rm -rf /app/packages/tp_backoffice/node_modules/@transitionpt/
 #WORKDIR /app/packages/tp_backoffice
 
 #RUN npm install --loglevel verbose
-RUN ls -l /app/packages/tp_backoffice/node_modules/@transitionpt
+#RUN ls -l /app/packages/tp_backoffice/node_modules/@transitionpt
 
 
 # final stage
