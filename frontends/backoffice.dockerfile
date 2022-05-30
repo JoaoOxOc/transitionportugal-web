@@ -45,7 +45,6 @@ RUN npm config set legacy-peer-deps true
 # WORKAROUND: lerna compiles packages as a symlink in node_modules, which will not work with next start command
 #RUN rm -rf /app/packages/tp_backoffice/node_modules/@transitionpt/
 #RUN ls -l /app/packages/tp_backoffice/node_modules
-RUN ls -l /app/node_modules
 
 RUN npx lerna bootstrap --scope=@transitionpt/backoffice --includeDependencies --loglevel verbose
 
@@ -56,12 +55,14 @@ RUN npx lerna bootstrap --scope=@transitionpt/backoffice --includeDependencies -
 # final stage
 FROM base as final-transitionpt_backoffice-build-stage
 
+RUN ls -l /app/node_modules
 COPY --from=transitionpt_backoffice-build /app/packages/tp_backoffice /app/packages/tp_backoffice
 COPY --from=transitionpt_backoffice-build /app/packages/tp_translations /app/packages/tp_translations
 COPY --from=transitionpt_backoffice-build /app/packages/tp_geolocation /app/packages/tp_geolocation
 COPY --from=transitionpt_backoffice-build /app/packages/tp_components /app/packages/tp_components
 # WORKAROUND: lerna compiles packages as a symlink in node_modules, which will not work with next start command. Full compiled folder is needed
 COPY --from=transitionpt_backoffice-build /app/packages/tp_backoffice/node_modules /app/packages/tp_backoffice/node_modules
+RUN ls -l /app/packages/tp_backoffice/node_modules
 RUN ls -l /app/packages/tp_backoffice/node_modules/@transitionpt
 #copy --from=transitionpt_backoffice-build /app/packages/tp_translations /app/packages/tp_backoffice/node_modules/@transitionpt/translations/
 #copy --from=transitionpt_backoffice-build /app/packages/tp_geolocation /app/packages/tp_backoffice/node_modules/@transitionpt/geolocation/
