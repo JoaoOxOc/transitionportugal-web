@@ -49,10 +49,10 @@ RUN npx lerna bootstrap --hoist --scope=@transitionpt/backoffice --loglevel verb
 # WORKAROUND: lerna compiles packages as a symlink in node_modules, which will not work with next start command
 #RUN rm -rf /app/packages/tp_backoffice/node_modules/@transitionpt/
 
-WORKDIR /app/packages/tp_backoffice
+#WORKDIR /app/packages/tp_backoffice
 
-RUN npm install --loglevel verbose
-RUN ls -l /app/packages/tp_backoffice/node_modules
+#RUN npm install --loglevel verbose
+#RUN ls -l /app/packages/tp_backoffice/node_modules
 
 
 # final stage
