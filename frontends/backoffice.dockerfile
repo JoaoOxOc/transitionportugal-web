@@ -34,7 +34,7 @@ RUN npx lerna bootstrap --scope=@transitionpt/geolocation --no-ci --includeDepen
 
 RUN npx lerna run tsc --stream
 
-RUN npx lerna bootstrap --scope=@transitionpt/components --no-ci --includeDependencies
+#RUN npx lerna bootstrap --scope=@transitionpt/components --no-ci --includeDependencies
 
 # install tp_backoffice dependencies
 COPY  packages/tp_backoffice/package.json /app/packages/tp_backoffice/package.json
