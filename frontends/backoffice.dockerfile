@@ -42,7 +42,7 @@ COPY  packages/tp_backoffice/ /app/packages/tp_backoffice/
 
 #RUN npm config set legacy-peer-deps true
 #RUN true
-RUN npx lerna bootstrap --hoist --scope=@transitionpt/backoffice --includeDependencies --loglevel verbose
+RUN npx lerna bootstrap --hoist --scope=@transitionpt/backoffice --includeDependencies
 #RUN ls -l /app/packages/tp_backoffice/node_modules
 #RUN ls -l /app/packages/tp_backoffice/node_modules/@transitionpt
 
