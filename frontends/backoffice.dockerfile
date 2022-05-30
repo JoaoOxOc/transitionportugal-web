@@ -60,6 +60,7 @@ FROM base as final-transitionpt_backoffice-build-stage
 
 COPY --from=transitionpt_backoffice-build /app/packages/tp_backoffice /app/packages/tp_backoffice
 RUN ls -l /app/packages/tp_backoffice
+RUN ls -l /app/node_modules
 COPY --from=transitionpt_backoffice-build /app/packages/tp_translations /app/packages/tp_translations
 COPY --from=transitionpt_backoffice-build /app/packages/tp_geolocation /app/packages/tp_geolocation
 COPY --from=transitionpt_backoffice-build /app/packages/tp_components /app/packages/tp_components
