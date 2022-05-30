@@ -1,10 +1,17 @@
 FROM node:16 as base
 WORKDIR /app/
+ENV PATH /app/node_modules/.bin:$PATH
 #COPY ./package.json ./
 #COPY ./lerna.json ./
 COPY ./package.json /app/
+COPY ./packages/tp_translations/package.json ./app/packages/tp_translations/
+COPY ./packages/tp_geolocation/package.json ./app/packages/tp_geolocation/
+COPY ./packages/tp_components/package.json ./app/packages/tp_components/
+COPY ./packages/tp_backoffice/package.json ./app/packages/tp_backoffice/
 
 RUN npm install --force
+RUN ls -l /app/packages/tp_backoffice/node_modules
+RUN ls -l /app/node_modules
 
 COPY ./lerna.json /app/
 
