@@ -483,7 +483,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
