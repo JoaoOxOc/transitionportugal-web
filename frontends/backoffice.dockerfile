@@ -51,7 +51,7 @@ RUN npx lerna bootstrap --scope=@transitionpt/backoffice --loglevel verbose
 
 WORKDIR /app/packages/tp_backoffice
 
-RUN npm run install --loglevel verbose
+RUN npm install --loglevel verbose
 RUN ls -l /app/packages/tp_backoffice/node_modules
 
 
