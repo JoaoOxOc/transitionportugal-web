@@ -44,7 +44,7 @@ RUN npm config set legacy-peer-deps true
 
 # WORKAROUND: lerna compiles packages as a symlink in node_modules, which will not work with next start command
 #RUN rm -rf /app/packages/tp_backoffice/node_modules/@transitionpt/
-RUN ls -l /app/packages/tp_backoffice/node_modules
+#RUN ls -l /app/packages/tp_backoffice/node_modules
 RUN ls -l /app/node_modules
 
 RUN npx lerna bootstrap --scope=@transitionpt/backoffice --includeDependencies --loglevel verbose
