@@ -43,11 +43,11 @@ COPY  packages/tp_backoffice/ /app/packages/tp_backoffice/
 RUN npm config set legacy-peer-deps true
 
 RUN npx lerna bootstrap --scope=@transitionpt/backoffice --includeDependencies --loglevel verbose
-RUN ls -l /app/packages/tp_backoffice/node_modules
-RUN ls -l /app/packages/tp_backoffice/node_modules/@transitionpt
+#RUN ls -l /app/packages/tp_backoffice/node_modules
+#RUN ls -l /app/packages/tp_backoffice/node_modules/@transitionpt
 
 # WORKAROUND: lerna compiles packages as a symlink in node_modules, which will not work with next start command
-RUN rm -rf /app/packages/tp_backoffice/node_modules/@transitionpt/
+#RUN rm -rf /app/packages/tp_backoffice/node_modules/@transitionpt/
 
 
 
@@ -63,7 +63,6 @@ COPY --from=transitionpt_backoffice-build /app/packages/tp_geolocation /app/pack
 COPY --from=transitionpt_backoffice-build /app/packages/tp_components /app/packages/tp_components
 # WORKAROUND: lerna compiles packages as a symlink in node_modules, which will not work with next start command. Full compiled folder is needed
 COPY --from=transitionpt_backoffice-build /app/packages/tp_backoffice/node_modules /app/packages/tp_backoffice/node_modules
-RUN ls -l /app/packages/tp_backoffice/node_modules
 RUN ls -l /app/packages/tp_backoffice/node_modules/@transitionpt
 RUN ls -l /app/node_modules
 #copy --from=transitionpt_backoffice-build /app/packages/tp_translations /app/packages/tp_backoffice/node_modules/@transitionpt/translations/
@@ -72,6 +71,9 @@ RUN ls -l /app/node_modules
 #copy --from=transitionpt_backoffice-build /app/node_modules /app/node_modules
 
 WORKDIR /app/packages/tp_backoffice
+
+RUN npm run install --loglevel verbose
+RUN ls -l /app/packages/tp_backoffice/node_modules
 
 ARG NEXT_PUBLIC_API_BASE_URL
 ENV NEXT_PUBLIC_API_BASE_URL=$NEXT_PUBLIC_API_BASE_URL
