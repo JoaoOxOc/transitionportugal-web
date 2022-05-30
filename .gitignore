@@ -68,3 +68,4 @@ testem.log
 .DS_Store
 Thumbs.db
 /tp_webservices/APIs/NewsService/env
+frontends/packages/tp_components/storybook-static/*

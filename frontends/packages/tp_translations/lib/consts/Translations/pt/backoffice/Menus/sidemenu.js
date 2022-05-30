@@ -41,6 +41,9 @@ export var SIDEMENU_TRANSLATIONS = deepFreeze({
         emailTemplates: "Templates de Email",
         userAuth: "Definições de Autenticação",
         clientApps: "Aplicações Cliente Autorizadas"
+    },
+    SIDEMENU_PROFILE: {
+        association: "Perfil da Sua Associação"
     }
 });
 //# sourceMappingURL=sidemenu.js.map

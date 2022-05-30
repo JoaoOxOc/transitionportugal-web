@@ -8,8 +8,19 @@
         "packages/*"
     ],
     "devDependencies": {
+        "react": "^17.0.2",
+        "react-dom": "^17.0.2",
         "lerna": "^4.0.0",
         "lerna-dockerize": "^0.8.3"
+    },
+    "dependencies": {
+        "@emotion/react": "^11.9.0",
+        "@emotion/styled": "^11.8.1",
+        "@mui/core": "^5.0.0-alpha.54",
+        "@mui/icons-material": "^5.8.0",
+        "@mui/lab": "^5.0.0-alpha.83",
+        "@mui/material": "^5.8.1",
+        "@mui/styles": "5.2.1"
     },
     "scripts": {
         "bootstrap": "lerna bootstrap --hoist",
@@ -21,6 +32,7 @@
         "run:backoffice:dev": "lerna run tsc --stream && lerna run --scope @transitionpt/backoffice --stream dev",
         "run:backoffice:prod": "lerna run tsc --stream && lerna run --scope @transitionpt/backoffice --stream build",
         "run:backoffice:prodstart": "lerna run tsc --stream && lerna run --scope @transitionpt/backoffice --stream start",
-        "lerna-dockerize": "lerna-dockerize --template-dockerfile-name Dockerfile.template"
+        "lerna-dockerize": "lerna-dockerize --template-dockerfile-name Dockerfile.template",
+        "storybook": "lerna run --scope @transitionpt/components --stream storybook"
     }
 }

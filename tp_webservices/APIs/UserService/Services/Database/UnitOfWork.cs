@@ -24,6 +24,7 @@ namespace UserService.Services.Database
 
         private IGenericRepository<User> _userRepository;
         private IGenericRepository<Association> _associationRepository;
+        private IGenericRepository<AssociationProfileTranslation> _associationProfileTranslationRepository;
         private IGenericRepository<TermsConditions> _termsConditionsRepository;
         private IGenericRepository<TermsConditionsTranslation> _termsConditionsTranslationRepository;
         private IGenericRepository<RoleScope> _roleScopeRepository;
@@ -57,6 +58,14 @@ namespace UserService.Services.Database
             get
             {
                 return _associationRepository = _associationRepository ?? new GenericRepository<Association>(dbContext);
+            }
+        }
+
+        public IGenericRepository<AssociationProfileTranslation> AssociationProfileTranslationRepository
+        {
+            get
+            {
+                return _associationProfileTranslationRepository = _associationProfileTranslationRepository ?? new GenericRepository<AssociationProfileTranslation>(dbContext);
             }
         }
 

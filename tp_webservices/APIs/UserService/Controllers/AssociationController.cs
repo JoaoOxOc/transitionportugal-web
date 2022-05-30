@@ -71,7 +71,7 @@ namespace UserService.Controllers
             return Ok(null);
         }
 
-        private AssociationModel ParseEntityToModel(Association association, List<User>? users)
+        private AssociationModel ParseEntityToModel(Association association, List<AssociationProfileTranslation>? profileDataTranslations, List<User>? users)
         {
             AssociationModel model = new AssociationModel();
             model.Id = association.Id;
@@ -81,7 +81,10 @@ namespace UserService.Controllers
             model.Address = association.Address;
             model.Town = association.Town;
             model.PostalCode = association.PostalCode;
+            model.DistrictCode = association.DistrictCode;
+            model.MunicipalityCode = association.MunicipalityCode;
             model.Vat = association.Vat;
+            model.CoverImage = association.CoverImage;
             model.LogoImage = association.LogoImage;
             model.Filename = association.Filename;
             model.Description = association.Description;
@@ -116,20 +119,104 @@ namespace UserService.Controllers
                 }
             }
 
+            if (profileDataTranslations != null)
+            {
+                model.AssociationProfileDataList = new List<AssociationModel.ProfileDataModel>();
+                foreach (var translation in profileDataTranslations)
+                {
+                    if (model.AssociationProfileDataList != null)
+                    {
+                        var profileDataExists = model.AssociationProfileDataList.Find(x => x.PageWidgetKey == translation.PageContentKey);
+                        if (profileDataExists != null)
+                        {
+                            profileDataExists.DataLanguages.Add(
+                            new AssociationModel.DataLanguageModel
+                            {
+                                LangCode = translation.LangKey,
+                                PageWidgetData = translation.DataBlocksJson
+                            });
+                        }
+                        else
+                        {
+                            model.AssociationProfileDataList.Add(new AssociationModel.ProfileDataModel
+                            {
+                                PageWidgetKey = translation.PageContentKey,
+                                DataLanguages = new List<AssociationModel.DataLanguageModel>{
+                                new AssociationModel.DataLanguageModel
+                                {
+                                    LangCode = translation.LangKey,
+                                    PageWidgetData = translation.DataBlocksJson
+                                }
+                            }
+                            });
+                        }
+                    }
+                }
+            }
+
             return model;
         }
 
-        private List<AssociationModel> ParseEntitiesToModel(List<Association> associations)
+        private List<AssociationModel> ParseEntitiesToModel(List<Association> associations, List<AssociationProfileTranslation>? profileDataTranslations)
         {
             List<AssociationModel> models = new List<AssociationModel>();
             foreach (var association in associations)
             {
-                models.Add(ParseEntityToModel(association, null));
+                models.Add(ParseEntityToModel(association, profileDataTranslations, null));
             }
             return models;
         }
 
-        private Association MapModelToEntity(Association association, AssociationModel model)
+        private KeyValuePair<List<AssociationProfileTranslation>, List<AssociationProfileTranslation>> MapModelTranslationsToEntities(bool isCreate, Association association, AssociationModel model)
+        {
+            KeyValuePair<List<AssociationProfileTranslation>, List<AssociationProfileTranslation>> translationsProcessed = new KeyValuePair<List<AssociationProfileTranslation>, List<AssociationProfileTranslation>>();
+            if (model != null)
+            {
+                List<AssociationProfileTranslation> toUpdate = new List<AssociationProfileTranslation>();
+                List<AssociationProfileTranslation> toCreate = new List<AssociationProfileTranslation>();
+
+                List<AssociationProfileTranslation> transformedBlocks = new List<AssociationProfileTranslation>();
+                foreach (var dataBlock in model.AssociationProfileDataList)
+                {
+                    foreach(var dataTranslation in dataBlock.DataLanguages)
+                    {
+                        var transformedBlock = new AssociationProfileTranslation();
+                        if (!isCreate && association.Id.HasValue)
+                        {
+                            transformedBlock.AssociationId = association.Id.Value;
+                        }
+                        transformedBlock.PageContentKey = dataBlock.PageWidgetKey;
+                        transformedBlock.LangKey = dataTranslation.LangCode;
+                        transformedBlock.DataBlocksJson = dataTranslation.PageWidgetData;
+                        transformedBlocks.Add(transformedBlock);
+                    }
+                }
+                foreach (var dataBlock in transformedBlocks)
+                {
+                    AssociationProfileTranslation? associationProfileTranslationFound = null;
+                    if (!isCreate)
+                    {
+                        Expression<Func<AssociationProfileTranslation, bool>> filterTranslation = (x => x.LangKey == dataBlock.LangKey && x.AssociationId == association.Id);
+                        associationProfileTranslationFound = this._uow.AssociationProfileTranslationRepository.Get(null, null, filterTranslation, "LangKey", SortDirection.Ascending).FirstOrDefault();
+                    }
+                    if (associationProfileTranslationFound != null)
+                    {
+                        associationProfileTranslationFound.DataBlocksJson = dataBlock.DataBlocksJson;
+                        toUpdate.Add(associationProfileTranslationFound);
+                    }
+                    else
+                    {
+                        toCreate.Add(dataBlock);
+                    }
+                }
+                translationsProcessed = new KeyValuePair<List<AssociationProfileTranslation>, List<AssociationProfileTranslation>>(toUpdate, toCreate);
+            }
+
+
+            return translationsProcessed;
+        }
+
+        private Association MapModelToEntity(Association association, AssociationModel model, bool isProfileUpdate)
         {
             if (!string.IsNullOrEmpty(model.Name)) association.Name = model.Name;
             if (!string.IsNullOrEmpty(model.Email)) association.Email = model.Email;
@@ -137,7 +224,10 @@ namespace UserService.Controllers
             if (!string.IsNullOrEmpty(model.Address)) association.Address = model.Address;
             if (!string.IsNullOrEmpty(model.Town)) association.Town = model.Town;
             if (!string.IsNullOrEmpty(model.PostalCode)) association.PostalCode = model.PostalCode;
+            if (!string.IsNullOrEmpty(model.DistrictCode)) association.PostalCode = model.DistrictCode;
+            if (!string.IsNullOrEmpty(model.MunicipalityCode)) association.PostalCode = model.MunicipalityCode;
             if (!string.IsNullOrEmpty(model.Vat)) association.Vat = model.Vat;
+            if (!string.IsNullOrEmpty(model.CoverImage)) association.LogoImage = model.CoverImage;
             if (!string.IsNullOrEmpty(model.LogoImage)) association.LogoImage = model.LogoImage;
             if (!string.IsNullOrEmpty(model.Filename)) association.Filename = model.Filename;
             if (!string.IsNullOrEmpty(model.Description)) association.Description = model.Description;
@@ -146,29 +236,32 @@ namespace UserService.Controllers
             if (model.Longitude.HasValue) association.Longitude = model.Longitude;
             if (model.ContractStartDate.HasValue) association.ContractStartDate = model.ContractStartDate;
             if (model.ContractEndDate.HasValue) association.ContractEndDate = model.ContractEndDate;
-            if (model.IsActive.HasValue)
+            if (!isProfileUpdate)
             {
-                association.IsActive = model.IsActive;
-            }
-            else if (!association.Id.HasValue)
-            {
-                association.IsActive = model.IsActive;
-            }
-            if (model.IsVerified.HasValue)
-            {
-                association.IsVerified = model.IsVerified;
-            }
-            else if (!association.Id.HasValue)
-            {
-                association.IsVerified = model.IsVerified;
-            }
-            if (model.IsEmailVerified.HasValue)
-            {
-                association.IsEmailVerified = model.IsEmailVerified;
-            }
-            else if (!association.Id.HasValue)
-            {
-                association.IsEmailVerified = model.IsEmailVerified;
+                if (model.IsActive.HasValue)
+                {
+                    association.IsActive = model.IsActive;
+                }
+                else if (!association.Id.HasValue)
+                {
+                    association.IsActive = model.IsActive;
+                }
+                if (model.IsVerified.HasValue)
+                {
+                    association.IsVerified = model.IsVerified;
+                }
+                else if (!association.Id.HasValue)
+                {
+                    association.IsVerified = model.IsVerified;
+                }
+                if (model.IsEmailVerified.HasValue)
+                {
+                    association.IsEmailVerified = model.IsEmailVerified;
+                }
+                else if (!association.Id.HasValue)
+                {
+                    association.IsEmailVerified = model.IsEmailVerified;
+                }
             }
 
             return association;
@@ -270,9 +363,12 @@ namespace UserService.Controllers
                 Expression<Func<User, bool>> filter = (x => x.AssociationId == association.Id);
                 var users = _uow.UserRepository.Get(null, null, filter, "Id", SortDirection.Ascending, String.Empty);
 
+                Expression<Func<AssociationProfileTranslation, bool>> filterProfileData = (x => x.AssociationId == association.Id);
+                var profileDataTranslations = _uow.AssociationProfileTranslationRepository.Get(null, null, filterProfileData, "PageContentKey", SortDirection.Ascending, String.Empty);
+
                 return Ok(new
                 {
-                    associationData = ParseEntityToModel(association, users)
+                    associationData = ParseEntityToModel(association, profileDataTranslations, users)
                 });
             }
             else
@@ -354,13 +450,15 @@ namespace UserService.Controllers
             if (PermissionsHelper.ValidateRoleClaimPermission(userClaims, new List<string> { "Admin" })
                 && PermissionsHelper.ValidateUserScopesPermissionAll(scopes, new List<string> { "users.write" }))
             {
-                Association association = MapModelToEntity(new Association(), model);
+                Association association = MapModelToEntity(new Association(), model, false);
 
                 ObjectResult _validate = this.ValidateAssociation(association);
                 if (_validate.StatusCode != StatusCodes.Status200OK)
                 {
                     return _validate;
                 }
+                association.CanonicalNameAlias = association.Name.ToLower().Replace(" ", "-");
+                association.CanonicalNameAlias = System.Text.Encoding.UTF8.GetString(System.Text.Encoding.GetEncoding("ISO-8859-8").GetBytes(association.CanonicalNameAlias));
 
                 _uow.AssociationRepository.Add(association);
                 _uow.Save();
@@ -373,14 +471,14 @@ namespace UserService.Controllers
             return Forbid();
         }
 
-        private async Task<IActionResult> updateAssociationData(int? associationId, AssociationModel model, string? whoUpdated)
+        private async Task<IActionResult> updateAssociationData(int? associationId, AssociationModel model, string? whoUpdated, bool isProfileUpdate)
         {
             Expression<Func<Association, bool>> filter = (x => x.Id == associationId);
 
             var association = this._uow.AssociationRepository.Get(null, null, filter, string.Empty, SortDirection.Ascending).FirstOrDefault();
             if (association != null)
             {
-                association = MapModelToEntity(association, model);
+                association = MapModelToEntity(association, model, isProfileUpdate);
 
                 ObjectResult _validate = this.ValidateAssociation(association);
                 if (_validate.StatusCode != StatusCodes.Status200OK)
@@ -391,6 +489,18 @@ namespace UserService.Controllers
                 try
                 {
                     _uow.AssociationRepository.Update(association);
+                    _uow.Save();
+
+                    var updateCreatePairsBlocks = MapModelTranslationsToEntities(false, association, model);
+
+                    if (updateCreatePairsBlocks.Key != null && updateCreatePairsBlocks.Key.Count > 0)
+                    {
+                        _uow.AssociationProfileTranslationRepository.Update(updateCreatePairsBlocks.Key);
+                    }
+                    if (updateCreatePairsBlocks.Value != null && updateCreatePairsBlocks.Value.Count > 0)
+                    {
+                        _uow.AssociationProfileTranslationRepository.Add(updateCreatePairsBlocks.Value);
+                    }
                     _uow.Save();
 
                     return Ok(new
@@ -434,7 +544,7 @@ namespace UserService.Controllers
             if (PermissionsHelper.ValidateRoleClaimPermission(userClaims, new List<string> { "Admin" })
                 && PermissionsHelper.ValidateUserScopesPermissionAll(scopes, new List<string> { "users.write" }))
             {
-                return await updateAssociationData(model.Id,model, userClaims.Where(x => x.Claim == "userId").First().Value);
+                return await updateAssociationData(model.Id,model, userClaims.Where(x => x.Claim == "userId").First().Value, false);
             }
             return Forbid();
         }
@@ -456,7 +566,7 @@ namespace UserService.Controllers
             {
                 int associationId = 0;
                 int.TryParse(associationClaim.Value, out associationId);
-                return await updateAssociationData(associationId, model, userClaims.Where(x => x.Claim == "userId").First().Value);
+                return await updateAssociationData(associationId, model, userClaims.Where(x => x.Claim == "userId").First().Value, true);
             }
             return Unauthorized();
         }
