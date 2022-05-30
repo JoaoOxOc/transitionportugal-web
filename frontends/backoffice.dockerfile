@@ -10,8 +10,8 @@ COPY ./packages/tp_components/package.json ./app/packages/tp_components/
 COPY ./packages/tp_backoffice/package.json ./app/packages/tp_backoffice/
 
 RUN npm install --force
-RUN ls -l /app/packages/tp_backoffice/node_modules
-RUN ls -l /app/node_modules
+RUN ls -l ./app/packages/tp_backoffice
+RUN ls -l ./app/node_modules
 
 COPY ./lerna.json /app/
 
