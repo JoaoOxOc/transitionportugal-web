@@ -61,7 +61,7 @@ RUN npm install --force
 #WORKDIR /app/packages/tp_backoffice
 
 #RUN npm install --loglevel verbose
-RUN ls -l /app/packages/tp_backoffice/node_modules
+RUN ls -l /app/packages/tp_backoffice/node_modules/@transitionpt
 
 
 # final stage
@@ -78,9 +78,9 @@ COPY --from=transitionpt_backoffice-build /app/packages/tp_backoffice/node_modul
 copy --from=transitionpt_backoffice-build /app/packages/tp_translations /app/packages/tp_backoffice/node_modules/@transitionpt/translations/
 RUN ls -l /app/packages/tp_backoffice/node_modules/@transitionpt
 RUN ls -l /app/node_modules
-#copy --from=transitionpt_backoffice-build /app/packages/tp_geolocation /app/packages/tp_backoffice/node_modules/@transitionpt/geolocation/
-#copy --from=transitionpt_backoffice-build /app/packages/tp_components /app/packages/tp_backoffice/node_modules/@transitionpt/components/
-#copy --from=transitionpt_backoffice-build /app/node_modules /app/node_modules
+copy --from=transitionpt_backoffice-build /app/packages/tp_geolocation /app/packages/tp_backoffice/node_modules/@transitionpt/geolocation/
+copy --from=transitionpt_backoffice-build /app/packages/tp_components /app/packages/tp_backoffice/node_modules/@transitionpt/components/
+copy --from=transitionpt_backoffice-build /app/node_modules /app/node_modules
 
 WORKDIR /app/packages/tp_backoffice
 
