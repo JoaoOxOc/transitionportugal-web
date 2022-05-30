@@ -34,15 +34,15 @@ RUN npx lerna bootstrap --scope=@transitionpt/geolocation --includeDependencies
 
 RUN npx lerna run tsc --stream
 
-#RUN npx lerna bootstrap --scope=@transitionpt/components --includeDependencies
+RUN npx lerna bootstrap --scope=@transitionpt/components --includeDependencies
 
 # install tp_backoffice dependencies
 COPY  packages/tp_backoffice/package.json /app/packages/tp_backoffice/package.json
 COPY  packages/tp_backoffice/ /app/packages/tp_backoffice/ 
 
-RUN npm config set legacy-peer-deps true
-RUN true
-RUN npx lerna bootstrap --scope=@transitionpt/backoffice --includeDependencies --loglevel verbose
+#RUN npm config set legacy-peer-deps true
+#RUN true
+RUN npx lerna bootstrap --scope=@transitionpt/backoffice --loglevel verbose
 #RUN ls -l /app/packages/tp_backoffice/node_modules
 #RUN ls -l /app/packages/tp_backoffice/node_modules/@transitionpt
 
