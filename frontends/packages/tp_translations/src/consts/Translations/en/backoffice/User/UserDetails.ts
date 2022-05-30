@@ -29,10 +29,10 @@ export const USERDETAILS_TRANSLATIONS = deepFreeze({
         roles: "User Profiles"
     },
     ROLES: {
-        associationAdmin: "Association Administrator",
-        associationUser: "Association User",
-        admin: "System Administrator",
-        user: "System User"
+        AssociationAdmin: "Association Administrator",
+        AssociationUser: "Association User",
+        Admin: "System Administrator",
+        User: "System User"
     },
     CONNECTED_ACCOUNTS: {
         discourse: "Discourse",
@@ -50,6 +50,11 @@ export const USERDETAILS_TRANSLATIONS = deepFreeze({
         primaryContactType: "Main Contact Type",
         connectedAccounts: "Connected Accounts",
         connectedAccountsMessage: "Manage connected accounts options",
+        userRoles: "User Profiles",
+        userRolesMessage: "the User Profile defines which app features he has access to",
+        userRolesAlert: "Caution changing User Profile: he might loose or gain access to certain app features",
+        currentUserRole: "Current User Profile",
+        changeUserRole: "Change User Profile",
         security: "Security",
         securityMessage: "Change your security preferences below",
         changePassword: "Change Password",

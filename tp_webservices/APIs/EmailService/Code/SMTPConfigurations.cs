@@ -12,6 +12,7 @@ namespace EmailService.Code
         public static string Username;
         public static string Password;
         public static string From;
+        public static string FromName;
         public static bool EnableSSL;
     }
 }

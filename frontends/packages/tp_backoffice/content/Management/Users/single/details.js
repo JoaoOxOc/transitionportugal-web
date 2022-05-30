@@ -22,7 +22,6 @@ import ActivityTab from './ActivityTab';
 import EditProfileTab from './EditProfileTab';
 import NotificationsTab from './NotificationsTab';
 import SecurityTab from './SecurityTab';
-import EditRolesTab from './EditRolesTab';
 
 import { useSession } from "next-auth/react";
 import { GetUserData } from '../../../../services/users';
@@ -53,8 +52,7 @@ function UserDetails({isProfile, userId}) {
     //   { value: 'activity', label: t('Activity') },
       { value: 'edit_profile', label: t('TABS.main') },
     //   { value: 'notifications', label: t('Notifications') },
-      { value: 'security', label: t('TABS.security') },
-      isProfile ? {} : { value: 'roles', label: t('TABS.roles') }
+      { value: 'security', label: t('TABS.security') }
     ];
 
     const handleTabsChange = (_event, value) => {
@@ -126,8 +124,7 @@ function UserDetails({isProfile, userId}) {
               {/* {currentTab === 'activity' && <ActivityTab />} */}
               {currentTab === 'edit_profile' && <EditProfileTab userData={user} userPutUrl={userPutUri}/>}
               {/* {currentTab === 'notifications' && <NotificationsTab />} */}
-              {currentTab === 'security' && <SecurityTab userData={user}/>}
-              {currentTab === 'roles' && <EditRolesTab userData={user}/>}
+              {currentTab === 'security' && <SecurityTab userData={user} isProfile={isProfile}/>}
             </Grid>
           </Grid>
         </Box>

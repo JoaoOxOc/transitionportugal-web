@@ -442,7 +442,7 @@
       "UpstreamHttpMethod": [ "Get" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "TpAuthKey",
-        "AllowedScopes": [ "users.write" ]
+        "AllowedScopes": [ "users.write", "associationusers.write" ]
       }
     },
     {
@@ -475,6 +475,22 @@
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "TpAuthKey",
         "AllowedScopes": [ "users.write" ]
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/user/updaterole",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tpuserservice",
+          "Port": 3020
+        }
+      ],
+      "UpstreamPathTemplate": "/users/updaterole",
+      "UpstreamHttpMethod": [ "Put" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "TpAuthKey",
+        "AllowedScopes": [ "users.write", "associationusers.write" ]
       }
     },
     {
@@ -540,7 +556,7 @@
       "UpstreamHttpMethod": [ "Post" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "TpAuthKey",
-        "AllowedScopes": [ "users.write" ]
+        "AllowedScopes": [ "users.write", "associationusers.write" ]
       }
     },
     {
@@ -556,7 +572,7 @@
       "UpstreamHttpMethod": [ "Post" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "TpAuthKey",
-        "AllowedScopes": [ "users.write" ]
+        "AllowedScopes": [ "users.write", "associationusers.write" ]
       }
     },
     {

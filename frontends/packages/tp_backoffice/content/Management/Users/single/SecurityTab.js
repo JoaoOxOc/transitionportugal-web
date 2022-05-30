@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import {
   Box,
   Typography,
@@ -11,21 +11,12 @@ import {
   Button,
   ListItemAvatar,
   Avatar,
-  Switch,
-  CardHeader,
-  Tooltip,
-  IconButton,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TablePagination,
-  TableRow,
-  TableContainer,
+  FormControl,
   useTheme,
   Slide,
   styled
 } from '@mui/material';
+import UserRolePicker from '../../../../components/RolePick';
 import { i18nextUserDetails } from "@transitionpt/translations";
 import {genericFetch} from '../../../../services/genericFetch';
 import { useSnackbar } from 'notistack';
@@ -60,7 +51,7 @@ const AvatarWrapper = styled(Avatar)(
 `
 );
 
-function SecurityTab({userData}) {
+function SecurityTab({userData, isProfile}) {
   const { t } = i18nextUserDetails;
   const theme = useTheme();
   const { enqueueSnackbar } = useSnackbar();
@@ -126,6 +117,16 @@ function SecurityTab({userData}) {
     } catch (err) {
       console.error(err);
     }
+  }
+
+  const receiveSelectedRole = async(eventValue) => {
+    if (eventValue != userData.userRole) {
+      console.log(eventValue);
+    }
+  }
+
+  const handleChangeUserRole = async() => {
+
   }
 
   // const logs = [
@@ -264,6 +265,40 @@ function SecurityTab({userData}) {
           </List>
         </Card>
       </Grid>
+      { !isProfile &&
+      <Grid item xs={12}>
+        <Box pb={2}>
+          <Typography variant="h3">{t('FORM.userRoles')}</Typography>
+          <Typography variant="subtitle2">
+            {t('FORM.userRolesMessage')}
+          </Typography>
+        </Box>
+        <Card>
+          <List>
+            <ListItem
+              sx={{
+                p: 3
+              }}
+            >
+              <ListItemText
+                primaryTypographyProps={{ variant: 'h5', gutterBottom: true }}
+                secondaryTypographyProps={{
+                  variant: 'subtitle2',
+                  lineHeight: 1
+                }}
+                primary={t('FORM.currentUserRole')}
+              />
+                  <UserRolePicker selectId={"user-role-dropdown"} notFoundLabel={t("SEARCH.roleNotFound")} selectLabel={""} defaultValue={{label: t("ROLES."+userData.userRole), key: userData.userRole}} sendSelectedRole={receiveSelectedRole}/>
+              <Button size="large" variant="outlined" onClick={handleChangeUserRole}>
+                {t('FORM.changeUserRole')}
+              </Button>
+            </ListItem>
+          </List>
+
+        </Card>
+
+      </Grid>
+      }
       {/* <Grid item xs={12}>
         <Card>
           <List>

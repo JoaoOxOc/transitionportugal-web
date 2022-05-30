@@ -1,4 +1,6 @@
-﻿namespace UserService.Models
+﻿using System.Text.Json;
+
+namespace UserService.Models
 {
     public class AssociationModel
     {
@@ -16,7 +18,19 @@
 
         public string PostalCode { get; set; }
 
+        /// <summary>
+        /// Using ODS PT data
+        /// </summary>
+        public string DistrictCode { get; set; }
+
+        /// <summary>
+        /// Using ODS PT data
+        /// </summary>
+        public string MunicipalityCode { get; set; }
+
         public string? Vat { get; set; }
+
+        public string? CoverImage { get; set; }
 
         public string? LogoImage { get; set; }
 
@@ -41,5 +55,21 @@
         public bool? IsEmailVerified { get; set; }
 
         public List<UserReadModel>? AssociationUsers { get; set; }
+
+        public List<ProfileDataModel>? AssociationProfileDataList { get; set; }
+
+        public class ProfileDataModel
+        {
+            public string PageWidgetKey { get; set; }
+
+            public List<DataLanguageModel>? DataLanguages { get; set; }
+        }
+
+        public class DataLanguageModel
+        {
+            public string LangCode { get; set; }
+
+            public JsonDocument PageWidgetData { get; set; }
+        }
     }
 }

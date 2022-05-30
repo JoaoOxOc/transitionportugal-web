@@ -41,5 +41,8 @@ export declare const SIDEMENU_TRANSLATIONS: {
         readonly userAuth: "Auth Settings";
         readonly clientApps: "Authorized Client Applications";
     };
+    readonly SIDEMENU_PROFILE: {
+        readonly association: "Your Association Profile";
+    };
 };
 //# sourceMappingURL=sidemenu.d.ts.map

@@ -103,7 +103,6 @@ export default function AssociationPicker({selectId, selectLabel, notFoundLabel,
             options={options}
             loading={loading}
             onChange={(event, newValue) => {
-                setOptions(newValue ? [newValue, ...options] : options);
                 handleSelectAssociation(newValue);
             }}
             onInputChange={(event, newInputValue) => {

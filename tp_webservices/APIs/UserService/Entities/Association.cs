@@ -10,6 +10,12 @@ namespace UserService.Entities
         [Required]
         public string Name { get; set; }
 
+        /// <summary>
+        /// Alias as an international canonical name
+        /// To be used in URIs
+        /// </summary>
+        public string CanonicalNameAlias { get; set; }
+
         [Required]
         public string Email { get; set; }
 
@@ -21,9 +27,21 @@ namespace UserService.Entities
 
         public string PostalCode { get; set; }
 
+        /// <summary>
+        /// Using ODS PT data
+        /// </summary>
+        public string DistrictCode { get; set; }
+
+        /// <summary>
+        /// Using ODS PT data
+        /// </summary>
+        public string MunicipalityCode { get; set; }
+
         public string Vat { get; set; }
 
         public string LogoImage { get; set; }
+
+        public string CoverImage { get; set; }
 
         public string Filename { get; set; }
 
@@ -56,6 +74,8 @@ namespace UserService.Entities
         public DateTime? UpdatedAt { get; set; }
 
         public virtual ICollection<User> Users { get; set; }
+
+        public virtual ICollection<AssociationProfileTranslation> AssociationProfileTranslations { get; set; }
 
         #endregion
     }

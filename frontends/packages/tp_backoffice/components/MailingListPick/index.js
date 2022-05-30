@@ -107,7 +107,6 @@ export default function MailingListPicker({selectId, selectLabel, notFoundLabel,
             options={options}
             loading={loading}
             onChange={(event, newValue) => {
-                setOptions(newValue ? [newValue, ...options] : options);
                 handleSelectMailingList(newValue);
             }}
             onInputChange={(event, newInputValue) => {

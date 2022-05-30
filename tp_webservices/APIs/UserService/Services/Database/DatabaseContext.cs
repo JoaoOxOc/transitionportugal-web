@@ -50,12 +50,17 @@ namespace UserService.Services.Database
                 table.LangKey,
                 table.TermsConditionsVersion
             });
+            modelBuilder.Entity<AssociationProfileTranslation>().HasKey(table => new {
+                table.LangKey,
+                table.PageContentKey
+            });
             base.OnModelCreating(modelBuilder);
             new DbSeeder(modelBuilder).Seed();
         }
 
         public DbSet<User> User { get; set; }
         public DbSet<Association> Association { get; set; }
+        public DbSet<AssociationProfileTranslation> AssociationProfileTranslation { get; set; }
         public DbSet<TermsConditions> TermsConditions { get; set; }
         public DbSet<TermsConditionsTranslation> TermsConditionsTranslation { get; set; }
         public DbSet<Scope> Scope { get; set; }

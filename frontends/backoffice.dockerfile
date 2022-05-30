@@ -18,13 +18,23 @@ WORKDIR /app/
 # tp_translations is a dependency in tp_backoffice, install it's dependencies
 COPY  packages/tp_translations/package.json /app/packages/tp_translations/package.json
 COPY  packages/tp_translations/ /app/packages/tp_translations/ 
+# tp_components is a dependency in tp_backoffice, install it's dependencies
+COPY  packages/tp_components/package.json /app/packages/tp_components/package.json
+COPY  packages/tp_components/ /app/packages/tp_components/ 
+# tp_geolocation is a dependency in tp_backoffice, install it's dependencies
+COPY  packages/tp_geolocation/package.json /app/packages/tp_geolocation/package.json
+COPY  packages/tp_geolocation/ /app/packages/tp_geolocation/ 
 
+# compile tp_translations and tp_geolocation (typescript packages)
 RUN npm config set legacy-peer-deps true
 
 RUN npx lerna bootstrap --scope=@transitionpt/translations --includeDependencies
 
-# compile tp_translations
+RUN npx lerna bootstrap --scope=@transitionpt/geolocation --includeDependencies
+
 RUN npx lerna run tsc --stream
+
+#RUN npx lerna bootstrap --scope=@transitionpt/components --includeDependencies
 
 # install tp_backoffice dependencies
 COPY  packages/tp_backoffice/package.json /app/packages/tp_backoffice/package.json
@@ -32,10 +42,10 @@ COPY  packages/tp_backoffice/ /app/packages/tp_backoffice/
 
 RUN npm config set legacy-peer-deps true
 
-RUN npx lerna bootstrap --hoist --scope=@transitionpt/backoffice --includeDependencies
-
-# WORKAROUND: lerna compiles tp_translations as a symlink in node_modules, which will not work with next start command
+# WORKAROUND: lerna compiles packages as a symlink in node_modules, which will not work with next start command
 RUN rm -rf /app/packages/tp_backoffice/node_modules/@transitionpt/
+
+RUN npx lerna bootstrap --scope=@transitionpt/backoffice --includeDependencies --loglevel verbose
 
 
 
@@ -46,8 +56,12 @@ FROM base as final-transitionpt_backoffice-build-stage
 
 COPY --from=transitionpt_backoffice-build /app/packages/tp_backoffice /app/packages/tp_backoffice
 COPY --from=transitionpt_backoffice-build /app/packages/tp_translations /app/packages/tp_translations
-# WORKAROUND: lerna compiles tp_translations as a symlink in node_modules, which will not work with next start command. Full compiled folder is needed
+COPY --from=transitionpt_backoffice-build /app/packages/tp_geolocation /app/packages/tp_geolocation
+COPY --from=transitionpt_backoffice-build /app/packages/tp_components /app/packages/tp_components
+# WORKAROUND: lerna compiles packages as a symlink in node_modules, which will not work with next start command. Full compiled folder is needed
 copy --from=transitionpt_backoffice-build /app/packages/tp_translations /app/packages/tp_backoffice/node_modules/@transitionpt/translations/
+copy --from=transitionpt_backoffice-build /app/packages/tp_geolocation /app/packages/tp_backoffice/node_modules/@transitionpt/geolocation/
+copy --from=transitionpt_backoffice-build /app/packages/tp_components /app/packages/tp_backoffice/node_modules/@transitionpt/components/
 copy --from=transitionpt_backoffice-build /app/node_modules /app/node_modules
 
 WORKDIR /app/packages/tp_backoffice
@@ -105,6 +119,8 @@ COPY --from=final-transitionpt_backoffice-build-stage /app/packages/tp_backoffic
 # import needed packages
 COPY --from=final-transitionpt_backoffice-build-stage /app/node_modules ./node_modules
 copy --from=final-transitionpt_backoffice-build-stage /app/packages/tp_translations ./node_modules/@transitionpt/translations
+copy --from=final-transitionpt_backoffice-build-stage /app/packages/tp_geolocation ./node_modules/@transitionpt/geolocation
+copy --from=final-transitionpt_backoffice-build-stage /app/packages/tp_components ./node_modules/@transitionpt/components
 
 USER nextjs
 
