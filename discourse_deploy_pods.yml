@@ -1,0 +1,153 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tp-discourse-deploy
+  labels:
+    app.kubernetes.io/instance: tpdiscourse
+    app.kubernetes.io/name: discourse
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: tpdiscourse
+      app.kubernetes.io/name: discourse
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/instance: tpdiscourse
+        app.kubernetes.io/name: discourse
+    spec:
+      volumes:
+        - name: discourse-data
+          persistentVolumeClaim:
+            claimName: tp-discourse-data
+      containers:
+      - name: discourse
+        image: docker.io/bitnami/discourse:latest
+        ports:
+          - name: http
+            containerPort: 8080
+            protocol: TCP
+          - name: https
+            containerPort: 443
+            protocol: TCP
+        envFrom:
+          - configMapRef:
+              name: second-release-discourse
+        env:
+        - name: BITNAMI_DEBUG
+          value: 'false'
+        - name: DISCOURSE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: tpdiscourse-data
+              key: discourse-password
+        - name: DISCOURSE_PORT_NUMBER
+          value: '8080'
+        - name: DISCOURSE_EXTERNAL_HTTP_PORT_NUMBER
+          value: '80'
+        - name: DISCOURSE_EXTERNAL_HTTPS_PORT_NUMBER
+          value: '443'
+        - name: DISCOURSE_DATABASE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: tpdiscourse-data
+              key: database-password
+        - name: POSTGRESQL_CLIENT_POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: tpdiscourse-data
+              key: database-password
+        - name: DISCOURSE_REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: tpdiscourse-data
+              key: redis-password
+        volumeMounts:
+        - name: discourse-data
+          mountPath: /bitnami/discourse
+          subPath: discourse
+        livenessProbe:
+          httpGet:
+            path: /srv/status
+            port: http
+            scheme: HTTP
+          initialDelaySeconds: 500
+          timeoutSeconds: 5
+          periodSeconds: 10
+          successThreshold: 1
+          failureThreshold: 6
+        readinessProbe:
+          httpGet:
+            path: /srv/status
+            port: http
+            scheme: HTTP
+          initialDelaySeconds: 30
+          timeoutSeconds: 5
+          periodSeconds: 10
+          successThreshold: 1
+          failureThreshold: 6
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        imagePullPolicy: IfNotPresent
+      - name: sidekiq
+        image: docker.io/bitnami/discourse:latest
+        command:
+          - /opt/bitnami/scripts/discourse/entrypoint.sh
+        args:
+          - /opt/bitnami/scripts/discourse-sidekiq/run.sh
+        envFrom:
+          - configMapRef:
+              name: second-release-discourse
+        env:
+        - name: BITNAMI_DEBUG
+          value: 'false'
+        - name: DISCOURSE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: tpdiscourse-data
+              key: discourse-password
+        - name: DISCOURSE_POSTGRESQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: tpdiscourse-data
+              key: database-password
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: tpdiscourse-data
+              key: redis-password
+        volumeMounts:
+          - name: discourse-data
+            mountPath: /bitnami/discourse
+            subPath: discourse
+        livenessProbe:
+          exec:
+            command:
+              - /bin/sh
+              - '-c'
+              - pgrep -f ^sidekiq
+          initialDelaySeconds: 500
+          timeoutSeconds: 5
+          periodSeconds: 10
+          successThreshold: 1
+          failureThreshold: 6
+        readinessProbe:
+          exec:
+            command:
+              - /bin/sh
+              - '-c'
+              - pgrep -f ^sidekiq
+          initialDelaySeconds: 30
+          timeoutSeconds: 5
+          periodSeconds: 10
+          successThreshold: 1
+          failureThreshold: 6
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        imagePullPolicy: IfNotPresent 
