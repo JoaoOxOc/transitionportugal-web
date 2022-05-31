@@ -20,6 +20,7 @@ export declare const LOGINFORM_TRANSLATIONS: {
     };
     readonly MESSAGES: {
         readonly loginError: "Username/Email/Palavra-passe incorrectos!";
+        readonly serverError: "Ocorreu um erro ao contactar o serviço. Por favor tente novamente. Se o problema persistir por favor contacte o administrador da plataforma";
         readonly emailInvalid: "O email fornecido deverá ser um endereço de email válido";
         readonly emailRequired: "O Email é obrigatório";
         readonly usernameRequired: "Username é obrigatório";

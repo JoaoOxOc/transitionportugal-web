@@ -39,7 +39,13 @@ const errors = {
 
 const SignInError = ({ error, t }) => {
   const { enqueueSnackbar } = useSnackbar();
-  const errorMessage = error && (errors[error] ?? errors.default);
+  const errorMessage = "MESSAGES.serverError";
+  if (error && error.includes("request")) {
+    errorMessage = "MESSAGES.serverError";
+  }
+  else {
+    errorMessage = error && (errors[error] ?? errors.default);
+  }
   useEffect(() => {
     enqueueSnackbar(t(errorMessage), {
             variant: 'error',
@@ -61,12 +67,11 @@ const SignInError = ({ error, t }) => {
 
 
 export const LoginJWT = ({ providers, csrfToken, ...props }) => {
-  const { error } = useRouter().query;
+  const router = useRouter();
+  const { backTo, error } = router.query;
   const { t } = i18nextLoginForm;
   // const { login } = useAuth();
   const isMountedRef = useRefMounted();
-  const router = useRouter();
-  const { backTo } = router.query;
   const { enqueueSnackbar } = useSnackbar();
   const formLoginElement = useRef(null);
   
@@ -109,6 +114,10 @@ export const LoginJWT = ({ providers, csrfToken, ...props }) => {
         helpers.setErrors({ submit: null });
       }
       if (res.error) {
+        if (error) {
+          //window.history.replaceState({}, null, "/admin/auth/login/cover" + (backTo ? '&error=' : '?error=') + res.error);
+          router.push(window.location.replace("/admin/auth/login/cover" + (backTo ? '&error=' : '?error=') + res.error));
+        }
         router.push(window.location + (backTo ? '&error=' : '?error=') + res.error);
       }
       if (res.url) router.push(res.url);

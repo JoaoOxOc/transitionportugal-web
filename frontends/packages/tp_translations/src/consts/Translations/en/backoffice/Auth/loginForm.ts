@@ -22,6 +22,7 @@ export const LOGINFORM_TRANSLATIONS = deepFreeze({
     },
     MESSAGES: {
         loginError: "Username/Email/password are incorrect!",
+        serverError: "Error contacting the server. Please try again. If the problem persists contact the web administrator",
         emailInvalid: "The email provided should be a valid email address",
         emailRequired: "The email field is required",
         usernameRequired: "The Username is required",

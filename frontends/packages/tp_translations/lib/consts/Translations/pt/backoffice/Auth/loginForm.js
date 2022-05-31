@@ -21,6 +21,7 @@ export var LOGINFORM_TRANSLATIONS = deepFreeze({
     },
     MESSAGES: {
         loginError: "Username/Email/Palavra-passe incorrectos!",
+        serverError: "Ocorreu um erro ao contactar o serviço. Por favor tente novamente. Se o problema persistir por favor contacte o administrador da plataforma",
         emailInvalid: "O email fornecido deverá ser um endereço de email válido",
         emailRequired: "O Email é obrigatório",
         usernameRequired: "Username é obrigatório",
