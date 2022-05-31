@@ -82,7 +82,7 @@ copy --from=transitionpt_backoffice-build /app/packages/tp_geolocation /app/pack
 copy --from=transitionpt_backoffice-build /app/packages/tp_components /app/packages/tp_backoffice/node_modules/@transitionpt/components/
 
 WORKDIR /app/packages/tp_backoffice
-
+RUN npm config set legacy-peer-deps true
 RUN npm install --loglevel verbose
 RUN ls -l /app/packages/tp_backoffice/node_modules
 
