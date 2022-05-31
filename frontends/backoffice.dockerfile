@@ -66,7 +66,7 @@ RUN rm -rf /app/packages/tp_backoffice/node_modules/@transitionpt/
 
 # final stage
 FROM base as final-transitionpt_backoffice-build-stage
-
+RUN ls -l /app/packages
 COPY --from=transitionpt_backoffice-build /app/packages/tp_backoffice /app/packages/tp_backoffice
 RUN ls -l /app/packages/tp_translations
 COPY --from=transitionpt_backoffice-build /app/packages/tp_translations /app/packages/tp_translations
