@@ -27,10 +27,10 @@ export declare const USERDETAILS_TRANSLATIONS: {
         readonly roles: "Perfis do Utilizador";
     };
     readonly ROLES: {
-        readonly associationAdmin: "Administrador da Associação";
-        readonly associationUser: "Utilizador da Associação";
-        readonly admin: "Administrador de Sistema";
-        readonly user: "Utilizador de Sistema";
+        readonly AssociationAdmin: "Administrador da Associação";
+        readonly AssociationUser: "Utilizador da Associação";
+        readonly Admin: "Administrador de Sistema";
+        readonly User: "Utilizador de Sistema";
     };
     readonly CONNECTED_ACCOUNTS: {
         readonly discourse: "Discourse";
@@ -48,6 +48,11 @@ export declare const USERDETAILS_TRANSLATIONS: {
         readonly primaryContactType: "Tipo de Contacto Preferido";
         readonly connectedAccounts: "Contas Conectadas";
         readonly connectedAccountsMessage: "Gerir opções de Contas Conectadas";
+        readonly userRoles: "Perfis do Utilizador";
+        readonly userRolesMessage: "O Perfil do Utilizador define os seus acessos às diferentes funcionalidades da aplicação";
+        readonly userRolesAlert: "Atenção à alteração do Perfil do Utilizador: o mesmo pode perder ou ganhar acessos a diferentes funcionalidades da aplicação";
+        readonly currentUserRole: "Actual Perfil do Utilizador";
+        readonly changeUserRole: "Alterar Perfil do Utilizador";
         readonly security: "Segurança";
         readonly securityMessage: "Altere abaixo as suas preferências de segurança";
         readonly changePassword: "Alterar Palavra-passe";

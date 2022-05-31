@@ -19,8 +19,6 @@ function UserProfileView() {
     const [currentLang, setLang] = useState("pt");
     i18nextUserDetails.changeLanguage(currentLang);
 
-    const userData = getUserIdAndAssociation(window.localStorage.getItem('accessToken'));
-
     useEffect(() => {
         const handleNewMessage = (event) => {
             setLang(event.detail);
@@ -35,7 +33,7 @@ function UserProfileView() {
         <title>{t('LABELS.userDetails')}</title>
       </Head>
 
-      <UserDetails isProfile={true} userId={userData.userId}/>
+      <UserDetails isProfile={true} userId={null}/>
       <Footer />
     </>
   );

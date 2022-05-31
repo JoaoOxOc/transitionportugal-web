@@ -77,6 +77,16 @@ namespace UserService.Services.UserManager
             }
         }
 
+        public async Task<IList<string>> GetRolesAsync(User user)
+        {
+            return await _userManager.GetRolesAsync(user);
+        }
+
+        public async Task<IdentityResult> RemoveFromRoleAsync(User user, string roleToRemove)
+        {
+            return await _userManager.RemoveFromRoleAsync(user, roleToRemove);
+        }
+
         public async Task<List<Claim>> GetUserClaims(User user)
         {
             var userRoles = await _userManager.GetRolesAsync(user);
@@ -183,6 +193,8 @@ namespace UserService.Services.UserManager
             var validMessage = await this.ValidatePassword(password);
             if (validMessage == "Succeeded")
             {
+                association.CanonicalNameAlias = association.Name.ToLower().Replace(" ", "-");
+                association.CanonicalNameAlias = System.Text.Encoding.UTF8.GetString(System.Text.Encoding.GetEncoding("ISO-8859-8").GetBytes(association.CanonicalNameAlias));
                 _uow.AssociationRepository.Add(association);
                 _uow.Save();
 

@@ -169,7 +169,6 @@ const renderSectionOrItem = (sectionData, userRole, userScopes) => {
   else {
     validateScope = true;
   }
-
   return validateRole && validateScope;
 }
 
@@ -206,12 +205,12 @@ function SidebarMenu({session}) {
                 unmountOnExit
           >
             <List component="div">
-              {items.reduce((ev, item) => renderSectionOrItem(item, userRole, userScopes) && reduceChildRoutes({ ev, item, path, userRole, userScopes }), [])}
+              {items.filter(item => renderSectionOrItem(item, userRole, userScopes)).reduce((ev, item) => reduceChildRoutes({ ev, item, path, userRole, userScopes }), [])}
             </List>
           </Collapse>
         ) : (
             <List component="div">
-              {items.reduce((ev, item) => renderSectionOrItem(item, userRole, userScopes) && reduceChildRoutes({ ev, item, path, userRole, userScopes }), [])}
+              {items.filter(item => renderSectionOrItem(item, userRole, userScopes)).reduce((ev, item) => reduceChildRoutes({ ev, item, path, userRole, userScopes }), [])}
             </List>
         )
       }
@@ -256,7 +255,7 @@ function SidebarMenu({session}) {
         />
       );
     }
-
+    
     return ev;
   };
 

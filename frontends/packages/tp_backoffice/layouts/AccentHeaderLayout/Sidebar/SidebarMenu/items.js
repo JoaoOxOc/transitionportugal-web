@@ -18,6 +18,7 @@ import NewspaperTwoToneIcon from '@mui/icons-material/NewspaperTwoTone';
 import ContactPhoneTwoToneIcon from '@mui/icons-material/ContactPhoneTwoTone';
 import BlurCircularTwoToneIcon from '@mui/icons-material/BlurCircularTwoTone';
 import VolunteerActivismTwoToneIcon from '@mui/icons-material/VolunteerActivismTwoTone';
+import AccountBalanceTwoToneIcon from '@mui/icons-material/AccountBalanceTwoTone';
 
 import { i18nextSidemenu } from "@transitionpt/translations";
 
@@ -25,7 +26,7 @@ const menuItems = [
   {
     heading: i18nextSidemenu.t('SIDEMENU_HEADERS.general'),
     collapsable: false,
-    roles: ["Admin", "User"],
+    roles: ["Admin", "User", "AssociationAdmin", "AssociationUser"],
     scopes: ["any"],
     items: [
       {
@@ -34,6 +35,13 @@ const menuItems = [
         link: '/',
         roles: ["Admin", "User"],
         scopes: ["any"]
+      },
+      {
+        name: i18nextSidemenu.t('SIDEMENU_PROFILE.association'),
+        icon: AccountBalanceTwoToneIcon,
+        link: '/profile/association',
+        roles: ["AssociationAdmin", "AssociationUser"],
+        scopes: ["association.read", "association.admin"]
       }
     ]
   },
