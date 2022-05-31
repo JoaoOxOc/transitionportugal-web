@@ -30,12 +30,12 @@ COPY  packages/tp_geolocation/ /app/packages/tp_geolocation/
 RUN npm config set legacy-peer-deps true
 
 RUN npx lerna bootstrap --scope=@transitionpt/translations --no-ci --includeDependencies
-WORKDIR /app/packages/tp_translations/
-RUN npm install --force
+#WORKDIR /app/packages/tp_translations/
+#RUN npm install --force
 
 RUN npx lerna bootstrap --scope=@transitionpt/geolocation --no-ci --includeDependencies
-WORKDIR /app/packages/tp_geolocation/
-RUN npm install --force
+#WORKDIR /app/packages/tp_geolocation/
+#RUN npm install --force
 
 RUN npx lerna run tsc --stream
 
@@ -50,8 +50,8 @@ COPY  packages/tp_backoffice/ /app/packages/tp_backoffice/
 #RUN npm config set legacy-peer-deps true
 #RUN true
 RUN npx lerna bootstrap --scope=@transitionpt/backoffice --no-ci --includeDependencies
-WORKDIR /app/packages/tp_backoffice/
-RUN npm install --force
+#WORKDIR /app/packages/tp_backoffice/
+#RUN npm install --force
 #RUN ls -l /app/packages/tp_backoffice/node_modules
 #RUN ls -l /app/packages/tp_backoffice/node_modules/@transitionpt
 
