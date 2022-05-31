@@ -68,14 +68,13 @@ RUN rm -rf /app/packages/tp_backoffice/node_modules/@transitionpt/
 FROM base as final-transitionpt_backoffice-build-stage
 copy --from=transitionpt_backoffice-build /app/node_modules /app/node_modules
 COPY --from=transitionpt_backoffice-build /app/packages /app/packages
-RUN ls -l /app/packages
 COPY --from=transitionpt_backoffice-build /app/packages/tp_backoffice /app/packages/tp_backoffice
-RUN ls -l /app/packages/tp_translations
 COPY --from=transitionpt_backoffice-build /app/packages/tp_translations /app/packages/tp_translations
 COPY --from=transitionpt_backoffice-build /app/packages/tp_geolocation /app/packages/tp_geolocation
 COPY --from=transitionpt_backoffice-build /app/packages/tp_components /app/packages/tp_components
 # WORKAROUND: lerna compiles packages as a symlink in node_modules, which will not work with next start command. Full compiled folder is needed
 COPY --from=transitionpt_backoffice-build /app/packages/tp_backoffice/node_modules /app/packages/tp_backoffice/node_modules
+RUN ls -l /app/packages/tp_backoffice/node_modules
 copy --from=transitionpt_backoffice-build /app/packages/tp_translations /app/packages/tp_backoffice/node_modules/@transitionpt/translations/
 RUN ls -l /app/packages/tp_backoffice/node_modules/@transitionpt
 RUN ls -l /app/node_modules
