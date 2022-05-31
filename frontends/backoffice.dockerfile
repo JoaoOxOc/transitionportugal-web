@@ -83,7 +83,7 @@ copy --from=transitionpt_backoffice-build /app/packages/tp_components /app/packa
 
 WORKDIR /app/packages/tp_backoffice
 
-RUN npm run install --loglevel verbose
+RUN npm install --loglevel verbose
 RUN ls -l /app/packages/tp_backoffice/node_modules
 
 ARG NEXT_PUBLIC_API_BASE_URL
