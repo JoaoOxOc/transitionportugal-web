@@ -17,6 +17,7 @@ export declare const RESET_TRANSLATIONS: {
         readonly confirmPassword: "Confirmar Palavra-passe";
         readonly confirm_password_help: "Repita a sua nova palavra-passe";
         readonly submit_help: "Este formulário submete a sua nova palavra-passe para a sua conta registada";
+        readonly resetErrorResult: "apresenta a mensagem de erro quando a recuperação Palavra-passe falha";
     };
     readonly MESSAGES: {
         readonly passwordRequired: "A palavra-passe é obrigatória";
@@ -29,6 +30,7 @@ export declare const RESET_TRANSLATIONS: {
         readonly passwordComplexityError: "A sua nova palavra-passe tem de conter, pelo menos, 1 símbolo, 1 número, 1 letra maiúscula e outra minúscula.";
         readonly passwordReset: "Palavra-passe alterada.";
         readonly successMessage: "Pode agora proceder para autenticação e utilizar a sua nova palavra-passe";
+        readonly userResetError: "Ocorreu um erro ao contactar o serviço. Por favor tente novamente. Se o problema persistir por favor contacte o administrador da plataforma";
     };
 };
 //# sourceMappingURL=reset.d.ts.map
