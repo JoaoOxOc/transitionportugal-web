@@ -1,7 +1,7 @@
 import * as Yup from 'yup';
 import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/router';
-import { useFormik } from 'formik';
+import { useFormik, ErrorMessage } from 'formik';
 import Link from '../../../components/Link';
 import { getProviders, signIn } from "next-auth/react";
 import { getCsrfToken } from "next-auth/react";
@@ -12,12 +12,15 @@ import {
   FormHelperText,
   TextField,
   Checkbox,
+  Alert,
   Typography,
   FormControlLabel,
   CircularProgress
 } from '@mui/material';
 // import { useAuth } from '../../../hooks/useAuth';
 import { useRefMounted } from '../../../hooks/useRefMounted';
+import Modal from '../../../components/Modal';
+import TermsModal from '../../../content/TermsModal';
 import { useSnackbar } from 'notistack';
 import { Slide } from '@mui/material';
 import { i18nextLoginForm } from "@transitionpt/translations";
@@ -46,19 +49,41 @@ const SignInError = ({ error, t }) => {
   else {
     errorMessage = error && (errors[error] ?? errors.default);
   }
-  useEffect(() => {
-    enqueueSnackbar(t(errorMessage), {
-            variant: 'error',
-            anchorOrigin: {
-              vertical: 'top',
-              horizontal: 'center'
-            },
-            autoHideDuration: 2000,
-            TransitionComponent: Slide
-          });
-  }, [errorMessage,enqueueSnackbar,t]);
+  // useEffect(() => {
+  //   enqueueSnackbar(t(errorMessage), {
+  //           variant: 'error',
+  //           anchorOrigin: {
+  //             vertical: 'top',
+  //             horizontal: 'center'
+  //           },
+  //           autoHideDuration: 2000,
+  //           TransitionComponent: Slide
+  //         });
+  // }, [errorMessage,enqueueSnackbar,t]);
   return (
-    <></>
+    <>
+      <Alert
+        sx={{
+          mb: 1
+        }}
+        // action={
+        //   <IconButton
+        //     aria-label="close"
+        //     color="inherit"
+        //     size="small"
+        //     onClick={() => {
+        //       setOpenAlert(false);
+        //     }}
+        //   >
+        //     <CloseIcon fontSize="inherit" />
+        //   </IconButton>
+        // }
+        severity="error"
+        aria-label={ t('FORMS.authErrorResult') }
+      >
+        <span>{t(errorMessage)}</span>
+      </Alert>
+    </>
     // <div className="error">
     //   <p>{t(errorMessage)}</p>
     // </div>
@@ -66,14 +91,34 @@ const SignInError = ({ error, t }) => {
 };
 
 
-export const LoginJWT = ({ providers, csrfToken, ...props }) => {
+export const LoginJWT = ({ providers, csrfToken, termsProps, ...props }) => {
   const router = useRouter();
   const { backTo, error } = router.query;
   const { t } = i18nextLoginForm;
   // const { login } = useAuth();
+const [termsConsented, setTermsConsented] = useState('');
+  const [isOpen, setIsOpen] = useState(false);
   const isMountedRef = useRefMounted();
   const { enqueueSnackbar } = useSnackbar();
   const formLoginElement = useRef(null);
+
+  const termsDialogJson = {
+    closeLabel: t("LABELS.closeTermsDialog"),
+    okReturnOption: "consented",
+    showOkButton: false,
+    okButton: t("LABELS.termsConsentButton"),
+    showCancelButton: true,
+    cancelButton: t("LABELS.termsCancelButton"),
+  }
+
+  const receiveCancelConsentAction = (eventValue) => {
+    setIsOpen(false);
+  }
+
+  const receiveConsentAction = (eventValue) => {
+    setTermsConsented(true);
+    setIsOpen(false);
+  }
   
   const formik = useFormik({
     initialValues: {
@@ -90,10 +135,9 @@ export const LoginJWT = ({ providers, csrfToken, ...props }) => {
       password: Yup.string()
         .max(255)
         .required(t('MESSAGES.passwordRequired')),
-      terms: Yup.boolean().oneOf(
-        [true],
-        t('MESSAGES.termsRequired')
-      )
+      terms: Yup.bool()
+      .oneOf([true],t('MESSAGES.termsRequired'))
+      .required(t('MESSAGES.termsRequired'))
     }),
     onSubmit: async (values, helpers) => {
       // helpers.validateForm(values).then((e) => {helpers.setSubmitting(true); formLoginElement.current.submit(values);})
@@ -115,8 +159,8 @@ export const LoginJWT = ({ providers, csrfToken, ...props }) => {
       }
       if (res.error) {
         if (error) {
-          //window.history.replaceState({}, null, "/admin/auth/login/cover" + (backTo ? '&error=' : '?error=') + res.error);
-          router.push(window.location.replace("/admin/auth/login/cover" + (backTo ? '&error=' : '?error=') + res.error));
+          window.history.pushState({}, null, "/admin/auth/login/cover" + (backTo ? '&error=' : '?error=') + res.error);
+          //router.push(window.location.replace("/admin/auth/login/cover" + (backTo ? '&error=' : '?error=') + res.error));
         }
         router.push(window.location + (backTo ? '&error=' : '?error=') + res.error);
       }
@@ -156,6 +200,7 @@ export const LoginJWT = ({ providers, csrfToken, ...props }) => {
     if (providerData.name == "Credentials") {
       return (
           <form key={providerData.name} ref={formLoginElement} onSubmit={formik.handleSubmit} action={providerData.callbackUrl} method="POST" {...props}>
+            {error && <SignInError error={error} t={t} />}
             <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
             <TextField
               error={Boolean(formik.touched.username && formik.errors.username)}
@@ -204,7 +249,7 @@ export const LoginJWT = ({ providers, csrfToken, ...props }) => {
                   <>
                     <Typography variant="body2">
                       {t('LABELS.accept')}{' '}
-                      <Link href="#" aria-label={ t('LABELS.linkToReadTerms') }>{t('LABELS.terms')}</Link>.
+                      <Link href="#" onClick={() => setIsOpen(true)} aria-label={ t('LABELS.linkToReadTerms') }>{t('LABELS.terms')}</Link>.
                     </Typography>
                   </>
                 }
@@ -235,6 +280,7 @@ export const LoginJWT = ({ providers, csrfToken, ...props }) => {
             >
               {t('LABELS.signInHere')}
             </Button>
+            {(termsProps.terms && isOpen) && <Modal dialogOkAction={receiveConsentAction} dialogCancelAction={receiveCancelConsentAction} dialogJson={termsDialogJson} setIsOpen={isOpen}><TermsModal termsLanguages={termsProps.terms.termsLanguages}/></Modal>}
           </form>
       )
     }
@@ -255,9 +301,8 @@ export const LoginJWT = ({ providers, csrfToken, ...props }) => {
 
   return (
     <>
-      {error && <SignInError error={error} t={t} />}
-      {providers && Object.values(providers).map((provider) => (
-        setProviderLayout(provider)
+      {providers && Object.values(providers).map((provider, index) => (
+        setProviderLayout(provider, index)
       ))}
     </>
   );

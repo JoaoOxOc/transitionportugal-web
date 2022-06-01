@@ -47,7 +47,7 @@ const MainContent = styled(Box)(
     padding: '0 0 0 0'
   },
   [theme.breakpoints.up('md')]: {
-    padding: '0 0 0 440px'
+    padding: '0 440px 0 0'
   },
   width: '100%',
   display: 'flex',
@@ -59,7 +59,7 @@ const MainContent = styled(Box)(
 const SidebarWrapper = styled(Box)(
   ({ theme }) => `
     position: fixed;
-    left: 0;
+    right: 0;
     top: 0;
     height: 100%;
     background: ${theme.colors.alpha.white[100]};
@@ -99,7 +99,7 @@ const TypographyH1 = styled(Typography)(
 );
 
 
-function LoginCover({ providers, csrfToken }) {
+function LoginCover({ providers, csrfToken, termsProps }) {
   const { method } = useAuth();
   const { t } = i18nextLogin;
   const [currentLang, setLang] = useState("pt");
@@ -129,6 +129,113 @@ function LoginCover({ providers, csrfToken }) {
         <title>{t('LABELS.pageTitle')}</title>
       </Head>
       <Content>
+        <MainContent>
+          <Container
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              flexDirection: 'column'
+            }}
+            maxWidth="sm"
+          >
+            <Container maxWidth="sm"
+              sx={{
+                display: { xs: 'grid', md: 'none' },
+                padding: { xs: '10px', md: 'none' },
+                a: {
+                  margin: { xs: '0 auto', md: '0' }
+                }
+              }}>
+              <Logo />
+              <Box sx={{width: "100%", padding: '10px', background: "white", borderRadius: '10px', boxShadow: '0px 9px 16px rgb(159 162 191 / 18%), 0px 2px 2px rgb(159 162 191 / 32%)'}}>
+                <Typography
+                  variant="subtitle1"
+                  sx={{
+                    my: 1
+                  }}
+                >
+                  {t(
+                    'COVER.description'
+                  )}
+                </Typography>
+                <Typography
+                  variant="subtitle1"
+                  color="text.primary"
+                  fontWeight="bold"
+                >
+                  {t('COVER.subtitle')}
+                </Typography>
+                <Typography variant="subtitle1">
+                  {t(
+                    'COVER.subtitleDescription'
+                  )}
+                  &nbsp;<Link href={process.env.NEXT_PUBLIC_HOME_URL + '/#about'}>{t('COVER.subtitleLink')}</Link>
+                </Typography>
+              </Box>
+            </Container>
+            
+            <Card
+              sx={{
+                p: 4,
+                my: 4
+              }}
+            >
+              <Box textAlign="center">
+                <Typography
+                  variant="h2"
+                  sx={{
+                    mb: 1
+                  }}
+                >
+                  {t('LABELS.title')}
+                </Typography>
+                <Typography
+                  variant="h4"
+                  color="text.secondary"
+                  fontWeight="normal"
+                  sx={{
+                    mb: 3
+                  }}
+                >
+                  {t('LABELS.subtitle')}
+                </Typography>
+              </Box>
+              {method === 'Auth0' && <LoginAuth0 />}
+              {method === 'FirebaseAuth' && <LoginFirebaseAuth />}
+              {method === 'JWT' && <LoginJWT providers={providers} csrfToken={csrft} termsProps={termsProps}/>}
+              {method === 'Amplify' && <LoginAmplify />}
+              <Box my={4}>
+                <Typography
+                  component="span"
+                  variant="subtitle2"
+                  color="text.primary"
+                  fontWeight="bold"
+                >
+                  {t('LABELS.noAccount')}
+                </Typography>{' '}
+                <Link
+                  href={
+                    demo
+                      ? `/auth/register/wizard?demo=${demo}`
+                      : '/auth/register/wizard'
+                  }
+                  aria-label={ t('LABELS.buttonToRegistAccount') }
+                >
+                  <b>{t('LABELS.registerHere')}</b>
+                </Link>
+              </Box>
+              {/* {method !== 'Auth0' && method !== 'JWT' && (
+                <Tooltip
+                  title={t('Used only for the live preview demonstration !')}
+                >
+                  <Alert severity="warning">
+                    Use <b>demo@example.com</b> and password <b>TokyoPass1@</b>
+                  </Alert>
+                </Tooltip>
+              )} */}
+            </Card>
+          </Container>
+        </MainContent>
         <SidebarWrapper
           sx={{
             display: { xs: 'none', md: 'flex' }
@@ -233,112 +340,6 @@ function LoginCover({ providers, csrfToken }) {
             </SidebarContent>
           </Scrollbar>
         </SidebarWrapper>
-        <MainContent>
-          <Container
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              flexDirection: 'column'
-            }}
-            maxWidth="sm"
-          >
-            <Container maxWidth="sm"
-              sx={{
-                display: { xs: 'grid', md: 'none' },
-                padding: { xs: '10px', md: 'none' },
-                a: {
-                  margin: { xs: '0 auto', md: '0' }
-                }
-              }}>
-              <Logo />
-              <Box sx={{width: "100%", padding: '10px', background: "white", borderRadius: '10px', boxShadow: '0px 9px 16px rgb(159 162 191 / 18%), 0px 2px 2px rgb(159 162 191 / 32%)'}}>
-                <Typography
-                  variant="subtitle1"
-                  sx={{
-                    my: 1
-                  }}
-                >
-                  {t(
-                    'COVER.description'
-                  )}
-                </Typography>
-                <Typography
-                  variant="subtitle1"
-                  color="text.primary"
-                  fontWeight="bold"
-                >
-                  {t('COVER.subtitle')}
-                </Typography>
-                <Typography variant="subtitle1">
-                  {t(
-                    'COVER.subtitleDescription'
-                  )}
-                  &nbsp;<Link href={process.env.NEXT_PUBLIC_HOME_URL + '/#about'}>{t('COVER.subtitleLink')}</Link>
-                </Typography>
-              </Box>
-            </Container>
-            
-            <Card
-              sx={{
-                p: 4,
-                my: 4
-              }}
-            >
-              <Box textAlign="center">
-                <Typography
-                  variant="h2"
-                  sx={{
-                    mb: 1
-                  }}
-                >
-                  {t('LABELS.title')}
-                </Typography>
-                <Typography
-                  variant="h4"
-                  color="text.secondary"
-                  fontWeight="normal"
-                  sx={{
-                    mb: 3
-                  }}
-                >
-                  {t('LABELS.subtitle')}
-                </Typography>
-              </Box>
-              {method === 'Auth0' && <LoginAuth0 />}
-              {method === 'FirebaseAuth' && <LoginFirebaseAuth />}
-              {method === 'JWT' && <LoginJWT providers={providers} csrfToken={csrft}/>}
-              {method === 'Amplify' && <LoginAmplify />}
-              <Box my={4}>
-                <Typography
-                  component="span"
-                  variant="subtitle2"
-                  color="text.primary"
-                  fontWeight="bold"
-                >
-                  {t('LABELS.noAccount')}
-                </Typography>{' '}
-                <Link
-                  href={
-                    demo
-                      ? `/auth/register/wizard?demo=${demo}`
-                      : '/auth/register/wizard'
-                  }
-                >
-                  <b>{t('LABELS.registerHere')}</b>
-                </Link>
-              </Box>
-              {/* {method !== 'Auth0' && method !== 'JWT' && (
-                <Tooltip
-                  title={t('Used only for the live preview demonstration !')}
-                >
-                  <Alert severity="warning">
-                    Use <b>demo@example.com</b> and password <b>TokyoPass1@</b>
-                  </Alert>
-                </Tooltip>
-              )} */}
-            </Card>
-          </Container>
-        </MainContent>
       </Content>
     </>
   );
@@ -351,10 +352,58 @@ LoginCover.getLayout = (page) => (
 );
 
 export async function getServerSideProps({req}) {
+  const userBrowserLanguage = req.headers ? req.headers['accept-language'].split(",")[0].toLowerCase() : "pt-pt";
+  let termsProps = {};
+  try {
+    const headers = {
+      'Cache-Control': 'no-cache',
+      'Pragma': 'no-cache',
+      'Expires': 'Sat, 01 Jan 2000 00:00:00 GMT',
+      'Accept': '*/*',
+      "Content-Type": "application/json",
+      "credentials": 'include',
+      "ClientId": process.env.AUTH_API_CLIENT_ID,
+      "ClientAuthorization": process.env.AUTH_API_CLIENT_SECRET
+    };
+    // TODO: replace constant lang with the browser 'userBrowserLanguage'?
+    const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/terms/public/get" + "?langCode=" + "pt-pt", {
+      method: "GET",
+      resolveWithFullResponse: true,
+      headers: headers,
+    });
+
+    if (!res.ok){
+      const resultErrorBody = await res.text();
+      termsProps = {
+        error: resultErrorBody, statusText: res.statusText
+      }
+    }
+    const data = await res.json();
+
+    if (!data || !data.termsRecord) {
+      termsProps = {
+        termsnotFound: true
+      }
+    }
+  
+    termsProps = {
+      terms: data.termsRecord
+    }
+  }
+  catch(ex) {
+    termsProps = {
+      termsnotFound: true,
+      error: ex.message
+    }
+  }
   const providers = await getProviders();
-  const csrfToken = await getCsrfToken({req});
+  let csrfToken = await getCsrfToken({req});
+  if (!csrfToken) {
+    csrfToken = "";
+  }
+  console.log(termsProps)
   return {
-    props: { providers, csrfToken },
+    props: { termsProps, providers, csrfToken },
   }
 }
 

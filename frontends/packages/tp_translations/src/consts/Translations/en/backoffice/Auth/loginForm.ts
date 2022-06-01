@@ -18,7 +18,8 @@ export const LOGINFORM_TRANSLATIONS = deepFreeze({
         username: "Username",
         password: "Password",
         password_help: "Insert your account password",
-        submit_help: "This form authenticates your account then you enter in the webapp if authenticated successfully"
+        submit_help: "This form authenticates your account then you enter in the webapp if authenticated successfully",
+        authErrorResult: "Shows the error message when the authentication fails"
     },
     MESSAGES: {
         loginError: "Username/Email/password are incorrect!",
