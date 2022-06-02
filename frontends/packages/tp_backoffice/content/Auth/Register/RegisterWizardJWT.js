@@ -15,18 +15,27 @@ import {
   Alert,
   Avatar,
   IconButton,
+  MenuItem,
+  ListItemText,
+  ListItem,
+  List,
+  ListItemIcon,
+  InputLabel,
+  FormControl,
   styled
 } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import { i18nextRegisterForm } from "@transitionpt/translations";
 import Link from '../../../components/Link';
 import { Field, Form, Formik, withFormik, ErrorMessage } from 'formik';
-import { CheckboxWithLabel, TextField } from 'formik-mui';
+import { CheckboxWithLabel, TextField, Select, Autocomplete } from 'formik-mui';
 import * as Yup from 'yup';
 import CloseIcon from '@mui/icons-material/Close';
 import CheckTwoToneIcon from '@mui/icons-material/CheckTwoTone';
+import CheckCircleOutlineTwoToneIcon from '@mui/icons-material/CheckCircleOutlineTwoTone';
 import Modal from '../../../components/Modal';
 import TermsModal from '../../../content/TermsModal';
+import {GenericSelectBox} from '@transitionpt/components';
 
 
 const BoxActions = styled(Box)(
@@ -59,8 +68,30 @@ const AvatarSuccess = styled(Avatar)(
   `
   );
 
+  const ListItemTextWrapper = styled(ListItemText)(
+    ({ theme }) => `
+        color: ${theme.colors.alpha.black};
+  `
+  );
+  const ListItemIconWrapper = styled(ListItemIcon)(
+    ({ theme }) => `
+        color: ${theme.colors.success.main};
+        min-width: 32px;
+  `
+  );
+
+  const CustomInputLabel = styled(InputLabel)(
+    () =>`
+    label {
+        position: relative !important;
+        margin-top: 10px !important;
+    }
+    `
+)
+
 // TODO: terms modal get consent - https://stackoverflow.com/questions/66193822/react-bootstrap-form-check-with-formik and https://formik.org/docs/api/withFormik
-export const RegisterWizardJWT = ({termsData}) => {
+export const RegisterWizardJWT = ({termsProps, associationTypes}) => {
+  console.log(associationTypes)
     const { t } = i18nextRegisterForm;
     const { enqueueSnackbar } = useSnackbar();
     const [openAlert, setOpenAlert] = useState(true);
@@ -195,8 +226,11 @@ export const RegisterWizardJWT = ({termsData}) => {
                   association_name: '',
                   association_email: '',
                   association_vat: '',
+                  association_type: '',
                   association_address: '',
                   association_town: '',
+                  association_municipality_code: '',
+                  association_district_code: '',
                 }}
                 onSubmit={async (values, helpers) => {
                   try {
@@ -398,7 +432,48 @@ export const RegisterWizardJWT = ({termsData}) => {
                           placeholder={t('PLACEHOLDER.username')}
                         />
                       </Grid>
-                      <Grid item xs={12} md={6}>
+                      <Grid item xs={12} sx={{
+                            pb: 0
+                          }}>
+                        <List
+                          dense
+                          sx={{
+                            mb: 0
+                          }}
+                        >
+                          <ListItem disableGutters>
+                            <ListItemIconWrapper>
+                              <CheckCircleOutlineTwoToneIcon />
+                            </ListItemIconWrapper>
+                            <ListItemTextWrapper
+                              primaryTypographyProps={{ variant: 'h6' }}
+                              primary={t('FORMS.passwordRule1')}
+                            />
+                          </ListItem>
+                          <ListItem disableGutters>
+                            <ListItemIconWrapper>
+                              <CheckCircleOutlineTwoToneIcon />
+                            </ListItemIconWrapper>
+                            <ListItemTextWrapper
+                              primaryTypographyProps={{ variant: 'h6' }}
+                              primary={t('FORMS.passwordRule2')}
+                            />
+                          </ListItem>
+                          <ListItem disableGutters>
+                            <ListItemIconWrapper>
+                              <CheckCircleOutlineTwoToneIcon />
+                            </ListItemIconWrapper>
+                            <ListItemTextWrapper
+                              primaryTypographyProps={{ variant: 'h6' }}
+                              primary={t('FORMS.passwordRule3')}
+                            />
+                          </ListItem>
+                        </List>
+                      </Grid>
+                      <Grid item xs={12} md={6} sx={{
+                            pt: { xs: '10px !important', md: '10px !important' },
+                            pl: 4
+                          }}>
                         <Field
                           fullWidth
                           type="password"
@@ -410,7 +485,10 @@ export const RegisterWizardJWT = ({termsData}) => {
                           placeholder={t('PLACEHOLDER.password')}
                         />
                       </Grid>
-                      <Grid item xs={12} md={6}>
+                      <Grid item xs={12} md={6} sx={{
+                            pt: { xs: '10px !important', md: '10px !important' },
+                            pl: 4
+                          }}>
                         <Field
                           fullWidth
                           type="password"
@@ -455,7 +533,7 @@ export const RegisterWizardJWT = ({termsData}) => {
                       </Grid>
                     </Grid>
                   </BoxFields>
-                  {isOpen && <Modal dialogOkAction={receiveConsentAction} dialogCancelAction={receiveCancelConsentAction} dialogJson={termsDialogJson} setIsOpen={isOpen}><TermsModal termsLanguages={termsData.termsLanguages}/></Modal>}
+                  {termsProps.terms && isOpen && <Modal dialogOkAction={receiveConsentAction} dialogCancelAction={receiveCancelConsentAction} dialogJson={termsDialogJson} setIsOpen={isOpen}><TermsModal termsLanguages={termsProps.terms.termsLanguages}/></Modal>}
                 </FormikStep>
                 <FormikStep
                   validationSchema={Yup.object().shape({
@@ -486,11 +564,18 @@ export const RegisterWizardJWT = ({termsData}) => {
                         useRef(cacheTest(checkAssociationVatValid)).current
                         
                       ),
+                      association_type: Yup.string()
+                      .required(t('MESSAGES.associationTypeRequired')),
                       association_address: Yup.string()
                       .max(100,t('MESSAGES.associationAddressTooBig', { number: 100 })),
                       association_town: Yup.string()
                       .max(50,t('MESSAGES.associationTownTooBig', { number: 50 }))
-                      .required(t('MESSAGES.associationTownRequired'))
+                      .required(t('MESSAGES.associationTownRequired')),
+                      association_municipality_code: Yup.string()
+                      .required(t('MESSAGES.associationMunicipalityRequired')),
+                      association_district_code: Yup.string()
+                      .required(t('MESSAGES.associationDistrictRequired'))
+                      
                   })}
                   label={t('LABELS.step2Title')}
                 >
@@ -518,6 +603,24 @@ export const RegisterWizardJWT = ({termsData}) => {
                         />
                       </Grid>
                       <Grid item xs={12} md={6}>
+                        <FormControl sx={{width: '100%'}}>
+                          <InputLabel id="association-type-label">{t('FORMS.associationType')}</InputLabel>
+                          <Field
+                            name="association_type"
+                            fullWidth
+                            required={true}
+                            component={GenericSelectBox}
+                            aria-labelledby={ t('FORMS.associationType') } 
+                            aria-describedby={ t('FORMS.associationType_help') }>
+                            <MenuItem value="">{t("PLACEHOLDER.associationType")}</MenuItem>
+                            {associationTypes && !associationTypes.associationTypesError && associationTypes.map((type, index) => {
+                              <MenuItem key={index} value={type.code}>{type.name}</MenuItem>
+                            })
+                            }
+                          </Field>
+                        </FormControl>
+                      </Grid>
+                      <Grid item xs={12} md={6}>
                         <Field
                           fullWidth
                           name="association_vat"
@@ -526,6 +629,31 @@ export const RegisterWizardJWT = ({termsData}) => {
                           aria-labelledby={ t('FORMS.associationVat') } 
                           aria-describedby={ t('FORMS.associationVat_help') }
                         />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <Typography
+                          variant="h4"
+                          sx={{
+                            lineHeight: 1.5,
+                            px: 4
+
+                          }}
+                        >
+                          {t("FORMS.geolocationTitle")}
+                        </Typography>
+                        <Typography
+                          variant="h4"
+                          color="text.secondary"
+                          fontWeight="normal"
+                          sx={{
+                            lineHeight: 1.5,
+                            px: 4
+
+                          }}
+                        >
+                          {t("FORMS.geolocationSubtitle")}
+                        </Typography>
+                        <Divider/>
                       </Grid>
                       <Grid item xs={12} md={6}>
                         <Field
@@ -546,6 +674,42 @@ export const RegisterWizardJWT = ({termsData}) => {
                           aria-labelledby={ t('FORMS.associationTown') } 
                           aria-describedby={ t('FORMS.associationTown_help') }
                         />
+                      </Grid>
+                      <Grid item xs={12} md={6}>
+                        <FormControl sx={{width: '100%'}}>
+                          <InputLabel id="association-district-label">{t('FORMS.associationDistrict')}</InputLabel>
+                          <Field
+                            name="association_district_code"
+                            fullWidth
+                            required={true}
+                            component={GenericSelectBox}
+                            aria-labelledby={ t('FORMS.associationDistrict') } 
+                            aria-describedby={ t('FORMS.associationDistrict_help') }>
+                            <MenuItem value="">{t("PLACEHOLDER.associationDistrict")}</MenuItem>
+                            {associationTypes && !associationTypes.associationTypesError && associationTypes.map((type, index) => {
+                              <MenuItem key={index} value={type.code}>{type.name}</MenuItem>
+                            })
+                            }
+                          </Field>
+                        </FormControl>
+                      </Grid>
+                      <Grid item xs={12} md={6}>
+                        <FormControl sx={{width: '100%'}}>
+                          <InputLabel id="association-municipality-label">{t('FORMS.associationMunicipality')}</InputLabel>
+                          <Field
+                            name="association_municipality_code"
+                            fullWidth
+                            required={true}
+                            component={GenericSelectBox}
+                            aria-labelledby={ t('FORMS.associationMunicipality') } 
+                            aria-describedby={ t('FORMS.associationMunicipality_help') }>
+                            <MenuItem value="">{t("PLACEHOLDER.associationMunicipality")}</MenuItem>
+                            {associationTypes && !associationTypes.associationTypesError && associationTypes.map((type, index) => {
+                              <MenuItem key={index} value={type.code}>{type.name}</MenuItem>
+                            })
+                            }
+                          </Field>
+                        </FormControl>
                       </Grid>
                     </Grid>
                   </Box>

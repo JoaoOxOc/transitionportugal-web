@@ -28,16 +28,25 @@ export declare const REGISTERFORM_TRANSLATIONS: {
         readonly username_help: "Insert your username to be used on authentication through the webapp";
         readonly password: "Password";
         readonly password_help: "Insert your password to be used on authentication through the webapp";
+        readonly passwordRule1: "The password must have at least 8 characters";
+        readonly passwordRule2: "The password must have at least 1 capital letter";
+        readonly passwordRule3: "The password must have at least 1 special character and 1 number";
         readonly confirmPassword: "Confirm Password";
         readonly confirmPassword_help: "Insert again your password to confirm it";
         readonly confirmTerms: "Checkbox to confirm that you agree to the terms of the webapp";
         readonly confirmTerms_help: "Checks that you agree with the terms. You can read them through the popup link right besides this";
         readonly confirmTermsPopup: "Link that opens the popup for terms reading";
+        readonly geolocationTitle: "Address Data";
+        readonly geolocationSubtitle: "Will be used to determine your initiative/movement location";
         readonly associationName: "Initiative/movement Name";
         readonly associationEmail: "Initiative/movement Email";
         readonly associationVat: "Initiative/movement VAT Number";
+        readonly associationType: "Initiative/movement Type";
+        readonly associationType_help: "The type identifies which formal entity type the initiative is";
         readonly associationAddress: "Initiative/movement Street Address";
         readonly associationTown: "Initiative/movement Town";
+        readonly associationMunicipality: "Initiative/movement Municipality";
+        readonly associationDistrict: "Initiative/movement District";
     };
     readonly PLACEHOLDER: {
         readonly firstName: "Write your first name here...";
@@ -46,6 +55,8 @@ export declare const REGISTERFORM_TRANSLATIONS: {
         readonly username: "Write your username for auth here...";
         readonly password: "Write a password for auth here...";
         readonly confirmPassword: "Confirm the password here...";
+        readonly associationType: "Select the entity type...";
+        readonly associationMunicipality: "Select the Initiative/movement Municipality depending on the district selected...";
     };
     readonly MESSAGES: {
         readonly loginError: "Username/Email/password are incorrect!";
@@ -77,6 +88,7 @@ export declare const REGISTERFORM_TRANSLATIONS: {
         readonly associationVatTooBig: "Your Initiative/movement VAT Number cannot have more than {{number}} characters";
         readonly associationVatAlreadyTaken: "The inserted VAT Number is already taken";
         readonly associationVatInvalid: "The inserted VAT Number is not an EU valid VAT";
+        readonly associationTypeRequired: "The Initiative/movement is required";
         readonly associationAddressTooBig: "Your Initiative/movement street address cannot have more than {{number}} characters";
         readonly associationTownTooBig: "Your Initiative/movement town cannot have more than {{number}} characters";
         readonly associationTownRequired: "Your Initiative/movement town is required";

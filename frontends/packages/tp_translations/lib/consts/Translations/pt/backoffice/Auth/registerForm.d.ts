@@ -28,16 +28,27 @@ export declare const REGISTERFORM_TRANSLATIONS: {
         readonly lastName_help: "Campo para preencher o teu apelido";
         readonly password: "Palavra-passe";
         readonly password_help: "Insere a tua Palavra-passe que será usada no processo de autenticação na aplicação";
+        readonly passwordRule1: "A palavra-passe deverá ter pelo menos 8 caracteres";
+        readonly passwordRule2: "A palavra-passe deverá ter pelo menos 1 letra maiúscula";
+        readonly passwordRule3: "A palavra-passe deverá ter pelo menos 1 caracter especial e 1 número";
         readonly confirmPassword: "Confirma a Palavra-passe";
         readonly confirmPassword_help: "Insere novamente a tua Palavra-passe por forma a confirmá-la";
         readonly confirmTerms: "Caixa de confirmação de que concordas com os termos de uso da aplicação";
         readonly confirmTerms_help: "Valida que concordas com os termos de uso. Podes consultá-los através do link para o popup de leitura dos mesmos à frente desta caixa de verificação";
         readonly confirmTermsPopup: "Link que abre o popup para consulta dos termos de uso";
+        readonly geolocationTitle: "Dados de Localização";
+        readonly geolocationSubtitle: "Serão usados para localizar no mapa a sua iniciativa/movimento";
         readonly associationName: "Nome da Iniciativa/Movimento";
         readonly associationEmail: "Email da Iniciativa/Movimento";
         readonly associationVat: "NIF da Iniciativa/Movimento";
+        readonly associationType: "Tipo de Iniciativa/Movimento";
+        readonly associationType_help: "Identifica o tipo de entidade formal relativa à inciativa/movimento";
         readonly associationAddress: "Morada da Iniciativa/Movimento";
-        readonly associationTown: "Concelho da Iniciativa/Movimento";
+        readonly associationTown: "Localidade da Iniciativa/Movimento";
+        readonly associationMunicipality: "Município da Iniciativa/Movimento";
+        readonly associationMunicipality_help: "Seleccione o município da Iniciativa/Movimento dependendo do districto seleccionado";
+        readonly associationDistrict: "Distrito da Iniciativa/Movimento";
+        readonly associationDistrict_help: "Seleccione o distrito da Iniciativa/Movimento";
     };
     readonly PLACEHOLDER: {
         readonly firstName: "Escreve o teu primeiro nome aqui...";
@@ -46,6 +57,9 @@ export declare const REGISTERFORM_TRANSLATIONS: {
         readonly username: "Escreve o teu username para autenticação aqui...";
         readonly password: "Escreve a tua palavra-passe para autenticação aqui...";
         readonly confirmPassword: "Confirma a tua palavra-passe aqui...";
+        readonly associationType: "Seleccione o tipo de entidade...";
+        readonly associationMunicipality: "Seleccione o município da Iniciativa/Movimento...";
+        readonly associationDistrict: "Seleccione o distrito da Iniciativa/Movimento...";
     };
     readonly MESSAGES: {
         readonly loginError: "Username/Email/Palavra-passe incorrectos!";
@@ -77,9 +91,12 @@ export declare const REGISTERFORM_TRANSLATIONS: {
         readonly associationVatTooBig: "O NIF da Iniciativa/Movimento não pode ter mais do que {{number}} caracteres";
         readonly associationVatAlreadyTaken: "O NIF inserido já está a ser utilizado";
         readonly associationVatInvalid: "O NIF inserido não é um NIF válido na UE";
+        readonly associationTypeRequired: "O tipo Iniciativa/Movimento da é obrigatório";
         readonly associationAddressTooBig: "O endereço da Iniciativa/Movimento não pode ter mais do que {{number}} caracteres";
-        readonly associationTownTooBig: "O concelho da Iniciativa/Movimento não pode ter mais do que {{number}} caracteres";
-        readonly associationTownRequired: "O concelho da Iniciativa/Movimento é obrigatório";
+        readonly associationTownTooBig: "A localidade da Iniciativa/Movimento não pode ter mais do que {{number}} caracteres";
+        readonly associationTownRequired: "A localidade da Iniciativa/Movimento é de preenchimento obrigatório";
+        readonly associationDistrictRequired: "O distrito da Iniciativa/Movimento é de selecção obrigatória";
+        readonly associationMunicipalityRequired: "O município da Iniciativa/Movimento é de selecção obrigatória";
         readonly confirmationEmailSent: "O pedido de confirmação do email foi enviado para cada um dos emails";
         readonly serverError: "Ocorreu um erro desconhecido. Por favor tente novamente";
         readonly successfulMessage: "Obrigado pelo teu registo. Os teus dados estão agora a ser verificados. Por favor aguarda por um email com mais instruções";

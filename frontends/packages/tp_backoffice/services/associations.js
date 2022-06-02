@@ -24,6 +24,17 @@ export const GetAssociationData = async(associationsApiUri, bearerToken) => {
     return response;
 }
 
+export const GetAssociationTypes = async(associationTypesApiUri) => {
+    let response = await genericFetch(associationTypesApiUri, "GET", null,{});
+    if (response.requestAgain) {
+        response = await genericFetch(associationTypesApiUri, "GET", null,{});
+    }
+    else if (response.status == 404) {
+        response.associationTypes = {};
+    }
+    return response;
+}
+
 export const UpdateAssociationData = async(associationsApiUri, associationDataJson, bearerToken) => {
     let response = await genericFetch(associationsApiUri, "PUT", bearerToken,associationDataJson);
     if (response.requestAgain) {

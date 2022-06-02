@@ -5,6 +5,7 @@ export declare const REGISTER_TRANSLATIONS: {
         readonly subtitle: "Preenche os seguintes campos para registar o teu movimento/iniciativa.";
         readonly alreadyRegistered: "Já tens uma conta?";
         readonly signInHere: "Entra aqui";
+        readonly buttonToLogin: "Botão para voltar à página de autenticação";
     };
     readonly COVER: {
         readonly title: "Um enorme movimento de mudança";
