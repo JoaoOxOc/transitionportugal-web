@@ -11,8 +11,20 @@ website and web services of transition network in Portugal
 	- `npm run run:backoffice:dev`(on the frontend's root folder): it will start the "backoffice" NextJS project. Also the same commands as the previous line explanation
 	
 - How to run frontends in dev environment:
-	- first, run "bootstrap" command just to verify all the dependencies
-	- just run "home" or "backoffice" commands, depending on which project you want to start
+	- first, run `npm install lerna` command
+	- after lerna is installed, run `npm run bootstrap` command just to verify all the dependencies
+	- create a `.env.local` file in the backoffice project folder and insert the following parameters:
+		- `NEXT_PUBLIC_API_BASE_URL` - the base URL for the backend gateway
+		- `NEXT_PUBLIC_AUTH_URL` - the next-auth url like "http://localhost:3000/admin/api/auth"
+		- `NEXT_PUBLIC_CLIENT_ID` - the client ID authorized to access backend API's
+		- `NEXT_PUBLIC_CLIENT_SECRET` - the client secret for authorization to access backend API's
+		- `NEXT_PUBLIC_HOME_URL` - the URL of the home frontend project
+		- `NEXTAUTH_SECRET` - the RSA secret used by next-auth to encrypt cookies
+		- `NEXTAUTH_URL` - the next-auth url like "http://localhost:3000/admin/api/auth"
+		- `AUTH_API_URL` - the base URL for the backend gateway
+		- `AUTH_API_CLIENT_ID` - the client ID authorized to access backend API's and used by next-auth server side methods
+		- `AUTH_API_CLIENT_SECRET` - the client secret for authorization to access backend API's and used by next-auth server side methods
+	- just run "home" or "backoffice" commands (`npm run run:backoffice:dev` for example, depending on which project you want to start
 	
 - How to install packages in a specific project:
 	- example: `lerna add styled-components --scope=@transitionpt/generic_header`
