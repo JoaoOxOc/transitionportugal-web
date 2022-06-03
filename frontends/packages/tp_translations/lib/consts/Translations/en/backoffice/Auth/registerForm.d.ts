@@ -45,6 +45,8 @@ export declare const REGISTERFORM_TRANSLATIONS: {
         readonly associationType_help: "The type identifies which formal entity type the initiative is";
         readonly associationAddress: "Initiative/movement Street Address";
         readonly associationTown: "Initiative/movement Town";
+        readonly associationPostalCode: "Initiative/movement Postal Code";
+        readonly associationPostalCode_help: "The postal code of the Initiative/movement";
         readonly associationMunicipality: "Initiative/movement Municipality";
         readonly associationDistrict: "Initiative/movement District";
     };

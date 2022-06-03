@@ -45,6 +45,8 @@ export declare const REGISTERFORM_TRANSLATIONS: {
         readonly associationType_help: "Identifica o tipo de entidade formal relativa à inciativa/movimento";
         readonly associationAddress: "Morada da Iniciativa/Movimento";
         readonly associationTown: "Localidade da Iniciativa/Movimento";
+        readonly associationPostalCode: "Código Postal da Iniciativa/Movimento";
+        readonly associationPostalCode_help: "Código Postal da Iniciativa/Movimento";
         readonly associationMunicipality: "Município da Iniciativa/Movimento";
         readonly associationMunicipality_help: "Seleccione o município da Iniciativa/Movimento dependendo do districto seleccionado";
         readonly associationDistrict: "Distrito da Iniciativa/Movimento";
@@ -95,6 +97,9 @@ export declare const REGISTERFORM_TRANSLATIONS: {
         readonly associationAddressTooBig: "O endereço da Iniciativa/Movimento não pode ter mais do que {{number}} caracteres";
         readonly associationTownTooBig: "A localidade da Iniciativa/Movimento não pode ter mais do que {{number}} caracteres";
         readonly associationTownRequired: "A localidade da Iniciativa/Movimento é de preenchimento obrigatório";
+        readonly associationPostalCodeTooBig: "O código postal da Iniciativa/Movimento não pode ter mais do que {{number}} caracteres";
+        readonly associationPostalCodeRequired: "O código postal da Iniciativa/Movimento é de preenchimento obrigatório";
+        readonly associationPostalCodeInvalid: "O código postal não é válido";
         readonly associationDistrictRequired: "O distrito da Iniciativa/Movimento é de selecção obrigatória";
         readonly associationMunicipalityRequired: "O município da Iniciativa/Movimento é de selecção obrigatória";
         readonly confirmationEmailSent: "O pedido de confirmação do email foi enviado para cada um dos emails";

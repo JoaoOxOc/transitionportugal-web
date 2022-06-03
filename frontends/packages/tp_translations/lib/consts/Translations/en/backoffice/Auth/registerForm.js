@@ -46,6 +46,8 @@ export var REGISTERFORM_TRANSLATIONS = deepFreeze({
         associationType_help: "The type identifies which formal entity type the initiative is",
         associationAddress: "Initiative/movement Street Address",
         associationTown: "Initiative/movement Town",
+        associationPostalCode: "Initiative/movement Postal Code",
+        associationPostalCode_help: "The postal code of the Initiative/movement",
         associationMunicipality: "Initiative/movement Municipality",
         associationDistrict: "Initiative/movement District",
     },
