@@ -134,21 +134,26 @@ const PostalCodeMaskInput = forwardRef((props, ref) => {
 )});
 PostalCodeMaskInput.displayName = "PostalCodeMaskInput";
 
+const formikValues = null;
+const formikSetFieldValue = null;
+const formikHandleChange = null;
+const formikHandleBlur = null;
+let associationPostalCodeValue = '';
+
 //https://codesandbox.io/s/lingering-platform-hqh1c?file=/src/FormikTextField.js:177-565
 //https://codesandbox.io/s/formik-with-custom-field-component-s90x2?file=/src/InputText.jsx:184-209
 const PostalCodeCustomInput = forwardRef((props, ref) => {
-  console.log(props,ref)
   const { inputRef, onChange, onBlur,onFocus, ...other } = props;
   return (
     <IMaskInput
       {...other}
       ref={inputRef}
       mask={postalCodeMask}
-      onChange={(event) => onChange(event,true)}
-      onBlur={(event) => {onBlur(event)}}
+      onChange={formikHandleChange}
+      onBlur={formikHandleBlur}
       onFocus={(event) => {onFocus(event)}}
       disabled={false}
-      required={true}
+      // required={true}
     />
   );
 });
@@ -199,6 +204,8 @@ export const RegisterWizardJWT = ({termsProps, associationTypes}) => {
     const [termsConsented, setTermsConsented] = useState('');
     const [isOpen, setIsOpen] = useState(false);
     const [currentLang, setLang] = useState("pt");
+    // const [formikHandleChange, setHandleChange] = useState(() => () => console.log("formik handle change"));
+    // const [formikHandleBlur, setHandleBlur] = useState(() => () => console.log("formik handle blur"));
     i18nextRegisterForm.changeLanguage(currentLang);
 
     useEffect(() => {
@@ -305,11 +312,6 @@ export const RegisterWizardJWT = ({termsProps, associationTypes}) => {
       setTermsConsented(true);
       setIsOpen(false);
     }
-
-    const stepperSetFieldValue = (fieldName, isChecked) => {
-      formikInstance.setFieldValue(fieldName,isChecked);
-    } 
-    console.log(stepperSetFieldValue);
 
     return (
         <FormikStepper
@@ -434,6 +436,8 @@ export const RegisterWizardJWT = ({termsProps, associationTypes}) => {
                 }}
               >
                 <FormikStep
+                  // receiveHandleChange={(handleFunction) => {setHandleChange(() => handleFunction)}}
+                  // receiveHandleBlur={(handleFunction) => {setHandleBlur(() => handleFunction)}}
                   validationSchema={Yup.object().shape({
                     email: Yup.string()
                       .email(
@@ -500,6 +504,8 @@ export const RegisterWizardJWT = ({termsProps, associationTypes}) => {
                             label={t('FORMS.associationPostalCode')}
                             aria-labelledby={ t('FORMS.associationPostalCode') } 
                             aria-describedby={ t('FORMS.associationPostalCode_help') }
+                            onChange={formikHandleChange}
+                            onBlur={formikHandleBlur}
                             InputProps={{ inputComponent: PostalCodeCustomInput }}>
                         </Field>
                       </Grid>
@@ -634,6 +640,7 @@ export const RegisterWizardJWT = ({termsProps, associationTypes}) => {
                           component={CheckboxWithLabel}
                           aria-labelledby={ t('FORMS.confirmTerms') } 
                           aria-describedby={ t('FORMS.confirmTerms_help') }
+                          onChange={e => formikSetFieldValue('terms', e.target.checked)}
                           Label={{
                             label: (
                               <>
@@ -928,7 +935,14 @@ export function FormikStep({ children }) {
           }
         }}
       >
-        {({ isSubmitting, setFieldValue, handleChange, handleBlur }) => (
+        {({ values, isSubmitting, setFieldValue, handleChange, handleBlur }) => {
+          formikValues = values;
+          formikSetFieldValue = setFieldValue;
+          formikHandleChange = handleChange;
+          formikHandleBlur = handleBlur;
+          // currentChild.props.receiveHandleChange(handleChange);
+          // currentChild.props.receiveHandleBlur(handleBlur);
+          return (
           <Form autoComplete="off">
             <Stepper alternativeLabel activeStep={step}>
               {childrenArray.map((child, index) => (
@@ -977,7 +991,8 @@ export function FormikStep({ children }) {
               </BoxActions>
             ) : null}
           </Form>
-        )}
+        );}
+        } 
       </Formik>
     );
   }
