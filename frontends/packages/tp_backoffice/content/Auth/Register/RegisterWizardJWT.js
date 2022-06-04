@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, Children } from 'react';
+import { useState, useEffect, useRef, forwardRef, Children } from 'react';
 import {
   Typography,
   Container,
@@ -31,7 +31,7 @@ import Link from '../../../components/Link';
 import { Field, Form, Formik, useField, withFormik, ErrorMessage } from 'formik';
 import { CheckboxWithLabel, TextField, Select, Autocomplete } from 'formik-mui';
 import * as Yup from 'yup';
-import { IMaskMixin, IMaskInput, useIMask } from 'react-imask';
+import { IMaskMixin, IMaskInput, IMask } from 'react-imask';
 import CloseIcon from '@mui/icons-material/Close';
 import CheckTwoToneIcon from '@mui/icons-material/CheckTwoTone';
 import CheckCircleOutlineTwoToneIcon from '@mui/icons-material/CheckCircleOutlineTwoTone';
@@ -91,64 +91,31 @@ const AvatarSuccess = styled(Avatar)(
     `
 )
 
-const MaskedStyledInput = ({ref, ...props }) => {
-  console.log(ref, props)
-  return (
-    <IMaskInput
-      { ...props }
-      mask={Number}
-      radix="."
-      unmask={true} // true|false|'typed'
-      ref={ref}
-      // inputRef={el => this.input = el}  // access to nested input
-      // DO NOT USE onChange TO HANDLE CHANGES!
-      // USE onAccept INSTEAD
-      onAccept={
-        // depending on prop above first argument is
-        // `value` if `unmask=false`,
-        // `unmaskedValue` if `unmask=true`,
-        // `typedValue` if `unmask='typed'`
-        (value, mask) => {
-          console.log(value);
-        }
-      }
-      // onChange={(e) => {props.value = e.target.value; props.onChange(e)}}
-      // ...and more mask props in a guide
+// const postalCodeMask = [
+//   /[1-9]/,
+//   /\d/,
+//   /\d/,
+//   /\d/,
+//   "-",
+//   /\d/,
+//   /\d/,
+//   /\d/
+// ];
 
-      // input props also available
-      placeholder='Enter number here'
-    />
-  )
-}
+const postalCodeMask = "0000-000";
 
-const IMaskWithHook = (helpers) => {
-  const [ opts, setOpts ] = useState({ mask: Number });
-  const {
-    ref,
-    maskRef,
-    value,
-    setValue,
-    unmaskedValue,
-    setUnmaskedValue,
-    typedValue,
-    setTypedValue,
-  } = useIMask(opts);
-  console.log(helpers)
-  helpers.setValue("1", true);
-  return (
-    <input ref={ref} />
-  );
-}
-
-const CustomInputComponent = ({ inputRef, ...rest }) => (
-  // <input ref={inputRef} {...rest} type="text" />
-  <IMaskInput
-    {...rest}
-    mask={Number}
-    radix="."
-    value="123"
-    unmask={true} // true|false|'typed'
+//https://github.com/uNmAnNeR/imaskjs/tree/master/packages/react-imask
+//https://stackoverflow.com/questions/65441972/react-material-ui-textfield-controlled-input-with-custom-input-component-not
+//https://stackoverflow.com/questions/68447169/react-formik-mui-textfield-with-custom-input-loosing-focus
+//https://merictaze.com/posts/creating-a-unified-formik-input-field-to-support-all-input-types-seamlessly/
+const PostalCodeMaskInput = forwardRef((props, ref) => {
+  console.log(props)
+  const { inputRef, field, ...rest } = props;
+  return (<IMaskInput
+    {...field}
+    mask={postalCodeMask}
     ref={inputRef}
+    unmask={true} // true|false|'typed'
     // inputRef={el => this.input = el}  // access to nested input
     // DO NOT USE onChange TO HANDLE CHANGES!
     // USE onAccept INSTEAD
@@ -164,67 +131,56 @@ const CustomInputComponent = ({ inputRef, ...rest }) => (
     // input props also available
     placeholder='Enter number here'
   />
-);
+)});
+PostalCodeMaskInput.displayName = "PostalCodeMaskInput";
 
-//https://github.com/uNmAnNeR/imaskjs/tree/master/packages/react-imask
-//https://stackoverflow.com/questions/65441972/react-material-ui-textfield-controlled-input-with-custom-input-component-not
-//https://stackoverflow.com/questions/68447169/react-formik-mui-textfield-with-custom-input-loosing-focus
-const MaskedTextField = ({inputRef, ...props}) => {
-  const [field, meta, helpers] = useField(props);
+//https://codesandbox.io/s/lingering-platform-hqh1c?file=/src/FormikTextField.js:177-565
+//https://codesandbox.io/s/formik-with-custom-field-component-s90x2?file=/src/InputText.jsx:184-209
+const PostalCodeCustomInput = forwardRef((props, ref) => {
+  console.log(props,ref)
+  const { inputRef, onChange, onBlur,onFocus, ...other } = props;
   return (
-    <>
-    <MuiTextField
-      id="phoneNumber"
-      name="phoneNumber"
-      label={"header.registerDialog.form.labelPhone"}
-        InputProps={{
-          inputComponent: ({ inputRef, ...rest }) => (
-            <IMaskInput
-              {...rest}
-              key="phoneInput"
-              ref={inputRef}
-              name="phoneNumber"
-              onChange={(phone) =>
-                helpers.setValue(phone.target.value, true)//handleOnChange("phoneNumber", phone)
-              }
-              labels={field.name}
-            />
-          ),
-        }}
+    <IMaskInput
+      {...other}
+      ref={inputRef}
+      mask={postalCodeMask}
+      onChange={(event) => onChange(event,true)}
+      onBlur={(event) => {onBlur(event)}}
+      onFocus={(event) => {onFocus(event)}}
+      disabled={false}
+      required={true}
     />
-    {meta.touched && meta.error ? (
-      <ErrorMessage name={field.name} component="div" className="invalid-feedback"/>
-    ) : null}
-    </>
-  )
-}
+  );
+});
+PostalCodeCustomInput.displayName = "PostalCodeCustomInput";
 
 const MaskedStyledTextField = IMaskMixin(({inputRef, ...props}) => {
+  console.log(props)
   const [field, meta, helpers] = useField(props);
-  console.log(field, meta, helpers)
+  const handleChange = name => event => {
+    console.log(event.target.value)
+    helpers.setValue(event.target.value, true);
+  };
+  const handleBlur = (evt) => {
+    console.log(evt)
+    if (!meta.touched) {
+      helpers.setTouched(true, true);
+    }
+    // field.setValue({
+    //   target: {
+    //     name: props.name,
+    //     value: evt.target.value || '',
+    //   },
+    // });
+  };
   return (
     <>
-      <TextField
+      <MuiTextField
         {...props}
         InputProps={{
-          inputComponent: CustomInputComponent,
+            inputComponent: PostalCodeMaskInput,
+            field
         }}
-        // mask={Number}
-        // radix="."
-        // unmask={true} // true|false|'typed'
-        // onAccept={
-        //   // depending on prop above first argument is
-        //   // `value` if `unmask=false`,
-        //   // `unmaskedValue` if `unmask=true`,
-        //   // `typedValue` if `unmask='typed'`
-        //   (value, mask) => {
-        //     field.value = value;
-        //     //helpers.setValue(value, true);
-        //     console.log(value, field, mask);
-        //   }
-        // }
-        onChange={(e) => helpers.setValue(e.target.value, true)}
-        ref={inputRef}  // bind internal input (if you use styled-components V4, use "ref" instead "innerRef")
       />
       {meta.touched && meta.error ? (
         <ErrorMessage name={field.name} component="div" className="invalid-feedback"/>
@@ -232,21 +188,6 @@ const MaskedStyledTextField = IMaskMixin(({inputRef, ...props}) => {
     </>
   )
 });
-
-const MyTextField = ({ label, ...props }) => {
-  const [field, meta, helpers] = useField(props);
-  return (
-    <>
-      <label>
-        {label}
-        <input {...field} {...props} />
-      </label>
-      {meta.touched && meta.error ? (
-        <div className="error">{meta.error}</div>
-      ) : null}
-    </>
-  );
-};
 
 // TODO: terms modal get consent - https://stackoverflow.com/questions/66193822/react-bootstrap-form-check-with-formik and https://formik.org/docs/api/withFormik
 export const RegisterWizardJWT = ({termsProps, associationTypes}) => {
@@ -267,17 +208,6 @@ export const RegisterWizardJWT = ({termsProps, associationTypes}) => {
               
         window.addEventListener('newLang', handleNewMessage);
     }, []);
-
-    const postalCodeMask = [
-      /[1-9]/,
-      /\d/,
-      /\d/,
-      /\d/,
-      "-",
-      /\d/,
-      /\d/,
-      /\d/
-    ];
 
     const cacheTest = (asyncValidate) => {
       let _valid = false;
@@ -399,6 +329,7 @@ export const RegisterWizardJWT = ({termsProps, associationTypes}) => {
                   association_type: '',
                   association_address: '',
                   association_town: '',
+                  association_postalcode: '',
                   association_municipality_code: '',
                   association_district_code: '',
                 }}
@@ -549,6 +480,10 @@ export const RegisterWizardJWT = ({termsProps, associationTypes}) => {
                         t('MESSAGES.passwordsNoMatch')
                       )
                       .required(t('MESSAGES.confirmPasswordRequired')),
+                    
+                    association_postalcode: Yup.string()
+                      .max(10,t('MESSAGES.associationPostalCodeTooBig', { number: 10 }))
+                      .required(t('MESSAGES.associationPostalCodeRequired')),
                     terms: Yup.bool()
                       .oneOf([true], t('MESSAGES.termsRequired'))
                       .required(t('MESSAGES.termsRequired'))
@@ -558,21 +493,15 @@ export const RegisterWizardJWT = ({termsProps, associationTypes}) => {
                   <BoxFields p={4}>
                     <Grid container spacing={4}>
                       <Grid item xs={12} md={12}>
-                            {/* <MaskedStyledTextField
+                        <Field fullWidth
+                            component={TextField}
                             name="association_postalcode"
-                            type="text"
+                            placeholder={t('FORMS.associationPostalCode')}
                             label={t('FORMS.associationPostalCode')}
                             aria-labelledby={ t('FORMS.associationPostalCode') } 
                             aria-describedby={ t('FORMS.associationPostalCode_help') }
-                            /> */}
-                        <Field
-                          fullWidth
-                          component={MaskedTextField}
-                          name="association_postalcode"
-                          label={t('FORMS.associationPostalCode')}
-                          aria-labelledby={ t('FORMS.associationPostalCode') } 
-                          aria-describedby={ t('FORMS.associationPostalCode_help') }
-                        />
+                            InputProps={{ inputComponent: PostalCodeCustomInput }}>
+                        </Field>
                       </Grid>
                       <Grid item xs={12} md={6}>
                         <Field
@@ -755,9 +684,6 @@ export const RegisterWizardJWT = ({termsProps, associationTypes}) => {
                       .required(t('MESSAGES.associationTypeRequired')),
                       association_address: Yup.string()
                       .max(100,t('MESSAGES.associationAddressTooBig', { number: 100 })),
-                      association_postalcode: Yup.string()
-                      .max(10,t('MESSAGES.associationPostalCodeTooBig', { number: 10 }))
-                      .required(t('MESSAGES.associationPostalCodeRequired')),
                       association_town: Yup.string()
                       .max(50,t('MESSAGES.associationTownTooBig', { number: 50 }))
                       .required(t('MESSAGES.associationTownRequired')),
@@ -1002,7 +928,7 @@ export function FormikStep({ children }) {
           }
         }}
       >
-        {({ isSubmitting, setFieldValue }) => (
+        {({ isSubmitting, setFieldValue, handleChange, handleBlur }) => (
           <Form autoComplete="off">
             <Stepper alternativeLabel activeStep={step}>
               {childrenArray.map((child, index) => (
