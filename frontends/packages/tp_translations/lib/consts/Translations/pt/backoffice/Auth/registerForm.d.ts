@@ -9,7 +9,8 @@ export declare const REGISTERFORM_TRANSLATIONS: {
         readonly submitting: "A submeter";
         readonly step1Title: "Informação do Representante";
         readonly step2Title: "Informação da Iniciativa/Movimento";
-        readonly step3Title: "Concluir registo";
+        readonly step3Title: "Resumo da informação inserida";
+        readonly step4Title: "Conclusão do registo";
         readonly buttonToLogin: "Botão de link para a página de autenticação";
         readonly goLogIn: "Continuar para a autenticação";
         readonly closeTermsDialog: "Fechar leitura dos Termos & Condições";
@@ -51,6 +52,9 @@ export declare const REGISTERFORM_TRANSLATIONS: {
         readonly associationMunicipality_help: "Seleccione o município da Iniciativa/Movimento dependendo do districto seleccionado";
         readonly associationDistrict: "Distrito da Iniciativa/Movimento";
         readonly associationDistrict_help: "Seleccione o distrito da Iniciativa/Movimento";
+        readonly mainUserData: "Dados do representante";
+        readonly associationLocation: "Localização da Iniciativa/Movimento";
+        readonly address: "Morada";
     };
     readonly PLACEHOLDER: {
         readonly firstName: "Escreve o teu primeiro nome aqui...";

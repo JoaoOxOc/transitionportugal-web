@@ -35,9 +35,11 @@ import { IMaskMixin, IMaskInput, IMask } from 'react-imask';
 import CloseIcon from '@mui/icons-material/Close';
 import CheckTwoToneIcon from '@mui/icons-material/CheckTwoTone';
 import CheckCircleOutlineTwoToneIcon from '@mui/icons-material/CheckCircleOutlineTwoTone';
+import SummaryStep from './steps/summary';
 import Modal from '../../../components/Modal';
 import TermsModal from '../../../content/TermsModal';
 import {GenericSelectBox} from '@transitionpt/components';
+import {getOdsPtDistricts, getOdsPtCountiesByDistrict} from '@transitionpt/geolocation';
 
 
 const BoxActions = styled(Box)(
@@ -204,6 +206,7 @@ export const RegisterWizardJWT = ({termsProps, associationTypes}) => {
     const [termsConsented, setTermsConsented] = useState('');
     const [isOpen, setIsOpen] = useState(false);
     const [currentLang, setLang] = useState("pt");
+    const [stateFormikValues, setFormikValues] = useState(null);
     // const [formikHandleChange, setHandleChange] = useState(() => () => console.log("formik handle change"));
     // const [formikHandleBlur, setHandleBlur] = useState(() => () => console.log("formik handle blur"));
     i18nextRegisterForm.changeLanguage(currentLang);
@@ -349,9 +352,13 @@ export const RegisterWizardJWT = ({termsProps, associationTypes}) => {
                         termsConfirmed: values.terms,
                         associationName: values.association_name,
                         associationEmail: values.association_email,
+                        associationType: values.association_type,
                         associationVat: values.association_vat,
                         associationAddress: values.association_address,
+                        associationPostalCode: values.association_postalcode,
                         associationTown: values.association_town,
+                        associationDistrictCode: values.association_district_code,
+                        associationDistrictCode: values.association_municipality_code,
                     }),
                       headers: { 
                         "Content-Type": "application/json",
@@ -687,17 +694,17 @@ export const RegisterWizardJWT = ({termsProps, associationTypes}) => {
                         useRef(cacheTest(checkAssociationVatValid)).current
                         
                       ),
-                      association_type: Yup.string()
-                      .required(t('MESSAGES.associationTypeRequired')),
+                      // association_type: Yup.string()
+                      // .required(t('MESSAGES.associationTypeRequired')),
                       association_address: Yup.string()
                       .max(100,t('MESSAGES.associationAddressTooBig', { number: 100 })),
                       association_town: Yup.string()
                       .max(50,t('MESSAGES.associationTownTooBig', { number: 50 }))
-                      .required(t('MESSAGES.associationTownRequired')),
-                      association_municipality_code: Yup.string()
-                      .required(t('MESSAGES.associationMunicipalityRequired')),
-                      association_district_code: Yup.string()
-                      .required(t('MESSAGES.associationDistrictRequired'))
+                      .required(t('MESSAGES.associationTownRequired'))
+                      // association_municipality_code: Yup.string()
+                      // .required(t('MESSAGES.associationMunicipalityRequired')),
+                      // association_district_code: Yup.string()
+                      // .required(t('MESSAGES.associationDistrictRequired'))
                       
                   })}
                   label={t('LABELS.step2Title')}
@@ -809,9 +816,9 @@ export const RegisterWizardJWT = ({termsProps, associationTypes}) => {
                             aria-labelledby={ t('FORMS.associationDistrict') } 
                             aria-describedby={ t('FORMS.associationDistrict_help') }>
                             <MenuItem value="">{t("PLACEHOLDER.associationDistrict")}</MenuItem>
-                            {associationTypes && !associationTypes.associationTypesError && associationTypes.map((type, index) => {
-                              <MenuItem key={index} value={type.code}>{type.name}</MenuItem>
-                            })
+                            {getOdsPtDistricts().map((type, index) => (
+                              <MenuItem key={index} value={type.district_code}>{type.distrito}</MenuItem>
+                            ))
                             }
                           </Field>
                         </FormControl>
@@ -837,7 +844,12 @@ export const RegisterWizardJWT = ({termsProps, associationTypes}) => {
                     </Grid>
                   </Box>
                 </FormikStep>
-                <FormikStep label={t('LABELS.step3Title')}>
+                <FormikStep 
+                   receiveFormValues={(values) => { setFormikValues(values); }}
+                   label={t('LABELS.step3Title')}>
+                    <SummaryStep values={stateFormikValues}/>
+                </FormikStep>
+                <FormikStep label={t('LABELS.step4Title')}>
                   {userRegistered == true &&
                     <Box px={4} py={8}>
                       <Container maxWidth="sm">
@@ -940,6 +952,9 @@ export function FormikStep({ children }) {
           formikSetFieldValue = setFieldValue;
           formikHandleChange = handleChange;
           formikHandleBlur = handleBlur;
+          if (currentChild.props.receiveFormValues) {
+            currentChild.props.receiveFormValues(values);
+          }
           // currentChild.props.receiveHandleChange(handleChange);
           // currentChild.props.receiveHandleBlur(handleBlur);
           return (

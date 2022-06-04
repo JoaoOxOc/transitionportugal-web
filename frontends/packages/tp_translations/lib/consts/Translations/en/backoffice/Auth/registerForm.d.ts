@@ -9,7 +9,8 @@ export declare const REGISTERFORM_TRANSLATIONS: {
         readonly submitting: "Submitting";
         readonly step1Title: "Representative Information";
         readonly step2Title: "Initiative/movement Information";
-        readonly step3Title: "Complete Registration";
+        readonly step3Title: "Summary of information input";
+        readonly step4Title: "Complete Registration";
         readonly buttonToLogin: "Button link to login page";
         readonly goLogIn: "Continue to login";
         readonly closeTermsDialog: "Close Terms & Conditions reading";
@@ -49,6 +50,9 @@ export declare const REGISTERFORM_TRANSLATIONS: {
         readonly associationPostalCode_help: "The postal code of the Initiative/movement";
         readonly associationMunicipality: "Initiative/movement Municipality";
         readonly associationDistrict: "Initiative/movement District";
+        readonly mainUserData: "Representative data";
+        readonly associationLocation: "Initiative/movement Location";
+        readonly address: "Address";
     };
     readonly PLACEHOLDER: {
         readonly firstName: "Write your first name here...";

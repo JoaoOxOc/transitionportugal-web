@@ -11,7 +11,8 @@ export const REGISTERFORM_TRANSLATIONS = deepFreeze({
         submitting: "A submeter",
         step1Title: "Informação do Representante",
         step2Title: "Informação da Iniciativa/Movimento",
-        step3Title: "Concluir registo",
+        step3Title: "Resumo da informação inserida",
+        step4Title: "Conclusão do registo",
         buttonToLogin: "Botão de link para a página de autenticação",
         goLogIn: "Continuar para a autenticação",
         closeTermsDialog: "Fechar leitura dos Termos & Condições",
@@ -52,7 +53,10 @@ export const REGISTERFORM_TRANSLATIONS = deepFreeze({
         associationMunicipality: "Município da Iniciativa/Movimento",
         associationMunicipality_help: "Seleccione o município da Iniciativa/Movimento dependendo do districto seleccionado",
         associationDistrict: "Distrito da Iniciativa/Movimento",
-        associationDistrict_help: "Seleccione o distrito da Iniciativa/Movimento"
+        associationDistrict_help: "Seleccione o distrito da Iniciativa/Movimento",
+        mainUserData: "Dados do representante",
+        associationLocation: "Localização da Iniciativa/Movimento",
+        address: "Morada",
     },
     PLACEHOLDER: {
         firstName: "Escreve o teu primeiro nome aqui...",
