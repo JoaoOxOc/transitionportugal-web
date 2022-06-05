@@ -204,6 +204,8 @@ export const RegisterWizardJWT = ({termsProps, associationTypes}) => {
     const [openAlert, setOpenAlert] = useState(true);
     const [userRegistered, setUserRegistered] = useState(false);
     const [termsConsented, setTermsConsented] = useState('');
+    const [selectedDistrict, setSelectedDistrict] = useState({});
+    const [selectedMunicipality, setSelectedMunicipality] = useState({});
     const [isOpen, setIsOpen] = useState(false);
     const [currentLang, setLang] = useState("pt");
     const [stateFormikValues, setFormikValues] = useState(null);
@@ -358,7 +360,7 @@ export const RegisterWizardJWT = ({termsProps, associationTypes}) => {
                         associationPostalCode: values.association_postalcode,
                         associationTown: values.association_town,
                         associationDistrictCode: values.association_district_code,
-                        associationDistrictCode: values.association_municipality_code,
+                        associationMunicipalityCode: values.association_municipality_code,
                     }),
                       headers: { 
                         "Content-Type": "application/json",
@@ -491,10 +493,6 @@ export const RegisterWizardJWT = ({termsProps, associationTypes}) => {
                         t('MESSAGES.passwordsNoMatch')
                       )
                       .required(t('MESSAGES.confirmPasswordRequired')),
-                    
-                    association_postalcode: Yup.string()
-                      .max(10,t('MESSAGES.associationPostalCodeTooBig', { number: 10 }))
-                      .required(t('MESSAGES.associationPostalCodeRequired')),
                     terms: Yup.bool()
                       .oneOf([true], t('MESSAGES.termsRequired'))
                       .required(t('MESSAGES.termsRequired'))
@@ -503,19 +501,6 @@ export const RegisterWizardJWT = ({termsProps, associationTypes}) => {
                 >
                   <BoxFields p={4}>
                     <Grid container spacing={4}>
-                      <Grid item xs={12} md={12}>
-                        <Field fullWidth
-                            component={TextField}
-                            name="association_postalcode"
-                            placeholder={t('FORMS.associationPostalCode')}
-                            label={t('FORMS.associationPostalCode')}
-                            aria-labelledby={ t('FORMS.associationPostalCode') } 
-                            aria-describedby={ t('FORMS.associationPostalCode_help') }
-                            onChange={formikHandleChange}
-                            onBlur={formikHandleBlur}
-                            InputProps={{ inputComponent: PostalCodeCustomInput }}>
-                        </Field>
-                      </Grid>
                       <Grid item xs={12} md={6}>
                         <Field
                           fullWidth
@@ -698,13 +683,16 @@ export const RegisterWizardJWT = ({termsProps, associationTypes}) => {
                       // .required(t('MESSAGES.associationTypeRequired')),
                       association_address: Yup.string()
                       .max(100,t('MESSAGES.associationAddressTooBig', { number: 100 })),
+                      association_postalcode: Yup.string()
+                      .max(10,t('MESSAGES.associationPostalCodeTooBig', { number: 10 }))
+                      .required(t('MESSAGES.associationPostalCodeRequired')),
                       association_town: Yup.string()
                       .max(50,t('MESSAGES.associationTownTooBig', { number: 50 }))
-                      .required(t('MESSAGES.associationTownRequired'))
+                      .required(t('MESSAGES.associationTownRequired')),
                       // association_municipality_code: Yup.string()
                       // .required(t('MESSAGES.associationMunicipalityRequired')),
-                      // association_district_code: Yup.string()
-                      // .required(t('MESSAGES.associationDistrictRequired'))
+                      association_district_code: Yup.string()
+                      .required(t('MESSAGES.associationDistrictRequired'))
                       
                   })}
                   label={t('LABELS.step2Title')}
@@ -796,6 +784,19 @@ export const RegisterWizardJWT = ({termsProps, associationTypes}) => {
                         />
                       </Grid>
                       <Grid item xs={12} md={3}>
+                        <Field fullWidth
+                            component={TextField}
+                            name="association_postalcode"
+                            placeholder={t('FORMS.associationPostalCode')}
+                            label={t('FORMS.associationPostalCode')}
+                            aria-labelledby={ t('FORMS.associationPostalCode') } 
+                            aria-describedby={ t('FORMS.associationPostalCode_help') }
+                            onChange={formikHandleChange}
+                            onBlur={formikHandleBlur}
+                            InputProps={{ inputComponent: PostalCodeCustomInput }}>
+                        </Field>
+                      </Grid>
+                      <Grid item xs={12} md={3}>
                         <Field
                           fullWidth
                           name="association_town"
@@ -812,14 +813,29 @@ export const RegisterWizardJWT = ({termsProps, associationTypes}) => {
                             name="association_district_code"
                             fullWidth
                             required={true}
-                            component={GenericSelectBox}
+                            // component={GenericSelectBox}
                             aria-labelledby={ t('FORMS.associationDistrict') } 
                             aria-describedby={ t('FORMS.associationDistrict_help') }>
-                            <MenuItem value="">{t("PLACEHOLDER.associationDistrict")}</MenuItem>
+                              {({
+                                field, // { name, value, onChange, onBlur }
+                                form,
+                                form: { touched, errors, values }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
+                                meta,
+                              }) => {
+                                return (
+                                <GenericSelectBox field={field} form={form} sendSelected={(value,label) => {setSelectedDistrict({code: value, label: label}); setSelectedMunicipality({})}}>
+                                  <MenuItem value="">{t("PLACEHOLDER.associationDistrict")}</MenuItem>
+                                  {getOdsPtDistricts().map((type, index) => (
+                                    <MenuItem key={index} value={type.district_code}>{type.distrito}</MenuItem>
+                                  ))
+                                  }
+                                </GenericSelectBox>
+                              )}}
+                            {/* <MenuItem value="">{t("PLACEHOLDER.associationDistrict")}</MenuItem>
                             {getOdsPtDistricts().map((type, index) => (
                               <MenuItem key={index} value={type.district_code}>{type.distrito}</MenuItem>
                             ))
-                            }
+                            } */}
                           </Field>
                         </FormControl>
                       </Grid>
@@ -830,14 +846,24 @@ export const RegisterWizardJWT = ({termsProps, associationTypes}) => {
                             name="association_municipality_code"
                             fullWidth
                             required={true}
-                            component={GenericSelectBox}
                             aria-labelledby={ t('FORMS.associationMunicipality') } 
                             aria-describedby={ t('FORMS.associationMunicipality_help') }>
-                            <MenuItem value="">{t("PLACEHOLDER.associationMunicipality")}</MenuItem>
-                            {associationTypes && !associationTypes.associationTypesError && associationTypes.map((type, index) => {
-                              <MenuItem key={index} value={type.code}>{type.name}</MenuItem>
-                            })
-                            }
+                              {({
+                                field, // { name, value, onChange, onBlur }
+                                form,
+                                form: { touched, errors, values }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
+                                meta,
+                              }) => {
+                                console.log(values,selectedDistrict)
+                                return (
+                                <GenericSelectBox field={field} form={form} sendSelected={(value,label) => setSelectedMunicipality({code: value, label: label})}>
+                                  <MenuItem value="">{t("PLACEHOLDER.associationMunicipality")}</MenuItem>
+                                  {selectedDistrict.code && getOdsPtCountiesByDistrict(values.association_district_code).map((type, index) => (
+                                    <MenuItem key={index} value={type.municipality_code}>{type.concelho}</MenuItem>
+                                  ))
+                                  }
+                                </GenericSelectBox>
+                              )}}
                           </Field>
                         </FormControl>
                       </Grid>
