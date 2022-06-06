@@ -44,6 +44,8 @@ export declare const REGISTERFORM_TRANSLATIONS: {
         readonly associationVat: "Initiative/movement VAT Number";
         readonly associationType: "Initiative/movement Type";
         readonly associationType_help: "The type identifies which formal entity type the initiative is";
+        readonly associationTypeHelpTooltip: "Help button for Initiative/movement type";
+        readonly associationTypeHelpTooltipText: "If your Initiative/movement is not a legal entity, please select 'Movimento'";
         readonly associationAddress: "Initiative/movement Street Address";
         readonly associationTown: "Initiative/movement Town";
         readonly associationPostalCode: "Initiative/movement Postal Code";

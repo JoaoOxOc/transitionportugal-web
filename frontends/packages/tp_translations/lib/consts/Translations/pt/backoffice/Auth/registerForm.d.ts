@@ -44,6 +44,8 @@ export declare const REGISTERFORM_TRANSLATIONS: {
         readonly associationVat: "NIF da Iniciativa/Movimento";
         readonly associationType: "Tipo de Iniciativa/Movimento";
         readonly associationType_help: "Identifica o tipo de entidade formal relativa à inciativa/movimento";
+        readonly associationTypeHelpTooltip: "Botão de ajuda para o campo Tipo de Iniciativa/Movimento";
+        readonly associationTypeHelpTooltipText: "Se a sua Iniciativa/Movimento não é uma entidade formal, por favor seleccione 'Movimento'";
         readonly associationAddress: "Morada da Iniciativa/Movimento";
         readonly associationTown: "Localidade da Iniciativa/Movimento";
         readonly associationPostalCode: "Código Postal da Iniciativa/Movimento";

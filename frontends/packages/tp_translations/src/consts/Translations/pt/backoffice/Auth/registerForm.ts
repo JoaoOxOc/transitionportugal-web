@@ -46,6 +46,8 @@ export const REGISTERFORM_TRANSLATIONS = deepFreeze({
         associationVat: "NIF da Iniciativa/Movimento",
         associationType: "Tipo de Iniciativa/Movimento",
         associationType_help: "Identifica o tipo de entidade formal relativa à inciativa/movimento",
+        associationTypeHelpTooltip: "Botão de ajuda para o campo Tipo de Iniciativa/Movimento",
+        associationTypeHelpTooltipText: "Se a sua Iniciativa/Movimento não é uma entidade formal, por favor seleccione 'Movimento'",
         associationAddress: "Morada da Iniciativa/Movimento",
         associationTown: "Localidade da Iniciativa/Movimento",
         associationPostalCode: "Código Postal da Iniciativa/Movimento",

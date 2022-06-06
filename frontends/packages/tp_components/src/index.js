@@ -7,6 +7,7 @@ import ProfileAddressDetails from './components/Profiles/CompanyAddressDetails';
 import ProfileAddressDetailsCustomTheme from './components/Profiles/CompanyAddressDetails/setTheme';
 import GenericSelectBox from './components/Pickers/GenericSelectBox';
 import GenericSelectBoxCustomTheme from './components/Pickers/GenericSelectBox/setTheme';
+import HelperTooltip from './components/Tooltips/helper';
 
 export {
     ThemeContext, 
@@ -16,5 +17,6 @@ export {
     ProfileAddressDetails,
     ProfileAddressDetailsCustomTheme,
     GenericSelectBox,
-    GenericSelectBoxCustomTheme
+    GenericSelectBoxCustomTheme,
+    HelperTooltip
 }

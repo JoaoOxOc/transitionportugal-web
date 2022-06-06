@@ -45,6 +45,8 @@ export var REGISTERFORM_TRANSLATIONS = deepFreeze({
         associationVat: "Initiative/movement VAT Number",
         associationType: "Initiative/movement Type",
         associationType_help: "The type identifies which formal entity type the initiative is",
+        associationTypeHelpTooltip: "Help button for Initiative/movement type",
+        associationTypeHelpTooltipText: "If your Initiative/movement is not a legal entity, please select 'Movimento'",
         associationAddress: "Initiative/movement Street Address",
         associationTown: "Initiative/movement Town",
         associationPostalCode: "Initiative/movement Postal Code",
