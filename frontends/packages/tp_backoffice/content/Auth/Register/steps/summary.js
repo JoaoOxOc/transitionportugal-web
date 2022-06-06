@@ -3,29 +3,15 @@ import {
   Typography,
   Divider,
   Container,
-  Button,
-  Slide,
-  CircularProgress,
-  Grid,
-  Box,
-  Step,
-  StepLabel,
-  Stepper,
-  Collapse,
-  Alert,
-  Avatar,
-  IconButton,
-  MenuItem,
-  ListItemText,
-  ListItem,
-  List,
-  ListItemIcon,
-  InputLabel,
-  FormControl,
-  styled
+  Box
 } from '@mui/material';
-import { useSnackbar } from 'notistack';
 import { i18nextRegisterForm } from "@transitionpt/translations";
+import ShareLocationTwoToneIcon from '@mui/icons-material/ShareLocationTwoTone';
+import HomeWorkTwoToneIcon from '@mui/icons-material/HomeWorkTwoTone';
+import AssignmentIndTwoToneIcon from '@mui/icons-material/AssignmentIndTwoTone';
+
+import dynamic from "next/dynamic";
+const MapDynamic = dynamic(() => import("@transitionpt/components/src/components/BaseMap/index"), {ssr: false});
 
 const SummaryStep = ({values, districtSelected, municipalitySelected, associationTypeSelected}) => {
   console.log(values,districtSelected, municipalitySelected, associationTypeSelected)
@@ -44,7 +30,7 @@ const SummaryStep = ({values, districtSelected, municipalitySelected, associatio
               }}
               variant="h4"
             >
-              {t(
+              <AssignmentIndTwoToneIcon fontSize="medium" />{t(
                 'FORMS.mainUserData'
               )}
             </Typography>
@@ -76,7 +62,7 @@ const SummaryStep = ({values, districtSelected, municipalitySelected, associatio
               }}
               variant="h4"
             >
-              {t(
+              <HomeWorkTwoToneIcon fontSize="medium" />{t(
                 'LABELS.step2Title'
               )}
             </Typography>
@@ -108,7 +94,7 @@ const SummaryStep = ({values, districtSelected, municipalitySelected, associatio
               }}
               variant="h4"
             >
-              {t(
+              <ShareLocationTwoToneIcon fontSize="medium" />{t(
                 'FORMS.associationLocation'
               )}
             </Typography>
