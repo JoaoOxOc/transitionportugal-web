@@ -206,6 +206,7 @@ export const RegisterWizardJWT = ({termsProps, associationTypes}) => {
     const [termsConsented, setTermsConsented] = useState('');
     const [selectedDistrict, setSelectedDistrict] = useState({});
     const [selectedMunicipality, setSelectedMunicipality] = useState({});
+    const [selectedAssociationType, setSelectedAssociationType] = useState({});
     const [isOpen, setIsOpen] = useState(false);
     const [currentLang, setLang] = useState("pt");
     const [stateFormikValues, setFormikValues] = useState(null);
@@ -689,8 +690,8 @@ export const RegisterWizardJWT = ({termsProps, associationTypes}) => {
                       association_town: Yup.string()
                       .max(50,t('MESSAGES.associationTownTooBig', { number: 50 }))
                       .required(t('MESSAGES.associationTownRequired')),
-                      // association_municipality_code: Yup.string()
-                      // .required(t('MESSAGES.associationMunicipalityRequired')),
+                      association_municipality_code: Yup.string()
+                      .required(t('MESSAGES.associationMunicipalityRequired')),
                       association_district_code: Yup.string()
                       .required(t('MESSAGES.associationDistrictRequired'))
                       
@@ -823,13 +824,22 @@ export const RegisterWizardJWT = ({termsProps, associationTypes}) => {
                                 meta,
                               }) => {
                                 return (
-                                <GenericSelectBox field={field} form={form} sendSelected={(value,label) => {setSelectedDistrict({code: value, label: label}); setSelectedMunicipality({})}}>
-                                  <MenuItem value="">{t("PLACEHOLDER.associationDistrict")}</MenuItem>
-                                  {getOdsPtDistricts().map((type, index) => (
-                                    <MenuItem key={index} value={type.district_code}>{type.distrito}</MenuItem>
-                                  ))
-                                  }
-                                </GenericSelectBox>
+                                  <>
+                                    <GenericSelectBox 
+                                        placeholder={t("PLACEHOLDER.associationDistrict")}
+                                        field={field} form={form} 
+                                        fieldDependentOf={"association_municipality_code"}
+                                        fieldDependentOfValue={""}
+                                        sendSelected={(value,label) => {setSelectedDistrict({code: value, label: label});}}>
+                                      {getOdsPtDistricts().map((type, index) => (
+                                        <MenuItem key={index} value={type.district_code}>{type.distrito}</MenuItem>
+                                      ))
+                                      }
+                                    </GenericSelectBox>
+                                    {meta.touched && meta.error ? (
+                                      <ErrorMessage name="association_district_code" component="div" className="invalid-feedback">{ msg => <div style={{ color: 'red', lineWeight: '800' }}>{msg}</div> }</ErrorMessage>
+                                    ) : null}
+                                  </>
                               )}}
                             {/* <MenuItem value="">{t("PLACEHOLDER.associationDistrict")}</MenuItem>
                             {getOdsPtDistricts().map((type, index) => (
@@ -854,15 +864,21 @@ export const RegisterWizardJWT = ({termsProps, associationTypes}) => {
                                 form: { touched, errors, values }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
                                 meta,
                               }) => {
-                                console.log(values,selectedDistrict)
                                 return (
-                                <GenericSelectBox field={field} form={form} sendSelected={(value,label) => setSelectedMunicipality({code: value, label: label})}>
-                                  <MenuItem value="">{t("PLACEHOLDER.associationMunicipality")}</MenuItem>
-                                  {selectedDistrict.code && getOdsPtCountiesByDistrict(values.association_district_code).map((type, index) => (
-                                    <MenuItem key={index} value={type.municipality_code}>{type.concelho}</MenuItem>
-                                  ))
-                                  }
-                                </GenericSelectBox>
+                                  <>
+                                    <GenericSelectBox 
+                                        placeholder={t("PLACEHOLDER.associationMunicipality")}
+                                        field={field} form={form}
+                                        sendSelected={(value,label) => setSelectedMunicipality({code: value, label: label})}>
+                                      {selectedDistrict.code && getOdsPtCountiesByDistrict(values.association_district_code).map((type, index) => (
+                                        <MenuItem key={index} value={type.municipality_code}>{type.concelho}</MenuItem>
+                                      ))
+                                      }
+                                    </GenericSelectBox>
+                                    {meta.touched && meta.error ? (
+                                      <ErrorMessage name="association_municipality_code" component="div" className="invalid-feedback">{ msg => <div style={{ color: 'red', lineWeight: '800' }}>{msg}</div> }</ErrorMessage>
+                                    ) : null}
+                                  </>
                               )}}
                           </Field>
                         </FormControl>
@@ -873,7 +889,9 @@ export const RegisterWizardJWT = ({termsProps, associationTypes}) => {
                 <FormikStep 
                    receiveFormValues={(values) => { setFormikValues(values); }}
                    label={t('LABELS.step3Title')}>
-                    <SummaryStep values={stateFormikValues}/>
+                     {stateFormikValues &&
+                      <SummaryStep values={stateFormikValues} districtSelected={selectedDistrict} municipalitySelected={selectedMunicipality} associationTypeSelected={selectedAssociationType}/>
+                     }
                 </FormikStep>
                 <FormikStep label={t('LABELS.step4Title')}>
                   {userRegistered == true &&

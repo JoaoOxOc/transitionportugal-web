@@ -27,7 +27,8 @@ import {
 import { useSnackbar } from 'notistack';
 import { i18nextRegisterForm } from "@transitionpt/translations";
 
-const SummaryStep = ({values}) => {
+const SummaryStep = ({values, districtSelected, municipalitySelected, associationTypeSelected}) => {
+  console.log(values,districtSelected, municipalitySelected, associationTypeSelected)
     const { t } = i18nextRegisterForm;
 
     return (
@@ -119,7 +120,7 @@ const SummaryStep = ({values}) => {
               }}
               variant="subtitle2"
             >
-              {t("FORMS.associationMunicipality") + ": " + values.association_municipality_code + " " + t("FORMS.associationDistrict") + ": " + values.association_district_code}
+              {t("FORMS.associationMunicipality") + ": " + (values.association_municipality_code ? municipalitySelected.label : "") + "  " + t("FORMS.associationDistrict") + ": " + (values.association_district_code ? districtSelected.label : "")}
             </Typography>
             <Typography
               sx={{
