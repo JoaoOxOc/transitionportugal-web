@@ -68,6 +68,16 @@ spec:
             secretKeyRef:
               name: tpdiscourse-data
               key: redis-password
+        - name: DISCOURSE_SMTP_HOST
+          valueFrom:
+            secretKeyRef:
+              name: tpdiscourse-smtp-data
+              key: smtp-host
+        - name: DISCOURSE_SMTP_USER
+          valueFrom:
+            secretKeyRef:
+              name: tpdiscourse-smtp-data
+              key: smtp-user
         volumeMounts:
         - name: discourse-data
           mountPath: /bitnami/discourse
