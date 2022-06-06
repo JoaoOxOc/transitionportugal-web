@@ -38,7 +38,7 @@ import CheckCircleOutlineTwoToneIcon from '@mui/icons-material/CheckCircleOutlin
 import SummaryStep from './steps/summary';
 import Modal from '../../../components/Modal';
 import TermsModal from '../../../content/TermsModal';
-import {GenericSelectBox} from '@transitionpt/components';
+import {GenericSelectBox,HelperTooltip} from '@transitionpt/components';
 import {getOdsPtDistricts, getOdsPtCountiesByDistrict} from '@transitionpt/geolocation';
 
 
@@ -723,20 +723,28 @@ export const RegisterWizardJWT = ({termsProps, associationTypes}) => {
                       </Grid>
                       <Grid item xs={12} md={6}>
                         <FormControl sx={{width: '100%'}}>
-                          <InputLabel id="association-type-label">{t('FORMS.associationType')}</InputLabel>
-                          <Field
-                            name="association_type"
-                            fullWidth
-                            required={true}
-                            component={GenericSelectBox}
-                            aria-labelledby={ t('FORMS.associationType') } 
-                            aria-describedby={ t('FORMS.associationType_help') }>
-                            <MenuItem value="">{t("PLACEHOLDER.associationType")}</MenuItem>
-                            {associationTypes && !associationTypes.associationTypesError && associationTypes.map((type, index) => {
-                              <MenuItem key={index} value={type.code}>{type.name}</MenuItem>
-                            })
-                            }
-                          </Field>
+                          <Grid container>
+                            <Grid item xs={11}>
+                              <InputLabel id="association-type-label">{t('FORMS.associationType')}</InputLabel>
+                              <Field
+                                placeholder={t("PLACEHOLDER.associationType")}
+                                name="association_type"
+                                fullWidth
+                                required={true}
+                                component={GenericSelectBox}
+                                aria-labelledby={ t('FORMS.associationType') } 
+                                aria-describedby={ t('FORMS.associationType_help') }>
+                                {associationTypes && !associationTypes.associationTypesError && associationTypes.map((type, index) => {
+                                  <MenuItem key={index} value={type.code}>{type.name}</MenuItem>
+                                })
+                                }
+                              </Field>
+                            </Grid>
+                            <Grid item xs={1}
+                              sx={{pt: '7px'}}>
+                              <HelperTooltip tooltipAriaLabel={t('FORMS.associationTypeHelpTooltip')} tooltipText={t('FORMS.associationTypeHelpTooltipText')}/>
+                            </Grid>
+                          </Grid>
                         </FormControl>
                       </Grid>
                       <Grid item xs={12} md={6}>
