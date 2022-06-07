@@ -18,21 +18,29 @@ import {hereGeolocator} from '@transitionpt/geolocation';
 const SummaryStep = ({values, districtSelected, municipalitySelected, associationTypeSelected}) => {
   const [associationLatitude, setAssociationLatitude] = useState('');
   const [associationLongitude, setAssociationLongitude] = useState('');
+  const [geolocationDeterminedAddress, setGeolocationDeterminedAddress] = useState('');
+  const [geolocationError, setGeolocationError] = useState('');
   const { t } = i18nextRegisterForm;
+  const splitAddress = values.association_address.split(/[,º]/);
+  console.log(splitAddress, splitAddress.length);
   // TODO: pass dynamic address data and get here apikey from somewhere
     hereGeolocator({
-      houseNumber: 22,
-      street: "Sá Carneiro",
-      postalCode: '3660',
-      town: 'São Pedro do Sul',
-      city: 'São Pedro do Sul',
-      county: 'Viseu',
+      houseNumber: splitAddress.length > 1 ? splitAddress[1] : null,
+      street: splitAddress[0],
+      postalCode: values.association_postalcode,
+      town: values.association_town,
+      city: municipalitySelected.label,
+      county: districtSelected.label,
       country: 'Portugal'
     },
     "").then(result => {
       if (result && result.IsError === false) {
         setAssociationLatitude(result.Latitude);
         setAssociationLongitude(result.Longitude);
+        setGeolocationDeterminedAddress(result.Label);
+      }
+      else if (result) {
+        setGeolocationError(result.ErrorMessage);
       }
     });
     
@@ -129,7 +137,7 @@ const SummaryStep = ({values, districtSelected, municipalitySelected, associatio
               }}
               variant="subtitle2"
             >
-              {t("FORMS.associationMunicipality") + ": " + (values.association_municipality_code ? municipalitySelected.label : "") + "  " + t("FORMS.associationDistrict") + ": " + (values.association_district_code ? districtSelected.label : "")}
+              {t("FORMS.associationMunicipality") + ": " + (values.association_municipality_code ? municipalitySelected.label : "") + ";  " + t("FORMS.associationDistrict") + ": " + (values.association_district_code ? districtSelected.label : "")}
             </Typography>
             <Typography
               sx={{
@@ -148,26 +156,27 @@ const SummaryStep = ({values, districtSelected, municipalitySelected, associatio
                   height: '400px',}}>
                     <MapDynamic data={[{lat: values.association_latitude, long: values.association_longitude, marker:{title: values.association_name, info: values.association_address + " " + values.association_postalcode + " " + values.association_town}}]}/>
                 </div>
+                { geolocationError &&
+                  <Alert
+                    sx={{
+                      mt: 1
+                    }}
+                    severity="error"
+                    aria-label={ t('FORMS.geolocationErrorResult') }
+                  >
+                    <Typography variant="h4">{t('FORMS.geolocationErrorResult')}</Typography>
+                  </Alert>
+                }
                 <Alert
                   sx={{
                     mt: 1
                   }}
-                  // action={
-                  //   <IconButton
-                  //     aria-label="close"
-                  //     color="inherit"
-                  //     size="small"
-                  //     onClick={() => {
-                  //       setOpenAlert(false);
-                  //     }}
-                  //   >
-                  //     <CloseIcon fontSize="inherit" />
-                  //   </IconButton>
-                  // }
-                  severity="info"
-                  aria-label={ t('FORMS.authErrorResult') }
+                  severity="warning"
+                  aria-label={ t('FORMS.geolocationResult') }
                 >
-                  <span>{t('FORMS.authErrorResult')}</span>
+                  <Typography variant="h4">{t('FORMS.geolocationResult')}</Typography>
+                  <Typography variant="subtitle2" sx={{pt: 1, pb:1}}><strong>{geolocationDeterminedAddress} ({values.association_latitude} {values.association_longitude})</strong></Typography>
+                  <Typography variant="subtitle2">{t('FORMS.geolocationResultMoreInfo')}</Typography>
                 </Alert>
               </>
             }

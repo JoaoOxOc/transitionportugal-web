@@ -57,6 +57,9 @@ export declare const REGISTERFORM_TRANSLATIONS: {
         readonly mainUserData: "Dados do representante";
         readonly associationLocation: "Localização da Iniciativa/Movimento";
         readonly address: "Morada";
+        readonly geolocationErrorResult: "Ocorreu um erro ao tentar determinar a localização da tua Iniciativa/Movimento baseado nos dados de endereço que inseriste. Por favor volta ao passo anterior e verifica os dados do endereço que inseriste.";
+        readonly geolocationResult: "localização da tua Iniciativa/Movimento determinado pelo serviço de geolocalização:";
+        readonly geolocationResultMoreInfo: "Se a geolocalização não for precisa, podes alterar os dados de endereço no passo anterior ou prosseguir com o registo e alterar a Latitude/Longitude no perfil da Iniciativa/Movimento quando o registo for aprovado.";
     };
     readonly PLACEHOLDER: {
         readonly firstName: "Escreve o teu primeiro nome aqui...";

@@ -58,6 +58,9 @@ export var REGISTERFORM_TRANSLATIONS = deepFreeze({
         mainUserData: "Dados do representante",
         associationLocation: "Localização da Iniciativa/Movimento",
         address: "Morada",
+        geolocationErrorResult: "Ocorreu um erro ao tentar determinar a localização da tua Iniciativa/Movimento baseado nos dados de endereço que inseriste. Por favor volta ao passo anterior e verifica os dados do endereço que inseriste.",
+        geolocationResult: "localização da tua Iniciativa/Movimento determinado pelo serviço de geolocalização:",
+        geolocationResultMoreInfo: "Se a geolocalização não for precisa, podes alterar os dados de endereço no passo anterior ou prosseguir com o registo e alterar a Latitude/Longitude no perfil da Iniciativa/Movimento quando o registo for aprovado."
     },
     PLACEHOLDER: {
         firstName: "Escreve o teu primeiro nome aqui...",

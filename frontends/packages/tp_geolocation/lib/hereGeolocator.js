@@ -4,6 +4,7 @@ function parseAddressDataToText(addressData) {
     let hasNumber = false;
     let hasStreet = false;
     let hasPostalCode = false;
+    let hasTown = false;
     let hasCity = false;
     let hasCounty = false;
     if (addressData) {
@@ -16,23 +17,28 @@ function parseAddressDataToText(addressData) {
             const addPlus = hasNumber ? "+" : "";
             searchText += addPlus + addressData.street;
         }
+        if (addressData.town) {
+            hasTown = true;
+            const addComma = hasStreet || hasNumber ? "%20" : "";
+            searchText += addComma + addressData.town;
+        }
         if (addressData.postalCode) {
             hasPostalCode = true;
-            const addComma = hasStreet || hasNumber ? "%20" : "";
+            const addComma = hasTown || hasStreet || hasNumber ? "%20" : "";
             searchText += addComma + addressData.postalCode;
         }
         if (addressData.city) {
             hasCity = true;
-            const addComma = hasPostalCode || hasStreet || hasNumber ? "%20" : "";
+            const addComma = hasPostalCode || hasTown || hasStreet || hasNumber ? "%20" : "";
             searchText += addComma + addressData.city;
         }
         if (addressData.county) {
             hasCounty = true;
-            const addComma = hasCity || hasPostalCode || hasStreet || hasNumber ? "%20" : "";
+            const addComma = hasCity || hasPostalCode || hasTown || hasStreet || hasNumber ? "%20" : "";
             searchText += addComma + addressData.county;
         }
         if (addressData.country) {
-            const addComma = hasCounty || hasCity || hasPostalCode || hasStreet || hasNumber ? "%20" : "";
+            const addComma = hasCounty || hasCity || hasPostalCode || hasTown || hasStreet || hasNumber ? "%20" : "";
             searchText += addComma + addressData.country;
         }
     }

@@ -57,6 +57,9 @@ export const REGISTERFORM_TRANSLATIONS = deepFreeze({
         mainUserData: "Representative data",
         associationLocation: "Initiative/movement Location",
         address: "Address",
+        geolocationErrorResult: "An error occured when trying to determine your Initiative/movement based upon the address data you inserted. Please go back to address step and verify the data you inserted.",
+        geolocationResult: "Initiative/movement Address determined by the geolocation service:",
+        geolocationResultMoreInfo: "If the geolocation is not precise, you can change Latitude/Longitude in Initiative/movement profile right after you register and your Initiative/movement is approved"
     },
     PLACEHOLDER: {
         firstName: "Write your first name here...",

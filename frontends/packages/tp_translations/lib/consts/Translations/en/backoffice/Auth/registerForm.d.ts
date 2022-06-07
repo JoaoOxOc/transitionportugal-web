@@ -55,6 +55,9 @@ export declare const REGISTERFORM_TRANSLATIONS: {
         readonly mainUserData: "Representative data";
         readonly associationLocation: "Initiative/movement Location";
         readonly address: "Address";
+        readonly geolocationErrorResult: "An error occured when trying to determine your Initiative/movement based upon the address data you inserted. Please go back to address step and verify the data you inserted.";
+        readonly geolocationResult: "Initiative/movement Address determined by the geolocation service:";
+        readonly geolocationResultMoreInfo: "If the geolocation is not precise, you can change Latitude/Longitude in Initiative/movement profile right after you register and your Initiative/movement is approved";
     };
     readonly PLACEHOLDER: {
         readonly firstName: "Write your first name here...";
