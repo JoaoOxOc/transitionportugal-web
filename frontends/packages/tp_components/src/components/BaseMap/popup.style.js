@@ -1,4 +1,4 @@
-export const MapStyles = {
+export const PopupStyles = {
     map: {
         position: 'relative',
         width: '100%',

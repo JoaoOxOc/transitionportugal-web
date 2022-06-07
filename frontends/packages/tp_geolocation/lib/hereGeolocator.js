@@ -46,7 +46,6 @@ const buildGeolocationResult = (response) => __awaiter(void 0, void 0, void 0, f
     const hereGeoData = yield response.json();
     let position = {};
     let hereAddress = {};
-    console.log(hereGeoData);
     if (hereGeoData && hereGeoData.Response && hereGeoData.Response.View) {
         if (hereGeoData.Response.View[0] && hereGeoData.Response.View[0].Result && hereGeoData.Response.View[0].Result[0]) {
             if (hereGeoData.Response.View[0].Result[0].Location) {
@@ -55,7 +54,6 @@ const buildGeolocationResult = (response) => __awaiter(void 0, void 0, void 0, f
             }
         }
     }
-    console.log(position, hereAddress);
     const geolocationData = {
         IsError: !response.ok,
         ErrorMessage: resultErrorBody,

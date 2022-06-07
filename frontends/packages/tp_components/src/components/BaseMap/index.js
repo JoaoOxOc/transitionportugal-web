@@ -1,7 +1,5 @@
-/** @jsxImportSource theme-ui */
-
 import { MapContainer, TileLayer, Marker, Popup, LayerGroup } from 'react-leaflet'
-// import { MapStyles as styles } from './map.style';
+import {styled} from '@mui/material';
 import MarkerPopup from './popup';
 import 'leaflet/dist/leaflet.css'
 
@@ -11,9 +9,15 @@ import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import markerShadow from 'leaflet/dist/images/marker-shadow.png';
 
+const CustomMapContainer = styled(MapContainer)(
+    ({ theme }) => `
+        height: inherit
+  `
+  );
+
 export default function Map({data}) {
     console.log(data)
-    const centerPos = [39.88471155936208, -8.313099356151904];
+    const centerPos = [data[0].lat,data[0].long];
 
     const createMarkerIcon = function(iconSrc) {
         return (
@@ -22,13 +26,7 @@ export default function Map({data}) {
     }
 
     return (
-        <div>
-            <MapContainer center={centerPos} zoom={7} scrollWheelZoom={true}
-                sx={{
-                    width: '100%',
-                    height: '600px',
-                    zIndex: 90
-                }}>
+            <CustomMapContainer center={centerPos} zoom={10} scrollWheelZoom={true}>
                         <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -37,7 +35,7 @@ export default function Map({data}) {
                             { data && data.map((data, i) => (
                             <Marker key={i} position={[data.lat,data.long]} icon={createMarkerIcon('/leaflet/dist/images/marker-icon.png')}>
                                 <Popup>
-                                    <MarkerPopup/>
+                                    <MarkerPopup title={data.marker.title} info={data.marker.info}/>
                                 </Popup>
                             </Marker>
 
@@ -45,7 +43,6 @@ export default function Map({data}) {
                                 
                             }
                         </LayerGroup>
-            </MapContainer>
-        </div>
+            </CustomMapContainer>
     );
 }

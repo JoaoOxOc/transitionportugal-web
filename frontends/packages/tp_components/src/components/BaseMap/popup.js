@@ -1,11 +1,11 @@
 /** @jsxImportSource theme-ui */
 
 
-export default function MarkerPopup({title}) {
+export default function MarkerPopup({title, info}) {
 
     return (
         <div>
-            A pretty CSS3 popup. <br /> Easily customizable.
+            <strong>{title}</strong> <br /> {info}
         </div>
     );
 }
