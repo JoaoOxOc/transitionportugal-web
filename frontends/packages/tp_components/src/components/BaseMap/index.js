@@ -1,7 +1,7 @@
 /** @jsxImportSource theme-ui */
 
 import { MapContainer, TileLayer, Marker, Popup, LayerGroup } from 'react-leaflet'
-import { MapStyles as styles } from './map.style';
+// import { MapStyles as styles } from './map.style';
 import MarkerPopup from './popup';
 import 'leaflet/dist/leaflet.css'
 
@@ -12,6 +12,7 @@ import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import markerShadow from 'leaflet/dist/images/marker-shadow.png';
 
 export default function Map({data}) {
+    console.log(data)
     const centerPos = [39.88471155936208, -8.313099356151904];
 
     const createMarkerIcon = function(iconSrc) {
@@ -21,8 +22,13 @@ export default function Map({data}) {
     }
 
     return (
-        <div sx={styles.map}>
-            <MapContainer center={centerPos} zoom={7} scrollWheelZoom={true} sx={styles.mapContainer}>
+        <div>
+            <MapContainer center={centerPos} zoom={7} scrollWheelZoom={true}
+                sx={{
+                    width: '100%',
+                    height: '600px',
+                    zIndex: 90
+                }}>
                         <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

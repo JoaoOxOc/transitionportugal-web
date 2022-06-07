@@ -12,9 +12,28 @@ import AssignmentIndTwoToneIcon from '@mui/icons-material/AssignmentIndTwoTone';
 
 import dynamic from "next/dynamic";
 const MapDynamic = dynamic(() => import("@transitionpt/components/src/components/BaseMap/index"), {ssr: false});
+import {hereGeolocator} from '@transitionpt/geolocation';
 
 const SummaryStep = ({values, districtSelected, municipalitySelected, associationTypeSelected}) => {
   console.log(values,districtSelected, municipalitySelected, associationTypeSelected)
+  // TODO: get here apikey from somewhere
+    hereGeolocator({
+      houseNumber: 22,
+      street: "Sá Carneiro",
+      postalCode: '3660',
+      town: 'São Pedro do Sul',
+      city: 'São Pedro do Sul',
+      county: 'Viseu',
+      country: 'Portugal'
+    },
+    "").then(result => {
+      if (result && result.IsError === false) {
+        values.association_latitude = result.Latitude;
+        values.association_longitude = result.Longitude;
+      }
+    });
+    console.log(values);
+    
     const { t } = i18nextRegisterForm;
 
     return (
@@ -117,6 +136,7 @@ const SummaryStep = ({values, districtSelected, municipalitySelected, associatio
             >
               {t("FORMS.address") + ": " + values.association_address + " " + values.association_postalcode + " " + values.association_town}
             </Typography>
+            <MapDynamic data={[{lat: values.association_latitude, long: values.association_longitude}]}/>
           </Container>
         </Box>
     );

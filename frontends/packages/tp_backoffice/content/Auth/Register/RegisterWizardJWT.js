@@ -340,8 +340,11 @@ export const RegisterWizardJWT = ({termsProps, associationTypes}) => {
                   association_postalcode: '',
                   association_municipality_code: '',
                   association_district_code: '',
+                  association_latitude: '',
+                  association_longitude: ''
                 }}
                 onSubmit={async (values, helpers) => {
+                  console.log(values)
                   try {
                     const registerResult = await fetch(process.env.NEXT_PUBLIC_AUTH_URL + "/register", {
                       method: 'POST',
