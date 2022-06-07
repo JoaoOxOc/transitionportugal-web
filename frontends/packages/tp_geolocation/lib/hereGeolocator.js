@@ -79,4 +79,10 @@ export const hereGeolocator = (addressData, apikey) => __awaiter(void 0, void 0,
     });
     return yield buildGeolocationResult(response);
 });
+export const hereGeolocatorSync = (addressData, apikey) => {
+    const resultPromise = new Promise((resolve, reject) => {
+        resolve(hereGeolocator(addressData, apikey));
+    });
+    return resultPromise;
+};
 //# sourceMappingURL=hereGeolocator.js.map

@@ -1,5 +1,5 @@
 import DistrictSelect from './components/DistrictSelect';
 export { DistrictSelect };
 export * from "./odsptagreggator";
-export { hereGeolocator } from "./hereGeolocator";
+export { hereGeolocator, hereGeolocatorSync } from "./hereGeolocator";
 //# sourceMappingURL=index.js.map

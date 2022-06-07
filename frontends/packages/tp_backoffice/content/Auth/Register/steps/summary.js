@@ -16,8 +16,10 @@ const MapDynamic = dynamic(() => import("@transitionpt/components/src/components
 import {hereGeolocator} from '@transitionpt/geolocation';
 
 const SummaryStep = ({values, districtSelected, municipalitySelected, associationTypeSelected}) => {
-  console.log(values,districtSelected, municipalitySelected, associationTypeSelected)
-  // TODO: pass dynamic address data, resolve promise and get here apikey from somewhere
+  const [associationLatitude, setAssociationLatitude] = useState('');
+  const [associationLongitude, setAssociationLongitude] = useState('');
+  const { t } = i18nextRegisterForm;
+  // TODO: pass dynamic address data and get here apikey from somewhere
     hereGeolocator({
       houseNumber: 22,
       street: "Sá Carneiro",
@@ -29,13 +31,14 @@ const SummaryStep = ({values, districtSelected, municipalitySelected, associatio
     },
     "").then(result => {
       if (result && result.IsError === false) {
-        values.association_latitude = result.Latitude;
-        values.association_longitude = result.Longitude;
+        setAssociationLatitude(result.Latitude);
+        setAssociationLongitude(result.Longitude);
       }
     });
-    console.log(values);
     
-    const { t } = i18nextRegisterForm;
+    values.association_latitude = associationLatitude;
+    values.association_longitude = associationLongitude;
+    console.log(values,associationTypeSelected);
 
     return (
         <Box px={1} py={1}>
@@ -137,33 +140,37 @@ const SummaryStep = ({values, districtSelected, municipalitySelected, associatio
             >
               {t("FORMS.address") + ": " + values.association_address + " " + values.association_postalcode + " " + values.association_town}
             </Typography>
-            <div 
-              style={{position: 'relative',
-              width: '100%',
-              height: '400px',}}>
-                <MapDynamic data={[{lat: values.association_latitude, long: values.association_longitude, marker:{title: values.association_name, info: values.association_address + " " + values.association_postalcode + " " + values.association_town}}]}/>
-            </div>
-            <Alert
-              sx={{
-                mt: 1
-              }}
-              // action={
-              //   <IconButton
-              //     aria-label="close"
-              //     color="inherit"
-              //     size="small"
-              //     onClick={() => {
-              //       setOpenAlert(false);
-              //     }}
-              //   >
-              //     <CloseIcon fontSize="inherit" />
-              //   </IconButton>
-              // }
-              severity="info"
-              aria-label={ t('FORMS.authErrorResult') }
-            >
-              <span>{t('FORMS.authErrorResult')}</span>
-            </Alert>
+            {values.association_latitude && values.association_longitude &&
+              <>
+                <div 
+                  style={{position: 'relative',
+                  width: '100%',
+                  height: '400px',}}>
+                    <MapDynamic data={[{lat: values.association_latitude, long: values.association_longitude, marker:{title: values.association_name, info: values.association_address + " " + values.association_postalcode + " " + values.association_town}}]}/>
+                </div>
+                <Alert
+                  sx={{
+                    mt: 1
+                  }}
+                  // action={
+                  //   <IconButton
+                  //     aria-label="close"
+                  //     color="inherit"
+                  //     size="small"
+                  //     onClick={() => {
+                  //       setOpenAlert(false);
+                  //     }}
+                  //   >
+                  //     <CloseIcon fontSize="inherit" />
+                  //   </IconButton>
+                  // }
+                  severity="info"
+                  aria-label={ t('FORMS.authErrorResult') }
+                >
+                  <span>{t('FORMS.authErrorResult')}</span>
+                </Alert>
+              </>
+            }
           </Container>
         </Box>
     );

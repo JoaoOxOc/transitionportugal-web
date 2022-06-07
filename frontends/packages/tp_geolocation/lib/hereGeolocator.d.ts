@@ -21,4 +21,5 @@ export declare type GeolocationData = {
     Country: string;
 };
 export declare const hereGeolocator: (addressData: AddressData, apikey: string) => Promise<GeolocationData>;
+export declare const hereGeolocatorSync: (addressData: AddressData, apikey: string) => Promise<unknown>;
 //# sourceMappingURL=hereGeolocator.d.ts.map

@@ -108,3 +108,10 @@ export const hereGeolocator = async(addressData: AddressData, apikey: string) : 
     
     return await buildGeolocationResult(response);
 }
+
+export const hereGeolocatorSync = (addressData: AddressData, apikey: string) => {
+    const resultPromise = new Promise((resolve, reject) => {
+        resolve(hereGeolocator(addressData, apikey));
+    })
+    return  resultPromise;
+}
