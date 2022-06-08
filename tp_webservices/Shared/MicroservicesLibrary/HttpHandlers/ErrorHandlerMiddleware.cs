@@ -28,6 +28,8 @@ namespace MicroservicesLibrary.HttpHandlers
                 var response = context.Response;
                 response.ContentType = "application/json";
 
+                var innerEx = error.InnerException;
+
                 switch (error)
                 {
                     case AppException e:
@@ -48,7 +50,7 @@ namespace MicroservicesLibrary.HttpHandlers
                         break;
                 }
 
-                var result = JsonSerializer.Serialize(new { message = error?.Message, details = error?.StackTrace });
+                var result = JsonSerializer.Serialize(new { message = error?.Message, details = error?.StackTrace, innerException = innerEx?.Message });
                 await response.WriteAsync(result);
             }
         }

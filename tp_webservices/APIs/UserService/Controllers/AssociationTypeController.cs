@@ -143,7 +143,7 @@ namespace UserService.Controllers
             try
             {
                 Expression<Func<AssociationType, bool>> filter = (x => x.Id.HasValue);
-                var associationTypes = _uow.AssociationTypeRepository.Get(null, null, filter, "Label", SortDirection.Descending);
+                var associationTypes = _uow.AssociationTypeRepository.Get(null, null, filter, "Label", SortDirection.Ascending);
 
                 if (associationTypes != null)
                 {

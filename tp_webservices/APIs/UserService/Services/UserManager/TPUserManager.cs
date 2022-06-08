@@ -194,7 +194,7 @@ namespace UserService.Services.UserManager
             if (validMessage == "Succeeded")
             {
                 association.CanonicalNameAlias = association.Name.ToLower().Replace(" ", "-");
-                association.CanonicalNameAlias = System.Text.Encoding.UTF8.GetString(System.Text.Encoding.GetEncoding("ISO-8859-8").GetBytes(association.CanonicalNameAlias));
+                association.CanonicalNameAlias = System.Text.Encoding.UTF8.GetString(System.Text.Encoding.Latin1.GetBytes(association.CanonicalNameAlias));
                 _uow.AssociationRepository.Add(association);
                 _uow.Save();
 

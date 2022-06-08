@@ -1004,7 +1004,7 @@ export const RegisterWizardJWT = ({termsProps, associationTypes, settings}) => {
                           fullWidth 
                           variant="contained"
                           aria-label={ t('LABELS.buttonToLogin') }
-                          href={'/auth/login/cover'}>
+                          href={'/admin/auth/login/cover'}>
                           {t('LABELS.goLogIn')}
                         </Button>
                       </Container>

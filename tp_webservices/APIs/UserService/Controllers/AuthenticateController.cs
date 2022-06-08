@@ -154,6 +154,7 @@ namespace UserService.Controllers
                 AssociationTypeId = associationType?.Id,
                 Phone = "",
                 LogoImage = "",
+                CoverImage = "",
                 Filename = "",
                 Description = "",
                 Website = "",

@@ -33,7 +33,6 @@ namespace UserService.Models
         [Required(ErrorMessage = "Association Email is required")]
         public string? AssociationEmail { get; set; }
 
-        [EmailAddress]
         [Required(ErrorMessage = "Association Type is required")]
         public string? AssociationTypeCode { get; set; }
         
