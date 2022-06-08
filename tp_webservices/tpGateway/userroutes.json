@@ -501,7 +501,7 @@
           "Port": 3020
         }
       ],
-      "UpstreamPathTemplate": "/associationTypes/get/public",
+      "UpstreamPathTemplate": "/associationTypes/public/get",
       "UpstreamHttpMethod": [ "Get" ]
     },
     // user management controllers - users, profiles and scopes
