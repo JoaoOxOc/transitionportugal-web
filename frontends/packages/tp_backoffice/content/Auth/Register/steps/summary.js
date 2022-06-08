@@ -15,7 +15,7 @@ import dynamic from "next/dynamic";
 const MapDynamic = dynamic(() => import("@transitionpt/components/src/components/BaseMap/index"), {ssr: false});
 import {hereGeolocator} from '@transitionpt/geolocation';
 
-const SummaryStep = ({values, districtSelected, municipalitySelected, associationTypeSelected}) => {
+const SummaryStep = ({settings,values, districtSelected, municipalitySelected, associationTypeSelected}) => {
   const [associationLatitude, setAssociationLatitude] = useState('');
   const [associationLongitude, setAssociationLongitude] = useState('');
   const [geolocationDeterminedAddress, setGeolocationDeterminedAddress] = useState('');
@@ -23,7 +23,6 @@ const SummaryStep = ({values, districtSelected, municipalitySelected, associatio
   const { t } = i18nextRegisterForm;
   const splitAddress = values.association_address.split(/[,º]/);
   console.log(splitAddress, splitAddress.length);
-  // TODO: get HERE apikey from somewhere
     hereGeolocator({
       houseNumber: splitAddress.length > 1 ? splitAddress[1] : null,
       street: splitAddress[0],
@@ -33,7 +32,7 @@ const SummaryStep = ({values, districtSelected, municipalitySelected, associatio
       county: districtSelected.label,
       country: 'Portugal'
     },
-    "").then(result => {
+    settings.filter(x => x.key == "HEREgeocodeApiKey")[0].value).then(result => {
       if (result && result.IsError === false) {
         setAssociationLatitude(result.Latitude);
         setAssociationLongitude(result.Longitude);
@@ -114,7 +113,7 @@ const SummaryStep = ({values, districtSelected, municipalitySelected, associatio
               }}
               variant="subtitle2"
             >
-              {t("FORMS.associationType") + ": "}{values.association_type} (<b>{t("FORMS.associationVat") + ": "}{values.association_vat ? values.association_vat : "N/D"}</b>)
+              {t("FORMS.associationType") + ": "}{values.association_type ? associationTypeSelected.label : ""} (<b>{t("FORMS.associationVat") + ": "}{values.association_vat ? values.association_vat : "N/D"}</b>)
             </Typography>
             <Typography
               align="left"

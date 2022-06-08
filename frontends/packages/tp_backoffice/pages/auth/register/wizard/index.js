@@ -21,7 +21,8 @@ import CheckCircleOutlineTwoToneIcon from '@mui/icons-material/CheckCircleOutlin
 import Scrollbar from '../../../../components/Scrollbar';
 import Link from '../../../../components/Link';
 import { GetPublicTerms } from '../../../../services/terms';
-import { GetAssociationTypes } from '../../../../services/associations';
+import { getPublicAssociationTypesAsync } from '../../../../serverSideActions/associations';
+import { getPublicUserSettings } from '../../../../serverSideActions/settings';
 import { i18nextRegister } from "@transitionpt/translations";
 
 import SwiperCore, { Navigation, Pagination } from 'swiper';
@@ -178,9 +179,8 @@ const SwiperWrapper = styled(Box)(
 `
 );
 
-function RegisterWizard({termsProps, associationTypes}) {
+function RegisterWizard({termsProps, associationTypes, settings}) {
   const { t } = i18nextRegister;
-  console.log(termsProps);
   return (
     <>
       <Head>
@@ -239,7 +239,7 @@ function RegisterWizard({termsProps, associationTypes}) {
                 </Link>
               </Box>
 
-              <RegisterWizardJWT termsProps={termsProps} associationTypes={associationTypes}/>
+              <RegisterWizardJWT termsProps={termsProps} associationTypes={associationTypes.associationTypes} settings={settings.settings}/>
             </Card>
           </Container>
         </MainContent>
@@ -451,24 +451,13 @@ export async function getServerSideProps(context) {
     const { req } = context;
     const userBrowserLanguage = req.headers ? req.headers['accept-language'].split(",")[0].toLowerCase() : "pt-pt";
     const termsProps = await GetPublicTerms(userBrowserLanguage);
-    let associationTypesGetResponse = null;
-    let associationTypesGetResponseError = null;
-    try {
-      associationTypesGetResponse = await GetAssociationTypes(process.env.NEXT_PUBLIC_API_BASE_URL + "/associations/types");
+    
+    const associationTypes = await getPublicAssociationTypesAsync();
 
-      if (associationTypesGetResponse.status) {
-        associationTypesGetResponseError = {status: associationTypesGetResponse.status, statusText: associationTypesGetResponse.statusText };
-      }
-      else if (associationTypesGetResponse.errno === "ENOTFOUND" || associationTypesGetResponse.errno === "ECONNREFUSED") {
-        associationTypesGetResponseError = { message: 'FetchError', status: 404, statusText: associationTypesGetResponse.errno };
-      }
-    } catch (err) {
-      associationTypesGetResponseError = {status: err.status, statusText: err.statusText };
-    }
-    const associationTypes = associationTypesGetResponseError ? { associationTypesError: associationTypesGetResponseError } : {associationTypes: associationTypesGetResponse.associationTypes};
+    const settings = await getPublicUserSettings();
 
     return {
-      props: { termsProps, associationTypes },
+      props: { termsProps, associationTypes, settings },
     }
 }
 

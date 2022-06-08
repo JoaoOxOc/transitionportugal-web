@@ -202,8 +202,8 @@ const MaskedStyledTextField = IMaskMixin(({inputRef, ...props}) => {
 });
 
 // TODO: terms modal get consent - https://stackoverflow.com/questions/66193822/react-bootstrap-form-check-with-formik and https://formik.org/docs/api/withFormik
-export const RegisterWizardJWT = ({termsProps, associationTypes}) => {
-  console.log(associationTypes)
+export const RegisterWizardJWT = ({termsProps, associationTypes, settings}) => {
+  console.log(settings, settings.filter(x => x.key == "HEREgeocodeApiKey"))
     const { t } = i18nextRegisterForm;
     const { enqueueSnackbar } = useSnackbar();
     const [openAlert, setOpenAlert] = useState(true);
@@ -369,13 +369,16 @@ export const RegisterWizardJWT = ({termsProps, associationTypes}) => {
                         termsConfirmed: values.terms,
                         associationName: values.association_name,
                         associationEmail: values.association_email,
-                        associationType: values.association_type,
+                        associationTypeCode: values.association_type,
                         associationVat: values.association_vat,
                         associationAddress: values.association_address,
                         associationPostalCode: values.association_postalcode,
                         associationTown: values.association_town,
                         associationDistrictCode: values.association_district_code,
                         associationMunicipalityCode: values.association_municipality_code,
+                        associationLatitude: values.association_latitude,
+                        associationLongitude: values.association_longitude,
+
                     }),
                       headers: { 
                         "Content-Type": "application/json",
@@ -701,8 +704,8 @@ export const RegisterWizardJWT = ({termsProps, associationTypes}) => {
                         useRef(cacheTest(checkAssociationVatValid)).current
                         
                       ),
-                      // association_type: Yup.string()
-                      // .required(t('MESSAGES.associationTypeRequired')),
+                      association_type: Yup.string()
+                      .required(t('MESSAGES.associationTypeRequired')),
                       association_address: Yup.string()
                       .max(100,t('MESSAGES.associationAddressTooBig', { number: 100 })),
                       association_postalcode: Yup.string()
@@ -752,13 +755,31 @@ export const RegisterWizardJWT = ({termsProps, associationTypes}) => {
                                 name="association_type"
                                 fullWidth
                                 required={true}
-                                component={GenericSelectBox}
                                 aria-labelledby={ t('FORMS.associationType') } 
                                 aria-describedby={ t('FORMS.associationType_help') }>
-                                {associationTypes && !associationTypes.associationTypesError && associationTypes.map((type, index) => {
-                                  <MenuItem key={index} value={type.code}>{type.name}</MenuItem>
-                                })
-                                }
+                                  {({
+                                    field, // { name, value, onChange, onBlur }
+                                    form,
+                                    form: { touched, errors, values }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
+                                    meta,
+                                  }) => {
+                                    return (
+                                      <>
+                                        <GenericSelectBox 
+                                            placeholder={t("PLACEHOLDER.associationType")}
+                                            field={field} form={form}
+                                            sendSelected={(value,label) => setSelectedAssociationType({code: value, label: label})}>
+                                          
+                                            {!associationTypes.associationTypesError && associationTypes && associationTypes.map((type, index) => (
+                                              <MenuItem key={index} value={type.code}>{type.label}</MenuItem>
+                                            ))
+                                            }
+                                        </GenericSelectBox>
+                                        {meta.touched && meta.error ? (
+                                          <ErrorMessage name="association_type" component="div" className="invalid-feedback">{ msg => <div style={{ color: 'red', lineWeight: '800' }}>{msg}</div> }</ErrorMessage>
+                                        ) : null}
+                                      </>
+                                  )}}
                               </Field>
                             </Grid>
                             <Grid item xs={1}
@@ -929,7 +950,7 @@ export const RegisterWizardJWT = ({termsProps, associationTypes}) => {
                    receiveFormValues={(values) => { setFormikValues(values); }}
                    label={t('LABELS.step3Title')}>
                      {stateFormikValues &&
-                      <SummaryStep values={stateFormikValues} districtSelected={selectedDistrict} municipalitySelected={selectedMunicipality} associationTypeSelected={selectedAssociationType}/>
+                      <SummaryStep settings={settings} values={stateFormikValues} districtSelected={selectedDistrict} municipalitySelected={selectedMunicipality} associationTypeSelected={selectedAssociationType}/>
                      }
                 </FormikStep>
                 <FormikStep label={t('LABELS.step4Title')}>

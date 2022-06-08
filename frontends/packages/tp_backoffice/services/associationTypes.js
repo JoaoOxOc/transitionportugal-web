@@ -1,13 +1,25 @@
 import { buildRouteQuery, genericFetch } from './genericFetch';
 
-export const GetAssociations = async(associationsApiUri, searchDataJson, bearerToken) => {
-    associationsApiUri += buildRouteQuery(searchDataJson);
-    let response = await genericFetch(associationsApiUri, "GET", bearerToken,{});
+export const GetAssociationTypes = async(associationTypesApiUri, searchDataJson) => {
+    associationTypesApiUri += buildRouteQuery(searchDataJson);
+    let response = await genericFetch(associationTypesApiUri, "GET", null,{});
     if (response.requestAgain) {
-        response = await genericFetch(associationsApiUri, "GET", bearerToken,{});
+        response = await genericFetch(associationTypesApiUri, "GET", null,{});
     }
     else if (response.status == 404) {
-        response.associations = [];
+        response.associationTypes = [];
+        response.totalCount = 0;
+    }
+    return response;
+}
+
+export const GetPublicAssociationTypes = async(associationTypesApiUri) => {
+    let response = await genericFetch(associationTypesApiUri, "GET", null,{});
+    if (response.requestAgain) {
+        response = await genericFetch(associationTypesApiUri, "GET", null,{});
+    }
+    else if (response.status == 404) {
+        response.associationTypes = [];
         response.totalCount = 0;
     }
     return response;
