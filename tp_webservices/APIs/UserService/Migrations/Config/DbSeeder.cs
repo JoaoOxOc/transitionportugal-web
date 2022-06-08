@@ -250,9 +250,9 @@ namespace UserService.Migrations.Config
 
             _modelBuilder.Entity<AssociationType>().HasData(
                 new AssociationType() { Id = 1, Code = "transition_initiative", Label = "Iniciativa de Transição Local", VatRequired = false, Description = "Identifica que é iniciativa local da transição", CreatedAt = DateTime.Now },
-                new AssociationType() { Id = 2, Code = "association_foundation", Label = "Associação/Cooperativa/Fundação", VatRequired = false, Description = "Identifica que é uma associação ou cooperativa ou fundação", CreatedAt = DateTime.Now },
+                new AssociationType() { Id = 2, Code = "association_foundation", Label = "Associação/Cooperativa/Fundação", VatRequired = true, Description = "Identifica que é uma associação ou cooperativa ou fundação", CreatedAt = DateTime.Now },
                 new AssociationType() { Id = 3, Code = "movement_initiative", Label = "Movimento", VatRequired = false, Description = "Identifica que é um movimento sem entidade formal", CreatedAt = DateTime.Now },
-                new AssociationType() { Id = 4, Code = "store", Label = "Comércio Sustentável", VatRequired = false, Description = "Identifica que é um comércio sustentável", CreatedAt = DateTime.Now }
+                new AssociationType() { Id = 4, Code = "store", Label = "Comércio Sustentável", VatRequired = true, Description = "Identifica que é um comércio sustentável", CreatedAt = DateTime.Now }
             );
 
             #endregion

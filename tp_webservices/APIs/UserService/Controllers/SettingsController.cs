@@ -129,7 +129,7 @@ namespace UserService.Controllers
                 SortDirection direction = sortDirection == "desc" ? SortDirection.Descending : SortDirection.Ascending;
 
                 Expression<Func<Setting, bool>> filter = (x => (x.Description.ToLower().Contains(searchText) || x.Key.ToLower().Contains(searchText))
-                && (x.Key == SettingCode.CaptchaSiteKey.ToString() || x.Key == SettingCode.CaptchaSecretKey.ToString()));
+                && (x.Key == SettingCode.CaptchaSiteKey.ToString() || x.Key == SettingCode.CaptchaSecretKey.ToString() || x.Key == SettingCode.HEREgeocodeApiKey.ToString() || x.Key == SettingCode.PositionStackGeocodeApiKey.ToString() || x.Key == SettingCode.GoogleGeocodeApiKey.ToString() || x.Key == SettingCode.GeocodeServiceInUse.ToString()));
 
                 var _settings = uow.SettingRepository.Get(offset, limit, filter, sort, direction, string.Empty);
 
