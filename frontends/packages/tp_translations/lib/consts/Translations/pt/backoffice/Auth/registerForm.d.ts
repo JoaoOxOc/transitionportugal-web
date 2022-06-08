@@ -42,6 +42,8 @@ export declare const REGISTERFORM_TRANSLATIONS: {
         readonly associationName: "Nome da Iniciativa/Movimento";
         readonly associationEmail: "Email da Iniciativa/Movimento";
         readonly associationVat: "NIF da Iniciativa/Movimento";
+        readonly associationWebsite: "Website da Iniciativa/Movimento";
+        readonly associationWebsite_help: "Insira o endereço do website da Iniciativa/Movimento";
         readonly associationType: "Tipo de Iniciativa/Movimento";
         readonly associationType_help: "Identifica o tipo de entidade formal relativa à inciativa/movimento";
         readonly associationTypeHelpTooltip: "Botão de ajuda para o campo Tipo de Iniciativa/Movimento";
@@ -60,6 +62,7 @@ export declare const REGISTERFORM_TRANSLATIONS: {
         readonly geolocationErrorResult: "Ocorreu um erro ao tentar determinar a localização da tua Iniciativa/Movimento baseado nos dados de endereço que inseriste. Por favor volta ao passo anterior e verifica os dados do endereço que inseriste.";
         readonly geolocationResult: "localização da tua Iniciativa/Movimento determinado pelo serviço de geolocalização:";
         readonly geolocationResultMoreInfo: "Se a geolocalização não for precisa, podes alterar os dados de endereço no passo anterior ou prosseguir com o registo e alterar a Latitude/Longitude no perfil da Iniciativa/Movimento quando o registo for aprovado.";
+        readonly registerErrorResult: "Apresenta o erro, caso aconteça, durante a submissão do formulário de registo";
     };
     readonly PLACEHOLDER: {
         readonly firstName: "Escreve o teu primeiro nome aqui...";

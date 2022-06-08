@@ -42,6 +42,8 @@ export declare const REGISTERFORM_TRANSLATIONS: {
         readonly associationName: "Initiative/movement Name";
         readonly associationEmail: "Initiative/movement Email";
         readonly associationVat: "Initiative/movement VAT Number";
+        readonly associationWebsite: "Initiative/movement Website";
+        readonly associationWebsite_help: "The website address of the Initiative/movement";
         readonly associationType: "Initiative/movement Type";
         readonly associationType_help: "The type identifies which formal entity type the initiative is";
         readonly associationTypeHelpTooltip: "Help button for Initiative/movement type";
@@ -58,6 +60,7 @@ export declare const REGISTERFORM_TRANSLATIONS: {
         readonly geolocationErrorResult: "An error occured when trying to determine your Initiative/movement based upon the address data you inserted. Please go back to address step and verify the data you inserted.";
         readonly geolocationResult: "Initiative/movement Address determined by the geolocation service:";
         readonly geolocationResultMoreInfo: "If the geolocation is not precise, you can change Latitude/Longitude in Initiative/movement profile right after you register and your Initiative/movement is approved";
+        readonly registerErrorResult: "Displays an error if happened while submitting the register";
     };
     readonly PLACEHOLDER: {
         readonly firstName: "Write your first name here...";
@@ -104,7 +107,7 @@ export declare const REGISTERFORM_TRANSLATIONS: {
         readonly associationTownTooBig: "Your Initiative/movement town cannot have more than {{number}} characters";
         readonly associationTownRequired: "Your Initiative/movement town is required";
         readonly confirmationEmailSent: "An email confirmation request was sent to each email";
-        readonly serverError: "An unknown error ocurred. Please try again";
+        readonly serverError: "An unknown error ocurred while finishing register. Please try again";
         readonly successfulMessage: "Thank you for registering. Your account will now be verified. Please check your email for more instructions";
     };
 };

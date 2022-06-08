@@ -24,7 +24,6 @@ const SummaryStep = ({values, districtSelected, municipalitySelected, associatio
   const splitAddress = values.association_address.split(/[,º]/);
   console.log(splitAddress, splitAddress.length);
   // TODO: get HERE apikey from somewhere
-  // captcha: https://codesandbox.io/s/w7m717779w
     hereGeolocator({
       houseNumber: splitAddress.length > 1 ? splitAddress[1] : null,
       street: splitAddress[0],

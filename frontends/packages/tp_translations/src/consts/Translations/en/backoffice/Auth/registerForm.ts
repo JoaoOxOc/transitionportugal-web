@@ -44,6 +44,8 @@ export const REGISTERFORM_TRANSLATIONS = deepFreeze({
         associationName: "Initiative/movement Name",
         associationEmail: "Initiative/movement Email",
         associationVat: "Initiative/movement VAT Number",
+        associationWebsite: "Initiative/movement Website",
+        associationWebsite_help: "The website address of the Initiative/movement",
         associationType: "Initiative/movement Type",
         associationType_help: "The type identifies which formal entity type the initiative is",
         associationTypeHelpTooltip: "Help button for Initiative/movement type",
@@ -59,7 +61,8 @@ export const REGISTERFORM_TRANSLATIONS = deepFreeze({
         address: "Address",
         geolocationErrorResult: "An error occured when trying to determine your Initiative/movement based upon the address data you inserted. Please go back to address step and verify the data you inserted.",
         geolocationResult: "Initiative/movement Address determined by the geolocation service:",
-        geolocationResultMoreInfo: "If the geolocation is not precise, you can change Latitude/Longitude in Initiative/movement profile right after you register and your Initiative/movement is approved"
+        geolocationResultMoreInfo: "If the geolocation is not precise, you can change Latitude/Longitude in Initiative/movement profile right after you register and your Initiative/movement is approved",
+        registerErrorResult: "Displays an error if happened while submitting the register"
     },
     PLACEHOLDER: {
         firstName: "Write your first name here...",
@@ -106,7 +109,7 @@ export const REGISTERFORM_TRANSLATIONS = deepFreeze({
         associationTownTooBig: "Your Initiative/movement town cannot have more than {{number}} characters",
         associationTownRequired: "Your Initiative/movement town is required",
         confirmationEmailSent: "An email confirmation request was sent to each email",
-        serverError: "An unknown error ocurred. Please try again",
+        serverError: "An unknown error ocurred while finishing register. Please try again",
         successfulMessage: "Thank you for registering. Your account will now be verified. Please check your email for more instructions"
     }
 } as const);

@@ -41,6 +41,11 @@ import TermsModal from '../../../content/TermsModal';
 import {GenericSelectBox,HelperTooltip} from '@transitionpt/components';
 import {getOdsPtDistricts, getOdsPtCountiesByDistrict} from '@transitionpt/geolocation';
 
+const HiddenGrid = styled(Grid)(
+  ({ theme }) => `
+    display: none
+`
+);
 
 const BoxActions = styled(Box)(
     ({ theme }) => `
@@ -203,6 +208,7 @@ export const RegisterWizardJWT = ({termsProps, associationTypes}) => {
     const { enqueueSnackbar } = useSnackbar();
     const [openAlert, setOpenAlert] = useState(true);
     const [userRegistered, setUserRegistered] = useState(false);
+    const [submitError, setSubmitError] = useState('');
     const [termsConsented, setTermsConsented] = useState('');
     const [selectedDistrict, setSelectedDistrict] = useState({});
     const [selectedMunicipality, setSelectedMunicipality] = useState({});
@@ -322,6 +328,7 @@ export const RegisterWizardJWT = ({termsProps, associationTypes}) => {
     return (
         <FormikStepper
                 isRegistered={userRegistered}
+                submitError={submitError}
                 initialValues={{
                   first_name: '',
                   last_name: '',
@@ -341,10 +348,14 @@ export const RegisterWizardJWT = ({termsProps, associationTypes}) => {
                   association_municipality_code: '',
                   association_district_code: '',
                   association_latitude: '',
-                  association_longitude: ''
+                  association_longitude: '',
+                  association_website: ''
                 }}
                 onSubmit={async (values, helpers) => {
                   console.log(values)
+                  if (values.association_website.length != 0) {
+                    return null;
+                  }
                   try {
                     const registerResult = await fetch(process.env.NEXT_PUBLIC_AUTH_URL + "/register", {
                       method: 'POST',
@@ -395,6 +406,7 @@ export const RegisterWizardJWT = ({termsProps, associationTypes}) => {
                         helpers.setErrors({ submit: registerResultParsed.statusText });
                         helpers.setSubmitting(false);
                         if (registerResult.status === 403) {
+                          setSubmitError(t('MESSAGES.passwordComplexityError'));
                             enqueueSnackbar(t('MESSAGES.passwordComplexityError'), {
                               variant: 'error',
                               anchorOrigin: {
@@ -406,6 +418,7 @@ export const RegisterWizardJWT = ({termsProps, associationTypes}) => {
                             });
                         }
                         if (registerResult.status === 500) {
+                          setSubmitError(t('MESSAGES.serverError'));
                             enqueueSnackbar(t('MESSAGES.serverError'), {
                               variant: 'error',
                               anchorOrigin: {
@@ -418,6 +431,7 @@ export const RegisterWizardJWT = ({termsProps, associationTypes}) => {
                         }
                         else if (registerResultParsed.statusText === "Unauthorized") {
                             setDisplayRecoverLink(true);
+                            setSubmitError(t('MESSAGES.tokenExpiredError'));
                             enqueueSnackbar(t('MESSAGES.tokenExpiredError'), {
                               variant: 'error',
                               anchorOrigin: {
@@ -429,6 +443,7 @@ export const RegisterWizardJWT = ({termsProps, associationTypes}) => {
                             });
                         }
                         else if (registerResult.status === 409) {
+                          setSubmitError(t('MESSAGES.usernameAlreadyTaken'));
                             enqueueSnackbar(t('MESSAGES.usernameAlreadyTaken'), {
                               variant: 'error',
                               anchorOrigin: {
@@ -438,6 +453,9 @@ export const RegisterWizardJWT = ({termsProps, associationTypes}) => {
                               autoHideDuration: 2000,
                               TransitionComponent: Slide
                             });
+                        }
+                        else {
+                          setSubmitError(t('MESSAGES.serverError'));
                         }
                     }
                   } catch (err) {
@@ -760,6 +778,16 @@ export const RegisterWizardJWT = ({termsProps, associationTypes}) => {
                           aria-describedby={ t('FORMS.associationVat_help') }
                         />
                       </Grid>
+                      <HiddenGrid item xs={12}>
+                        <Field
+                          fullWidth
+                          name="association_website"
+                          component={MuiTextField}
+                          label={t('FORMS.associationWebsite')}
+                          aria-labelledby={ t('FORMS.associationWebsite') } 
+                          aria-describedby={ t('FORMS.associationWebsite_help') }
+                        />
+                      </HiddenGrid>
                       <Grid item xs={12}>
                         <Typography
                           variant="h4"
@@ -972,7 +1000,7 @@ export function FormikStep({ children }) {
     return <>{children}</>;
   }
   
-  export function FormikStepper({ children, isRegistered, ...props }) {
+  export function FormikStepper({ children, isRegistered, submitError, ...props }) {
     const childrenArray = Children.toArray(children);
     const [step, setStep] = useState(0);
     const currentChild = childrenArray[step];
@@ -1042,7 +1070,17 @@ export function FormikStep({ children }) {
                 >
                   {t('LABELS.previous')}
                 </Button>
-  
+                {isLastStep() && submitError &&
+                  <Alert
+                    sx={{
+                      mb: 1
+                    }}
+                    severity="error"
+                    aria-label={ t('FORMS.registerErrorResult') }
+                  >
+                    <span>{submitError}</span>
+                  </Alert>
+                }
                 <Button
                   startIcon={
                     isSubmitting ? <CircularProgress size="1rem" /> : null

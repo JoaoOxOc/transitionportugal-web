@@ -44,6 +44,8 @@ export const REGISTERFORM_TRANSLATIONS = deepFreeze({
         associationName: "Nome da Iniciativa/Movimento",
         associationEmail: "Email da Iniciativa/Movimento",
         associationVat: "NIF da Iniciativa/Movimento",
+        associationWebsite: "Website da Iniciativa/Movimento",
+        associationWebsite_help: "Insira o endereço do website da Iniciativa/Movimento",
         associationType: "Tipo de Iniciativa/Movimento",
         associationType_help: "Identifica o tipo de entidade formal relativa à inciativa/movimento",
         associationTypeHelpTooltip: "Botão de ajuda para o campo Tipo de Iniciativa/Movimento",
@@ -61,7 +63,8 @@ export const REGISTERFORM_TRANSLATIONS = deepFreeze({
         address: "Morada",
         geolocationErrorResult: "Ocorreu um erro ao tentar determinar a localização da tua Iniciativa/Movimento baseado nos dados de endereço que inseriste. Por favor volta ao passo anterior e verifica os dados do endereço que inseriste.",
         geolocationResult: "localização da tua Iniciativa/Movimento determinado pelo serviço de geolocalização:",
-        geolocationResultMoreInfo: "Se a geolocalização não for precisa, podes alterar os dados de endereço no passo anterior ou prosseguir com o registo e alterar a Latitude/Longitude no perfil da Iniciativa/Movimento quando o registo for aprovado."
+        geolocationResultMoreInfo: "Se a geolocalização não for precisa, podes alterar os dados de endereço no passo anterior ou prosseguir com o registo e alterar a Latitude/Longitude no perfil da Iniciativa/Movimento quando o registo for aprovado.",
+        registerErrorResult: "Apresenta o erro, caso aconteça, durante a submissão do formulário de registo"
     },
     PLACEHOLDER: {
         firstName: "Escreve o teu primeiro nome aqui...",
