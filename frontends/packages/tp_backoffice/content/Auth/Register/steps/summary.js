@@ -20,9 +20,11 @@ const SummaryStep = ({settings,values, districtSelected, municipalitySelected, a
   const [associationLongitude, setAssociationLongitude] = useState('');
   const [geolocationDeterminedAddress, setGeolocationDeterminedAddress] = useState('');
   const [geolocationError, setGeolocationError] = useState('');
+  const hereApiKey = settings && settings.filter(x => x.key == "HEREgeocodeApiKey") && hereCodeApikey[0] ? hereCodeApikey[0].value : "";
   const { t } = i18nextRegisterForm;
   const splitAddress = values.association_address.split(/[,º]/);
-  console.log(splitAddress, splitAddress.length);
+  console.log(geolocationError, splitAddress, splitAddress.length);
+
     hereGeolocator({
       houseNumber: splitAddress.length > 1 ? splitAddress[1] : null,
       street: splitAddress[0],
@@ -32,7 +34,7 @@ const SummaryStep = ({settings,values, districtSelected, municipalitySelected, a
       county: districtSelected.label,
       country: 'Portugal'
     },
-    settings.filter(x => x.key == "HEREgeocodeApiKey")[0].value).then(result => {
+    hereApiKey).then(result => {
       if (result && result.IsError === false) {
         setAssociationLatitude(result.Latitude);
         setAssociationLongitude(result.Longitude);
@@ -41,6 +43,8 @@ const SummaryStep = ({settings,values, districtSelected, municipalitySelected, a
       else if (result) {
         setGeolocationError(result.ErrorMessage);
       }
+    }).catch(error => {
+      setGeolocationError(error.message);
     });
     
     values.association_latitude = associationLatitude;
@@ -155,17 +159,6 @@ const SummaryStep = ({settings,values, districtSelected, municipalitySelected, a
                   height: '400px',}}>
                     <MapDynamic data={[{lat: values.association_latitude, long: values.association_longitude, marker:{title: values.association_name, info: values.association_address + " " + values.association_postalcode + " " + values.association_town}}]}/>
                 </div>
-                { geolocationError &&
-                  <Alert
-                    sx={{
-                      mt: 1
-                    }}
-                    severity="error"
-                    aria-label={ t('FORMS.geolocationErrorResult') }
-                  >
-                    <Typography variant="h4">{t('FORMS.geolocationErrorResult')}</Typography>
-                  </Alert>
-                }
                 <Alert
                   sx={{
                     mt: 1
@@ -178,6 +171,17 @@ const SummaryStep = ({settings,values, districtSelected, municipalitySelected, a
                   <Typography variant="subtitle2">{t('FORMS.geolocationResultMoreInfo')}</Typography>
                 </Alert>
               </>
+            }
+            { geolocationError != '' &&
+              <Alert
+                sx={{
+                  mt: 1
+                }}
+                severity="error"
+                aria-label={ t('FORMS.geolocationErrorResult') }
+              >
+                <Typography variant="h4">{t('FORMS.geolocationErrorResult')}</Typography>
+              </Alert>
             }
           </Container>
         </Box>

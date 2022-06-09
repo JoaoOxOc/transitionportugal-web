@@ -203,7 +203,6 @@ const MaskedStyledTextField = IMaskMixin(({inputRef, ...props}) => {
 
 // TODO: terms modal get consent - https://stackoverflow.com/questions/66193822/react-bootstrap-form-check-with-formik and https://formik.org/docs/api/withFormik
 export const RegisterWizardJWT = ({termsProps, associationTypes, settings}) => {
-  console.log(settings, settings.filter(x => x.key == "HEREgeocodeApiKey"))
     const { t } = i18nextRegisterForm;
     const { enqueueSnackbar } = useSnackbar();
     const [openAlert, setOpenAlert] = useState(true);
@@ -511,6 +510,10 @@ export const RegisterWizardJWT = ({termsProps, associationTypes, settings}) => {
                     password: Yup.string()
                       .min(8, t('MESSAGES.passwordTooSmall', { number: 8 }))
                       .max(100, t('MESSAGES.passwordTooBig', { number: 100 }))
+                      .matches(
+                        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+                        t('MESSAGES.passwordComplexityError')
+                      )
                       .required(t('MESSAGES.passwordRequired')),
                     password_confirm: Yup.string()
                       .oneOf(
@@ -770,7 +773,7 @@ export const RegisterWizardJWT = ({termsProps, associationTypes, settings}) => {
                                             field={field} form={form}
                                             sendSelected={(value,label) => setSelectedAssociationType({code: value, label: label})}>
                                           
-                                            {!associationTypes.associationTypesError && associationTypes && associationTypes.map((type, index) => (
+                                            {associationTypes && !associationTypes.associationTypesError && associationTypes.map((type, index) => (
                                               <MenuItem key={index} value={type.code}>{type.label}</MenuItem>
                                             ))
                                             }
