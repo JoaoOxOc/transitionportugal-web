@@ -208,7 +208,7 @@ export const RegisterWizardJWT = ({termsProps, associationTypes, settings}) => {
     const [openAlert, setOpenAlert] = useState(true);
     const [userRegistered, setUserRegistered] = useState(false);
     const [submitError, setSubmitError] = useState('');
-    const [termsConsented, setTermsConsented] = useState('');
+    const [termsConsented, setTermsConsented] = useState(false);
     const [selectedDistrict, setSelectedDistrict] = useState({});
     const [selectedMunicipality, setSelectedMunicipality] = useState({});
     const [selectedAssociationType, setSelectedAssociationType] = useState({});
@@ -309,7 +309,7 @@ export const RegisterWizardJWT = ({termsProps, associationTypes, settings}) => {
     const termsDialogJson = {
       closeLabel: t("LABELS.closeTermsDialog"),
       okReturnOption: "consented",
-      showOkButton: false,
+      showOkButton: true,
       okButton: t("LABELS.termsConsentButton"),
       showCancelButton: true,
       cancelButton: t("LABELS.termsCancelButton"),
@@ -321,6 +321,7 @@ export const RegisterWizardJWT = ({termsProps, associationTypes, settings}) => {
 
     const receiveConsentAction = (eventValue) => {
       setTermsConsented(true);
+      formikSetFieldValue('terms', true);
       setIsOpen(false);
     }
 
@@ -660,7 +661,8 @@ export const RegisterWizardJWT = ({termsProps, associationTypes, settings}) => {
                           component={CheckboxWithLabel}
                           aria-labelledby={ t('FORMS.confirmTerms') } 
                           aria-describedby={ t('FORMS.confirmTerms_help') }
-                          onChange={e => formikSetFieldValue('terms', e.target.checked)}
+                          checked={termsConsented}
+                          onChange={e => { setTermsConsented(e.target.checked);formikSetFieldValue('terms', e.target.checked);}}
                           Label={{
                             label: (
                               <>

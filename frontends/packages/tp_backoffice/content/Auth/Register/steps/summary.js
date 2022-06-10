@@ -20,7 +20,7 @@ const SummaryStep = ({settings,values, districtSelected, municipalitySelected, a
   const [associationLongitude, setAssociationLongitude] = useState('');
   const [geolocationDeterminedAddress, setGeolocationDeterminedAddress] = useState('');
   const [geolocationError, setGeolocationError] = useState('');
-  const hereApiKey = settings && settings.filter(x => x.key == "HEREgeocodeApiKey") && hereCodeApikey[0] ? hereCodeApikey[0].value : "";
+  const hereApiKey = settings && settings.filter(x => x.key == "HEREgeocodeApiKey") && settings.filter(x => x.key == "HEREgeocodeApiKey")[0] ? settings.filter(x => x.key == "HEREgeocodeApiKey")[0].value : "";
   const { t } = i18nextRegisterForm;
   const splitAddress = values.association_address.split(/[,º]/);
   console.log(geolocationError, splitAddress, splitAddress.length);
