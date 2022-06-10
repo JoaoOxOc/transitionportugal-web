@@ -31,6 +31,7 @@ namespace EmailService.Services
             settings.Add(new Setting() { Key = SettingCode.SMTP_From.ToString(), SettingType = (int)SettingsType.EMAIL, Value = "test@hotmail.com", DefaultValue = "test@hotmail.com", Description = "Endereço de envio SMTP", CreatedBy = null, UpdatedBy = null });
             settings.Add(new Setting() { Key = SettingCode.SMTP_SSL.ToString(), SettingType = (int)SettingsType.EMAIL, Value = "true", DefaultValue = "true", Description = "Required SSL", CreatedBy = null, UpdatedBy = null });
             settings.Add(new Setting() { Key = SettingCode.SMTP_FromName.ToString(), SettingType = (int)SettingsType.EMAIL, Value = "test", DefaultValue = "test", Description = "Identificação da organização no envio SMTP", CreatedBy = null, UpdatedBy = null });
+            settings.Add(new Setting() { Key = SettingCode.Administration_Email.ToString(), SettingType = (int)SettingsType.EMAIL, Value = "admin@tp.pt", DefaultValue = "admin@tp.pt", Description = "Identificação do email de administração", CreatedBy = null, UpdatedBy = null });
 
             foreach (var setting in settings)
             {
