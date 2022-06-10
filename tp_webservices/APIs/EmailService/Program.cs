@@ -24,6 +24,7 @@ builder.Services.TryAddScoped<IEmailTemplatesRepository, EmailTemplatesRepositor
 builder.Services.TryAddScoped<IEmailService, EmailServiceImp>();
 
 builder.Services.AddHttpClient<IEmailQueueConsumer, EmailQueueConsumer>();
+builder.Services.AddHttpClient<IExceptionQueueConsumer, ExceptionQueueConsumer>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
