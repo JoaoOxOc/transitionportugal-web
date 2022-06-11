@@ -7,7 +7,8 @@ namespace ContentManageService.Models
         public int? Id { get; set; }
 
         public string PageKey { get; set; }
-
+        public string? ComponentKey { get; set; }
+        public int? OrderPosition { get; set; }
         public bool? IsDraft { get; set; }
 
         public List<BannerDataModel>? BannerLanguages { get; set; }

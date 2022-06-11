@@ -37,6 +37,6 @@ namespace ContentManageService.Entities
 
         [ForeignKey("Banner")]
         public int? BannerId { get; set; }
-        public virtual Banner Banner { get; set; }
+        public virtual Banner? Banner { get; set; }
     }
 }

@@ -18,6 +18,18 @@ namespace ContentManageService.Entities
         [MaxLength(25)]
         public string PageKey { get; set; }
 
+        /// <summary>
+        /// The identifier of the component in a page where the banner record belongs
+        /// </summary>
+        [MaxLength(25)]
+        public string? ComponentKey { get; set; }
+
+        /// <summary>
+        /// Identifies the order position of the banner
+        /// Example: in the case of belonging to the same component key, it can be ordered to be an item in a carousel for example
+        /// </summary>
+        public int? OrderPosition { get; set; }
+
         public bool? IsDraft { get; set;}
 
         #region MetaData
@@ -29,6 +41,8 @@ namespace ContentManageService.Entities
         public string? CreatedBy { get; set; }
 
         public string? UpdatedBy { get; set; }
+
+        public virtual ICollection<BannerTranslation> BannerTranslations { get; set; }
 
         #endregion
 
