@@ -3,6 +3,7 @@ using EmailService.Consumers;
 using EmailService.Repositories;
 using EmailService.Sender;
 using EmailService.Services;
+using EmailService.Services.RabbitMQ;
 using MassTransit;
 using MicroservicesLibrary.HttpHandlers;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -25,6 +26,9 @@ builder.Services.TryAddScoped<IEmailService, EmailServiceImp>();
 
 builder.Services.AddHttpClient<IEmailQueueConsumer, EmailQueueConsumer>();
 builder.Services.AddHttpClient<IExceptionQueueConsumer, ExceptionQueueConsumer>();
+builder.Services.TryAddSingleton<IRabbitMQSender, RabbitMQSender>();
+
+builder.Services.ConfigureMassTransitRabbitMQ(configuration);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
