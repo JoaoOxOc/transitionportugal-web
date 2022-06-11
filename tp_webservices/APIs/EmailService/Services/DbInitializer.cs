@@ -176,6 +176,18 @@ namespace EmailService.Services
             accountPasswordRecoveryEN.BodyParameters = BsonDocument.Parse(System.Text.Json.JsonSerializer.Serialize(new { name = "{{name}}", username = "{{username}}", userEmail = "{{userEmail}}", associationName = "{{associationName}}", activateUserLink = "{{activateUserLink}}" }));
             emailTemplates.Add(accountPasswordRecoveryEN);
 
+            EmailTemplate adminErrorNotificationEmail = new EmailTemplate();
+            adminErrorNotificationEmail.Key = EmailTemplatesEnum.AdminErrorNotification.ToString();
+            adminErrorNotificationEmail.Description = "NÂO ALTERAR - Inglês - Envio de notificação de erro na aplicação para o administrador";
+            adminErrorNotificationEmail.Language = "en-US";
+            adminErrorNotificationEmail.Subject = "Transição Portugal - app error notification";
+            adminErrorNotificationEmail.BodyHtml = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional //EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">An error occured at {{exceptionHappenedAt}}<br/><br/>Details:<br/><br/>Message: {{exceptionMessage}}<br/>Stacktrace: <pre style=\"background - color:#EFEFEF;display:block;padding:8px;border:1px solid #CCCCCC;overflow-x:auto;\">{{exceptionStackTrace}}</pre><br/>InnerException message: {{innerExceptionMessage}}<br/>InnerException stacktrace: <pre style=\"background - color:#EFEFEF;display:block;padding:8px;border:1px solid #CCCCCC;overflow-x:auto;\">{{innerExceptionStackTrace}}</pre><<br/>userId: {{userId}}<br/><br/>Input data JSON: <pre style=\"background - color:#EFEFEF;display:block;padding:8px;border:1px solid #CCCCCC;overflow-x:auto;\">{{methodInputData}}</pre>";
+            adminErrorNotificationEmail.CreatedAt = DateTime.UtcNow;
+            adminErrorNotificationEmail.CreatedBy = null;
+            adminErrorNotificationEmail.UpdatedBy = null;
+            adminErrorNotificationEmail.BodyJson = BsonDocument.Parse("{}");
+            adminErrorNotificationEmail.BodyParameters = BsonDocument.Parse(System.Text.Json.JsonSerializer.Serialize(new { name = "{{name}}", username = "{{username}}", userEmail = "{{userEmail}}", associationName = "{{associationName}}", activateUserLink = "{{activateUserLink}}" }));
+            emailTemplates.Add(adminErrorNotificationEmail);
 
             foreach (EmailTemplate obj in emailTemplates)
             {
