@@ -95,6 +95,7 @@ namespace UserService.Controllers
                     exceptionModel.DateLogging = DateTime.UtcNow;
                     exceptionModel.AdminRole = "Admin";
                     exceptionModel.InnerException = ex.InnerException;
+                    exceptionModel.InputDataJson = JsonSerializer.Serialize(model);
                     var claimUserId = authClaims.Where(x => x.Type == "userId").FirstOrDefault();
                     exceptionModel.UserId = claimUserId != null ? claimUserId.Value : "";
 
@@ -209,6 +210,7 @@ namespace UserService.Controllers
                 exceptionModel.DateLogging = DateTime.UtcNow;
                 exceptionModel.AdminRole = "Admin";
                 exceptionModel.InnerException = null;
+                exceptionModel.InputDataJson = JsonSerializer.Serialize(model);
                 exceptionModel.UserId = result.Key.Id;
 
                 bool success = await _rabbitSender.PublishExceptionMessage(exceptionModel);
@@ -223,6 +225,7 @@ namespace UserService.Controllers
                 exceptionModel.DateLogging = DateTime.UtcNow;
                 exceptionModel.AdminRole = "Admin";
                 exceptionModel.InnerException = null;
+                exceptionModel.InputDataJson = JsonSerializer.Serialize(model);
                 exceptionModel.UserId = result.Key.Id;
 
                 bool success = await _rabbitSender.PublishExceptionMessage(exceptionModel);
@@ -260,6 +263,7 @@ namespace UserService.Controllers
                         exceptionModel.DateLogging = DateTime.UtcNow;
                         exceptionModel.AdminRole = "Admin";
                         exceptionModel.InnerException = null;
+                        exceptionModel.InputDataJson = JsonSerializer.Serialize(result);
                         var claimUserId = userClaims.Where(x => x.Claim == "userId").FirstOrDefault();
                         exceptionModel.UserId = claimUserId != null ? claimUserId.Value : "";
 
@@ -289,6 +293,7 @@ namespace UserService.Controllers
                             exceptionModel.DateLogging = DateTime.UtcNow;
                             exceptionModel.AdminRole = "Admin";
                             exceptionModel.InnerException = null;
+                            exceptionModel.InputDataJson = JsonSerializer.Serialize(result);
                             var claimUserId = userClaims.Where(x => x.Claim == "userId").FirstOrDefault();
                             exceptionModel.UserId = claimUserId != null ? claimUserId.Value : "";
 
@@ -397,6 +402,7 @@ namespace UserService.Controllers
                 exceptionModel.DateLogging = DateTime.UtcNow;
                 exceptionModel.AdminRole = "Admin";
                 exceptionModel.InnerException = ex.InnerException;
+                exceptionModel.InputDataJson = JsonSerializer.Serialize(tokenModel);
                 exceptionModel.UserId = "";
 
                 bool success = await _rabbitSender.PublishExceptionMessage(exceptionModel);
@@ -477,6 +483,7 @@ namespace UserService.Controllers
                     exceptionModel.DateLogging = DateTime.UtcNow;
                     exceptionModel.AdminRole = "Admin";
                     exceptionModel.InnerException = null;
+                    exceptionModel.InputDataJson = JsonSerializer.Serialize(model);
                     exceptionModel.UserId = user.Id;
 
                     bool rabbitSuccess = await _rabbitSender.PublishExceptionMessage(exceptionModel);
@@ -513,6 +520,7 @@ namespace UserService.Controllers
                         exceptionModel.DateLogging = DateTime.UtcNow;
                         exceptionModel.AdminRole = "Admin";
                         exceptionModel.InnerException = null;
+                        exceptionModel.InputDataJson = JsonSerializer.Serialize(model);
                         exceptionModel.UserId = user.Id;
 
                         bool rabbitSuccess = await _rabbitSender.PublishExceptionMessage(exceptionModel);

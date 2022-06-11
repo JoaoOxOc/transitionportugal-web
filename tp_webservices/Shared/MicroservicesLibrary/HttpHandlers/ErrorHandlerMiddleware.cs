@@ -11,6 +11,7 @@ namespace MicroservicesLibrary.HttpHandlers
     public class ErrorHandlerMiddleware
     {
         private readonly RequestDelegate _next;
+        //private readonly GreetingOptions options;
 
         public ErrorHandlerMiddleware(RequestDelegate next)
         {

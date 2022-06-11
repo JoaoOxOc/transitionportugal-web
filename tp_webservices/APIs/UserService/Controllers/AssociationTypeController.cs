@@ -125,6 +125,14 @@ namespace UserService.Controllers
                     exceptionModel.DateLogging = DateTime.UtcNow;
                     exceptionModel.AdminRole = "Admin";
                     exceptionModel.InnerException = ex.InnerException;
+                    exceptionModel.InputDataJson = JsonSerializer.Serialize(new
+                    {
+                        searchText = searchText,
+                        offset = offset,
+                        limit = limit,
+                        sort = sort,
+                        sortDirection = sortDirection
+                    });
                     var claimUserId = userClaims.Where(x => x.Claim == "userId").FirstOrDefault();
                     exceptionModel.UserId = claimUserId != null ? claimUserId.Value : "";
 
@@ -179,7 +187,7 @@ namespace UserService.Controllers
 
         [Authorize]
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(string id)
+        public async Task<IActionResult> Get(int id)
         {
             string header = HttpContext.Request.Headers["Authorization"];
             string[] claims = new string[] { "userId", "sub", System.Security.Claims.ClaimTypes.Role, "scope" };
@@ -213,6 +221,10 @@ namespace UserService.Controllers
                     exceptionModel.DateLogging = DateTime.UtcNow;
                     exceptionModel.AdminRole = "Admin";
                     exceptionModel.InnerException = ex.InnerException;
+                    exceptionModel.InputDataJson = JsonSerializer.Serialize(new
+                    {
+                        associationTypeId = id
+                    });
                     var claimUserId = userClaims.Where(x => x.Claim == "userId").FirstOrDefault();
                     exceptionModel.UserId = claimUserId != null ? claimUserId.Value : "";
 
@@ -319,6 +331,7 @@ namespace UserService.Controllers
                         exceptionModel.DateLogging = DateTime.UtcNow;
                         exceptionModel.AdminRole = "Admin";
                         exceptionModel.InnerException = ex.InnerException;
+                        exceptionModel.InputDataJson = JsonSerializer.Serialize(model);
                         exceptionModel.UserId = userId;
 
                         bool success = await _rabbitSender.PublishExceptionMessage(exceptionModel);
