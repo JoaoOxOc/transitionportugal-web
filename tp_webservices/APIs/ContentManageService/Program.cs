@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using ContentManageService.Migrations.Config;
 using MicroservicesLibrary.HttpHandlers;
 using ContentManageService.Services;
+using ContentManageService.Services.RabbitMQ;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
@@ -32,6 +33,9 @@ builder.Services.AddDbContext<DatabaseContext>(x => x.UseNpgsql(connStringBuilde
 
 // Add services to the container.
 builder.Services.TryAddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.TryAddSingleton<IRabbitMQSender, RabbitMQSender>();
+
+builder.Services.ConfigureMassTransitRabbitMQ(configuration);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
