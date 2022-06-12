@@ -8,6 +8,9 @@ import ProfileAddressDetailsCustomTheme from './components/Profiles/CompanyAddre
 import GenericSelectBox from './components/Pickers/GenericSelectBox';
 import GenericSelectBoxCustomTheme from './components/Pickers/GenericSelectBox/setTheme';
 import HelperTooltip from './components/Tooltips/helper';
+import ResultsHeader from './components/Tables/Header';
+import ResultsPagination from './components/Tables/Pagination';
+import BodyTableView from './components/Tables/TableView';
 
 export {
     ThemeContext, 
@@ -18,5 +21,8 @@ export {
     ProfileAddressDetailsCustomTheme,
     GenericSelectBox,
     GenericSelectBoxCustomTheme,
-    HelperTooltip
+    HelperTooltip,
+    ResultsHeader,
+    ResultsPagination,
+    BodyTableView
 }
