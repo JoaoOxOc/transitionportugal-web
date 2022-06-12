@@ -28,8 +28,6 @@ builder.Services.AddHttpClient<IEmailQueueConsumer, EmailQueueConsumer>();
 builder.Services.AddHttpClient<IExceptionQueueConsumer, ExceptionQueueConsumer>();
 builder.Services.TryAddSingleton<IRabbitMQSender, RabbitMQSender>();
 
-builder.Services.ConfigureMassTransitRabbitMQ(configuration);
-
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
