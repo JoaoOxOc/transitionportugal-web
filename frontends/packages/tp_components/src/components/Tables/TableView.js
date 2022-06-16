@@ -80,7 +80,7 @@ const BodyTableView = ({rowsConfig, selectableItems, selectedItems, selectedItem
 
     const buildCell = (rowItem, cellData) => {
         switch (cellData.type) {
-            case "customComponent": return cellData.customComponentGetter(rowItem);
+            case "customComponent": return cellData.customComponentGetter(rowItem, cellData.customComponentStyleConfig);
             case "typography": return buildTypographyCell(rowItem, cellData);
             case "boxWithLink": return buildBoxWithLinkCell(rowItem, cellData);
             case "actions": return buildActionsCell(rowItem, cellData);
