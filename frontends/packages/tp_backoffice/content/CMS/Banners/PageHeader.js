@@ -1,4 +1,4 @@
-import { i18nextAssociationsList } from "@transitionpt/translations";
+import { i18nextBannersList } from "@transitionpt/translations";
 
 import {
   Grid,
@@ -9,9 +9,9 @@ import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 import Link from '../../../components/Link';
 
 function PageHeader() {
-    const { t } = i18nextAssociationsList;
+    const { t } = i18nextBannersList;
 
-  const handleCreateAssociationOpen = () => {
+  const handleCreateBannerOpen = () => {
 
   };
 
@@ -20,23 +20,23 @@ function PageHeader() {
       <Grid container justifyContent="space-between" alignItems="center">
         <Grid item>
           <Typography variant="h3" component="h3" gutterBottom>
-            {t('LABELS.associationsManagement')}
+            {t('LABELS.bannersManagement')}
           </Typography>
           <Typography variant="subtitle2">
-            {t('MESSAGES.associationsManagementDescription')}
+            {t('MESSAGES.bannersManagementDescription')}
           </Typography>
         </Grid>
         <Grid item>
-            <Link href={'/management/associations/single/create'} isNextLink={true}>
+            <Link href={'/cms/banner/single/create'} isNextLink={true}>
                 <Button
                         sx={{
                         mt: { xs: 2, sm: 0 }
                         }}
-                        onClick={handleCreateAssociationOpen}
+                        onClick={handleCreateBannerOpen}
                         variant="contained"
                         startIcon={<AddTwoToneIcon fontSize="small" />}
                     >
-                    {t('LABELS.createAssociation')}
+                    {t('LABELS.createBanner')}
                 </Button>
             </Link>
         </Grid>

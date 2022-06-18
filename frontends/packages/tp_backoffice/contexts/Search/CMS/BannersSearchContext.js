@@ -3,11 +3,14 @@ import PropTypes from 'prop-types';
 
 const initialSearchState = {
     searchText: "",
+    langCode: "",
+    pageKey: "",
+    componentKey: "",
+    orderPosition: "",
     isActive: "",
-    isVerified: "",
     offset: 1,
     limit: 10,
-    sort: "Name",
+    sort: "PageKey",
     sortDirection: "asc"
 };
 

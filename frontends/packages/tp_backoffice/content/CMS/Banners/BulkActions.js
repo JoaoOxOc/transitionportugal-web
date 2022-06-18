@@ -14,17 +14,17 @@ import {
   Slide
 } from '@mui/material';
 import { useSnackbar } from 'notistack';
-import { i18nextAssociationsList } from "@transitionpt/translations";
+import { i18nextBannersList } from "@transitionpt/translations";
 import { useErrorHandler } from 'react-error-boundary';
 import { useSession } from "next-auth/react";
-import { ResendEmails, ApproveAssociations, DeleteAssociations } from '../../../services/associations';
+import { ActivateBanners, InactivateBanners, DeleteBanners } from '../../../services/cms/banners';
 
 import CheckTwoToneIcon from '@mui/icons-material/CheckTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import MoreVertTwoToneIcon from '@mui/icons-material/MoreVertTwoTone';
 import VerifiedUserTwoToneIcon from '@mui/icons-material/VerifiedUserTwoTone';
 import ForwardToInboxTwoToneIcon from '@mui/icons-material/ForwardToInboxTwoTone';
-import { AssociationsActionsContext } from '../../../contexts/Actions/AssociationsActionsContext';
+import { BannersActionsContext } from '../../../contexts/Actions/BannersActionsContext';
 import { useRefMounted } from '../../../hooks/useRefMounted';
 
 const ButtonError = styled(Button)(
@@ -56,8 +56,8 @@ function BulkActions({isSingleRecord, recordId, recordIsVerified, recordIsActiva
   const [actionsError, setActionsError] = useState(null);
   useErrorHandler(actionsError);
   const { enqueueSnackbar } = useSnackbar();
-  const { t } = i18nextAssociationsList;
-  const { selectedAssociations } = useContext(AssociationsActionsContext);
+  const { t } = i18nextBannersList;
+  const { selectedBanners } = useContext(BannersActionsContext);
   const { data: session, status } = useSession();
 
   const openMenu = () => {
@@ -69,12 +69,12 @@ function BulkActions({isSingleRecord, recordId, recordIsVerified, recordIsActiva
   };
 
   const resendEmails = async() => {
-    const ids = isSingleRecord == true ? [recordId] : selectedAssociations;
-    const result = await ResendEmails(process.env.NEXT_PUBLIC_API_BASE_URL + '/associations/resend',{associationIds: ids}, session.accessToken);
+    const ids = isSingleRecord == true ? [recordId] : selectedBanners;
+    const result = await ResendEmails(process.env.NEXT_PUBLIC_API_BASE_URL + '/banner/resend',{bannerIds: ids}, session.accessToken);
     if (isMountedRef()) {
       if (result.status) {
         if (result.status === 404) {
-          enqueueSnackbar(t('MESSAGES.associationsNotFound'), {
+          enqueueSnackbar(t('MESSAGES.bannersNotFound'), {
             variant: 'error',
             anchorOrigin: {
               vertical: 'top',
@@ -103,12 +103,12 @@ function BulkActions({isSingleRecord, recordId, recordIsVerified, recordIsActiva
   }
 
   const approve = async() => {
-    const ids = isSingleRecord == true ? [recordId] : selectedAssociations;
-    const result = await ApproveAssociations(process.env.NEXT_PUBLIC_API_BASE_URL + '/associations/approve',{associationIds: ids}, session.accessToken);
+    const ids = isSingleRecord == true ? [recordId] : selectedBanners;
+    const result = await ActivateBanners(process.env.NEXT_PUBLIC_API_BASE_URL + '/banner/approve',{bannerIds: ids}, session.accessToken);
     if (isMountedRef()) {
       if (result.status) {
         if (result.status === 404) {
-          enqueueSnackbar(t('MESSAGES.associationsNotFound'), {
+          enqueueSnackbar(t('MESSAGES.bannersNotFound'), {
             variant: 'error',
             anchorOrigin: {
               vertical: 'top',
@@ -123,7 +123,7 @@ function BulkActions({isSingleRecord, recordId, recordIsVerified, recordIsActiva
         }
       }
       else {
-        enqueueSnackbar(t('MESSAGES.associationsApproved'), {
+        enqueueSnackbar(t('MESSAGES.bannersApproved'), {
             variant: 'success',
             anchorOrigin: {
               vertical: 'top',
@@ -137,12 +137,12 @@ function BulkActions({isSingleRecord, recordId, recordIsVerified, recordIsActiva
   }
 
   const deleteAccount = async() => {
-    const ids = isSingleRecord == true ? [recordId] : selectedAssociations;
-    const result = await DeleteAssociations(process.env.NEXT_PUBLIC_API_BASE_URL + '/associations/delete',{associationIds: ids}, session.accessToken);
+    const ids = isSingleRecord == true ? [recordId] : selectedBanners;
+    const result = await DeleteBanners(process.env.NEXT_PUBLIC_API_BASE_URL + '/banner/delete',{bannerIds: ids}, session.accessToken);
     if (isMountedRef()) {
       if (result.status) {
         if (result.status === 404) {
-          enqueueSnackbar(t('MESSAGES.associationsNotFound'), {
+          enqueueSnackbar(t('MESSAGES.bannersNotFound'), {
             variant: 'error',
             anchorOrigin: {
               vertical: 'top',
@@ -157,7 +157,7 @@ function BulkActions({isSingleRecord, recordId, recordIsVerified, recordIsActiva
         }
       }
       else {
-        enqueueSnackbar(t('MESSAGES.associationsRemoved'), {
+        enqueueSnackbar(t('MESSAGES.bannersRemoved'), {
             variant: 'success',
             anchorOrigin: {
               vertical: 'top',
@@ -199,7 +199,7 @@ function BulkActions({isSingleRecord, recordId, recordIsVerified, recordIsActiva
               onClick={approve}
               startIcon={<CheckTwoToneIcon />}
               variant="contained">
-                {isSingleRecord == true ? t('ACTIONS.approveAssociationSingle') : t('ACTIONS.approveAssociation')}
+                {isSingleRecord == true ? t('ACTIONS.activateBannerSingle') : t('ACTIONS.activateBanner')}
             </ButtonSuccess>
           }
         </Box>

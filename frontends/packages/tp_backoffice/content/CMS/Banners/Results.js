@@ -24,8 +24,9 @@ import {
 import Loader from '../../../components/Loader';
 import { useRefMounted } from '../../../hooks/useRefMounted';
 import { BannersSearchContext } from '../../../contexts/Search/CMS/BannersSearchContext';
+import { BannersActionsContext } from '../../../contexts/Actions/BannersActionsContext';
 import { useSession } from "next-auth/react";
-import { GetAssociations } from '../../../services/associations';
+import { GetBanners } from '../../../services/cms/banners';
 import { useErrorHandler } from 'react-error-boundary';
 
 import LaunchTwoToneIcon from '@mui/icons-material/LaunchTwoTone';
@@ -70,43 +71,43 @@ const Results = () => {
   const { t } = i18nextBannersList;
   const isMountedRef = useRefMounted();
   const bannersSearchData = useContext(BannersSearchContext);
-  const associationsActionsData = useContext(AssociationsActionsContext);
-  const [associationsError, setAssociationsError] = useState(null);
-  useErrorHandler(associationsError);
+  const bannersActionsData = useContext(BannersActionsContext);
+  const [bannersError, setBannersError] = useState(null);
+  useErrorHandler(bannersError);
   const { data: session, status } = useSession();
-  const [associations, setAssociations] = useState(null);
-  const [selectedItems, setSelectedAssociations] = useState([]);
-  const [totalAssociations, setTotalAssociations] = useState(0);
+  const [banners, setBanners] = useState(null);
+  const [selectedItems, setSelectedBanners] = useState([]);
+  const [totalBanners, setTotalBanners] = useState(0);
 
-  let associationsApiUri = "/associations/get";
-  let associationDetailsBaseUri = "/management/associations/single/";
+  let bannersApiUri = "/banner/get";
+  let bannerDetailsBaseUri = "/cms/banner/single/";
 
-  const getAssociationsData = useCallback(async (searchDataJson) => {
+  const getBannersData = useCallback(async (searchDataJson) => {
     try {
-      let associationsData = await GetAssociations(process.env.NEXT_PUBLIC_API_BASE_URL + associationsApiUri, searchDataJson, session.accessToken);
+      let bannersData = await GetBanners(process.env.NEXT_PUBLIC_API_BASE_URL + bannersApiUri, searchDataJson, session.accessToken);
       
       if (isMountedRef()) {
-        if (associationsData.associations) {
-            setAssociations(associationsData.associations);
-            setTotalAssociations(associationsData.totalCount);
+        if (bannersData.banners) {
+            setBanners(bannersData.banners);
+            setTotalBanners(bannersData.totalCount);
         }
         else {
-            setAssociationsError(associationsData);
-            setAssociations([]);
-            setTotalAssociations(0);
+            setBannersError(bannersData);
+            setBanners([]);
+            setTotalBanners(0);
         }
       }
     } catch (err) {
-        setAssociationsError(err);
+        setBannersError(err);
         console.error(err);
     }
-  }, [isMountedRef, associationsApiUri]);
+  }, [isMountedRef, bannersApiUri]);
 
   useEffect(() => {
         if (bannersSearchData.doSearch) {
-          getAssociationsData(bannersSearchData.searchData);
+            getBannersData(bannersSearchData.searchData);
         }
-  }, [bannersSearchData, getAssociationsData]);
+  }, [bannersSearchData, getBannersData]);
 
   const [toggleView, setToggleView] = useState('table_view');
 
@@ -114,70 +115,44 @@ const Results = () => {
       setToggleView(newValue);
     };
 
-    const handleSelectAllAssociations = (event) => {
-        const selected = (event.target.checked == true) ? associations.map((association) => association.id) : [];
-        setSelectedAssociations(selected);
-        associationsActionsData.selectedAssociations = selected;
+    const handleSelectAllBanners = (event) => {
+        const selected = (event.target.checked == true) ? banners.map((banner) => banner.id) : [];
+        setSelectedBanners(selected);
+        bannersActionsData.selectedBanners = selected;
     };
 
-    const handleSelectOneAssociation = (_event, associationId) => {
+    const handleSelectOneBanner = (_event, bannerId) => {
         const selected = [];
-        if (!selectedItems.includes(associationId)) {
-            selected.push(associationId);
+        if (!selectedItems.includes(bannerId)) {
+            selected.push(bannerId);
         } else {
-            selected = selectedItems.filter((id) => id !== associationId);
+            selected = selectedItems.filter((id) => id !== bannerId);
         }
-        setSelectedAssociations(selected);
-        associationsActionsData.selectedAssociations = selected;
+        setSelectedBanners(selected);
+        bannersActionsData.selectedBanners = selected;
     };
     
-    const selectedSomeAssociations = associations && selectedItems.length > 0 && selectedItems.length < associations.length ? associations.length : 0;
-    const selectedAllAssociations = associations && selectedItems.length === associations.length ? associations.length : 0;
+    const selectedSomeBanners = banners && selectedItems.length > 0 && selectedItems.length < banners.length ? banners.length : 0;
+    const selectedAllBanners = banners && selectedItems.length === banners.length ? banners.length : 0;
     const selectedBulkActions = selectedItems.length > 0;
 
-    if (associations) {
-        associations.map((association) => {
-            association.associationViewLink = associationDetailsBaseUri + association.id;
+    if (banners) {
+        banners.map((banner) => {
+            banner.bannerViewLink = bannerDetailsBaseUri + banner.id;
         });
     }
 
-    const getAssociationLinkField = (association) => {
-        return association.associationViewLink;
+    const getBannerLinkField = (banner) => {
+        return banner.bannerViewLink;
     }
 
-    const getAssociationIsActiveComponent = (association, styleConfig) => {
+    const getBannerIsActiveComponent = (banner, styleConfig) => {
         return (
             <Typography key={styleConfig.key}
                 pl={styleConfig && styleConfig.paddingLeft ? styleConfig.paddingLeft: 0}
             >
-                <Tooltip title={t('ASSOCIATIONOBJECT.active')} arrow>
-                    { association.isActive == true ?
-                        (
-                            <IconActive
-                                color="primary"
-                                >
-                                <CheckTwoToneIcon/>
-                            </IconActive>
-                        ) : (
-                            <IconInactive
-                                color="primary"
-                                >
-                                <CloseTwoToneIcon/>
-                            </IconInactive>
-                        )
-                    }
-                </Tooltip>
-            </Typography>
-        );
-    }
-
-    const getAssociationIsEmailVerifiedComponent = (association, styleConfig) => {
-        return (
-            <Typography key={styleConfig.key}
-                pl={styleConfig && styleConfig.paddingLeft ? styleConfig.paddingLeft: 0}
-            >
-                <Tooltip title={t('ASSOCIATIONOBJECT.verified')} arrow>
-                    { association.isEmailVerified == true ?
+                <Tooltip title={t('BANNEROBJECT.isActive')} arrow>
+                    { banner.isDraft == false ?
                         (
                             <IconActive
                                 color="primary"
@@ -203,32 +178,32 @@ const Results = () => {
             isCheckbox: true,
         },
         {
-            id: 'Name',
+            id: 'PageKey',
             isSort: true,
             disablePadding: false,
             align: 'left',
-            label: t('ASSOCIATIONOBJECT.name'),
+            label: t('BANNEROBJECT.pageKey'),
         },
         {
-            id: 'Email',
+            id: 'ComponentKey',
             isSort: true,
             disablePadding: false,
             align: 'left',
-            label: t('ASSOCIATIONOBJECT.email'),
+            label: t('BANNEROBJECT.componentKey'),
         },
         {
-            id: 'IsActive',
+            id: 'OrderPosition',
             isSort: true,
             disablePadding: false,
             align: 'center',
-            label: t('ASSOCIATIONOBJECT.active'),
+            label: t('BANNEROBJECT.orderPosition'),
         },
         {
-            id: 'IsEmailVerified',
+            id: 'IsDraft',
             isSort: true,
             disablePadding: false,
             align: 'center',
-            label: t('ASSOCIATIONOBJECT.verified'),
+            label: t('BANNEROBJECT.active'),
         },
         {
             id: 'actions',
@@ -242,52 +217,49 @@ const Results = () => {
     const tableViewData = {
         "orderedCells": [
             {
-                key: "associationName",
+                key: "bannerPageKey",
                 type: "typography",
                 alignment: "left",
                 typographyVariant: "h5",
-                fieldName: "name"
+                fieldName: "pageKey"
             },
             {
-                key: "associationEmail",
+                key: "bannerComponentKey",
                 type: "boxWithLink",
                 alignment: "left",
                 display: "flex",
                 alignItems: "center",
-                linkFieldName: "associationViewLink",
+                linkFieldName: "bannerViewLink",
                 isNextLink: true,
-                fieldName: "email"
+                fieldName: "componentKey"
             },
             {
-                key: "associationIsActive",
+                key: "bannerOrderPosition",
+                type: "typography",
+                alignment: "left",
+                typographyVariant: "secondary",
+                fieldName: "orderPosition"
+            },
+            {
+                key: "bannerIsActive",
                 type: "customComponent",
                 customComponentStyleConfig: {
-                    key: "associationIsActive"
+                    key: "bannerIsActive"
                 },
                 alignment: "center",
-                customComponentGetter: getAssociationIsActiveComponent,
-                fieldName: "isActive"
+                customComponentGetter: getBannerIsActiveComponent,
+                fieldName: "isDraft"
             },
             {
-                key: "associationIsVerified",
-                type: "customComponent",
-                customComponentStyleConfig: {
-                    key: "associationIsVerified"
-                },
-                alignment: "center",
-                customComponentGetter: getAssociationIsEmailVerifiedComponent,
-                fieldName: "isEmailVerified"
-            },
-            {
-                key: "associationActions",
+                key: "bannerActions",
                 type: "actions",
                 alignment: "center",
                 actions: [
                     {
-                        actionKey: "viewAssociation",
+                        actionKey: "viewBanner",
                         actionType: "linkIconButton",
                         title: t('LABELS.view'),
-                        linkGetter: getAssociationLinkField,
+                        linkGetter: getBannerLinkField,
                         isNextLink: true,
                         iconButtonColor: "primary",
                         buttonIconComponent: <LaunchTwoToneIcon fontSize="small" />
@@ -299,7 +271,7 @@ const Results = () => {
             selectedItemIdField: "id",
             idField: "id",
         },
-        "data": associations
+        "data": banners
     }
 
     const gridViewData = {
@@ -310,7 +282,7 @@ const Results = () => {
         },
         "orderedGridItems": [
             {
-                key: "associationSelected",
+                key: "bannerSelected",
                 type: "selectableCheckbox",
                 checkboxTitle: t('LABELS.selectItemLabel'),
                 paddingLeft: 2,
@@ -321,11 +293,11 @@ const Results = () => {
                 justifyContent: "space-between"
             },
             {
-                key: "associationSelectionDivider",
+                key: "bannerSelectionDivider",
                 type: "divider"
             },
             {
-                key: "associationDetails",
+                key: "bannerDetails",
                 type: "composableGridItem",
                 subType: "twoBoxes",
                 padding: 2,
@@ -333,31 +305,31 @@ const Results = () => {
                 alignItems: "flex-start",
                 subItems: [
                     {
-                        key: "associationDetailsLink",
+                        key: "bannerDetailsLink",
                         type: "boxWithLinkAndTypography",
                         display: "",
                         alignItems: "",
                         variant: "h5",
                         isNextLink: true,
-                        linkFieldName: "associationViewLink",
-                        fieldName: "name",
-                        typographyFieldName: "address",
+                        linkFieldName: "bannerViewLink",
+                        fieldName: "pageKey",
+                        typographyFieldName: "componentKey",
                         typographyTextWithParantesis: true,
                         typographyComponent: "span",
                         typographyVariant: "body2",
                         typographyColor: "text.secondary"
                     },
                     {
-                        key: "associationDetailsEmail",
+                        key: "bannerDEtailsOrderPosition",
                         type: "typography",
                         paddingTop: 1,
                         variant: "h6",
-                        fieldName: "email"
+                        fieldName: "orderPosition"
                     }
                 ]
             },
             {
-                key: "associationStatus",
+                key: "bannerStatus",
                 type: "composableGridItem",
                 subType: "boxWithTypography",
                 paddingLeft: 2,
@@ -369,26 +341,15 @@ const Results = () => {
                 typographyDisplay: "flex",
                 subItems: [
                     {
-                        key: "associationIsActive",
+                        key: "bannerIsActive",
                         type: "customComponent",
                         customComponentStyleConfig: {
                             paddingLeft: 1,
-                            key: "associationIsActive"
+                            key: "bannerIsActive"
                         },
                         alignment: "center",
-                        customComponentGetter: getAssociationIsActiveComponent,
-                        fieldName: "isActive"
-                    },
-                    {
-                        key: "associationIsVerified",
-                        type: "customComponent",
-                        customComponentStyleConfig: {
-                            paddingLeft: 1,
-                            key: "associationIsVerified"
-                        },
-                        alignment: "center",
-                        customComponentGetter: getAssociationIsEmailVerifiedComponent,
-                        fieldName: "isEmailVerified"
+                        customComponentGetter: getBannerIsActiveComponent,
+                        fieldName: "isDraft"
                     }
                 ]
             }
@@ -397,7 +358,7 @@ const Results = () => {
             selectedItemIdField: "id",
             idField: "id",
         },
-        "data": associations
+        "data": banners
     }
 
     return (
@@ -431,7 +392,7 @@ const Results = () => {
 
                   <Divider />
 
-                  {!associations || associations.length === 0 ? (
+                  {!banners || banners.length === 0 ? (
                       <>
                           <Typography
                               sx={{
@@ -442,7 +403,7 @@ const Results = () => {
                               color="text.secondary"
                               align="center"
                           >
-                              {t("LABELS.noAssociationsFound")}
+                              {t("LABELS.noBannersFound")}
                           </Typography>
                       </>
                   ) : (
@@ -450,22 +411,22 @@ const Results = () => {
                       <TableContainer>
                           <Table>
                               <TableHead>
-                                  <ResultsHeader selectedAll={handleSelectAllAssociations} selectAllCount={selectedAllAssociations} selectSomeCount={selectedSomeAssociations} headerCells={headCells} defaultSort={'Name'} defaultSortDirection={'asc'} searchContext={bannersSearchData}/>
+                                  <ResultsHeader selectedAll={handleSelectAllBanners} selectAllCount={selectedAllBanners} selectSomeCount={selectedSomeBanners} headerCells={headCells} defaultSort={'PageKey'} defaultSortDirection={'asc'} searchContext={bannersSearchData}/>
                               </TableHead>
                               <TableBody>
-                                  {!associations || associations.length == 0 ? (
+                                  {!banners || banners.length == 0 ? (
                                     <TableRow>
                                       <Loader />
                                     </TableRow>
                                   ) : (
-                                    <BodyTableView rowsConfig={tableViewData} selectableItems={true} selectedItems={selectedItems} selectedItemCellTitle={t('LABELS.selectItemLabel')} sendSelectedItem={handleSelectOneAssociation} />
+                                    <BodyTableView rowsConfig={tableViewData} selectableItems={true} selectedItems={selectedItems} selectedItemCellTitle={t('LABELS.selectItemLabel')} sendSelectedItem={handleSelectOneBanner} />
                                   )
                               }
                               </TableBody>
                           </Table>
                       </TableContainer>
                       <Box p={2}>
-                          <ResultsPagination gridDisplay={false} totalElements={totalAssociations} searchContext={bannersSearchData} paginationLabels={{ of: t('LABELS.ofSmall')}} paginationRowsPerPageLabel={t('LABELS.paginationRowsPerPage')}/>
+                          <ResultsPagination gridDisplay={false} totalElements={totalBanners} searchContext={bannersSearchData} paginationLabels={{ of: t('LABELS.ofSmall')}} paginationRowsPerPageLabel={t('LABELS.paginationRowsPerPage')}/>
                       </Box>
                   </>
                   )}
@@ -478,7 +439,7 @@ const Results = () => {
                           mb: 3
                       }}
                   >
-                      {associations && associations.length > 0 && (
+                      {banners && banners.length > 0 && (
                           <>
                             <SearchBar itemsSelected={selectedBulkActions}/>
                             <Box
@@ -492,9 +453,9 @@ const Results = () => {
                                             paddingLeft: '20px'
                                         }}
                                         control={<Checkbox
-                                            checked={selectedAllAssociations > 0}
-                                            indeterminate={selectedSomeAssociations > 0}
-                                            onChange={handleSelectAllAssociations}
+                                            checked={selectedAllBanners > 0}
+                                            indeterminate={selectedSomeBanners > 0}
+                                            onChange={handleSelectAllBanners}
                                         />}
                                         label={t('LABELS.selectAll')} />
                                 </Box>
@@ -502,7 +463,7 @@ const Results = () => {
                           </>
                       )}
                   </Card>
-                  {!associations || associations.length === 0 ? (
+                  {!banners || banners.length === 0 ? (
                       <Typography
                           sx={{
                               py: 10
@@ -512,12 +473,12 @@ const Results = () => {
                           color="text.secondary"
                           align="center"
                       >
-                          {t("LABELS.noAssociationsFound")}
+                          {t("LABELS.noBannersFound")}
                       </Typography>
                   ) : (
                   <>
                       <Grid container spacing={3}>
-                            <BodyGridView rowsConfig={gridViewData} selectableItems={true} selectedItems={selectedItems} sendSelectedItem={handleSelectOneAssociation} />
+                            <BodyGridView rowsConfig={gridViewData} selectableItems={true} selectedItems={selectedItems} sendSelectedItem={handleSelectOneBanner} />
                       </Grid>
                       <Card
                           sx={{
@@ -528,7 +489,7 @@ const Results = () => {
                           justifyContent: 'space-between'
                           }}
                       >
-                          <ResultsPagination gridDisplay={true} pageElementsCount={associations.length} totalElements={totalAssociations} searchContext={bannersSearchData} paginationLabels={{ of: t('LABELS.ofSmall'), showing: t('LABELS.showing'), dataTitle: t('LIST.associationsTitle')}} paginationRowsPerPageLabel={t('LABELS.paginationRowsPerPage')}/>
+                          <ResultsPagination gridDisplay={true} pageElementsCount={banners.length} totalElements={totalBanners} searchContext={bannersSearchData} paginationLabels={{ of: t('LABELS.ofSmall'), showing: t('LABELS.showing'), dataTitle: t('LIST.bannersTitle')}} paginationRowsPerPageLabel={t('LABELS.paginationRowsPerPage')}/>
                       </Card>
                   </>
               )}

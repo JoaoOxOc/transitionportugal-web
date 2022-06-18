@@ -13,18 +13,18 @@ import {
 import SearchTwoToneIcon from '@mui/icons-material/SearchTwoTone';
 import CheckTwoToneIcon from '@mui/icons-material/CheckTwoTone';
 import MarkEmailReadTwoToneIcon from '@mui/icons-material/MarkEmailReadTwoTone';
-import { AssociationsSearchContext } from '../../../contexts/Search/AssociationsSearchContext';
+import { BannersSearchContext } from '../../../contexts/Search/CMS/BannersSearchContext';
 import BulkActions from './BulkActions';
 
-import { i18nextAssociationsList } from "@transitionpt/translations";
+import { i18nextBannersList } from "@transitionpt/translations";
 
 const SearchBar = ({itemsSelected}) => {
-    const { t } = i18nextAssociationsList;
+    const { t } = i18nextBannersList;
 
     const [selectableValues, setSelectableValues] = useState(() => []);
     const [searchName, setSearchName] = useState('');
 
-    const searchContext = useContext(AssociationsSearchContext);
+    const searchContext = useContext(BannersSearchContext);
     console.log(searchContext);
 
     const handleQueryChange = (event) => {
@@ -44,9 +44,9 @@ const SearchBar = ({itemsSelected}) => {
           label: t('SEARCH.searchActive')
         },
         {
-          value: 'IsEmailVerified',
+          value: 'IsInactive',
           icon: <MarkEmailReadTwoToneIcon/>,
-          label: t('SEARCH.searchVerified')
+          label: t('SEARCH.searchInactive')
         }
     ];
 
@@ -58,11 +58,11 @@ const SearchBar = ({itemsSelected}) => {
         else if (selectables.filter((selected) => { return selected == "IsActive"; }).length == 0) {
             searchContext.searchData.isActive = false;
         }
-        if (selectables.filter((selected) => { return selected == "IsEmailVerified"; }).length > 0) {
-            searchContext.searchData.isVerified = true;
+        if (selectables.filter((selected) => { return selected == "IsInactive"; }).length > 0) {
+            searchContext.searchData.isActive = false;
         }
-        else if (selectables.filter((selected) => { return selected == "IsEmailVerified"; }).length == 0) {
-            searchContext.searchData.isVerified = false;
+        else if (selectables.filter((selected) => { return selected == "IsInactive"; }).length == 0) {
+            searchContext.searchData.isActive = true;
         }
         searchContext.search(searchContext.searchData);
     };

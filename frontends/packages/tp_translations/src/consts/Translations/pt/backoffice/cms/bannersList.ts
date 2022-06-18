@@ -2,53 +2,59 @@ import * as deepFreeze from 'deep-freeze';
 
 export const BANNERSLIST_TRANSLATIONS = deepFreeze({
     LABELS: {
-        createAssociation: "Registar Nova Associação/Entidade",
+        createBanner: "Registar Novo Banner",
         actions: "Ações",
         view: "Visualizar",
+        clone: "Clonar",
+        activate: "Activar",
+        activateButton: "Activar",
+        deactivateButton: "Desactivar",
+        cloneButton: "Clonar",
+        cancelButton: "Cancelar",
+        deleteButton: "Eliminar",
         actualValue: "Valor Actual",
-        associationsManagement: "Gestão das Associações/Entidades",
-        noAssociationsFound: "Não foi possível encontrar nenhuma Associação/Entidade de acordo com os critérios de pesquisa definidos",
-        chooseGrid: "Escolha entre as vistas de tabela ou grelha para apresentar a lista de dados de Associações/Entidades.",
+        bannersManagement: "Gestão dos Banners",
+        noBannersFound: "Não foi possível encontrar nenhum Banner de acordo com os critérios de pesquisa definidos",
+        chooseGrid: "Escolha entre as vistas de tabela ou grelha para apresentar a lista de dados de Banners.",
         ofSmall: "de",
         paginationRowsPerPage: "Linhas por pág.:",
         showing: "Mostrando",
-        selectAll: "Seleccionar todas as Associações"
+        selectAll: "Seleccionar todos os Banners"
     },
     LIST: {
-        associationsTitle: "Associações/Entidades"
+        bannersTitle: "Banners no Website Público"
     },
-    ASSOCIATIONOBJECT: {
-        description: "Descrição",
-        name: "Nome da Associação",
-        email: "Email da Associação",
-        active: "Activada",
-        verified: "Verificou o Email",
+    BANNEROBJECT: {
+        pageKey: "Identificador Chave da Página",
+        componentKey: "Identificador Chave do Componente na Página",
+        orderPosition: "Posição Ordenada do Banner no Componente",
+        isActive: "Activo",
+        DataBlocksJson: "Conteúdo do Banner",
         createdAt: "Registado em",
         updatedAt: "Actualizado em"
     },
     MESSAGES: {
-        associationsManagementDescription: "Todos os aspectos relativos às associações/entidades podem ser geridos nesta página",
-        associationsNotFound: "A(s) associação(ões) seleccionada(s) não foi/foram encontrada(s)",
-        resentErrors: "Alguns emails não foram enviados para a(s) associação(ões) seleccionada(s). Por favor tente novamente",
-        resentEmails: "Email(s) de verificação reenviado(s) para a(s) associação(ões) seleccionada(s)",
-        associationsApproved: "A(s) associação(ões) seleccionada(s) está/estão agora aprovada(s)/activa(s)",
-        associationsRemoved: "A(s) associação(ões) seleccionada(s) foi/foram removida(s)",
-        approvingErrors: "A/algumas associação(ões) seleccionada(s) não foi/foram aprovada(s). Por favor tente novamente",
-        deleted: "A(s) associação(ões) seleccionada(s) foi/foram removida(s)",
-        deletingErrors: "A/algumas associação(ões) seleccionada(s) não foi/foram eliminada(s). Por favor tente novamente"
+        bannersManagementDescription: "Todos os aspectos relativos aos banners podem ser geridos nesta página",
+        bannersNotFound: "O(s) banner(s) seleccionado(s) não foi/foram encontrado(s)",
+        bannerCloned: "Novo Banner criado: {{bannerIdentification}}",
+        bannersActivated: "O(s) banner(s) seleccionado(s) está/estão agora activo(s)",
+        bannersDeactivated: "O(s) banner(s) seleccionado(s) está/estão agora inactivo(s)",
+        activatingErrors: "O/alguns banner(s) seleccionado(s) não foi/foram activado(s). Por favor tente novamente",
+        deactivatingErrors: "O/alguns banner(s) seleccionado(s) não foi/foram inactivado(s). Por favor tente novamente",
+        bannersDeleted: "O(s) banner(s) seleccionado(s) foi/foram removido(s)",
+        deletingErrors: "O/alguns banner(s) seleccionado(s) não foi/foram eliminado(s). Por favor tente novamente"
     },
     SEARCH: {
         filters: "Filtros",
-        searchByNameOrEmailPlaceholder: "Pesquisar por Nome ou Email da associação...",
-        searchActive: "Associações Activadas",
-        searchVerified: "Associações verificadas por Email"
+        searchByNameOrEmailPlaceholder: "Pesquisar por Chave de Identificação da Página ou do Componente...",
+        searchActive: "Banners Activos",
+        searchInactive: "Banners Inactivos"
     },
     ACTIONS: {
-        resendVerifyEmail: "Reenviar Email de Verificação",
-        approveAssociation: "Aprovar Associações/Entidades",
-        delete: "Remover associação(ões) seleccionada(s)",
-        resendVerifyEmailSingle: "Reenviar Email de Verificação",
-        approveAssociationSingle: "Aprovar esta Associação",
-        deleteSingle: "Remover esta Associação"
+        activateBanners: "Activar Banners",
+        deleteBanners: "Remover banner(s) seleccionado(s)",
+        cloneBannerSingle: "Clonar este Banner",
+        activateBannerSingle: "Activar este Banner",
+        deleteBannerSingle: "Remover esta Banner"
     }
 } as const);
