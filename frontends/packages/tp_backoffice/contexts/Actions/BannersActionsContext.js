@@ -2,7 +2,7 @@ import { createContext, useReducer } from 'react';
 import PropTypes from 'prop-types';
 
 const initialActionsState = {
-    areEmailsSent: false,
+    areBannersDeactivated: false,
     areBannersActivated: false,
     selectedBanners: []
   };
