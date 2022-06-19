@@ -165,9 +165,9 @@ namespace ContentManageService.Controllers
                     else
                     {
                         BannerTranslation newTranslation = new BannerTranslation();
-                        if (!isCreate)
+                        if (!isCreate && bannerData.Id.HasValue)
                         {
-                            newTranslation.BannerId = bannerData.Id;
+                            newTranslation.BannerId = bannerData.Id.Value;
                         }
 
                         newTranslation.LangKey = translation.LangCode;
@@ -201,11 +201,12 @@ namespace ContentManageService.Controllers
                     pageKey = pageKey ?? "";
                     componentKey = componentKey ?? "";
                     searchText = searchText == null ? string.Empty : searchText.Trim().ToLower();
-                    sort = sort ?? "Name";
+                    sort = sort ?? "PageKey";
                     isActive = isActive ?? false;
                     SortDirection direction = sortDirection == "desc" ? SortDirection.Descending : SortDirection.Ascending;
 
-                    Expression<Func<BannerTranslation, bool>> filter = (x => x.Banner.PageKey.ToLower().Contains(pageKey) && x.LangKey.Contains(parsedLangKey) && x.Banner.IsDraft == !isActive
+                    Expression<Func<BannerTranslation, bool>> filter = (x => (string.IsNullOrEmpty(pageKey) || x.Banner.PageKey.ToLower().Contains(pageKey))
+                    && (string.IsNullOrEmpty(langCode) || x.LangKey.Contains(parsedLangKey)) && x.Banner.IsDraft == !isActive
                     && (string.IsNullOrEmpty(componentKey) || x.Banner.ComponentKey.Contains(componentKey)) && (!orderPosition.HasValue || x.Banner.OrderPosition == orderPosition));
 
                     var _bannerData = _uow.BannerTranslationRepository.Get(offset, limit, filter, sort, direction, "Banner");

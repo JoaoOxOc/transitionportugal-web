@@ -19,7 +19,7 @@ import { Box,
 
 import { useRefMounted } from '../../../../hooks/useRefMounted';
 import { useSession } from "next-auth/react";
-import { GetTermsRecord } from '../../../../services/terms';
+import { GetBannerData } from '../../../../services/cms/banners';
 
 import { i18nextBannerDetails } from "@transitionpt/translations";
 
@@ -27,66 +27,66 @@ function BannerDetails({isCreate}) {
     const router = useRouter();
     const isMountedRef = useRefMounted();
     const theme = useTheme();
-    const [terms, setTerms] = useState(null);
-    const [termsError, setTermsError] = useState(null);
-    useErrorHandler(termsError);
-    const [refreshTerms, setRefreshTerms] = useState(true);
+    const [banner, setBanner] = useState(null);
+    const [bannerError, setBannerError] = useState(null);
+    useErrorHandler(bannerError);
+    const [refreshBanner, setRefreshBanner] = useState(true);
     const { data: session, status } = useSession();
     const { t } = i18nextBannerDetails;
-    const termsListUri = "/content/banner";
-    let bannerUri = "/banner/get/" + router.query.bannerId;
-    let termsPutUri = process.env.NEXT_PUBLIC_API_BASE_URL + (isCreate ? "/banner/create" : "/banner/update");
+    const bannersListUri = "/content/banner";
+    let bannerUri = "/cms/banner/get/" + router.query.bannerId;
+    let bannerPutUri = process.env.NEXT_PUBLIC_API_BASE_URL + (isCreate ? "/cms/banner/create" : "/cms/banner/update");
 
-    const getTermsData = useCallback(async () => {
+    const getBannerRecord = useCallback(async () => {
         try {
-            let termsData = await GetTermsRecord(process.env.NEXT_PUBLIC_API_BASE_URL + bannerUri, session.accessToken);
-            console.log(termsData)
+            let bannerData = await GetBannerData(process.env.NEXT_PUBLIC_API_BASE_URL + bannerUri, session.accessToken);
+            console.log(bannerData)
             if (isMountedRef()) {
-              if (termsData.status) {
-                setTermsError(termsData);
-                setTerms({});
+              if (bannerData.status) {
+                setBannerError(bannerData);
+                setBanner({});
               }
               else {
-                setTerms(termsData.termsRecord);
+                setBanner(bannerData.banner);
               }
             }
           } catch (err) {
-            setTermsError(err);
+            setBannerError(err);
             console.error(err);
           }
     }, [isMountedRef, bannerUri]);
 
     useEffect(() => {
-      if (!isCreate && refreshTerms) {
-        getTermsData();
+      if (!isCreate && refreshBanner) {
+        getBannerRecord();
       }
-      if (refreshTerms) {
-        setRefreshTerms(false);
+      if (refreshBanner) {
+        setRefreshBanner(false);
       }
-    }, [isCreate,getTermsData, refreshTerms]);
+    }, [isCreate,getBannerRecord, refreshBanner]);
 
-    if (!isCreate && !terms) {
+    if (!isCreate && !banner) {
       return null;
     }
 
     const breadcrumbsData = [
       { url: "/", label: t('LIST.home'), isLink: true },
-      { url: "", label: t('LIST.management'), isLink: false },
-      { url: termsListUri, label: t('LIST.termsTitle'), isLink: true },
-      { url: "", label: isCreate ? t('LABELS.termsCreateSmall') : t("LABELS.versionSmall",{versionNumber:terms.version}), ownPage: true },
+      { url: "", label: t('LIST.cms'), isLink: false },
+      { url: bannersListUri, label: t('LIST.bannersTitle'), isLink: true },
+      { url: "", label: isCreate ? t('LABELS.bannerCreateSmall') : t("LABELS.bannerIdentificationSmall",{bannerIdentification:banner.pageKey}), ownPage: true },
     ];
 
     const receiveRefreshData = (eventValue) => {
-      setRefreshTerms(eventValue);
+      setRefreshBanner(eventValue);
 
     }
 
     return (
     <>
-      {(isCreate || terms) ?
+      {(isCreate || banner) ?
         (
         <PageTitleWrapper>
-          <DetailsPageHeader breadcrumbsDataJson={breadcrumbsData} detailsTitle={isCreate ? t('LABELS.termsCreate') : t("LABELS.versionSmall",{versionNumber:terms.version})} goBackLabel={t('LABELS.goBack')} goBackUrl={termsListUri}/>
+          <DetailsPageHeader breadcrumbsDataJson={breadcrumbsData} detailsTitle={isCreate ? t('LABELS.bannerCreate') : t("LABELS.bannerIdentificationSmall",{bannerIdentification:banner.pageKey})} goBackLabel={t('LABELS.goBack')} goBackUrl={bannersListUri}/>
           { !isCreate && 
           <Box
             sx={{
@@ -95,7 +95,7 @@ function BannerDetails({isCreate}) {
               pl: '10vw'
             }}
           >
-            <SingleActions refreshData={receiveRefreshData} termsId={terms.id} termsBeenActive={terms.beenActive} termsIsActive={terms.isActive} termsVersion={terms.version}/>
+            {/* <SingleActions refreshData={receiveRefreshData} bannerId={banner.id} termsBeenActive={banner.beenActive} termsIsActive={terms.isActive} termsVersion={terms.version}/> */}
           </Box>
           }
         </PageTitleWrapper>
@@ -116,8 +116,8 @@ function BannerDetails({isCreate}) {
               <Grid container spacing={0}>
                 <Grid item xs={12} md={12}>
                   <Box p={4} flex={1}>
-                    {(isCreate || terms) &&
-                      <DetailForm isCreate={isCreate} termsData={terms} termsPutUrl={termsPutUri}/>
+                    {(isCreate || banner) &&
+                      <DetailForm isCreate={isCreate} bannerData={banner} bannerPutUri={bannerPutUri}/>
                     }
                   </Box>
                 </Grid>

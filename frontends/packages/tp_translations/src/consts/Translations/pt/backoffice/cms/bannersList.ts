@@ -37,12 +37,17 @@ export const BANNERSLIST_TRANSLATIONS = deepFreeze({
         bannersManagementDescription: "Todos os aspectos relativos aos banners podem ser geridos nesta página",
         bannersNotFound: "O(s) banner(s) seleccionado(s) não foi/foram encontrado(s)",
         bannerCloned: "Novo Banner criado: {{bannerIdentification}}",
+        activateBannerInfo: "Irá activar o banner cuja identificação é {{bannerIdentification}}. Por favor tenha em atenção que o utilizador final irá ver este banner na página e componente correspondentes às chaves de identificação",
+        deactivateBannerInfo: "Irá desactivar o banner cuja identificação é {{bannerIdentification}}. Por favor tenha em atenção que o utilizador final irá deixar de ver este banner na página e componente correspondentes às chaves de identificação",
+        cloneBannerInfo: "Irá clonar o banner cuja identificação é {{bannerIdentification}}. Um novo registo de banner com uma nova posição de ordenação será criado com o conteúdo do banner actualmente seleccionado",
         bannersActivated: "O(s) banner(s) seleccionado(s) está/estão agora activo(s)",
         bannersDeactivated: "O(s) banner(s) seleccionado(s) está/estão agora inactivo(s)",
         activatingErrors: "O/alguns banner(s) seleccionado(s) não foi/foram activado(s). Por favor tente novamente",
         deactivatingErrors: "O/alguns banner(s) seleccionado(s) não foi/foram inactivado(s). Por favor tente novamente",
         bannersDeleted: "O(s) banner(s) seleccionado(s) foi/foram removido(s)",
-        deletingErrors: "O/alguns banner(s) seleccionado(s) não foi/foram eliminado(s). Por favor tente novamente"
+        deletingErrors: "O/alguns banner(s) seleccionado(s) não foi/foram eliminado(s). Por favor tente novamente",
+        bannerCloningError: "Ocorreu um erro ao clonar o Banner cuja identificação é {{bannerIdentification}}. Por favor tente novamente. Se o problema persistir, contacte-te o administrador da plataforma",
+        bannerActivatingError: "Ocorreu um erro ao activar o Banner cuja identificação é {{bannerIdentification}}. Por favor tente novamente. Se o problema persistir, contacte-te o administrador da plataforma",
     },
     SEARCH: {
         filters: "Filtros",

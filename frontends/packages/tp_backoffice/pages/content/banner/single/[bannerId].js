@@ -7,15 +7,15 @@ import AccentHeaderLayout from '../../../../layouts/AccentHeaderLayout';
 import { Authenticated } from '../../../../components/Authenticated';
 import { Authorized } from '../../../../components/Authorized';
 
-import TermsDetails from '../../../../content/Management/Terms/single/details';
+import BannerDetails from '../../../../content/CMS/Banners/single/details';
 import Footer from '../../../../components/Footer';
 
-import { i18nextTermsDetails } from "@transitionpt/translations";
+import { i18nextBannerDetails } from "@transitionpt/translations";
 
-function ManagementTermsEdit() {
-    const { t } = i18nextTermsDetails;
+function CmsBannerEdit() {
+    const { t } = i18nextBannerDetails;
     const [currentLang, setLang] = useState("pt");
-    i18nextTermsDetails.changeLanguage(currentLang);
+    i18nextBannerDetails.changeLanguage(currentLang);
 
     useEffect(() => {
         const handleNewMessage = (event) => {
@@ -28,10 +28,10 @@ function ManagementTermsEdit() {
     return (
     <>
       <Head>
-        <title>{t('LABELS.termsDetails')}</title>
+        <title>{t('LABELS.bannerDetails')}</title>
       </Head>
 
-      <TermsDetails/>
+      <BannerDetails/>
 
       <Footer />
     </>
@@ -39,11 +39,11 @@ function ManagementTermsEdit() {
 }
 
 
-ManagementTermsEdit.getLayout = (page) => {
+CmsBannerEdit.getLayout = (page) => {
   const { props } = page;
   return (
     <Authenticated session={props.children.props.session}>
-      <Authorized session={props.children.props.session} scopes={["terms.admin"]}>
+      <Authorized session={props.children.props.session} scopes={["cms.read", "cms.write"]}>
         <AccentHeaderLayout>{page}</AccentHeaderLayout>
       </Authorized>
     </Authenticated>
@@ -58,4 +58,4 @@ export const getServerSideProps = async (context) => {
   return { props: {session: session} };
 };
 
-export default ManagementTermsEdit;
+export default CmsBannerEdit;

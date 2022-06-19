@@ -1,25 +1,29 @@
 import * as deepFreeze from 'deep-freeze';
 export var BANNERDETAILS_TRANSLATIONS = deepFreeze({
     LABELS: {
-        associationDetails: "Detalhes da Associação - {{name}}",
-        associationCreate: "Registar Nova Associação/Entidade",
-        associationCreateSmall: "Registar Nova Associação",
+        bannerDetails: "Detalhes do Banner - {{name}}",
+        bannerCreate: "Registar Novo Banner",
+        bannerCreateSmall: "Registar Novo Banner",
+        bannerIdentificationSmall: "Banner: {{bannerIdentification}}",
         goBack: "Voltar",
-        registerAssociationInfo: "A chave da aplicação cliente será gerada automaticamente após o registo",
-        associationWarning: "Atenção à edição dos valores de ID e chave: a aplicação cliente pode deixar de funcionar"
+        registerBannerInfo: "A chave da aplicação cliente será gerada automaticamente após o registo",
+        bannerWarning: "Atenção à edição dos valores de ID e chave: a aplicação cliente pode deixar de funcionar"
     },
     LIST: {
-        associationsTitle: "Associações/Entidades",
+        bannersTitle: "Banners",
         home: "Home",
-        management: "Administração",
-        associations: 'Associações'
+        cms: "Conteúdo do Website",
+        banners: 'Banners'
     },
     TABS: {
-        main: "Informação Geral",
-        address: "Endereço da Associação",
-        users: "Utilizadores da Associação"
+        relatedBanners: "Lista de Relacionados"
     },
     FORM: {
+        language: "Linguagem",
+        selectLanguage: "Linguagem do banner: a edição abaixo corresponde à Linguagem seleccionada",
+        editorPlaceholder: "Comece a escrever aqui, as opções de edição irão aparecer...",
+        isActive: "Activo",
+        DataBlocksJson: "Conteúdo do Banner",
         description: "Descrição",
         name: "Nome da Associação",
         email: "Email da Associação",
@@ -45,10 +49,10 @@ export var BANNERDETAILS_TRANSLATIONS = deepFreeze({
         clientIdTooBig: "O ID é demasiado grande. Máx. de caracteres: {{max}}",
         clientIdRequired: "ID da Aplicação Cliente é obrigatório",
         emailInvalid: "O email da associação deverá ser um endereço de email válido",
-        associationUpdatedSuccessfully: "A Associação nome é {{associationName}} foi atualizada com sucesso",
-        associationCreatedSuccessfully: "A Associação cujo nome é {{associationName}} foi registada com sucesso",
-        associationGeneralError: "Erro ao registar/atualizar a Associação cujo nome é {{associationName}}. Por favor tente novamente",
-        associationNotFound: "A Associação cujo nome é {{associationName}} não foi encontrada. Por favor verifica se o nome está correcto"
+        bannerUpdatedSuccessfully: "O Banner cuja identificação é {{bannerIdentification}} foi atualizado com sucesso",
+        bannerCreatedSuccessfully: "O Banner cuja identificação é {{bannerIdentification}} foi registado com sucesso",
+        bannerGeneralError: "Erro ao registar/atualizar o Banner cuja identificação é {{bannerIdentification}}. Por favor tente novamente",
+        bannerNotFound: "O Banner cuja identificação é {{bannerIdentification}} não foi encontrado. Por favor verifica se a identificação está correcta"
     }
 });
 //# sourceMappingURL=bannerDetails.js.map

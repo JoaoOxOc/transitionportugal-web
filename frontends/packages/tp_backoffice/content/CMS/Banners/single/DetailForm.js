@@ -38,9 +38,9 @@ import { useRouter } from 'next/router';
 import { useSnackbar } from 'notistack';
 import { useRefMounted } from '../../../../hooks/useRefMounted';
 import { useSession } from "next-auth/react";
-import { UpdateTermsRecord, CreateTermsRecord } from '../../../../services/terms';
+import { UpdateBannerData, CreateBanner } from '../../../../services/cms/banners';
 
-import { i18nextTermsDetails } from "@transitionpt/translations";
+import { i18nextBannerDetails } from "@transitionpt/translations";
 
 import Language from '../../../../components/Language';
 
@@ -128,20 +128,20 @@ const IOSSwitch = styled((props) => (
   }));
 
 // other editor JS plugins: https://github.com/orgs/editor-js/repositories
-const DetailForm = ({isCreate, termsData, termsPutUrl, imageArray, handleInstance}) => {
-    const { t } = i18nextTermsDetails;
+const DetailForm = ({isCreate, bannerData, bannerPutUrl, imageArray, handleInstance}) => {
+    const { t } = i18nextBannerDetails;
     const router = useRouter();
     const selectedLanguage = useRef("pt-pt");
-    const selectedTermsBlocks = termsData && termsData.termsLanguages ? termsData.termsLanguages.filter((term) => { return term.langCode == selectedLanguage.current; }) : null;
-    const [termsBlocks, setTermsBlocks] = useState(selectedTermsBlocks && selectedTermsBlocks.length > 0 ? selectedTermsBlocks[0] : null);
-    const [isActiveCheck, setIsActiveChecked] = useState(termsData && termsData.isActive ? termsData.isActive : false);
+    const selectedBannerBlocks = bannerData && bannerData.bannerLanguages ? bannerData.bannerLanguages.filter((banner) => { return banner.langCode == selectedLanguage.current; }) : null;
+    const [bannerBlocks, setBannerBlocks] = useState(selectedBannerBlocks && selectedBannerBlocks.length > 0 ? selectedBannerBlocks[0] : null);
+    const [isActiveCheck, setIsActiveChecked] = useState(bannerData && bannerData.isActive ? bannerData.isActive : false);
     const savedBlocks = useRef([]);
     const isMountedRef = useRefMounted();
     const { enqueueSnackbar } = useSnackbar();
-    const [termsError, setTermsError] = useState(null);
-    useErrorHandler(termsError);
+    const [bannerError, setBannerError] = useState(null);
+    useErrorHandler(bannerError);
     const { data: session, status } = useSession();
-    console.log(i18npt, termsData);
+    console.log(i18npt, bannerData);
     const EDITOR_JS_TOOLS = {
         embed: Embed,
         header: Header,
@@ -158,10 +158,10 @@ const DetailForm = ({isCreate, termsData, termsPutUrl, imageArray, handleInstanc
     };
 
     let initValues = {
-        isActive: termsData && termsData.isActive ? termsData.isActive : false,
-        version: termsData && termsData.version ? termsData.version : 0,
-        language: termsData && termsData.language ? termsData.language : "pt-pt",
-        blocksJson: termsData && termsData.blocksJson ? termsData.blocksJson : [],
+        isActive: bannerData && bannerData.isActive ? bannerData.isActive : false,
+        version: bannerData && bannerData.version ? bannerData.version : 0,
+        language: bannerData && bannerData.language ? bannerData.language : "pt-pt",
+        blocksJson: bannerData && bannerData.blocksJson ? bannerData.blocksJson : [],
     };
 
     const formik = useFormik({
@@ -170,25 +170,31 @@ const DetailForm = ({isCreate, termsData, termsPutUrl, imageArray, handleInstanc
         validationSchema: Yup.object({}),
         onSubmit: async (values, helpers) => {
           try {
-              const termsModel = {
-                termsLanguages: savedBlocks.current
+              const bannerModel = {
+                bannerLanguages: savedBlocks.current
               }
-              if (termsData && termsData.id) {
-                termsModel.id = termsData.id;
+              if (bannerData && bannerData.id) {
+                bannerModel.id = bannerData.id;
               }
-              if (termsData && termsData.version) {
-                termsModel.version = termsData.version;
+              if (bannerData && bannerData.pageKey) {
+                bannerModel.pageKey = bannerData.pageKey;
               }
-              if (termsData && termsData.isActive != null) {
-                termsModel.isActive = termsData.isActive;
+              if (bannerData && bannerData.componentKey) {
+                bannerModel.pageKey = bannerData.componentKey;
               }
-              console.log(termsModel,savedBlocks)
+              if (bannerData && bannerData.orderPosition) {
+                bannerModel.pageKey = bannerData.orderPosition;
+              }
+              if (bannerData && bannerData.isActive != null) {
+                bannerModel.isDraft = !bannerData.isActive;
+              }
+              console.log(bannerModel,savedBlocks)
               let result = {};
               if (isCreate) {
-                result = await CreateTermsRecord(termsPutUrl, termsModel, session.accessToken);
+                result = await CreateBanner(bannerPutUrl, bannerModel, session.accessToken);
               }
               else {
-                result = await UpdateTermsRecord(termsPutUrl, termsModel, session.accessToken);
+                result = await UpdateBannerData(bannerPutUrl, bannerModel, session.accessToken);
               }
               console.log(result);
               if (isMountedRef()) {
@@ -197,7 +203,7 @@ const DetailForm = ({isCreate, termsData, termsPutUrl, imageArray, handleInstanc
                     helpers.setErrors({ submit: result.statusText });
                     helpers.setSubmitting(false);
                     if (result.status === 404) {
-                        enqueueSnackbar(t('MESSAGES.termsNotFound', {termsName: result.termsVersion}), {
+                        enqueueSnackbar(t('MESSAGES.bannerNotFound', {bannerIdentification: result.responseBody.bannerPageKey + "|" + result.responseBody.bannerComponentKey + "|level:" + result.responseBody.bannerOrderPosition}), {
                           variant: 'error',
                           anchorOrigin: {
                             vertical: 'top',
@@ -207,24 +213,13 @@ const DetailForm = ({isCreate, termsData, termsPutUrl, imageArray, handleInstanc
                           TransitionComponent: Slide
                         });
                     }
-                    else if (result.status == 403 && result.responseBody && result.responseBody.message == "been_active") {
-                      enqueueSnackbar(t('MESSAGES.termsLockedForEdition', {termsName: result.responseBody.termsVersion}), {
-                        variant: 'error',
-                        anchorOrigin: {
-                          vertical: 'top',
-                          horizontal: 'center'
-                        },
-                        autoHideDuration: 2000,
-                        TransitionComponent: Slide
-                      });
-                    }
                     else {
-                        setTermsError(result);
+                        setBannerError(result);
                     }
                   }
                   else {
                     if (isCreate) {
-                        enqueueSnackbar(t('MESSAGES.termsCreatedSuccessfully', {termsName: result.termsVersion}), {
+                        enqueueSnackbar(t('MESSAGES.bannerCreatedSuccessfully', {bannerIdentification: result.bannerPageKey + "|" + result.bannerComponentKey + "|level:" + result.bannerOrderPosition}), {
                             variant: 'success',
                             anchorOrigin: {
                               vertical: 'top',
@@ -234,11 +229,11 @@ const DetailForm = ({isCreate, termsData, termsPutUrl, imageArray, handleInstanc
                             TransitionComponent: Slide
                         });
                         router.push({
-                            pathname: '/management/privacy/single/' + result.termsId,
+                            pathname: '/content/banner/single/' + result.bannerId,
                         });
                     }
                     else {
-                        enqueueSnackbar(t('MESSAGES.termsUpdatedSuccessfully', {termsName: result.termsVersion}), {
+                        enqueueSnackbar(t('MESSAGES.bannerUpdatedSuccessfully', {bannerIdentification: result.bannerPageKey + "|" + result.bannerComponentKey + "|level:" + result.bannerOrderPosition}), {
                             variant: 'success',
                             anchorOrigin: {
                               vertical: 'top',
@@ -258,7 +253,7 @@ const DetailForm = ({isCreate, termsData, termsPutUrl, imageArray, handleInstanc
                 helpers.setStatus({ success: false });
                 helpers.setErrors({ submit: err.message });
                 helpers.setSubmitting(false);
-                enqueueSnackbar(t('MESSAGES.termsGeneralError', {termsName: result.termsVersion}), {
+                enqueueSnackbar(t('MESSAGES.bannerGeneralError', {bannerIdentification: result.bannerPageKey + "|" + result.bannerComponentKey + "|level:" + result.bannerOrderPosition}), {
                     variant: 'error',
                     anchorOrigin: {
                       vertical: 'top',
@@ -267,7 +262,7 @@ const DetailForm = ({isCreate, termsData, termsPutUrl, imageArray, handleInstanc
                     autoHideDuration: 2000,
                     TransitionComponent: Slide
                 });
-                setTermsError(err);
+                setBannerError(err);
               }
           }
         }
@@ -275,47 +270,47 @@ const DetailForm = ({isCreate, termsData, termsPutUrl, imageArray, handleInstanc
 
     const receiveSelectedLanguage = (langCode) => {
         selectedLanguage.current = langCode;
-        if (termsData && termsData.termsLanguages) {
-            const langBlocks = termsData.termsLanguages.filter((term) => { return term.langCode == langCode; });
+        if (bannerData && bannerData.bannerLanguages) {
+            const langBlocks = bannerData.bannerLanguages.filter((banner) => { return banner.langCode == langCode; });
             console.log(langBlocks);
-            setTermsBlocks(langBlocks && langBlocks.length > 0 ? langBlocks[0] : null);
+            setBannerBlocks(langBlocks && langBlocks.length > 0 ? langBlocks[0] : null);
         }
     }
 
     const receiveEditedBlocks = (blocksData) => {
         const blockExists = savedBlocks.current.filter((block) => {return block.langCode == selectedLanguage.current; });
-        const backendBlockExists = termsData && termsData.termsLanguages ? termsData.termsLanguages.filter((block) => {return block.langCode == selectedLanguage.current; }) : null;
+        const backendBlockExists = bannerData && bannerData.bannerLanguages ? bannerData.bannerLanguages.filter((block) => {return block.langCode == selectedLanguage.current; }) : null;
         if (blockExists && blockExists.length > 0) {
             savedBlocks.current.forEach((block) => {
                 if (block.langCode == selectedLanguage.current) {
-                    block.termsData = blocksData;//JSON.stringify(blocksData);
+                    block.bannerData = blocksData;//JSON.stringify(blocksData);
                 }
             });
         }
         else {
             savedBlocks.current.push({
                 langCode: selectedLanguage.current,
-                termsData: blocksData//JSON.stringify(blocksData)
+                bannerData: blocksData//JSON.stringify(blocksData)
             });
         }
         if (backendBlockExists && backendBlockExists.length > 0) {
-            termsData.termsLanguages.forEach((block) => {
+            bannerData.bannerLanguages.forEach((block) => {
                 if (block.langCode == selectedLanguage.current) {
-                    block.termsData = blocksData;//JSON.stringify(blocksData);
+                    block.bannerData = blocksData;//JSON.stringify(blocksData);
                 }
             });
         }
-        else if (termsData && termsData.termsLanguages) {
-            termsData.termsLanguages.push({
+        else if (bannerData && bannerData.bannerLanguages) {
+            bannerData.bannerLanguages.push({
                 langCode: selectedLanguage.current,
-                termsData: blocksData//JSON.stringify(blocksData)
+                bannerData: blocksData//JSON.stringify(blocksData)
             });
         }
     }
 
     const handleSetActive = (event) => {
-        termsData.isActive = event.target.checked;
-        setIsActiveChecked(termsData.isActive);
+        bannerData.isActive = event.target.checked;
+        setIsActiveChecked(bannerData.isActive);
     }
 
     // Editor.js This will show block editor in component
@@ -328,17 +323,10 @@ const DetailForm = ({isCreate, termsData, termsPutUrl, imageArray, handleInstanc
                 xs={12}
                 >
                   {!isCreate &&
-                    (termsData && termsData.beenActive ?
-                      (
-                        <Alert severity="warning">
-                            {t('LABELS.termsBeenActiveWarning')}
-                        </Alert>
-                      )
-                      : (
-                        <Alert severity="warning">
-                            {t('LABELS.termsWarning')}
-                        </Alert>
-                      )
+                    (
+                      <Alert severity="warning">
+                          {t('LABELS.bannerWarning')}
+                      </Alert>
                     )
                   }
             </Grid>
@@ -346,7 +334,7 @@ const DetailForm = ({isCreate, termsData, termsPutUrl, imageArray, handleInstanc
               <Grid item xs={12}>
                   <FormControl fullWidth variant="outlined">
                       <FormControlLabel
-                          control={<IOSSwitch sx={{ m: 1 }} checked={isActiveCheck} disabled={termsData && termsData.beenActive == true ? true : false}
+                          control={<IOSSwitch sx={{ m: 1 }} checked={isActiveCheck} disabled={bannerData && bannerData.beenActive == true ? true : false}
                           onChange={handleSetActive} size="big" />}
                           label={t("FORM.isActive")}
                       />
@@ -355,7 +343,7 @@ const DetailForm = ({isCreate, termsData, termsPutUrl, imageArray, handleInstanc
             }
             <Grid item xs={12}>
                 <Alert severity="info">
-                    {t('LABELS.registerTermsInfo')}
+                    {t('LABELS.registerBannerInfo')}
                 </Alert>
             </Grid>
             <Grid item xs={12}>
@@ -371,8 +359,8 @@ const DetailForm = ({isCreate, termsData, termsPutUrl, imageArray, handleInstanc
             <Grid item xs={12}>
                 <EditorWrapper>
                     <EditorComponent 
-                        editorTranslations={i18npt} readOnly={termsData && termsData.beenActive == true ? true : false}
-                        editorTools={EDITOR_JS_TOOLS} editorData={termsBlocks ? termsBlocks.termsData : null}
+                        editorTranslations={i18npt} readOnly={bannerData && bannerData.beenActive == true ? true : false}
+                        editorTools={EDITOR_JS_TOOLS} editorData={bannerBlocks ? bannerBlocks.bannerData : null}
                         editorPlaceholder={t("FORM.editorPlaceholder")}
                         sendEditBlocks={receiveEditedBlocks}/>
                 </EditorWrapper>

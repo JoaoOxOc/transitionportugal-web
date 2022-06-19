@@ -1,24 +1,28 @@
 export declare const BANNERDETAILS_TRANSLATIONS: {
     readonly LABELS: {
-        readonly associationDetails: "Detalhes da Associação - {{name}}";
-        readonly associationCreate: "Registar Nova Associação/Entidade";
-        readonly associationCreateSmall: "Registar Nova Associação";
+        readonly bannerDetails: "Detalhes do Banner - {{name}}";
+        readonly bannerCreate: "Registar Novo Banner";
+        readonly bannerCreateSmall: "Registar Novo Banner";
+        readonly bannerIdentificationSmall: "Banner: {{bannerIdentification}}";
         readonly goBack: "Voltar";
-        readonly registerAssociationInfo: "A chave da aplicação cliente será gerada automaticamente após o registo";
-        readonly associationWarning: "Atenção à edição dos valores de ID e chave: a aplicação cliente pode deixar de funcionar";
+        readonly registerBannerInfo: "A chave da aplicação cliente será gerada automaticamente após o registo";
+        readonly bannerWarning: "Atenção à edição dos valores de ID e chave: a aplicação cliente pode deixar de funcionar";
     };
     readonly LIST: {
-        readonly associationsTitle: "Associações/Entidades";
+        readonly bannersTitle: "Banners";
         readonly home: "Home";
-        readonly management: "Administração";
-        readonly associations: "Associações";
+        readonly cms: "Conteúdo do Website";
+        readonly banners: "Banners";
     };
     readonly TABS: {
-        readonly main: "Informação Geral";
-        readonly address: "Endereço da Associação";
-        readonly users: "Utilizadores da Associação";
+        readonly relatedBanners: "Lista de Relacionados";
     };
     readonly FORM: {
+        readonly language: "Linguagem";
+        readonly selectLanguage: "Linguagem do banner: a edição abaixo corresponde à Linguagem seleccionada";
+        readonly editorPlaceholder: "Comece a escrever aqui, as opções de edição irão aparecer...";
+        readonly isActive: "Activo";
+        readonly DataBlocksJson: "Conteúdo do Banner";
         readonly description: "Descrição";
         readonly name: "Nome da Associação";
         readonly email: "Email da Associação";
@@ -44,10 +48,10 @@ export declare const BANNERDETAILS_TRANSLATIONS: {
         readonly clientIdTooBig: "O ID é demasiado grande. Máx. de caracteres: {{max}}";
         readonly clientIdRequired: "ID da Aplicação Cliente é obrigatório";
         readonly emailInvalid: "O email da associação deverá ser um endereço de email válido";
-        readonly associationUpdatedSuccessfully: "A Associação nome é {{associationName}} foi atualizada com sucesso";
-        readonly associationCreatedSuccessfully: "A Associação cujo nome é {{associationName}} foi registada com sucesso";
-        readonly associationGeneralError: "Erro ao registar/atualizar a Associação cujo nome é {{associationName}}. Por favor tente novamente";
-        readonly associationNotFound: "A Associação cujo nome é {{associationName}} não foi encontrada. Por favor verifica se o nome está correcto";
+        readonly bannerUpdatedSuccessfully: "O Banner cuja identificação é {{bannerIdentification}} foi atualizado com sucesso";
+        readonly bannerCreatedSuccessfully: "O Banner cuja identificação é {{bannerIdentification}} foi registado com sucesso";
+        readonly bannerGeneralError: "Erro ao registar/atualizar o Banner cuja identificação é {{bannerIdentification}}. Por favor tente novamente";
+        readonly bannerNotFound: "O Banner cuja identificação é {{bannerIdentification}} não foi encontrado. Por favor verifica se a identificação está correcta";
     };
 };
 //# sourceMappingURL=bannerDetails.d.ts.map

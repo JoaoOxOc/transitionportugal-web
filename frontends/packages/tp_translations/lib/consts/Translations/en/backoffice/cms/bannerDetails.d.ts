@@ -1,24 +1,28 @@
 export declare const BANNERDETAILS_TRANSLATIONS: {
     readonly LABELS: {
-        readonly associationDetails: "Association Details - {{name}}";
-        readonly associationCreate: "Register a New Association/Entity";
-        readonly associationCreateSmall: "Register New Association/Entity";
+        readonly bannerDetails: "Banner Details - {{name}}";
+        readonly bannerCreate: "Register a New Banner";
+        readonly bannerCreateSmall: "Register New Banner";
+        readonly bannerIdentificationSmall: "Banner: {{bannerIdentification}}";
         readonly goBack: "Go back";
-        readonly registerAssociationInfo: "The client app Secret will be automatically generated after registering it";
-        readonly associationWarning: "Careful editting ID and secret values: the client app can stop working";
+        readonly registerBannerInfo: "The client app Secret will be automatically generated after registering it";
+        readonly bannerWarning: "Careful editting ID and secret values: the client app can stop working";
     };
     readonly LIST: {
-        readonly associationsTitle: "Associations/Entities";
+        readonly bannersTitle: "Banners";
         readonly home: "Home";
-        readonly management: "Management";
-        readonly associations: "Associations";
+        readonly cms: "Website Content";
+        readonly banners: "Banners";
     };
     readonly TABS: {
-        readonly main: "General Info";
-        readonly address: "Association Address";
-        readonly users: "Association Users";
+        readonly relatedBanners: "Related List";
     };
     readonly FORM: {
+        readonly language: "Language";
+        readonly selectLanguage: "Banner Language: the editting below corresponds to the selected language";
+        readonly editorPlaceholder: "Start writting here, the edit options will appear...";
+        readonly isActive: "Active";
+        readonly DataBlocksJson: "Content of the Banner";
         readonly description: "Description";
         readonly name: "Association Name";
         readonly email: "Association Email";
@@ -44,10 +48,10 @@ export declare const BANNERDETAILS_TRANSLATIONS: {
         readonly clientIdTooBig: "Client App ID is too big. Max characters: {{max}}";
         readonly clientIdRequired: "Client App ID is required";
         readonly emailInvalid: "Association email must be a valid email address";
-        readonly associationUpdatedSuccessfully: "The Association with name {{associationName}} was updated successfully";
-        readonly associationCreatedSuccessfully: "The Association with name {{associationName}} was created successfully";
-        readonly associationGeneralError: "Error creating/updating Association with name {{associationName}}. Please try again";
-        readonly associationNotFound: "The Association with name {{associationName}} wasn't found. Please double check if the name is correct";
+        readonly bannerUpdatedSuccessfully: "The Banner with identification {{bannerIdentification}} was updated successfully";
+        readonly bannerCreatedSuccessfully: "The Banner with identification {{bannerIdentification}} was created successfully";
+        readonly associationGeneralError: "Error creating/updating Banner with identification {{bannerIdentification}}. Please try again";
+        readonly bannerNotFound: "The Banner with identification {{bannerIdentification}} wasn't found. Please double check if the identification is correct";
     };
 };
 //# sourceMappingURL=bannerDetails.d.ts.map

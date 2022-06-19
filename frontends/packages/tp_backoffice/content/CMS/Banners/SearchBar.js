@@ -52,13 +52,13 @@ const SearchBar = ({itemsSelected}) => {
 
     const handleSelectableChange = (_event, selectables) => {
         setSelectableValues(selectables);
-        if (selectables.filter((selected) => { return selected == "IsActive"; }).length > 0) {
+        if (selectables.filter((selected) => { return selected == 'IsActive'; }).length > 0) {
             searchContext.searchData.isActive = true;
         }
         else if (selectables.filter((selected) => { return selected == "IsActive"; }).length == 0) {
             searchContext.searchData.isActive = false;
         }
-        if (selectables.filter((selected) => { return selected == "IsInactive"; }).length > 0) {
+        else if (selectables.filter((selected) => { return selected == "IsInactive"; }).length > 0) {
             searchContext.searchData.isActive = false;
         }
         else if (selectables.filter((selected) => { return selected == "IsInactive"; }).length == 0) {

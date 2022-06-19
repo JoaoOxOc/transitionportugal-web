@@ -79,8 +79,8 @@ const Results = () => {
   const [selectedItems, setSelectedBanners] = useState([]);
   const [totalBanners, setTotalBanners] = useState(0);
 
-  let bannersApiUri = "/banner/get";
-  let bannerDetailsBaseUri = "/cms/banner/single/";
+  let bannersApiUri = "/cms/banner/get";
+  let bannerDetailsBaseUri = "/content/banner/single/";
 
   const getBannersData = useCallback(async (searchDataJson) => {
     try {
@@ -203,7 +203,7 @@ const Results = () => {
             isSort: true,
             disablePadding: false,
             align: 'center',
-            label: t('BANNEROBJECT.active'),
+            label: t('BANNEROBJECT.isActive'),
         },
         {
             id: 'actions',

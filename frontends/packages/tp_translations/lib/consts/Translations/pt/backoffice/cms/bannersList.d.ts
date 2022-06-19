@@ -35,12 +35,17 @@ export declare const BANNERSLIST_TRANSLATIONS: {
         readonly bannersManagementDescription: "Todos os aspectos relativos aos banners podem ser geridos nesta página";
         readonly bannersNotFound: "O(s) banner(s) seleccionado(s) não foi/foram encontrado(s)";
         readonly bannerCloned: "Novo Banner criado: {{bannerIdentification}}";
+        readonly activateBannerInfo: "Irá activar o banner cuja identificação é {{bannerIdentification}}. Por favor tenha em atenção que o utilizador final irá ver este banner na página e componente correspondentes às chaves de identificação";
+        readonly deactivateBannerInfo: "Irá desactivar o banner cuja identificação é {{bannerIdentification}}. Por favor tenha em atenção que o utilizador final irá deixar de ver este banner na página e componente correspondentes às chaves de identificação";
+        readonly cloneBannerInfo: "Irá clonar o banner cuja identificação é {{bannerIdentification}}. Um novo registo de banner com uma nova posição de ordenação será criado com o conteúdo do banner actualmente seleccionado";
         readonly bannersActivated: "O(s) banner(s) seleccionado(s) está/estão agora activo(s)";
         readonly bannersDeactivated: "O(s) banner(s) seleccionado(s) está/estão agora inactivo(s)";
         readonly activatingErrors: "O/alguns banner(s) seleccionado(s) não foi/foram activado(s). Por favor tente novamente";
         readonly deactivatingErrors: "O/alguns banner(s) seleccionado(s) não foi/foram inactivado(s). Por favor tente novamente";
         readonly bannersDeleted: "O(s) banner(s) seleccionado(s) foi/foram removido(s)";
         readonly deletingErrors: "O/alguns banner(s) seleccionado(s) não foi/foram eliminado(s). Por favor tente novamente";
+        readonly bannerCloningError: "Ocorreu um erro ao clonar o Banner cuja identificação é {{bannerIdentification}}. Por favor tente novamente. Se o problema persistir, contacte-te o administrador da plataforma";
+        readonly bannerActivatingError: "Ocorreu um erro ao activar o Banner cuja identificação é {{bannerIdentification}}. Por favor tente novamente. Se o problema persistir, contacte-te o administrador da plataforma";
     };
     readonly SEARCH: {
         readonly filters: "Filtros";

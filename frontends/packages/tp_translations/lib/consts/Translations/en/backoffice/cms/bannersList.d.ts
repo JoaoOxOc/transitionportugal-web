@@ -35,12 +35,17 @@ export declare const BANNERSLIST_TRANSLATIONS: {
         readonly bannersManagementDescription: "All aspects related to banners can be managed from this page";
         readonly bannersNotFound: "The selected banner(s) weren't found";
         readonly bannerCloned: "New Banner created: {{bannerIdentification}}";
+        readonly activateBannerInfo: "You will activate the banner with identification {{bannerIdentification}}. Please be aware that the final user will see this banner in the corresponding page key and component key";
+        readonly deactivateBannerInfo: "You will activate the banner with identification {{bannerIdentification}}. Please be aware that the final user will not see this banner anymore in the corresponding page key and component key";
+        readonly cloneBannerInfo: "You will clone the banner with identification {{bannerIdentification}}. A new banner record with a new order position will be created with the current selected banner content";
         readonly bannersActivated: "The selected banner(s) are now activated";
         readonly bannersDeactivated: "The selected banner(s) are now deactivated";
-        readonly activatingErrors: "Some selected banner(s) weren't activated. Please try again";
-        readonly deactivatingErrors: "Some selected banner(s) weren't deactivated. Please try again";
+        readonly activatingErrors: "Some selected banner(s) weren't activated. Please try again. If problem persists, please contact sys admin";
+        readonly deactivatingErrors: "Some selected banner(s) weren't deactivated. Please try again. If problem persists, please contact sys admin";
         readonly bannersDeleted: "The selected banner(s) were deleted";
         readonly deletingErrors: "Some selected banner(s) weren't deleted. Please try again";
+        readonly bannerCloningError: "An error occured while cloning the Banner with identification {{bannerIdentification}}. Please try again. If problem persists, please contact sys admin";
+        readonly bannerActivatingError: "An error occured while activating the Banner with identification {{bannerIdentification}}. Please try again. If problem persists, please contact sys admin";
     };
     readonly SEARCH: {
         readonly filters: "Filters";

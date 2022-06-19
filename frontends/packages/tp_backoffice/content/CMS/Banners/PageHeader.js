@@ -27,7 +27,7 @@ function PageHeader() {
           </Typography>
         </Grid>
         <Grid item>
-            <Link href={'/cms/banner/single/create'} isNextLink={true}>
+            <Link href={'/content/banner/single/create'} isNextLink={true}>
                 <Button
                         sx={{
                         mt: { xs: 2, sm: 0 }

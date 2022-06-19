@@ -2,25 +2,29 @@ import * as deepFreeze from 'deep-freeze';
 
 export const BANNERDETAILS_TRANSLATIONS = deepFreeze({
     LABELS: {
-        associationDetails: "Association Details - {{name}}",
-        associationCreate: "Register a New Association/Entity",
-        associationCreateSmall: "Register New Association/Entity",
+        bannerDetails: "Banner Details - {{name}}",
+        bannerCreate: "Register a New Banner",
+        bannerCreateSmall: "Register New Banner",
+        bannerIdentificationSmall: "Banner: {{bannerIdentification}}",
         goBack: "Go back",
-        registerAssociationInfo: "The client app Secret will be automatically generated after registering it",
-        associationWarning: "Careful editting ID and secret values: the client app can stop working"
+        registerBannerInfo: "The client app Secret will be automatically generated after registering it",
+        bannerWarning: "Careful editting ID and secret values: the client app can stop working"
     },
     LIST: {
-        associationsTitle: "Associations/Entities",
+        bannersTitle: "Banners",
         home: "Home",
-        management: "Management",
-        associations: 'Associations'
+        cms: "Website Content",
+        banners: 'Banners'
     },
     TABS: {
-        main: "General Info",
-        address: "Association Address",
-        users: "Association Users"
+        relatedBanners: "Related List"
     },
     FORM: {
+        language: "Language",
+        selectLanguage: "Banner Language: the editting below corresponds to the selected language",
+        editorPlaceholder: "Start writting here, the edit options will appear...",
+        isActive: "Active",
+        DataBlocksJson: "Content of the Banner",
         description: "Description",
         name: "Association Name",
         email: "Association Email",
@@ -46,9 +50,9 @@ export const BANNERDETAILS_TRANSLATIONS = deepFreeze({
         clientIdTooBig: "Client App ID is too big. Max characters: {{max}}",
         clientIdRequired: "Client App ID is required",
         emailInvalid: "Association email must be a valid email address",
-        associationUpdatedSuccessfully: "The Association with name {{associationName}} was updated successfully",
-        associationCreatedSuccessfully: "The Association with name {{associationName}} was created successfully",
-        associationGeneralError: "Error creating/updating Association with name {{associationName}}. Please try again",
-        associationNotFound: "The Association with name {{associationName}} wasn't found. Please double check if the name is correct"
+        bannerUpdatedSuccessfully: "The Banner with identification {{bannerIdentification}} was updated successfully",
+        bannerCreatedSuccessfully: "The Banner with identification {{bannerIdentification}} was created successfully",
+        associationGeneralError: "Error creating/updating Banner with identification {{bannerIdentification}}. Please try again",
+        bannerNotFound: "The Banner with identification {{bannerIdentification}} wasn't found. Please double check if the identification is correct"
     }
 } as const);

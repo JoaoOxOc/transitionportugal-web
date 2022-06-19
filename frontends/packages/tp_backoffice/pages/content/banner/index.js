@@ -18,7 +18,7 @@ import Results from '../../../content/CMS/Banners/Results';
 
 import { i18nextBannersList } from "@transitionpt/translations";
 
-import { BannersSearchProvider } from '../../../contexts/Search/CMS//BannersSearchContext';
+import { BannersSearchProvider } from '../../../contexts/Search/CMS/BannersSearchContext';
 
 function CmsBanners() {
     const { t } = i18nextBannersList;
