@@ -128,12 +128,45 @@ namespace ContentManageService.Controllers
             return model;
         }
 
+        private BannerModel? ParseEntityToModel(BannerModel? bannerData, Banner banner)
+        {
+            BannerModel? model = null;
+            if (banner != null)
+            {
+                if (bannerData == null)
+                {
+                    model = new BannerModel();
+                    model.Id = banner.Id;
+                    model.IsDraft = banner.IsDraft;
+                    model.ComponentKey = banner.ComponentKey;
+                    model.PageKey = banner.PageKey;
+                    model.OrderPosition = banner.OrderPosition;
+                    model.BannerLanguages = new List<BannerModel.BannerDataModel>();
+                }
+            }
+            return model;
+        }
+
         private List<BannerModel> ParseEntitiesToModel(List<BannerTranslation> bannersTranslationData)
         {
             List<BannerModel> models = new List<BannerModel>();
             foreach (var bannerTranslation in bannersTranslationData)
             {
                 var model = ParseEntityToModel(models.Find(x => x.Id == bannerTranslation.BannerId), bannerTranslation);
+                if (model != null)
+                {
+                    models.Add(model);
+                }
+            }
+            return models;
+        }
+
+        private List<BannerModel> ParseEntitiesToModel(List<Banner> bannersData)
+        {
+            List<BannerModel> models = new List<BannerModel>();
+            foreach (var banner in bannersData)
+            {
+                var model = ParseEntityToModel(models.Find(x => x.Id == banner.Id), banner);
                 if (model != null)
                 {
                     models.Add(model);
@@ -204,14 +237,19 @@ namespace ContentManageService.Controllers
                     sort = sort ?? "PageKey";
                     isActive = isActive ?? false;
                     SortDirection direction = sortDirection == "desc" ? SortDirection.Descending : SortDirection.Ascending;
+                    // TODO: set order position list search rules
+                    orderPosition = orderPosition.HasValue ? orderPosition.Value: 0;
+                    int? levelOrderPosition = (string.IsNullOrEmpty(pageKey) || (!string.IsNullOrEmpty(pageKey) && string.IsNullOrEmpty(componentKey))) ? 0 : orderPosition;
 
-                    Expression<Func<BannerTranslation, bool>> filter = (x => (string.IsNullOrEmpty(pageKey) || x.Banner.PageKey.ToLower().Contains(pageKey))
-                    && (string.IsNullOrEmpty(langCode) || x.LangKey.Contains(parsedLangKey)) && x.Banner.IsDraft == !isActive
-                    && (string.IsNullOrEmpty(componentKey) || x.Banner.ComponentKey.Contains(componentKey)) && (!orderPosition.HasValue || x.Banner.OrderPosition == orderPosition));
+                    //(string.IsNullOrEmpty(langCode) || x.LangKey.Contains(parsedLangKey)) && 
+                    Expression<Func<Banner, bool>> filter = (x => (!isActive.HasValue || (isActive.HasValue && x.IsDraft == !isActive))
+                    && (string.IsNullOrEmpty(pageKey) || x.PageKey.ToLower().Contains(pageKey.ToLower()))
+                    && (string.IsNullOrEmpty(componentKey) || x.ComponentKey.ToLower().Contains(componentKey.ToLower()))
+                    && ((x.OrderPosition == levelOrderPosition) || (levelOrderPosition > 0 && x.OrderPosition >= levelOrderPosition)));
 
-                    var _bannerData = _uow.BannerTranslationRepository.Get(offset, limit, filter, sort, direction, "Banner");
+                    var _bannerData = _uow.BannerRepository.Get(offset, limit, filter, sort, direction);
 
-                    int totalCount = _uow.BannerTranslationRepository.Count(filter);
+                    int totalCount = _uow.BannerRepository.Count(filter);
 
                     Request.HttpContext.Response.Headers.Add("X-Total-Count", totalCount.ToString());
 
