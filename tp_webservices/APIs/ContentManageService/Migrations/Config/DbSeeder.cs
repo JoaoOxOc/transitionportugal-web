@@ -29,10 +29,10 @@ namespace ContentManageService.Migrations.Config
             _modelBuilder.Entity<Banner>().HasData(
                 new Banner { Id = 1, IsDraft = false, PageKey = "aboutheadline", OrderPosition = 0, CreatedAt = DateTime.Now },
                 new Banner { Id = 2, IsDraft = false, PageKey = "registerpage", OrderPosition = 0, CreatedAt = DateTime.Now },
-                new Banner { Id = 3, IsDraft = false, PageKey = "registerpage", ComponentKey = "slider", OrderPosition = 0, CreatedAt = DateTime.Now },
-                new Banner { Id = 4, IsDraft = false, PageKey = "registerpage", ComponentKey = "slider", OrderPosition = 1, CreatedAt = DateTime.Now },
-                new Banner { Id = 5, IsDraft = false, PageKey = "registerpage", ComponentKey = "slider", OrderPosition = 2, CreatedAt = DateTime.Now },
-                new Banner { Id = 6, IsDraft = false, PageKey = "registerpage", ComponentKey = "bottomList", OrderPosition = 0, CreatedAt = DateTime.Now }
+                new Banner { Id = 3, ParentBannerId = 2, ParentPath = "|registerpage|", IsDraft = false, PageKey = "registerpage", ComponentKey = "slider", OrderPosition = 0, CreatedAt = DateTime.Now },
+                new Banner { Id = 4, ParentBannerId = 3, ParentPath = "|registerpage|slider|", IsDraft = false, PageKey = "registerpage", ComponentKey = "slider", OrderPosition = 1, CreatedAt = DateTime.Now },
+                new Banner { Id = 5, ParentBannerId = 3, ParentPath = "|registerpage|slider|", IsDraft = false, PageKey = "registerpage", ComponentKey = "slider", OrderPosition = 2, CreatedAt = DateTime.Now },
+                new Banner { Id = 6, ParentBannerId = 2, ParentPath = "|registerpage|", IsDraft = false, PageKey = "registerpage", ComponentKey = "bottomList", OrderPosition = 0, CreatedAt = DateTime.Now }
             );
 
             _modelBuilder.Entity<BannerTranslation>().HasData(

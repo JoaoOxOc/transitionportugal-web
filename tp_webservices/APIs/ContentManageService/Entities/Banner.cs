@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ContentManageService.Entities
 {
@@ -25,6 +26,12 @@ namespace ContentManageService.Entities
         public string? ComponentKey { get; set; }
 
         /// <summary>
+        /// The multi-tier path of this banner, using | as separator
+        /// </summary>
+        [MaxLength(255)]
+        public string? ParentPath { get; set; }
+
+        /// <summary>
         /// Identifies the order position of the banner
         /// Example: in the case of belonging to the same component key, it can be ordered to be an item in a carousel for example
         /// </summary>
@@ -41,6 +48,11 @@ namespace ContentManageService.Entities
         public string? CreatedBy { get; set; }
 
         public string? UpdatedBy { get; set; }
+
+        public int? ParentBannerId { get; set; }
+
+        [ForeignKey("ParentBannerId")]
+        public Banner? ParentBanner { get; set; }
 
         public virtual ICollection<BannerTranslation> BannerTranslations { get; set; }
 

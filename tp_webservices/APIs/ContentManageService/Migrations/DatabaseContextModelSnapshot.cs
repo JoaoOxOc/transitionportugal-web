@@ -52,6 +52,13 @@ namespace ContentManageService.Migrations
                         .HasMaxLength(25)
                         .HasColumnType("character varying(25)");
 
+                    b.Property<int?>("ParentBannerId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("ParentPath")
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp without time zone");
 
@@ -60,13 +67,15 @@ namespace ContentManageService.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ParentBannerId");
+
                     b.ToTable("Banner");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2022, 6, 20, 20, 28, 20, 56, DateTimeKind.Local).AddTicks(2742),
+                            CreatedAt = new DateTime(2022, 6, 21, 18, 14, 36, 78, DateTimeKind.Local).AddTicks(1726),
                             IsDraft = false,
                             OrderPosition = 0,
                             PageKey = "aboutheadline"
@@ -74,7 +83,7 @@ namespace ContentManageService.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2022, 6, 20, 20, 28, 20, 56, DateTimeKind.Local).AddTicks(2781),
+                            CreatedAt = new DateTime(2022, 6, 21, 18, 14, 36, 78, DateTimeKind.Local).AddTicks(1768),
                             IsDraft = false,
                             OrderPosition = 0,
                             PageKey = "registerpage"
@@ -83,37 +92,45 @@ namespace ContentManageService.Migrations
                         {
                             Id = 3,
                             ComponentKey = "slider",
-                            CreatedAt = new DateTime(2022, 6, 20, 20, 28, 20, 56, DateTimeKind.Local).AddTicks(2784),
+                            CreatedAt = new DateTime(2022, 6, 21, 18, 14, 36, 78, DateTimeKind.Local).AddTicks(1772),
                             IsDraft = false,
                             OrderPosition = 0,
-                            PageKey = "registerpage"
+                            PageKey = "registerpage",
+                            ParentBannerId = 2,
+                            ParentPath = "|registerpage|"
                         },
                         new
                         {
                             Id = 4,
                             ComponentKey = "slider",
-                            CreatedAt = new DateTime(2022, 6, 20, 20, 28, 20, 56, DateTimeKind.Local).AddTicks(2787),
+                            CreatedAt = new DateTime(2022, 6, 21, 18, 14, 36, 78, DateTimeKind.Local).AddTicks(1775),
                             IsDraft = false,
                             OrderPosition = 1,
-                            PageKey = "registerpage"
+                            PageKey = "registerpage",
+                            ParentBannerId = 3,
+                            ParentPath = "|registerpage|slider|"
                         },
                         new
                         {
                             Id = 5,
                             ComponentKey = "slider",
-                            CreatedAt = new DateTime(2022, 6, 20, 20, 28, 20, 56, DateTimeKind.Local).AddTicks(2789),
+                            CreatedAt = new DateTime(2022, 6, 21, 18, 14, 36, 78, DateTimeKind.Local).AddTicks(1778),
                             IsDraft = false,
                             OrderPosition = 2,
-                            PageKey = "registerpage"
+                            PageKey = "registerpage",
+                            ParentBannerId = 3,
+                            ParentPath = "|registerpage|slider|"
                         },
                         new
                         {
                             Id = 6,
                             ComponentKey = "bottomList",
-                            CreatedAt = new DateTime(2022, 6, 20, 20, 28, 20, 56, DateTimeKind.Local).AddTicks(2792),
+                            CreatedAt = new DateTime(2022, 6, 21, 18, 14, 36, 78, DateTimeKind.Local).AddTicks(1780),
                             IsDraft = false,
                             OrderPosition = 0,
-                            PageKey = "registerpage"
+                            PageKey = "registerpage",
+                            ParentBannerId = 2,
+                            ParentPath = "|registerpage|"
                         });
                 });
 
@@ -215,6 +232,15 @@ namespace ContentManageService.Migrations
                             LangKey = "en-us",
                             PageKey = "registerpage"
                         });
+                });
+
+            modelBuilder.Entity("ContentManageService.Entities.Banner", b =>
+                {
+                    b.HasOne("ContentManageService.Entities.Banner", "ParentBanner")
+                        .WithMany()
+                        .HasForeignKey("ParentBannerId");
+
+                    b.Navigation("ParentBanner");
                 });
 
             modelBuilder.Entity("ContentManageService.Entities.BannerTranslation", b =>
