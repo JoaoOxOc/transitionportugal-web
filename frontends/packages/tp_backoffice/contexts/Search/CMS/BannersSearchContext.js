@@ -7,6 +7,7 @@ const initialSearchState = {
     pageKey: "",
     componentKey: "",
     orderPosition: "",
+    parentBannerId: "",
     isActive: "",
     offset: 1,
     limit: 10,
