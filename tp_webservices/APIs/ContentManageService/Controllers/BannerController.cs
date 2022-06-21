@@ -104,6 +104,8 @@ namespace ContentManageService.Controllers
                     model.ComponentKey = bannerTranslationData.Banner?.ComponentKey;
                     model.PageKey = bannerTranslationData.Banner?.PageKey;
                     model.OrderPosition = bannerTranslationData.Banner?.OrderPosition;
+                    model.ParentBannerId = bannerTranslationData.Banner?.ParentBannerId;
+                    model.ParentBannerPath = bannerTranslationData.Banner?.ParentPath;
                     model.BannerLanguages = new List<BannerModel.BannerDataModel>();
                     model.BannerLanguages.Add(new BannerModel.BannerDataModel
                     {
@@ -141,7 +143,22 @@ namespace ContentManageService.Controllers
                     model.ComponentKey = banner.ComponentKey;
                     model.PageKey = banner.PageKey;
                     model.OrderPosition = banner.OrderPosition;
+                    model.ParentBannerId = banner.ParentBannerId;
+                    model.ParentBannerPath = banner.ParentPath;
                     model.BannerLanguages = new List<BannerModel.BannerDataModel>();
+
+                    if (banner.BannerTranslations != null)
+                    {
+                        foreach(var translation in banner.BannerTranslations)
+                        {
+                            model.BannerLanguages.Add(new BannerModel.BannerDataModel
+                            {
+                                LangCode = translation.LangKey,
+                                BannerData = translation.BannerDataJson,
+                                BannerDataHtml = translation.BannerDataHtml
+                            });
+                        }
+                    }
                 }
             }
             return model;
@@ -217,7 +234,7 @@ namespace ContentManageService.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get(string? searchText, string? langCode, string? pageKey, string? componentKey, int? orderPosition, bool? isActive, int? offset, int? limit, string sort, string sortDirection)
+        public async Task<IActionResult> Get(string? searchText, string? langCode, string? pageKey, string? componentKey, int? orderPosition, int? parentBannerId, bool? isActive, int? offset, int? limit, string sort, string sortDirection)
         {
             string userId = HttpContext.Request.Headers["UserId"];
             string userRole = HttpContext.Request.Headers["UserRole"];
@@ -235,19 +252,16 @@ namespace ContentManageService.Controllers
                     componentKey = componentKey ?? "";
                     searchText = searchText == null ? string.Empty : searchText.Trim().ToLower();
                     sort = sort ?? "PageKey";
-                    isActive = isActive ?? false;
                     SortDirection direction = sortDirection == "desc" ? SortDirection.Descending : SortDirection.Ascending;
-                    // TODO: set order position list search rules
-                    orderPosition = orderPosition.HasValue ? orderPosition.Value: 0;
-                    int? levelOrderPosition = (string.IsNullOrEmpty(pageKey) || (!string.IsNullOrEmpty(pageKey) && string.IsNullOrEmpty(componentKey))) ? 0 : orderPosition;
 
                     //(string.IsNullOrEmpty(langCode) || x.LangKey.Contains(parsedLangKey)) && 
                     Expression<Func<Banner, bool>> filter = (x => (!isActive.HasValue || (isActive.HasValue && x.IsDraft == !isActive))
                     && (string.IsNullOrEmpty(pageKey) || x.PageKey.ToLower().Contains(pageKey.ToLower()))
                     && (string.IsNullOrEmpty(componentKey) || x.ComponentKey.ToLower().Contains(componentKey.ToLower()))
-                    && ((x.OrderPosition == levelOrderPosition) || (levelOrderPosition > 0 && x.OrderPosition >= levelOrderPosition)));
+                    && (!orderPosition.HasValue || (orderPosition.HasValue && x.OrderPosition == orderPosition))
+                    && ((!parentBannerId.HasValue && !x.ParentBannerId.HasValue) || (parentBannerId.HasValue && x.ParentBannerId == parentBannerId)));
 
-                    var _bannerData = _uow.BannerRepository.Get(offset, limit, filter, sort, direction);
+                    var _bannerData = _uow.BannerRepository.Get(offset, limit, filter, sort, direction, "BannerTranslations");
 
                     int totalCount = _uow.BannerRepository.Count(filter);
 
@@ -255,7 +269,8 @@ namespace ContentManageService.Controllers
 
                     return _bannerData != null ? Ok(new
                     {
-                        banners = ParseEntitiesToModel(_bannerData)
+                        banners = ParseEntitiesToModel(_bannerData),
+                        isActive = isActive
                     })
                     : NotFound(new List<BannerModel>());
                 }

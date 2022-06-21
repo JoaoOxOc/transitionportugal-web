@@ -10,6 +10,8 @@ namespace ContentManageService.Models
         public string? ComponentKey { get; set; }
         public int? OrderPosition { get; set; }
         public bool? IsDraft { get; set; }
+        public int? ParentBannerId { get; set; }
+        public string? ParentBannerPath { get; set; }
 
         public List<BannerDataModel>? BannerLanguages { get; set; }
 

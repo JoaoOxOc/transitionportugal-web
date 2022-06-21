@@ -6,6 +6,7 @@ using ContentManageService.Migrations.Config;
 using MicroservicesLibrary.HttpHandlers;
 using ContentManageService.Services;
 using ContentManageService.Services.RabbitMQ;
+using ContentManageService.Binders;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
