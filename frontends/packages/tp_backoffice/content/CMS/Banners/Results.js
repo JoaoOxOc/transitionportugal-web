@@ -9,6 +9,7 @@ import {
     Divider,
     Tooltip,
     Icon,
+    IconButton,
     Table,
     TableBody,
     TableHead,
@@ -22,6 +23,7 @@ import {
   } from '@mui/material';
 
 import { useRouter } from 'next/router';
+import Link from '../../../components/Link';
 import Loader from '../../../components/Loader';
 import { useRefMounted } from '../../../hooks/useRefMounted';
 import { BannersSearchContext } from '../../../contexts/Search/CMS/BannersSearchContext';
@@ -69,14 +71,16 @@ const IconInactive = styled(Icon)(
       `
 );
 
-const IconHierarchyTree = styled(Icon)(
+const IconButtonHierarchyTree = styled(IconButton)(
     ({ theme }) => `
-        background: ${theme.colors.success.dark};
-        color: ${theme.palette.success.contrastText};
-       width: 50px;
-       height: 40px;
-       border-radius: 10px;
-       padding: 6px;
+        color: ${theme.colors.gradient.blue1};
+        width: 50px;
+        height: 40px;
+        border-radius: 10px;
+        padding: 6px;
+        &:hover {
+            color: ${theme.colors.gradient.blue3};
+        }
       `
 );
 
@@ -98,6 +102,9 @@ const Results = () => {
 
   const getBannersData = useCallback(async (searchDataJson) => {
     try {
+        if (router.query.parentBannerId) {
+            bannersSearchData.parentBannerId = router.query.parentBannerId;
+        }
         console.log(searchDataJson)
       let bannersData = await GetBanners(process.env.NEXT_PUBLIC_API_BASE_URL + bannersApiUri, searchDataJson, session.accessToken);
       
@@ -153,7 +160,12 @@ const Results = () => {
 
     if (banners) {
         banners.map((banner) => {
-            banner.bannerViewLink = bannerDetailsBaseUri + banner.id;
+            let parentPath = "";
+            if (router.query.parentBannerId) {
+                parentPath =  + "?parentBannerId=" + banner.parentBannerId + "&parentBannerPath=" + banner.parentBannerPath;
+            }
+            banner.bannerViewLink = bannerDetailsBaseUri + banner.id + parentPath;
+            console.log(banner.bannerViewLink);
         });
     }
 
@@ -210,16 +222,18 @@ const Results = () => {
     const getBannerHierarchyTreeComponent = (banner, styleConfig) => {
         return (
             <>
-            { (!banner.bannerLanguages || banner.bannerLanguages.length <= 0) &&
+            { (banner.childElements && banner.childElements.length > 0) &&
                 <Typography key={styleConfig.key}
                     pl={styleConfig && styleConfig.paddingLeft ? styleConfig.paddingLeft: 0}
                 >
                     <Tooltip title={t('BANNEROBJECT.hierarchyTreeInfo')} arrow>
-                        <IconHierarchyTree
-                            color="primary"
-                            >
-                            <AccountTreeTwoToneIcon/>
-                        </IconHierarchyTree>
+                        <Link href={"/content/banner?parentBannerId=" + banner.parentBannerId} isNextLink={true}>
+                            <IconButtonHierarchyTree
+                                color="primary"
+                                >
+                                <AccountTreeTwoToneIcon/>
+                            </IconButtonHierarchyTree>
+                        </Link>
                     </Tooltip>
                 </Typography>
             }
