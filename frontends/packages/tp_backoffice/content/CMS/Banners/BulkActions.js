@@ -49,6 +49,17 @@ const ButtonSuccess = styled(Button)(
     `
 );
 
+const ButtonWarning = styled(Button)(
+  ({ theme }) => `
+     background: ${theme.colors.warning.main};
+     color: ${theme.palette.warning.contrastText};
+
+     &:hover {
+        background: ${theme.colors.warning.dark};
+     }
+    `
+);
+
 function BulkActions({isSingleRecord, recordId, recordIsVerified, recordIsActivated}) {
   const [onMenuOpen, menuOpen] = useState(false);
   const moreRef = useRef(null);
@@ -68,9 +79,9 @@ function BulkActions({isSingleRecord, recordId, recordIsVerified, recordIsActiva
     menuOpen(false);
   };
 
-  const resendEmails = async() => {
+  const activationAction = async(isActive) => {
     const ids = isSingleRecord == true ? [recordId] : selectedBanners;
-    const result = await ResendEmails(process.env.NEXT_PUBLIC_API_BASE_URL + '/banner/resend',{bannerIds: ids}, session.accessToken);
+    const result = await ActivateBanners(process.env.NEXT_PUBLIC_API_BASE_URL + '/banner/activate',{bannerIds: ids, isActive: isActive}, session.accessToken);
     if (isMountedRef()) {
       if (result.status) {
         if (result.status === 404) {
@@ -89,7 +100,7 @@ function BulkActions({isSingleRecord, recordId, recordIsVerified, recordIsActiva
         }
       }
       else {
-        enqueueSnackbar(t('MESSAGES.resentEmails'), {
+        enqueueSnackbar((isActive == true ? t('MESSAGES.bannersActivated') : t('MESSAGES.bannersDeactivated')), {
             variant: 'success',
             anchorOrigin: {
               vertical: 'top',
@@ -102,41 +113,7 @@ function BulkActions({isSingleRecord, recordId, recordIsVerified, recordIsActiva
     }
   }
 
-  const approve = async() => {
-    const ids = isSingleRecord == true ? [recordId] : selectedBanners;
-    const result = await ActivateBanners(process.env.NEXT_PUBLIC_API_BASE_URL + '/banner/approve',{bannerIds: ids}, session.accessToken);
-    if (isMountedRef()) {
-      if (result.status) {
-        if (result.status === 404) {
-          enqueueSnackbar(t('MESSAGES.bannersNotFound'), {
-            variant: 'error',
-            anchorOrigin: {
-              vertical: 'top',
-              horizontal: 'center'
-            },
-            autoHideDuration: 2000,
-            TransitionComponent: Slide
-          });
-        }
-        else {
-          setActionsError(result);
-        }
-      }
-      else {
-        enqueueSnackbar(t('MESSAGES.bannersApproved'), {
-            variant: 'success',
-            anchorOrigin: {
-              vertical: 'top',
-              horizontal: 'center'
-            },
-            autoHideDuration: 2000,
-            TransitionComponent: Slide
-        });
-      }
-    }
-  }
-
-  const deleteAccount = async() => {
+  const deleteBanner = async() => {
     const ids = isSingleRecord == true ? [recordId] : selectedBanners;
     const result = await DeleteBanners(process.env.NEXT_PUBLIC_API_BASE_URL + '/banner/delete',{bannerIds: ids}, session.accessToken);
     if (isMountedRef()) {
@@ -177,30 +154,27 @@ function BulkActions({isSingleRecord, recordId, recordIsVerified, recordIsActiva
           <Typography variant="h5" color="text.secondary">
             {t('LABELS.actions')}:
           </Typography>
-          { !recordIsVerified &&
-            <Tooltip arrow placement="top" title={isSingleRecord == true ? t('ACTIONS.resendVerifyEmailSingle') : t('ACTIONS.resendVerifyEmail')}>
-              <IconButton
-                color="primary"
-                onClick={resendEmails}
-                sx={{
-                  ml: 1,
-                  p: 1
-                }}
-              >
-                <ForwardToInboxTwoToneIcon />
-              </IconButton>
-            </Tooltip>
-          }
           { !recordIsActivated &&
             <ButtonSuccess
               sx={{
                 ml: 1
               }}
-              onClick={approve}
+              onClick={() => activationAction(true)}
               startIcon={<CheckTwoToneIcon />}
               variant="contained">
                 {isSingleRecord == true ? t('ACTIONS.activateBannerSingle') : t('ACTIONS.activateBanner')}
             </ButtonSuccess>
+          }
+          { recordIsActivated &&
+            <ButtonWarning
+              sx={{
+                ml: 1
+              }}
+              onClick={() => activationAction(false)}
+              startIcon={<CheckTwoToneIcon />}
+              variant="contained">
+                {isSingleRecord == true ? t('ACTIONS.deactivateBannerSingle') : t('ACTIONS.deactivateBanner')}
+            </ButtonWarning>
           }
         </Box>
         <IconButton
@@ -237,8 +211,8 @@ function BulkActions({isSingleRecord, recordId, recordIsVerified, recordIsActiva
           }}
           component="nav"
         >
-          <ListItem button onClick={deleteAccount}>
-            <ListItemText primary={isSingleRecord == true ? t('ACTIONS.deleteSingle') : t('ACTIONS.delete')}/>
+          <ListItem button onClick={deleteBanner}>
+            <ListItemText primary={isSingleRecord == true ? t('ACTIONS.deleteBannerSingle') : t('ACTIONS.deleteBanners')}/>
           </ListItem>
         </List>
       </Menu>

@@ -9,6 +9,7 @@ export const BANNERSLIST_TRANSLATIONS = deepFreeze({
         activate: "Activate",
         activateButton: "Activate",
         deactivateButton: "Deactivate",
+        deactivate: "Deactivate",
         cloneButton: "Clone",
         cancelButton: "Cancel",
         deleteButton: "Delete",

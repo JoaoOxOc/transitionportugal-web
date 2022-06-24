@@ -45,6 +45,7 @@ import UnsubscribeTwoToneIcon from '@mui/icons-material/UnsubscribeTwoTone';
 import AccountTreeTwoToneIcon from '@mui/icons-material/AccountTreeTwoTone';
 
 import SearchBar from './SearchBar';
+import SingleActions from './SingleActions';
 import { ResultsHeader, ResultsPagination, BodyTableView, BodyGridView} from "@transitionpt/components";
 
 import { i18nextBannersList } from "@transitionpt/translations";
@@ -84,7 +85,7 @@ const IconButtonHierarchyTree = styled(IconButton)(
       `
 );
 
-const Results = () => {
+const Results = ({parentBannerId}) => {
     const router = useRouter();
   const { t } = i18nextBannersList;
   const isMountedRef = useRefMounted();
@@ -96,6 +97,7 @@ const Results = () => {
   const [banners, setBanners] = useState(null);
   const [selectedItems, setSelectedBanners] = useState([]);
   const [totalBanners, setTotalBanners] = useState(0);
+  const [refreshBannersList, setRefreshBannersList] = useState(false);
 
   let bannersApiUri = "/cms/banner/get";
   let bannerDetailsBaseUri = "/content/banner/single/";
@@ -104,6 +106,9 @@ const Results = () => {
     try {
         if (router.query.parentBannerId) {
             bannersSearchData.parentBannerId = router.query.parentBannerId;
+        }
+        else if (parentBannerId) {
+            bannersSearchData.parentBannerId = parentBannerId;
         }
         console.log(searchDataJson)
       let bannersData = await GetBanners(process.env.NEXT_PUBLIC_API_BASE_URL + bannersApiUri, searchDataJson, session.accessToken);
@@ -173,6 +178,10 @@ const Results = () => {
         return banner.bannerViewLink;
     }
 
+    const receiveRefreshedData = (eventValue) => {
+        setRefreshBannersList(eventValue);
+    }
+
     const getBannerIsActiveComponent = (banner, styleConfig) => {
         return (
             <Typography key={styleConfig.key}
@@ -239,6 +248,12 @@ const Results = () => {
             }
             </>
         );
+    }
+
+    const getSingleActionsComponent = (banner) => {
+        return (
+            <SingleActions refreshData={receiveRefreshedData} bannerId={banner.id} bannerIsActive={!banner.isDraft} bannerPageKey={banner.pageKey} bannerComponentKey={banner.componentKey} bannerOrderPosition={banner.orderPosition}/>
+        )
     }
 
     const headCells = [
@@ -385,6 +400,16 @@ const Results = () => {
                 isNextLink: true,
                 iconButtonColor: "primary",
                 buttonIconComponent: <LaunchTwoToneIcon fontSize="small" />
+            },
+            {
+                key: "SingleActions",
+                type: "customComponent",
+                customComponentStyleConfig: {
+                    key: "singleActions"
+                },
+                alignment: "center",
+                customComponentGetter: getSingleActionsComponent,
+                fieldName: "singleActions"
             }
         ]
     });

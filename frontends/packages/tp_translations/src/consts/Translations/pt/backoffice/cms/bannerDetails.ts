@@ -7,16 +7,21 @@ export const BANNERDETAILS_TRANSLATIONS = deepFreeze({
         bannerCreateSmall: "Registar Novo Banner",
         bannerIdentificationSmall: "Banner: {{bannerIdentification}}",
         goBack: "Voltar",
-        registerBannerInfo: "A chave da aplicação cliente será gerada automaticamente após o registo",
-        bannerWarning: "Atenção à edição dos valores de ID e chave: a aplicação cliente pode deixar de funcionar"
+        registerBannerInfo: "O visual de edição não é equivalente ao que o utilizador irá ver",
+        bannerWarning: "Atenção à edição das chaves de identificação da página e do componente: o banner pode deixar de funcionar na página onde está actualmente activo"
     },
     LIST: {
         bannersTitle: "Banners",
         home: "Home",
         cms: "Conteúdo do Website",
-        banners: 'Banners'
+        banners: 'Banners',
+        bannersTitleRoot: "Banners na raíz",
+        bannersTitleSubPath: "Banners sub-caminho {{bannersLevel}}",
+        bannersSubPathLevel: "nível {{levelNumber}}",
+        bannersSortedPosition: "Posição ordenada: {{positionNumber}}"
     },
     TABS: {
+        main: "Dados do Banner",
         relatedBanners: "Lista de Relacionados"
     },
     FORM: {
@@ -25,19 +30,9 @@ export const BANNERDETAILS_TRANSLATIONS = deepFreeze({
         editorPlaceholder: "Comece a escrever aqui, as opções de edição irão aparecer...",
         isActive: "Activo",
         DataBlocksJson: "Conteúdo do Banner",
-        description: "Descrição",
-        name: "Nome da Associação",
-        email: "Email da Associação",
-        phone: "Nº de Contacto da Associação",
-        streetAddress: "Endereço da Associação",
-        town: "Concelho da Associação",
-        postalCode: "Código Postal da Associação",
-        vat: "NIF da Associação",
-        logoImage: "Logotipo da Associação",
-        website: "Website da Associação",
-        tags: "Tags relativas à Associação",
-        active: "Activada",
-        verified: "Verificou o Email",
+        pageKey: "Identificador Chave da Página",
+        componentKey: "Identificador Chave do Componente",
+        orderPosition: "Posição Ordenada do Componente",
         createdAt: "Registado em",
         updatedAt: "Actualizado em",
         saveButton: "Guardar"
