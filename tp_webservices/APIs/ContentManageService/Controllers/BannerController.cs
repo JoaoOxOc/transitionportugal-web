@@ -145,7 +145,7 @@ namespace ContentManageService.Controllers
                     model.OrderPosition = banner.OrderPosition;
                     model.ParentBannerId = banner.ParentBannerId;
                     model.ParentBannerPath = banner.ParentPath;
-                    model.ChildElements = _uow.BannerRepository.Count(x => x.ParentBannerId == banner.Id);
+                    model.ChildElements = _uow.BannerRepository.Count((x => x.ParentBannerId == banner.Id));
                     model.BannerLanguages = new List<BannerModel.BannerDataModel>();
 
                     if (banner.BannerTranslations != null)
@@ -372,11 +372,11 @@ namespace ContentManageService.Controllers
             {
                 try
                 {
-                    Expression<Func<BannerTranslation, bool>> filter = (x => x.BannerId == id);
+                    Expression<Func<Banner, bool>> filter = (x => x.Id == id);
 
-                    var _bannerData = _uow.BannerTranslationRepository.Get(null, null, filter, "LangKey", SortDirection.Ascending, "Banner");
+                    var _bannerData = _uow.BannerRepository.Get(null, null, filter, "PageKey", SortDirection.Ascending, "BannerTranslations");
 
-                    return _bannerData != null ? Ok(new
+                    return _bannerData != null && _bannerData.Count > 0 ? Ok(new
                     {
                         banner = ParseEntitiesToModel(_bannerData)[0]
                     })
