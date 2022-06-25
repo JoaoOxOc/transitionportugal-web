@@ -7,6 +7,7 @@ using MicroservicesLibrary.HttpHandlers;
 using ContentManageService.Services;
 using ContentManageService.Services.RabbitMQ;
 using ContentManageService.Binders;
+using ContentManageService.Services.HierarchyManager;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
@@ -35,6 +36,7 @@ builder.Services.AddDbContext<DatabaseContext>(x => x.UseNpgsql(connStringBuilde
 // Add services to the container.
 builder.Services.TryAddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.TryAddSingleton<IRabbitMQSender, RabbitMQSender>();
+builder.Services.TryAddScoped<IHierarchyManager, HierarchyManager>();
 
 builder.Services.ConfigureMassTransitRabbitMQ(configuration);
 
