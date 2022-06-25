@@ -36,7 +36,6 @@ builder.Services.AddDbContext<DatabaseContext>(x => x.UseNpgsql(connStringBuilde
 // Add services to the container.
 builder.Services.TryAddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.TryAddSingleton<IRabbitMQSender, RabbitMQSender>();
-builder.Services.TryAddScoped<IHierarchyManager, HierarchyManager>();
 
 builder.Services.ConfigureMassTransitRabbitMQ(configuration);
 
