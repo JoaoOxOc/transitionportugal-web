@@ -12,6 +12,7 @@ namespace ContentManageService.Models
         public bool? IsDraft { get; set; }
         public int? ParentBannerId { get; set; }
         public string? ParentBannerPath { get; set; }
+        public int? ChildElements { get; set; }
 
         public List<BannerDataModel>? BannerLanguages { get; set; }
 

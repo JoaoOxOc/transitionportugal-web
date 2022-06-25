@@ -145,6 +145,7 @@ namespace ContentManageService.Controllers
                     model.OrderPosition = banner.OrderPosition;
                     model.ParentBannerId = banner.ParentBannerId;
                     model.ParentBannerPath = banner.ParentPath;
+                    model.ChildElements = _uow.BannerRepository.Count(x => x.ParentBannerId == banner.Id);
                     model.BannerLanguages = new List<BannerModel.BannerDataModel>();
 
                     if (banner.BannerTranslations != null)
