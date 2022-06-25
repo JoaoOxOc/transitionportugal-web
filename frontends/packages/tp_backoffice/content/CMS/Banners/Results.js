@@ -43,6 +43,7 @@ import CloseTwoToneIcon from '@mui/icons-material/CloseTwoTone';
 import MarkEmailReadTwoToneIcon from '@mui/icons-material/MarkEmailReadTwoTone';
 import UnsubscribeTwoToneIcon from '@mui/icons-material/UnsubscribeTwoTone';
 import AccountTreeTwoToneIcon from '@mui/icons-material/AccountTreeTwoTone';
+import BackupTableTwoToneIcon from '@mui/icons-material/BackupTableTwoTone';
 
 import SearchBar from './SearchBar';
 import SingleActions from './SingleActions';
@@ -74,13 +75,13 @@ const IconInactive = styled(Icon)(
 
 const IconButtonHierarchyTree = styled(IconButton)(
     ({ theme }) => `
-        color: ${theme.colors.gradient.blue1};
+        color: ${theme.colors.gradients.blue1};
         width: 50px;
         height: 40px;
         border-radius: 10px;
         padding: 6px;
         &:hover {
-            color: ${theme.colors.gradient.blue3};
+            color: ${theme.colors.gradients.blue3};
         }
       `
 );
@@ -104,14 +105,8 @@ const Results = ({parentBannerId}) => {
 
   const getBannersData = useCallback(async (searchDataJson) => {
     try {
-        if (router.query.parentBannerId) {
-            bannersSearchData.parentBannerId = router.query.parentBannerId;
-        }
-        else if (parentBannerId) {
-            bannersSearchData.parentBannerId = parentBannerId;
-        }
-        console.log(searchDataJson)
       let bannersData = await GetBanners(process.env.NEXT_PUBLIC_API_BASE_URL + bannersApiUri, searchDataJson, session.accessToken);
+      console.log("getBannersData",bannersData)
       
       if (isMountedRef()) {
         if (bannersData.banners) {
@@ -131,10 +126,19 @@ const Results = ({parentBannerId}) => {
   }, [isMountedRef, bannersApiUri]);
 
   useEffect(() => {
-        if (bannersSearchData.doSearch) {
-            getBannersData(bannersSearchData.searchData);
-        }
-  }, [bannersSearchData, getBannersData]);
+    if (router.query.parentBannerId) {
+        bannersSearchData.searchData.parentBannerId = router.query.parentBannerId;
+    }
+    else if (parentBannerId) {
+        bannersSearchData.searchData.parentBannerId = parentBannerId;
+    }
+    else {
+        bannersSearchData.searchData.parentBannerId = "";
+    }
+    if (bannersSearchData.doSearch) {
+        getBannersData(bannersSearchData.searchData);
+    }
+  }, [bannersSearchData, getBannersData, parentBannerId, router.query.parentBannerId]);
 
   const [toggleView, setToggleView] = useState('table_view');
 
@@ -166,8 +170,9 @@ const Results = ({parentBannerId}) => {
     if (banners) {
         banners.map((banner) => {
             let parentPath = "";
+            console.log()
             if (router.query.parentBannerId) {
-                parentPath =  + "?parentBannerId=" + banner.parentBannerId + "&parentBannerPath=" + banner.parentBannerPath;
+                parentPath += "?parentBannerId=" + banner.parentBannerId + "&parentBannerPath=" + banner.parentBannerPath;
             }
             banner.bannerViewLink = bannerDetailsBaseUri + banner.id + parentPath;
             console.log(banner.bannerViewLink);
@@ -209,34 +214,38 @@ const Results = ({parentBannerId}) => {
     }
 
     const getBannerParentPathComponent = (banner, styleConfig) => {
-        return (
-            <>
-            { (!banner.bannerLanguages || banner.bannerLanguages.length <= 0) &&
+        console.log(banner, banner.parentBannerId > 0)
+        if (banner.parentBannerId > 0) {
+            return (
                 <Typography key={styleConfig.key}
                     pl={styleConfig && styleConfig.paddingLeft ? styleConfig.paddingLeft: 0}
                 >
                     <Tooltip title={t('BANNEROBJECT.bannerParentPath')} arrow>
-                        <IconHierarchyTree
-                            color="primary"
-                            >
-                            <AccountTreeTwoToneIcon/>
-                        </IconHierarchyTree>
+                        <Link href={"/content/banner?parentBannerId=" + banner.parentBannerId} isNextLink={true}>
+                            <IconButtonHierarchyTree
+                                color="primary"
+                                >
+                                <BackupTableTwoToneIcon/>
+                            </IconButtonHierarchyTree>
+                        </Link>
                     </Tooltip>
                 </Typography>
-            }
-            </>
-        );
+            )
+        }
+        else {
+            return (<></>);
+        }
     }
 
     const getBannerHierarchyTreeComponent = (banner, styleConfig) => {
-        return (
-            <>
-            { (banner.childElements && banner.childElements.length > 0) &&
+        console.log(banner)
+        if (banner.childElements && banner.childElements > 0) {
+            return (
                 <Typography key={styleConfig.key}
                     pl={styleConfig && styleConfig.paddingLeft ? styleConfig.paddingLeft: 0}
                 >
                     <Tooltip title={t('BANNEROBJECT.hierarchyTreeInfo')} arrow>
-                        <Link href={"/content/banner?parentBannerId=" + banner.parentBannerId} isNextLink={true}>
+                        <Link href={"/content/banner?parentBannerId=" + banner.id} isNextLink={true}>
                             <IconButtonHierarchyTree
                                 color="primary"
                                 >
@@ -245,9 +254,11 @@ const Results = ({parentBannerId}) => {
                         </Link>
                     </Tooltip>
                 </Typography>
-            }
-            </>
-        );
+            );
+        }
+        else {
+            return (<></>);
+        }
     }
 
     const getSingleActionsComponent = (banner) => {
@@ -303,16 +314,14 @@ const Results = ({parentBannerId}) => {
                 label: t('BANNEROBJECT.orderPosition'),
             });
     }
-    else {
-        headCells.push(
-            {
-                id: 'HierarchyTree',
-                isSort: false,
-                disablePadding: false,
-                align: 'center',
-                label: t('BANNEROBJECT.hierarchyTree'),
-            });
-    }
+    headCells.push(
+        {
+            id: 'HierarchyTree',
+            isSort: false,
+            disablePadding: false,
+            align: 'center',
+            label: t('BANNEROBJECT.hierarchyTree'),
+        });
 
     headCells.push({
         id: 'actions',
@@ -373,19 +382,17 @@ const Results = ({parentBannerId}) => {
                 fieldName: "orderPosition"
             });
     }
-    else {
-        orderedCells.push(
-            {
-                key: "HierarchyTree",
-                type: "customComponent",
-                customComponentStyleConfig: {
-                    key: "HierarchyTree"
-                },
-                alignment: "center",
-                customComponentGetter: getBannerHierarchyTreeComponent,
-                fieldName: "HierarchyTree"
-            });
-    }
+    orderedCells.push(
+        {
+            key: "HierarchyTree",
+            type: "customComponent",
+            customComponentStyleConfig: {
+                key: "HierarchyTree"
+            },
+            alignment: "center",
+            customComponentGetter: getBannerHierarchyTreeComponent,
+            fieldName: "HierarchyTree"
+        });
 
     orderedCells.push({
         key: "bannerActions",

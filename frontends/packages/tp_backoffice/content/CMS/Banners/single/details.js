@@ -17,7 +17,8 @@ import DetailsPageHeader from '../../../../components/PageHeaders/DetailsPageHea
 import { Box, 
   Grid, 
   Card, 
-  useTheme
+  useTheme,
+  Alert
 } from '@mui/material';
 
 import { useRefMounted } from '../../../../hooks/useRefMounted';
@@ -78,7 +79,8 @@ function BannerDetails({isCreate}) {
       { url: bannersListUri, label: t('LIST.bannersTitleRoot'), isLink: true },
     ];
 
-    const bannerPathSplitted = router.query.parentBannerPath ? router.query.parentBannerPath.split("|") : [];
+    const bannerPathSplitted = router.query.parentBannerPath ? router.query.parentBannerPath.split("|").filter(function(i){return i}) : [];
+    console.log(bannerPathSplitted)
     const bannerLevel = 0;
     bannerPathSplitted.forEach((element,index) => {
       console.log(element);

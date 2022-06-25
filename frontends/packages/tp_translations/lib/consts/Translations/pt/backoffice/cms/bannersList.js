@@ -8,6 +8,7 @@ export var BANNERSLIST_TRANSLATIONS = deepFreeze({
         activate: "Activar",
         activateButton: "Activar",
         deactivateButton: "Desactivar",
+        deactivate: "Desactivar",
         cloneButton: "Clonar",
         cancelButton: "Cancelar",
         deleteButton: "Eliminar",
@@ -29,6 +30,10 @@ export var BANNERSLIST_TRANSLATIONS = deepFreeze({
         orderPosition: "Posição Ordenada do Banner no Componente",
         isActive: "Activo",
         DataBlocksJson: "Conteúdo do Banner",
+        hierarchyTree: "Árvore Hierárquica do Banner",
+        hierarchyTreeInfo: "Aceder à Lista de sub-elementos relacionados com este Banner",
+        parentBanner: "Banner Pertence a Outro",
+        bannerParentPath: "Voltar ao Banner Pai",
         createdAt: "Registado em",
         updatedAt: "Actualizado em"
     },

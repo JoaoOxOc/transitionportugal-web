@@ -31,6 +31,10 @@ export const BANNERSLIST_TRANSLATIONS = deepFreeze({
         orderPosition: "Posição Ordenada do Banner no Componente",
         isActive: "Activo",
         DataBlocksJson: "Conteúdo do Banner",
+        hierarchyTree: "Árvore Hierárquica do Banner",
+        hierarchyTreeInfo: "Aceder à Lista de sub-elementos relacionados com este Banner",
+        parentBanner: "Banner Pertence a Outro",
+        bannerParentPath: "Voltar ao Banner Pai",
         createdAt: "Registado em",
         updatedAt: "Actualizado em"
     },

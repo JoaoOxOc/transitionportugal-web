@@ -176,6 +176,7 @@ function MainTab({isCreate, bannerData, parentBannerId, parentBannerPath, banner
                 .max(25, t('MESSAGES.componentKeyTooBig', {max: 25}))
                 .required(t('MESSAGES.componentKeyRequired')),
             orderPosition: Yup.number()
+                .positive(t('MESSAGES.orderPositionMustBePositive'))
                 .max(25, t('MESSAGES.orderPositionTooBig', {max: 25}))
                 .required(t('MESSAGES.orderPositionRequired'))
         }),

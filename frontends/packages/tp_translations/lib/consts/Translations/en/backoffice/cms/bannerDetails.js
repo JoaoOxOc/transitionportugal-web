@@ -6,16 +6,21 @@ export var BANNERDETAILS_TRANSLATIONS = deepFreeze({
         bannerCreateSmall: "Register New Banner",
         bannerIdentificationSmall: "Banner: {{bannerIdentification}}",
         goBack: "Go back",
-        registerBannerInfo: "The client app Secret will be automatically generated after registering it",
-        bannerWarning: "Careful editting ID and secret values: the client app can stop working"
+        registerBannerInfo: "The editting visual is not precisely the visual the final user will see",
+        bannerWarning: "Careful editting page key and component key: the banner could stop working on the page where it is currently defined for"
     },
     LIST: {
         bannersTitle: "Banners",
         home: "Home",
         cms: "Website Content",
-        banners: 'Banners'
+        banners: 'Banners',
+        bannersTitleRoot: "Banners at root",
+        bannersTitleSubPath: "Banners sub path {{bannersLevel}}",
+        bannersSubPathLevel: "Level {{levelNumber}}",
+        bannersSortedPosition: "Sorted position: {{positionNumber}}"
     },
     TABS: {
+        main: "Banner Data",
         relatedBanners: "Related List"
     },
     FORM: {
@@ -24,19 +29,9 @@ export var BANNERDETAILS_TRANSLATIONS = deepFreeze({
         editorPlaceholder: "Start writting here, the edit options will appear...",
         isActive: "Active",
         DataBlocksJson: "Content of the Banner",
-        description: "Description",
-        name: "Association Name",
-        email: "Association Email",
-        phone: "Association Phone",
-        streetAddress: "Street Address",
-        town: "Association Town",
-        postalCode: "Association Postal Code",
-        vat: "Association VAT",
-        logoImage: "Association Logo",
-        website: "Association Website",
-        tags: "Association Tags",
-        active: "Is activated",
-        verified: "Verified by Email",
+        pageKey: "Page Key Identifier",
+        componentKey: "Component Key Identifier",
+        orderPosition: "Position Order of the Banner",
         createdAt: "Registered At",
         updatedAt: "Updated at",
         saveButton: "Save"

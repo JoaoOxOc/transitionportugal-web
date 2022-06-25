@@ -7,6 +7,7 @@ export declare const BANNERSLIST_TRANSLATIONS: {
         readonly activate: "Activar";
         readonly activateButton: "Activar";
         readonly deactivateButton: "Desactivar";
+        readonly deactivate: "Desactivar";
         readonly cloneButton: "Clonar";
         readonly cancelButton: "Cancelar";
         readonly deleteButton: "Eliminar";
@@ -28,6 +29,10 @@ export declare const BANNERSLIST_TRANSLATIONS: {
         readonly orderPosition: "Posição Ordenada do Banner no Componente";
         readonly isActive: "Activo";
         readonly DataBlocksJson: "Conteúdo do Banner";
+        readonly hierarchyTree: "Árvore Hierárquica do Banner";
+        readonly hierarchyTreeInfo: "Aceder à Lista de sub-elementos relacionados com este Banner";
+        readonly parentBanner: "Banner Pertence a Outro";
+        readonly bannerParentPath: "Voltar ao Banner Pai";
         readonly createdAt: "Registado em";
         readonly updatedAt: "Actualizado em";
     };

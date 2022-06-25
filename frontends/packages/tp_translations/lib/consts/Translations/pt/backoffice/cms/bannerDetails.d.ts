@@ -5,16 +5,21 @@ export declare const BANNERDETAILS_TRANSLATIONS: {
         readonly bannerCreateSmall: "Registar Novo Banner";
         readonly bannerIdentificationSmall: "Banner: {{bannerIdentification}}";
         readonly goBack: "Voltar";
-        readonly registerBannerInfo: "A chave da aplicação cliente será gerada automaticamente após o registo";
-        readonly bannerWarning: "Atenção à edição dos valores de ID e chave: a aplicação cliente pode deixar de funcionar";
+        readonly registerBannerInfo: "O visual de edição não é equivalente ao que o utilizador irá ver";
+        readonly bannerWarning: "Atenção à edição das chaves de identificação da página e do componente: o banner pode deixar de funcionar na página onde está actualmente activo";
     };
     readonly LIST: {
         readonly bannersTitle: "Banners";
         readonly home: "Home";
         readonly cms: "Conteúdo do Website";
         readonly banners: "Banners";
+        readonly bannersTitleRoot: "Banners na raíz";
+        readonly bannersTitleSubPath: "Banners sub-caminho {{bannersLevel}}";
+        readonly bannersSubPathLevel: "nível {{levelNumber}}";
+        readonly bannersSortedPosition: "Posição ordenada: {{positionNumber}}";
     };
     readonly TABS: {
+        readonly main: "Dados do Banner";
         readonly relatedBanners: "Lista de Relacionados";
     };
     readonly FORM: {
@@ -23,19 +28,9 @@ export declare const BANNERDETAILS_TRANSLATIONS: {
         readonly editorPlaceholder: "Comece a escrever aqui, as opções de edição irão aparecer...";
         readonly isActive: "Activo";
         readonly DataBlocksJson: "Conteúdo do Banner";
-        readonly description: "Descrição";
-        readonly name: "Nome da Associação";
-        readonly email: "Email da Associação";
-        readonly phone: "Nº de Contacto da Associação";
-        readonly streetAddress: "Endereço da Associação";
-        readonly town: "Concelho da Associação";
-        readonly postalCode: "Código Postal da Associação";
-        readonly vat: "NIF da Associação";
-        readonly logoImage: "Logotipo da Associação";
-        readonly website: "Website da Associação";
-        readonly tags: "Tags relativas à Associação";
-        readonly active: "Activada";
-        readonly verified: "Verificou o Email";
+        readonly pageKey: "Identificador Chave da Página";
+        readonly componentKey: "Identificador Chave do Componente";
+        readonly orderPosition: "Posição Ordenada do Componente";
         readonly createdAt: "Registado em";
         readonly updatedAt: "Actualizado em";
         readonly saveButton: "Guardar";

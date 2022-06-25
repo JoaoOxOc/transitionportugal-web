@@ -162,7 +162,7 @@ function BulkActions({isSingleRecord, recordId, recordIsVerified, recordIsActiva
               onClick={() => activationAction(true)}
               startIcon={<CheckTwoToneIcon />}
               variant="contained">
-                {isSingleRecord == true ? t('ACTIONS.activateBannerSingle') : t('ACTIONS.activateBanner')}
+                {isSingleRecord == true ? t('ACTIONS.activateBannerSingle') : t('ACTIONS.activateBanners')}
             </ButtonSuccess>
           }
           { recordIsActivated &&
@@ -173,7 +173,7 @@ function BulkActions({isSingleRecord, recordId, recordIsVerified, recordIsActiva
               onClick={() => activationAction(false)}
               startIcon={<CheckTwoToneIcon />}
               variant="contained">
-                {isSingleRecord == true ? t('ACTIONS.deactivateBannerSingle') : t('ACTIONS.deactivateBanner')}
+                {isSingleRecord == true ? t('ACTIONS.deactivateBannerSingle') : t('ACTIONS.deactivateBanners')}
             </ButtonWarning>
           }
         </Box>

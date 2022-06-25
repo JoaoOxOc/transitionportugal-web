@@ -5,16 +5,21 @@ export declare const BANNERDETAILS_TRANSLATIONS: {
         readonly bannerCreateSmall: "Register New Banner";
         readonly bannerIdentificationSmall: "Banner: {{bannerIdentification}}";
         readonly goBack: "Go back";
-        readonly registerBannerInfo: "The client app Secret will be automatically generated after registering it";
-        readonly bannerWarning: "Careful editting ID and secret values: the client app can stop working";
+        readonly registerBannerInfo: "The editting visual is not precisely the visual the final user will see";
+        readonly bannerWarning: "Careful editting page key and component key: the banner could stop working on the page where it is currently defined for";
     };
     readonly LIST: {
         readonly bannersTitle: "Banners";
         readonly home: "Home";
         readonly cms: "Website Content";
         readonly banners: "Banners";
+        readonly bannersTitleRoot: "Banners at root";
+        readonly bannersTitleSubPath: "Banners sub path {{bannersLevel}}";
+        readonly bannersSubPathLevel: "Level {{levelNumber}}";
+        readonly bannersSortedPosition: "Sorted position: {{positionNumber}}";
     };
     readonly TABS: {
+        readonly main: "Banner Data";
         readonly relatedBanners: "Related List";
     };
     readonly FORM: {
@@ -23,19 +28,9 @@ export declare const BANNERDETAILS_TRANSLATIONS: {
         readonly editorPlaceholder: "Start writting here, the edit options will appear...";
         readonly isActive: "Active";
         readonly DataBlocksJson: "Content of the Banner";
-        readonly description: "Description";
-        readonly name: "Association Name";
-        readonly email: "Association Email";
-        readonly phone: "Association Phone";
-        readonly streetAddress: "Street Address";
-        readonly town: "Association Town";
-        readonly postalCode: "Association Postal Code";
-        readonly vat: "Association VAT";
-        readonly logoImage: "Association Logo";
-        readonly website: "Association Website";
-        readonly tags: "Association Tags";
-        readonly active: "Is activated";
-        readonly verified: "Verified by Email";
+        readonly pageKey: "Page Key Identifier";
+        readonly componentKey: "Component Key Identifier";
+        readonly orderPosition: "Position Order of the Banner";
         readonly createdAt: "Registered At";
         readonly updatedAt: "Updated at";
         readonly saveButton: "Save";
