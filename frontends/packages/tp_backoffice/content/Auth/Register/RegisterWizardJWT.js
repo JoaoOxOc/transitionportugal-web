@@ -1092,6 +1092,7 @@ export function FormikStep({ children }) {
                   variant="outlined"
                   color="primary"
                   type="button"
+                  aria-label={ t('LABELS.stepGoBackButton') }
                   onClick={() => setStep((s) => s - 1)}
                 >
                   {t('LABELS.previous')}
@@ -1112,6 +1113,7 @@ export function FormikStep({ children }) {
                     isSubmitting ? <CircularProgress size="1rem" /> : null
                   }
                   disabled={isSubmitting}
+                  aria-label={isSubmitting ? t('LABELS.inSubmitionStateButton') : isLastStep() ? t('LABELS.completeRegistButton') : t('LABELS.nextStepButton') }
                   variant="contained"
                   color="primary"
                   type="submit"

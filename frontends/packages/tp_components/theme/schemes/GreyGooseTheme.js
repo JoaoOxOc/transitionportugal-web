@@ -584,6 +584,12 @@ export const GreyGooseTheme = createTheme({
           },
           '&.Mui-selected.MuiButtonBase-root:hover': {
             background: colors.primary.main
+          },
+          '&.MuiButtonBase-root:focus': {
+            border: '4px solid ' + colors.alpha.black[30]
+          },
+          '&.Mui-selected.MuiButtonBase-root:focus': {
+            border: '4px solid ' + colors.alpha.black[30]
           }
         }
       }
