@@ -220,6 +220,18 @@ namespace UserService.Controllers
                     exceptionModel.DateLogging = DateTime.UtcNow;
                     exceptionModel.AdminRole = "Admin";
                     exceptionModel.InnerException = ex.InnerException;
+                    exceptionModel.InputDataJson = JsonSerializer.Serialize(new
+                    {
+                        searchText = searchText,
+                        associationId = associationId,
+                        userRole = userRole,
+                        isActive = isActive,
+                        isVerified = isVerified,
+                        offset = offset,
+                        limit = limit,
+                        sort = sort,
+                        sortDirection = sortDirection
+                    });
                     var claimUserId = userClaims.Where(x => x.Claim == "userId").FirstOrDefault();
                     exceptionModel.UserId = claimUserId != null ? claimUserId.Value : "";
 
@@ -267,6 +279,10 @@ namespace UserService.Controllers
                     exceptionModel.DateLogging = DateTime.UtcNow;
                     exceptionModel.AdminRole = "Admin";
                     exceptionModel.InnerException = ex.InnerException;
+                    exceptionModel.InputDataJson = JsonSerializer.Serialize(new
+                    {
+                        userId = id
+                    });
                     var claimUserId = userClaims.Where(x => x.Claim == "userId").FirstOrDefault();
                     exceptionModel.UserId = claimUserId != null ? claimUserId.Value : "";
 
@@ -398,6 +414,12 @@ namespace UserService.Controllers
                     exceptionModel.DateLogging = DateTime.UtcNow;
                     exceptionModel.AdminRole = "Admin";
                     exceptionModel.InnerException = ex.InnerException;
+                    exceptionModel.InputDataJson = JsonSerializer.Serialize(new
+                    {
+                        userId = userId,
+                        whoUpdated = whoUpdated,
+                        profileModel = model
+                    });
                     exceptionModel.UserId = whoUpdated;
 
                     bool success = await _rabbitSender.PublishExceptionMessage(exceptionModel);

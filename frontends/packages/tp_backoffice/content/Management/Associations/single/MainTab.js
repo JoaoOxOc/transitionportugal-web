@@ -67,6 +67,9 @@ function MainTab({associationPutUrl, associationData}) {
                     postalCode: values.postalCode,
                     logoImage: values.logoImage,
                     logoImage: values.logoImage,
+                    postalCode: "",
+                    districtCode: "",
+                    municipalityCode: ""
               }
               console.log(associationModel)
               const result = await UpdateAssociationData(associationPutUrl, associationModel, session.accessToken);

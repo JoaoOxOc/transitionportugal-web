@@ -224,6 +224,16 @@ namespace UserService.Controllers
                     exceptionModel.DateLogging = DateTime.UtcNow;
                     exceptionModel.AdminRole = "Admin";
                     exceptionModel.InnerException = ex.InnerException;
+                    exceptionModel.InputDataJson = JsonSerializer.Serialize(new
+                    {
+                        searchText = searchText,
+                        isActive = isActive,
+                        version = version,
+                        offset = offset,
+                        limit = limit,
+                        sort = sort,
+                        sortDirection = sortDirection
+                    });
                     var claimUserId = userClaims.Where(x => x.Claim == "userId").FirstOrDefault();
                     exceptionModel.UserId = claimUserId != null ? claimUserId.Value : "";
 
@@ -274,6 +284,10 @@ namespace UserService.Controllers
                     exceptionModel.DateLogging = DateTime.UtcNow;
                     exceptionModel.AdminRole = "Admin";
                     exceptionModel.InnerException = ex.InnerException;
+                    exceptionModel.InputDataJson = JsonSerializer.Serialize(new
+                    {
+                        termsId = id
+                    });
                     var claimUserId = userClaims.Where(x => x.Claim == "userId").FirstOrDefault();
                     exceptionModel.UserId = claimUserId != null ? claimUserId.Value : "";
 
@@ -315,6 +329,10 @@ namespace UserService.Controllers
                 exceptionModel.DateLogging = DateTime.UtcNow;
                 exceptionModel.AdminRole = "Admin";
                 exceptionModel.InnerException = ex.InnerException;
+                exceptionModel.InputDataJson = JsonSerializer.Serialize(new
+                {
+                    langCode = langCode
+                });
                 exceptionModel.UserId = "";
 
                 bool success = await _rabbitSender.PublishExceptionMessage(exceptionModel);
@@ -437,6 +455,7 @@ namespace UserService.Controllers
                             exceptionModel.DateLogging = DateTime.UtcNow;
                             exceptionModel.AdminRole = "Admin";
                             exceptionModel.InnerException = ex.InnerException;
+                            exceptionModel.InputDataJson = JsonSerializer.Serialize(model);
                             var claimUserId = userClaims.Where(x => x.Claim == "userId").FirstOrDefault();
                             exceptionModel.UserId = claimUserId != null ? claimUserId.Value : "";
 
@@ -507,6 +526,7 @@ namespace UserService.Controllers
                         exceptionModel.DateLogging = DateTime.UtcNow;
                         exceptionModel.AdminRole = "Admin";
                         exceptionModel.InnerException = ex.InnerException;
+                        exceptionModel.InputDataJson = JsonSerializer.Serialize(model);
                         var claimUserId = userClaims.Where(x => x.Claim == "userId").FirstOrDefault();
                         exceptionModel.UserId = claimUserId != null ? claimUserId.Value : "";
 
@@ -585,6 +605,7 @@ namespace UserService.Controllers
                         exceptionModel.DateLogging = DateTime.UtcNow;
                         exceptionModel.AdminRole = "Admin";
                         exceptionModel.InnerException = ex.InnerException;
+                        exceptionModel.InputDataJson = JsonSerializer.Serialize(model);
                         var claimUserId = userClaims.Where(x => x.Claim == "userId").FirstOrDefault();
                         exceptionModel.UserId = claimUserId != null ? claimUserId.Value : "";
 

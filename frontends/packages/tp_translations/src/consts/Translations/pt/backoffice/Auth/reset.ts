@@ -18,7 +18,8 @@ export const RESET_TRANSLATIONS = deepFreeze({
         password_help: "Insira a sua nova palavra-passe",
         confirmPassword: "Confirmar Palavra-passe",
         confirm_password_help: "Repita a sua nova palavra-passe",
-        submit_help: "Este formulário submete a sua nova palavra-passe para a sua conta registada"
+        submit_help: "Este formulário submete a sua nova palavra-passe para a sua conta registada",
+        resetErrorResult: "apresenta a mensagem de erro quando a recuperação Palavra-passe falha"
     },
     MESSAGES: {
         passwordRequired: "A palavra-passe é obrigatória",
@@ -31,5 +32,6 @@ export const RESET_TRANSLATIONS = deepFreeze({
         passwordComplexityError: "A sua nova palavra-passe tem de conter, pelo menos, 1 símbolo, 1 número, 1 letra maiúscula e outra minúscula.",
         passwordReset: "Palavra-passe alterada.",
         successMessage: "Pode agora proceder para autenticação e utilizar a sua nova palavra-passe",
+        userResetError: "Ocorreu um erro ao contactar o serviço. Por favor tente novamente. Se o problema persistir por favor contacte o administrador da plataforma"
     }
 } as const);

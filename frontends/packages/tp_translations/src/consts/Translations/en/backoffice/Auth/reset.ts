@@ -18,7 +18,8 @@ export const RESET_TRANSLATIONS = deepFreeze({
         password_help: "Insert your new password",
         confirmPassword: "Confirm Password",
         confirm_password_help: "Repeat your new password",
-        submit_help: "This form submits a new password to your registered account"
+        submit_help: "This form submits a new password to your registered account",
+        resetErrorResult: "Shows the error message when the password reset fails"
     },
     MESSAGES: {
         passwordRequired: "The password field is required",
@@ -31,5 +32,6 @@ export const RESET_TRANSLATIONS = deepFreeze({
         passwordComplexityError: "Your new password must contain a non alphanumeric character, a number, an uppercase and a lowercase.",
         passwordReset: "Password Changed.",
         successMessage: "You can now proceed for authentication and use it",
+        userResetError: "Error contacting the server. Please try again. If the problem persists contact the web administrator"
     }
 } as const);

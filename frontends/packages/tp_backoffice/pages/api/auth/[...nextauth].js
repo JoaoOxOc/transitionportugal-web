@@ -278,4 +278,4 @@ import Credentials from 'next-auth/providers/credentials'
   theme: "auto"
 }
 
-export default (req, res) => NextAuth(req, res, authOptions);
+export default NextAuth(authOptions);

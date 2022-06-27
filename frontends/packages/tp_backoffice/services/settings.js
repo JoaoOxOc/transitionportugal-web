@@ -25,6 +25,19 @@ export const GetSettingData = async(settingsUri, bearerToken) => {
     return response;
 }
 
+export const GetPublicSettings = async(settingsUri, searchDataJson) => {
+    settingsUri += buildRouteQuery(searchDataJson);
+    let response = await genericFetch(settingsUri, "GET", null,{});
+    if (response.requestAgain) {
+        response = await genericFetch(settingsUri, "GET", null,{});
+    }
+    else if (response.status == 404) {
+        response.settings = [];
+        response.totalCount = 0;
+    }
+    return response;
+}
+
 export const UpdateSettingData = async(settingsUri, settingDataJson, bearerToken) => {
     let response = await genericFetch(settingsUri, "PUT", bearerToken,settingDataJson);
     if (response.requestAgain) {

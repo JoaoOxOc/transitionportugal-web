@@ -5,6 +5,7 @@ export declare const LOGIN_TRANSLATIONS: {
         readonly subtitle: "Preencha os seguintes campos para entrar com a sua conta.";
         readonly noAccount: "Ainda não tem conta?";
         readonly registerHere: "Registe-se aqui";
+        readonly buttonToRegistAccount: "Botão para navegar para a página de registo de nova conta.";
     };
     readonly COVER: {
         readonly title: "Um enorme movimento de mudança";

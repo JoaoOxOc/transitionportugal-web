@@ -20,6 +20,9 @@ import { Guest } from '../../../../components/Guest';
 import CheckCircleOutlineTwoToneIcon from '@mui/icons-material/CheckCircleOutlineTwoTone';
 import Scrollbar from '../../../../components/Scrollbar';
 import Link from '../../../../components/Link';
+import { GetPublicTerms } from '../../../../services/terms';
+import { getPublicAssociationTypesAsync } from '../../../../serverSideActions/associations';
+import { getPublicUserSettings } from '../../../../serverSideActions/settings';
 import { i18nextRegister } from "@transitionpt/translations";
 
 import SwiperCore, { Navigation, Pagination } from 'swiper';
@@ -55,7 +58,7 @@ const MainContent = styled(Box)(
       padding: '0 0 0 0'
     },
     [theme.breakpoints.up('md')]: {
-      padding: '0 0 0 400px'
+      padding: '0 400px 0 0'
     },
     height: '100%',
     overflow: 'auto',
@@ -66,14 +69,20 @@ const MainContent = styled(Box)(
 
 
 const SidebarWrapper = styled(Box)(
-  ({ theme }) => `
-  position: fixed;
-  left: 0;
-  top: 0;
-  height: 100%;
-  width: 420px;
-  background: ${theme.colors.gradients.blue3};
-`
+  ({ theme }) => ({
+    [theme.breakpoints.down('md')]: {
+      position: 'relative',
+      width: '100%'
+    },
+    [theme.breakpoints.up('md')]: {
+      position: 'fixed',
+      width: '420px'
+    },
+    right: 0,
+    top: 0,
+    height: '100%',
+    background: theme.colors.gradients.blue3
+  })
 );
 
 const SidebarContent = styled(Box)(
@@ -170,15 +179,70 @@ const SwiperWrapper = styled(Box)(
 `
 );
 
-function RegisterWizard(props) {
+function RegisterWizard({termsProps, associationTypes, settings}) {
   const { t } = i18nextRegister;
-  console.log(props);
   return (
     <>
       <Head>
         <title>{t('LABELS.pageTitle')}</title>
       </Head>
       <Content>
+        
+      <MainContent>
+          <Container
+            sx={{
+              my: 4
+            }}
+            maxWidth="md"
+          >
+            <Logo/>
+            <Card
+              sx={{
+                mt: 3,
+                pt: 4
+              }}
+            >
+              <Box px={4}>
+                <Typography
+                  variant="h2"
+                  sx={{
+                    mb: 1
+                  }}
+                >
+                  {t('LABELS.title')}
+                </Typography>
+                <Typography
+                  variant="h4"
+                  color="text.secondary"
+                  fontWeight="normal"
+                  sx={{
+                    mb: 3
+                  }}
+                >
+                  {t('LABELS.subtitle')}
+                </Typography>
+              </Box>
+              <Box px={4} mt={3} mb={3}>
+                <Typography
+                  component="span"
+                  variant="subtitle2"
+                  color="text.primary"
+                  fontWeight="bold"
+                >
+                  {t('LABELS.alreadyRegistered')}
+                </Typography>{' '}
+                <Link
+                  href={'/auth/login/cover'}
+                  aria-label={ t('LABELS.buttonToLogin') }
+                >
+                  <b>{t('LABELS.signInHere')}</b>
+                </Link>
+              </Box>
+
+              <RegisterWizardJWT termsProps={termsProps} associationTypes={associationTypes.associationTypes} settings={settings.settings}/>
+            </Card>
+          </Container>
+        </MainContent>
       <SidebarWrapper
           sx={{
             display: { xs: 'none', md: 'inline-block' }
@@ -372,60 +436,6 @@ function RegisterWizard(props) {
             </SidebarContent>
           </Scrollbar>
         </SidebarWrapper>
-        <MainContent>
-          <Container
-            sx={{
-              my: 4
-            }}
-            maxWidth="md"
-          >
-            <Logo/>
-            <Card
-              sx={{
-                mt: 3,
-                pt: 4
-              }}
-            >
-              <Box px={4}>
-                <Typography
-                  variant="h2"
-                  sx={{
-                    mb: 1
-                  }}
-                >
-                  {t('LABELS.title')}
-                </Typography>
-                <Typography
-                  variant="h4"
-                  color="text.secondary"
-                  fontWeight="normal"
-                  sx={{
-                    mb: 3
-                  }}
-                >
-                  {t('LABELS.subtitle')}
-                </Typography>
-              </Box>
-              <Box px={4} mt={3} mb={3}>
-                <Typography
-                  component="span"
-                  variant="subtitle2"
-                  color="text.primary"
-                  fontWeight="bold"
-                >
-                  {t('LABELS.alreadyRegistered')}
-                </Typography>{' '}
-                <Link
-                  href={'/auth/login/cover'}
-                >
-                  <b>{t('LABELS.signInHere')}</b>
-                </Link>
-              </Box>
-
-              <RegisterWizardJWT termsData={props.terms}/>
-            </Card>
-          </Container>
-        </MainContent>
       </Content>
     </>
   );
@@ -438,53 +448,17 @@ RegisterWizard.getLayout = (page) => (
 );
 
 export async function getServerSideProps(context) {
-  const { req } = context;
-  const userBrowserLanguage = req.headers ? req.headers['accept-language'].split(",")[0].toLowerCase() : "pt-pt";
+    const { req } = context;
+    const userBrowserLanguage = req.headers ? req.headers['accept-language'].split(",")[0].toLowerCase() : "pt-pt";
+    const termsProps = await GetPublicTerms(userBrowserLanguage);
+    
+    const associationTypes = await getPublicAssociationTypesAsync();
 
-  try {
-    const headers = {
-      'Cache-Control': 'no-cache',
-      'Pragma': 'no-cache',
-      'Expires': 'Sat, 01 Jan 2000 00:00:00 GMT',
-      'Accept': '*/*',
-      "Content-Type": "application/json",
-      "credentials": 'include',
-      "ClientId": process.env.AUTH_API_CLIENT_ID,
-      "ClientAuthorization": process.env.AUTH_API_CLIENT_SECRET
-    };
-    // TODO: replace constant lang with the browser 'userBrowserLanguage'?
-    const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/terms/public/get" + "?langCode=" + "pt-pt", {
-      method: "GET",
-      resolveWithFullResponse: true,
-      headers: headers,
-    });
+    const settings = await getPublicUserSettings();
 
-    if (!res.ok){
-      const resultErrorBody = await res.text();
-      return {
-        props: { error: resultErrorBody, statusText: res.statusText}
-      }
-    }
-    const data = await res.json();
-
-    if (!data || !data.termsRecord) {
-      return {
-        props: { termsnotFound: true}
-      }
-    }
-  
     return {
-      props: {terms: data.termsRecord}
+      props: { termsProps, associationTypes, settings },
     }
-  }
-  catch(ex) {
-    return {
-      props: {
-        termsnotFound: true,
-        error: ex.message
-      }
-    }
-  }
 }
 
 export default RegisterWizard;

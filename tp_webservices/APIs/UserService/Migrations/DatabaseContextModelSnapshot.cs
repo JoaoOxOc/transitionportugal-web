@@ -67,7 +67,7 @@ namespace UserService.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2022, 5, 25, 13, 23, 34, 450, DateTimeKind.Local).AddTicks(9744),
+                            CreatedAt = new DateTime(2022, 6, 8, 17, 56, 6, 692, DateTimeKind.Local).AddTicks(8527),
                             DefaultValue = "3",
                             Description = "Número máximo de tentativas de autenticação falhadas",
                             Key = "MaxLoginAttempts",
@@ -77,7 +77,7 @@ namespace UserService.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2022, 5, 25, 13, 23, 34, 450, DateTimeKind.Local).AddTicks(9787),
+                            CreatedAt = new DateTime(2022, 6, 8, 17, 56, 6, 692, DateTimeKind.Local).AddTicks(8567),
                             DefaultValue = "6Lf2t0sUAAAAABiszBasjJuBZXTdqMy00zOKPOFt",
                             Description = "Site key usada pelo serviço de reCAPTCHA da Google",
                             Key = "CaptchaSiteKey",
@@ -87,7 +87,7 @@ namespace UserService.Migrations
                         new
                         {
                             Id = 3,
-                            CreatedAt = new DateTime(2022, 5, 25, 13, 23, 34, 450, DateTimeKind.Local).AddTicks(9790),
+                            CreatedAt = new DateTime(2022, 6, 8, 17, 56, 6, 692, DateTimeKind.Local).AddTicks(8570),
                             DefaultValue = "6Lf2t0sUAAAAAPwP3kIvpynFqPp-7_QLfQoDQtZd",
                             Description = "Secret key usada pelo serviço de reCAPTCHA da Google",
                             Key = "CaptchaSecretKey",
@@ -97,7 +97,7 @@ namespace UserService.Migrations
                         new
                         {
                             Id = 4,
-                            CreatedAt = new DateTime(2022, 5, 25, 13, 23, 34, 450, DateTimeKind.Local).AddTicks(9793),
+                            CreatedAt = new DateTime(2022, 6, 8, 17, 56, 6, 692, DateTimeKind.Local).AddTicks(8573),
                             DefaultValue = "123456",
                             Description = "API key usada para comunicar com o Mailchimp",
                             Key = "MailchimpApiKey",
@@ -107,12 +107,52 @@ namespace UserService.Migrations
                         new
                         {
                             Id = 5,
-                            CreatedAt = new DateTime(2022, 5, 25, 13, 23, 34, 450, DateTimeKind.Local).AddTicks(9796),
+                            CreatedAt = new DateTime(2022, 6, 8, 17, 56, 6, 692, DateTimeKind.Local).AddTicks(8575),
                             DefaultValue = "20",
                             Description = "Quantidade máxima de emails por lista",
                             Key = "MailchimpListQuantity",
                             SettingType = 3,
                             Value = "20"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CreatedAt = new DateTime(2022, 6, 8, 17, 56, 6, 692, DateTimeKind.Local).AddTicks(8578),
+                            DefaultValue = "HERE",
+                            Description = "Escolha o serviço 'HERE', 'PositionStack' ou 'Google' - preencha a respectiva API key",
+                            Key = "GeocodeServiceInUse",
+                            SettingType = 3,
+                            Value = "HERE"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CreatedAt = new DateTime(2022, 6, 8, 17, 56, 6, 692, DateTimeKind.Local).AddTicks(8581),
+                            DefaultValue = "123456",
+                            Description = "API key do serviço de geolocalização da 'HERE'",
+                            Key = "HEREgeocodeApiKey",
+                            SettingType = 3,
+                            Value = "123456"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CreatedAt = new DateTime(2022, 6, 8, 17, 56, 6, 692, DateTimeKind.Local).AddTicks(8584),
+                            DefaultValue = "123456",
+                            Description = "API key do serviço de geolocalização da 'PositionStack'",
+                            Key = "PositionStackGeocodeApiKey",
+                            SettingType = 3,
+                            Value = "123456"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CreatedAt = new DateTime(2022, 6, 8, 17, 56, 6, 692, DateTimeKind.Local).AddTicks(8586),
+                            DefaultValue = "123456",
+                            Description = "API key do serviço de geolocalização da 'Google'",
+                            Key = "GoogleGeocodeApiKey",
+                            SettingType = 3,
+                            Value = "123456"
                         });
                 });
 
@@ -145,28 +185,28 @@ namespace UserService.Migrations
                         new
                         {
                             Id = "e762fd61-0f58-4c5d-ad0e-7bd322ae3ccf",
-                            ConcurrencyStamp = "746c7c62-559d-474e-bb0b-888a5d17a14c",
+                            ConcurrencyStamp = "c648faf4-b304-442c-b3c2-6d361fb3b7d1",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "244d3f1a-8594-4adb-9c59-5ec36fcdbf03",
-                            ConcurrencyStamp = "7cd4bf2f-bd56-4c9a-ba39-aea34b7ea5e7",
+                            ConcurrencyStamp = "f1ef7dae-584c-4fdc-8110-94c6482c7f25",
                             Name = "AssociationAdmin",
                             NormalizedName = "ASSOCIATIONADMIN"
                         },
                         new
                         {
                             Id = "179642d9-0f10-4d7d-a1a0-b485b3f6659f",
-                            ConcurrencyStamp = "41898d50-7a71-4df9-b8aa-2bd8f8832f8a",
+                            ConcurrencyStamp = "13513ba9-1b1e-48ec-836b-057cda37884f",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
                             Id = "69d5274f-235d-4013-bbac-0c4eddf31ecc",
-                            ConcurrencyStamp = "7b5d8fe8-974a-485c-9cec-d556b8e625c3",
+                            ConcurrencyStamp = "ddac1c4d-ac8e-4440-83e6-ec62bbda13a0",
                             Name = "AssociationUser",
                             NormalizedName = "ASSOCIATIONUSER"
                         });
@@ -290,6 +330,9 @@ namespace UserService.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int?>("AssociationTypeId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("CanonicalNameAlias")
                         .IsRequired()
                         .HasColumnType("text");
@@ -382,6 +425,8 @@ namespace UserService.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AssociationTypeId");
+
                     b.ToTable("Association");
                 });
 
@@ -406,6 +451,82 @@ namespace UserService.Migrations
                     b.HasIndex("AssociationId");
 
                     b.ToTable("AssociationProfileTranslation");
+                });
+
+            modelBuilder.Entity("UserService.Entities.AssociationType", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int?>("Id"));
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Label")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<bool?>("VatRequired")
+                        .HasColumnType("boolean");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AssociationType");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Code = "transition_initiative",
+                            CreatedAt = new DateTime(2022, 6, 8, 17, 56, 6, 692, DateTimeKind.Local).AddTicks(8610),
+                            Description = "Identifica que é iniciativa local da transição",
+                            Label = "Iniciativa de Transição Local",
+                            VatRequired = false
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Code = "association_foundation",
+                            CreatedAt = new DateTime(2022, 6, 8, 17, 56, 6, 692, DateTimeKind.Local).AddTicks(8613),
+                            Description = "Identifica que é uma associação ou cooperativa ou fundação",
+                            Label = "Associação/Cooperativa/Fundação",
+                            VatRequired = false
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Code = "movement_initiative",
+                            CreatedAt = new DateTime(2022, 6, 8, 17, 56, 6, 692, DateTimeKind.Local).AddTicks(8615),
+                            Description = "Identifica que é um movimento sem entidade formal",
+                            Label = "Movimento",
+                            VatRequired = false
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Code = "store",
+                            CreatedAt = new DateTime(2022, 6, 8, 17, 56, 6, 692, DateTimeKind.Local).AddTicks(8621),
+                            Description = "Identifica que é um comércio sustentável",
+                            Label = "Comércio Sustentável",
+                            VatRequired = false
+                        });
                 });
 
             modelBuilder.Entity("UserService.Entities.ClientCredential", b =>
@@ -1037,6 +1158,15 @@ namespace UserService.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("UserService.Entities.Association", b =>
+                {
+                    b.HasOne("UserService.Entities.AssociationType", "AssociationType")
+                        .WithMany("Associations")
+                        .HasForeignKey("AssociationTypeId");
+
+                    b.Navigation("AssociationType");
+                });
+
             modelBuilder.Entity("UserService.Entities.AssociationProfileTranslation", b =>
                 {
                     b.HasOne("UserService.Entities.Association", "Association")
@@ -1101,6 +1231,11 @@ namespace UserService.Migrations
                     b.Navigation("AssociationProfileTranslations");
 
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("UserService.Entities.AssociationType", b =>
+                {
+                    b.Navigation("Associations");
                 });
 
             modelBuilder.Entity("UserService.Entities.Scope", b =>

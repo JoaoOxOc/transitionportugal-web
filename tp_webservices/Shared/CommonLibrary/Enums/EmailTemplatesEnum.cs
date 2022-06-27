@@ -7,5 +7,6 @@
         NewUserAccountVerified,
         NewAssociationVerified,
         UserAccountPasswordRecovery,
+        AdminErrorNotification
     }
 }
