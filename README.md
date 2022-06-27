@@ -34,6 +34,7 @@ website and web services of transition network in Portugal
 	- for home project: use the dockerfile `frontoffice.dockerfile` inside `frontends` folder; from this folder in CMD, run: `docker build -f .\frontoffice.dockerfile -t tp_front .` (or for debug `docker build -f .\frontoffice.dockerfile -t tp_front . --progress=plain --no-cache`) then `docker run -p 5050:3000 tp_front`
 	- for backoffice project: use the dockerfile `backoffice.dockerfile` inside `frontends` folder; from this folder in CMD, run: `docker build -f .\backoffice.dockerfile -t tp_front .` (or for debug `docker build -f .\backoffice.dockerfile -t tp_front . --progress=plain --no-cache`) then `docker run -p 5040:3000 tp_backoffice`
 
+
 ### for micro services
 - First, explanation of microservices's root folder:
 	- tpgateway: .NET 5 project; responsible for API routing; has authorization and authentication settings for each route
