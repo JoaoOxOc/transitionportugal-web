@@ -17,6 +17,7 @@ export declare const RESET_TRANSLATIONS: {
         readonly confirmPassword: "Confirm Password";
         readonly confirm_password_help: "Repeat your new password";
         readonly submit_help: "This form submits a new password to your registered account";
+        readonly resetErrorResult: "Shows the error message when the password reset fails";
     };
     readonly MESSAGES: {
         readonly passwordRequired: "The password field is required";
@@ -29,6 +30,7 @@ export declare const RESET_TRANSLATIONS: {
         readonly passwordComplexityError: "Your new password must contain a non alphanumeric character, a number, an uppercase and a lowercase.";
         readonly passwordReset: "Password Changed.";
         readonly successMessage: "You can now proceed for authentication and use it";
+        readonly userResetError: "Error contacting the server. Please try again. If the problem persists contact the web administrator";
     };
 };
 //# sourceMappingURL=reset.d.ts.map

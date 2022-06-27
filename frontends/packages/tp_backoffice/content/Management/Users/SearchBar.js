@@ -69,7 +69,7 @@ const SearchBar = ({itemsSelected, isAllUsersTab}) => {
         else if (selectables.filter((selected) => { return selected == "IsActive"; }).length == 0) {
             searchContext.searchData.isActive = '';
         }
-        if (selectables.filter((selected) => { return selected == "IsEmailVerified"; }).length > 0) {
+        else if (selectables.filter((selected) => { return selected == "IsEmailVerified"; }).length > 0) {
             searchContext.searchData.isVerified = true;
         }
         else if (selectables.filter((selected) => { return selected == "IsEmailVerified"; }).length == 0) {

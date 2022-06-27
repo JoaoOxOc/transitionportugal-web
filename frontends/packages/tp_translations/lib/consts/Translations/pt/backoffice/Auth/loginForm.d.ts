@@ -12,14 +12,16 @@ export declare const LOGINFORM_TRANSLATIONS: {
     readonly FORMS: {
         readonly emailAddress: "Endereço de Email";
         readonly usernameOrEmailAddress: "Username/Email";
+        readonly usernameOrEmailAddress_help: "Insira o email ou username da sua conta para autenticar-se";
         readonly username: "Username";
         readonly password: "Palavra-passe";
         readonly password_help: "Insira a palavra-passe da sua conta para autenticação";
-        readonly usernameOrEmailAddress_help: "Insira o email ou username da sua conta para autenticar-se";
         readonly submit_help: "Este formulário autentica a sua conta. Caso seja autenticado com sucesso, irá entrar na aplicação.";
+        readonly authErrorResult: "apresenta a mensagem de erro quando a autenticação falha";
     };
     readonly MESSAGES: {
         readonly loginError: "Username/Email/Palavra-passe incorrectos!";
+        readonly serverError: "Ocorreu um erro ao contactar o serviço. Por favor tente novamente. Se o problema persistir por favor contacte o administrador da plataforma";
         readonly emailInvalid: "O email fornecido deverá ser um endereço de email válido";
         readonly emailRequired: "O Email é obrigatório";
         readonly usernameRequired: "Username é obrigatório";

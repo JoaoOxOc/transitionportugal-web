@@ -14,7 +14,8 @@ export var RECOVER_TRANSLATIONS = deepFreeze({
         usernameOrEmailAddress: "Username/Email",
         recoverAccount: "Recover Password",
         usernameOrEmailAddress_help: "Insert your account's email or username to be used for password recovery process",
-        submit_help: "This form starts a new password recovery process, sending instructions to your account email"
+        submit_help: "This form starts a new password recovery process, sending instructions to your account email",
+        recoverErrorResult: "Shows the error message in case the user recover fails"
     },
     MESSAGES: {
         usernameTooBig: "Your username cannot have more than {{number}} characters",
@@ -23,6 +24,7 @@ export var RECOVER_TRANSLATIONS = deepFreeze({
         userNotFoundError: "Your account was not found. Please contact Transição Portugal for help.",
         passwordResetInstructions: "The password reset instructions have been sent to your email",
         successMessage: "Check your email for further instructions",
+        userRecoverError: "Error contacting the server. Please try again. If the problem persists contact the web administrator",
     }
 });
 //# sourceMappingURL=recover.js.map

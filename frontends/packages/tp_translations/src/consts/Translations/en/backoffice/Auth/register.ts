@@ -6,7 +6,8 @@ export const REGISTER_TRANSLATIONS = deepFreeze({
         title: "Register Account",
         subtitle: "Fill in the fields below to sign up for an account of your movement/initiative.",
         alreadyRegistered: "Already have an account?",
-        signInHere: "Sign in here"
+        signInHere: "Sign in here",
+        buttonToLogin: "Button to go back to login page"
     },
     COVER: {
         title: "A big movement of change",

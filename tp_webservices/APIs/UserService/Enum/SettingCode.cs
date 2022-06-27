@@ -6,6 +6,10 @@
         CaptchaSiteKey,
         CaptchaSecretKey,
         MailchimpApiKey,
-        MailchimpListQuantity
+        MailchimpListQuantity,
+        HEREgeocodeApiKey,
+        PositionStackGeocodeApiKey,
+        GoogleGeocodeApiKey,
+        GeocodeServiceInUse
     }
 }

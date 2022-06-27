@@ -39,3 +39,6 @@ export * from './backoffice/settings/i18nEmailTemplateDetails';
 
 export * from './backoffice/newsletter/i18nNewsletterSubscriptionsList';
 export * from './backoffice/newsletter/i18nNewsletterSubscriptionDetails';
+
+export * from './backoffice/cms/i18nBannersList';
+export * from './backoffice/cms/i18nBannerDetails';

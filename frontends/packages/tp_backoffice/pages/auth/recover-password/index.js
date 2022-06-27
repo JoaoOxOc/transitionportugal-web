@@ -80,7 +80,7 @@ function RecoverPasswordBasic() {
   i18nextRecover.changeLanguage(currentLang);
   const { enqueueSnackbar } = useSnackbar();
   const router = useRouter();
-  const { demo } = router.query;
+  const [serverError, setServerError] = useState('');
 
   useEffect(() => {
     const handleNewMessage = (event) => {
@@ -139,27 +139,31 @@ function RecoverPasswordBasic() {
             helpers.setErrors({ submit: resetResultParsed.statusText });
             helpers.setSubmitting(false);
             if (resetResultParsed.statusText === "Unauthorized") {
-                setDisplayRecoverLink(true);
-                enqueueSnackbar(t('MESSAGES.tokenExpiredError'), {
-                  variant: 'error',
-                  anchorOrigin: {
-                    vertical: 'top',
-                    horizontal: 'center'
-                  },
-                  autoHideDuration: 2000,
-                  TransitionComponent: Slide
-                });
+                setServerError(t('MESSAGES.tokenExpiredError'));
+                // enqueueSnackbar(t('MESSAGES.tokenExpiredError'), {
+                //   variant: 'error',
+                //   anchorOrigin: {
+                //     vertical: 'top',
+                //     horizontal: 'center'
+                //   },
+                //   autoHideDuration: 2000,
+                //   TransitionComponent: Slide
+                // });
             }
             else if (resetResult.status === 404) {
-                enqueueSnackbar(t('MESSAGES.userNotFoundError'), {
-                  variant: 'error',
-                  anchorOrigin: {
-                    vertical: 'top',
-                    horizontal: 'center'
-                  },
-                  autoHideDuration: 2000,
-                  TransitionComponent: Slide
-                });
+              setServerError(t('MESSAGES.userNotFoundError'));
+                // enqueueSnackbar(t('MESSAGES.userNotFoundError'), {
+                //   variant: 'error',
+                //   anchorOrigin: {
+                //     vertical: 'top',
+                //     horizontal: 'center'
+                //   },
+                //   autoHideDuration: 2000,
+                //   TransitionComponent: Slide
+                // });
+            }
+            else {
+              setServerError(t('MESSAGES.userRecoverError'));
             }
         }
       } catch (err) {
@@ -208,6 +212,19 @@ function RecoverPasswordBasic() {
               </Typography>
             </Box>
                 <form noValidate onSubmit={formik.handleSubmit}>
+                  {serverError && (
+                    <>
+                      <Alert
+                        sx={{
+                          mb: 1
+                        }}
+                        severity="error"
+                        aria-label={ t('FORMS.recoverErrorResult') }
+                      >
+                        <span>{serverError}</span>
+                      </Alert>
+                    </>
+                  )}
                   <TextField
                     error={Boolean(formik.touched.username && formik.errors.username)}
                     fullWidth

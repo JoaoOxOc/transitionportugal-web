@@ -9,6 +9,7 @@ namespace EmailService.Enums
         SMTP_Password,
         SMTP_From,
         SMTP_FromName,
-        SMTP_SSL
+        SMTP_SSL,
+        Administration_Email
   }
 }

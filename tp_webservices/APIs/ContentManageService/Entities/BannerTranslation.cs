@@ -9,17 +9,13 @@ namespace ContentManageService.Entities
     /// </summary>
     public class BannerTranslation
     {
-        /// <summary>
-        /// The ID should be the language identifier, like en-us
-        /// </summary>
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int? Id { get; set; }
+
         [Required]
         [MaxLength(5)]
         public string LangKey { get; set; }
 
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Required]
         [MaxLength(25)]
         public string PageKey { get; set; }
@@ -36,7 +32,8 @@ namespace ContentManageService.Entities
         public string? BannerDataHtml { get; set; }
 
         [ForeignKey("Banner")]
-        public int? BannerId { get; set; }
-        public virtual Banner Banner { get; set; }
+        [Required]
+        public int BannerId { get; set; }
+        public virtual Banner? Banner { get; set; }
     }
 }

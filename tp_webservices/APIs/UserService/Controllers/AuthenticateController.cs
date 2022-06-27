@@ -11,6 +11,9 @@ using UserService.Services.UserManager;
 using MicroservicesLibrary.Exceptions;
 using UserService.Services.Email;
 using UserService.Services.TermsManager;
+using System.Linq.Expressions;
+using CommonLibrary.Enums;
+using UserService.Services.Database;
 
 namespace UserService.Controllers
 {
@@ -18,6 +21,7 @@ namespace UserService.Controllers
     [ApiController]
     public class AuthenticateController : ControllerBase
     {
+        private readonly IUnitOfWork _uow;
         private readonly ITPUserManager _userManager;
         private readonly ITokenManager _tokenManager;
         private readonly IConfiguration _configuration;
@@ -25,9 +29,10 @@ namespace UserService.Controllers
         private readonly ITermsManager _termsManager;
         private readonly IRabbitMQSender _rabbitSender;
 
-        public AuthenticateController(ITPUserManager userManager, ITokenManager tokenManager, IConfiguration configuration, IEmailSender emailSender, ITermsManager termsManager, IRabbitMQSender rabbitMQSender)
+        public AuthenticateController(IUnitOfWork uow, ITPUserManager userManager, ITokenManager tokenManager, IConfiguration configuration, IEmailSender emailSender, ITermsManager termsManager, IRabbitMQSender rabbitMQSender)
         {
             //userManager.PasswordHasher = new CustomPasswordHasher();
+            _uow = uow;
             _userManager = userManager;
             _tokenManager = tokenManager;
             _configuration = configuration;
@@ -90,6 +95,7 @@ namespace UserService.Controllers
                     exceptionModel.DateLogging = DateTime.UtcNow;
                     exceptionModel.AdminRole = "Admin";
                     exceptionModel.InnerException = ex.InnerException;
+                    exceptionModel.InputDataJson = JsonSerializer.Serialize(model);
                     var claimUserId = authClaims.Where(x => x.Type == "userId").FirstOrDefault();
                     exceptionModel.UserId = claimUserId != null ? claimUserId.Value : "";
 
@@ -130,16 +136,26 @@ namespace UserService.Controllers
             if (associationEmailExists != null || associationVatExists != null)
                 return StatusCode(StatusCodes.Status409Conflict, new Response { Status = "Error", Message = "association_exists" });
 
+            Expression<Func<AssociationType, bool>> filter = (x => x.Code.Contains(model.AssociationTypeCode));
+
+            var associationType = _uow.AssociationTypeRepository.Get(1,1,filter,"Code",SortDirection.Ascending).FirstOrDefault();
+
             Association association = new()
             {
                 Name = model.AssociationName,
                 Address = model.AssociationAddress,
                 Town = model.AssociationTown,
-                PostalCode = "",
+                PostalCode = model.AssociationPostalCode,
+                DistrictCode = model.AssociationDistrictCode,
+                MunicipalityCode = model.AssociationMunicipalityCode,
+                Latitude = model.AssociationLatitude,
+                Longitude = model.AssociationLongitude,
                 Email = model.AssociationEmail,
                 Vat = model.AssociationVat,
+                AssociationTypeId = associationType?.Id,
                 Phone = "",
                 LogoImage = "",
+                CoverImage = "",
                 Filename = "",
                 Description = "",
                 Website = "",
@@ -194,6 +210,7 @@ namespace UserService.Controllers
                 exceptionModel.DateLogging = DateTime.UtcNow;
                 exceptionModel.AdminRole = "Admin";
                 exceptionModel.InnerException = null;
+                exceptionModel.InputDataJson = JsonSerializer.Serialize(model);
                 exceptionModel.UserId = result.Key.Id;
 
                 bool success = await _rabbitSender.PublishExceptionMessage(exceptionModel);
@@ -208,6 +225,7 @@ namespace UserService.Controllers
                 exceptionModel.DateLogging = DateTime.UtcNow;
                 exceptionModel.AdminRole = "Admin";
                 exceptionModel.InnerException = null;
+                exceptionModel.InputDataJson = JsonSerializer.Serialize(model);
                 exceptionModel.UserId = result.Key.Id;
 
                 bool success = await _rabbitSender.PublishExceptionMessage(exceptionModel);
@@ -245,6 +263,7 @@ namespace UserService.Controllers
                         exceptionModel.DateLogging = DateTime.UtcNow;
                         exceptionModel.AdminRole = "Admin";
                         exceptionModel.InnerException = null;
+                        exceptionModel.InputDataJson = JsonSerializer.Serialize(result);
                         var claimUserId = userClaims.Where(x => x.Claim == "userId").FirstOrDefault();
                         exceptionModel.UserId = claimUserId != null ? claimUserId.Value : "";
 
@@ -274,6 +293,7 @@ namespace UserService.Controllers
                             exceptionModel.DateLogging = DateTime.UtcNow;
                             exceptionModel.AdminRole = "Admin";
                             exceptionModel.InnerException = null;
+                            exceptionModel.InputDataJson = JsonSerializer.Serialize(result);
                             var claimUserId = userClaims.Where(x => x.Claim == "userId").FirstOrDefault();
                             exceptionModel.UserId = claimUserId != null ? claimUserId.Value : "";
 
@@ -382,6 +402,7 @@ namespace UserService.Controllers
                 exceptionModel.DateLogging = DateTime.UtcNow;
                 exceptionModel.AdminRole = "Admin";
                 exceptionModel.InnerException = ex.InnerException;
+                exceptionModel.InputDataJson = JsonSerializer.Serialize(tokenModel);
                 exceptionModel.UserId = "";
 
                 bool success = await _rabbitSender.PublishExceptionMessage(exceptionModel);
@@ -462,6 +483,7 @@ namespace UserService.Controllers
                     exceptionModel.DateLogging = DateTime.UtcNow;
                     exceptionModel.AdminRole = "Admin";
                     exceptionModel.InnerException = null;
+                    exceptionModel.InputDataJson = JsonSerializer.Serialize(model);
                     exceptionModel.UserId = user.Id;
 
                     bool rabbitSuccess = await _rabbitSender.PublishExceptionMessage(exceptionModel);
@@ -498,6 +520,7 @@ namespace UserService.Controllers
                         exceptionModel.DateLogging = DateTime.UtcNow;
                         exceptionModel.AdminRole = "Admin";
                         exceptionModel.InnerException = null;
+                        exceptionModel.InputDataJson = JsonSerializer.Serialize(model);
                         exceptionModel.UserId = user.Id;
 
                         bool rabbitSuccess = await _rabbitSender.PublishExceptionMessage(exceptionModel);

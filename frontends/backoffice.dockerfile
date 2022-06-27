@@ -1,12 +1,13 @@
 FROM node:16 as base
 WORKDIR /app/
+ENV PATH /app/node_modules/.bin:$PATH
 #COPY ./package.json ./
 #COPY ./lerna.json ./
+
 COPY ./package.json /app/
+COPY ./lerna.json /app/
 
 RUN npm install --force
-
-COPY ./lerna.json /app/
 
 
 
@@ -28,43 +29,62 @@ COPY  packages/tp_geolocation/ /app/packages/tp_geolocation/
 # compile tp_translations and tp_geolocation (typescript packages)
 RUN npm config set legacy-peer-deps true
 
-RUN npx lerna bootstrap --scope=@transitionpt/translations --includeDependencies
+RUN npx lerna bootstrap --scope=@transitionpt/translations --no-ci --includeDependencies
+#WORKDIR /app/packages/tp_translations/
+#RUN npm install --force
 
-RUN npx lerna bootstrap --scope=@transitionpt/geolocation --includeDependencies
+RUN npx lerna bootstrap --scope=@transitionpt/geolocation --no-ci --includeDependencies
+#WORKDIR /app/packages/tp_geolocation/
+#RUN npm install --force
 
 RUN npx lerna run tsc --stream
 
-#RUN npx lerna bootstrap --scope=@transitionpt/components --includeDependencies
+#RUN npx lerna bootstrap --scope=@transitionpt/components --no-ci --includeDependencies
+WORKDIR /app/packages/tp_components/
+RUN npm install --force
 
 # install tp_backoffice dependencies
 COPY  packages/tp_backoffice/package.json /app/packages/tp_backoffice/package.json
 COPY  packages/tp_backoffice/ /app/packages/tp_backoffice/ 
 
-RUN npm config set legacy-peer-deps true
+#RUN npm config set legacy-peer-deps true
+#RUN true
+RUN npx lerna bootstrap --scope=@transitionpt/backoffice --no-ci --includeDependencies
+#WORKDIR /app/packages/tp_backoffice/
+#RUN npm install --force
+#RUN ls -l /app/packages/tp_backoffice/node_modules
+#RUN ls -l /app/packages/tp_backoffice/node_modules/@transitionpt
 
 # WORKAROUND: lerna compiles packages as a symlink in node_modules, which will not work with next start command
 RUN rm -rf /app/packages/tp_backoffice/node_modules/@transitionpt/
 
-RUN npx lerna bootstrap --scope=@transitionpt/backoffice --includeDependencies --loglevel verbose
+#WORKDIR /app/packages/tp_backoffice
 
-
-
+#RUN npm install --loglevel verbose
+#RUN ls -l /app/packages/tp_backoffice/node_modules/@transitionpt
 
 
 # final stage
 FROM base as final-transitionpt_backoffice-build-stage
-
+copy --from=transitionpt_backoffice-build /app/node_modules /app/node_modules
+COPY --from=transitionpt_backoffice-build /app/packages /app/packages
 COPY --from=transitionpt_backoffice-build /app/packages/tp_backoffice /app/packages/tp_backoffice
 COPY --from=transitionpt_backoffice-build /app/packages/tp_translations /app/packages/tp_translations
 COPY --from=transitionpt_backoffice-build /app/packages/tp_geolocation /app/packages/tp_geolocation
 COPY --from=transitionpt_backoffice-build /app/packages/tp_components /app/packages/tp_components
 # WORKAROUND: lerna compiles packages as a symlink in node_modules, which will not work with next start command. Full compiled folder is needed
+COPY --from=transitionpt_backoffice-build /app/packages/tp_backoffice/node_modules /app/packages/tp_backoffice/node_modules
+RUN ls -l /app/packages/tp_backoffice/node_modules
 copy --from=transitionpt_backoffice-build /app/packages/tp_translations /app/packages/tp_backoffice/node_modules/@transitionpt/translations/
+RUN ls -l /app/packages/tp_backoffice/node_modules/@transitionpt
+RUN ls -l /app/node_modules
 copy --from=transitionpt_backoffice-build /app/packages/tp_geolocation /app/packages/tp_backoffice/node_modules/@transitionpt/geolocation/
 copy --from=transitionpt_backoffice-build /app/packages/tp_components /app/packages/tp_backoffice/node_modules/@transitionpt/components/
-copy --from=transitionpt_backoffice-build /app/node_modules /app/node_modules
 
 WORKDIR /app/packages/tp_backoffice
+RUN npm config set legacy-peer-deps true
+RUN npm install --loglevel verbose
+RUN ls -l /app/packages/tp_backoffice/node_modules
 
 ARG NEXT_PUBLIC_API_BASE_URL
 ENV NEXT_PUBLIC_API_BASE_URL=$NEXT_PUBLIC_API_BASE_URL

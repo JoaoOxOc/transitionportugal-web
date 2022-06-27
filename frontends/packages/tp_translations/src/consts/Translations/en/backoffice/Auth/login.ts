@@ -6,7 +6,8 @@ export const LOGIN_TRANSLATIONS = deepFreeze({
         title: "Sign in",
         subtitle: "Fill in the fields below to sign into your account.",
         noAccount: "Don't have an account yet?",
-        registerHere: "Sign up here"
+        registerHere: "Sign up here",
+        buttonToRegistAccount: "Button link to Account Register webpage."
     },
     COVER: {
         title: "A big movement of change",

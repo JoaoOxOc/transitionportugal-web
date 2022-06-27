@@ -60,6 +60,7 @@ namespace UserService.Services.Database
 
         public DbSet<User> User { get; set; }
         public DbSet<Association> Association { get; set; }
+        public DbSet<AssociationType> AssociationType { get; set; }
         public DbSet<AssociationProfileTranslation> AssociationProfileTranslation { get; set; }
         public DbSet<TermsConditions> TermsConditions { get; set; }
         public DbSet<TermsConditionsTranslation> TermsConditionsTranslation { get; set; }
