@@ -185,17 +185,17 @@ function MainTab({isCreate, bannerData, parentBannerId, parentBannerPath, banner
               const bannerModel = {
                 bannerLanguages: savedBlocks.current
               }
-              if (bannerData && bannerData.id) {
-                bannerModel.id = bannerData.id;
+              if (values && values.id) {
+                bannerModel.id = values.id;
               }
-              if (bannerData && bannerData.pageKey) {
-                bannerModel.pageKey = bannerData.pageKey;
+              if (values && values.pageKey) {
+                bannerModel.pageKey = values.pageKey;
               }
-              if (bannerData && bannerData.componentKey) {
-                bannerModel.componentKey = bannerData.componentKey;
+              if (values && values.componentKey) {
+                bannerModel.componentKey = values.componentKey;
               }
-              if (bannerData && bannerData.orderPosition) {
-                bannerModel.orderPosition = bannerData.orderPosition;
+              if (values && values.orderPosition) {
+                bannerModel.orderPosition = values.orderPosition;
               }
               if (bannerData && bannerData.isDraft != null) {
                 bannerModel.isDraft = bannerData.isDraft;
@@ -205,6 +205,10 @@ function MainTab({isCreate, bannerData, parentBannerId, parentBannerPath, banner
               }
               if (parentBannerPath) {
                 bannerModel.parentBannerPath = parentBannerPath;
+              }
+              if (bannerData && bannerData.bannerLanguages) {
+                bannerModel.bannerLanguages = bannerData.bannerLanguages;
+
               }
               console.log(bannerModel,savedBlocks)
               let result = {};
