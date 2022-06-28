@@ -261,9 +261,9 @@ const Results = ({parentBannerId}) => {
         }
     }
 
-    const getSingleActionsComponent = (banner) => {
+    const getSingleActionsComponent = (banner, styleConfig) => {
         return (
-            <SingleActions refreshData={receiveRefreshedData} bannerId={banner.id} bannerIsActive={!banner.isDraft} bannerPageKey={banner.pageKey} bannerComponentKey={banner.componentKey} bannerOrderPosition={banner.orderPosition}/>
+            <SingleActions key={styleConfig.key} refreshData={receiveRefreshedData} bannerId={banner.id} bannerIsActive={!banner.isDraft} bannerPageKey={banner.pageKey} bannerComponentKey={banner.componentKey} bannerOrderPosition={banner.orderPosition}/>
         )
     }
 
@@ -409,8 +409,8 @@ const Results = ({parentBannerId}) => {
                 buttonIconComponent: <LaunchTwoToneIcon fontSize="small" />
             },
             {
-                key: "SingleActions",
-                type: "customComponent",
+                actionKey: "SingleActions",
+                actionType: "customComponent",
                 customComponentStyleConfig: {
                     key: "singleActions"
                 },
@@ -449,6 +449,31 @@ const Results = ({parentBannerId}) => {
                 justifyContent: "space-between"
             },
             {
+                key: "bannerActions",
+                type: "composableGridItem",
+                subType: "boxWithTypography",
+                paddingLeft: 2,
+                paddingRight: 1,
+                paddingY: 1,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                typographyDisplay: "flex",
+                subItems: [
+                    {
+                        key: "SingleActions",
+                        type: "customComponent",
+                        customComponentStyleConfig: {
+                            paddingLeft: 1,
+                            key: "singleActions"
+                        },
+                        alignment: "center",
+                        customComponentGetter: getSingleActionsComponent,
+                        fieldName: "singleActions"
+                    }
+                ]
+            },
+            {
                 key: "bannerSelectionDivider",
                 type: "divider"
             },
@@ -476,7 +501,7 @@ const Results = ({parentBannerId}) => {
                         typographyColor: "text.secondary"
                     },
                     {
-                        key: "bannerDEtailsOrderPosition",
+                        key: "bannerDetailsOrderPosition",
                         type: "typography",
                         paddingTop: 1,
                         variant: "h6",
@@ -516,6 +541,48 @@ const Results = ({parentBannerId}) => {
         },
         "data": banners
     }
+
+    if (router.query.parentBannerId) {
+        gridViewData.orderedGridItems.push(
+            {
+                key: "ParentBannerPath",
+                type: "customComponent",
+                customComponentStyleConfig: {
+                    key: "ParentBannerPath"
+                },
+                alignment: "center",
+                customComponentGetter: getBannerParentPathComponent,
+                fieldName: "parentBannerPath"
+            });
+    }
+    gridViewData.orderedGridItems.push(
+        {
+            key: "HierarchyTree",
+            type: "customComponent",
+            customComponentStyleConfig: {
+                key: "HierarchyTree"
+            },
+            alignment: "center",
+            customComponentGetter: getBannerHierarchyTreeComponent,
+            fieldName: "HierarchyTree"
+        });
+
+    const breadcrumbsData = [
+        { url: "/", label: t('LIST.home'), isLink: true },
+        { url: "", label: t('LIST.cms'), isLink: false },
+        { url: "/content/banner", label: t('LIST.bannersTitleRoot'), isLink: true },
+    ];
+
+    const bannerPathSplitted = banners && banners[0] ? banners[0].parentBannerPath.split("|").filter(function(i){return i}) : [];
+    console.log(bannerPathSplitted)
+    const bannerLevel = 0;
+    bannerPathSplitted.forEach((element,index) => {
+      console.log(element);
+      bannerLevel = index+1;
+      breadcrumbsData.push(
+        { url: bannersListUri + "?parentBannerId=" + element, label: t('LIST.bannersTitleSubPath', {bannersLevel: t("LIST.bannersSubPathLevel", {levelNumber: bannerLevel})}), isLink: true }
+      );
+    });
 
     return (
       <>
