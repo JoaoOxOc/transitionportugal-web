@@ -623,7 +623,10 @@ export const GreyGooseTheme = createTheme({
           '&:hover, &.MuiSelected': {
             backgroundColor: colors.alpha.black[5],
             color: colors.alpha.black[100]
-          }
+          },
+          ':focus': {
+            border: '4px solid ' + colors.alpha.black[30]
+          },
         },
         sizeSmall: {
           padding: '6px 16px',
@@ -669,7 +672,10 @@ export const GreyGooseTheme = createTheme({
           '&:hover, &.Mui-selected, &.Mui-selected:hover': {
             color: colors.alpha.white[100],
             background: colors.primary.main
-          }
+          },
+          ':focus': {
+            border: '4px solid ' + colors.alpha.black[30]
+          },
         }
       }
     },
@@ -1206,7 +1212,10 @@ export const GreyGooseTheme = createTheme({
       fontSize: 14
     },
     button: {
-      fontWeight: 600
+      fontWeight: 600,
+      ':focus': {
+        border: '4px solid ' + colors.alpha.black[30]
+      },
     },
     caption: {
       fontSize: 13,

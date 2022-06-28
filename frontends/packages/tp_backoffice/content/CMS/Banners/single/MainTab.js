@@ -133,7 +133,8 @@ function MainTab({isCreate, bannerData, parentBannerId, parentBannerPath, banner
     const selectedLanguage = useRef("pt-pt");
     const selectedBannerBlocks = bannerData && bannerData.bannerLanguages ? bannerData.bannerLanguages.filter((banner) => { return banner.langCode == selectedLanguage.current; }) : null;
     const [bannerBlocks, setBannerBlocks] = useState(selectedBannerBlocks && selectedBannerBlocks.length > 0 ? selectedBannerBlocks[0] : null);
-    const [isActiveCheck, setIsActiveChecked] = useState(bannerData && bannerData.isDraft ? !bannerData.isDraft : false);
+    const [isActiveCheck, setIsActiveChecked] = useState(bannerData && bannerData.isDraft == false ? true : false);
+
     const savedBlocks = useRef([]);
     const isMountedRef = useRefMounted();
     const { enqueueSnackbar } = useSnackbar();

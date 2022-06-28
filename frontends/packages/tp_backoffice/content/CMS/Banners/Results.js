@@ -25,6 +25,7 @@ import {
 import { useRouter } from 'next/router';
 import Link from '../../../components/Link';
 import Loader from '../../../components/Loader';
+import BreadcrumbsDetailsComponent from '../../../components/Breadcrumbs/BreadcrumbsDetailsComponent';
 import { useRefMounted } from '../../../hooks/useRefMounted';
 import { BannersSearchContext } from '../../../contexts/Search/CMS/BannersSearchContext';
 import { BannersActionsContext } from '../../../contexts/Actions/BannersActionsContext';
@@ -86,7 +87,7 @@ const IconButtonHierarchyTree = styled(IconButton)(
       `
 );
 
-const Results = ({parentBannerId}) => {
+const Results = ({parentBannerId,isRelatedList}) => {
     const router = useRouter();
   const { t } = i18nextBannersList;
   const isMountedRef = useRefMounted();
@@ -214,14 +215,16 @@ const Results = ({parentBannerId}) => {
     }
 
     const getBannerParentPathComponent = (banner, styleConfig) => {
-        console.log(banner, banner.parentBannerId > 0)
-        if (banner.parentBannerId > 0) {
+        const bannerPathSplitted = banner.parentBannerPath ? banner.parentBannerPath.split("|").filter(function(i){return i}) : [];
+        console.log(bannerPathSplitted)
+        const parentBannerId = bannerPathSplitted.length > 1 ? bannerPathSplitted[bannerPathSplitted.length - 2] : bannerPathSplitted.length == 1 ? 0 : null;
+        if (parentBannerId != null) {
             return (
                 <Typography key={styleConfig.key}
                     pl={styleConfig && styleConfig.paddingLeft ? styleConfig.paddingLeft: 0}
                 >
                     <Tooltip title={t('BANNEROBJECT.bannerParentPath')} arrow>
-                        <Link href={"/content/banner?parentBannerId=" + banner.parentBannerId} isNextLink={true}>
+                        <Link href={parentBannerId > 0 ? "/content/banner?parentBannerId=" + parentBannerId : "/content/banner"} isNextLink={true}>
                             <IconButtonHierarchyTree
                                 color="primary"
                                 >
@@ -573,19 +576,34 @@ const Results = ({parentBannerId}) => {
         { url: "/content/banner", label: t('LIST.bannersTitleRoot'), isLink: true },
     ];
 
-    const bannerPathSplitted = banners && banners[0] ? banners[0].parentBannerPath.split("|").filter(function(i){return i}) : [];
-    console.log(bannerPathSplitted)
-    const bannerLevel = 0;
-    bannerPathSplitted.forEach((element,index) => {
-      console.log(element);
-      bannerLevel = index+1;
-      breadcrumbsData.push(
-        { url: bannersListUri + "?parentBannerId=" + element, label: t('LIST.bannersTitleSubPath', {bannersLevel: t("LIST.bannersSubPathLevel", {levelNumber: bannerLevel})}), isLink: true }
-      );
-    });
+    if (banners && banners[0]) {
+        if (banners[0].parentBannerPath) {
+            const bannerPathSplitted = banners[0].parentBannerPath.split("|").filter(function(i){return i});
+            console.log(bannerPathSplitted)
+            const bannerLevel = 0;
+            bannerPathSplitted.forEach((element,index) => {
+              console.log(element);
+              bannerLevel = index+1;
+              if (element == router.query.parentBannerId) {
+                breadcrumbsData.push({ url: "", label: t("LABELS.bannersListIdentificationSmall",{bannerIdentification: banners[0].pageKey + "|" + banners[0].componentKey + "|" + t("LIST.bannersSubPathLevel", {levelNumber: bannerLevel})}), ownPage: true })
+              }
+              else {
+                breadcrumbsData.push(
+                  { url: "/content/banner" + "?parentBannerId=" + element, label: t('LIST.bannersTitleSubPath', {bannersLevel: t("LIST.bannersSubPathLevel", {levelNumber: bannerLevel})}), isLink: true }
+                );
+              }
+            });
+        }
+    }
+    console.log(breadcrumbsData);
 
     return (
       <>
+        {!isRelatedList &&
+            <Box sx={{mt: '-25px', pb: '15px'}}>
+                <BreadcrumbsDetailsComponent urlDataJson={breadcrumbsData}/>
+            </Box>
+        }
           <Box
               display="flex"
               alignItems="center"

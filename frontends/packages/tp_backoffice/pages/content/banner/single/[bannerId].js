@@ -31,7 +31,7 @@ function CmsBannerEdit() {
         <title>{t('LABELS.bannerDetails')}</title>
       </Head>
 
-      <BannerDetails/>
+      <BannerDetails isCreate={false}/>
 
       <Footer />
     </>

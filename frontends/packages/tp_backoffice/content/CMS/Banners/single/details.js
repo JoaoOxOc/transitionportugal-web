@@ -4,10 +4,10 @@ import { useRouter } from 'next/router';
 import { useErrorHandler } from 'react-error-boundary';
 import SingleActions from '../SingleActions';
 import dynamic from "next/dynamic";
-let DetailForm = dynamic(() => import('./DetailForm'), {
+let CreateForm = dynamic(() => import('./createForm'), {
   ssr: false
 });
-let CreateForm = dynamic(() => import('./createForm'), {
+let DetailForm = dynamic(() => import('./detailForm'), {
   ssr: false
 });
 
@@ -69,6 +69,7 @@ function BannerDetails({isCreate}) {
       }
     }, [isCreate,getBannerRecord, refreshBanner]);
 
+
     if (!isCreate && !banner) {
       return null;
     }
@@ -80,13 +81,14 @@ function BannerDetails({isCreate}) {
     ];
 
     const bannerPathSplitted = router.query.parentBannerPath ? router.query.parentBannerPath.split("|").filter(function(i){return i}) : [];
-    console.log(bannerPathSplitted)
     const bannerLevel = 0;
     bannerPathSplitted.forEach((element,index) => {
-      console.log(element);
       bannerLevel = index+1;
+      if (index == bannerPathSplitted.length - 1) {
+        bannersListUri = bannersListUri + "?parentBannerId=" + element;
+      }
       breadcrumbsData.push(
-        { url: bannersListUri + "?parentBannerId=" + element, label: t('LIST.bannersTitleSubPath', {bannersLevel: t("LIST.bannersSubPathLevel", {levelNumber: bannerLevel})}), isLink: true }
+        { url: "/content/banner" + "?parentBannerId=" + element, label: t('LIST.bannersTitleSubPath', {bannersLevel: t("LIST.bannersSubPathLevel", {levelNumber: bannerLevel})}), isLink: true }
       );
     });
 
@@ -111,7 +113,7 @@ function BannerDetails({isCreate}) {
               pl: '10vw'
             }}
           >
-            {/* <SingleActions refreshData={receiveRefreshData} bannerId={banner.id} termsBeenActive={banner.beenActive} termsIsActive={terms.isActive} termsVersion={terms.version}/> */}
+            <SingleActions refreshData={receiveRefreshData} bannerId={banner.id} bannerIsActive={!banner.isDraft} bannerPageKey={banner.pageKey} bannerComponentKey={banner.componentKey} bannerOrderPosition={banner.orderPosition}/>
           </Box>
           }
         </PageTitleWrapper>
@@ -127,33 +129,28 @@ function BannerDetails({isCreate}) {
           alignItems="stretch"
           spacing={3}
         >
-          { isCreate &&
-              <Grid item xs={12}>
-                <Card>
-                  <Grid container spacing={0}>
-                    <Grid item xs={12} md={12}>
-                      <Box p={4} flex={1}>
-                        <Alert severity="info">
-                            {t('LABELS.registerBannerInfo')}
-                        </Alert>
-                        <Box
-                          pt={3}
-                          pb={1}
-                          sx={{
-                            px: { xs: 0, md: 3 }
-                          }}
-                        >
+            <Grid item xs={12}>
+              <Card>
+                <Grid container spacing={0}>
+                  <Grid item xs={12} md={12}>
+                      <Box
+                        pt={3}
+                        pb={1}
+                        sx={{
+                          px: { xs: 0, md: 3 }
+                        }}
+                      >
+                          { isCreate &&
                             <CreateForm parentBannerId={router.query.parentBannerId} parentBannerPath={router.query.parentBannerPath} bannerPutUri={bannerPutUri}/>
-                        </Box>
+                          }
+                          { (!isCreate && banner) &&
+                              <DetailForm isCreate={isCreate} bannerData={banner} parentBannerId={router.query.parentBannerId} parentBannerPath={router.query.parentBannerPath} bannerPutUri={bannerPutUri}/>
+                          }
                       </Box>
-                    </Grid>
                   </Grid>
-                </Card>
-              </Grid>
-          }
-          { !isCreate && banner &&
-              <DetailForm isCreate={isCreate} bannerData={banner} parentBannerId={router.query.parentBannerId} parentBannerPath={router.query.parentBannerPath} bannerPutUri={bannerPutUri}/>
-          }
+                </Grid>
+              </Card>
+            </Grid>
         </Grid>
       </Box>
     </>

@@ -420,6 +420,8 @@ namespace ContentManageService.Controllers
                     banner.PageKey = model.PageKey;
                     banner.ComponentKey = model.ComponentKey;
                     banner.OrderPosition = model.OrderPosition;
+                    banner.ParentBannerId = model.ParentBannerId;
+                    banner.ParentPath = model.ParentBannerPath;
                     banner.IsDraft = model.IsDraft;
                     banner.UpdatedAt = DateTime.UtcNow;
                     banner.UpdatedBy = HttpContext.Request.Headers["UserId"];
@@ -490,6 +492,14 @@ namespace ContentManageService.Controllers
                 Banner banner = new Banner();
 
                 banner.PageKey = model.PageKey;
+                banner.ComponentKey = model.ComponentKey;
+                banner.OrderPosition = model.OrderPosition;
+                if (model.ParentBannerId.HasValue)
+                {
+                    var parentBanner = _uow.BannerRepository.GetById(model.ParentBannerId);
+                    banner.ParentBannerId = parentBanner.Id;
+                    banner.ParentPath = (!string.IsNullOrEmpty(parentBanner.ParentPath) ? parentBanner.ParentPath : "|") + parentBanner.Id + "|";
+                }
                 banner.IsDraft = model.IsDraft;
                 banner.CreatedAt = DateTime.UtcNow;
                 banner.CreatedBy = HttpContext.Request.Headers["UserId"];

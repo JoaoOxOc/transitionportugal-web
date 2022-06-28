@@ -9,7 +9,10 @@ export const LOGINFORM_TRANSLATIONS = deepFreeze({
         signInHere: "Entrar",
         checkConfirmTerms: "Caixa de confirmação para os termos de uso da aplicação.",
         linkToReadTerms: "Link para abrir o popup para leitura dos termos de uso da aplicação.",
-        buttonToRecoverPassword: "Botão para navegar para a página de recuperação da palavra-passe."
+        buttonToRecoverPassword: "Botão para navegar para a página de recuperação da palavra-passe.",
+        closeTermsDialog: "Fechar leitura dos Termos & Condições",
+        termsCancelButton: "Fechar",
+        termsConsentButton: "Consentir"
     },
     FORMS: {
         emailAddress: "Endereço de Email",

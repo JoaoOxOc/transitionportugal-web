@@ -20,10 +20,17 @@ export const BANNERSLIST_TRANSLATIONS = deepFreeze({
         ofSmall: "de",
         paginationRowsPerPage: "Linhas por pág.:",
         showing: "Mostrando",
-        selectAll: "Seleccionar todos os Banners"
+        selectAll: "Seleccionar todos os Banners",
+        bannersListIdentificationSmall: "Lista de Banners: {{bannerIdentification}}",
     },
     LIST: {
-        bannersTitle: "Banners no Website Público"
+        bannersTitle: "Banners no Website Público",
+        home: "Home",
+        cms: "Conteúdo do Website",
+        bannersTitleRoot: "Banners na raíz",
+        bannersTitleSubPath: "Banners sub-caminho {{bannersLevel}}",
+        bannersSubPathLevel: "nível {{levelNumber}}",
+        bannersSortedPosition: "Posição ordenada: {{positionNumber}}"
     },
     BANNEROBJECT: {
         pageKey: "Identificador Chave da Página",
@@ -36,7 +43,7 @@ export const BANNERSLIST_TRANSLATIONS = deepFreeze({
         parentBanner: "Banner Pertence a Outro",
         bannerParentPath: "Voltar ao Banner Pai",
         createdAt: "Registado em",
-        updatedAt: "Actualizado em"
+        updatedAt: "Actualizado em",
     },
     MESSAGES: {
         bannersManagementDescription: "Todos os aspectos relativos aos banners podem ser geridos nesta página",

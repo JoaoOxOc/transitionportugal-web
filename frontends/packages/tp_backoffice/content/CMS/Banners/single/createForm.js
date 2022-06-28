@@ -2,6 +2,8 @@ import {
     Grid
 } from '@mui/material';
 
+import MainTab from './MainTab';
+
 const CreateForm = ({bannerPutUri, parentBannerId, parentBannerPath}) => {
 
     return (

@@ -19,9 +19,16 @@ export declare const BANNERSLIST_TRANSLATIONS: {
         readonly paginationRowsPerPage: "Rows per page:";
         readonly showing: "Showing";
         readonly selectAll: "Select all Bannerss";
+        readonly bannersListIdentificationSmall: "Banners List: {{bannerIdentification}}";
     };
     readonly LIST: {
         readonly bannersTitle: "Public Website Banners";
+        readonly home: "Home";
+        readonly cms: "Website Content";
+        readonly bannersTitleRoot: "Banners at root";
+        readonly bannersTitleSubPath: "Banners sub path {{bannersLevel}}";
+        readonly bannersSubPathLevel: "Level {{levelNumber}}";
+        readonly bannersSortedPosition: "Sorted position: {{positionNumber}}";
     };
     readonly BANNEROBJECT: {
         readonly pageKey: "Page Key Identifier";

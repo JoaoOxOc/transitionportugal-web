@@ -5,11 +5,18 @@ import {
   Typography,
   Button
 } from '@mui/material';
+import { useRouter } from 'next/router';
 import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 import Link from '../../../components/Link';
 
 function PageHeader() {
+  const router = useRouter();
     const { t } = i18nextBannersList;
+
+  let extraUriQueries = "";
+  if (router.query.parentBannerId) {
+    extraUriQueries = "?parentBannerId=" + router.query.parentBannerId;
+  }
 
   const handleCreateBannerOpen = () => {
 
@@ -27,7 +34,7 @@ function PageHeader() {
           </Typography>
         </Grid>
         <Grid item>
-            <Link href={'/content/banner/single/create'} isNextLink={true}>
+            <Link href={'/content/banner/single/create' + extraUriQueries} isNextLink={true}>
                 <Button
                         sx={{
                         mt: { xs: 2, sm: 0 }

@@ -29,7 +29,7 @@ function RelatedList({bannerData}) {
                 >
                     <Grid item xs={12}>
                         <BannersSearchProvider>
-                            <Results parentBannerId={bannerData.id}/>
+                            <Results parentBannerId={bannerData.id} isRelatedList={true}/>
                         </BannersSearchProvider>
                     </Grid>
                 </Grid>
