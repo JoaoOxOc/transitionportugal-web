@@ -141,7 +141,8 @@ function MainTab({isCreate, bannerData, parentBannerId, parentBannerPath, banner
     const [bannerError, setBannerError] = useState(null);
     useErrorHandler(bannerError);
     const { data: session, status } = useSession();
-    console.log(i18npt, bannerData);
+    console.log('i18 data',i18npt, bannerData);
+
     const EDITOR_JS_TOOLS = {
         embed: Embed,
         header: Header,
@@ -177,7 +178,7 @@ function MainTab({isCreate, bannerData, parentBannerId, parentBannerPath, banner
                 .max(25, t('MESSAGES.componentKeyTooBig', {max: 25}))
                 .required(t('MESSAGES.componentKeyRequired')),
             orderPosition: Yup.number()
-                .positive(t('MESSAGES.orderPositionMustBePositive'))
+                .min(0,t('MESSAGES.orderPositionMustBePositive'))
                 .max(25, t('MESSAGES.orderPositionTooBig', {max: 25}))
                 .required(t('MESSAGES.orderPositionRequired'))
         }),
@@ -186,8 +187,8 @@ function MainTab({isCreate, bannerData, parentBannerId, parentBannerPath, banner
               const bannerModel = {
                 bannerLanguages: savedBlocks.current
               }
-              if (values && values.id) {
-                bannerModel.id = values.id;
+              if (router.query.bannerId) {
+                bannerModel.id = router.query.bannerId;
               }
               if (values && values.pageKey) {
                 bannerModel.pageKey = values.pageKey;
@@ -236,6 +237,17 @@ function MainTab({isCreate, bannerData, parentBannerId, parentBannerPath, banner
                           TransitionComponent: Slide
                         });
                     }
+                    if (result.status === 409) {
+                      enqueueSnackbar(t('MESSAGES.bannerDuplicateFound', {orderPosition: bannerModel.orderPosition}), {
+                        variant: 'error',
+                        anchorOrigin: {
+                          vertical: 'top',
+                          horizontal: 'center'
+                        },
+                        autoHideDuration: 2000,
+                        TransitionComponent: Slide
+                      });
+                  }
                     else {
                         setBannerError(result);
                     }
@@ -251,8 +263,9 @@ function MainTab({isCreate, bannerData, parentBannerId, parentBannerPath, banner
                             autoHideDuration: 2000,
                             TransitionComponent: Slide
                         });
+                        const pathUri = (parentBannerId ? "?parentBannerId=" + parentBannerId : "") + (parentBannerPath ? "&parentBannerPath="+parentBannerPath : "");
                         router.push({
-                            pathname: '/content/banner/single/' + result.bannerId,
+                            pathname: '/content/banner/single/' + result.bannerId + pathUri,
                         });
                     }
                     else {

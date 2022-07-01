@@ -10,7 +10,7 @@ import Results from '../../../../content/CMS/Banners/Results';
 import { BannersSearchProvider } from '../../../../contexts/Search/CMS/BannersSearchContext';
 
 function RelatedList({bannerData}) {
-
+    
     return (
         <Card>
             <Box

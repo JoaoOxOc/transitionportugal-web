@@ -107,7 +107,6 @@ const Results = ({parentBannerId,isRelatedList}) => {
   const getBannersData = useCallback(async (searchDataJson) => {
     try {
       let bannersData = await GetBanners(process.env.NEXT_PUBLIC_API_BASE_URL + bannersApiUri, searchDataJson, session.accessToken);
-      console.log("getBannersData",bannersData)
       
       if (isMountedRef()) {
         if (bannersData.banners) {
@@ -127,7 +126,7 @@ const Results = ({parentBannerId,isRelatedList}) => {
   }, [isMountedRef, bannersApiUri]);
 
   useEffect(() => {
-    if (router.query.parentBannerId) {
+    if (!isRelatedList && router.query.parentBannerId) {
         bannersSearchData.searchData.parentBannerId = router.query.parentBannerId;
     }
     else if (parentBannerId) {
@@ -171,12 +170,10 @@ const Results = ({parentBannerId,isRelatedList}) => {
     if (banners) {
         banners.map((banner) => {
             let parentPath = "";
-            console.log()
             if (router.query.parentBannerId) {
                 parentPath += "?parentBannerId=" + banner.parentBannerId + "&parentBannerPath=" + banner.parentBannerPath;
             }
             banner.bannerViewLink = bannerDetailsBaseUri + banner.id + parentPath;
-            console.log(banner.bannerViewLink);
         });
     }
 
@@ -216,7 +213,6 @@ const Results = ({parentBannerId,isRelatedList}) => {
 
     const getBannerParentPathComponent = (banner, styleConfig) => {
         const bannerPathSplitted = banner.parentBannerPath ? banner.parentBannerPath.split("|").filter(function(i){return i}) : [];
-        console.log(bannerPathSplitted)
         const parentBannerId = bannerPathSplitted.length > 1 ? bannerPathSplitted[bannerPathSplitted.length - 2] : bannerPathSplitted.length == 1 ? 0 : null;
         if (parentBannerId != null) {
             return (
@@ -241,7 +237,6 @@ const Results = ({parentBannerId,isRelatedList}) => {
     }
 
     const getBannerHierarchyTreeComponent = (banner, styleConfig) => {
-        console.log(banner)
         if (banner.childElements && banner.childElements > 0) {
             return (
                 <Typography key={styleConfig.key}
@@ -266,7 +261,7 @@ const Results = ({parentBannerId,isRelatedList}) => {
 
     const getSingleActionsComponent = (banner, styleConfig) => {
         return (
-            <SingleActions key={styleConfig.key} refreshData={receiveRefreshedData} bannerId={banner.id} bannerIsActive={!banner.isDraft} bannerPageKey={banner.pageKey} bannerComponentKey={banner.componentKey} bannerOrderPosition={banner.orderPosition}/>
+            <SingleActions key={styleConfig.key} refreshData={receiveRefreshedData} bannerId={banner.id} bannerIsDraft={banner.isDraft} bannerPageKey={banner.pageKey} bannerComponentKey={banner.componentKey} bannerOrderPosition={banner.orderPosition}/>
         )
     }
 
@@ -579,10 +574,8 @@ const Results = ({parentBannerId,isRelatedList}) => {
     if (banners && banners[0]) {
         if (banners[0].parentBannerPath) {
             const bannerPathSplitted = banners[0].parentBannerPath.split("|").filter(function(i){return i});
-            console.log(bannerPathSplitted)
             const bannerLevel = 0;
             bannerPathSplitted.forEach((element,index) => {
-              console.log(element);
               bannerLevel = index+1;
               if (element == router.query.parentBannerId) {
                 breadcrumbsData.push({ url: "", label: t("LABELS.bannersListIdentificationSmall",{bannerIdentification: banners[0].pageKey + "|" + banners[0].componentKey + "|" + t("LIST.bannersSubPathLevel", {levelNumber: bannerLevel})}), ownPage: true })
@@ -595,7 +588,6 @@ const Results = ({parentBannerId,isRelatedList}) => {
             });
         }
     }
-    console.log(breadcrumbsData);
 
     return (
       <>
