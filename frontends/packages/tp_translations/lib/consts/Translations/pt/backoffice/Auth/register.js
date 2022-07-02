@@ -5,7 +5,8 @@ export var REGISTER_TRANSLATIONS = deepFreeze({
         title: "Registar Conta",
         subtitle: "Preenche os seguintes campos para registar o teu movimento/iniciativa.",
         alreadyRegistered: "Já tens uma conta?",
-        signInHere: "Entra aqui"
+        signInHere: "Entra aqui",
+        buttonToLogin: "Botão para voltar à página de autenticação"
     },
     COVER: {
         title: "Um enorme movimento de mudança",

@@ -31,6 +31,10 @@ namespace ContentManageService.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int?>("Id"));
 
+                    b.Property<string>("ComponentKey")
+                        .HasMaxLength(25)
+                        .HasColumnType("character varying(25)");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp without time zone");
 
@@ -40,10 +44,20 @@ namespace ContentManageService.Migrations
                     b.Property<bool?>("IsDraft")
                         .HasColumnType("boolean");
 
+                    b.Property<int?>("OrderPosition")
+                        .HasColumnType("integer");
+
                     b.Property<string>("PageKey")
                         .IsRequired()
                         .HasMaxLength(25)
                         .HasColumnType("character varying(25)");
+
+                    b.Property<int?>("ParentBannerId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("ParentPath")
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp without time zone");
@@ -53,23 +67,80 @@ namespace ContentManageService.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ParentBannerId");
+
                     b.ToTable("Banner");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2022, 4, 4, 14, 35, 27, 649, DateTimeKind.Local).AddTicks(3489),
+                            CreatedAt = new DateTime(2022, 6, 21, 18, 14, 36, 78, DateTimeKind.Local).AddTicks(1726),
                             IsDraft = false,
+                            OrderPosition = 0,
                             PageKey = "aboutheadline"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateTime(2022, 6, 21, 18, 14, 36, 78, DateTimeKind.Local).AddTicks(1768),
+                            IsDraft = false,
+                            OrderPosition = 0,
+                            PageKey = "registerpage"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ComponentKey = "slider",
+                            CreatedAt = new DateTime(2022, 6, 21, 18, 14, 36, 78, DateTimeKind.Local).AddTicks(1772),
+                            IsDraft = false,
+                            OrderPosition = 0,
+                            PageKey = "registerpage",
+                            ParentBannerId = 2,
+                            ParentPath = "|registerpage|"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            ComponentKey = "slider",
+                            CreatedAt = new DateTime(2022, 6, 21, 18, 14, 36, 78, DateTimeKind.Local).AddTicks(1775),
+                            IsDraft = false,
+                            OrderPosition = 1,
+                            PageKey = "registerpage",
+                            ParentBannerId = 3,
+                            ParentPath = "|registerpage|slider|"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            ComponentKey = "slider",
+                            CreatedAt = new DateTime(2022, 6, 21, 18, 14, 36, 78, DateTimeKind.Local).AddTicks(1778),
+                            IsDraft = false,
+                            OrderPosition = 2,
+                            PageKey = "registerpage",
+                            ParentBannerId = 3,
+                            ParentPath = "|registerpage|slider|"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            ComponentKey = "bottomList",
+                            CreatedAt = new DateTime(2022, 6, 21, 18, 14, 36, 78, DateTimeKind.Local).AddTicks(1780),
+                            IsDraft = false,
+                            OrderPosition = 0,
+                            PageKey = "registerpage",
+                            ParentBannerId = 2,
+                            ParentPath = "|registerpage|"
                         });
                 });
 
             modelBuilder.Entity("ContentManageService.Entities.BannerTranslation", b =>
                 {
-                    b.Property<string>("LangKey")
-                        .HasMaxLength(5)
-                        .HasColumnType("character varying(5)");
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int?>("Id"));
 
                     b.Property<string>("BannerDataHtml")
                         .HasColumnType("text");
@@ -77,11 +148,20 @@ namespace ContentManageService.Migrations
                     b.Property<JsonDocument>("BannerDataJson")
                         .HasColumnType("jsonb");
 
-                    b.Property<int?>("BannerId")
-                        .IsRequired()
+                    b.Property<int>("BannerId")
                         .HasColumnType("integer");
 
-                    b.HasKey("LangKey");
+                    b.Property<string>("LangKey")
+                        .IsRequired()
+                        .HasMaxLength(5)
+                        .HasColumnType("character varying(5)");
+
+                    b.Property<string>("PageKey")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("character varying(25)");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("BannerId");
 
@@ -90,27 +170,93 @@ namespace ContentManageService.Migrations
                     b.HasData(
                         new
                         {
-                            LangKey = "pt-pt",
+                            Id = 1,
                             BannerDataJson = System.Text.Json.JsonDocument.Parse("{\n    \"blocks\": [\n        {\n            \"id\" : \"VDwuz33oJn\",\n            \"type\" : \"header\",\n            \"data\" : {\n                \"text\" : \"banner cabeçalho\",\n                \"level\" : 2\n            }\n        },\n        {\n            \"id\" : \"vFad3244\",\n            \"type\" : \"header\",\n            \"data\" : {\n                \"text\" : \"primeiro elemento\",\n                \"level\" : 3\n            }\n        },\n        {\n            \"id\" : \"vFad3244\",\n            \"type\" : \"paragraph\",\n            \"data\" : {\n                \"text\" : \"texto do primeiro elemento\",\n                \"headerId\" : \"vFad3244\"\n            }\n        }\n    ]\n}", new System.Text.Json.JsonDocumentOptions()),
-                            BannerId = 1
+                            BannerId = 1,
+                            LangKey = "pt-pt",
+                            PageKey = "aboutheadline"
                         },
                         new
                         {
-                            LangKey = "en-us",
+                            Id = 2,
                             BannerDataJson = System.Text.Json.JsonDocument.Parse("{\n    \"blocks\": [\n        {\n            \"id\" : \"VDwuz33oJn\",\n            \"type\" : \"header\",\n            \"data\" : {\n                \"text\" : \"banner header\",\n                \"level\" : 2\n            }\n        },\n        {\n            \"id\" : \"vFad3244\",\n            \"type\" : \"header\",\n            \"data\" : {\n                \"text\" : \"first item\",\n                \"level\" : 3\n            }\n        },\n        {\n            \"id\" : \"vFad3244\",\n            \"type\" : \"paragraph\",\n            \"data\" : {\n                \"text\" : \"first item text\",\n                \"headerId\" : \"vFad3244\"\n            }\n        }\n    ]\n}", new System.Text.Json.JsonDocumentOptions()),
-                            BannerId = 1
+                            BannerId = 1,
+                            LangKey = "en-us",
+                            PageKey = "aboutheadline"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            BannerDataJson = System.Text.Json.JsonDocument.Parse("{\n    \"blocks\": [\n        {\n            \"id\" : \"VDwuz33oJn\",\n            \"type\" : \"header\",\n            \"data\" : {\n                \"text\" : \"banner cabeçalho\",\n                \"level\" : 2\n            }\n        },\n        {\n            \"id\" : \"vFad3244\",\n            \"type\" : \"header\",\n            \"data\" : {\n                \"text\" : \"primeiro elemento\",\n                \"level\" : 3\n            }\n        },\n        {\n            \"id\" : \"vFad3244\",\n            \"type\" : \"paragraph\",\n            \"data\" : {\n                \"text\" : \"texto do primeiro elemento\",\n                \"headerId\" : \"vFad3244\"\n            }\n        }\n    ]\n}", new System.Text.Json.JsonDocumentOptions()),
+                            BannerId = 4,
+                            LangKey = "pt-pt",
+                            PageKey = "registerpage"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            BannerDataJson = System.Text.Json.JsonDocument.Parse("{\n    \"blocks\": [\n        {\n            \"id\" : \"VDwuz33oJn\",\n            \"type\" : \"header\",\n            \"data\" : {\n                \"text\" : \"banner header\",\n                \"level\" : 2\n            }\n        },\n        {\n            \"id\" : \"vFad3244\",\n            \"type\" : \"header\",\n            \"data\" : {\n                \"text\" : \"first item\",\n                \"level\" : 3\n            }\n        },\n        {\n            \"id\" : \"vFad3244\",\n            \"type\" : \"paragraph\",\n            \"data\" : {\n                \"text\" : \"first item text\",\n                \"headerId\" : \"vFad3244\"\n            }\n        }\n    ]\n}", new System.Text.Json.JsonDocumentOptions()),
+                            BannerId = 4,
+                            LangKey = "en-us",
+                            PageKey = "registerpage"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            BannerDataJson = System.Text.Json.JsonDocument.Parse("{\n    \"blocks\": [\n        {\n            \"id\" : \"VDwuz33oJn\",\n            \"type\" : \"header\",\n            \"data\" : {\n                \"text\" : \"banner cabeçalho\",\n                \"level\" : 2\n            }\n        },\n        {\n            \"id\" : \"vFad3244\",\n            \"type\" : \"header\",\n            \"data\" : {\n                \"text\" : \"primeiro elemento\",\n                \"level\" : 3\n            }\n        },\n        {\n            \"id\" : \"vFad3244\",\n            \"type\" : \"paragraph\",\n            \"data\" : {\n                \"text\" : \"texto do primeiro elemento\",\n                \"headerId\" : \"vFad3244\"\n            }\n        }\n    ]\n}", new System.Text.Json.JsonDocumentOptions()),
+                            BannerId = 5,
+                            LangKey = "pt-pt",
+                            PageKey = "registerpage"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            BannerDataJson = System.Text.Json.JsonDocument.Parse("{\n    \"blocks\": [\n        {\n            \"id\" : \"VDwuz33oJn\",\n            \"type\" : \"header\",\n            \"data\" : {\n                \"text\" : \"banner header\",\n                \"level\" : 2\n            }\n        },\n        {\n            \"id\" : \"vFad3244\",\n            \"type\" : \"header\",\n            \"data\" : {\n                \"text\" : \"first item\",\n                \"level\" : 3\n            }\n        },\n        {\n            \"id\" : \"vFad3244\",\n            \"type\" : \"paragraph\",\n            \"data\" : {\n                \"text\" : \"first item text\",\n                \"headerId\" : \"vFad3244\"\n            }\n        }\n    ]\n}", new System.Text.Json.JsonDocumentOptions()),
+                            BannerId = 5,
+                            LangKey = "en-us",
+                            PageKey = "registerpage"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            BannerDataJson = System.Text.Json.JsonDocument.Parse("{\n    \"blocks\": [\n        {\n            \"id\" : \"VDwuz33oJn\",\n            \"type\" : \"header\",\n            \"data\" : {\n                \"text\" : \"banner cabeçalho\",\n                \"level\" : 2\n            }\n        },\n        {\n            \"id\" : \"vFad3244\",\n            \"type\" : \"header\",\n            \"data\" : {\n                \"text\" : \"primeiro elemento\",\n                \"level\" : 3\n            }\n        },\n        {\n            \"id\" : \"vFad3244\",\n            \"type\" : \"paragraph\",\n            \"data\" : {\n                \"text\" : \"texto do primeiro elemento\",\n                \"headerId\" : \"vFad3244\"\n            }\n        }\n    ]\n}", new System.Text.Json.JsonDocumentOptions()),
+                            BannerId = 6,
+                            LangKey = "pt-pt",
+                            PageKey = "registerpage"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            BannerDataJson = System.Text.Json.JsonDocument.Parse("{\n    \"blocks\": [\n        {\n            \"id\" : \"VDwuz33oJn\",\n            \"type\" : \"header\",\n            \"data\" : {\n                \"text\" : \"banner header\",\n                \"level\" : 2\n            }\n        },\n        {\n            \"id\" : \"vFad3244\",\n            \"type\" : \"header\",\n            \"data\" : {\n                \"text\" : \"first item\",\n                \"level\" : 3\n            }\n        },\n        {\n            \"id\" : \"vFad3244\",\n            \"type\" : \"paragraph\",\n            \"data\" : {\n                \"text\" : \"first item text\",\n                \"headerId\" : \"vFad3244\"\n            }\n        }\n    ]\n}", new System.Text.Json.JsonDocumentOptions()),
+                            BannerId = 6,
+                            LangKey = "en-us",
+                            PageKey = "registerpage"
                         });
+                });
+
+            modelBuilder.Entity("ContentManageService.Entities.Banner", b =>
+                {
+                    b.HasOne("ContentManageService.Entities.Banner", "ParentBanner")
+                        .WithMany()
+                        .HasForeignKey("ParentBannerId");
+
+                    b.Navigation("ParentBanner");
                 });
 
             modelBuilder.Entity("ContentManageService.Entities.BannerTranslation", b =>
                 {
                     b.HasOne("ContentManageService.Entities.Banner", "Banner")
-                        .WithMany()
+                        .WithMany("BannerTranslations")
                         .HasForeignKey("BannerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Banner");
+                });
+
+            modelBuilder.Entity("ContentManageService.Entities.Banner", b =>
+                {
+                    b.Navigation("BannerTranslations");
                 });
 #pragma warning restore 612, 618
         }

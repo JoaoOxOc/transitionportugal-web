@@ -320,6 +320,21 @@ spec:
               value: "true"
             - name: DatabaseSettings__DbPooling
               value: "false"
+            - name: ApplicationSettings__RabbitMQHost
+              valueFrom:
+                  secretKeyRef:
+                      name: cmservice-data
+                      key: rabbitmq-host
+            - name: ApplicationSettings__RabbitMQPassword
+              valueFrom:
+                  secretKeyRef:
+                      name: cmservice-data
+                      key: rabbitmq-password
+            - name: ApplicationSettings__RabbitMQUser
+              valueFrom:
+                  secretKeyRef:
+                      name: cmservice-data
+                      key: rabbitmq-username
       - name: tpnotificationservice
         image: <NOTIFICATIONSERVICE_API_IMAGE>
         ports:

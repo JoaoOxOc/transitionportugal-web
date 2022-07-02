@@ -11,6 +11,7 @@ namespace MicroservicesLibrary.HttpHandlers
     public class ErrorHandlerMiddleware
     {
         private readonly RequestDelegate _next;
+        //private readonly GreetingOptions options;
 
         public ErrorHandlerMiddleware(RequestDelegate next)
         {
@@ -27,6 +28,8 @@ namespace MicroservicesLibrary.HttpHandlers
             {
                 var response = context.Response;
                 response.ContentType = "application/json";
+
+                var innerEx = error.InnerException;
 
                 switch (error)
                 {
@@ -48,7 +51,7 @@ namespace MicroservicesLibrary.HttpHandlers
                         break;
                 }
 
-                var result = JsonSerializer.Serialize(new { message = error?.Message, details = error?.StackTrace });
+                var result = JsonSerializer.Serialize(new { message = error?.Message, details = error?.StackTrace, innerException = innerEx?.Message });
                 await response.WriteAsync(result);
             }
         }

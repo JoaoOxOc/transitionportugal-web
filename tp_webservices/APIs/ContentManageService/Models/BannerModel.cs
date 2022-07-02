@@ -7,8 +7,12 @@ namespace ContentManageService.Models
         public int? Id { get; set; }
 
         public string PageKey { get; set; }
-
+        public string? ComponentKey { get; set; }
+        public int? OrderPosition { get; set; }
         public bool? IsDraft { get; set; }
+        public int? ParentBannerId { get; set; }
+        public string? ParentBannerPath { get; set; }
+        public int? ChildElements { get; set; }
 
         public List<BannerDataModel>? BannerLanguages { get; set; }
 

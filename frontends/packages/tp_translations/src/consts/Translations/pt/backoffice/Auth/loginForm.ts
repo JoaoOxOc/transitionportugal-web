@@ -14,14 +14,16 @@ export const LOGINFORM_TRANSLATIONS = deepFreeze({
     FORMS: {
         emailAddress: "Endereço de Email",
         usernameOrEmailAddress: "Username/Email",
+        usernameOrEmailAddress_help: "Insira o email ou username da sua conta para autenticar-se",
         username: "Username",
         password: "Palavra-passe",
         password_help: "Insira a palavra-passe da sua conta para autenticação",
-        usernameOrEmailAddress_help: "Insira o email ou username da sua conta para autenticar-se",
-        submit_help: "Este formulário autentica a sua conta. Caso seja autenticado com sucesso, irá entrar na aplicação."
+        submit_help: "Este formulário autentica a sua conta. Caso seja autenticado com sucesso, irá entrar na aplicação.",
+        authErrorResult: "apresenta a mensagem de erro quando a autenticação falha"
     },
     MESSAGES: {
         loginError: "Username/Email/Palavra-passe incorrectos!",
+        serverError: "Ocorreu um erro ao contactar o serviço. Por favor tente novamente. Se o problema persistir por favor contacte o administrador da plataforma",
         emailInvalid: "O email fornecido deverá ser um endereço de email válido",
         emailRequired: "O Email é obrigatório",
         usernameRequired: "Username é obrigatório",

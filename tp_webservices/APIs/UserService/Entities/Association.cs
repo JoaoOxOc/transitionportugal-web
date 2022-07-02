@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace UserService.Entities
 {
@@ -66,6 +67,10 @@ namespace UserService.Entities
         public bool TermsConsent { get; set; }
 
         public decimal TermsConsentVersion { get; set; }
+
+        [ForeignKey("AssociationType")]
+        public int? AssociationTypeId { get; set; }
+        public virtual AssociationType? AssociationType { get; set; }
 
         #region MetaData
 

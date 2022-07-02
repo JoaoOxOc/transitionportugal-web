@@ -2,32 +2,21 @@ import { SyntheticEvent, useState, useContext, useCallback, useEffect, ReactElem
 
 import PropTypes from 'prop-types';
 import {
-    Avatar,
     Box,
     Card,
     Checkbox,
     Grid,
-    Slide,
     Divider,
     Tooltip,
-    IconButton,
     Icon,
-    InputAdornment,
     Table,
     TableBody,
-    TableCell,
     TableHead,
     TableContainer,
     TableRow,
     ToggleButton,
     ToggleButtonGroup,
-    Tab,
-    Tabs,
-    TextField,
-    Button,
     Typography,
-    Dialog,
-    Zoom,
     FormControlLabel,
     styled
   } from '@mui/material';
@@ -40,11 +29,7 @@ import { useSession } from "next-auth/react";
 import { GetAssociations } from '../../../services/associations';
 import { useErrorHandler } from 'react-error-boundary';
 
-import SecretTransform from '../../../utils/secretTransform';
-import Link from '../../../components/Link';
-import clsx from 'clsx';
 import LaunchTwoToneIcon from '@mui/icons-material/LaunchTwoTone';
-import Label from '../../../components/Label';
 // import BulkActions from './BulkActions';
 import GridViewTwoToneIcon from '@mui/icons-material/GridViewTwoTone';
 import TableRowsTwoToneIcon from '@mui/icons-material/TableRowsTwoTone';
@@ -56,34 +41,9 @@ import MarkEmailReadTwoToneIcon from '@mui/icons-material/MarkEmailReadTwoTone';
 import UnsubscribeTwoToneIcon from '@mui/icons-material/UnsubscribeTwoTone';
 
 import SearchBar from './SearchBar';
-import ResultsHeader from '../../../components/Table/Header';
-import ResultsPagination from '../../../components/Table/Pagination';
+import { ResultsHeader, ResultsPagination, BodyTableView, BodyGridView} from "@transitionpt/components";
 
 import { i18nextAssociationsList } from "@transitionpt/translations";
-
-const CardWrapper = styled(Card)(
-  ({ theme }) => `
-
-  position: relative;
-  overflow: visible;
-
-  &::after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    border-radius: inherit;
-    z-index: 1;
-    transition: ${theme.transitions.create(['box-shadow'])};
-  }
-      
-    &.Mui-selected::after {
-      box-shadow: 0 0 0 3px ${theme.colors.primary.main};
-    }
-  `
-);
 
 const IconActive = styled(Icon)(
     ({ theme }) => `
@@ -121,48 +81,6 @@ const Results = () => {
 
   let associationsApiUri = "/associations/get";
   let associationDetailsBaseUri = "/management/associations/single/";
-
-  const headCells = [
-      {
-          id: 'selectAll',
-          isCheckbox: true,
-      },
-      {
-          id: 'Name',
-          isSort: true,
-          disablePadding: false,
-          align: 'left',
-          label: t('ASSOCIATIONOBJECT.name'),
-      },
-      {
-          id: 'Email',
-          isSort: true,
-          disablePadding: false,
-          align: 'left',
-          label: t('ASSOCIATIONOBJECT.email'),
-      },
-      {
-          id: 'IsActive',
-          isSort: true,
-          disablePadding: false,
-          align: 'center',
-          label: t('ASSOCIATIONOBJECT.active'),
-      },
-      {
-          id: 'IsEmailVerified',
-          isSort: true,
-          disablePadding: false,
-          align: 'center',
-          label: t('ASSOCIATIONOBJECT.verified'),
-      },
-      {
-          id: 'actions',
-          isSort: false,
-          disablePadding: false,
-          align: 'center',
-          label: t('LABELS.actions'),
-      },
-  ];
 
   const getAssociationsData = useCallback(async (searchDataJson) => {
     try {
@@ -218,6 +136,271 @@ const Results = () => {
     const selectedAllAssociations = associations && selectedItems.length === associations.length ? associations.length : 0;
     const selectedBulkActions = selectedItems.length > 0;
 
+    if (associations) {
+        associations.map((association) => {
+            association.associationViewLink = associationDetailsBaseUri + association.id;
+        });
+    }
+
+    const getAssociationLinkField = (association) => {
+        return association.associationViewLink;
+    }
+
+    const getAssociationIsActiveComponent = (association, styleConfig) => {
+        return (
+            <Typography key={styleConfig.key}
+                pl={styleConfig && styleConfig.paddingLeft ? styleConfig.paddingLeft: 0}
+            >
+                <Tooltip title={t('ASSOCIATIONOBJECT.active')} arrow>
+                    { association.isActive == true ?
+                        (
+                            <IconActive
+                                color="primary"
+                                >
+                                <CheckTwoToneIcon/>
+                            </IconActive>
+                        ) : (
+                            <IconInactive
+                                color="primary"
+                                >
+                                <CloseTwoToneIcon/>
+                            </IconInactive>
+                        )
+                    }
+                </Tooltip>
+            </Typography>
+        );
+    }
+
+    const getAssociationIsEmailVerifiedComponent = (association, styleConfig) => {
+        return (
+            <Typography key={styleConfig.key}
+                pl={styleConfig && styleConfig.paddingLeft ? styleConfig.paddingLeft: 0}
+            >
+                <Tooltip title={t('ASSOCIATIONOBJECT.verified')} arrow>
+                    { association.isEmailVerified == true ?
+                        (
+                            <IconActive
+                                color="primary"
+                                >
+                                <MarkEmailReadTwoToneIcon/>
+                            </IconActive>
+                        ) : (
+                            <IconInactive
+                                color="primary"
+                                >
+                                <UnsubscribeTwoToneIcon/>
+                            </IconInactive>
+                        )
+                    }
+                </Tooltip>
+            </Typography>
+        );
+    }
+
+    const headCells = [
+        {
+            id: 'selectAll',
+            isCheckbox: true,
+        },
+        {
+            id: 'Name',
+            isSort: true,
+            disablePadding: false,
+            align: 'left',
+            label: t('ASSOCIATIONOBJECT.name'),
+        },
+        {
+            id: 'Email',
+            isSort: true,
+            disablePadding: false,
+            align: 'left',
+            label: t('ASSOCIATIONOBJECT.email'),
+        },
+        {
+            id: 'IsActive',
+            isSort: true,
+            disablePadding: false,
+            align: 'center',
+            label: t('ASSOCIATIONOBJECT.active'),
+        },
+        {
+            id: 'IsEmailVerified',
+            isSort: true,
+            disablePadding: false,
+            align: 'center',
+            label: t('ASSOCIATIONOBJECT.verified'),
+        },
+        {
+            id: 'actions',
+            isSort: false,
+            disablePadding: false,
+            align: 'center',
+            label: t('LABELS.actions'),
+        },
+    ];
+
+    const tableViewData = {
+        "orderedCells": [
+            {
+                key: "associationName",
+                type: "typography",
+                alignment: "left",
+                typographyVariant: "h5",
+                fieldName: "name"
+            },
+            {
+                key: "associationEmail",
+                type: "boxWithLink",
+                alignment: "left",
+                display: "flex",
+                alignItems: "center",
+                linkFieldName: "associationViewLink",
+                isNextLink: true,
+                fieldName: "email"
+            },
+            {
+                key: "associationIsActive",
+                type: "customComponent",
+                customComponentStyleConfig: {
+                    key: "associationIsActive"
+                },
+                alignment: "center",
+                customComponentGetter: getAssociationIsActiveComponent,
+                fieldName: "isActive"
+            },
+            {
+                key: "associationIsVerified",
+                type: "customComponent",
+                customComponentStyleConfig: {
+                    key: "associationIsVerified"
+                },
+                alignment: "center",
+                customComponentGetter: getAssociationIsEmailVerifiedComponent,
+                fieldName: "isEmailVerified"
+            },
+            {
+                key: "associationActions",
+                type: "actions",
+                alignment: "center",
+                actions: [
+                    {
+                        actionKey: "viewAssociation",
+                        actionType: "linkIconButton",
+                        title: t('LABELS.view'),
+                        linkGetter: getAssociationLinkField,
+                        isNextLink: true,
+                        iconButtonColor: "primary",
+                        buttonIconComponent: <LaunchTwoToneIcon fontSize="small" />
+                    }
+                ]
+            },
+        ],
+        "dataFields": {
+            selectedItemIdField: "id",
+            idField: "id",
+        },
+        "data": associations
+    }
+
+    const gridViewData = {
+        "responsive": {
+            xs: 12,
+            sm: 6,
+            md: 4
+        },
+        "orderedGridItems": [
+            {
+                key: "associationSelected",
+                type: "selectableCheckbox",
+                checkboxTitle: t('LABELS.selectItemLabel'),
+                paddingLeft: 2,
+                paddingY: 1,
+                paddingRight: 1,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between"
+            },
+            {
+                key: "associationSelectionDivider",
+                type: "divider"
+            },
+            {
+                key: "associationDetails",
+                type: "composableGridItem",
+                subType: "twoBoxes",
+                padding: 2,
+                display: "flex",
+                alignItems: "flex-start",
+                subItems: [
+                    {
+                        key: "associationDetailsLink",
+                        type: "boxWithLinkAndTypography",
+                        display: "",
+                        alignItems: "",
+                        variant: "h5",
+                        isNextLink: true,
+                        linkFieldName: "associationViewLink",
+                        fieldName: "name",
+                        typographyFieldName: "address",
+                        typographyTextWithParantesis: true,
+                        typographyComponent: "span",
+                        typographyVariant: "body2",
+                        typographyColor: "text.secondary"
+                    },
+                    {
+                        key: "associationDetailsEmail",
+                        type: "typography",
+                        paddingTop: 1,
+                        variant: "h6",
+                        fieldName: "email"
+                    }
+                ]
+            },
+            {
+                key: "associationStatus",
+                type: "composableGridItem",
+                subType: "boxWithTypography",
+                paddingLeft: 2,
+                paddingRight: 1,
+                paddingY: 1,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                typographyDisplay: "flex",
+                subItems: [
+                    {
+                        key: "associationIsActive",
+                        type: "customComponent",
+                        customComponentStyleConfig: {
+                            paddingLeft: 1,
+                            key: "associationIsActive"
+                        },
+                        alignment: "center",
+                        customComponentGetter: getAssociationIsActiveComponent,
+                        fieldName: "isActive"
+                    },
+                    {
+                        key: "associationIsVerified",
+                        type: "customComponent",
+                        customComponentStyleConfig: {
+                            paddingLeft: 1,
+                            key: "associationIsVerified"
+                        },
+                        alignment: "center",
+                        customComponentGetter: getAssociationIsEmailVerifiedComponent,
+                        fieldName: "isEmailVerified"
+                    }
+                ]
+            }
+        ],
+        "dataFields": {
+            selectedItemIdField: "id",
+            idField: "id",
+        },
+        "data": associations
+    }
+
     return (
       <>
           <Box
@@ -272,112 +455,11 @@ const Results = () => {
                               </TableHead>
                               <TableBody>
                                   {!associations || associations.length == 0 ? (
+                                    <TableRow>
                                       <Loader />
+                                    </TableRow>
                                   ) : (
-                                    associations.map((association) => {
-                                    const isAssociationSelected = selectedItems.includes(association.id);
-                                    return (
-                                      <TableRow hover key={association.id} selected={isAssociationSelected}>
-                                          <TableCell padding="checkbox">
-                                            <Checkbox
-                                            checked={isAssociationSelected}
-                                            onChange={(event) =>
-                                                handleSelectOneAssociation(event, association.id)
-                                            }
-                                            value={isAssociationSelected}
-                                            />
-                                        </TableCell>
-                                          <TableCell>
-                                              <Typography variant="h5">
-                                              {association.name}
-                                              </Typography>
-                                          </TableCell>
-                                          <TableCell>
-                                              <Box display="flex" alignItems="center">
-                                                  {/* <Avatar
-                                                      sx={{
-                                                      mr: 1
-                                                      }}
-                                                      src={association.avatar}
-                                                  /> */}
-                                                  <Box>
-                                                      <Link href={associationDetailsBaseUri + association.id} isNextLink={true}>
-                                                          {association.email}
-                                                      </Link>
-                                                  </Box>
-                                              </Box>
-                                          </TableCell>
-                                          <TableCell align="center">
-                                              <Typography>
-                                                  { association.isActive == true ?
-                                                    (
-                                                        <IconActive
-                                                            color="primary"
-                                                            >
-                                                            <CheckTwoToneIcon/>
-                                                        </IconActive>
-                                                    ) : (
-                                                        <IconInactive
-                                                            color="primary"
-                                                            >
-                                                            <CloseTwoToneIcon/>
-                                                        </IconInactive>
-                                                    )
-                                                  }
-                                              </Typography>
-                                          </TableCell>
-                                          <TableCell align="center">
-                                                <Typography>
-                                                    { association.isEmailVerified == true ?
-                                                        (
-                                                            <IconActive
-                                                                color="primary"
-                                                                >
-                                                                <MarkEmailReadTwoToneIcon/>
-                                                            </IconActive>
-                                                        ) : (
-                                                            <IconInactive
-                                                                color="primary"
-                                                                >
-                                                                <UnsubscribeTwoToneIcon/>
-                                                            </IconInactive>
-                                                        )
-                                                    }
-                                                </Typography>
-                                          </TableCell>
-                                          {/* <TableCell align="center">
-                                              <Typography fontWeight="bold">
-                                              {association.posts}
-                                              </Typography>
-                                          </TableCell>
-                                          <TableCell>
-                                              <Typography>{association.location}</Typography>
-                                          </TableCell>
-                                          <TableCell>{getAssociationRoleLabel(association.role)}</TableCell> */}
-                                          <TableCell align="center">
-                                              <Typography noWrap>
-                                              <Tooltip title={t('LABELS.view')} arrow>
-                                                  <Link href={associationDetailsBaseUri + association.id} isNextLink={true}>
-                                                      <IconButton
-                                                      color="primary"
-                                                      >
-                                                      <LaunchTwoToneIcon fontSize="small" />
-                                                      </IconButton>
-                                                  </Link>
-                                              </Tooltip>
-                                              {/* <Tooltip title={t('Delete')} arrow>
-                                                  <IconButton
-                                                  onClick={handleConfirmDelete}
-                                                  color="primary"
-                                                  >
-                                                  <DeleteTwoToneIcon fontSize="small" />
-                                                  </IconButton>
-                                              </Tooltip> */}
-                                              </Typography>
-                                          </TableCell>
-                                      </TableRow>
-                                  );
-                                  })
+                                    <BodyTableView rowsConfig={tableViewData} selectableItems={true} selectedItems={selectedItems} selectedItemCellTitle={t('LABELS.selectItemLabel')} sendSelectedItem={handleSelectOneAssociation} />
                                   )
                               }
                               </TableBody>
@@ -436,130 +518,7 @@ const Results = () => {
                   ) : (
                   <>
                       <Grid container spacing={3}>
-                      {associations.map((association) => {
-                          const isAssociationSelected = selectedItems.includes(association.id);
-
-                          return (
-                              <Grid item xs={12} sm={6} md={4} key={association.id}>
-                              <CardWrapper
-                                  className={clsx({
-                                  'Mui-selected': isAssociationSelected
-                                  })}
-                              >
-                                  <Box
-                                      sx={{
-                                          position: 'relative',
-                                          zIndex: '2'
-                                      }}
-                                      >
-                                      <Box
-                                          pl={2}
-                                          py={1}
-                                          pr={1}
-                                          display="flex"
-                                          alignItems="center"
-                                          justifyContent="space-between"
-                                      >
-                                          {/* <Typography>
-                                          <b>{association.posts}</b> {t('posts')}
-                                          </Typography> */}
-                                          <Checkbox
-                                            checked={isAssociationSelected}
-                                            onChange={(event) =>
-                                                handleSelectOneAssociation(event, association.id)
-                                            }
-                                            value={isAssociationSelected}
-                                          />
-                                      </Box>
-                                      <Divider />
-                                      <Box p={2} display="flex" alignItems="flex-start">
-                                          {/* <Avatar
-                                              sx={{
-                                                  width: 50,
-                                                  height: 50,
-                                                  mr: 2
-                                              }}
-                                              src={association.avatar}
-                                              /> */}
-                                          <Box>
-                                              <Box>
-                                                  <Link variant="h5" href={associationDetailsBaseUri + association.id} isNextLink={true}>
-                                                      {association.name}
-                                                  </Link>{' '}
-                                                  <Typography
-                                                      component="span"
-                                                      variant="body2"
-                                                      color="text.secondary"
-                                                      >
-                                                      ({association.address})
-                                                  </Typography>
-                                              </Box>
-                                              <Typography
-                                                  sx={{
-                                                  pt: 1
-                                                  }}
-                                                  variant="h6"
-                                              >
-                                                  {association.email}
-                                              </Typography>
-                                          </Box>
-                                      </Box>
-                                      <Box
-                                          pl={2}
-                                          py={1}
-                                          pr={1}
-                                          display="flex"
-                                          alignItems="center"
-                                          justifyContent="space-between"
-                                      >
-                                        <Typography>
-                                            <Tooltip title={t('ASSOCIATIONOBJECT.active')} arrow>
-                                                { association.isActive == true ?
-                                                    (
-                                                        <IconActive
-                                                            color="primary"
-                                                            >
-                                                            <CheckTwoToneIcon/>
-                                                        </IconActive>
-                                                    ) : (
-                                                        <IconInactive
-                                                            color="primary"
-                                                            >
-                                                            <CloseTwoToneIcon/>
-                                                        </IconInactive>
-                                                    )
-                                                }
-                                            </Tooltip>
-                                            <Tooltip title={t('ASSOCIATIONOBJECT.verified')} arrow>
-                                                { association.isEmailVerified == true ?
-                                                    (
-                                                        <IconActive
-                                                            color="primary"
-                                                            sx={{
-                                                                ml: '5px'
-                                                            }}
-                                                            >
-                                                            <MarkEmailReadTwoToneIcon/>
-                                                        </IconActive>
-                                                    ) : (
-                                                        <IconInactive
-                                                            color="primary"
-                                                            sx={{
-                                                                ml: '5px'
-                                                            }}
-                                                            >
-                                                            <UnsubscribeTwoToneIcon/>
-                                                        </IconInactive>
-                                                    )
-                                                }
-                                            </Tooltip>
-                                        </Typography>
-                                      </Box>
-                                  </Box>
-                              </CardWrapper>
-                              </Grid>
-                          );
-                          })}
+                            <BodyGridView rowsConfig={gridViewData} selectableItems={true} selectedItems={selectedItems} sendSelectedItem={handleSelectOneAssociation} />
                       </Grid>
                       <Card
                           sx={{

@@ -103,6 +103,15 @@ namespace UserService.Controllers
                     exceptionModel.DateLogging = DateTime.UtcNow;
                     exceptionModel.AdminRole = "Admin";
                     exceptionModel.InnerException = ex.InnerException;
+                    exceptionModel.InputDataJson = JsonSerializer.Serialize(new
+                    {
+                        searchText = searchText,
+                        settingType = settingType,
+                        offset = offset,
+                        limit = limit,
+                        sort = sort,
+                        sortDirection = sortDirection
+                    });
                     var claimUserId = userClaims.Where(x => x.Claim == "userId").FirstOrDefault();
                     exceptionModel.UserId = claimUserId != null ? claimUserId.Value : "";
 
@@ -129,7 +138,7 @@ namespace UserService.Controllers
                 SortDirection direction = sortDirection == "desc" ? SortDirection.Descending : SortDirection.Ascending;
 
                 Expression<Func<Setting, bool>> filter = (x => (x.Description.ToLower().Contains(searchText) || x.Key.ToLower().Contains(searchText))
-                && (x.Key == SettingCode.CaptchaSiteKey.ToString() || x.Key == SettingCode.CaptchaSecretKey.ToString()));
+                && (x.Key == SettingCode.CaptchaSiteKey.ToString() || x.Key == SettingCode.CaptchaSecretKey.ToString() || x.Key == SettingCode.HEREgeocodeApiKey.ToString() || x.Key == SettingCode.PositionStackGeocodeApiKey.ToString() || x.Key == SettingCode.GoogleGeocodeApiKey.ToString() || x.Key == SettingCode.GeocodeServiceInUse.ToString()));
 
                 var _settings = uow.SettingRepository.Get(offset, limit, filter, sort, direction, string.Empty);
 
@@ -147,6 +156,14 @@ namespace UserService.Controllers
                 exceptionModel.DateLogging = DateTime.UtcNow;
                 exceptionModel.AdminRole = "Admin";
                 exceptionModel.InnerException = ex.InnerException;
+                exceptionModel.InputDataJson = JsonSerializer.Serialize(new
+                {
+                    searchText = searchText,
+                    offset = offset,
+                    limit = limit,
+                    sort = sort,
+                    sortDirection = sortDirection
+                });
                 exceptionModel.UserId = "";
 
                 bool success = await _rabbitSender.PublishExceptionMessage(exceptionModel);
@@ -182,6 +199,10 @@ namespace UserService.Controllers
                     exceptionModel.DateLogging = DateTime.UtcNow;
                     exceptionModel.AdminRole = "Admin";
                     exceptionModel.InnerException = ex.InnerException;
+                    exceptionModel.InputDataJson = JsonSerializer.Serialize(new
+                    {
+                        settingId = id
+                    });
                     var claimUserId = userClaims.Where(x => x.Claim == "userId").FirstOrDefault();
                     exceptionModel.UserId = claimUserId != null ? claimUserId.Value : "";
 
@@ -249,6 +270,7 @@ namespace UserService.Controllers
                     exceptionModel.DateLogging = DateTime.UtcNow;
                     exceptionModel.AdminRole = "Admin";
                     exceptionModel.InnerException = ex.InnerException;
+                    exceptionModel.InputDataJson = JsonSerializer.Serialize(editedSettingModel);
                     var claimUserId = userClaims.Where(x => x.Claim == "userId").FirstOrDefault();
                     exceptionModel.UserId = claimUserId != null ? claimUserId.Value : "";
 

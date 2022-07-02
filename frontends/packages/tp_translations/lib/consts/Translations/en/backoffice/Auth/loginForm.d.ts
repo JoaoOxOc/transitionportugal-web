@@ -17,9 +17,11 @@ export declare const LOGINFORM_TRANSLATIONS: {
         readonly password: "Password";
         readonly password_help: "Insert your account password";
         readonly submit_help: "This form authenticates your account then you enter in the webapp if authenticated successfully";
+        readonly authErrorResult: "Shows the error message when the authentication fails";
     };
     readonly MESSAGES: {
         readonly loginError: "Username/Email/password are incorrect!";
+        readonly serverError: "Error contacting the server. Please try again. If the problem persists contact the web administrator";
         readonly emailInvalid: "The email provided should be a valid email address";
         readonly emailRequired: "The email field is required";
         readonly usernameRequired: "The Username is required";

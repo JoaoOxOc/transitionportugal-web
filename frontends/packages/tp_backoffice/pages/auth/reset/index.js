@@ -77,6 +77,7 @@ function ResetPassword() {
     i18nextReset.changeLanguage(currentLang);
     const router = useRouter();
     const { t } = router.query;
+    const [serverError, setServerError] = useState('');
 
     useEffect(() => {
         const handleNewMessage = (event) => {
@@ -145,41 +146,48 @@ function ResetPassword() {
                 helpers.setErrors({ submit: resetResultParsed.statusText });
                 helpers.setSubmitting(false);
                 if (resetResult.status === 403) {
-                    enqueueSnackbar(i18nextReset.t('MESSAGES.passwordComplexityError'), {
-                      variant: 'error',
-                      anchorOrigin: {
-                        vertical: 'top',
-                        horizontal: 'center'
-                      },
-                      autoHideDuration: 2000,
-                      TransitionComponent: Slide
-                    });
+                  setServerError(t('MESSAGES.passwordComplexityError'));
+                    // enqueueSnackbar(i18nextReset.t('MESSAGES.passwordComplexityError'), {
+                    //   variant: 'error',
+                    //   anchorOrigin: {
+                    //     vertical: 'top',
+                    //     horizontal: 'center'
+                    //   },
+                    //   autoHideDuration: 2000,
+                    //   TransitionComponent: Slide
+                    // });
                 }
                 else if (resetResult.status === 401) {
                     setDisplayRecoverLink(true);
-                    enqueueSnackbar(i18nextReset.t('MESSAGES.tokenExpiredError'), {
-                      variant: 'error',
-                      anchorOrigin: {
-                        vertical: 'top',
-                        horizontal: 'center'
-                      },
-                      autoHideDuration: 2000,
-                      TransitionComponent: Slide
-                    });
+                    setServerError(t('MESSAGES.tokenExpiredError'));
+                    // enqueueSnackbar(i18nextReset.t('MESSAGES.tokenExpiredError'), {
+                    //   variant: 'error',
+                    //   anchorOrigin: {
+                    //     vertical: 'top',
+                    //     horizontal: 'center'
+                    //   },
+                    //   autoHideDuration: 2000,
+                    //   TransitionComponent: Slide
+                    // });
                 }
                 else if (resetResult.status === 404) {
-                    enqueueSnackbar(i18nextReset.t('MESSAGES.userNotFoundError'), {
-                      variant: 'error',
-                      anchorOrigin: {
-                        vertical: 'top',
-                        horizontal: 'center'
-                      },
-                      autoHideDuration: 2000,
-                      TransitionComponent: Slide
-                    });
+                  setServerError(t('MESSAGES.userNotFoundError'));
+                    // enqueueSnackbar(i18nextReset.t('MESSAGES.userNotFoundError'), {
+                    //   variant: 'error',
+                    //   anchorOrigin: {
+                    //     vertical: 'top',
+                    //     horizontal: 'center'
+                    //   },
+                    //   autoHideDuration: 2000,
+                    //   TransitionComponent: Slide
+                    // });
+                }
+                else {
+                  setServerError(t('MESSAGES.userResetError'));
                 }
             }
           } catch (err) {
+            setServerError(t('MESSAGES.userResetError'));
             console.error(err);
             helpers.setStatus({ success: false });
             helpers.setErrors({ submit: err.message });
@@ -235,6 +243,19 @@ function ResetPassword() {
                 </Box>
             }
                 <form noValidate onSubmit={formik.handleSubmit}>
+                  {serverError && (
+                    <>
+                      <Alert
+                        sx={{
+                          mb: 1
+                        }}
+                        severity="error"
+                        aria-label={ t('FORMS.resetErrorResult') }
+                      >
+                        <span>{serverError}</span>
+                      </Alert>
+                    </>
+                  )}
                   <TextField
                     error={Boolean(formik.touched.password && formik.errors.password)}
                     fullWidth

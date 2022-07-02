@@ -46,6 +46,8 @@ namespace UserService.Models
 
         public decimal? Longitude { get; set; }
 
+        public string? AssociationType { get; set; }
+
         public DateTime? ContractStartDate { get; set; }
 
         public DateTime? ContractEndDate { get; set; }

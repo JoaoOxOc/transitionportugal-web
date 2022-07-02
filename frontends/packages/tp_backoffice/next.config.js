@@ -6,5 +6,8 @@ const withTM = require("next-transpile-modules")(["@transitionpt/translations", 
 module.exports = withPlugins([optimizedImages, withTM], {
     basePath: '/admin',
     reactStrictMode: true,
+    images: {
+      disableStaticImages: true
+    },
   }
 )

@@ -236,11 +236,26 @@ namespace UserService.Migrations.Config
                 new Setting() { Id = 2, Key = SettingCode.CaptchaSiteKey.ToString(), DefaultValue = "6Lf2t0sUAAAAABiszBasjJuBZXTdqMy00zOKPOFt", Value = "6Lf2t0sUAAAAABiszBasjJuBZXTdqMy00zOKPOFt", Description = "Site key usada pelo serviço de reCAPTCHA da Google", SettingType = (int)SettingsType.USER, CreatedAt = DateTime.Now },
                 new Setting() { Id = 3, Key = SettingCode.CaptchaSecretKey.ToString(), DefaultValue = "6Lf2t0sUAAAAAPwP3kIvpynFqPp-7_QLfQoDQtZd", Value = "6Lf2t0sUAAAAAPwP3kIvpynFqPp-7_QLfQoDQtZd", Description = "Secret key usada pelo serviço de reCAPTCHA da Google", SettingType = (int)SettingsType.USER, CreatedAt = DateTime.Now },
                 new Setting() { Id = 4, Key = SettingCode.MailchimpApiKey.ToString(), DefaultValue = "123456", Value = "123456", Description = "API key usada para comunicar com o Mailchimp", SettingType = (int)SettingsType.USER, CreatedAt = DateTime.Now },
-                new Setting() { Id = 5, Key = SettingCode.MailchimpListQuantity.ToString(), DefaultValue = "20", Value = "20", Description = "Quantidade máxima de emails por lista", SettingType = (int)SettingsType.USER, CreatedAt = DateTime.Now }
+                new Setting() { Id = 5, Key = SettingCode.MailchimpListQuantity.ToString(), DefaultValue = "20", Value = "20", Description = "Quantidade máxima de emails por lista", SettingType = (int)SettingsType.USER, CreatedAt = DateTime.Now },
+                new Setting() { Id = 6, Key = SettingCode.GeocodeServiceInUse.ToString(), DefaultValue = "HERE", Value = "HERE", Description = "Escolha o serviço 'HERE', 'PositionStack' ou 'Google' - preencha a respectiva API key", SettingType = (int)SettingsType.USER, CreatedAt = DateTime.Now },
+                new Setting() { Id = 7, Key = SettingCode.HEREgeocodeApiKey.ToString(), DefaultValue = "123456", Value = "123456", Description = "API key do serviço de geolocalização da 'HERE'", SettingType = (int)SettingsType.USER, CreatedAt = DateTime.Now },
+                new Setting() { Id = 8, Key = SettingCode.PositionStackGeocodeApiKey.ToString(), DefaultValue = "123456", Value = "123456", Description = "API key do serviço de geolocalização da 'PositionStack'", SettingType = (int)SettingsType.USER, CreatedAt = DateTime.Now },
+                new Setting() { Id = 9, Key = SettingCode.GoogleGeocodeApiKey.ToString(), DefaultValue = "123456", Value = "123456", Description = "API key do serviço de geolocalização da 'Google'", SettingType = (int)SettingsType.USER, CreatedAt = DateTime.Now }
             );
 
             #endregion
 
+
+            #region AssociationTypes
+
+            _modelBuilder.Entity<AssociationType>().HasData(
+                new AssociationType() { Id = 1, Code = "transition_initiative", Label = "Iniciativa de Transição Local", VatRequired = false, Description = "Identifica que é iniciativa local da transição", CreatedAt = DateTime.Now },
+                new AssociationType() { Id = 2, Code = "association_foundation", Label = "Associação/Cooperativa/Fundação", VatRequired = true, Description = "Identifica que é uma associação ou cooperativa ou fundação", CreatedAt = DateTime.Now },
+                new AssociationType() { Id = 3, Code = "movement_initiative", Label = "Movimento", VatRequired = false, Description = "Identifica que é um movimento sem entidade formal", CreatedAt = DateTime.Now },
+                new AssociationType() { Id = 4, Code = "store", Label = "Comércio Sustentável", VatRequired = true, Description = "Identifica que é um comércio sustentável", CreatedAt = DateTime.Now }
+            );
+
+            #endregion
 
         }
     }
