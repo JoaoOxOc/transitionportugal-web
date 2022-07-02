@@ -7,7 +7,7 @@ import dynamic from "next/dynamic";
 let DetailForm = dynamic(() => import('./DetailForm'), {
   ssr: false
 });
-let CreateForm = dynamic(() => import('./CreateForm'), {
+let CreateForm = dynamic(() => import('./createForm'), {
   ssr: false
 });
 
