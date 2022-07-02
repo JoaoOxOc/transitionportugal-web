@@ -434,7 +434,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -450,7 +450,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -466,7 +466,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -482,7 +482,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
@@ -498,7 +498,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpuserservice",
+          "Host": "localhost",
           "Port": 3020
         }
       ],
