@@ -2,7 +2,7 @@
   "name": "content-manage-service-2",
   "private": true,
   "version": "0.1.0",
-  "description": "A Strapi application",
+  "description": "Transição Portugal CMS",
   "scripts": {
     "develop": "strapi develop",
     "start": "strapi start",
@@ -13,12 +13,14 @@
     "@_sh/strapi-plugin-ckeditor": "^1.1.0",
     "@strapi/plugin-i18n": "4.2.2",
     "@strapi/plugin-users-permissions": "4.2.2",
+    "@strapi/provider-email-sendgrid": "^4.2.2",
     "@strapi/strapi": "4.2.2",
     "better-sqlite3": "7.4.6",
-    "pg": "^8.7.3"
+    "pg": "^8.7.3",
+    "@faker-js/faker": "^7.3.0"
   },
   "author": {
-    "name": "A Strapi developer"
+    "name": "João Almeida"
   },
   "strapi": {
     "uuid": "e8979490-8d26-4fb7-ae65-d7869ad4c2f2"
@@ -27,5 +29,7 @@
     "node": ">=12.x.x <=16.x.x",
     "npm": ">=6.0.0"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+  }
 }
