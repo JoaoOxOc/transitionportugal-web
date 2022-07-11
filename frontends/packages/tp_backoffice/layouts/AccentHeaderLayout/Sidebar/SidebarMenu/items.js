@@ -55,6 +55,7 @@ const menuItems = [
         name: i18nextSidemenu.t('SIDEMENU_CONTENT.contentManagement'),
         icon: StorefrontTwoToneIcon,
         link: process.env.NEXT_PUBLIC_CMS_BASE_URL,
+        linkType: "new_tab",
         roles: ["Admin", "User"],
         scopes: ["cms.write"],
       },

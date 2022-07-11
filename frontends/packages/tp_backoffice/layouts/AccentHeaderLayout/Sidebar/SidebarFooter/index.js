@@ -16,6 +16,7 @@ import Link from '../../../../components/Link';
 // import { useAuth } from '../../../../hooks/useAuth';
 import { useRouter } from 'next/router';
 import { signOut } from "next-auth/react";
+import { destroyClientCookies } from '../../../../services/cookies';
 
 const LightTooltip = styled(({ className, ...props }) => (
   <Tooltip {...props} classes={{ popper: className }} />
@@ -43,6 +44,7 @@ function SidebarFooter() {
       // await logout();
       // router.push('/auth/login/cover');
       // TODO: clear strapi cookies
+      // destroyClientCookies("jwtToken");
       signOut({ callbackUrl: '/admin/auth/login/cover?backTo=' + router.asPath });
     } catch (err) {
       console.error(err);

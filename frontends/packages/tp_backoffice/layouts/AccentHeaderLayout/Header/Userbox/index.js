@@ -22,6 +22,7 @@ import AccountTreeTwoToneIcon from '@mui/icons-material/AccountTreeTwoTone';
 import Link from '../../../../components/Link';
 import { i18nextSidemenu } from "@transitionpt/translations";
 import { useSession, signOut } from "next-auth/react";
+import { destroyClientCookies } from '../../../../services/cookies';
 
 const UserBoxButton = styled(Button)(
   ({ theme }) => `
@@ -89,6 +90,7 @@ function HeaderUserbox() {
       // await logout();
       // router.push('/auth/login/cover');
       // TODO: clear strapi cookies
+      // destroyClientCookies("jwtToken");
       signOut({ callbackUrl: '/admin/auth/login/cover?backTo=' + router.asPath });
     } catch (err) {
       console.error(err);

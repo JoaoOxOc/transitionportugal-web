@@ -231,6 +231,7 @@ function SidebarMenu({session}) {
           name={item.name}
           icon={item.icon}
           link={item.link}
+          linkType={item.linkType}
           badge={item.badge}
           badgeTooltip={item.badgeTooltip}
         >
@@ -249,6 +250,7 @@ function SidebarMenu({session}) {
           active={exactMatch}
           name={item.name}
           link={item.link}
+          linkType={item.linkType}
           badge={item.badge}
           badgeTooltip={item.badgeTooltip}
           icon={item.icon}
