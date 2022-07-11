@@ -86,12 +86,13 @@ const SidebarMenuItem = ({
     );
   }
 
+  console.log(name,linkType)
   if (linkType && linkType == "new_tab") {
     <ListItem component="div" key={name} {...rest}>
-      <Link key={index} color="inherit" href={link} isNextLink={false} target="_blank">
+      {/* <Link href={link} target="_blank"> */}
         <Button
           disableRipple
-          component="a"
+          component={Link}
           className={clsx({ 'Mui-active': active })}
           onClick={closeSidebar}
           startIcon={Icon && <Icon />}
@@ -111,7 +112,7 @@ const SidebarMenuItem = ({
             <Badge badgeContent={badge} />
           )}
         </Button>
-      </Link>
+      {/* </Link> */}
     </ListItem>
   }
 
