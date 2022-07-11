@@ -252,6 +252,27 @@ import Credentials from 'next-auth/providers/credentials'
           user.name = userData.userProfile.name;
           user.username = userData.userProfile.userName;
         }
+        // TODO: correctly configure the strapi authentication
+        // for local strapi users: http://localhost:1337/auth/local - https://medium.com/codingthesmartway-com-blog/getting-started-with-strapi-ep3-authentication-8dfe8cb0b171
+        // for oauth users in strapi: http://localhost:1337/auth/${account.provider}/callback?access_token=${account?.accessToken}`
+        // https://github.com/maticzav/nookies
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_CMS_BASE_URL}/auth/local`,
+          {
+            method: 'POST',
+            body: JSON.stringify({
+              identifier: process.env.CMS_INTEGRATION_USER,
+              password: process.env.CMS_INTEGRATION_USER_PASSWORD,
+            }),
+            headers: { 
+              'User-Agent': '*',
+              "Content-Type": "application/json"
+            }
+          }
+        );
+        const data = await response.json();
+        token.jwt = data.jwt;
+        token.id = data.user.id;
         return {
           accessToken: user.token,
           accessTokenExpires: user.expiration * 1000,

@@ -52,9 +52,9 @@ const menuItems = [
     scopes: ["any"],
     items: [
       {
-        name: i18nextSidemenu.t('SIDEMENU_CONTENT.banner'),
+        name: i18nextSidemenu.t('SIDEMENU_CONTENT.contentManagement'),
         icon: StorefrontTwoToneIcon,
-        link: '/content/banner',
+        link: process.env.NEXT_PUBLIC_CMS_BASE_URL,
         roles: ["Admin", "User"],
         scopes: ["cms.write"],
       },

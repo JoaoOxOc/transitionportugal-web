@@ -42,6 +42,7 @@ function SidebarFooter() {
     try {
       // await logout();
       // router.push('/auth/login/cover');
+      // TODO: clear strapi cookies
       signOut({ callbackUrl: '/admin/auth/login/cover?backTo=' + router.asPath });
     } catch (err) {
       console.error(err);
