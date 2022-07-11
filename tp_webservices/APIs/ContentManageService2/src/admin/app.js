@@ -1,13 +1,8 @@
-import { createRequire } from "module";
-const require = createRequire(import.meta.url);
-const ptLocale = require("./extensions/translations/pt.json");
 
+// https://salatielqueiroz.com/translate-strapi-v4-admin-panel
 export default {
   config: {
-    locales: ['en', 'pt'],
-    translations: {
-      pt: ptLocale,
-    }
+    locales: ['en', 'pt']
   },
   bootstrap() {},
 }
