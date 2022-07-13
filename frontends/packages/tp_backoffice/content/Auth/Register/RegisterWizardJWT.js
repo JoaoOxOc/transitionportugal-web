@@ -96,7 +96,15 @@ const AvatarSuccess = styled(Avatar)(
         margin-top: 10px !important;
     }
     `
-)
+  )
+
+  const CustomMaskField = styled(Field)(
+    () =>`
+    #association_postalcode-label {
+        transform: translate(14px, -9px) scale(0.75) !important;
+    }
+    `
+  )
 
 // const postalCodeMask = [
 //   /[1-9]/,
@@ -851,7 +859,7 @@ export const RegisterWizardJWT = ({termsProps, associationTypes, settings}) => {
                         />
                       </Grid>
                       <Grid item xs={12} md={3}>
-                        <Field fullWidth
+                        <CustomMaskField fullWidth
                             component={TextField}
                             id="association_postalcode"
                             name="association_postalcode"
@@ -862,7 +870,7 @@ export const RegisterWizardJWT = ({termsProps, associationTypes, settings}) => {
                             onChange={formikHandleChange}
                             onBlur={formikHandleBlur}
                             InputProps={{ inputComponent: PostalCodeCustomInput }}>
-                        </Field>
+                        </CustomMaskField>
                       </Grid>
                       <Grid item xs={12} md={3}>
                         <Field
