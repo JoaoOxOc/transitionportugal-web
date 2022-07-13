@@ -757,6 +757,7 @@ export const RegisterWizardJWT = ({termsProps, associationTypes, settings}) => {
                               <InputLabel id="association-type-label">{t('FORMS.associationType')}</InputLabel>
                               <Field
                                 placeholder={t("PLACEHOLDER.associationType")}
+                                id="association-type-field"
                                 name="association_type"
                                 fullWidth
                                 required={true}
@@ -852,6 +853,7 @@ export const RegisterWizardJWT = ({termsProps, associationTypes, settings}) => {
                       <Grid item xs={12} md={3}>
                         <Field fullWidth
                             component={TextField}
+                            id="association_postalcode"
                             name="association_postalcode"
                             placeholder={t('FORMS.associationPostalCode')}
                             label={t('FORMS.associationPostalCode')}

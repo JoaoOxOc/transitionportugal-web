@@ -86,34 +86,37 @@ const SidebarMenuItem = ({
     );
   }
 
-  console.log(name,linkType)
   if (linkType && linkType == "new_tab") {
-    <ListItem component="div" key={name} {...rest}>
-      {/* <Link href={link} target="_blank"> */}
-        <Button
-          disableRipple
-          component={Link}
-          className={clsx({ 'Mui-active': active })}
-          onClick={closeSidebar}
-          startIcon={Icon && <Icon />}
-        >
-          {t(name)}
-          {badgeTooltip ? (
-            <TooltipWrapper title={badgeTooltip} arrow placement="right">
-              {badge === '' ? (
-                <Badge color="primary" variant="dot" />
-              ) : (
-                <Badge badgeContent={badge} />
-              )}
-            </TooltipWrapper>
-          ) : badge === '' ? (
-            <Badge color="primary" variant="dot" />
-          ) : (
-            <Badge badgeContent={badge} />
-          )}
-        </Button>
-      {/* </Link> */}
-    </ListItem>
+    return (
+      <ListItem component="div" key={name} {...rest}>
+        {/* <Link href={link} target="_blank"> */}
+          <Button
+            disableRipple
+            component={a}
+            target="_blank"
+            href={link}
+            className={clsx({ 'Mui-active': active })}
+            onClick={closeSidebar}
+            startIcon={Icon && <Icon />}
+          >
+            {t(name)}
+            {badgeTooltip ? (
+              <TooltipWrapper title={badgeTooltip} arrow placement="right">
+                {badge === '' ? (
+                  <Badge color="primary" variant="dot" />
+                ) : (
+                  <Badge badgeContent={badge} />
+                )}
+              </TooltipWrapper>
+            ) : badge === '' ? (
+              <Badge color="primary" variant="dot" />
+            ) : (
+              <Badge badgeContent={badge} />
+            )}
+          </Button>
+        {/* </Link> */}
+      </ListItem>
+    );
   }
 
   return (
