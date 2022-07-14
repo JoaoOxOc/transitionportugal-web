@@ -92,7 +92,7 @@ const SidebarMenuItem = ({
         {/* <Link href={link} target="_blank"> */}
           <Button
             disableRipple
-            component={a}
+            component={"a"}
             target="_blank"
             href={link}
             className={clsx({ 'Mui-active': active })}

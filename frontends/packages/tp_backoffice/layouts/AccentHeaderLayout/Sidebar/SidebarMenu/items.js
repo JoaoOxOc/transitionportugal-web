@@ -53,26 +53,26 @@ const menuItems = [
     items: [
       {
         name: i18nextSidemenu.t('SIDEMENU_CONTENT.contentManagement'),
-        icon: StorefrontTwoToneIcon,
-        link: process.env.NEXT_PUBLIC_CMS_BASE_URL,
+        icon: BackupTableTwoToneIcon,
+        link: process.env.NEXT_PUBLIC_CMS_BASE_URL + "/admin",
         linkType: "new_tab",
         roles: ["Admin", "User"],
         scopes: ["cms.write"],
       },
-      {
-        name: i18nextSidemenu.t('SIDEMENU_CONTENT.about'),
-        icon: BackupTableTwoToneIcon,
-        link: '/content/about',
-        roles: ["Admin", "User"],
-        scopes: ["cms.write"],
-      },
-      {
-        name: i18nextSidemenu.t('SIDEMENU_CONTENT.contacts'),
-        icon: ContactPhoneTwoToneIcon,
-        link: '/content/contacts',
-        roles: ["Admin", "User"],
-        scopes: ["cms.write"],
-      },
+      // {
+      //   name: i18nextSidemenu.t('SIDEMENU_CONTENT.about'),
+      //   icon: StorefrontTwoToneIcon,
+      //   link: '/content/about',
+      //   roles: ["Admin", "User"],
+      //   scopes: ["cms.write"],
+      // },
+      // {
+      //   name: i18nextSidemenu.t('SIDEMENU_CONTENT.contacts'),
+      //   icon: ContactPhoneTwoToneIcon,
+      //   link: '/content/contacts',
+      //   roles: ["Admin", "User"],
+      //   scopes: ["cms.write"],
+      // },
       {
         name: i18nextSidemenu.t('SIDEMENU_CONTENT.circularEconomy'),
         icon: BlurCircularTwoToneIcon,
