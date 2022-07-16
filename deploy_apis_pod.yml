@@ -278,63 +278,53 @@ spec:
         ports:
             - containerPort: 3030
         env:
-            - name: ASPNETCORE_URLS
-              value: "http://+:3030"
-            - name: ASPNETCORE_ENVIRONMENT
-              value: "Production"
-            - name: ConnectionStrings__DefaultConnectionString
-              valueFrom:
-                  secretKeyRef:
-                      name: cmservice-data
-                      key: db-conn-string
-            - name: DatabaseSettings__DbHost
+            - name: NODE_ENV
+              value: "production"
+			- name: DATABASE_CLIENT
+			  value: "postgres"
+            - name: DATABASE_HOST
               valueFrom:
                   secretKeyRef:
                       name: cmservice-data
                       key: db-host
-            - name: DatabaseSettings__DbPort
+            - name: DATABASE_PORT
               valueFrom:
                   secretKeyRef:
                       name: cmservice-data
                       key: db-port
-            - name: DatabaseSettings__Database
+            - name: DATABASE_NAME
               valueFrom:
                   secretKeyRef:
                       name: cmservice-data
                       key: db-name
-            - name: DatabaseSettings__DbUser
+            - name: DATABASE_USERNAME
               valueFrom:
                   secretKeyRef:
                       name: cmservice-data
                       key: db-user
-            - name: DatabaseSettings__DbPassword
+            - name: DATABASE_PASSWORD
               valueFrom:
                   secretKeyRef:
                       name: cmservice-data
                       key: db-password
-            - name: DatabaseSettings__DbSslMode
+            - name: DATABASE_SSLMODE
               value: "Require"
-            - name: DatabaseSettings__DbServerCompatibilityMode
+            - name: DATABASE_SERVER_COMPATIBILITY_MODE
               value: "Redshift"
-            - name: DatabaseSettings__DbTrustCertificate
+            - name: DATABASE_TRUST_CERTIFICATE
               value: "true"
-            - name: DatabaseSettings__DbPooling
+            - name: DATABASE_POOLING
               value: "false"
-            - name: ApplicationSettings__RabbitMQHost
+            - name: ADMIN_JWT_SECRET
               valueFrom:
                   secretKeyRef:
                       name: cmservice-data
-                      key: rabbitmq-host
-            - name: ApplicationSettings__RabbitMQPassword
+                      key: cms-admin-jwt-secret
+            - name: JWT_SECRET
               valueFrom:
                   secretKeyRef:
                       name: cmservice-data
-                      key: rabbitmq-password
-            - name: ApplicationSettings__RabbitMQUser
-              valueFrom:
-                  secretKeyRef:
-                      name: cmservice-data
-                      key: rabbitmq-username
+                      key: cms-jwt-secret
       - name: tpnotificationservice
         image: <NOTIFICATIONSERVICE_API_IMAGE>
         ports:
