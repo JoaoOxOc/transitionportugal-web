@@ -49,6 +49,19 @@ spec:
   selector:
     app: tp-apis
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tp-cms-service
+  labels:
+    run: tp-cms-service
+spec:
+  ports:
+    - port: 31020
+      targetPort: 1337
+  selector:
+    app: tp-apis
+---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -101,3 +114,29 @@ spec:
             name: tp-gatewayapi-service
             port:
               number: 31010
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: tp-cms-ingress-nginx-controller
+  annotations:
+      kubernetes.io/ingress.class: nginx
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      service.kubernetes.io/do-loadbalancer-protocol: https
+      service.kubernetes.io/do-loadbalancer-tls-passthrough: "true"
+spec:
+  tls:
+  - hosts:
+    - cms.transicaoportugal.org
+    secretName: tp-cms-letsencrypt-crt-secret
+  rules:
+  - host: cms.transicaoportugal.org
+    http:
+      paths:
+      - path: /
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: tp-cms-service
+            port:
+              number: 31020
