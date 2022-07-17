@@ -24,6 +24,27 @@ spec:
         image: <FRONTOFFICE_IMAGE>
         ports:
         - containerPort: 80
+        env:
+        - name: NEXT_PUBLIC_AUTH_URL
+          valueFrom:
+             secretKeyRef:
+               name: transfrontoffice-data
+               key: app-auth-url
+        - name: CMS_BASE_URL
+          valueFrom:
+             secretKeyRef:
+               name: transfrontoffice-data
+               key: cms-external-base-url
+        - name: SSR_CMS_BASE_URL
+          valueFrom:
+             secretKeyRef:
+               name: transfrontoffice-data
+               key: cms-internal-base-url
+        - name: CMS_API_TOKEN
+          valueFrom:
+             secretKeyRef:
+               name: transfrontoffice-data
+               key: cms-auth-api-token
       imagePullSecrets:
       - name: do-photos-registry-secret
 ---
