@@ -77,6 +77,21 @@ spec:
              secretKeyRef:
                name: transbackoffice-data
                key: backoffice-auth-client-secret
+        - name: NEXT_PUBLIC_CMS_BASE_URL
+          valueFrom:
+             secretKeyRef:
+               name: transbackoffice-data
+               key: cms-external-base-url
+        - name: CMS_INTEGRATION_USER
+          valueFrom:
+             secretKeyRef:
+               name: transbackoffice-data
+               key: cms-integration-user
+        - name: CMS_INTEGRATION_USER_PASSWORD
+          valueFrom:
+             secretKeyRef:
+               name: transbackoffice-data
+               key: cms-integration-user-password
       imagePullSecrets:
       - name: do-photos-registry-secret
 ---
