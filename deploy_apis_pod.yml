@@ -308,7 +308,7 @@ spec:
                       name: cmservice-data
                       key: db-password
             - name: DATABASE_SSL
-              value: true
+              value: "true"
             - name: DATABASE_SERVER_COMPATIBILITY_MODE
               value: "Redshift"
             - name: DATABASE_TRUST_CERTIFICATE
