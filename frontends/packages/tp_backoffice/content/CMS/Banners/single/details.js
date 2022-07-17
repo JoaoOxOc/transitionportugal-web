@@ -4,10 +4,10 @@ import { useRouter } from 'next/router';
 import { useErrorHandler } from 'react-error-boundary';
 import SingleActions from '../SingleActions';
 import dynamic from "next/dynamic";
-let DetailForm = dynamic(() => import('./DetailForm'), {
+let CreateForm = dynamic(() => import('./createForm'), {
   ssr: false
 });
-let CreateForm = dynamic(() => import('./createForm'), {
+let DetailForm = dynamic(() => import('./detailForm'), {
   ssr: false
 });
 
@@ -38,13 +38,13 @@ function BannerDetails({isCreate}) {
     const { data: session, status } = useSession();
     const { t } = i18nextBannerDetails;
     const bannersListUri = "/content/banner";
-    let bannerUri = "/cms/banner/get/" + router.query.bannerId;
+    let bannerUri = "/cms/banner/get/" + (!isCreate ? router.query.bannerId : (router.query.parentBannerId > 0 ? router.query.parentBannerId : ""));
     let bannerPutUri = process.env.NEXT_PUBLIC_API_BASE_URL + (isCreate ? "/cms/banner/create" : "/cms/banner/update");
 
     const getBannerRecord = useCallback(async () => {
         try {
             let bannerData = await GetBannerData(process.env.NEXT_PUBLIC_API_BASE_URL + bannerUri, session.accessToken);
-            console.log(bannerData)
+
             if (isMountedRef()) {
               if (bannerData.status) {
                 setBannerError(bannerData);
@@ -61,13 +61,14 @@ function BannerDetails({isCreate}) {
     }, [isMountedRef, bannerUri]);
 
     useEffect(() => {
-      if (!isCreate && refreshBanner) {
+      if ((!isCreate && refreshBanner) || (isCreate && router.query.parentBannerId > 0 && refreshBanner)) {
         getBannerRecord();
       }
       if (refreshBanner) {
         setRefreshBanner(false);
       }
-    }, [isCreate,getBannerRecord, refreshBanner]);
+    }, [isCreate,getBannerRecord, refreshBanner, router.query.parentBannerId]);
+
 
     if (!isCreate && !banner) {
       return null;
@@ -79,18 +80,22 @@ function BannerDetails({isCreate}) {
       { url: bannersListUri, label: t('LIST.bannersTitleRoot'), isLink: true },
     ];
 
-    const bannerPathSplitted = router.query.parentBannerPath ? router.query.parentBannerPath.split("|").filter(function(i){return i}) : [];
-    console.log(bannerPathSplitted)
+    const parentPath = !isCreate ? router.query.parentBannerPath : banner && banner.parentBannerPath ? banner.parentBannerPath + router.query.parentBannerId + "|": router.query.parentBannerId ? "|" + router.query.parentBannerId + "|" : "";
+    const bannerPathSplitted = parentPath ? parentPath.split("|").filter(function(i){return i}) : [];
     const bannerLevel = 0;
     bannerPathSplitted.forEach((element,index) => {
-      console.log(element);
       bannerLevel = index+1;
-      breadcrumbsData.push(
-        { url: bannersListUri + "?parentBannerId=" + element, label: t('LIST.bannersTitleSubPath', {bannersLevel: t("LIST.bannersSubPathLevel", {levelNumber: bannerLevel})}), isLink: true }
-      );
+      if (element) {
+        if (index == bannerPathSplitted.length - 1) {
+          bannersListUri = bannersListUri + "?parentBannerId=" + element;
+        }
+        breadcrumbsData.push(
+          { url: "/content/banner" + "?parentBannerId=" + element, label: t('LIST.bannersTitleSubPath', {bannersLevel: t("LIST.bannersSubPathLevel", {levelNumber: bannerLevel})}), isLink: true }
+        );
+      }
     });
 
-    breadcrumbsData.push({ url: "", label: isCreate ? t('LABELS.bannerCreateSmall') : t("LABELS.bannerIdentificationSmall",{bannerIdentification: banner.pageKey + "|" + banner.componentKey + "|" + t("LIST.bannersSubPathLevel", {levelNumber: bannerLevel}) + "|" + t("LIST.bannersSortedPosition", {positionNumber: banner.orderPosition})}), ownPage: true })
+    breadcrumbsData.push({ url: "", label: (!banner || !parentPath) ? t('LABELS.bannerCreateSmall') : t("LABELS.bannerIdentificationSmall",{bannerIdentification: banner.pageKey + "|" + banner.componentKey + "|" + t("LIST.bannersSubPathLevel", {levelNumber: bannerLevel}) + "|" + t("LIST.bannersSortedPosition", {positionNumber: banner.orderPosition})}), ownPage: true })
 
     const receiveRefreshData = (eventValue) => {
       setRefreshBanner(eventValue);
@@ -102,7 +107,7 @@ function BannerDetails({isCreate}) {
       {(isCreate || banner) ?
         (
         <PageTitleWrapper>
-          <DetailsPageHeader breadcrumbsDataJson={breadcrumbsData} detailsTitle={isCreate ? t('LABELS.bannerCreate') : t("LABELS.bannerIdentificationSmall",{bannerIdentification:banner.pageKey})} goBackLabel={t('LABELS.goBack')} goBackUrl={bannersListUri}/>
+          <DetailsPageHeader breadcrumbsDataJson={breadcrumbsData} detailsTitle={(!banner || !parentPath) ? t('LABELS.bannerCreate') : t("LABELS.bannerIdentificationSmall",{bannerIdentification:banner.pageKey})} goBackLabel={t('LABELS.goBack')} goBackUrl={bannersListUri}/>
           { !isCreate && 
           <Box
             sx={{
@@ -111,7 +116,7 @@ function BannerDetails({isCreate}) {
               pl: '10vw'
             }}
           >
-            {/* <SingleActions refreshData={receiveRefreshData} bannerId={banner.id} termsBeenActive={banner.beenActive} termsIsActive={terms.isActive} termsVersion={terms.version}/> */}
+            <SingleActions refreshData={receiveRefreshData} bannerId={banner.id} bannerIsActive={!banner.isDraft} bannerPageKey={banner.pageKey} bannerComponentKey={banner.componentKey} bannerOrderPosition={banner.orderPosition}/>
           </Box>
           }
         </PageTitleWrapper>
@@ -127,33 +132,28 @@ function BannerDetails({isCreate}) {
           alignItems="stretch"
           spacing={3}
         >
-          { isCreate &&
-              <Grid item xs={12}>
-                <Card>
-                  <Grid container spacing={0}>
-                    <Grid item xs={12} md={12}>
-                      <Box p={4} flex={1}>
-                        <Alert severity="info">
-                            {t('LABELS.registerBannerInfo')}
-                        </Alert>
-                        <Box
-                          pt={3}
-                          pb={1}
-                          sx={{
-                            px: { xs: 0, md: 3 }
-                          }}
-                        >
-                            <CreateForm parentBannerId={router.query.parentBannerId} parentBannerPath={router.query.parentBannerPath} bannerPutUri={bannerPutUri}/>
-                        </Box>
+            <Grid item xs={12}>
+              <Card>
+                <Grid container spacing={0}>
+                  <Grid item xs={12} md={12}>
+                      <Box
+                        pt={3}
+                        pb={1}
+                        sx={{
+                          px: { xs: 0, md: 3 }
+                        }}
+                      >
+                          { isCreate &&
+                            <CreateForm  bannerData={banner} parentBannerId={router.query.parentBannerId} parentBannerPath={parentPath} bannerPutUri={bannerPutUri}/>
+                          }
+                          { (!isCreate && banner) &&
+                              <DetailForm isCreate={isCreate} bannerData={banner} parentBannerId={router.query.parentBannerId} parentBannerPath={router.query.parentBannerPath} bannerPutUri={bannerPutUri}/>
+                          }
                       </Box>
-                    </Grid>
                   </Grid>
-                </Card>
-              </Grid>
-          }
-          { !isCreate && banner &&
-              <DetailForm isCreate={isCreate} bannerData={banner} parentBannerId={router.query.parentBannerId} parentBannerPath={router.query.parentBannerPath} bannerPutUri={bannerPutUri}/>
-          }
+                </Grid>
+              </Card>
+            </Grid>
         </Grid>
       </Box>
     </>

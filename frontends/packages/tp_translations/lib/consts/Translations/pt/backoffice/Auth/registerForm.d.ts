@@ -16,6 +16,10 @@ export declare const REGISTERFORM_TRANSLATIONS: {
         readonly closeTermsDialog: "Fechar leitura dos Termos & Condições";
         readonly termsConsentButton: "Consentir";
         readonly termsCancelButton: "Fechar";
+        readonly stepGoBackButton: "Botão para voltar ao passo anterior do formulário de registo";
+        readonly inSubmitionStateButton: "Botão está desactivado devido ao formulário de registo se encontrar em submissão";
+        readonly completeRegistButton: "Botão para concluir o registo através do formulário";
+        readonly nextStepButton: "Botão para mover para o próximo passo do formulário de registo";
     };
     readonly FORMS: {
         readonly emailAddress: "Endereço de Email";

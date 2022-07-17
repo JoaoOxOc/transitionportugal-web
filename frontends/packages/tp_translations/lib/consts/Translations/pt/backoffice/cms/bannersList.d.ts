@@ -19,9 +19,16 @@ export declare const BANNERSLIST_TRANSLATIONS: {
         readonly paginationRowsPerPage: "Linhas por pág.:";
         readonly showing: "Mostrando";
         readonly selectAll: "Seleccionar todos os Banners";
+        readonly bannersListIdentificationSmall: "Lista de Banners: {{bannerIdentification}}";
     };
     readonly LIST: {
         readonly bannersTitle: "Banners no Website Público";
+        readonly home: "Home";
+        readonly cms: "Conteúdo do Website";
+        readonly bannersTitleRoot: "Banners na raíz";
+        readonly bannersTitleSubPath: "Banners sub-caminho {{bannersLevel}}";
+        readonly bannersSubPathLevel: "nível {{levelNumber}}";
+        readonly bannersSortedPosition: "Posição ordenada: {{positionNumber}}";
     };
     readonly BANNEROBJECT: {
         readonly pageKey: "Identificador Chave da Página";

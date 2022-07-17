@@ -133,14 +133,16 @@ function MainTab({isCreate, bannerData, parentBannerId, parentBannerPath, banner
     const selectedLanguage = useRef("pt-pt");
     const selectedBannerBlocks = bannerData && bannerData.bannerLanguages ? bannerData.bannerLanguages.filter((banner) => { return banner.langCode == selectedLanguage.current; }) : null;
     const [bannerBlocks, setBannerBlocks] = useState(selectedBannerBlocks && selectedBannerBlocks.length > 0 ? selectedBannerBlocks[0] : null);
-    const [isActiveCheck, setIsActiveChecked] = useState(bannerData && bannerData.isDraft ? !bannerData.isDraft : false);
+    const [isActiveCheck, setIsActiveChecked] = useState(bannerData && bannerData.isDraft == false ? true : false);
+
     const savedBlocks = useRef([]);
     const isMountedRef = useRefMounted();
     const { enqueueSnackbar } = useSnackbar();
     const [bannerError, setBannerError] = useState(null);
     useErrorHandler(bannerError);
     const { data: session, status } = useSession();
-    console.log(i18npt, bannerData);
+    console.log('i18 data',i18npt, bannerData);
+
     const EDITOR_JS_TOOLS = {
         embed: Embed,
         header: Header,
@@ -176,7 +178,7 @@ function MainTab({isCreate, bannerData, parentBannerId, parentBannerPath, banner
                 .max(25, t('MESSAGES.componentKeyTooBig', {max: 25}))
                 .required(t('MESSAGES.componentKeyRequired')),
             orderPosition: Yup.number()
-                .positive(t('MESSAGES.orderPositionMustBePositive'))
+                .min(0,t('MESSAGES.orderPositionMustBePositive'))
                 .max(25, t('MESSAGES.orderPositionTooBig', {max: 25}))
                 .required(t('MESSAGES.orderPositionRequired'))
         }),
@@ -185,17 +187,17 @@ function MainTab({isCreate, bannerData, parentBannerId, parentBannerPath, banner
               const bannerModel = {
                 bannerLanguages: savedBlocks.current
               }
-              if (bannerData && bannerData.id) {
-                bannerModel.id = bannerData.id;
+              if (router.query.bannerId) {
+                bannerModel.id = router.query.bannerId;
               }
-              if (bannerData && bannerData.pageKey) {
-                bannerModel.pageKey = bannerData.pageKey;
+              if (values && values.pageKey) {
+                bannerModel.pageKey = values.pageKey;
               }
-              if (bannerData && bannerData.componentKey) {
-                bannerModel.componentKey = bannerData.componentKey;
+              if (values && values.componentKey) {
+                bannerModel.componentKey = values.componentKey;
               }
-              if (bannerData && bannerData.orderPosition) {
-                bannerModel.orderPosition = bannerData.orderPosition;
+              if (values && values.orderPosition) {
+                bannerModel.orderPosition = values.orderPosition;
               }
               if (bannerData && bannerData.isDraft != null) {
                 bannerModel.isDraft = bannerData.isDraft;
@@ -205,6 +207,10 @@ function MainTab({isCreate, bannerData, parentBannerId, parentBannerPath, banner
               }
               if (parentBannerPath) {
                 bannerModel.parentBannerPath = parentBannerPath;
+              }
+              if (bannerData && bannerData.bannerLanguages) {
+                bannerModel.bannerLanguages = bannerData.bannerLanguages;
+
               }
               console.log(bannerModel,savedBlocks)
               let result = {};
@@ -231,6 +237,17 @@ function MainTab({isCreate, bannerData, parentBannerId, parentBannerPath, banner
                           TransitionComponent: Slide
                         });
                     }
+                    if (result.status === 409) {
+                      enqueueSnackbar(t('MESSAGES.bannerDuplicateFound', {orderPosition: bannerModel.orderPosition}), {
+                        variant: 'error',
+                        anchorOrigin: {
+                          vertical: 'top',
+                          horizontal: 'center'
+                        },
+                        autoHideDuration: 2000,
+                        TransitionComponent: Slide
+                      });
+                  }
                     else {
                         setBannerError(result);
                     }
@@ -246,8 +263,9 @@ function MainTab({isCreate, bannerData, parentBannerId, parentBannerPath, banner
                             autoHideDuration: 2000,
                             TransitionComponent: Slide
                         });
+                        const pathUri = (parentBannerId ? "?parentBannerId=" + parentBannerId : "") + (parentBannerPath ? "&parentBannerPath="+parentBannerPath : "");
                         router.push({
-                            pathname: '/content/banner/single/' + result.bannerId,
+                            pathname: '/content/banner/single/' + result.bannerId + pathUri,
                         });
                     }
                     else {

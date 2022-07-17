@@ -18,6 +18,7 @@ export declare const SIDEMENU_TRANSLATIONS: {
         readonly dashboard: "Dashboard";
     };
     readonly SIDEMENU_CONTENT: {
+        readonly contentManagement: "Gestão de Conteúdo do Website";
         readonly banner: "Banner";
         readonly about: "Sobre";
         readonly contacts: "Contactos";

@@ -1,21 +1,49 @@
-#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
+FROM node:16
+# Installing libvips-dev for sharp Compatability
+RUN apt-get update && apt-get install libvips-dev -y
+ARG NODE_ENV
+ENV NODE_ENV=${NODE_ENV}
+WORKDIR /opt/
+COPY ./APIs/ContentManageService2/package.json ./APIs/ContentManageService2/package-lock.json ./
+ENV PATH /opt/node_modules/.bin:$PATH
+RUN npm install
+WORKDIR /opt/app
+COPY ./APIs/ContentManageService2/ .
 
-FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
-WORKDIR /app
-EXPOSE 80
+ARG DATABASE_CLIENT
+ENV DATABASE_CLIENT=$DATABASE_CLIENT
+ARG DATABASE_HOST
+ENV DATABASE_HOST=$DATABASE_HOST
+ARG DATABASE_NAME
+ENV DATABASE_NAME=$DATABASE_NAME
+ARG DATABASE_USERNAME
+ENV DATABASE_USERNAME=$DATABASE_USERNAME
+ARG DATABASE_PASSWORD
+ENV DATABASE_PASSWORD=$DATABASE_PASSWORD
+ARG DATABASE_PORT
+ENV DATABASE_PORT=$DATABASE_PORT
+ARG DATABASE_SSL
+ENV DATABASE_SSL=$DATABASE_SSL
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
-WORKDIR /src
-COPY ["APIs/ContentManageService/ContentManageService.csproj", "APIs/ContentManageService/"]
-RUN dotnet restore "APIs/ContentManageService/ContentManageService.csproj"
-COPY . .
-WORKDIR "/src/APIs/ContentManageService"
-RUN dotnet build "ContentManageService.csproj" -c Release -o /app/build
+ARG APP_KEYS
+ENV APP_KEYS=$APP_KEYS
+ARG API_TOKEN_SALT
+ENV API_TOKEN_SALT=$API_TOKEN_SALT
+ARG JWT_SECRET
+ENV JWT_SECRET=$JWT_SECRET
+ARG JWT_SECRET
+ENV JWT_SECRET=$JWT_SECRET
+ARG ADMIN_JWT_SECRET
+ENV ADMIN_JWT_SECRET=$ADMIN_JWT_SECRET
+ARG SENDGRID_API_KEY
+ENV SENDGRID_API_KEY=$SENDGRID_API_KEY
+ARG EMAIL_FROM
+ENV EMAIL_FROM=$EMAIL_FROM
+ARG EMAIL_REPLYTO
+ENV EMAIL_REPLYTO=$EMAIL_REPLYTO
+ARG EMAIL_TESTADDRESS
+ENV EMAIL_TESTADDRESS=$EMAIL_TESTADDRESS
 
-FROM build AS publish
-RUN dotnet publish "ContentManageService.csproj" -c Release -o /app/publish
-
-FROM base AS final
-WORKDIR /app
-COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "ContentManageService.dll"]
+RUN npm run build
+EXPOSE 1337
+CMD ["npm", "run", "develop"]

@@ -8,7 +8,10 @@ export var LOGINFORM_TRANSLATIONS = deepFreeze({
         signInHere: "Sign in",
         checkConfirmTerms: "Checkbox for your confirmation of the terms of using this webapp.",
         linkToReadTerms: "Link to the terms reading popup.",
-        buttonToRecoverPassword: "Button link to recover password webpage."
+        buttonToRecoverPassword: "Button link to recover password webpage.",
+        closeTermsDialog: "Close Terms & Conditions reading",
+        termsCancelButton: "Close",
+        termsConsentButton: "Consent"
     },
     FORMS: {
         emailAddress: "Email address",

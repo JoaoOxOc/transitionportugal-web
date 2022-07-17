@@ -37,17 +37,18 @@ export var BANNERDETAILS_TRANSLATIONS = deepFreeze({
         saveButton: "Save"
     },
     MESSAGES: {
-        nameTooBig: "Name is too big. Max characters: {{max}}",
-        nameRequired: "Client App Name is required",
-        descriptionTooBig: "Description is too big. Max characters: {{max}}",
-        descriptionRequired: "Client App Description is required",
-        clientIdTooBig: "Client App ID is too big. Max characters: {{max}}",
-        clientIdRequired: "Client App ID is required",
-        emailInvalid: "Association email must be a valid email address",
+        pageKeyTooBig: "Page key is too big. Max characters: {{max}}",
+        pageKeyRequired: "Page key is required",
+        componentKeyTooBig: "Component key is too big. Max characters: {{max}}",
+        componentKeyRequired: "Component key is required",
+        orderPositionTooBig: "The order position of the banner is too big. Max value is: {{max}}",
+        orderPositionRequired: "The order position of the banner is required",
+        orderPositionMustBePositive: "The order position must be equal to 0 or higher",
         bannerUpdatedSuccessfully: "The Banner with identification {{bannerIdentification}} was updated successfully",
         bannerCreatedSuccessfully: "The Banner with identification {{bannerIdentification}} was created successfully",
-        associationGeneralError: "Error creating/updating Banner with identification {{bannerIdentification}}. Please try again",
-        bannerNotFound: "The Banner with identification {{bannerIdentification}} wasn't found. Please double check if the identification is correct"
+        bannerGeneralError: "Error creating/updating Banner with identification {{bannerIdentification}}. Please try again",
+        bannerNotFound: "The Banner with identification {{bannerIdentification}} wasn't found. Please double check if the identification is correct",
+        bannerDuplicateFound: "A Banner with the same ordered position {{orderPosition}} already exists. Please change it before save it"
     }
 });
 //# sourceMappingURL=bannerDetails.js.map

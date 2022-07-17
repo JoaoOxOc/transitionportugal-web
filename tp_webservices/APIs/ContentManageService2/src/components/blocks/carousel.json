@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_blocks_carousels",
+  "info": {
+    "displayName": "Carousel",
+    "icon": "images"
+  },
+  "options": {},
+  "attributes": {
+    "Sliders": {
+      "type": "component",
+      "repeatable": true,
+      "component": "blocks.slider"
+    }
+  }
+}

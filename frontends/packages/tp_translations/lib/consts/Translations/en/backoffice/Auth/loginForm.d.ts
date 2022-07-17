@@ -8,6 +8,9 @@ export declare const LOGINFORM_TRANSLATIONS: {
         readonly checkConfirmTerms: "Checkbox for your confirmation of the terms of using this webapp.";
         readonly linkToReadTerms: "Link to the terms reading popup.";
         readonly buttonToRecoverPassword: "Button link to recover password webpage.";
+        readonly closeTermsDialog: "Close Terms & Conditions reading";
+        readonly termsCancelButton: "Close";
+        readonly termsConsentButton: "Consent";
     };
     readonly FORMS: {
         readonly emailAddress: "Email address";

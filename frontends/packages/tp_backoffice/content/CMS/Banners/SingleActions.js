@@ -40,7 +40,7 @@ const DialogWrapper = styled(Dialog)(
   `
   );
 
-export default function SingleActions({bannerIsActive, bannerId, bannerPageKey, bannerComponentKey, bannerOrderPosition, refreshData}) {
+export default function SingleActions({bannerIsDraft, bannerId, bannerPageKey, bannerComponentKey, bannerOrderPosition, refreshData}) {
     const { t } = i18nextBannersList;
     const [openDialog, setOpenDialog] = useState(false);
     const [dialogData, setDialogData] = useState({});
@@ -162,7 +162,7 @@ export default function SingleActions({bannerIsActive, bannerId, bannerPageKey, 
                 <FileCopyTwoToneIcon fontSize="small" />
             </IconButton>
         </Tooltip>
-        { bannerIsActive &&
+        { bannerIsDraft == false &&
             <Tooltip title={t('LABELS.deactivate')} arrow>
                 <IconButton
                 onClick={(event) => deactivateBanner()}
@@ -172,7 +172,7 @@ export default function SingleActions({bannerIsActive, bannerId, bannerPageKey, 
                 </IconButton>
             </Tooltip>
         }
-        { !bannerIsActive &&
+        { (bannerIsDraft == true || bannerIsDraft == null) &&
             <Tooltip title={t('LABELS.activate')} arrow>
                 <IconButtonActivate
                 onClick={(event) => activateBanner()}

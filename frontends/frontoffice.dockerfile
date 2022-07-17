@@ -45,6 +45,18 @@ copy --from=transitionpt_home-build /app/node_modules /app/node_modules
 
 WORKDIR /app/packages/tp_home
 
+ARG NEXT_PUBLIC_AUTH_URL
+ENV NEXT_PUBLIC_AUTH_URL=$NEXT_PUBLIC_AUTH_URL
+
+ARG CMS_BASE_URL
+ENV CMS_BASE_URL=$CMS_BASE_URL
+ARG SSR_CMS_BASE_URL
+ENV SSR_CMS_BASE_URL=$SSR_CMS_BASE_URL
+
+ARG CMS_API_TOKEN
+ENV CMS_API_TOKEN=$CMS_API_TOKEN
+
+
 RUN npm run build
 
 
