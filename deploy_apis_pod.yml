@@ -280,8 +280,8 @@ spec:
         env:
             - name: NODE_ENV
               value: "production"
-	    - name: DATABASE_CLIENT
-	      value: "postgres"
+            - name: DATABASE_CLIENT
+              value: "postgres"
             - name: DATABASE_HOST
               valueFrom:
                   secretKeyRef:
