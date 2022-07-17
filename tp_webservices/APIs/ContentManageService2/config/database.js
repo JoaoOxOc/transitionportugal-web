@@ -9,10 +9,10 @@
       user: env('DATABASE_USERNAME', 'postgres'),
       password: env('DATABASE_PASSWORD', 'postgres'),
       schema: env('DATABASE_SCHEMA', 'public'), // Not required
-      ssl: env('DATABASE_SSL', false)
-      // ssl: {
-      //   rejectUnauthorized: env.bool('DATABASE_SSL_SELF', false),
-      // },
+      ssl: env('DATABASE_SSL', false) == false ? false : {
+        require: env('DATABASE_SSL', false),
+        rejectUnauthorized: false
+      },
     },
     debug: false,
   },
