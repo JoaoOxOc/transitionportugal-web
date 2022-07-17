@@ -96,7 +96,7 @@ export const LoginJWT = ({ providers, csrfToken, termsProps, ...props }) => {
   const { backTo, error } = router.query;
   const { t } = i18nextLoginForm;
   // const { login } = useAuth();
-const [termsConsented, setTermsConsented] = useState('');
+const [termsConsented, setTermsConsented] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const isMountedRef = useRefMounted();
   const { enqueueSnackbar } = useSnackbar();
@@ -105,7 +105,7 @@ const [termsConsented, setTermsConsented] = useState('');
   const termsDialogJson = {
     closeLabel: t("LABELS.closeTermsDialog"),
     okReturnOption: "consented",
-    showOkButton: false,
+    showOkButton: true,
     okButton: t("LABELS.termsConsentButton"),
     showCancelButton: true,
     cancelButton: t("LABELS.termsCancelButton"),
@@ -117,6 +117,7 @@ const [termsConsented, setTermsConsented] = useState('');
 
   const receiveConsentAction = (eventValue) => {
     setTermsConsented(true);
+    formik.setFieldValue("terms",true);
     setIsOpen(false);
   }
   
@@ -159,10 +160,14 @@ const [termsConsented, setTermsConsented] = useState('');
       }
       if (res.error) {
         if (error) {
-          window.history.pushState({}, null, "/admin/auth/login/cover" + (backTo ? '&error=' : '?error=') + res.error);
-          //router.push(window.location.replace("/admin/auth/login/cover" + (backTo ? '&error=' : '?error=') + res.error));
+          window.history.pushState({}, null, "/admin/auth/login/cover" + (backTo ? '?backTo=' + backTo + '&error=' : '?error=') + res.error);
+          //router.push(window.location.replace("/admin/auth/login/cover" + (backTo ? '?backTo=' + backTo + '&error=' : '?error=') + res.error));
         }
-        router.push(window.location + (backTo ? '&error=' : '?error=') + res.error);
+        let splittedUri = window.location.href.split("?error=");
+        if (splittedUri.length < 2) {
+          splittedUri = window.location.href.split("&error=");
+        }
+        router.push(splittedUri[0] + (backTo ? '&error=' : "?error=") + res.error);
       }
       if (res.url) router.push(res.url);
       helpers.setSubmitting(false);
@@ -238,11 +243,11 @@ const [termsConsented, setTermsConsented] = useState('');
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={formik.values.terms}
+                    checked={termsConsented}
+                    onChange={e => { setTermsConsented(e.target.checked);formik.setFieldValue("terms",e.target.checked);}}
                     aria-label={ t('LABELS.checkConfirmTerms') }
                     name="terms"
                     color="primary"
-                    onChange={formik.handleChange}
                   />
                 }
                 label={

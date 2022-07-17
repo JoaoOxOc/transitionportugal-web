@@ -96,7 +96,15 @@ const AvatarSuccess = styled(Avatar)(
         margin-top: 10px !important;
     }
     `
-)
+  )
+
+  const CustomMaskField = styled(Field)(
+    () =>`
+    #association_postalcode-label {
+        transform: translate(14px, -9px) scale(0.75) !important;
+    }
+    `
+  )
 
 // const postalCodeMask = [
 //   /[1-9]/,
@@ -757,6 +765,7 @@ export const RegisterWizardJWT = ({termsProps, associationTypes, settings}) => {
                               <InputLabel id="association-type-label">{t('FORMS.associationType')}</InputLabel>
                               <Field
                                 placeholder={t("PLACEHOLDER.associationType")}
+                                id="association-type-field"
                                 name="association_type"
                                 fullWidth
                                 required={true}
@@ -850,8 +859,9 @@ export const RegisterWizardJWT = ({termsProps, associationTypes, settings}) => {
                         />
                       </Grid>
                       <Grid item xs={12} md={3}>
-                        <Field fullWidth
+                        <CustomMaskField fullWidth
                             component={TextField}
+                            id="association_postalcode"
                             name="association_postalcode"
                             placeholder={t('FORMS.associationPostalCode')}
                             label={t('FORMS.associationPostalCode')}
@@ -860,7 +870,7 @@ export const RegisterWizardJWT = ({termsProps, associationTypes, settings}) => {
                             onChange={formikHandleChange}
                             onBlur={formikHandleBlur}
                             InputProps={{ inputComponent: PostalCodeCustomInput }}>
-                        </Field>
+                        </CustomMaskField>
                       </Grid>
                       <Grid item xs={12} md={3}>
                         <Field
@@ -1092,6 +1102,7 @@ export function FormikStep({ children }) {
                   variant="outlined"
                   color="primary"
                   type="button"
+                  aria-label={ t('LABELS.stepGoBackButton') }
                   onClick={() => setStep((s) => s - 1)}
                 >
                   {t('LABELS.previous')}
@@ -1112,6 +1123,7 @@ export function FormikStep({ children }) {
                     isSubmitting ? <CircularProgress size="1rem" /> : null
                   }
                   disabled={isSubmitting}
+                  aria-label={isSubmitting ? t('LABELS.inSubmitionStateButton') : isLastStep() ? t('LABELS.completeRegistButton') : t('LABELS.nextStepButton') }
                   variant="contained"
                   color="primary"
                   type="submit"

@@ -21,9 +21,16 @@ export const BANNERSLIST_TRANSLATIONS = deepFreeze({
         paginationRowsPerPage: "Rows per page:",
         showing: "Showing",
         selectAll: "Select all Bannerss",
+        bannersListIdentificationSmall: "Banners List: {{bannerIdentification}}",
     },
     LIST: {
-        bannersTitle: "Public Website Banners"
+        bannersTitle: "Public Website Banners",
+        home: "Home",
+        cms: "Website Content",
+        bannersTitleRoot: "Banners at root",
+        bannersTitleSubPath: "Banners sub path {{bannersLevel}}",
+        bannersSubPathLevel: "Level {{levelNumber}}",
+        bannersSortedPosition: "Sorted position: {{positionNumber}}"
     },
     BANNEROBJECT: {
         pageKey: "Page Key Identifier",

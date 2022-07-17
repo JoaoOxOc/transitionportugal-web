@@ -36,17 +36,18 @@ export declare const BANNERDETAILS_TRANSLATIONS: {
         readonly saveButton: "Guardar";
     };
     readonly MESSAGES: {
-        readonly nameTooBig: "O Nome é demasiado grande. Máx. de caracteres: {{max}}";
-        readonly nameRequired: "O Nome da Aplicação é obrigatório";
-        readonly descriptionTooBig: "A Descrição é demasiado grande. Máx. de caracteres: {{max}}";
-        readonly descriptionRequired: "A Descrição é obrigatória";
-        readonly clientIdTooBig: "O ID é demasiado grande. Máx. de caracteres: {{max}}";
-        readonly clientIdRequired: "ID da Aplicação Cliente é obrigatório";
-        readonly emailInvalid: "O email da associação deverá ser um endereço de email válido";
+        readonly pageKeyTooBig: "O Identificador Chave da Página é demasiado grande. Máx. de caracteres: {{max}}";
+        readonly pageKeyRequired: "O Identificador Chave da Página é obrigatório";
+        readonly componentKeyTooBig: "O Identificador Chave do Componente é demasiado grande. Máx. de caracteres: {{max}}";
+        readonly componentKeyRequired: "O Identificador Chave do Componente é obrigatório";
+        readonly orderPositionTooBig: "A Posição Ordenada do Componente é demasiado grande. Valor máx.: {{max}}";
+        readonly orderPositionRequired: "A Posição Ordenada do Componente é obrigatória";
+        readonly orderPositionMustBePositive: "A Posição Ordenada do Componente tem de ser 0 ou acima de";
         readonly bannerUpdatedSuccessfully: "O Banner cuja identificação é {{bannerIdentification}} foi atualizado com sucesso";
         readonly bannerCreatedSuccessfully: "O Banner cuja identificação é {{bannerIdentification}} foi registado com sucesso";
         readonly bannerGeneralError: "Erro ao registar/atualizar o Banner cuja identificação é {{bannerIdentification}}. Por favor tente novamente";
         readonly bannerNotFound: "O Banner cuja identificação é {{bannerIdentification}} não foi encontrado. Por favor verifica se a identificação está correcta";
+        readonly bannerDuplicateFound: "Um Banner com a mesma posição ordenada {{orderPosition}} já se encontra registado. Por favor altere a ordem e grave novamente";
     };
 };
 //# sourceMappingURL=bannerDetails.d.ts.map

@@ -102,13 +102,32 @@ services:
     image: ${DOCKER_REGISTRY-}tpcmservice
     container_name: tpcmservice
     environment:
-        ASPNETCORE_URLS: "http://+:3030"
-        ASPNETCORE_ENVIRONMENT: "Development"
+      DATABASE_CLIENT: postgres
+      DATABASE_HOST: host.docker.internal
+      DATABASE_NAME: cmsservicedb
+      DATABASE_USERNAME: postgres
+      DATABASE_PORT: 5433
+      APP_KEYS: <your strapi app keys>
+      API_TOKEN_SALT: <your strapi jwt token salt>
+      JWT_SECRET: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI5ODQ1MDVmMy1lMjhhLTRhZGEtYmVmOS03MmViMDQzMjUxMTgiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjUwMDAifQ.qR8X8VKyJI-9glLTfMM3S7nooRKFLkFk79GRxn8kOSzDqmQYq63zIMhvwQqxJ-P3pVLQshOf76B6tb3la3V1rRefAaP-abPKZ5up_-yXDMbktml__ttIYTOJH5WEl7Kk4S9i7ikjqw9yCA3HmGSNS-M-b_9ZqdYKaOGhA-DRW4e7cC-YsPfwfR9cxI1vYwzucqDhNFRdOONGzOvBEWzyOl8W4qqT7JkSnMsNOj5BwyzGBZmLKcsGrG-XPBz1p_YCdOHTsXvvFAGDTJLkI8EWMxHRfSow2afVVQ6ShUABnuIstZ0Bp9qu_awHLcitCMaTfVAMULpHxuv-EbmblHBm0Qcq1Q7W95NPLJbgT3OBTIfQnWufdf7T_3pdiW8gH2Nc5fFUh1FONXq9_QU6oAIysEJ2TMPlld-NKgXQ6BK3uLvek9EEDoqlk0mcLwu3GzLErLew330UaetmbODLQlytoDkJi_uxC-mw6ks4LyYKXWwME9tjErSIGjEFvA_aWoQhaJNhacKVyeYerHAtl3koQRYuLyOM5xfZAI0MqOX9ZzPnLJJ6gok4O4kMiroH-qkeXa_OuFmRZKzXxnhH9_ASFj_LtcMAj32KD7-CGPPSytQwHpG68hdpdaN0cBiBHLe_4FpIkayUW1eC0TJI7AR19N-T7ketYK1V5VbXNEfDfZ4
+      ADMIN_JWT_SECRET: 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
+      DATABASE_PASSWORD: postgres
+      NODE_ENV: development
+      SENDGRID_API_KEY: <your sendgrid api key>
+      EMAIL_FROM: noreply@transicaoportugal.org
+      EMAIL_REPLYTO: admin@transicaoportugal.org
+      EMAIL_TESTADDRESS: admin@transicaoportugal.org
+    #volumes:
+    #  - ./APIs/ContentManageService2/config:/opt/app/config
+    #  - ./APIs/ContentManageService2/src:/opt/app/src
+    #  - ./APIs/ContentManageService2/package.json:/opt/package.json
+    #  - ./APIs/ContentManageService2/package-lock.json:/opt/package-lock.json # Replace with package-lock.json if using npm
+    #  - ./APIs/ContentManageService2/.env:/opt/app/.env
     build:
         context: .
         dockerfile: cmservice.dockerfile
     ports:
-        - "5030:3030"
+        - "5030:1337"
     depends_on:
         - postgres
     networks:
@@ -124,7 +143,7 @@ services:
         context: .
         dockerfile: notificationservice.dockerfile
     ports:
-        - "5040:3040"
+        - "5035:3040"
     networks:
         - tp_bridge
 

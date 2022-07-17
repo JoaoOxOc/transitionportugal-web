@@ -16,6 +16,10 @@ export declare const REGISTERFORM_TRANSLATIONS: {
         readonly closeTermsDialog: "Close Terms & Conditions reading";
         readonly termsConsentButton: "Consent";
         readonly termsCancelButton: "Close";
+        readonly stepGoBackButton: "Button to return to previous register wizard step";
+        readonly inSubmitionStateButton: "Button is disabled due to the register form being submited";
+        readonly completeRegistButton: "Button to complete the register wizard form";
+        readonly nextStepButton: "Button to move to next register wizard step";
     };
     readonly FORMS: {
         readonly emailAddress: "Email address";

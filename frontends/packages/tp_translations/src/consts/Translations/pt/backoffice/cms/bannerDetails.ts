@@ -38,16 +38,17 @@ export const BANNERDETAILS_TRANSLATIONS = deepFreeze({
         saveButton: "Guardar"
     },
     MESSAGES: {
-        nameTooBig: "O Nome é demasiado grande. Máx. de caracteres: {{max}}",
-        nameRequired: "O Nome da Aplicação é obrigatório",
-        descriptionTooBig: "A Descrição é demasiado grande. Máx. de caracteres: {{max}}",
-        descriptionRequired: "A Descrição é obrigatória",
-        clientIdTooBig: "O ID é demasiado grande. Máx. de caracteres: {{max}}",
-        clientIdRequired: "ID da Aplicação Cliente é obrigatório",
-        emailInvalid: "O email da associação deverá ser um endereço de email válido",
+        pageKeyTooBig: "O Identificador Chave da Página é demasiado grande. Máx. de caracteres: {{max}}",
+        pageKeyRequired: "O Identificador Chave da Página é obrigatório",
+        componentKeyTooBig: "O Identificador Chave do Componente é demasiado grande. Máx. de caracteres: {{max}}",
+        componentKeyRequired: "O Identificador Chave do Componente é obrigatório",
+        orderPositionTooBig: "A Posição Ordenada do Componente é demasiado grande. Valor máx.: {{max}}",
+        orderPositionRequired: "A Posição Ordenada do Componente é obrigatória",
+        orderPositionMustBePositive: "A Posição Ordenada do Componente tem de ser 0 ou acima de",
         bannerUpdatedSuccessfully: "O Banner cuja identificação é {{bannerIdentification}} foi atualizado com sucesso",
         bannerCreatedSuccessfully: "O Banner cuja identificação é {{bannerIdentification}} foi registado com sucesso",
         bannerGeneralError: "Erro ao registar/atualizar o Banner cuja identificação é {{bannerIdentification}}. Por favor tente novamente",
-        bannerNotFound: "O Banner cuja identificação é {{bannerIdentification}} não foi encontrado. Por favor verifica se a identificação está correcta"
+        bannerNotFound: "O Banner cuja identificação é {{bannerIdentification}} não foi encontrado. Por favor verifica se a identificação está correcta",
+        bannerDuplicateFound: "Um Banner com a mesma posição ordenada {{orderPosition}} já se encontra registado. Por favor altere a ordem e grave novamente"
     }
 } as const);

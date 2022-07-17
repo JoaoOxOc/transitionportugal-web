@@ -17,9 +17,10 @@ export default async function userRecoverPasswordHandler(req, res) {
           const resultErrorBody = await response.text();
           res.status(response.status).json({ error: resultErrorBody + response.status, statusText: response.statusText });
         }
-        
-        const resetResult = await response.json();
-        res.status(200).json(resetResult);
+        else {
+          const resetResult = await response.json();
+          res.status(200).json(resetResult);
+        }
     }
     catch(error) {
         console.log(error)

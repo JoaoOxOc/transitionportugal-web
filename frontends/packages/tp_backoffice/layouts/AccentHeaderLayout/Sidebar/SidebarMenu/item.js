@@ -2,6 +2,7 @@ import { useState, useContext } from 'react';
 import clsx from 'clsx';
 import { SidebarContext } from '../../../../contexts/SidebarContext';
 import NextLink from 'next/link';
+import Link from '../../../../components/Link';
 
 import PropTypes from 'prop-types';
 import {
@@ -37,6 +38,7 @@ const TooltipWrapper = styled(({ className, ...props }) => (
 const SidebarMenuItem = ({
   children,
   link,
+  linkType,
   icon: Icon,
   badge,
   badgeTooltip,
@@ -80,6 +82,39 @@ const SidebarMenuItem = ({
           {t(name)}
         </Button>
         <Collapse in={menuToggle}>{children}</Collapse>
+      </ListItem>
+    );
+  }
+
+  if (linkType && linkType == "new_tab") {
+    return (
+      <ListItem component="div" key={name} {...rest}>
+        {/* <Link href={link} target="_blank"> */}
+          <Button
+            disableRipple
+            component={"a"}
+            target="_blank"
+            href={link}
+            className={clsx({ 'Mui-active': active })}
+            onClick={closeSidebar}
+            startIcon={Icon && <Icon />}
+          >
+            {t(name)}
+            {badgeTooltip ? (
+              <TooltipWrapper title={badgeTooltip} arrow placement="right">
+                {badge === '' ? (
+                  <Badge color="primary" variant="dot" />
+                ) : (
+                  <Badge badgeContent={badge} />
+                )}
+              </TooltipWrapper>
+            ) : badge === '' ? (
+              <Badge color="primary" variant="dot" />
+            ) : (
+              <Badge badgeContent={badge} />
+            )}
+          </Button>
+        {/* </Link> */}
       </ListItem>
     );
   }

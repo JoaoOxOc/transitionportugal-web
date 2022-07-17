@@ -1,0 +1,14 @@
+{
+  "collectionName": "components_blocks_sliders",
+  "info": {
+    "displayName": "slider",
+    "icon": "swimmer"
+  },
+  "options": {},
+  "attributes": {
+    "sliderData": {
+      "type": "richtext",
+      "required": true
+    }
+  }
+}

@@ -68,6 +68,7 @@ const BodyTableView = ({rowsConfig, selectableItems, selectedItems, selectedItem
                                 </IconButton>
                             </Tooltip>
                         );
+                        case "customComponent": return action.customComponentGetter(rowItem, action.customComponentStyleConfig);
                         default: return (
                             <>{action.title}</>
                         )

@@ -1,4 +1,3 @@
-// pages/api/auth/[...nextauth].js
 import NextAuth from 'next-auth'
 import Providers from 'next-auth'
 import Credentials from 'next-auth/providers/credentials'
@@ -252,6 +251,7 @@ import Credentials from 'next-auth/providers/credentials'
           user.name = userData.userProfile.name;
           user.username = userData.userProfile.userName;
         }
+        // for oauth users in strapi: http://localhost:1337/auth/${account.provider}/callback?access_token=${account?.accessToken}`
         return {
           accessToken: user.token,
           accessTokenExpires: user.expiration * 1000,

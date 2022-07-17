@@ -4,6 +4,8 @@ import {
     InputLabel,
     Switch,
     Card,
+    Tab,
+    Tabs,
     styled
 } from '@mui/material';
 

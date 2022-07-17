@@ -25,6 +25,7 @@ import {
 import { useRouter } from 'next/router';
 import Link from '../../../components/Link';
 import Loader from '../../../components/Loader';
+import BreadcrumbsDetailsComponent from '../../../components/Breadcrumbs/BreadcrumbsDetailsComponent';
 import { useRefMounted } from '../../../hooks/useRefMounted';
 import { BannersSearchContext } from '../../../contexts/Search/CMS/BannersSearchContext';
 import { BannersActionsContext } from '../../../contexts/Actions/BannersActionsContext';
@@ -86,7 +87,7 @@ const IconButtonHierarchyTree = styled(IconButton)(
       `
 );
 
-const Results = ({parentBannerId}) => {
+const Results = ({parentBannerId,isRelatedList}) => {
     const router = useRouter();
   const { t } = i18nextBannersList;
   const isMountedRef = useRefMounted();
@@ -106,7 +107,6 @@ const Results = ({parentBannerId}) => {
   const getBannersData = useCallback(async (searchDataJson) => {
     try {
       let bannersData = await GetBanners(process.env.NEXT_PUBLIC_API_BASE_URL + bannersApiUri, searchDataJson, session.accessToken);
-      console.log("getBannersData",bannersData)
       
       if (isMountedRef()) {
         if (bannersData.banners) {
@@ -126,7 +126,7 @@ const Results = ({parentBannerId}) => {
   }, [isMountedRef, bannersApiUri]);
 
   useEffect(() => {
-    if (router.query.parentBannerId) {
+    if (!isRelatedList && router.query.parentBannerId) {
         bannersSearchData.searchData.parentBannerId = router.query.parentBannerId;
     }
     else if (parentBannerId) {
@@ -170,12 +170,10 @@ const Results = ({parentBannerId}) => {
     if (banners) {
         banners.map((banner) => {
             let parentPath = "";
-            console.log()
             if (router.query.parentBannerId) {
                 parentPath += "?parentBannerId=" + banner.parentBannerId + "&parentBannerPath=" + banner.parentBannerPath;
             }
             banner.bannerViewLink = bannerDetailsBaseUri + banner.id + parentPath;
-            console.log(banner.bannerViewLink);
         });
     }
 
@@ -214,14 +212,15 @@ const Results = ({parentBannerId}) => {
     }
 
     const getBannerParentPathComponent = (banner, styleConfig) => {
-        console.log(banner, banner.parentBannerId > 0)
-        if (banner.parentBannerId > 0) {
+        const bannerPathSplitted = banner.parentBannerPath ? banner.parentBannerPath.split("|").filter(function(i){return i}) : [];
+        const parentBannerId = bannerPathSplitted.length > 1 ? bannerPathSplitted[bannerPathSplitted.length - 2] : bannerPathSplitted.length == 1 ? 0 : null;
+        if (parentBannerId != null) {
             return (
                 <Typography key={styleConfig.key}
                     pl={styleConfig && styleConfig.paddingLeft ? styleConfig.paddingLeft: 0}
                 >
                     <Tooltip title={t('BANNEROBJECT.bannerParentPath')} arrow>
-                        <Link href={"/content/banner?parentBannerId=" + banner.parentBannerId} isNextLink={true}>
+                        <Link href={parentBannerId > 0 ? "/content/banner?parentBannerId=" + parentBannerId : "/content/banner"} isNextLink={true}>
                             <IconButtonHierarchyTree
                                 color="primary"
                                 >
@@ -238,7 +237,6 @@ const Results = ({parentBannerId}) => {
     }
 
     const getBannerHierarchyTreeComponent = (banner, styleConfig) => {
-        console.log(banner)
         if (banner.childElements && banner.childElements > 0) {
             return (
                 <Typography key={styleConfig.key}
@@ -261,9 +259,9 @@ const Results = ({parentBannerId}) => {
         }
     }
 
-    const getSingleActionsComponent = (banner) => {
+    const getSingleActionsComponent = (banner, styleConfig) => {
         return (
-            <SingleActions refreshData={receiveRefreshedData} bannerId={banner.id} bannerIsActive={!banner.isDraft} bannerPageKey={banner.pageKey} bannerComponentKey={banner.componentKey} bannerOrderPosition={banner.orderPosition}/>
+            <SingleActions key={styleConfig.key} refreshData={receiveRefreshedData} bannerId={banner.id} bannerIsDraft={banner.isDraft} bannerPageKey={banner.pageKey} bannerComponentKey={banner.componentKey} bannerOrderPosition={banner.orderPosition}/>
         )
     }
 
@@ -409,8 +407,8 @@ const Results = ({parentBannerId}) => {
                 buttonIconComponent: <LaunchTwoToneIcon fontSize="small" />
             },
             {
-                key: "SingleActions",
-                type: "customComponent",
+                actionKey: "SingleActions",
+                actionType: "customComponent",
                 customComponentStyleConfig: {
                     key: "singleActions"
                 },
@@ -449,6 +447,31 @@ const Results = ({parentBannerId}) => {
                 justifyContent: "space-between"
             },
             {
+                key: "bannerActions",
+                type: "composableGridItem",
+                subType: "boxWithTypography",
+                paddingLeft: 2,
+                paddingRight: 1,
+                paddingY: 1,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                typographyDisplay: "flex",
+                subItems: [
+                    {
+                        key: "SingleActions",
+                        type: "customComponent",
+                        customComponentStyleConfig: {
+                            paddingLeft: 1,
+                            key: "singleActions"
+                        },
+                        alignment: "center",
+                        customComponentGetter: getSingleActionsComponent,
+                        fieldName: "singleActions"
+                    }
+                ]
+            },
+            {
                 key: "bannerSelectionDivider",
                 type: "divider"
             },
@@ -476,7 +499,7 @@ const Results = ({parentBannerId}) => {
                         typographyColor: "text.secondary"
                     },
                     {
-                        key: "bannerDEtailsOrderPosition",
+                        key: "bannerDetailsOrderPosition",
                         type: "typography",
                         paddingTop: 1,
                         variant: "h6",
@@ -517,8 +540,62 @@ const Results = ({parentBannerId}) => {
         "data": banners
     }
 
+    if (router.query.parentBannerId) {
+        gridViewData.orderedGridItems.push(
+            {
+                key: "ParentBannerPath",
+                type: "customComponent",
+                customComponentStyleConfig: {
+                    key: "ParentBannerPath"
+                },
+                alignment: "center",
+                customComponentGetter: getBannerParentPathComponent,
+                fieldName: "parentBannerPath"
+            });
+    }
+    gridViewData.orderedGridItems.push(
+        {
+            key: "HierarchyTree",
+            type: "customComponent",
+            customComponentStyleConfig: {
+                key: "HierarchyTree"
+            },
+            alignment: "center",
+            customComponentGetter: getBannerHierarchyTreeComponent,
+            fieldName: "HierarchyTree"
+        });
+
+    const breadcrumbsData = [
+        { url: "/", label: t('LIST.home'), isLink: true },
+        { url: "", label: t('LIST.cms'), isLink: false },
+        { url: "/content/banner", label: t('LIST.bannersTitleRoot'), isLink: true },
+    ];
+
+    if (banners && banners[0]) {
+        if (banners[0].parentBannerPath) {
+            const bannerPathSplitted = banners[0].parentBannerPath.split("|").filter(function(i){return i});
+            const bannerLevel = 0;
+            bannerPathSplitted.forEach((element,index) => {
+              bannerLevel = index+1;
+              if (element == router.query.parentBannerId) {
+                breadcrumbsData.push({ url: "", label: t("LABELS.bannersListIdentificationSmall",{bannerIdentification: banners[0].pageKey + "|" + banners[0].componentKey + "|" + t("LIST.bannersSubPathLevel", {levelNumber: bannerLevel})}), ownPage: true })
+              }
+              else {
+                breadcrumbsData.push(
+                  { url: "/content/banner" + "?parentBannerId=" + element, label: t('LIST.bannersTitleSubPath', {bannersLevel: t("LIST.bannersSubPathLevel", {levelNumber: bannerLevel})}), isLink: true }
+                );
+              }
+            });
+        }
+    }
+
     return (
       <>
+        {!isRelatedList &&
+            <Box sx={{mt: '-25px', pb: '15px'}}>
+                <BreadcrumbsDetailsComponent urlDataJson={breadcrumbsData}/>
+            </Box>
+        }
           <Box
               display="flex"
               alignItems="center"

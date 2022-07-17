@@ -1,49 +1,28 @@
-import { useState } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import { 
-    Grid, 
-    Button, 
-    FormControl, 
-    TextField, 
-    Slide,
-    Divider,
-    FormControlLabel,
-    FormHelperText,
-    CircularProgress 
+    Grid
 } from '@mui/material';
-
-import * as Yup from 'yup';
-import { useFormik } from 'formik';
 import { useErrorHandler } from 'react-error-boundary';
-import { useRouter } from 'next/router';
-import { useSnackbar } from 'notistack';
-import { useRefMounted } from '../../../../hooks/useRefMounted';
 import { useSession } from "next-auth/react";
-import { CreateAssociation } from '../../../../services/associations';
+import { useRefMounted } from '../../../../hooks/useRefMounted';
+import { GetBannerData } from '../../../../services/cms/banners';
 
-import { i18nextBannerDetails } from "@transitionpt/translations";
+import MainTab from './MainTab';
 
-const CreateForm = ({bannerPutUri, parentBannerId, parentBannerPath}) => {
-    const { data: session, status } = useSession();
-    const { enqueueSnackbar } = useSnackbar();
-    
-    
-    enqueueSnackbar(t('MESSAGES.clientAppCreatedSuccessfully', {clientName: values.name}), {
-        variant: 'success',
-        anchorOrigin: {
-          vertical: 'top',
-          horizontal: 'center'
-        },
-        autoHideDuration: 2000,
-        TransitionComponent: Slide
-    });
-    //TODO redirect to edit page
-    console.log(result);
-    router.push({
-        pathname: '/management/app/clients/single/' + result.clientAppId,
-    });
+const CreateForm = ({bannerData, bannerPutUri, parentBannerId, parentBannerPath}) => {
+    console.log(bannerData, parentBannerPath)
+    bannerData = bannerData ? {
+        pageKey: bannerData.pageKey,
+        componentKey: bannerData.componentKey,
+        orderPosition: bannerData.childElements
+    } : {};
 
     return (
-        <></>
+        <Grid direction="row" container justifyContent="center">
+            <Grid item xs={12}>
+                <MainTab isCreate={true} bannerPutUri={bannerPutUri} bannerData={bannerData} parentBannerId={parentBannerId} parentBannerPath={parentBannerPath}/>
+            </Grid>
+        </Grid>
     );
 }
 

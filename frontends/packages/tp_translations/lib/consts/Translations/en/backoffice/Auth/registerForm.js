@@ -16,7 +16,11 @@ export var REGISTERFORM_TRANSLATIONS = deepFreeze({
         goLogIn: "Continue to login",
         closeTermsDialog: "Close Terms & Conditions reading",
         termsConsentButton: "Consent",
-        termsCancelButton: "Close"
+        termsCancelButton: "Close",
+        stepGoBackButton: "Button to return to previous register wizard step",
+        inSubmitionStateButton: "Button is disabled due to the register form being submited",
+        completeRegistButton: "Button to complete the register wizard form",
+        nextStepButton: "Button to move to next register wizard step",
     },
     FORMS: {
         emailAddress: "Email address",

@@ -1,0 +1,39 @@
+{
+  "collectionName": "components_page_seos",
+  "info": {
+    "displayName": "seo",
+    "icon": "anchor",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "metaTitle": {
+      "type": "string"
+    },
+    "metaDescription": {
+      "type": "text"
+    },
+    "meta": {
+      "displayName": "meta",
+      "type": "component",
+      "repeatable": true,
+      "component": "page.meta"
+    },
+    "preventIndexing": {
+      "type": "boolean"
+    },
+    "structuredData": {
+      "type": "json"
+    },
+    "metaImage": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": false
+    }
+  }
+}

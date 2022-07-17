@@ -52,26 +52,27 @@ const menuItems = [
     scopes: ["any"],
     items: [
       {
-        name: i18nextSidemenu.t('SIDEMENU_CONTENT.banner'),
-        icon: StorefrontTwoToneIcon,
-        link: '/content/banner',
-        roles: ["Admin", "User"],
-        scopes: ["cms.write"],
-      },
-      {
-        name: i18nextSidemenu.t('SIDEMENU_CONTENT.about'),
+        name: i18nextSidemenu.t('SIDEMENU_CONTENT.contentManagement'),
         icon: BackupTableTwoToneIcon,
-        link: '/content/about',
+        link: process.env.NEXT_PUBLIC_CMS_BASE_URL + "/admin",
+        linkType: "new_tab",
         roles: ["Admin", "User"],
         scopes: ["cms.write"],
       },
-      {
-        name: i18nextSidemenu.t('SIDEMENU_CONTENT.contacts'),
-        icon: ContactPhoneTwoToneIcon,
-        link: '/content/contacts',
-        roles: ["Admin", "User"],
-        scopes: ["cms.write"],
-      },
+      // {
+      //   name: i18nextSidemenu.t('SIDEMENU_CONTENT.about'),
+      //   icon: StorefrontTwoToneIcon,
+      //   link: '/content/about',
+      //   roles: ["Admin", "User"],
+      //   scopes: ["cms.write"],
+      // },
+      // {
+      //   name: i18nextSidemenu.t('SIDEMENU_CONTENT.contacts'),
+      //   icon: ContactPhoneTwoToneIcon,
+      //   link: '/content/contacts',
+      //   roles: ["Admin", "User"],
+      //   scopes: ["cms.write"],
+      // },
       {
         name: i18nextSidemenu.t('SIDEMENU_CONTENT.circularEconomy'),
         icon: BlurCircularTwoToneIcon,

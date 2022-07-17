@@ -20,6 +20,7 @@ export const SIDEMENU_TRANSLATIONS = deepFreeze({
         dashboard: "Dashboard"
     },
     SIDEMENU_CONTENT: {
+        contentManagement: "Gestão de Conteúdo do Website",
         banner: "Banner",
         about: "Sobre",
         contacts: "Contactos",

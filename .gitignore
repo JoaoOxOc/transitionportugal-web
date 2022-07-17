@@ -69,3 +69,4 @@ testem.log
 Thumbs.db
 /tp_webservices/APIs/NewsService/env
 frontends/packages/tp_components/storybook-static/*
+/tp_webservices/app/*
