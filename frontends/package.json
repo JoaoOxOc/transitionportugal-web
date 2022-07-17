@@ -23,7 +23,6 @@
         "@mui/styles": "5.2.1",
         "leaflet": "1.7.1",
         "leaflet-geosearch": "3.6.0",
-        "nookies": "^2.5.2",
         "react-imask": "^6.4.2",
         "react-leaflet": "3.2.5"
     },
