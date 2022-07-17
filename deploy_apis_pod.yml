@@ -280,8 +280,8 @@ spec:
         env:
             - name: NODE_ENV
               value: "production"
-			- name: DATABASE_CLIENT
-			  value: "postgres"
+	    - name: DATABASE_CLIENT
+	      value: "postgres"
             - name: DATABASE_HOST
               valueFrom:
                   secretKeyRef:
@@ -307,8 +307,8 @@ spec:
                   secretKeyRef:
                       name: cmservice-data
                       key: db-password
-            - name: DATABASE_SSLMODE
-              value: "Require"
+            - name: DATABASE_SSL
+              value: true
             - name: DATABASE_SERVER_COMPATIBILITY_MODE
               value: "Redshift"
             - name: DATABASE_TRUST_CERTIFICATE
@@ -325,6 +325,36 @@ spec:
                   secretKeyRef:
                       name: cmservice-data
                       key: cms-jwt-secret
+            - name: APP_KEYS
+              valueFrom:
+                  secretKeyRef:
+                      name: cmservice-data
+                      key: cms-app-keys
+            - name: API_TOKEN_SALT
+              valueFrom:
+                  secretKeyRef:
+                      name: cmservice-data
+                      key: cms-api-token-salt
+            - name: SENDGRID_API_KEY
+              valueFrom:
+                  secretKeyRef:
+                      name: cmservice-data
+                      key: cms-sendgrid-apikey
+            - name: EMAIL_FROM
+              valueFrom:
+                  secretKeyRef:
+                      name: cmservice-data
+                      key: cms-email-from
+            - name: EMAIL_REPLYTO
+              valueFrom:
+                  secretKeyRef:
+                      name: cmservice-data
+                      key: cms-email-replyto
+            - name: EMAIL_TESTADDRESS
+              valueFrom:
+                  secretKeyRef:
+                      name: cmservice-data
+                      key: cms-email-testaddress
       - name: tpnotificationservice
         image: <NOTIFICATIONSERVICE_API_IMAGE>
         ports:
