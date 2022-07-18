@@ -133,13 +133,13 @@ spec:
                 name: transportugal-frontoffice-service
                 port:
                   number: 40000
-          - pathType: ImplementationSpecific
-            path: /admin
-            backend:
-              service:
-                name: transportugal-backoffice-service
-                port:
-                  number: 40010
+          #- pathType: ImplementationSpecific
+          #  path: /admin
+          #  backend:
+          #    service:
+          #      name: transportugal-backoffice-service
+          #      port:
+          #        number: 40010
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
