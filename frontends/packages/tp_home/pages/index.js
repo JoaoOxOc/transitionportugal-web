@@ -45,9 +45,14 @@ export default function Home({homepageData}) {
 export async function getServerSideProps() {
   // Call an external API endpoint to get posts.
   // You can use any data fetching library
-  console.log(process.env.CMS_BASE_URL);
-  const res = await fetch(process.env.CMS_BASE_URL+'/api/pages?populate=deep&slug=&locale=pt-PT')
-  const homepageData = {};//await res.json();
+  const res = await fetch(process.env.CMS_BASE_URL+'/api/pages?populate=deep&slug=&locale=pt-PT', {
+    method: 'GET',
+    headers: {
+      Authorization:
+        'Bearer ' + process.env.CMS_API_TOKEN,
+    }}
+    );
+  const homepageData = await res.json();
 
   // By returning { props: { posts } }, the Blog component
   // will receive `posts` as a prop at build time
