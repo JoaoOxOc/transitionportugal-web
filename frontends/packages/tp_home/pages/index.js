@@ -45,7 +45,7 @@ export default function Home({homepageData}) {
 export async function getServerSideProps() {
   // Call an external API endpoint to get posts.
   // You can use any data fetching library
-  const res = await fetch(process.env.CMS_BASE_URL+'/api/pages?populate=deep&slug=&locale=pt-PT', {
+  const res = await fetch(process.env.SSR_CMS_BASE_URL+'/api/pages?populate=deep&slug=&locale=pt-PT', {
     method: 'GET',
     headers: {
       Authorization:
