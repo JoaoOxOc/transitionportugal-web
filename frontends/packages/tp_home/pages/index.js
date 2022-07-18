@@ -45,8 +45,9 @@ export default function Home({homepageData}) {
 export async function getStaticProps() {
   // Call an external API endpoint to get posts.
   // You can use any data fetching library
-  const res = await fetch(process.env.CMS_BASE_URL+'/api/pages?populate=deep&slug=&locale=pt-PT')
-  const homepageData = await res.json()
+  console.log(process.env.CMS_BASE_URL);
+  //const res = await fetch(process.env.CMS_BASE_URL+'/api/pages?populate=deep&slug=&locale=pt-PT')
+  const homepageData = {};//await res.json()
 
   // By returning { props: { posts } }, the Blog component
   // will receive `posts` as a prop at build time
