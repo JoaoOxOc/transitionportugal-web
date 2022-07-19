@@ -15,7 +15,7 @@ import { Provider as ReduxProvider } from 'react-redux';
 import { store } from '../store';
 import Loader from '../components/Loader';
 import { LocalizationProvider } from '@mui/x-date-pickers';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import useScrollTop from '../hooks/useScrollTop';
 import { SnackbarProvider } from 'notistack';
 import { AuthConsumer, AuthProvider } from '../contexts/JWTAuthContext';
