@@ -77,6 +77,21 @@ spec:
              secretKeyRef:
                name: transbackoffice-data
                key: backoffice-auth-client-secret
+        - name: NEXT_PUBLIC_CMS_BASE_URL
+          valueFrom:
+             secretKeyRef:
+               name: transbackoffice-data
+               key: cms-external-base-url
+        - name: CMS_INTEGRATION_USER
+          valueFrom:
+             secretKeyRef:
+               name: transbackoffice-data
+               key: cms-integration-user
+        - name: CMS_INTEGRATION_USER_PASSWORD
+          valueFrom:
+             secretKeyRef:
+               name: transbackoffice-data
+               key: cms-integration-user-password
       imagePullSecrets:
       - name: do-photos-registry-secret
 ---
@@ -118,6 +133,32 @@ spec:
                 name: transportugal-frontoffice-service
                 port:
                   number: 40000
+          #- pathType: ImplementationSpecific
+          #  path: /admin
+          #  backend:
+          #    service:
+          #      name: transportugal-backoffice-service
+          #      port:
+          #        number: 40010
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: transportugal-backoffice-testing-nginx-controller
+  annotations:
+      kubernetes.io/ingress.class: nginx
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      service.beta.kubernetes.io/do-loadbalancer-protocol: https
+      service.beta.kubernetes.io/do-loadbalancer-tls-passthrough: "true"
+spec:
+  tls:
+  - hosts:
+    - back.transicaoportugal.org
+    secretName: transportugal-backoffice-tls-secret
+  rules:
+  - host: back.transicaoportugal.org
+    http:
+      paths:
           - pathType: ImplementationSpecific
             path: /admin
             backend:
