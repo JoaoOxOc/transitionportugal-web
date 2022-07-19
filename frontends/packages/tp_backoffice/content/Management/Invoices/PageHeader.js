@@ -33,7 +33,7 @@ import {
   useMediaQuery,
   TableFooter
 } from '@mui/material';
-import DatePicker from '@mui/lab/DatePicker';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useSnackbar } from 'notistack';
 import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';

@@ -14,7 +14,7 @@ import {
 } from '@mui/material';
 import { i18nextAbout } from "@transitionpt/translations";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizaitonProvider from '@mui/lab/LocalizationProvider';
+import { LocalizationProvider } from '@mui/x-date-pickers';
 import CalendarPicker from '@mui/lab/CalendarPicker';
 import Label from '../../../components/Label';
 import EventSeatTwoToneIcon from '@mui/icons-material/EventSeatTwoTone';
