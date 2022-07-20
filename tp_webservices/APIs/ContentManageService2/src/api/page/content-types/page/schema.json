@@ -52,7 +52,10 @@
       },
       "type": "dynamiczone",
       "components": [
-        "blocks.carousel"
+        "blocks.carousel",
+        "blocks.header",
+        "blocks.image-list",
+        "blocks.section"
       ]
     },
     "publishAt": {

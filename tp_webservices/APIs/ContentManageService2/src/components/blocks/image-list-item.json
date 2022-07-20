@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_blocks_image_list_items",
+  "info": {
+    "displayName": "ImageListItem",
+    "icon": "list"
+  },
+  "options": {},
+  "attributes": {
+    "ImageUrl": {
+      "type": "string"
+    },
+    "ItemText": {
+      "type": "richtext"
+    }
+  }
+}
