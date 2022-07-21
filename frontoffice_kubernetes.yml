@@ -30,6 +30,11 @@ spec:
              secretKeyRef:
                name: transfrontoffice-data
                key: app-auth-url
+        - name: HOME_BASE_URL
+          valueFrom:
+             secretKeyRef:
+               name: transfrontoffice-data
+               key: home-base-url
         - name: CMS_BASE_URL
           valueFrom:
              secretKeyRef:
