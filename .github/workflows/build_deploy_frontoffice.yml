@@ -53,7 +53,7 @@ jobs:
       run: TAG=$(echo $GITHUB_SHA | head -c7) && sed -i "s|<FRONTOFFICE_IMAGE>|$REGISTRY_HOSTNAME/$IMAGE_NAME:latest|" $GITHUB_WORKSPACE/$FRONTOFFICE_DEPLOYMENT_FILE_NAME
       
     - name: process frontoffice environment variables
-      run: kubectl delete secret transfrontoffice-data --ignore-not-found && kubectl create secret generic transfrontoffice-data --from-literal=app-auth-url=${{secrets.FRONTOFFICE_AUTH_URL}} --from-literal=cms-external-base-url=${{secrets.FRONTOFFICE_CMS_EXTERNAL_BASE_URL}} --from-literal=cms-internal-base-url=${{secrets.FRONTOFFICE_CMS_INTERNAL_BASE_URL}} --from-literal=cms-auth-api-token=${{secrets.FRONTOFFICE_CMS_AUTH_API_TOKEN}}
+      run: kubectl delete secret transfrontoffice-data --ignore-not-found && kubectl create secret generic transfrontoffice-data --from-literal=app-auth-url=${{secrets.FRONTOFFICE_AUTH_URL}} --from-literal=home-base-url=${{secrets.FRONTOFFICE_BASE_URL}} --from-literal=cms-external-base-url=${{secrets.FRONTOFFICE_CMS_EXTERNAL_BASE_URL}} --from-literal=cms-internal-base-url=${{secrets.FRONTOFFICE_CMS_INTERNAL_BASE_URL}} --from-literal=cms-auth-api-token=${{secrets.FRONTOFFICE_CMS_AUTH_API_TOKEN}}
 
     - name: Deploy to DigitalOcean Kubernetes
       run: kubectl apply -f $GITHUB_WORKSPACE/$FRONTOFFICE_DEPLOYMENT_FILE_NAME
