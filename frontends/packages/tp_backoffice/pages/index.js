@@ -12,6 +12,7 @@ import DashboardReportsContent from '../content/DashboardPages/reports';
 // https://stackoverflow.com/questions/70717224/how-to-define-a-custom-base-path-when-nextauth-url-doesnt-work
 // https://next-auth.js.org/tutorials/refresh-token-rotation
 function DashboardReports() {
+  console.log(process.env.NEXT_PUBLIC_CMS_BASE_URL);
   return (
     <>
       <Head>

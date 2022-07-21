@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_blocks_sections",
+  "info": {
+    "displayName": "Section",
+    "icon": "address-card",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "SectionIdentifier": {
+      "type": "string",
+      "required": true
+    },
+    "SectionContent": {
+      "type": "richtext"
+    }
+  }
+}
