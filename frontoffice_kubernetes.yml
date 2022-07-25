@@ -30,7 +30,7 @@ spec:
              secretKeyRef:
                name: transfrontoffice-data
                key: app-auth-url
-        - name: HOME_BASE_URL
+        - name: NEXT_PUBLIC_HOME_BASE_URL
           valueFrom:
              secretKeyRef:
                name: transfrontoffice-data
