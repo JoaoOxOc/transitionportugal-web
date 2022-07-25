@@ -7,6 +7,7 @@ export default function SEO({
   meta,
   title = 'startup landing title',
 }) {
+  console.log(meta);
   const metaData = [
     {
       name: `description`,

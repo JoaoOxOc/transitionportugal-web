@@ -20,9 +20,9 @@ export default async function socialData(req, res) {
       console.log('cms ',socialDataResult)
       res.status(200).json(socialDataResult);
     }
-}
-catch(error) {
-    console.log(error)
-    res.status(500).json({ error: error + JSON.stringify(req.body) });
-}
+  }
+  catch(error) {
+      console.log(error)
+      res.status(500).json({ error: error + JSON.stringify(req.body) });
+  }
 }

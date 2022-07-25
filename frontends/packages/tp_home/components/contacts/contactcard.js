@@ -16,7 +16,7 @@ export default function ContactCard() {
         <Flex sx={styles.contactcard}>
             <Box sx={styles.contactCardInner}>
                 { data != null &&
-                    <p><span sx={styles.contactTitle}><MdOutlineMail/> {i18nextContacts.t('CONTACTS.email_input_label')} </span> <span sx={styles.contactDetail}>{data.email}</span></p>
+                    <p><span sx={styles.contactTitle}><MdOutlineMail/> {i18nextContacts.t('CONTACTS.email_input_label')} </span> <span sx={styles.contactDetail}>{data.MainEmail}</span></p>
                 }
             </Box>
         </Flex>

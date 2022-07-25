@@ -19,15 +19,18 @@ const ActionsDynamic = dynamic(() => import("../pageSections/actions/actions"));
 const FooterDynamic = dynamic(() => import("../pageSections/footer/footer"));
 
 export default function Home({homepageData}) {
-  console.log(homepageData)
+  const homepageDataAttributes = homepageData.data ? homepageData.data[0].attributes : {};
+  const getComponentAttributes = (componentName) => {
+    return homepageDataAttributes[componentName];
+  }
   return (
     <ThemeProvider theme={theme}>
       <StickyProvider>
         <Layout>
-          <SEO title="Transição Portugal" />
-          <AccessibilityDynamic posRight={'0px'} posTop={'170px'}/>
+          <SEO title="Transição Portugal" meta={getComponentAttributes("seo")}/>
+          {/* <AccessibilityDynamic posRight={'0px'} posTop={'170px'}/>
           <DonationDynamic posRight={'0px'} posTop={'250px'}/>
-          <NewsDynamic posRight={'0px'} posTop={'320px'}/>
+          <NewsDynamic posRight={'0px'} posTop={'320px'}/> */}
           <BannerDynamic/>
           <AboutDynamic/>
           <EventsDynamic/>
