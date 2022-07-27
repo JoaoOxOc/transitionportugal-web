@@ -27,7 +27,7 @@ export default function Home({homepageData}) {
     <ThemeProvider theme={theme}>
       <StickyProvider>
         <Layout>
-          <SEO title="Transição Portugal" meta={getComponentAttributes("seo")}/>
+          <SEO metaDataObject={getComponentAttributes("seo")}/>
           {/* <AccessibilityDynamic posRight={'0px'} posTop={'170px'}/>
           <DonationDynamic posRight={'0px'} posTop={'250px'}/>
           <NewsDynamic posRight={'0px'} posTop={'320px'}/> */}

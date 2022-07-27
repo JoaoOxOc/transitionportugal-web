@@ -2,52 +2,45 @@ import React from 'react';
 import Head from 'next/head';
 
 export default function SEO({
-  description = 'site dedicado à Transição Portugal e aos seus filiados',
-  author = 'Transição Portugal',
-  meta,
-  title = 'startup landing title',
+  metaDataObject,
 }) {
-  console.log(meta);
-  const metaData = [
+  console.log(metaDataObject);
+  let metaData = [
     {
       name: `description`,
-      content: description,
-    },
-    {
-      property: `og:title`,
-      content: title,
-    },
-    {
-      property: `og:description`,
-      content: description,
-    },
-    {
-      property: `og:type`,
-      content: `website`,
+      content: metaDataObject.metaDescription,
     },
     {
       name: `twitter:card`,
       content: `summary`,
     },
     {
-      name: `twitter:creator`,
-      content: author,
-    },
-    {
       name: `twitter:title`,
-      content: title,
+      content: metaDataObject.metaTitle,
     },
     {
       name: `twitter:description`,
-      content: description,
+      content: metaDataObject.metaDescription,
     },
-  ].concat(meta);
+  ]
+  if (metaDataObject && metaDataObject.meta) {
+    metaData = metaData.concat(metaDataObject.meta);
+  }
   return (
     <Head>
-      <title>{title}</title>
-      {metaData.map(({ name, content }, i) => (
-        <meta key={i} name={name} content={content} />
-      ))}
+      <title>{metaDataObject.metaTitle}</title>
+      {metaData.map(({ name, content, property }, i) => {
+        if (property) {
+          return (
+            <meta key={i} property={property} content={content} />
+          )
+        }
+        else {
+          return (
+            <meta key={i} name={name} content={content} />
+          )
+        }
+      })}
     </Head>
   );
 }
