@@ -49,7 +49,9 @@ export default function UserBanner({ src, className, ...rest }) {
         };
                 
         window.addEventListener('newLang', handleNewMessage);
-        fetchCurrentUserSession();
+        if (!userAuthenticated || !userAuthenticated.username) {
+            fetchCurrentUserSession();
+        }
     });
 
     // structure example:
