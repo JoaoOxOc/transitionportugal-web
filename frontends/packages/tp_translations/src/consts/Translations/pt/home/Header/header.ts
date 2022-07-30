@@ -7,6 +7,9 @@ export const HEADER_TRANSLATIONS = deepFreeze({
         login: "Autentique-se"
     },
     MENU: {
+        transitionMovement: "Movimento Transição",
+        history: "História",
+        presentation: "Apresentação",
         about: "Sobre o Movimento",
         map: "Encontrar Grupos",
         events: "Eventos",

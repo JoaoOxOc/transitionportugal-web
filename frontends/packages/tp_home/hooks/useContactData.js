@@ -11,12 +11,16 @@ export default function useContactData(url) {
                 try{
                     setLoading(true)
                     
-                    //const response = await axios.get(url)
-                    //setData(response.data)
-                    const response = {
-                        email: 'tp@gmail.com',
-                    };
-                    setData(response)
+                    const response = await fetch(process.env.NEXT_PUBLIC_HOME_BASE_URL + "/api/contactData", {
+                        method: 'GET',
+                    })
+                    const responseData = await response.json();
+                    if (responseData && responseData.data) {
+                        setData(responseData.data.attributes);
+                    }
+                    else {
+                        setData({})
+                    }
                 }catch(err){
                     setError(err)
                 }finally{

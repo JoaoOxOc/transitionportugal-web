@@ -1,6 +1,6 @@
 /** @jsxImportSource theme-ui */
 import { Image } from 'theme-ui';
-import React, { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Link } from '../generic/link';
 import { i18nextHeader } from "@transitionpt/translations";
 
@@ -11,6 +11,20 @@ import {UserBannerStyles as styles } from './UserBanner.style';
 import {BiCaretDown} from 'react-icons/bi';
 
 export default function UserBanner({ src, className, ...rest }) {
+    const fetchAssociationOptions = useCallback(async() => {
+        try {
+            const result = await fetch("https://transicaoportugal.org/admin/api/auth/session", {
+                method: 'GET',
+                headers: { 
+                  "Content-Type": "application/json",
+                  "credentials": 'include'
+                }
+            });
+        }
+        catch (e) {
+            console.log(e);
+        }
+    },[]);
     const innerContain = className === 'inlineBlock' ? styles.userContainer.userInlineBlock 
                             : (className === 'sidemenu' ? styles.userContainer.userSidemenu : styles.userContainer.userBlock);
 
@@ -25,6 +39,7 @@ export default function UserBanner({ src, className, ...rest }) {
         };
                 
         window.addEventListener('newLang', handleNewMessage);
+        fetchAssociationOptions();
     });
 
     const renderBlock = () => {
