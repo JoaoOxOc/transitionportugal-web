@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 export default function useSocialData(url) {
     const [data,setData] = useState(null);
@@ -10,16 +10,22 @@ export default function useSocialData(url) {
             async function(){
                 try{
                     setLoading(true)
+                    const response = await fetch(process.env.NEXT_PUBLIC_HOME_BASE_URL + "/api/socialData", {
+                        method: 'GET',
+                    })
+                    const responseData = await response.json();
+                    let arrayOfSocials = [];
+                    responseData.data.forEach(element => {
+                        arrayOfSocials.push(element.attributes);
+                    });
                     
-                    //const response = await axios.get(url)
-                    //setData(response.data)
-                    const response = [
-                        {name: 'facebook', code: 'facebook', url: 'https://facebook.com'},
-                        {name: 'Twitter', code: 'twitter', url: 'https://twitter.com'},
-                        {name: 'Instagram', code: 'instagram', url: 'https://instagram.com'},
-                        {name: 'Slack', code: 'slack', url: 'https://slack.com'}
-                    ]
-                    setData(response)
+                    // const response = [
+                    //     {name: 'facebook', code: 'facebook', url: 'https://facebook.com'},
+                    //     {name: 'Twitter', code: 'twitter', url: 'https://twitter.com'},
+                    //     {name: 'Instagram', code: 'instagram', url: 'https://instagram.com'},
+                    //     {name: 'Slack', code: 'slack', url: 'https://slack.com'}
+                    // ]
+                    setData(arrayOfSocials)
                 }catch(err){
                     setError(err)
                 }finally{

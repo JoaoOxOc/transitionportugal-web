@@ -25,7 +25,7 @@ RUN npx lerna run tsc --stream
 COPY  packages/tp_home/package.json /app/packages/tp_home/package.json
 COPY  packages/tp_home/ /app/packages/tp_home/ 
 
-RUN npx lerna bootstrap --hoist --scope=@transitionpt/home --includeDependencies
+RUN npx lerna bootstrap --scope=@transitionpt/home --includeDependencies
 
 # WORKAROUND: lerna compiles tp_translations as a symlink in node_modules, which will not work with next start command
 RUN rm -rf /app/packages/tp_home/node_modules/@transitionpt/
@@ -44,6 +44,18 @@ copy --from=transitionpt_home-build /app/packages/tp_translations /app/packages/
 copy --from=transitionpt_home-build /app/node_modules /app/node_modules
 
 WORKDIR /app/packages/tp_home
+
+ARG NEXT_PUBLIC_AUTH_URL
+ENV NEXT_PUBLIC_AUTH_URL=$NEXT_PUBLIC_AUTH_URL
+
+ARG CMS_BASE_URL
+ENV CMS_BASE_URL=$CMS_BASE_URL
+ARG SSR_CMS_BASE_URL
+ENV SSR_CMS_BASE_URL=$SSR_CMS_BASE_URL
+
+ARG CMS_API_TOKEN
+ENV CMS_API_TOKEN=$CMS_API_TOKEN
+
 
 RUN npm run build
 

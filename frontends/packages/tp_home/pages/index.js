@@ -19,15 +19,18 @@ const ActionsDynamic = dynamic(() => import("../pageSections/actions/actions"));
 const FooterDynamic = dynamic(() => import("../pageSections/footer/footer"));
 
 export default function Home({homepageData}) {
-  console.log(homepageData)
+  const homepageDataAttributes = homepageData.data ? homepageData.data[0].attributes : {};
+  const getComponentAttributes = (componentName) => {
+    return homepageDataAttributes[componentName];
+  }
   return (
     <ThemeProvider theme={theme}>
       <StickyProvider>
         <Layout>
-          <SEO title="Transição Portugal" />
-          <AccessibilityDynamic posRight={'0px'} posTop={'170px'}/>
+          <SEO metaDataObject={getComponentAttributes("seo")}/>
+          {/* <AccessibilityDynamic posRight={'0px'} posTop={'170px'}/>
           <DonationDynamic posRight={'0px'} posTop={'250px'}/>
-          <NewsDynamic posRight={'0px'} posTop={'320px'}/>
+          <NewsDynamic posRight={'0px'} posTop={'320px'}/> */}
           <BannerDynamic/>
           <AboutDynamic/>
           <EventsDynamic/>
@@ -39,14 +42,20 @@ export default function Home({homepageData}) {
   )
 }
 
-// This function gets called at build time on server-side.
+// This function gets called at run time on server-side.
 // It won't be called on client-side, so you can even do
 // direct database queries.
-export async function getStaticProps() {
+export async function getServerSideProps() {
   // Call an external API endpoint to get posts.
   // You can use any data fetching library
-  const res = await fetch(process.env.CMS_BASE_URL+'/api/pages?populate=deep&slug=&locale=pt-PT')
-  const homepageData = await res.json()
+  const res = await fetch(process.env.SSR_CMS_BASE_URL+'/api/pages?populate=deep&slug=&locale=pt-PT', {
+    method: 'GET',
+    headers: {
+      Authorization:
+        'Bearer ' + process.env.CMS_API_TOKEN,
+    }}
+    );
+  const homepageData = await res.json();
 
   // By returning { props: { posts } }, the Blog component
   // will receive `posts` as a prop at build time

@@ -13,8 +13,8 @@ import {
   styled
 } from '@mui/material';
 import { i18nextAbout } from "@transitionpt/translations";
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizaitonProvider from '@mui/lab/LocalizationProvider';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers';
 import CalendarPicker from '@mui/lab/CalendarPicker';
 import Label from '../../../components/Label';
 import EventSeatTwoToneIcon from '@mui/icons-material/EventSeatTwoTone';
@@ -105,12 +105,12 @@ function UpcomingConferences() {
       <Grid container spacing={3}>
         <Grid item xs={12} md={4}>
           <CardCalendarWrapper>
-            <LocalizaitonProvider dateAdapter={AdapterDateFns}>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
               <CalendarPicker
                 date={date}
                 onChange={(newDate) => setDate(newDate)}
               />
-            </LocalizaitonProvider>
+            </LocalizationProvider>
           </CardCalendarWrapper>
         </Grid>
         <Grid item xs={12} md={8}>

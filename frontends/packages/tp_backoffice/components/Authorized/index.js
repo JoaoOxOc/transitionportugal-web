@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import { verifyTokenScopes } from '../../utils/jwt';
-import { setClientCookie, getClientCookie } from '../../services/cookies';
-import { strapiAuth } from '../../services/singleSignOn';
+// import { setClientCookie, getClientCookie } from '../../services/cookies';
+// import { strapiAuth } from '../../services/singleSignOn';
 
 export const Authorized = (props) => {
   const { children, session } = props;

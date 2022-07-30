@@ -23,7 +23,7 @@ import LockOpenTwoToneIcon from '@mui/icons-material/LockOpenTwoTone';
 import AccountTreeTwoToneIcon from '@mui/icons-material/AccountTreeTwoTone';
 import Link from '../../../../components/Link';
 import { useSession, signOut } from "next-auth/react";
-import { destroyClientCookies } from '../../../../services/cookies';
+// import { destroyClientCookies } from '../../../../services/cookies';
 
 const UserBoxButton = styled(Button)(
   ({ theme }) => `

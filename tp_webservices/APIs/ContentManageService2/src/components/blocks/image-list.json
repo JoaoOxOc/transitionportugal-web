@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_blocks_image_lists",
+  "info": {
+    "displayName": "ImageList",
+    "icon": "list"
+  },
+  "options": {},
+  "attributes": {
+    "ListIdentifier": {
+      "type": "string"
+    },
+    "ListItems": {
+      "type": "component",
+      "repeatable": true,
+      "component": "blocks.image-list-item"
+    }
+  }
+}

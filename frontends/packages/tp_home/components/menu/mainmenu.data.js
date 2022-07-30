@@ -4,15 +4,41 @@ import {RiRoadMapLine} from 'react-icons/ri';
 import {IoCalendarOutline} from 'react-icons/io5';
 import {GiNewspaper} from 'react-icons/gi';
 import {AiOutlineTeam} from 'react-icons/ai';
+import {FcBusinessContact} from 'react-icons/fc';
+import {FcVoicePresentation} from 'react-icons/fc';
+import {FcTimeline} from 'react-icons/fc';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default [
   {
-    type: 'component',
-    display: 'all',
-    path: 'about',
-    label: 'Header.MENU.about',
-    icon: <GiThreeLeaves/>
+    type: 'rootmenu',
+    display: 'header',
+    path: 'transitionmovement',
+    label: 'Header.MENU.transitionMovement',
+    icon: <GiThreeLeaves/>,
+    submenu: [
+      {
+        type: 'component',
+        display: 'all',
+        path: 'about',
+        label: 'Header.MENU.presentation',
+        icon: <FcBusinessContact/>
+      },
+      {
+        type: 'page',
+        display: 'all',
+        path: 'aboutus',
+        label: 'Header.MENU.about',
+        icon: <FcVoicePresentation/>
+      },
+      {
+        type: 'page',
+        display: 'all',
+        path: 'timeline',
+        label: 'Header.MENU.history',
+        icon: <FcTimeline/>
+      }
+    ]
   },
   {
     type: 'page',

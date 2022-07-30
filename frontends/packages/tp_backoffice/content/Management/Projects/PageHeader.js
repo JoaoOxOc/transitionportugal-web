@@ -30,7 +30,7 @@ import {
   Button,
   useTheme
 } from '@mui/material';
-import DatePicker from '@mui/lab/DatePicker';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useDropzone } from 'react-dropzone';
 import { useSnackbar } from 'notistack';
 import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
