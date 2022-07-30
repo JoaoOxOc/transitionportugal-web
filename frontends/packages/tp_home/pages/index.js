@@ -19,7 +19,7 @@ const ActionsDynamic = dynamic(() => import("../pageSections/actions/actions"));
 const FooterDynamic = dynamic(() => import("../pageSections/footer/footer"));
 
 export default function Home({homepageData}) {
-  const homepageDataAttributes = homepageData.data ? homepageData.data[0].attributes : {};
+  const homepageDataAttributes = homepageData.data && homepageData.data[0] ? homepageData.data[0].attributes : {};
   const getComponentAttributes = (componentName) => {
     return homepageDataAttributes[componentName];
   }
