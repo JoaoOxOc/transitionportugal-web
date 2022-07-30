@@ -11,6 +11,7 @@ import {UserBannerStyles as styles } from './UserBanner.style';
 import {BiCaretDown} from 'react-icons/bi';
 
 export default function UserBanner({ src, className, ...rest }) {
+    const [userAuthenticated, setUserAuthenticated] = useState({});
     const fetchCurrentUserSession = useCallback(async() => {
         try {
             const result = await fetch("https://transicaoportugal.org/admin/api/auth/session", {
@@ -22,11 +23,12 @@ export default function UserBanner({ src, className, ...rest }) {
             });
             if (!result.ok) {
                 const resultErrorBody = await result.text();
-                console.log("fetchSession", result, resultErrorBody);
             }
             else {
                 const bodyResponse = await result.json();
-                console.log("fetchSession", result, bodyResponse);
+                if (bodyResponse && bodyResponse.user) {
+                    setUserAuthenticated(bodyResponse.user);
+                }
             }
         }
         catch (e) {
@@ -49,6 +51,13 @@ export default function UserBanner({ src, className, ...rest }) {
         window.addEventListener('newLang', handleNewMessage);
         fetchCurrentUserSession();
     });
+
+    // structure example:
+    // { expiration: 1659216971
+    // name: "Administrator"
+    // token: ""
+    // username: "admin" }
+    console.log(userAuthenticated);
 
     const renderBlock = () => {
         return (
