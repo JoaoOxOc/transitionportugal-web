@@ -11,7 +11,7 @@ export default function useContactData(url) {
                 try{
                     setLoading(true)
                     
-                    const response = await fetch(process.env.NEXT_PUBLIC_HOME_BASE_URL + "/api/contactData", {
+                    const response = await fetch("/api/contactData", {
                         method: 'GET',
                     })
                     const responseData = await response.json();

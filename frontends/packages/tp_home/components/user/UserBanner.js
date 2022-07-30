@@ -11,7 +11,7 @@ import {UserBannerStyles as styles } from './UserBanner.style';
 import {BiCaretDown} from 'react-icons/bi';
 
 export default function UserBanner({ src, className, ...rest }) {
-    const fetchAssociationOptions = useCallback(async() => {
+    const fetchCurrentUserSession = useCallback(async() => {
         try {
             const result = await fetch("https://transicaoportugal.org/admin/api/auth/session", {
                 method: 'GET',
@@ -20,7 +20,14 @@ export default function UserBanner({ src, className, ...rest }) {
                   "credentials": 'include'
                 }
             });
-            console.log("fetchSession", result);
+            if (!result.ok) {
+                const resultErrorBody = await result.text();
+                console.log("fetchSession", result, resultErrorBody);
+            }
+            else {
+                const bodyResponse = await result.json();
+                console.log("fetchSession", result, bodyResponse);
+            }
         }
         catch (e) {
             console.log("fetchSessionError ",e);
@@ -40,7 +47,7 @@ export default function UserBanner({ src, className, ...rest }) {
         };
                 
         window.addEventListener('newLang', handleNewMessage);
-        fetchAssociationOptions();
+        fetchCurrentUserSession();
     });
 
     const renderBlock = () => {
