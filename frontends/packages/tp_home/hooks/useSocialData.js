@@ -11,7 +11,7 @@ export default function useSocialData(url) {
                 try{
                     setLoading(true)
                     console.log(process.env.NEXT_PUBLIC_HOME_BASE_URL)
-                    const response = await fetch(process.env.NEXT_PUBLIC_HOME_BASE_URL + "/api/socialData", {
+                    const response = await fetch("/api/socialData", {
                         method: 'GET',
                     })
                     const responseData = await response.json();
