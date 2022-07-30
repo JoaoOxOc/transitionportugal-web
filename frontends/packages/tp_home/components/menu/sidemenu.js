@@ -56,7 +56,7 @@ function ResponsiveDrawer() {
                     <UserBanner src={UserLogoDark} className={ 'sidemenu' }/>
                     { windowSize < 1024 &&
                         <div className={classes.sidemenuSection}>
-                            <MainMenu displayType={'displayGrid'}/>
+                            <MainMenu displayType={'displayGrid'} isMobile={true}/>
                             <div className={classes.sidemenuLanguage}>
                                 <Language/>
                             </div>

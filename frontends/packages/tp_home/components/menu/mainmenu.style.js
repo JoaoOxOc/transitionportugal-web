@@ -10,7 +10,7 @@ export const MainMenuStyles = {
             lineHeight: '1.2',
             transition: 'all 0.35s',
             '&.active': {
-              color: colors.nav_hover,
+              color: colors.nav_hover + ' !important',
               textDecoration: 'none',
               span: {
                 '&::before': {
@@ -20,7 +20,7 @@ export const MainMenuStyles = {
                 },
               }
             },
-            '&:hover': {
+            '&:hover, &:focus': {
               color: colors.nav_hover + ' !important',
               span: {
                 '&::before': {

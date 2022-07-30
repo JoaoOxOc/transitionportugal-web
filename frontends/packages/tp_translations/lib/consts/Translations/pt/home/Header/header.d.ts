@@ -5,6 +5,9 @@ export declare const HEADER_TRANSLATIONS: {
         readonly login: "Autentique-se";
     };
     readonly MENU: {
+        readonly transitionMovement: "Movimento Transição";
+        readonly history: "História";
+        readonly presentation: "Apresentação";
         readonly about: "Sobre o Movimento";
         readonly map: "Encontrar Grupos";
         readonly events: "Eventos";
