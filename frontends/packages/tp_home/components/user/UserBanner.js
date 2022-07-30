@@ -20,9 +20,10 @@ export default function UserBanner({ src, className, ...rest }) {
                   "credentials": 'include'
                 }
             });
+            console.log("fetchSession", result);
         }
         catch (e) {
-            console.log(e);
+            console.log("fetchSessionError ",e);
         }
     },[]);
     const innerContain = className === 'inlineBlock' ? styles.userContainer.userInlineBlock 
