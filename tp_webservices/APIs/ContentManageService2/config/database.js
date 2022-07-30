@@ -10,10 +10,9 @@
       password: env('DATABASE_PASSWORD', 'postgres'),
       schema: env('DATABASE_SCHEMA', 'public'), // Not required
       ssl: {
-        require: env('DATABASE_SSL', false),
-        rejectUnauthorized: false, // For self-signed certificates
+        rejectUnauthorized: false
       }
     },
-    debug: false,
+    debug: true,
   },
 });
