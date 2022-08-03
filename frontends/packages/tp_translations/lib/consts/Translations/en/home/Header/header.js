@@ -2,8 +2,16 @@ import * as deepFreeze from 'deep-freeze';
 export var HEADER_TRANSLATIONS = deepFreeze({
     TOPBAR: {
         welcome: "Welcome {{username}}",
+        welcomeInfo: "Button to open your account's menu options",
         notsigned: "Do you already belong here?",
-        login: "Sign in"
+        loginLinkInfo: "Link to login page",
+        login: "Sign in",
+        registerLinkInfo: "Link to register page",
+        register: "Register",
+        userProfileInfo: "Button to access your User Area",
+        userProfile: "User Area",
+        userLogoutInfo: "Button to logout from the app",
+        userLogout: "Logout",
     },
     MENU: {
         transitionMovement: "Transition Movement",

@@ -9,6 +9,7 @@ import {UserBannerStyles as styles } from './UserBanner.style';
 
 //import images and icons
 import {BiCaretDown} from 'react-icons/bi';
+import UserOptionsList from './userOptions';
 
 export default function UserBanner({ src, className, ...rest }) {
     const [userAuthenticated, setUserAuthenticated] = useState(null);
@@ -66,17 +67,56 @@ export default function UserBanner({ src, className, ...rest }) {
     // username: "admin" }
     console.log(userAuthenticated);
 
+    const renderLinkContent = () => {
+        if (userAuthenticated && userAuthenticated.username) {
+            return (
+                <p aria-label='username welcome'><UserOptionsList label={(i18nextHeader.t('Header.TOPBAR.welcomeInfo'))}><span>{ i18nextHeader.t('Header.TOPBAR.welcome', { username: userAuthenticated.name }) }<BiCaretDown/></span></UserOptionsList></p>
+            );
+        }
+        else {
+            return (
+                <p>
+                    <Link
+                        path={process.env.NEXT_PUBLIC_HOME_BASE_URL + "/admin/auth/login/cover"}
+                        aria-label={ i18nextHeader.t('Header.TOPBAR.loginLinkInfo') }
+                        style={{color: 'inherit', cursor: 'pointer', textDecoration: 'none', padding: 0, display: 'inline-block'}}
+                        >
+                        <span style={{fontSize: "inherit"}}>{ i18nextHeader.t('Header.TOPBAR.login') }</span>
+                    </Link>/<Link
+                        path={process.env.NEXT_PUBLIC_HOME_BASE_URL + "/admin/auth/register/wizard"}
+                        aria-label={ i18nextHeader.t('Header.TOPBAR.registerLinkInfo') }
+                        style={{color: 'inherit', cursor: 'pointer', textDecoration: 'none', padding: 0, display: 'inline-block'}}
+                        >
+                        <span style={{fontSize: "inherit"}}>{ i18nextHeader.t('Header.TOPBAR.register') }</span>
+                    </Link>
+                </p>
+            );
+        }
+    }
+
     const renderBlock = () => {
         return (
             <div sx={styles.userContainer}>
-                <div sx={innerContain}>
+                {userAuthenticated && userAuthenticated.username && (
+                    <div sx={innerContain}>
                         <div sx={styles.userContainer.userImage}>
                             <Image src={src} alt="User" />
                         </div>
                         <div>
-                            <p aria-label='username welcome'>{ i18nextHeader.t('Header.TOPBAR.welcome', { username: 'Joao' }) }<BiCaretDown/></p>
+                            {renderLinkContent()}
                         </div>
-                </div>
+                    </div>
+                )}
+                {(!userAuthenticated || !userAuthenticated.username) && (
+                    <div sx={innerContain}>
+                        <div sx={styles.userContainer.userImage}>
+                                <Image src={src} alt="User" />
+                        </div>
+                        <div>
+                            {renderLinkContent()}
+                        </div>
+                    </div>
+                )}
             </div>
         );
     }
@@ -85,7 +125,7 @@ export default function UserBanner({ src, className, ...rest }) {
         return (
             <div sx={styles.userContainer}>
                 <div sx={innerContain}>
-                    <p aria-label='username welcome'>{ i18nextHeader.t('Header.TOPBAR.welcome', { username: 'Joao' }) }<BiCaretDown/></p> 
+                    {renderLinkContent()} 
                     <div sx={styles.userContainer.userInlineImage}>
                         <Image src={src} alt="User" />
                     </div>
