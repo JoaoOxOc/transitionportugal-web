@@ -117,7 +117,7 @@ export default function UnderConstructionSection() {
         <Head>
             <title>Status - Coming Soon</title>
         </Head>
-        <MainContent>
+        <MainContent width={'100%'}>
             <TopWrapper>
             <Container style={{paddingTop: '25vh'}} maxWidth="lg">
                 <Box textAlign="center" mb={3}>
