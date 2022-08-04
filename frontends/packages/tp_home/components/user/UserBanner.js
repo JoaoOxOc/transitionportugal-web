@@ -77,13 +77,13 @@ export default function UserBanner({ src, className, ...rest }) {
             return (
                 <p>
                     <Link
-                        path={process.env.NEXT_PUBLIC_HOME_BASE_URL + "/admin/auth/login/cover"}
+                        path={"/admin/auth/login/cover"}
                         aria-label={ i18nextHeader.t('Header.TOPBAR.loginLinkInfo') }
                         style={{color: 'inherit', cursor: 'pointer', textDecoration: 'none', padding: 0, display: 'inline-block'}}
                         >
                         <span style={{fontSize: "inherit"}}>{ i18nextHeader.t('Header.TOPBAR.login') }</span>
                     </Link>/<Link
-                        path={process.env.NEXT_PUBLIC_HOME_BASE_URL + "/admin/auth/register/wizard"}
+                        path={"/admin/auth/register/wizard"}
                         aria-label={ i18nextHeader.t('Header.TOPBAR.registerLinkInfo') }
                         style={{color: 'inherit', cursor: 'pointer', textDecoration: 'none', padding: 0, display: 'inline-block'}}
                         >
