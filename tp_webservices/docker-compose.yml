@@ -103,7 +103,7 @@ services:
     container_name: tpcmservice
     environment:
       DATABASE_CLIENT: postgres
-      DATABASE_HOST: host.docker.internal
+      DATABASE_HOST: localhost
       DATABASE_NAME: cmsservicedb
       DATABASE_USERNAME: postgres
       DATABASE_PORT: 5433
