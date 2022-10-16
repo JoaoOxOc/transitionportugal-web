@@ -6,6 +6,8 @@ export var HEADER_TRANSLATIONS = deepFreeze({
         notsigned: "Do you already belong here?",
         loginLinkInfo: "Link to login page",
         login: "Sign in",
+        enterLinkInfo: "Link to login/register page",
+        enter: "Enter",
         registerLinkInfo: "Link to register page",
         register: "Register",
         userProfileInfo: "Button to access your User Area",

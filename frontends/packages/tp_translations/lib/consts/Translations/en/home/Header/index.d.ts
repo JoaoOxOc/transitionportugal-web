@@ -6,6 +6,8 @@ export declare const TRANSLATIONS: {
             readonly notsigned: "Do you already belong here?";
             readonly loginLinkInfo: "Link to login page";
             readonly login: "Sign in";
+            readonly enterLinkInfo: "Link to login/register page";
+            readonly enter: "Enter";
             readonly registerLinkInfo: "Link to register page";
             readonly register: "Register";
             readonly userProfileInfo: "Button to access your User Area";

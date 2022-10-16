@@ -7,6 +7,8 @@ export const HEADER_TRANSLATIONS = deepFreeze({
         notsigned: "Já pertence ao nosso grupo?",
         loginLinkInfo: "Link para a página de autenticação",
         login: "Autentique-se",
+        enterLinkInfo: "Link para a página de autenticação/registo",
+        enter: "Entrar",
         registerLinkInfo: "Link para a página de registo",
         register: "Registe-se",
         userProfileInfo: "Botão para aceder à sua Área de Utilizador",
