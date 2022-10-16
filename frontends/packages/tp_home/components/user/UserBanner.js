@@ -1,5 +1,5 @@
 /** @jsxImportSource theme-ui */
-import { Image } from 'theme-ui';
+import { Image, Button } from 'theme-ui';
 import { useEffect, useState, useCallback } from "react";
 import { Link } from '../generic/link';
 import { i18nextHeader } from "@transitionpt/translations";
@@ -70,26 +70,18 @@ export default function UserBanner({ src, className, ...rest }) {
     const renderLinkContent = () => {
         if (userAuthenticated && userAuthenticated.username) {
             return (
-                <p aria-label='username welcome'><UserOptionsList label={(i18nextHeader.t('Header.TOPBAR.welcomeInfo'))}><span>{ i18nextHeader.t('Header.TOPBAR.welcome', { username: userAuthenticated.name }) }<BiCaretDown/></span></UserOptionsList></p>
+                <p aria-label={(i18nextHeader.t('Header.TOPBAR.welcomeInfo'))}><UserOptionsList label={(i18nextHeader.t('Header.TOPBAR.welcomeInfo'))}><span>{ i18nextHeader.t('Header.TOPBAR.welcome', { username: userAuthenticated.name }) }<BiCaretDown/></span></UserOptionsList></p>
             );
         }
         else {
             return (
-                <p>
-                    <Link
-                        path={process.env.NEXT_PUBLIC_HOME_BASE_URL + "/admin/auth/login/cover"}
-                        aria-label={ i18nextHeader.t('Header.TOPBAR.loginLinkInfo') }
-                        style={{color: 'inherit', cursor: 'pointer', textDecoration: 'none', padding: 0, display: 'inline-block'}}
-                        >
-                        <span style={{fontSize: "inherit"}}>{ i18nextHeader.t('Header.TOPBAR.login') }</span>
-                    </Link>/<Link
-                        path={process.env.NEXT_PUBLIC_HOME_BASE_URL + "/admin/auth/register/wizard"}
-                        aria-label={ i18nextHeader.t('Header.TOPBAR.registerLinkInfo') }
-                        style={{color: 'inherit', cursor: 'pointer', textDecoration: 'none', padding: 0, display: 'inline-block'}}
-                        >
-                        <span style={{fontSize: "inherit"}}>{ i18nextHeader.t('Header.TOPBAR.register') }</span>
-                    </Link>
-                </p>
+                <Link
+                    path={process.env.NEXT_PUBLIC_HOME_BASE_URL + "/admin/auth/login/cover"}
+                    aria-label={ i18nextHeader.t('Header.TOPBAR.loginLinkInfo') }
+                    style={{color: 'inherit', cursor: 'pointer', textDecoration: 'none', padding: 0, display: 'inline-block'}}
+                    >
+                    <span style={{fontSize: "inherit"}}>{ i18nextHeader.t('Header.TOPBAR.login') }</span>
+                </Link>
             );
         }
     }
@@ -109,12 +101,18 @@ export default function UserBanner({ src, className, ...rest }) {
                 )}
                 {(!userAuthenticated || !userAuthenticated.username) && (
                     <div sx={innerContain}>
-                        <div sx={styles.userContainer.userImage}>
-                                <Image src={src} alt="User" />
-                        </div>
-                        <div>
-                            {renderLinkContent()}
-                        </div>
+                        <Link
+                            path={process.env.NEXT_PUBLIC_HOME_BASE_URL + "/admin/auth/login/cover"}
+                            aria-label={ i18nextHeader.t('Header.TOPBAR.enterLinkInfo') }
+                            style={{color: 'inherit', cursor: 'pointer', textDecoration: 'none', padding: 0, display: 'inline-block'}}
+                            >
+                            {/* <div sx={styles.userContainer.userImage}>
+                                    <Image src={src} alt="User" />
+                            </div> */}
+                            <Button style={{maxHeight: '100%', padding: '13px 30px'}}>
+                                <span style={{fontSize: "inherit"}}>{ i18nextHeader.t('Header.TOPBAR.enter') }</span>
+                            </Button>
+                        </Link>
                     </div>
                 )}
             </div>
@@ -125,10 +123,18 @@ export default function UserBanner({ src, className, ...rest }) {
         return (
             <div sx={styles.userContainer}>
                 <div sx={innerContain}>
-                    {renderLinkContent()} 
-                    <div sx={styles.userContainer.userInlineImage}>
+                    <Link
+                        path={process.env.NEXT_PUBLIC_HOME_BASE_URL + "/admin/auth/login/cover"}
+                        aria-label={ i18nextHeader.t('Header.TOPBAR.enterLinkInfo') }
+                        style={{color: 'inherit', cursor: 'pointer', textDecoration: 'none', padding: 0, display: 'inline-block'}}
+                        >
+                        <Button>
+                            <span style={{fontSize: "inherit"}}>{ i18nextHeader.t('Header.TOPBAR.enter') }</span>
+                        </Button>
+                    </Link>
+                    {/* <div sx={styles.userContainer.userInlineImage}>
                         <Image src={src} alt="User" />
-                    </div>
+                    </div> */}
                 </div>
             </div>
         );
