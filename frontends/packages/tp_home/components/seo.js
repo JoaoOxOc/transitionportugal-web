@@ -9,19 +9,7 @@ export default function SEO({
     {
       name: `description`,
       content: metaDataObject.metaDescription,
-    },
-    {
-      name: `twitter:card`,
-      content: `summary`,
-    },
-    {
-      name: `twitter:title`,
-      content: metaDataObject.metaTitle,
-    },
-    {
-      name: `twitter:description`,
-      content: metaDataObject.metaDescription,
-    },
+    }
   ]
   if (metaDataObject && metaDataObject.meta) {
     metaData = metaData.concat(metaDataObject.meta);

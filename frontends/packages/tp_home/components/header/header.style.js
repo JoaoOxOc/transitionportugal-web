@@ -23,7 +23,8 @@ export const headerStyles = {
       position: 'absolute',
       //top: '32px',//change for topbar height
       left: 0,
-      backgroundColor: 'transparent',
+      background: 'rgba(255, 255, 255, 0.6)',
+      // backgroundColor: 'transparent',
       transition: 'all 0.5s ease',
       animation: `${positionAnim} 0.4s ease`,
       '.donate__btn': {
@@ -86,10 +87,16 @@ export const headerStyles = {
       paddingTop: '12px',
       borderTop: "3px solid " + colors.nav_border_top,
     },
-    bottomLine: {
+    bottomLineSticky: {
       position: 'absolute',
       width: '100%',
       paddingBottom: '15px',
+      borderBottom: "1px solid " + colors.nav_border_bottom,
+    },
+    bottomLine: {
+      position: 'absolute',
+      width: '100%',
+      paddingBottom: '19px',
       borderBottom: "1px solid " + colors.nav_border_bottom,
     },
     container: {

@@ -20,8 +20,17 @@ const FooterDynamic = dynamic(() => import("../pageSections/footer/footer"));
 
 export default function Home({homepageData}) {
   const homepageDataAttributes = homepageData.data && homepageData.data[0] ? homepageData.data[0].attributes : {};
+  console.log(homepageDataAttributes);
   const getComponentAttributes = (componentName) => {
     return homepageDataAttributes[componentName];
+  }
+  const getComponentAttributesByIdentifier = (componentName, identifier) => {
+    let componentBlockArray = homepageDataAttributes.Blocks.map((block) => {
+      if (block["__component"] === componentName && block["Identifier"] === identifier)
+      return block;
+    });
+    console.log(componentBlockArray);
+    return componentBlockArray[0];
   }
   return (
     <ThemeProvider theme={theme}>
@@ -31,7 +40,7 @@ export default function Home({homepageData}) {
           {/* <AccessibilityDynamic posRight={'0px'} posTop={'170px'}/>
           <DonationDynamic posRight={'0px'} posTop={'250px'}/>
           <NewsDynamic posRight={'0px'} posTop={'320px'}/> */}
-          <BannerDynamic/>
+          <BannerDynamic sliderComponentObject={getComponentAttributesByIdentifier("blocks.carousel", "main_homepage_slider")}/>
           <AboutDynamic/>
           <EventsDynamic/>
           <ActionsDynamic/>

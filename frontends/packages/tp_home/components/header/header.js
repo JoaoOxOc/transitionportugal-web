@@ -49,7 +49,7 @@ export default function Header({className}) {
                       : <></>
                     }
                 </Container>
-                <div sx={styles.bottomLine}/>
+                <div sx={className === 'sticky' ? styles.bottomLineSticky : styles.bottomLine}/>
             </header>
         </DrawerProvider>
     )
