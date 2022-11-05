@@ -80,10 +80,17 @@ export const headerStyles = {
         display: 'none',
       },
     },
+    topLineSticky: {
+      //position: 'absolute',
+      width: '80%',
+      margin: '-16px auto auto auto',
+      paddingTop: '12px',
+      borderTop: "3px solid " + colors.nav_border_top,
+    },
     topLine: {
       //position: 'absolute',
       width: '80%',
-      margin: '-15px auto auto auto',
+      margin: '-11px auto auto auto',
       paddingTop: '12px',
       borderTop: "3px solid " + colors.nav_border_top,
     },

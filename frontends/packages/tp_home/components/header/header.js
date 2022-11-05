@@ -34,7 +34,7 @@ export default function Header({className}) {
     return (
         <DrawerProvider>
             <header sx={styles.header} className={className} id="header">
-                <div sx={styles.topLine}/>
+                <div sx={className === 'sticky' ? styles.topLineSticky : styles.topLine}/>
                 <Container sx={styles.container}>
                     {className === 'sticky' 
                       ? <Logo sx={styles.stickyLogo} src={LogoDark} path={'home'}/>

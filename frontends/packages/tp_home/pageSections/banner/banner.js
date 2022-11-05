@@ -66,15 +66,15 @@ export default function Banner({sliderComponentObject}) {
                         showDots={false}
                         arrows={false}
                         ssr={true} // means to render carousel on server-side.
-                        infinite={false}
+                        infinite={true}
                         responsive={responsive}
-                        // autoPlay={this.props.deviceType !== "mobile" ? true : false}
                         additionalTransfrom={0}
-                        autoPlaySpeed={3000}
+                        autoPlay={true}
+                        autoPlaySpeed={10000}
                         centerMode={false}
                         keyBoardControl={true}
-                        customTransition="transform 400ms ease-in-out 0s"
-                        transitionDuration={400}
+                        customTransition="transform 1000ms ease-in-out 1s"
+                        transitionDuration={1000}
                         // removeArrowOnDeviceType={["tablet", "mobile"]}
                         // deviceType={this.props.deviceType}
                         dotListClass="custom-dot-list-style"
