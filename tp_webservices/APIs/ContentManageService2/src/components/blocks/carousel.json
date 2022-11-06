@@ -15,7 +15,7 @@
     "Identifier": {
       "type": "string",
       "required": true,
-      "unique": true,
+      "unique": false,
       "maxLength": 20
     }
   }
