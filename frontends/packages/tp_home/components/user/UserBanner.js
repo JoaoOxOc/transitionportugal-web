@@ -2,6 +2,7 @@
 import { Image, Button } from 'theme-ui';
 import { useEffect, useState, useCallback } from "react";
 import { Link } from '../generic/link';
+import { useAuth } from '../../hooks/useAuth';
 import { i18nextHeader } from "@transitionpt/translations";
 
 // import styles
@@ -12,35 +13,12 @@ import {BiCaretDown} from 'react-icons/bi';
 import UserOptionsList from './userOptions';
 
 export default function UserBanner({ src, className, ...rest }) {
-    const [userAuthenticated, setUserAuthenticated] = useState(null);
-    const fetchCurrentUserSession = useCallback(async() => {
-        try {
-            const result = await fetch("https://transicaoportugal.org/admin/api/auth/session", {
-                method: 'GET',
-                headers: { 
-                  "Content-Type": "application/json",
-                  "credentials": 'include'
-                }
-            });
-            if (!result.ok) {
-                const resultErrorBody = await result.text();
-                setUserAuthenticated({username: 'joao@hotmail.com', name: 'joao'});
-            }
-            else {
-                const bodyResponse = await result.json();
-                if (bodyResponse && bodyResponse.user) {
-                    setUserAuthenticated(bodyResponse.user);
-                }
-                else {
-                    setUserAuthenticated({});
-                }
-            }
-        }
-        catch (e) {
-            console.log("fetchSessionError ",e);
-            setUserAuthenticated({username: 'joao@hotmail.com', name: 'joao'});
-        }
-    },[]);
+    const auth = useAuth();
+    const [userAuthenticated, setUserAuthenticated] = useState(auth.user);
+    if (auth.isAuthenticated && userAuthenticated == null) {
+        setUserAuthenticated(auth.user);
+    }
+
     const innerContain = className === 'inlineBlock' ? styles.userContainer.userInlineBlock 
                             : (className === 'sidemenu' ? styles.userContainer.userSidemenu : styles.userContainer.userTopBlock);
 
@@ -55,9 +33,6 @@ export default function UserBanner({ src, className, ...rest }) {
         };
                 
         window.addEventListener('newLang', handleNewMessage);
-        if (!userAuthenticated) {
-            fetchCurrentUserSession();
-        }
     });
 
     // structure example:
@@ -65,13 +40,12 @@ export default function UserBanner({ src, className, ...rest }) {
     // name: "Administrator"
     // token: ""
     // username: "admin" }
-    console.log(userAuthenticated);
 
     const renderUsernameContent = (noImage, menuMargin) => {
         if (userAuthenticated && userAuthenticated.username) {
             return (
                 <div sx={styles.userContainer}>
-                    <p sx={styles.userAuthenticatedMenu} style={{margin: menuMargin ? '0 auto': '0'}} aria-label={(i18nextHeader.t('Header.TOPBAR.welcomeInfo'))}>
+                    <div sx={styles.userAuthenticatedMenu} style={{margin: menuMargin ? '0 auto': '0'}} aria-label={(i18nextHeader.t('Header.TOPBAR.welcomeInfo'))}>
                         <UserOptionsList label={(i18nextHeader.t('Header.TOPBAR.welcomeInfo'))}>
                             <div sx={styles.userAuthenticatedMenu.userOptionsButton} title="transicao portugal user menu">
                                 <div sx={innerContain}>
@@ -86,7 +60,7 @@ export default function UserBanner({ src, className, ...rest }) {
                                 </div>
                             </div>
                         </UserOptionsList>
-                    </p>
+                    </div>
                 </div>
             );
         }
