@@ -25,7 +25,7 @@
         "html-react-parser": "^3.0.4",
         "leaflet": "1.7.1",
         "leaflet-geosearch": "3.6.0",
-        "next-auth": "^4.3.4",
+        "next-auth": "^4.16.2",
         "react-imask": "^6.4.2",
         "react-leaflet": "3.2.5"
     },
