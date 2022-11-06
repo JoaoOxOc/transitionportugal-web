@@ -98,8 +98,8 @@ export default function UserOptionsList({label, children}) {
                     aria-labelledby={i18nextHeader.t(label)}
                     onKeyDown={handleListKeyDown}
                 >
-                    <MenuItem aria-label={i18nextHeader.t('Header.TOPBAR.userProfileInfo')} tabindex="0" onClick={handleClose}>{buildMenuItem("/admin/profile/user", 'Header.TOPBAR.userProfile', <FcHome/>, 0)}</MenuItem>
-                    <MenuItem aria-label={i18nextHeader.t('Header.TOPBAR.userLogoutInfo')} tabindex="1" onClick={handleClose}>{buildMenuItem("/admin/api/auth/signout", 'Header.TOPBAR.userLogout', <FcSportsMode/>, 0)}</MenuItem>
+                    <MenuItem aria-label={i18nextHeader.t('Header.TOPBAR.userProfileInfo')} tabIndex={0} onClick={handleClose}>{buildMenuItem("/admin/profile/user", 'Header.TOPBAR.userProfile', <FcHome/>, 0)}</MenuItem>
+                    <MenuItem aria-label={i18nextHeader.t('Header.TOPBAR.userLogoutInfo')} tabIndex={1} onClick={handleClose}>{buildMenuItem("/admin/api/auth/signout", 'Header.TOPBAR.userLogout', <FcSportsMode/>, 0)}</MenuItem>
                 </MenuList>
                 </ClickAwayListener>
             </Paper>

@@ -26,9 +26,9 @@ export const UserBannerStyles = {
             whiteSpace: 'nowrap',
             textOverflow: 'ellipsis',
             userIdSpan: {
-                '-webkit-hyphens': 'auto',
-                '-moz-hyphens': 'auto',
-                '-ms-hyphens': 'auto',
+                webkitHyphens: 'auto',
+                mozHyphens: 'auto',
+                msHyphens: 'auto',
                 hyphens: 'auto',
             }
         }
@@ -38,9 +38,9 @@ export const UserBannerStyles = {
     },
     userContainer: {
         position: 'relative',
-        '-webkit-align-items': 'center',
-        '-webkit-box-align': 'center',
-        '-ms-flex-align': 'center',
+        WebkitAlignItems: 'center',
+        WebkitBoxAlign: 'center',
+        msFlexAlign: 'center',
         alignItems: 'center',
         display: '-webkit-box',
         display: '-webkit-flex',

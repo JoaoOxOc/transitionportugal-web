@@ -4,7 +4,6 @@ import Head from 'next/head';
 export default function SEO({
   metaDataObject,
 }) {
-  console.log(metaDataObject);
   let metaData = [
     {
       name: `description`,
