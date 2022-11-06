@@ -68,6 +68,20 @@ export const AboutStyles = {
             }
         }
     },
+    aboutCarousel: {
+        container: {
+            display: 'flex',
+        },
+        contentBox: {
+            width: ['100%', '100%', '75%', '55%', '50%', '50%'],
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'flex-start',
+            flexShrink: 0,
+            // pt: [0, null, null, null, null, null, 5, 7],
+            color: '#5AADB5',
+        },
+    },
     aboutGridImageBox: {
         paddingTop: ['0','0','0','0','96px'],
         paddingBottom: '40px'

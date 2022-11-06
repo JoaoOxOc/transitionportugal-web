@@ -2,10 +2,12 @@
 
 import { Container, Flex, Box, Heading, Text, Image, Button } from 'theme-ui';
 import React, { useState, useEffect } from 'react';
+import dynamic from 'next/dynamic';
 import { Slide, Fade, Pulse } from "react-awesome-reveal";
 import { i18nextAbout } from "@transitionpt/translations";
 
 import useAboutData from '../../hooks/useAboutData';
+const GlassCarouselDynamic = dynamic(() => import("../../components/glassCarousel/glasscarousel"));
 
 import { AboutStyles as styles } from './about.style';
 
@@ -42,9 +44,16 @@ export default function About() {
                         </Box>
                     </Fade>
                     <Box sx={styles.aboutGridImageBox}>
-                        <Fade>
-                            <Image src={AboutMainimage} alt={i18nextAbout.t('ABOUT.community_image')}/>
-                        </Fade>
+                        <Container sx={styles.aboutCarousel.container}>
+                            <Box sx={styles.aboutCarousel.contentBox}>
+                                <Flex style={{width: '100%'}}>
+                                    <Fade>
+                                        <GlassCarouselDynamic style={{width: '100%'}}/>
+                                        {/* <Image src={AboutMainimage} alt={i18nextAbout.t('ABOUT.community_image')}/> */}
+                                    </Fade>
+                                </Flex>
+                            </Box>
+                        </Container>
                     </Box>
                 </Flex>
                 <Flex sx={styles.aboutTopicsGrid}>

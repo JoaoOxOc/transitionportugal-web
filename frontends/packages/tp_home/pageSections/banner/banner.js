@@ -36,14 +36,12 @@ export default function Banner({sliderComponentObject}) {
   };
 
   const parseSliderData = (id,slider) => {
-    console.log(slider + "")
     let figureElement = "";
     if (slider.includes("<figure")) {
       figureElement = slider.match(new RegExp("<figure" + "(.*)" + "figure>"));
     }
     const slideText = slider.match(new RegExp("</figure>" + "(.*)"));
     
-    console.log(slideText)
     return (
       <div key={id}>
         {parse(figureElement[0])}
