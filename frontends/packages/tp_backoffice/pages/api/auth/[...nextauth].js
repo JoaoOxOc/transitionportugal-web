@@ -270,7 +270,7 @@ import Credentials from 'next-auth/providers/credentials'
   },
   pages: {
     signIn: '/auth/login/cover',
-    //signOut: '/auth/signout',
+    signOut: '/admin/auth/signout',
     error: '/auth/login/cover', // Error code passed in query string as ?error=
     //verifyRequest: '/auth/verify-request', // (used for check email message)
     //newUser: null // If set, new users will be directed here on first sign in
