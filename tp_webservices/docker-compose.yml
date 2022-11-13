@@ -57,7 +57,7 @@ services:
     environment:
         ASPNETCORE_URLS: "http://+:3005"
         ASPNETCORE_ENVIRONMENT: "Development"
-        "ApplicationSettings:Cors": "http://localhost:3000,http://localhost:3001"
+        "ApplicationSettings:Cors": "http://localhost:3000,http://localhost:3001,http://localhost:3010,http://transportugal.local"
     build:
         context: .
         dockerfile: tpgateway.dockerfile

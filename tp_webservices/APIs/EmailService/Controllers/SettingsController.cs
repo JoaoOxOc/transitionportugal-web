@@ -34,23 +34,23 @@ namespace EmailService.Controllers
             }
 
 
-            Expression<Func<Setting, bool>> filter = (x => x.Id != setting.Id && (x.Key.Equals(setting.Key))
-            );
+            //Expression<Func<Setting, bool>> filter = (x => x.Id != setting.Id && (x.Key.Equals(setting.Key))
+            //);
 
-            var existsSetting = this._settingsRepository.GetFiltered(setting.Key, null, null, string.Empty, string.Empty, setting.Id).FirstOrDefault();
-            if (existsSetting != null)
-            {
-                ConflictModel conflict = new ConflictModel();
-                conflict.ConflictType = ConflictType.DuplicateValue;
-                conflict.Entity = typeof(Setting).Name;
+            //var existsSetting = this._settingsRepository.GetFiltered(setting.Key, null, null, string.Empty, string.Empty, setting.Id).FirstOrDefault();
+            //if (existsSetting != null)
+            //{
+            //    ConflictModel conflict = new ConflictModel();
+            //    conflict.ConflictType = ConflictType.DuplicateValue;
+            //    conflict.Entity = typeof(Setting).Name;
 
-                if (existsSetting.Key == setting.Key)
-                {
-                    conflict.Field = typeof(Setting).GetProperty("Key").Name;
-                }
+            //    if (existsSetting.Key == setting.Key)
+            //    {
+            //        conflict.Field = typeof(Setting).GetProperty("Key").Name;
+            //    }
 
-                return Conflict(conflict);
-            }
+            //    return Conflict(conflict);
+            //}
 
             return Ok(null);
         }

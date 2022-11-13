@@ -189,6 +189,19 @@ namespace EmailService.Services
             adminErrorNotificationEmail.BodyParameters = BsonDocument.Parse(System.Text.Json.JsonSerializer.Serialize(new { name = "{{name}}", username = "{{username}}", userEmail = "{{userEmail}}", associationName = "{{associationName}}", activateUserLink = "{{activateUserLink}}" }));
             emailTemplates.Add(adminErrorNotificationEmail);
 
+            EmailTemplate adminEmailNotificationEmail = new EmailTemplate();
+            adminEmailNotificationEmail.Key = EmailTemplatesEnum.AdminEmailNotification.ToString();
+            adminEmailNotificationEmail.Description = "NÂO ALTERAR - Inglês - Envio de notificações para o administrador";
+            adminEmailNotificationEmail.Language = "en-US";
+            adminEmailNotificationEmail.Subject = "{{adminSubject}}";
+            adminEmailNotificationEmail.BodyHtml = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional //EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">Olá administrador da Transição Portugal,<br/><br/>{{message}}<br/><br/>{{uriLink}}<br/><br/>";
+            adminEmailNotificationEmail.CreatedAt = DateTime.UtcNow;
+            adminEmailNotificationEmail.CreatedBy = null;
+            adminEmailNotificationEmail.UpdatedBy = null;
+            adminEmailNotificationEmail.BodyJson = BsonDocument.Parse("{}");
+            adminEmailNotificationEmail.BodyParameters = BsonDocument.Parse(System.Text.Json.JsonSerializer.Serialize(new { message = "{{message}}", uriLink = "{{uriLink}}", userEmail = "{{userEmail}}" }));
+            emailTemplates.Add(adminEmailNotificationEmail);
+
             foreach (EmailTemplate obj in emailTemplates)
             {
                 if (!templatesRepository.GetFiltered(obj.Key, obj.Language, null, null, string.Empty, "asc").Any())

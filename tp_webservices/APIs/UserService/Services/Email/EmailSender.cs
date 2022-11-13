@@ -1,6 +1,7 @@
 ﻿using CommonLibrary.Entities.ViewModel;
 using CommonLibrary.Enums;
 using UserService.Entities;
+using UserService.Models.Reports;
 using UserService.Services.RabbitMQ;
 
 namespace UserService.Services.Email
@@ -112,6 +113,17 @@ namespace UserService.Services.Email
                 success = await _rabbitMqSender.PublishEmailMessage(emailData);
             }
             return success;
+        }
+
+        public async Task<bool> SendAdminNotificationEmail(AdminEmailNotificationModel emailNotificationData)
+        {
+            EmailVM emailData = new EmailVM();
+            emailData.To = new List<string>();
+            emailData.EmailTemplateKey = EmailTemplatesEnum.AdminEmailNotification.ToString();
+            emailData.TokensToReplace_Body = new List<Tuple<string, string>> { new Tuple<string, string>("{{uriLink}}", emailNotificationData.UriPath + emailNotificationData.UriId), new Tuple<string, string>("{{message}}", emailNotificationData.Message) };
+            emailData.TokensToReplace_Subject = new List<Tuple<string, string>> { new Tuple<string, string>("{{adminSubject}}", emailNotificationData.Subject) };
+
+            return await _rabbitMqSender.PublishEmailMessage(emailData);
         }
     }
 }
