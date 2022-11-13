@@ -13,9 +13,9 @@ export const AboutStyles = {
         minWidth: 0,
         textAlign: 'center',
         maxWidth: '580px',
-        paddingTop: ['106px','106px','106px','106px','196px'],
+        paddingTop: ['106px','106px','106px','106px','106px','196px'],
         margin: '0 auto',
-        paddingBottom: ['0','0','0','0','80px'],
+        paddingBottom: ['0','0','0','0','0','80px'],
         'h2': {
             fontFamily: 'DM Sans',
             lineHeight: 1.5,
@@ -34,7 +34,7 @@ export const AboutStyles = {
         minWidth: 0,
         display: 'grid',
         gap: '60px',
-        gridTemplateColumns: ['repeat(1,1fr)','repeat(1,1fr)','repeat(1,1fr)','repeat(1,1fr)','repeat(2,1fr)']
+        gridTemplateColumns: ['repeat(1,1fr)','repeat(1,1fr)','repeat(1,1fr)','repeat(1,1fr)','repeat(1,1fr)','repeat(2,1fr)']
     },
     aboutTopicsGrid: {
         boxSizing: 'border-box',
@@ -73,7 +73,7 @@ export const AboutStyles = {
             display: 'flex',
         },
         contentBox: {
-            width: ['100%', '100%', '75%', '55%', '50%', '50%'],
+            width: ['100%', '100%', '100%', '100%', '100%', '100%'],
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'flex-start',
@@ -83,7 +83,7 @@ export const AboutStyles = {
         },
     },
     aboutGridImageBox: {
-        paddingTop: ['0','0','0','0','96px'],
+        paddingTop: ['0','0','0','0','0','96px'],
         paddingBottom: '40px'
     },
     aboutGridColumnText: {

@@ -56,17 +56,6 @@ export default function GlassCarousel() {
                         ))}
                 </Carousel>
                 }
-                {/* <ThemeProvider theme={theme}>
-                    {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-                    {/* <CssBaseline />
-                    <SwipeableTextMobileStepper/>
-                </ThemeProvider> */}
-                {/* <Heading as="h1" variant="tpPrimary">
-                    test
-                </Heading>
-                <Text as="p" variant="tpSecondary">
-                    Info sobre estrela clicada
-                </Text> */}
             </Box>
         </div>
     );

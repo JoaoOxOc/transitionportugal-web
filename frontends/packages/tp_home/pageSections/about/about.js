@@ -46,9 +46,9 @@ export default function About() {
                     <Box sx={styles.aboutGridImageBox}>
                         <Container sx={styles.aboutCarousel.container}>
                             <Box sx={styles.aboutCarousel.contentBox}>
-                                <Flex style={{width: '100%'}}>
+                                <Flex style={{'margin': '0 auto'}}>
                                     <Fade>
-                                        <GlassCarouselDynamic style={{width: '100%'}}/>
+                                        <GlassCarouselDynamic/>
                                         {/* <Image src={AboutMainimage} alt={i18nextAbout.t('ABOUT.community_image')}/> */}
                                     </Fade>
                                 </Flex>
