@@ -70,6 +70,7 @@ export default function RootMenuList({path, label, type, display, icon, index, s
                     <span>{icon} { i18nextHeader.t(label) }</span>
                 </a>
                 <Popper
+                    key={'Popper' + index}
                     open={open}
                     anchorEl={anchorRef.current}
                     role={undefined}
@@ -95,7 +96,7 @@ export default function RootMenuList({path, label, type, display, icon, index, s
                             onKeyDown={handleListKeyDown}
                         >
                             {submenuOptions.map(({ path, label, type, display, icon }, i) => (
-                                <MenuItem onClick={handleClose}>{buildMenuItem(path, label, type, display, icon, i)}</MenuItem>
+                                <MenuItem key={'MenuItem'+i} onClick={handleClose}>{buildMenuItem(path, label, type, display, icon, i)}</MenuItem>
                             ))}
                             {/* <MenuItem onClick={handleClose}><span>{icon} Profile</span></MenuItem> */}
                             {/* <MenuItem onClick={handleClose}>My account</MenuItem>
@@ -118,7 +119,7 @@ export default function RootMenuList({path, label, type, display, icon, index, s
                     <span>{icon} { i18nextHeader.t(label) }</span>
                 </a>
                 <div
-                    style={{padding: '10px', color: 'inherit', textDecoration: 'none', display: 'inline-block'}}
+                    key={'submenuOptions'+index} style={{padding: '10px', color: 'inherit', textDecoration: 'none', display: 'inline-block'}}
                 >
                     {submenuOptions.map(({ path, label, type, display, icon }, i) => (
                         <>{buildMenuItem(path, label, type, display, icon, i)}</>

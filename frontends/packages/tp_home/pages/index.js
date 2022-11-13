@@ -19,6 +19,14 @@ const ActionsDynamic = dynamic(() => import("../pageSections/actions/actions"));
 const FooterDynamic = dynamic(() => import("../pageSections/footer/footer"));
 
 export default function Home({homepageData}) {
+  const [currentLang, setLang] = useState("pt");
+  useEffect(() => {
+    const handleNewMessage = (event) => {
+      setLang(event.detail);
+    };
+          
+    window.addEventListener('newLang', handleNewMessage);
+  }, []);
   const homepageDataAttributes = homepageData.data && homepageData.data[0] ? homepageData.data[0].attributes : {};
   console.log(homepageDataAttributes);
   const getComponentAttributes = (componentName) => {
