@@ -33,9 +33,9 @@ export default function Home({homepageData}) {
     return homepageDataAttributes[componentName];
   }
   const getComponentAttributesByIdentifier = (componentName, identifier) => {
-    let componentBlockArray = homepageDataAttributes.Blocks.map((block) => {
+    let componentBlockArray = homepageDataAttributes.Blocks.filter((block) => {
       if (block["__component"] === componentName && block["Identifier"] === identifier)
-      return block;
+        return block;
     });
     console.log(componentBlockArray);
     return componentBlockArray[0];
@@ -49,7 +49,7 @@ export default function Home({homepageData}) {
           <DonationDynamic posRight={'0px'} posTop={'250px'}/>
           <NewsDynamic posRight={'0px'} posTop={'320px'}/> */}
           <BannerDynamic sliderComponentObject={getComponentAttributesByIdentifier("blocks.carousel", "main_homepage_slider")}/>
-          <AboutDynamic/>
+          <AboutDynamic aboutComponentObject={getComponentAttributesByIdentifier("blocks.section", "about")}/>
           <EventsDynamic/>
           <ActionsDynamic/>
           <FooterDynamic/>

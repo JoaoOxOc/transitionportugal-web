@@ -174,12 +174,18 @@ export const AboutStyles = {
             height: '55px',
             objectFit: 'cover',
             borderRadius: '50%',
+        },
+        p: {
+            marginBottom: '0 !important'
         }
     },
     aboutBigBannerInlineDetails: {
         display: 'table-cell',
         verticalAlign: 'middle',
         h3: {
+        },
+        p: {
+            marginBottom: '0 !important'
         }
     }
 }

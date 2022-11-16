@@ -7,12 +7,17 @@
   },
   "options": {},
   "attributes": {
-    "SectionIdentifier": {
+    "Identifier": {
       "type": "string",
       "required": true
     },
     "SectionContent": {
       "type": "richtext"
+    },
+    "sliders": {
+      "type": "component",
+      "repeatable": true,
+      "component": "blocks.slider"
     }
   }
 }
