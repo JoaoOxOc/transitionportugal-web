@@ -18,6 +18,16 @@
       "type": "component",
       "repeatable": true,
       "component": "blocks.slider"
+    },
+    "SectionTitle": {
+      "type": "richtext",
+      "required": true
+    },
+    "SectionParagraphs": {
+      "type": "richtext"
+    },
+    "SectionMessage": {
+      "type": "richtext"
     }
   }
 }

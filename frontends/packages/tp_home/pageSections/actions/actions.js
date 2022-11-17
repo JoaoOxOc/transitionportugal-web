@@ -6,6 +6,7 @@ import { i18nextActions } from "@transitionpt/translations";
 import { Slide, Fade } from "react-awesome-reveal";
 import StaffTeam from '../../components/about/staffteam';
 import Partners from '../../components/about/partners';
+import { Link } from '../../components/generic/link';
 
 import useActionsData from '../../hooks/useActionsData';
 
@@ -41,12 +42,18 @@ export default function Actions() {
                 <Box sx={styles.actionsCenterBox}>
                     <Slide direction='up'>
                         <div>
+                        <Link
+                    path={process.env.NEXT_PUBLIC_HOME_BASE_URL + "/admin/auth/register/wizard"}
+                    aria-label={ i18nextActions.t('ACTIONS.regist_button') }
+                    style={{color: 'inherit', cursor: 'pointer', textDecoration: 'none', padding: 0, display: 'inline-block'}}
+                    >
                             <Button sx={styles.actionsCenterBox.actionsCenterContent} aria-label={i18nextActions.t('ACTIONS.regist_button')}>{i18nextActions.t('ACTIONS.regist_button')}</Button>
+                    </Link>
                         </div>
                     </Slide>
                 </Box>
             </Flex>
-            <Flex sx={styles.actionsBigBanner}>
+            {/* todo: uncomment when donations logic is applied <Flex sx={styles.actionsBigBanner}>
                 { data != null &&
                     <Fade>
                         <div>
@@ -64,7 +71,7 @@ export default function Actions() {
                         </div>
                     </Slide>
                 </Box>
-            </Flex>
+            </Flex> */}
             <StaffTeam/>
             <Partners/>
         </section>

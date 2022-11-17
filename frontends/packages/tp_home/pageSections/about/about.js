@@ -21,12 +21,12 @@ export default function About({aboutComponentObject}) {
     // const {data, loading, error} = useAboutData('');
 
     const parseSectionHeader = () => {
-        const headerText = aboutComponentObject.SectionContent.match(new RegExp(/<h2>(.*)<\/h2>/g));
-        const headerParagraph = aboutComponentObject.SectionContent.match(new RegExp(/<p>(.*?)<\/p>/g));
+        const headerText = aboutComponentObject.SectionTitle;
+        const headerParagraph = aboutComponentObject.SectionParagraphs;
         return (
             <>
-                {parse(headerText[0])}
-                {parse(headerParagraph[0])}
+                {parse(headerText)}
+                {parse(headerParagraph)}
             </>
         )
     }
@@ -41,12 +41,12 @@ export default function About({aboutComponentObject}) {
         tableRows.forEach((tableRow, rowIndex) => {
             const rowColumns = tableRow.match(new RegExp(/<td>(.*?)<\/td>/g));
             rowColumns.forEach((column, columnIndex) => {
-                let figureElement = "";
+                let figureElement = null;
                 if (column.includes("<figure")) {
                     figureElement = column.match(new RegExp("<figure" + "(.*)" + "figure>"));
                 }
                 const columnHeader = column.match(new RegExp(/<h.*?>(.*)<\/h.*?>/g));
-                const columnParagraph = column.match(new RegExp(/<p>(.*?)<\/p>/g));
+                const columnParagraph = column.match(new RegExp(/<p.*?>(.*?)<\/p>/g));
                 sectionColumns.push(<Box sx={styles.aboutGridColumn} key={''+(rowIndex+1)+''+(columnIndex+1)}>
                     <Slide direction='up'>
                         {figureElement && parse(figureElement[0])}
@@ -71,10 +71,10 @@ export default function About({aboutComponentObject}) {
 
     const parseMessageSection = () => {
         let quotedMessage = "";
-        if (aboutComponentObject.SectionContent.includes("<blockquote")) {
-            quotedMessage = aboutComponentObject.SectionContent.match(new RegExp("<blockquote" + "(.*)" + "blockquote>"));
+        if (aboutComponentObject.SectionMessage.includes("<blockquote")) {
+            quotedMessage = aboutComponentObject.SectionMessage.match(new RegExp("<blockquote" + "(.*)" + "blockquote>"));
         }
-        const paragraphs = aboutComponentObject.SectionContent.match(new RegExp(/<p>(.*?)<\/p>/g));
+        const paragraphs = aboutComponentObject.SectionMessage.match(new RegExp(/<p.*?>(.*?)<\/p>/g));
         const paragraphsCount = paragraphs.length;
         console.log(paragraphs)
         return(
