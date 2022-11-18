@@ -1,7 +1,7 @@
 export const InfoCardStyles = {
     infocard: {
         width: '100%',
-        height: '100%'
+        height: '100%',
     },
     thumbnail: {
         borderRadius: '7px 7px 0 0',
@@ -12,9 +12,10 @@ export const InfoCardStyles = {
         left: '0',
         width: '100%',
         height: '100%',
+        alignItems: 'center',
         img: {
           width: ['200px','200px','100%','200px','100%'],
-          maxHeight: ['150px'],
+        //   maxHeight: ['150px'],
           margin: ['0 auto','0 auto','auto 0','0 auto','auto 0']
         },
     },

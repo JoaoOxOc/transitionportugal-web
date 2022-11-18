@@ -34,7 +34,7 @@ export default function GlassCarousel({slides}) {
         const sliderTextSplittedCount = sliderTextSplitted.length;
         const sliderTitle = sliderData.match(new RegExp(/<h.*?>(.*)<\/h.*?>/g));
         const sliderParagraphs = sliderTextSplittedCount > 1 ? sliderTextSplitted[sliderTextSplittedCount - 1].match(new RegExp(/<p.*?>(.*?)<\/p>/g)) : sliderData.match(new RegExp(/<p.*?>(.*?)<\/p>/g));
-        console.log(figureElement);
+        
         return (
             <InfoCard 
                 key={identifier}

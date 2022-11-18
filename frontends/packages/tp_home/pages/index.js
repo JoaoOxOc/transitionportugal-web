@@ -51,7 +51,7 @@ export default function Home({homepageData}) {
           <BannerDynamic sliderComponentObject={getComponentAttributesByIdentifier("blocks.carousel", "main_homepage_slider")}/>
           <AboutDynamic aboutComponentObject={getComponentAttributesByIdentifier("blocks.section", "about")}/>
           <EventsDynamic/>
-          <ActionsDynamic/>
+          <ActionsDynamic registerComponentObject={getComponentAttributesByIdentifier("blocks.section", "action_register")}/>
           <FooterDynamic/>
         </Layout>
       </StickyProvider>

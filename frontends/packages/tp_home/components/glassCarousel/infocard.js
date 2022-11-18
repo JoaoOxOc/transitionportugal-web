@@ -13,8 +13,6 @@ export default function InfoCard({
 }) {
 
     const renderImageWrapper = () => {
-        
-        console.log(imgElement)
         return (
             (paragraphs != null && paragraphs != undefined)
             ? <Box sx={styles.thumbnail}>
@@ -33,8 +31,11 @@ export default function InfoCard({
     
     const renderTextWrapper = () => {
         const paragArray = paragraphs.map((paragraph, i) => 
-            parse(paragraph)
+            parse(paragraph, {
+                replace: ({ attribs }) => attribs && (attribs.key = i)
+            })
         );
+        console.log(paragArray);
         return (
                 <Box sx={styles.infoCardContent}>
                     <div sx={styles.infoCardContent.title}>
