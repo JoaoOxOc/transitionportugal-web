@@ -15,15 +15,6 @@ export default function usePartnerData(url) {
                     //setData(response.data)
                     const response = [
                               {
-                                id: '1',
-                                name: 'Transition Network',
-                                picture: '/tn-logo.svg',
-                                link: 'https://transitionnetwork.org',
-                                description: 'Movimento raíz do Transição Portugal',
-                                lat: 40.21270083837954,
-                                long: -8.411976302535853,
-                              },
-                              {
                                 id: '2',
                                 name: 'Transition Network',
                                 picture: '/tn-logo.svg',
