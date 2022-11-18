@@ -8,6 +8,7 @@ import { Slide, Fade, Pulse } from "react-awesome-reveal";
 import { i18nextAbout } from "@transitionpt/translations";
 
 import useAboutData from '../../hooks/useAboutData';
+import { Link } from '../../components/generic/link';
 const GlassCarouselDynamic = dynamic(() => import("../../components/glassCarousel/glasscarousel"));
 
 import { AboutStyles as styles } from './about.style';
@@ -139,7 +140,13 @@ export default function About({aboutComponentObject}) {
                 <Flex sx={styles.aboutCenterBox}>
                     <Slide direction='up'>
                         <div>
-                            <Button sx={styles.aboutCenterBox.aboutCenterContent} aria-label={i18nextAbout.t('ABOUT.timeline')}>{i18nextAbout.t('ABOUT.timeline')}</Button>
+                            <Link
+                                path="timeline"
+                                aria-label={ i18nextAbout.t('ABOUT.timeline') }
+                                style={{padding: '10px', color: 'inherit', textDecoration: 'none', display: 'inline-block'}}
+                                >
+                                <Button sx={styles.aboutCenterBox.aboutCenterContent} aria-label={i18nextAbout.t('ABOUT.timeline')}>{i18nextAbout.t('ABOUT.timeline')}</Button>
+                            </Link>
                         </div>
                     </Slide>
                 </Flex>
