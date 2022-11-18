@@ -44,11 +44,11 @@ export default function RootMenuList({path, label, type, display, icon, index, s
         }
     }
 
-    const buildMenuItem = (path, label, type, display, icon, index) => {
+    const buildMenuItem = (path, label, type, display, icon, index, isMenuItem) => {
         return (
             type === 'page' ? (
-                renderPageLink(path, label, icon, index, true)
-            ) : (renderScrollLink(path, label, type, display, icon, index, true))
+                renderPageLink(path, label, icon, index, true, !isMenuItem, handleClose)
+            ) : (renderScrollLink(path, label, type, display, icon, index, true, !isMenuItem, handleClose))
         )
     }
 
@@ -96,7 +96,7 @@ export default function RootMenuList({path, label, type, display, icon, index, s
                             onKeyDown={handleListKeyDown}
                         >
                             {submenuOptions.map(({ path, label, type, display, icon }, i) => (
-                                <MenuItem key={'MenuItem'+i} onClick={handleClose}>{buildMenuItem(path, label, type, display, icon, i)}</MenuItem>
+                                buildMenuItem(path, label, type, display, icon, i, true)
                             ))}
                             {/* <MenuItem onClick={handleClose}><span>{icon} Profile</span></MenuItem> */}
                             {/* <MenuItem onClick={handleClose}>My account</MenuItem>
@@ -122,7 +122,7 @@ export default function RootMenuList({path, label, type, display, icon, index, s
                     key={'submenuOptions'+index} style={{padding: '10px', color: 'inherit', textDecoration: 'none', display: 'inline-block'}}
                 >
                     {submenuOptions.map(({ path, label, type, display, icon }, i) => (
-                        <>{buildMenuItem(path, label, type, display, icon, i)}</>
+                        <>{buildMenuItem(path, label, type, display, icon, i, false)}</>
                     ))}
                 </div>
             </>

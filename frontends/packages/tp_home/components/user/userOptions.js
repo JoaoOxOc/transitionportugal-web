@@ -46,15 +46,16 @@ export default function UserOptionsList({label, children}) {
         }
     }
 
-    const buildMenuItem = (path, label, icon, index) => {
+    const buildMenuItem = (path, label, ariaLabel, icon, index) => {
         return (
             <Link
                 path={path}
                 key={index}
                 aria-label={ i18nextHeader.t(label) }
-                style={{padding: '10px', color: 'inherit', textDecoration: 'none', display: 'inline-block'}}
+                style={{padding: '0px', width: '100%', color: 'inherit', textDecoration: 'none', display: 'inline-block'}}
                 >
-                <span style={{fontSize: "14px"}}>{icon} { i18nextHeader.t(label) }</span>
+                    <MenuItem aria-label={i18nextHeader.t(ariaLabel)} tabIndex={0} onClick={handleClose}><span style={{fontSize: "14px", padding: '8px 0px 8px 0px'}}>{icon} { i18nextHeader.t(label) }</span></MenuItem>
+                
             </Link>
         )
     }
@@ -98,8 +99,8 @@ export default function UserOptionsList({label, children}) {
                     aria-labelledby={i18nextHeader.t(label)}
                     onKeyDown={handleListKeyDown}
                 >
-                    <MenuItem aria-label={i18nextHeader.t('Header.TOPBAR.userProfileInfo')} tabIndex={0} onClick={handleClose}>{buildMenuItem("/admin/profile/user", 'Header.TOPBAR.userProfile', <FcHome/>, 0)}</MenuItem>
-                    <MenuItem aria-label={i18nextHeader.t('Header.TOPBAR.userLogoutInfo')} tabIndex={1} onClick={handleClose}>{buildMenuItem("/admin/api/auth/signout", 'Header.TOPBAR.userLogout', <FcSportsMode/>, 0)}</MenuItem>
+                    {buildMenuItem("/admin/profile/user", 'Header.TOPBAR.userProfile', 'Header.TOPBAR.userProfileInfo', <FcHome/>, 0)}
+                    {buildMenuItem("/admin/api/auth/signout", 'Header.TOPBAR.userLogout', 'Header.TOPBAR.userLogoutInfo', <FcSportsMode/>, 1)}
                 </MenuList>
                 </ClickAwayListener>
             </Paper>

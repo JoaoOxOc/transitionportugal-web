@@ -24,6 +24,8 @@ export const HEADER_TRANSLATIONS = deepFreeze({
         map: "Encontrar Grupos",
         events: "Eventos",
         news: "Notícias",
-        staff: "Equipa"
+        staff: "Equipa",
+        appsMenuButton: "Aplicações Transição Portugal",
+        sidemenuButton: "Transição Portugal - mais opções"
     }
 } as const);

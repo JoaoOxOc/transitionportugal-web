@@ -81,8 +81,8 @@ function ResponsiveDrawer() {
             <CssBaseline />
             <IconButton
                     color="inherit"
-                    aria-label="Open drawer"
-                    title="transicao portugal more options"
+                    aria-label={i18nextHeader.t('Header.MENU.sidemenuButton')}
+                    title={i18nextHeader.t('Header.MENU.sidemenuButton')}
                     edge="start"
                     onClick={handleDrawerToggle}
                     className={classes.menuButton}
@@ -91,8 +91,8 @@ function ResponsiveDrawer() {
             </IconButton>
             <IconButton
                     color="inherit"
-                    aria-label="Open drawer"
-                    title="transicao portugal apps"
+                    aria-label={i18nextHeader.t('Header.MENU.appsMenuButton')}
+                    title={i18nextHeader.t('Header.MENU.appsMenuButton')}
                     edge="start"
                     className={classes.appsMenuButton}
                 >

@@ -23,7 +23,9 @@ export var HEADER_TRANSLATIONS = deepFreeze({
         map: "Find Groups",
         events: "Events",
         news: "News",
-        staff: "Team"
+        staff: "Team",
+        appsMenuButton: "Transição Portugal Apps",
+        sidemenuButton: "Transição Portugal - more options"
     }
 });
 //# sourceMappingURL=header.js.map

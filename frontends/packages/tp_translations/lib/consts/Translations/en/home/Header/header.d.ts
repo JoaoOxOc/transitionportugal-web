@@ -23,6 +23,8 @@ export declare const HEADER_TRANSLATIONS: {
         readonly events: "Events";
         readonly news: "News";
         readonly staff: "Team";
+        readonly appsMenuButton: "Transição Portugal Apps";
+        readonly sidemenuButton: "Transição Portugal - more options";
     };
 };
 //# sourceMappingURL=header.d.ts.map

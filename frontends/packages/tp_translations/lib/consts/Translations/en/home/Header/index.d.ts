@@ -24,6 +24,8 @@ export declare const TRANSLATIONS: {
             readonly events: "Events";
             readonly news: "News";
             readonly staff: "Team";
+            readonly appsMenuButton: "Transição Portugal Apps";
+            readonly sidemenuButton: "Transição Portugal - more options";
         };
     };
 };
