@@ -17,7 +17,7 @@ import SEO from '../components/seo';
 import { GetPublicTerms } from '../services/terms';
 
 // page sections
-import { EditorViewerFragmentsWrapper} from "@transitionpt/components";
+import EditorViewerFragmentsWrapper from "../components/EditorComponent/ViewerFragments";
 import { i18nextTermsDetails } from "@transitionpt/translations";
 import UnderConstructionSection from "../pageSections/underConstruction";
 const FooterDynamic = dynamic(() => import("../pageSections/footer/footer"),{ ssr: false });
@@ -53,7 +53,6 @@ export default function PrivacyPage({privacyPageData, termsProps}) {
         <StickyProvider>
           <Layout>
             <SEO metaDataObject={getComponentAttributes("seo")}/>
-            <Box sx={{height: '85px', backgroundColor: colors.topbar_bg_color}}></Box>
             <Box sx={{pt: "50px"}}>
                 <Typography variant="h3" style={{textAlign: 'center', paddingBottom: "10px"}}>
                 {t("READING.termsAndConditions")}
@@ -61,7 +60,7 @@ export default function PrivacyPage({privacyPageData, termsProps}) {
                 <Divider/>
                 <Grid container sx={{pt: "10px", pb: "20px"}}>
                     <Grid item>
-                        {/* <EditorViewerFragmentsWrapper termsLanguages={termsProps}/> */}
+                        <EditorViewerFragmentsWrapper termsLanguages={termsProps.terms.termsLanguages}/>
                     </Grid>
                 </Grid>
                 <Divider/>
@@ -90,7 +89,6 @@ export async function getServerSideProps(context) {
     const privacyPageData = await res.json();
 
     const termsProps = await GetPublicTerms(userBrowserLanguage);
-  
     return {
       props: {
         privacyPageData,

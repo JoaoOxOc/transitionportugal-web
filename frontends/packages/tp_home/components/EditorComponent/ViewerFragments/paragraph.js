@@ -1,6 +1,6 @@
 import {
     Typography
-  } from '@mui/material';
+  } from '@material-ui/core';
 
 export default function ViewerParagraph({paragraphData}) {
     return (

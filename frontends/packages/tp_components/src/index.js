@@ -12,7 +12,6 @@ import ResultsHeader from './components/Tables/Header';
 import ResultsPagination from './components/Tables/Pagination';
 import BodyTableView from './components/Tables/TableView';
 import BodyGridView from './components/Grids/ListBodyGridView';
-import EditorViewerFragmentsWrapper from './components/EditorComponent/ViewerFragments';
 
 export {
     ThemeContext, 
@@ -27,6 +26,5 @@ export {
     ResultsHeader,
     ResultsPagination,
     BodyTableView,
-    BodyGridView,
-    EditorViewerFragmentsWrapper
+    BodyGridView
 }

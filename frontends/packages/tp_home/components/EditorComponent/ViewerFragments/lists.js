@@ -3,7 +3,7 @@ import {
     List,
     ListItem,
     styled
-  } from '@mui/material';
+  } from '@material-ui/core';
 
 const OrderedList = styled(List)(
     ({ theme }) => `
