@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import MainMenu from '../menu/mainmenu';
 import Logo from '../logo';
 import UserBanner from '../user/UserBanner';
+import BreadcrumbsComponent from '../breadcrumbs/breadcrumbs';
 
 import { DrawerProvider } from '../../contexts/drawer/drawer.provider';
 import ResponsiveDrawer from '../menu/sidemenu';
@@ -50,6 +51,7 @@ export default function Header({className}) {
                     }
                 </Container>
                 <div sx={className === 'sticky' ? styles.bottomLineSticky : styles.bottomLine}/>
+                <BreadcrumbsComponent/>
             </header>
         </DrawerProvider>
     )
