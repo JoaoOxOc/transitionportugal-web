@@ -31,6 +31,20 @@ export const SubMenuStyles = {
             background: '-webkit-linear-gradient(left,#e0e0e0 0,#e0e0e0 35%,#e0e0e0 65%,#fff 100%)',
             background: '-moz-linear-gradient(left,#e0e0e0 0,#e0e0e0 35%,#e0e0e0 65%,#fff 100%)',
             background: '-webkit-gradient(linear,left top,right top,color-stop(0%,#e0e0e0),color-stop(35%,#e0e0e0),color-stop(65%,#e0e0e0),color-stop(100%,#fff))'
-        }
+        },
+        link: {
+            fontSize: ['14px', null, 1],
+            color: 'text',
+            fontWeight: 'body',
+            mb: 2,
+            cursor: 'pointer',
+            transition: 'all 0.35s',
+            display: 'block',
+            textDecoration: 'none',
+            lineHeight: [1.5, null, null, 1.6, 1.8],
+            ':hover': {
+              color: 'primary',
+            }
+        },
     }
 }

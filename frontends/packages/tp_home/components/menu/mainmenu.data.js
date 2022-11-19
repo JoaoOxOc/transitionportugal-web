@@ -62,10 +62,17 @@ export default [
     icon: <GiNewspaper/>
   },
   {
-    type: 'component',
+    type: 'page',
     display: 'bottom',
-    path: 'actions',
-    label: 'Header.MENU.staff',
-    icon: <AiOutlineTeam/>
+    path: 'aboutus',
+    label: 'Header.MENU.about',
+    icon: <FcVoicePresentation/>
   },
+  // {
+  //   type: 'component',
+  //   display: 'bottom',
+  //   path: 'actions',
+  //   label: 'Header.MENU.staff',
+  //   icon: <AiOutlineTeam/>
+  // },
 ];
