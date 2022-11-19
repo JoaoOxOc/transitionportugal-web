@@ -34,6 +34,7 @@ export default function Header({className}) {
 
     return (
         <DrawerProvider>
+            <>
             <header sx={styles.header} className={className} id="header">
                 <div sx={className === 'sticky' ? styles.topLineSticky : styles.topLine}/>
                 <Container sx={styles.container}>
@@ -51,8 +52,9 @@ export default function Header({className}) {
                     }
                 </Container>
                 <div sx={className === 'sticky' ? styles.bottomLineSticky : styles.bottomLine}/>
-                <BreadcrumbsComponent/>
             </header>
+            <BreadcrumbsComponent/>
+            </>
         </DrawerProvider>
     )
 }
