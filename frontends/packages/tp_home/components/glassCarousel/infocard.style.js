@@ -7,16 +7,17 @@ export const InfoCardStyles = {
         borderRadius: '7px 7px 0 0',
         overflow: 'hidden',
         display: 'grid',
-        gap: '20px',
-        gridTemplateColumns: ['repeat(1,1fr)','repeat(1,1fr)','repeat(2,1fr)','repeat(2,1fr)','repeat(2,1fr)'],
+        gap: ['5px','20px'],
+        gridTemplateColumns: ['repeat(1,1fr)','repeat(2,1fr)','repeat(2,1fr)','repeat(2,1fr)','repeat(2,1fr)'],
         left: '0',
         width: '100%',
         height: '100%',
         alignItems: 'center',
         img: {
-          width: ['200px','200px','100%','200px','100%'],
+          width: ['100%','100%','100%','100%','100%'],
+          height: ['150px','100%'],
         //   maxHeight: ['150px'],
-          margin: ['0 auto','0 auto','auto 0','0 auto','auto 0']
+          margin: ['0 auto','auto 0','auto 0','auto 0','auto 0']
         },
     },
     thumbnailonly: {

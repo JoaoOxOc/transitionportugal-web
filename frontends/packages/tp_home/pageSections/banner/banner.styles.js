@@ -31,9 +31,9 @@ export const bannerStyles = {
       //backgroundAttachment: 'fixed',
       backgroundSize: 'auto',
       //borderBottomRightRadius: [100, 150, null, null, null, 200],
-      paddingTop: '8px',
+      paddingTop: ['85px','85px','85px','85px','8px'],
       // minHeight: '600px',
-      height: ['100vh','100vh', '100vh', '100vh','calc(100vh - 70px)'],
+      height: ['300px','450px', '100vh', '100vh','calc(100vh - 70px)'],
       // pt: ['150px', null, null, null, null, null, '140px', '118px'],
       // pb: ['100px', null, null, '110px', null, 10, '150px'],
       backgroundColor: '#EFFAFC',
@@ -66,13 +66,13 @@ export const bannerStyles = {
       },
     },
     bannerCarousel: {
-      height: ['100vh','100vh', '100vh', '100vh','calc(100vh - 70px)'],
+      height: ['300px','450px', '100vh', '100vh','calc(100vh - 70px)'],
       figure: {
         display: 'grid',
         height: '100%'
       },
       img: {
-        height: ['100vh','100vh', '100vh', '100vh','calc(100vh)'],
+        height: ['300px','450px', '100vh', '100vh','calc(100vh)'],
         width: '100%',
         maxHeight: '100vh'
       },

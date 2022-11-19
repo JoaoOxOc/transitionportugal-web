@@ -7,12 +7,12 @@ export default [
       header: 'Policy',
       items: [
         {
-          path: '#',
+          path: 'privacy',
           label: 'Header.PRIVACY_MENU.policy',
           icon: <MdOutlinePrivacyTip/>
         },
         {
-          path: '#',
+          path: 'sitemap',
           label: 'Header.PRIVACY_MENU.sitemap',
           icon: <BiSitemap/>
         },
