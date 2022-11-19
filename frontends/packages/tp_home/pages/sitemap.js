@@ -12,7 +12,7 @@ import SEO from '../components/seo';
 import UnderConstructionSection from "../pageSections/underConstruction";
 const FooterDynamic = dynamic(() => import("../pageSections/footer/footer"),{ ssr: false });
 
-export default function AboutUsPage({aboutusPageData}) {
+export default function SitemapPage({sitemapPageData}) {
     const [currentLang, setLang] = useState("pt");
     useEffect(() => {
       const handleNewMessage = (event) => {
@@ -21,22 +21,22 @@ export default function AboutUsPage({aboutusPageData}) {
             
       window.addEventListener('newLang', handleNewMessage);
     }, []);
-    const aboutusPageDataAttributes = aboutusPageData.data && aboutusPageData.data[0] ? aboutusPageData.data[0].attributes : {};
+    const sitemapPageDataAttributes = sitemapPageData.data && sitemapPageData.data[0] ? sitemapPageData.data[0].attributes : {};
 
-    console.log(aboutusPageDataAttributes);
+    console.log(sitemapPageDataAttributes);
     const getComponentAttributes = (componentName) => {
-        return aboutusPageDataAttributes[componentName];
+        return sitemapPageDataAttributes[componentName];
     }
 
     const getComponentAttributesByIdentifier = (componentName, identifier) => {
-        let componentBlockArray = aboutusPageDataAttributes.Blocks.filter((block) => {
+        let componentBlockArray = sitemapPageDataAttributes.Blocks.filter((block) => {
           if (block["__component"] === componentName && block["Identifier"] === identifier)
             return block;
         });
         console.log(componentBlockArray);
         return componentBlockArray[0];
     }
-
+    
     return (
       <ThemeProvider theme={theme}>
         <StickyProvider>
@@ -54,19 +54,19 @@ export default function AboutUsPage({aboutusPageData}) {
 // It won't be called on client-side, so you can even do
 // direct database queries.
 export async function getServerSideProps() {
-  // TODO: process nextjs selected language
-  const res = await fetch(process.env.SSR_CMS_BASE_URL+'/api/pages?populate=deep&slug=aboutus&locale=pt-PT', {
-    method: 'GET',
-    headers: {
-      Authorization:
-        'Bearer ' + process.env.CMS_API_TOKEN,
-    }}
-    );
-  const aboutusPageData = await res.json();
-
-  return {
-    props: {
-      aboutusPageData,
-    },
-  }
+    // TODO: process nextjs selected language
+    const res = await fetch(process.env.SSR_CMS_BASE_URL+'/api/pages?populate=deep&slug=sitemap&locale=pt-PT', {
+      method: 'GET',
+      headers: {
+        Authorization:
+          'Bearer ' + process.env.CMS_API_TOKEN,
+      }}
+      );
+    const sitemapPageData = await res.json();
+  
+    return {
+      props: {
+        sitemapPageData,
+      },
+    }
 }

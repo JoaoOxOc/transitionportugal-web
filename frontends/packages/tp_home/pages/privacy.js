@@ -7,12 +7,14 @@ import Layout from '../layouts/AppModernLayout';
 import dynamic from "next/dynamic";
 
 import SEO from '../components/seo';
+import { GetPublicTerms } from '../services/terms';
 
 // page sections
+import { EditorViewerFragmentsWrapper} from "@transitionpt/components";
 import UnderConstructionSection from "../pageSections/underConstruction";
 const FooterDynamic = dynamic(() => import("../pageSections/footer/footer"),{ ssr: false });
 
-export default function AboutUsPage({aboutusPageData}) {
+export default function PrivacyPage({privacyPageData, termsProps}) {
     const [currentLang, setLang] = useState("pt");
     useEffect(() => {
       const handleNewMessage = (event) => {
@@ -21,15 +23,15 @@ export default function AboutUsPage({aboutusPageData}) {
             
       window.addEventListener('newLang', handleNewMessage);
     }, []);
-    const aboutusPageDataAttributes = aboutusPageData.data && aboutusPageData.data[0] ? aboutusPageData.data[0].attributes : {};
+    const privacyPageDataAttributes = privacyPageData.data && privacyPageData.data[0] ? privacyPageData.data[0].attributes : {};
 
-    console.log(aboutusPageDataAttributes);
+    console.log(privacyPageDataAttributes, termsProps);
     const getComponentAttributes = (componentName) => {
-        return aboutusPageDataAttributes[componentName];
+        return privacyPageDataAttributes[componentName];
     }
 
     const getComponentAttributesByIdentifier = (componentName, identifier) => {
-        let componentBlockArray = aboutusPageDataAttributes.Blocks.filter((block) => {
+        let componentBlockArray = privacyPageDataAttributes.Blocks.filter((block) => {
           if (block["__component"] === componentName && block["Identifier"] === identifier)
             return block;
         });
@@ -53,20 +55,25 @@ export default function AboutUsPage({aboutusPageData}) {
 // This function gets called at run time on server-side.
 // It won't be called on client-side, so you can even do
 // direct database queries.
-export async function getServerSideProps() {
-  // TODO: process nextjs selected language
-  const res = await fetch(process.env.SSR_CMS_BASE_URL+'/api/pages?populate=deep&slug=aboutus&locale=pt-PT', {
-    method: 'GET',
-    headers: {
-      Authorization:
-        'Bearer ' + process.env.CMS_API_TOKEN,
-    }}
-    );
-  const aboutusPageData = await res.json();
+export async function getServerSideProps(context) {
+    const { req } = context;
+    // TODO: process nextjs selected language
+    const userBrowserLanguage = req.headers ? req.headers['accept-language'].split(",")[0].toLowerCase() : "pt-pt";
+    const res = await fetch(process.env.SSR_CMS_BASE_URL+'/api/pages?populate=deep&slug=privacy&locale=pt-PT', {
+      method: 'GET',
+      headers: {
+        Authorization:
+          'Bearer ' + process.env.CMS_API_TOKEN,
+      }}
+      );
+    const privacyPageData = await res.json();
 
-  return {
-    props: {
-      aboutusPageData,
-    },
-  }
+    const termsProps = await GetPublicTerms(userBrowserLanguage);
+  
+    return {
+      props: {
+        privacyPageData,
+        termsProps
+      },
+    }
 }

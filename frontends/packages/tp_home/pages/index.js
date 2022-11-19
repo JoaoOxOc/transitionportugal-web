@@ -29,17 +29,19 @@ export default function Home({homepageData}) {
   }, []);
   const homepageDataAttributes = homepageData.data && homepageData.data[0] ? homepageData.data[0].attributes : {};
   console.log(homepageDataAttributes);
+
   const getComponentAttributes = (componentName) => {
     return homepageDataAttributes[componentName];
   }
+
   const getComponentAttributesByIdentifier = (componentName, identifier) => {
     let componentBlockArray = homepageDataAttributes.Blocks.filter((block) => {
       if (block["__component"] === componentName && block["Identifier"] === identifier)
         return block;
     });
-    console.log(componentBlockArray);
     return componentBlockArray[0];
   }
+
   return (
     <ThemeProvider theme={theme}>
       <StickyProvider>
@@ -65,6 +67,7 @@ export default function Home({homepageData}) {
 export async function getServerSideProps() {
   // Call an external API endpoint to get posts.
   // You can use any data fetching library
+  // TODO: process nextjs selected language
   const res = await fetch(process.env.SSR_CMS_BASE_URL+'/api/pages?populate=deep&slug=&locale=pt-PT', {
     method: 'GET',
     headers: {
@@ -74,8 +77,6 @@ export async function getServerSideProps() {
     );
   const homepageData = await res.json();
 
-  // By returning { props: { posts } }, the Blog component
-  // will receive `posts` as a prop at build time
   return {
     props: {
       homepageData,
