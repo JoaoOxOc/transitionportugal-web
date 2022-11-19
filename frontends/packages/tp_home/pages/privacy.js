@@ -2,6 +2,13 @@ import React, { useEffect, useState } from "react";
 
 import { ThemeProvider } from 'theme-ui';
 import theme from '../theme';
+import {
+    Box,
+    Grid,
+    Typography,
+    Divider
+  } from '@material-ui/core';
+import { COLORS as colors } from '../theme/parameters';
 import { StickyProvider } from '../contexts/app/app.provider';
 import Layout from '../layouts/AppModernLayout';
 import dynamic from "next/dynamic";
@@ -11,10 +18,12 @@ import { GetPublicTerms } from '../services/terms';
 
 // page sections
 import { EditorViewerFragmentsWrapper} from "@transitionpt/components";
+import { i18nextTermsDetails } from "@transitionpt/translations";
 import UnderConstructionSection from "../pageSections/underConstruction";
 const FooterDynamic = dynamic(() => import("../pageSections/footer/footer"),{ ssr: false });
 
 export default function PrivacyPage({privacyPageData, termsProps}) {
+    const { t } = i18nextTermsDetails;
     const [currentLang, setLang] = useState("pt");
     useEffect(() => {
       const handleNewMessage = (event) => {
@@ -44,7 +53,19 @@ export default function PrivacyPage({privacyPageData, termsProps}) {
         <StickyProvider>
           <Layout>
             <SEO metaDataObject={getComponentAttributes("seo")}/>
-            <UnderConstructionSection/>
+            <Box sx={{height: '85px', backgroundColor: colors.topbar_bg_color}}></Box>
+            <Box sx={{pt: "50px"}}>
+                <Typography variant="h3" style={{textAlign: 'center', paddingBottom: "10px"}}>
+                {t("READING.termsAndConditions")}
+                </Typography>
+                <Divider/>
+                <Grid container sx={{pt: "10px", pb: "20px"}}>
+                    <Grid item>
+                        {/* <EditorViewerFragmentsWrapper termsLanguages={termsProps}/> */}
+                    </Grid>
+                </Grid>
+                <Divider/>
+            </Box>
             <FooterDynamic/>
           </Layout>
         </StickyProvider>

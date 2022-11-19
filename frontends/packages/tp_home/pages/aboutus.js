@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { ThemeProvider } from 'theme-ui';
 import theme from '../theme';
 import { StickyProvider } from '../contexts/app/app.provider';
+import { Box } from '@material-ui/core';
+import { COLORS as colors } from '../theme/parameters';
 import Layout from '../layouts/AppModernLayout';
 import dynamic from "next/dynamic";
 
@@ -42,6 +44,7 @@ export default function AboutUsPage({aboutusPageData}) {
         <StickyProvider>
           <Layout>
             <SEO metaDataObject={getComponentAttributes("seo")}/>
+            <Box sx={{height: '85px', backgroundColor: colors.topbar_bg_color}}></Box>
             <UnderConstructionSection/>
             <FooterDynamic/>
           </Layout>
