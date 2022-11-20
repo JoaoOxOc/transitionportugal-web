@@ -16,6 +16,9 @@ import { AboutStyles as styles } from './about.style';
 import AboutMainimage from '../../public/about/about-mainimage.jpg';
 
 export default function About({aboutComponentObject}) {
+    if (!aboutComponentObject) {
+        return null;
+    }
     const [currentLang, setLang] = useState("pt");
     i18nextAbout.changeLanguage(currentLang);
 

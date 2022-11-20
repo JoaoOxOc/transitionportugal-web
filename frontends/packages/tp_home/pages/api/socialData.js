@@ -17,7 +17,6 @@ export default async function socialData(req, res) {
     }
     else {
       const socialDataResult = await response.json();
-      console.log('cms ',socialDataResult)
       res.status(200).json(socialDataResult);
     }
   }

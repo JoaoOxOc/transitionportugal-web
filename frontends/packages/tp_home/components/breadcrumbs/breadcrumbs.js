@@ -92,7 +92,7 @@ export default function BreadcrumbsComponent() {
 function Crumb({ linkData, href, last=false }) {
     // The last crumb is rendered as normal text since we are already on the page
     if (last) {
-      return <Typography color="text.primary" variant="subtitle1" sx={styles.breadcrumbText}>{linkData.icon} {linkData.label}</Typography>
+      return <Typography color="primary" variant="subtitle1" sx={styles.breadcrumbText}>{linkData.icon} {linkData.label}</Typography>
     }
   
     // All other crumbs will be rendered as links that can be visited 

@@ -8,7 +8,6 @@ import {
     Typography,
     Divider
   } from '@material-ui/core';
-import { COLORS as colors } from '../theme/parameters';
 import { StickyProvider } from '../contexts/app/app.provider';
 import Layout from '../layouts/AppModernLayout';
 import dynamic from "next/dynamic";
@@ -19,7 +18,6 @@ import { GetPublicTerms } from '../services/terms';
 // page sections
 import EditorViewerFragmentsWrapper from "../components/EditorComponent/ViewerFragments";
 import { i18nextTermsDetails } from "@transitionpt/translations";
-import UnderConstructionSection from "../pageSections/underConstruction";
 const FooterDynamic = dynamic(() => import("../pageSections/footer/footer"),{ ssr: false });
 
 export default function PrivacyPage({privacyPageData, termsProps}) {
@@ -34,7 +32,7 @@ export default function PrivacyPage({privacyPageData, termsProps}) {
     }, []);
     const privacyPageDataAttributes = privacyPageData.data && privacyPageData.data[0] ? privacyPageData.data[0].attributes : {};
 
-    console.log(privacyPageDataAttributes, termsProps);
+    console.log(privacyPageDataAttributes);
     const getComponentAttributes = (componentName) => {
         return privacyPageDataAttributes[componentName];
     }
@@ -57,8 +55,8 @@ export default function PrivacyPage({privacyPageData, termsProps}) {
                 <Typography variant="h3" style={{textAlign: 'center', fontSize: '2.5rem !important', paddingBottom: "10px"}}>
                 {t("READING.termsAndConditions")}
                 </Typography>
-                <Divider/>
-                <Grid container style={{paddingTop: "10px", paddingBottom: "20px"}}>
+                <Divider variant="fullWidth" style={{height: '4px'}}/>
+                <Grid container style={{paddingTop: "40px", paddingBottom: "20px"}}>
                     <Grid item>
                         <EditorViewerFragmentsWrapper termsLanguages={termsProps.terms.termsLanguages}/>
                     </Grid>
@@ -79,7 +77,7 @@ export async function getServerSideProps(context) {
     const { req } = context;
     // TODO: process nextjs selected language
     const userBrowserLanguage = req.headers ? req.headers['accept-language'].split(",")[0].toLowerCase() : "pt-pt";
-    const res = await fetch(process.env.SSR_CMS_BASE_URL+'/api/pages?populate=deep&slug=privacy&locale=pt-PT', {
+    const res = await fetch(process.env.SSR_CMS_BASE_URL+'/api/pages?filters[slug][$eq]=privacy&locale=pt-PT&populate=deep', {
       method: 'GET',
       headers: {
         Authorization:
@@ -87,7 +85,6 @@ export async function getServerSideProps(context) {
       }}
       );
     const privacyPageData = await res.json();
-
     const termsProps = await GetPublicTerms(userBrowserLanguage);
     return {
       props: {

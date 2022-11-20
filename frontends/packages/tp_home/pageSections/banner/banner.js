@@ -80,7 +80,7 @@ export default function Banner({sliderComponentObject}) {
                         // customButtonGroup={<SwipeButtonGroup />}
                         minimumTouchDrag={80}
                     >
-                        { sliderComponentObject.Sliders.map(({id, sliderData},i) => (
+                        { sliderComponentObject && sliderComponentObject.Sliders && sliderComponentObject.Sliders.map(({id, sliderData},i) => (
                             parseSliderData(id,sliderData)
                         ))}
                 </Carousel>

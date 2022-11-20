@@ -35,6 +35,9 @@ export default function Home({homepageData}) {
   }
 
   const getComponentAttributesByIdentifier = (componentName, identifier) => {
+    if (!homepageDataAttributes || !homepageDataAttributes.Blocks) {
+      return {};
+    }
     let componentBlockArray = homepageDataAttributes.Blocks.filter((block) => {
       if (block["__component"] === componentName && block["Identifier"] === identifier)
         return block;
@@ -68,7 +71,7 @@ export async function getServerSideProps() {
   // Call an external API endpoint to get posts.
   // You can use any data fetching library
   // TODO: process nextjs selected language
-  const res = await fetch(process.env.SSR_CMS_BASE_URL+'/api/pages?populate=deep&slug=&locale=pt-PT', {
+  const res = await fetch(process.env.SSR_CMS_BASE_URL+'/api/pages?filters[slug][$eq]=&locale=pt-PT&populate=deep', {
     method: 'GET',
     headers: {
       Authorization:

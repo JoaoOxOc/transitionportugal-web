@@ -5,14 +5,11 @@ import ViewerHeading from './heading';
 import ViewerLists from './lists';
 
 const EditorViewerFragmentsWrapper = ({termsLanguages}) => {
-    const [editorJson, setEditorJson] = useState(termsLanguages[0].termsData);
-
-    if (!editorJson || !editorJson.blocks) {
+    if (!termsLanguages[0].termsData || !termsLanguages[0].termsData.blocks) {
         return null;
     }
 
     const processBlockType = (blockJson) => {
-        console.log(blockJson);
 
         switch(blockJson.type) {
             case "header": return <ViewerHeading key={blockJson.id} paragraphData={blockJson.data}/>;
@@ -24,7 +21,7 @@ const EditorViewerFragmentsWrapper = ({termsLanguages}) => {
 
     return (
         <>
-            {editorJson && editorJson.blocks.map((block) => {
+            {termsLanguages[0].termsData && termsLanguages[0].termsData.blocks.map((block) => {
                 return (
                     processBlockType(block)
                 )

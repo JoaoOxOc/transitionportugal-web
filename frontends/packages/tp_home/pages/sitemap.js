@@ -3,8 +3,6 @@ import React, { useEffect, useState } from "react";
 import { ThemeProvider } from 'theme-ui';
 import theme from '../theme';
 import { StickyProvider } from '../contexts/app/app.provider';
-import { Box } from '@material-ui/core';
-import { COLORS as colors } from '../theme/parameters';
 import Layout from '../layouts/AppModernLayout';
 import dynamic from "next/dynamic";
 
@@ -44,7 +42,6 @@ export default function SitemapPage({sitemapPageData}) {
         <StickyProvider>
           <Layout>
             <SEO metaDataObject={getComponentAttributes("seo")}/>
-            <Box sx={{height: '85px', backgroundColor: colors.topbar_bg_color}}></Box>
             <UnderConstructionSection/>
             <FooterDynamic/>
           </Layout>
@@ -58,7 +55,7 @@ export default function SitemapPage({sitemapPageData}) {
 // direct database queries.
 export async function getServerSideProps() {
     // TODO: process nextjs selected language
-    const res = await fetch(process.env.SSR_CMS_BASE_URL+'/api/pages?populate=deep&slug=sitemap&locale=pt-PT', {
+    const res = await fetch(process.env.SSR_CMS_BASE_URL+'/api/pages?filters[slug][$eq]=sitemap&locale=pt-PT&populate=deep', {
       method: 'GET',
       headers: {
         Authorization:

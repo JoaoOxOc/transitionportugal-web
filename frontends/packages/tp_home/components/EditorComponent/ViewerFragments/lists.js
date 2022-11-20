@@ -45,7 +45,7 @@ export default function ViewerLists({listsData}) {
         }
         else {
             return (
-                <List key={"sublist-"+parentIndex+childIndex} style={{ listStyleType: listStyleType, paddingLeft: '30px', paddingTop: '0' }}>
+                <List key={"sublist-"+parentIndex+childIndex} style={{ listStyleType: listStyleType, paddingLeft: '0px', paddingTop: '0' }}>
                     {nestedListItems.map((element) => (
                         element
                     ))}

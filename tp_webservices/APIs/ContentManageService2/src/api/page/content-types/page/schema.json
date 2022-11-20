@@ -25,7 +25,7 @@
       },
       "required": true
     },
-    "Slug": {
+    "slug": {
       "type": "string",
       "pluginOptions": {
         "i18n": {
