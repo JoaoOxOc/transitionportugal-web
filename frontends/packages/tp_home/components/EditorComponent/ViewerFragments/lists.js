@@ -1,3 +1,4 @@
+/** @jsxImportSource theme-ui */
 import {
     Typography,
     List,
@@ -5,18 +6,17 @@ import {
     styled
   } from '@material-ui/core';
 
-const OrderedList = styled(List)(
-    ({ theme }) => `
-        counter-reset: editorjs-viewer-listitem;
-        li {
-            counter-increment: editorjs-viewer-listitem;
-
-            &::marker {
-                content: counters(editorjs-viewer-listitem, ".") ". ";;
-            }
+export const listsStyles = {
+    nestedListItem: {
+        display: 'list-item',
+        alignItems: 'start !important',
+        counterIncrement: 'editorjs-viewer-listitem',
+        '&::before': {
+            display: 'inline-block',
+            content: 'counters(editorjs-viewer-listitem, ".") ". "'
         }
-    `
-)
+    }
+}
 
 export default function ViewerLists({listsData}) {
     let listStyleType = "disc";
@@ -28,7 +28,7 @@ export default function ViewerLists({listsData}) {
     const processNestedList = (items, parentIndex, childIndex) => {
         let nestedListItems = [];
         items.forEach((element, index) => {
-            nestedListItems.push(<ListItem key={index} sx={{ display: 'list-item' }}><span dangerouslySetInnerHTML={{__html: element.content}}></span></ListItem>)
+            nestedListItems.push(<ListItem key={index} sx={listsStyles.nestedListItem}><span dangerouslySetInnerHTML={{__html: element.content}}></span></ListItem>)
             if (element.items && element.items.length > 0) {
                 const result = processNestedList(element.items, parentIndex, index);
                 nestedListItems.push(result);
@@ -36,16 +36,16 @@ export default function ViewerLists({listsData}) {
         });
         if (listStyleType == "custom-counter-style") {
             return (
-                <OrderedList key={"sublist-"+parentIndex+childIndex} sx={{ pl: '30px', pt: '0' }}>
+                <List key={"sublist-"+parentIndex+childIndex} style={{ counterReset: 'editorjs-viewer-listitem', paddingLeft: '30px', paddingTop: '0' }}>
                     {nestedListItems.map((element) => (
                         element
                     ))}
-                </OrderedList>
+                </List>
             );
         }
         else {
             return (
-                <List key={"sublist-"+parentIndex+childIndex} sx={{ listStyleType: listStyleType, pl: '30px', pt: '0' }}>
+                <List key={"sublist-"+parentIndex+childIndex} style={{ listStyleType: listStyleType, paddingLeft: '30px', paddingTop: '0' }}>
                     {nestedListItems.map((element) => (
                         element
                     ))}

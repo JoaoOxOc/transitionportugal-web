@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { ThemeProvider } from 'theme-ui';
+import { ThemeProvider, Container } from 'theme-ui';
 import theme from '../theme';
 import {
     Box,
@@ -53,18 +53,18 @@ export default function PrivacyPage({privacyPageData, termsProps}) {
         <StickyProvider>
           <Layout>
             <SEO metaDataObject={getComponentAttributes("seo")}/>
-            <Box sx={{pt: "50px"}}>
-                <Typography variant="h3" style={{textAlign: 'center', paddingBottom: "10px"}}>
+            <Container sx={{pt: "50px", pb: "50px"}}>
+                <Typography variant="h3" style={{textAlign: 'center', fontSize: '2.5rem !important', paddingBottom: "10px"}}>
                 {t("READING.termsAndConditions")}
                 </Typography>
                 <Divider/>
-                <Grid container sx={{pt: "10px", pb: "20px"}}>
+                <Grid container style={{paddingTop: "10px", paddingBottom: "20px"}}>
                     <Grid item>
                         <EditorViewerFragmentsWrapper termsLanguages={termsProps.terms.termsLanguages}/>
                     </Grid>
                 </Grid>
                 <Divider/>
-            </Box>
+            </Container>
             <FooterDynamic/>
           </Layout>
         </StickyProvider>
