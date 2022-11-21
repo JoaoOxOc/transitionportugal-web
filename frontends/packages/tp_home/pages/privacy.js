@@ -18,6 +18,7 @@ import { GetPublicTerms } from '../services/terms';
 // page sections
 import EditorViewerFragmentsWrapper from "../components/EditorComponent/ViewerFragments";
 import { i18nextTermsDetails } from "@transitionpt/translations";
+import PageTitle from "../components/pageTitle";
 const FooterDynamic = dynamic(() => import("../pageSections/footer/footer"),{ ssr: false });
 
 export default function PrivacyPage({privacyPageData, termsProps}) {
@@ -51,12 +52,10 @@ export default function PrivacyPage({privacyPageData, termsProps}) {
         <StickyProvider>
           <Layout>
             <SEO metaDataObject={getComponentAttributes("seo")}/>
+            <PageTitle pageTitle={t("READING.termsAndConditions")}/>
             <Container sx={{pt: "50px", pb: "50px"}}>
-                <Typography variant="h3" style={{textAlign: 'center', fontSize: '2.5rem !important', paddingBottom: "10px"}}>
-                {t("READING.termsAndConditions")}
-                </Typography>
                 <Divider variant="fullWidth" style={{height: '4px'}}/>
-                <Grid container style={{paddingTop: "40px", paddingBottom: "20px"}}>
+                <Grid container style={{paddingTop: "10px", paddingBottom: "20px"}}>
                     <Grid item>
                         <EditorViewerFragmentsWrapper termsLanguages={termsProps.terms.termsLanguages}/>
                     </Grid>

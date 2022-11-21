@@ -9,11 +9,13 @@ export default [
         {
           path: 'privacy',
           label: 'Header.PRIVACY_MENU.policy',
+          ariaLabel: 'Header.PRIVACY_ARIA.policy',
           icon: <MdOutlinePrivacyTip/>
         },
         {
           path: 'sitemap',
           label: 'Header.PRIVACY_MENU.sitemap',
+          ariaLabel: 'Header.PRIVACY_ARIA.sitemap',
           icon: <BiSitemap/>
         },
       ],

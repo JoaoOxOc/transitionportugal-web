@@ -1,15 +1,26 @@
 import React, { useEffect, useState } from "react";
 
-import { ThemeProvider } from 'theme-ui';
+import { ThemeProvider, Container } from 'theme-ui';
 import theme from '../theme';
+import {
+    Box,
+    Grid,
+    Typography,
+    Divider
+  } from '@material-ui/core';
 import { StickyProvider } from '../contexts/app/app.provider';
 import Layout from '../layouts/AppModernLayout';
 import dynamic from "next/dynamic";
 
 import SEO from '../components/seo';
 
+import { i18nextHeader } from "@transitionpt/translations";
+import { i18nextFooter } from "@transitionpt/translations";
+
 // page sections
-import UnderConstructionSection from "../pageSections/underConstruction";
+import PageTitle from "../components/pageTitle";
+import MainMenu from '../components/menu/mainmenu';
+import SubMenu from '../components/menu/submenu';
 const FooterDynamic = dynamic(() => import("../pageSections/footer/footer"),{ ssr: false });
 
 export default function SitemapPage({sitemapPageData}) {
@@ -42,7 +53,11 @@ export default function SitemapPage({sitemapPageData}) {
         <StickyProvider>
           <Layout>
             <SEO metaDataObject={getComponentAttributes("seo")}/>
-            <UnderConstructionSection/>
+            <PageTitle pageTitle={i18nextHeader.t("Header.ARIA.sitemapTitle")}/>
+            <Container sx={{pt: "50px", pb: "50px"}}>
+              <MainMenu displayType={'displayGrid'} isMobile={true}/>
+              <SubMenu displayType={'displayGrid'}/>
+            </Container>
             <FooterDynamic/>
           </Layout>
         </StickyProvider>
