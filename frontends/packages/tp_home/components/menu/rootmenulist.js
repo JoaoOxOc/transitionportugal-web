@@ -8,7 +8,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 import { i18nextHeader } from "@transitionpt/translations";
 
-export default function RootMenuList({path, label, type, display, icon, index, submenuOptions, renderScrollLink, renderPageLink, isMobile}) {
+export default function RootMenuList({path, label, ariaLabel, type, display, icon, index, submenuOptions, renderScrollLink, renderPageLink, isMobile}) {
     const [open, setOpen] = useState(false);
     const anchorRef = useRef(null);
     
@@ -44,11 +44,11 @@ export default function RootMenuList({path, label, type, display, icon, index, s
         }
     }
 
-    const buildMenuItem = (path, label, type, display, icon, index, isMenuItem) => {
+    const buildMenuItem = (path, label, ariaLabel, type, display, icon, index, isMenuItem) => {
         return (
             type === 'page' ? (
-                renderPageLink(path, label, icon, index, true, !isMenuItem, handleClose)
-            ) : (renderScrollLink(path, label, type, display, icon, index, true, !isMenuItem, handleClose))
+                renderPageLink(path, label, ariaLabel, icon, index, true, !isMenuItem, handleClose)
+            ) : (renderScrollLink(path, label, ariaLabel, type, display, icon, index, true, !isMenuItem, handleClose))
         )
     }
 
@@ -64,7 +64,7 @@ export default function RootMenuList({path, label, type, display, icon, index, s
                     aria-controls={open ? path + "-menulist" : undefined}
                     aria-expanded={open ? 'true' : undefined}
                     aria-haspopup="true"
-                    aria-label={ i18nextHeader.t(label) }
+                    aria-label={ i18nextHeader.t(ariaLabel) }
                     onClick={handleToggle}
                 >
                     <span>{icon} { i18nextHeader.t(label) }</span>
@@ -92,11 +92,11 @@ export default function RootMenuList({path, label, type, display, icon, index, s
                         <MenuList
                             // autoFocusItem={open}
                             id={path + "-menulist"}
-                            aria-labelledby={i18nextHeader.t(label)}
+                            aria-labelledby={i18nextHeader.t(ariaLabel)}
                             onKeyDown={handleListKeyDown}
                         >
-                            {submenuOptions.map(({ path, label, type, display, icon }, i) => (
-                                buildMenuItem(path, label, type, display, icon, i, true)
+                            {submenuOptions.map(({ path, label, ariaLabel, type, display, icon }, i) => (
+                                buildMenuItem(path, label, ariaLabel, type, display, icon, i, true)
                             ))}
                             {/* <MenuItem onClick={handleClose}><span>{icon} Profile</span></MenuItem> */}
                             {/* <MenuItem onClick={handleClose}>My account</MenuItem>
@@ -121,8 +121,8 @@ export default function RootMenuList({path, label, type, display, icon, index, s
                 <div
                     key={'submenuOptions'+index} style={{padding: '10px', color: 'inherit', textDecoration: 'none', display: 'inline-block'}}
                 >
-                    {submenuOptions.map(({ path, label, type, display, icon }, i) => (
-                        <>{buildMenuItem(path, label, type, display, icon, i, false)}</>
+                    {submenuOptions.map(({ path, label, ariaLabel, type, display, icon }, i) => (
+                        <>{buildMenuItem(path, label, ariaLabel, type, display, icon, i, false)}</>
                     ))}
                 </div>
             </>

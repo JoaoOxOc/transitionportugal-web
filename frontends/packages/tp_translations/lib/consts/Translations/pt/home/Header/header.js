@@ -26,6 +26,15 @@ export var HEADER_TRANSLATIONS = deepFreeze({
         staff: "Equipa",
         appsMenuButton: "Aplicações Transição Portugal",
         sidemenuButton: "Transição Portugal - mais opções"
+    },
+    ARIA: {
+        sitemapTitle: "Transição Portugal - Mapa do Website",
+        transitionMovement: "Sobre o Movimento Transição",
+        history: "História da Transição Portugal",
+        presentation: "Apresentação da Transição Portugal",
+        about: "Sobre o Movimento Transição",
+        map: "Encontrar Grupos",
+        events: "Eventos",
     }
 });
 //# sourceMappingURL=header.js.map

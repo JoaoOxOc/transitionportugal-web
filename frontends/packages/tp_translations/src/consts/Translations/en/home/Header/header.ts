@@ -27,5 +27,14 @@ export const HEADER_TRANSLATIONS = deepFreeze({
         staff: "Team",
         appsMenuButton: "Transição Portugal Apps",
         sidemenuButton: "Transição Portugal - more options"
+    },
+    ARIA: {
+        sitemapTitle: "Transição Portugal - Website Map",
+        transitionMovement: "About the Transition Movement",
+        history: "History of Transição Portugal",
+        presentation: "Presentation of Transição Portugal",
+        about: "About the Transition Movement",
+        map: "Find Groups",
+        events: "Events",
     }
 } as const);

@@ -27,6 +27,15 @@ export declare const TRANSLATIONS: {
             readonly appsMenuButton: "Aplicações Transição Portugal";
             readonly sidemenuButton: "Transição Portugal - mais opções";
         };
+        readonly ARIA: {
+            readonly sitemapTitle: "Transição Portugal - Mapa do Website";
+            readonly transitionMovement: "Sobre o Movimento Transição";
+            readonly history: "História da Transição Portugal";
+            readonly presentation: "Apresentação da Transição Portugal";
+            readonly about: "Sobre o Movimento Transição";
+            readonly map: "Encontrar Grupos";
+            readonly events: "Eventos";
+        };
     };
 };
 //# sourceMappingURL=index.d.ts.map
