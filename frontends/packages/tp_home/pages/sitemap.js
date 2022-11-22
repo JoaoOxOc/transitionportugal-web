@@ -55,8 +55,8 @@ export default function SitemapPage({sitemapPageData}) {
             <SEO metaDataObject={getComponentAttributes("seo")}/>
             <PageTitle pageTitle={i18nextHeader.t("Header.ARIA.sitemapTitle")}/>
             <Container sx={{pt: "50px", pb: "50px"}}>
-              <MainMenu displayType={'displayGrid'} isMobile={true}/>
-              <SubMenu displayType={'displayGrid'}/>
+              <MainMenu displayType={'displayGrid'} isMobile={true} baseTabIndex={20}/>
+              <SubMenu displayType={'displayGrid'} sitemapLayout={true}/>
             </Container>
             <FooterDynamic/>
           </Layout>

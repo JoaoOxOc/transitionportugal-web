@@ -8,7 +8,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 import { i18nextHeader } from "@transitionpt/translations";
 
-export default function RootMenuList({path, label, ariaLabel, type, display, icon, index, submenuOptions, renderScrollLink, renderPageLink, isMobile}) {
+export default function RootMenuList({baseTabIndex, path, label, ariaLabel, type, display, icon, index, submenuOptions, renderScrollLink, renderPageLink, incrementBaseTabIndex, isMobile}) {
     const [open, setOpen] = useState(false);
     const anchorRef = useRef(null);
     
@@ -45,10 +45,13 @@ export default function RootMenuList({path, label, ariaLabel, type, display, ico
     }
 
     const buildMenuItem = (path, label, ariaLabel, type, display, icon, index, isMenuItem) => {
+        if (index === submenuOptions.length -1) {
+            incrementBaseTabIndex(baseTabIndex+index);
+        }
         return (
             type === 'page' ? (
-                renderPageLink(path, label, ariaLabel, icon, index, true, !isMenuItem, handleClose)
-            ) : (renderScrollLink(path, label, ariaLabel, type, display, icon, index, true, !isMenuItem, handleClose))
+                renderPageLink(path, label, ariaLabel, icon, index, baseTabIndex, true, !isMenuItem, handleClose)
+            ) : (renderScrollLink(path, label, ariaLabel, type, display, icon, index, baseTabIndex, true, !isMenuItem, handleClose))
         )
     }
 
@@ -59,6 +62,7 @@ export default function RootMenuList({path, label, ariaLabel, type, display, ico
                 <a
                     ref={anchorRef}
                     key={index}
+                    tabIndex={baseTabIndex-1}
                     id={"rootmenu-" + path + "-button"}
                     style={{padding: '10px', color: 'inherit', textDecoration: 'none', display: 'inline-block'}}
                     aria-controls={open ? path + "-menulist" : undefined}
@@ -112,6 +116,7 @@ export default function RootMenuList({path, label, ariaLabel, type, display, ico
             <>
                 <a
                     key={index}
+                    tabIndex={baseTabIndex-1}
                     id={"rootmenu-" + path + "-button"}
                     style={{padding: '10px', color: 'inherit', textDecoration: 'none', display: 'inline-block'}}
                     aria-label={ i18nextHeader.t(label) }

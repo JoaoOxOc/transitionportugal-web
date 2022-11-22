@@ -43,7 +43,7 @@ export default function Header({className}) {
                       : <></>
                     }
                     <Flex as="nav" sx={styles.nav}>
-                        <MainMenu displayType={'displayBlock'}/>
+                        <MainMenu displayType={'displayBlock'} baseTabIndex={10}/>
                     </Flex>
                     <ResponsiveDrawer/>
                     {className === 'sticky' && windowSize > 1219

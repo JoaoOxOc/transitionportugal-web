@@ -8,15 +8,18 @@ import { Link } from '../../components/generic/link';
 import footerMenuItems from '../../pageSections/footer/footer.data';
 import { i18nextFooter } from "@transitionpt/translations";
 
-export default function SubMenu({displayType}) {
+export default function SubMenu({displayType, sitemapLayout}) {
+  const displayStyle = displayType === 'displayBlock' ? styles.displayBlock : styles.displayGrid;
     return (
         <>
+            {!sitemapLayout &&
             <div sx={styles.subMenuSection}>
                 <Newsletter/>
             </div>
+            }
             <div sx={styles.subMenuSection}>
             {footerMenuItems.map(({ header, items }, i) => (
-                <nav key={i}>
+                <nav key={i} sx={displayStyle}>
                       {items.map(({ path, label, icon }, index) => (
                         <Link
                           path={path}

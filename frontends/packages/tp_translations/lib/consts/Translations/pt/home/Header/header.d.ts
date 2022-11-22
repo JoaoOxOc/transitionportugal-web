@@ -28,7 +28,7 @@ export declare const HEADER_TRANSLATIONS: {
     };
     readonly ARIA: {
         readonly sitemapTitle: "Transição Portugal - Mapa do Website";
-        readonly transitionMovement: "Sobre o Movimento Transição";
+        readonly transitionMovement: "Sobre o Movimento Transição - mais opções";
         readonly history: "História da Transição Portugal";
         readonly presentation: "Apresentação da Transição Portugal";
         readonly about: "Sobre o Movimento Transição";

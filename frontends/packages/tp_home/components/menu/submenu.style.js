@@ -46,5 +46,12 @@ export const SubMenuStyles = {
               color: 'primary',
             }
         },
+    },
+    displayGrid: {
+        display: 'grid',
+        paddingLeft: '10px'
+    },
+    displayBlock: {
+        display: 'block'
     }
 }

@@ -30,7 +30,7 @@ export const HEADER_TRANSLATIONS = deepFreeze({
     },
     ARIA: {
         sitemapTitle: "Transição Portugal - Website Map",
-        transitionMovement: "About the Transition Movement",
+        transitionMovement: "About the Transition Movement - more options",
         history: "History of Transição Portugal",
         presentation: "Presentation of Transição Portugal",
         about: "About the Transition Movement",

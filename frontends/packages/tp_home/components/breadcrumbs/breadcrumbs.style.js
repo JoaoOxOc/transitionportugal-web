@@ -21,5 +21,6 @@ export const breadcrumbStyles = {
         width: '100%',
         marginTop: '38px',
         borderBottom: "1px solid " + colors.nav_border_bottom,
+        zIndex: -1
     }
 }

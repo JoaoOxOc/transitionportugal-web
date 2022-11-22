@@ -14,7 +14,7 @@ import { MainMenuStyles as styles } from './mainmenu.style';
 //import menu data
 import menuItems from '../menu/mainmenu.data';
 
-export default function MainMenu({displayType, isMobile}) {
+export default function MainMenu({displayType, isMobile, baseTabIndex}) {
     const router = useRouter();
     const displayStyle = displayType === 'displayBlock' ? styles.displayBlock : styles.displayGrid;
     const [currentLang, setLang] = useState("pt");
@@ -29,12 +29,17 @@ export default function MainMenu({displayType, isMobile}) {
           window.addEventListener('newLang', handleNewMessage);
     }, []);
 
-    const renderPageLink = (path, label, ariaLabel, icon, index, isSubmenu, isMobile, handleCloseMenuFunction) => {
+    const incrementBaseTabIndex = (newBaseIndex) => {
+        baseTabIndex +=newBaseIndex+1;
+    }
+
+    const renderPageLink = (path, label, ariaLabel, icon, index, currentTabIndex, isSubmenu, isMobile, handleCloseMenuFunction) => {
         return (
             !isMobile ? (
                 <Link
                     path={path}
                     key={index}
+                    tabIndex={currentTabIndex+index}
                     aria-label={ i18nextHeader.t(ariaLabel) }
                     style={{padding: '0px', width: '100%', color: 'inherit', textDecoration: 'none', display: 'inline-block'}}
                 >
@@ -44,6 +49,7 @@ export default function MainMenu({displayType, isMobile}) {
                 <Link
                     path={path}
                     key={index}
+                    tabIndex={currentTabIndex+index}
                     aria-label={ i18nextHeader.t(ariaLabel) }
                     style={{padding: '10px', width: isSubmenu ? '100%' : 'inherit', color: 'inherit', textDecoration: 'none', display: 'inline-block'}}
                     >
@@ -53,13 +59,14 @@ export default function MainMenu({displayType, isMobile}) {
         )
     }
 
-    const renderScrollLink = (path, label, ariaLabel, type, display, icon, i, isSubmenu, isMobile, handleCloseMenuFunction) => {
+    const renderScrollLink = (path, label, ariaLabel, type, display, icon, i, currentTabIndex, isSubmenu, isMobile, handleCloseMenuFunction) => {
         if (router.pathname.split('/')[1] != '') {
             return (
                 !isMobile ? (
                     <CustomLink 
                             path={"/#" + path}
                             key={i}
+                            tabIndex={currentTabIndex + i}
                             aria-label={ i18nextHeader.t(ariaLabel) }
                             style={{padding: '0px', width: '100%',color: 'inherit',textDecoration: 'none', display: 'inline-block'}}
                     >
@@ -69,6 +76,7 @@ export default function MainMenu({displayType, isMobile}) {
                     <CustomLink 
                             path={"/#" + path}
                             key={i}
+                            tabIndex={currentTabIndex + i}
                             aria-label={ i18nextHeader.t(ariaLabel) }
                             style={{padding: '10px', color: 'inherit', textDecoration: 'none'}}
                     >
@@ -88,6 +96,7 @@ export default function MainMenu({displayType, isMobile}) {
                             offset={-70}
                             duration={500}
                             key={i}
+                            tabIndex={currentTabIndex + i}
                             aria-label={ i18nextHeader.t(ariaLabel) }
                             style={{padding: '0px', width: '100%',color: 'inherit',textDecoration: 'none', display: 'inline-block'}}
                             >
@@ -102,6 +111,7 @@ export default function MainMenu({displayType, isMobile}) {
                             offset={-70}
                             duration={500}
                             key={i}
+                            tabIndex={currentTabIndex + i}
                             aria-label={ i18nextHeader.t(ariaLabel) }
                             style={{padding: '10px', width: '100%'}}
                             >
@@ -117,8 +127,8 @@ export default function MainMenu({displayType, isMobile}) {
             {menuItems.map(({ path, label, ariaLabel, type, display, submenu, icon }, i) => (
                 display != 'bottom' && (
                     type === 'page' && !submenu ?
-                        (renderPageLink(path, label, ariaLabel, icon, i, false, true, null))
-                        : (!submenu ? renderScrollLink(path, label, ariaLabel, type, display, icon, i, false, true, null) : (<RootMenuList key={i} renderScrollLink={renderScrollLink} renderPageLink={renderPageLink} path={path} label={label} ariaLabel={ariaLabel} type={type} display={display} icon={icon} index={i} submenuOptions={submenu} isMobile={isMobile}/>))
+                        (renderPageLink(path, label, ariaLabel, icon, i, baseTabIndex, false, true, null))
+                        : (!submenu ? renderScrollLink(path, label, ariaLabel, type, display, icon, i, baseTabIndex, false, true, null) : (<RootMenuList key={i} baseTabIndex={baseTabIndex} renderScrollLink={renderScrollLink} renderPageLink={renderPageLink} incrementBaseTabIndex={incrementBaseTabIndex} path={path} label={label} ariaLabel={ariaLabel} type={type} display={display} icon={icon} index={i} submenuOptions={submenu} isMobile={isMobile}/>))
                 )
             ))}
         </div>

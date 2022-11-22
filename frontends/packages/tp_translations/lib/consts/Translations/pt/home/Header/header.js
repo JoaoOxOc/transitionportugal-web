@@ -29,7 +29,7 @@ export var HEADER_TRANSLATIONS = deepFreeze({
     },
     ARIA: {
         sitemapTitle: "Transição Portugal - Mapa do Website",
-        transitionMovement: "Sobre o Movimento Transição",
+        transitionMovement: "Sobre o Movimento Transição - mais opções",
         history: "História da Transição Portugal",
         presentation: "Apresentação da Transição Portugal",
         about: "Sobre o Movimento Transição",

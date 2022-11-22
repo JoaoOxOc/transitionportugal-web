@@ -29,7 +29,7 @@ export declare const TRANSLATIONS: {
         };
         readonly ARIA: {
             readonly sitemapTitle: "Transição Portugal - Website Map";
-            readonly transitionMovement: "About the Transition Movement";
+            readonly transitionMovement: "About the Transition Movement - more options";
             readonly history: "History of Transição Portugal";
             readonly presentation: "Presentation of Transição Portugal";
             readonly about: "About the Transition Movement";
