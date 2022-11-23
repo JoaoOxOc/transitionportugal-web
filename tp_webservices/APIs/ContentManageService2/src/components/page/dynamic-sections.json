@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_page_dynamic_sections",
+  "info": {
+    "displayName": "DynamicSections",
+    "icon": "address-card",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "PageSections": {
+      "type": "component",
+      "repeatable": true,
+      "component": "page.page-section"
+    },
+    "SlidersSections": {
+      "type": "component",
+      "repeatable": true,
+      "component": "blocks.slider"
+    }
+  }
+}

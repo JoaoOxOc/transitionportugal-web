@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_page_page_sections",
+  "info": {
+    "displayName": "PageSection",
+    "icon": "th-list"
+  },
+  "options": {},
+  "attributes": {
+    "SectionIdentifier": {
+      "type": "string",
+      "required": true
+    },
+    "DynamicContent": {
+      "type": "richtext"
+    }
+  }
+}

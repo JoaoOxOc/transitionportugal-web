@@ -55,7 +55,8 @@
         "blocks.carousel",
         "blocks.header",
         "blocks.image-list",
-        "blocks.section"
+        "blocks.section",
+        "page.dynamic-sections"
       ]
     },
     "publishAt": {

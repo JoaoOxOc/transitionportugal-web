@@ -6,10 +6,12 @@ import { StickyProvider } from '../contexts/app/app.provider';
 import Layout from '../layouts/AppModernLayout';
 import dynamic from "next/dynamic";
 
-import SEO from '../components/seo';
+import { i18nextAbout } from "@transitionpt/translations";
 
 // page sections
-import UnderConstructionSection from "../pageSections/underConstruction";
+import SEO from '../components/seo';
+import PageTitle from "../components/pageTitle";
+import DynamicPageSection from "../pageSections/dynamic";
 const FooterDynamic = dynamic(() => import("../pageSections/footer/footer"),{ ssr: false });
 
 export default function AboutUsPage({aboutusPageData}) {
@@ -30,7 +32,11 @@ export default function AboutUsPage({aboutusPageData}) {
 
     const getComponentAttributesByIdentifier = (componentName, identifier) => {
         let componentBlockArray = aboutusPageDataAttributes.Blocks.filter((block) => {
-          if (block["__component"] === componentName && block["Identifier"] === identifier)
+          let isRightBlock = block["__component"] === componentName;
+          if (identifier) {
+            isRightBlock = isRightBlock && block["Identifier"] === identifier;
+          }
+          if (isRightBlock)
             return block;
         });
         console.log(componentBlockArray);
@@ -42,7 +48,8 @@ export default function AboutUsPage({aboutusPageData}) {
         <StickyProvider>
           <Layout>
             <SEO metaDataObject={getComponentAttributes("seo")}/>
-            <UnderConstructionSection/>
+            <PageTitle pageTitle={i18nextAbout.t("ABOUT_PAGE.title")}/>
+            <DynamicPageSection dynamicContent={getComponentAttributesByIdentifier("page.dynamic-sections", "")}/>
             <FooterDynamic/>
           </Layout>
         </StickyProvider>
