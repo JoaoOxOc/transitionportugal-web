@@ -21,7 +21,6 @@ export default function DynamicPageSection({dynamicContent}) {
     });
 
     const parseDynamicSection = (dynamicSectionData, index, contentType) => {
-        console.log(dynamicSectionData, index, contentType);
         const options = {
             replace: domNode => {
               if (domNode.attribs && domNode.attribs.href) {
@@ -30,9 +29,12 @@ export default function DynamicPageSection({dynamicContent}) {
             }
         };
         return (
-            <div sx={styles.parsedSectionContainer}>
-                {parse(dynamicSectionData, options)}
-                <div sx={styles.sectionContainerBottom}></div>
+            <div key={index} sx={styles.parsedSectionContainer}>
+                {contentType === 'sliders' ? (
+                    <></>
+                ) : (
+                    <div sx={styles.sectionCard}>{parse(dynamicSectionData, options)}</div>
+                )}
             </div>
         );
     }

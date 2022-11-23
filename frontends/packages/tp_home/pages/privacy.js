@@ -2,12 +2,6 @@ import React, { useEffect, useState } from "react";
 
 import { ThemeProvider, Container } from 'theme-ui';
 import theme from '../theme';
-import {
-    Box,
-    Grid,
-    Typography,
-    Divider
-  } from '@material-ui/core';
 import { StickyProvider } from '../contexts/app/app.provider';
 import Layout from '../layouts/AppModernLayout';
 import dynamic from "next/dynamic";
@@ -16,7 +10,7 @@ import SEO from '../components/seo';
 import { GetPublicTerms } from '../services/terms';
 
 // page sections
-import EditorViewerFragmentsWrapper from "../components/EditorComponent/ViewerFragments";
+import TermsPageSection from '../pageSections/terms';
 import { i18nextTermsDetails } from "@transitionpt/translations";
 import PageTitle from "../components/pageTitle";
 const FooterDynamic = dynamic(() => import("../pageSections/footer/footer"),{ ssr: false });
@@ -53,15 +47,7 @@ export default function PrivacyPage({privacyPageData, termsProps}) {
           <Layout>
             <SEO metaDataObject={getComponentAttributes("seo")}/>
             <PageTitle pageTitle={t("READING.termsAndConditions")}/>
-            <Container sx={{pt: "50px", pb: "50px"}}>
-                <Divider variant="fullWidth" style={{height: '4px'}}/>
-                <Grid container style={{paddingTop: "10px", paddingBottom: "20px"}}>
-                    <Grid item>
-                        <EditorViewerFragmentsWrapper termsLanguages={termsProps.terms.termsLanguages}/>
-                    </Grid>
-                </Grid>
-                <Divider/>
-            </Container>
+            <TermsPageSection termsContent={termsProps.terms.termsLanguages}/>
             <FooterDynamic/>
           </Layout>
         </StickyProvider>

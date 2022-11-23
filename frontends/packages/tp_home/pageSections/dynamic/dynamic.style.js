@@ -17,7 +17,10 @@ export const DynamicPageSectionStyles = {
 
         },
         '.image > img': {
-            maxWidth: '100%'
+            maxWidth: '100%',
+        },
+        'a > img': {
+            maxWidth: '100%',
         },
         '.image-style-side': {
             float: 'right',
@@ -51,10 +54,52 @@ export const DynamicPageSectionStyles = {
             //     verticalAlign: '-0.4em'
             // },
             'h1, h2, h3, h4': {
-                display: 'inline'
+                display: 'inline',
+                position: 'relative',
             },
             p: {
                 textAlign: 'left'
+            }
+        },
+        'table': {
+            width: '100%',
+            borderCollapse: 'collapse',
+            minWidth: '720px',
+            'tr:nth-child(even)': {
+                backgroundColor: '#f2f2f2',
+            },
+            'tr:hover': {
+                backgroundColor: '#ddd'
+            },
+            'th': {
+                paddingTop: '12px',
+                paddingBottom: '12px',
+                textAlign: 'left',
+                backgroundColor: '#008C99',
+                color: 'white'
+            },
+            'td, th': {
+                border: '1px solid #ddd',
+                padding: '8px'
+            }
+        },
+        'figure:is(.table)': {
+            overflowX: 'auto'
+        },
+        'figure:is(.table) > figcaption': {
+            width: '100%',
+            textAlign: 'center',
+            padding: '5px'
+        },
+        'ol:is(ol)': {
+            listStyleType: 'custom-counter-style !important',
+            counterReset: 'editorjs-viewer-listitem',
+        },
+        'ol > ol': {
+            counterIncrement: 'editorjs-viewer-listitem',
+            '&::before': {
+                display: 'inline-block',
+                content: 'counters(editorjs-viewer-listitem, ".") ". "'
             }
         },
         'oembed': {
@@ -62,11 +107,26 @@ export const DynamicPageSectionStyles = {
         }
     },
     parsedSectionContainer: {
+        position: 'relative',
+        marginBottom: '40px',
+        paddingTop: '20px',
+        '&::before': {
+            content: '""',
+            backgroundColor: colors.sidemenu_section_separator_dot_color,
+            width: '10px',
+            height: '10px',
+            borderRadius: '50%',
+            left: '-20px',
+            top: 0,
+            zIndex: 1,
+            position: 'absolute'
+        },
         '&::after': {
             content: '""',
-            width: '180px',
-            height: '1px',
-            left: '10px',
+            width: '70vw',
+            height: '2px',
+            left: '-20px',
+            top: '4px',
             position: 'absolute',
             background: 'linear-gradient(to right,#e0e0e0 0,#e0e0e0 35%,#e0e0e0 65%,#fff 100%)',
             background: '-ms-linear-gradient(left,#e0e0e0 0,#e0e0e0 35%,#e0e0e0 65%,#fff 100%)',
@@ -76,18 +136,15 @@ export const DynamicPageSectionStyles = {
             background: '-webkit-gradient(linear,left top,right top,color-stop(0%,#e0e0e0),color-stop(35%,#e0e0e0),color-stop(65%,#e0e0e0),color-stop(100%,#fff))'
         }
     },
-    sectionContainerBottom: {
-        width: '100%',
-        '&::after': {
-            content: '""',
-            backgroundColor: colors.sidemenu_section_separator_dot_color,
-            width: '6px',
-            height: '6px',
-            borderRadius: '50%',
-            left: '10px',
-            bottom: 0,
-            zIndex: 1,
-            position: 'absolute'
-        },
-    }
+    sectionCard: {
+        width: ['100%'],
+        margin: '0 auto',
+        position: 'relative',
+        background: 'rgba(255, 255, 255, 0.7)',
+        borderRadius: '16px',
+        boxShadow: '0 4px 30px rgb(0 0 0 / 10%)',
+        backdropFilter: 'blur(5px)',
+        border: '1px solid rgba(90, 173, 181, 0.3)',
+        padding: '20px',
+    },
 }
