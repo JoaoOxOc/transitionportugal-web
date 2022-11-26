@@ -6,10 +6,12 @@ import { StickyProvider } from '../contexts/app/app.provider';
 import Layout from '../layouts/AppModernLayout';
 import dynamic from "next/dynamic";
 
-import SEO from '../components/seo';
+import { i18nextTimeline } from "@transitionpt/translations";
 
 // page sections
-import UnderConstructionSection from "../pageSections/underConstruction";
+import SEO from '../components/seo';
+import PageTitle from "../components/pageTitle";
+import TimelinePageSection from "../pageSections/timeline";
 const FooterDynamic = dynamic(() => import("../pageSections/footer/footer"),{ ssr: false });
 
 export default function TimelinePage({timelinePageData}) {
@@ -42,7 +44,8 @@ export default function TimelinePage({timelinePageData}) {
         <StickyProvider>
           <Layout>
             <SEO metaDataObject={getComponentAttributes("seo")}/>
-            <UnderConstructionSection/>
+            <PageTitle pageTitle={i18nextTimeline.t("TIMELINE_PAGE.title")}/>
+            <TimelinePageSection timelineCardsContent={getComponentAttributesByIdentifier("page.dynamic-sections", "")}/>
             <FooterDynamic/>
           </Layout>
         </StickyProvider>
