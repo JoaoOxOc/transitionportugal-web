@@ -19,6 +19,7 @@ export declare const HEADER_TRANSLATIONS: {
         readonly history: "History";
         readonly presentation: "Presentation";
         readonly about: "About the Movement";
+        readonly timeline: "Timeline";
         readonly map: "Find Groups";
         readonly events: "Events";
         readonly news: "News";
@@ -32,6 +33,7 @@ export declare const HEADER_TRANSLATIONS: {
         readonly history: "History of Transição Portugal";
         readonly presentation: "Presentation of Transição Portugal";
         readonly about: "About the Transition Movement";
+        readonly timeline: "Our Constitution Timeline";
         readonly map: "Find Groups";
         readonly events: "Events";
     };

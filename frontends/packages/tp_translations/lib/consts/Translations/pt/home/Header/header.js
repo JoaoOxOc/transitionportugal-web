@@ -20,6 +20,7 @@ export var HEADER_TRANSLATIONS = deepFreeze({
         history: "História",
         presentation: "Apresentação",
         about: "Sobre o Movimento",
+        timeline: 'Linha do Tempo',
         map: "Encontrar Grupos",
         events: "Eventos",
         news: "Notícias",
@@ -33,6 +34,7 @@ export var HEADER_TRANSLATIONS = deepFreeze({
         history: "História da Transição Portugal",
         presentation: "Apresentação da Transição Portugal",
         about: "Sobre o Movimento Transição",
+        timeline: 'A Linha do Tempo da Nossa Constituição',
         map: "Encontrar Grupos",
         events: "Eventos",
     }

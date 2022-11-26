@@ -32,7 +32,24 @@ export default function BreadcrumbsComponent() {
 
         pathData = menuItems.filter((item) => {
             item.label = i18nextHeader.t(item.label);
-            return item.path === subpath;
+            if (item.submenu && item.submenu.length > 0) {
+                const submenuPathData = item.submenu.filter((submenuitem) => {
+                    submenuitem.label = i18nextHeader.t(submenuitem.label);
+                    return submenuitem.path === subpath;
+                });
+                if (submenuPathData) {
+                    item.ariaLabel = submenuPathData[0].ariaLabel;
+                    item.display = submenuPathData[0].display;
+                    item.icon = submenuPathData[0].icon;
+                    item.label = submenuPathData[0].label;
+                    item.path = submenuPathData[0].path;
+                    item.type = submenuPathData[0].type;
+                    return item.path === subpath;
+                }
+            }
+            else {
+                return item.path === subpath;
+            }
         });
         if (!pathData || pathData.length === 0) {
             footerMenuItems.forEach((footerItem) => {

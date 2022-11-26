@@ -21,6 +21,7 @@ export const HEADER_TRANSLATIONS = deepFreeze({
         history: "History",
         presentation: "Presentation",
         about: "About the Movement",
+        timeline: 'Timeline',
         map: "Find Groups",
         events: "Events",
         news: "News",
@@ -34,6 +35,7 @@ export const HEADER_TRANSLATIONS = deepFreeze({
         history: "History of Transição Portugal",
         presentation: "Presentation of Transição Portugal",
         about: "About the Transition Movement",
+        timeline: 'Our Constitution Timeline',
         map: "Find Groups",
         events: "Events",
     }
