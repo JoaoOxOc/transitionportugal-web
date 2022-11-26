@@ -24,6 +24,7 @@
   "rc-drawer": "4.4.3",
   "react-awesome-reveal": "3.8.1",
   "react-bootstrap": "2.1.0",
+  "react-chrono": "^1.19.2",
   "react-country-flag": "3.0.2",
   "react-hook-form": "7.25.3",
   "react-icons": "4.3.1",
