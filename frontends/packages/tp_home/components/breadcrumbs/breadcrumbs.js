@@ -48,7 +48,7 @@ export default function BreadcrumbsComponent() {
 
     const breadcrumbs = useMemo(function generateBreadcrumbs() {
         // Remove any query parameters, as those aren't included in breadcrumbs
-        const asPathWithoutQuery = router.asPath.split("?")[0];
+        const asPathWithoutQuery = router.asPath.split(/[\?#]+/)[0];
     
         // Break down the path between "/"s, removing empty entities
         // Ex:"/my/nested/path" --> ["my", "nested", "path"]

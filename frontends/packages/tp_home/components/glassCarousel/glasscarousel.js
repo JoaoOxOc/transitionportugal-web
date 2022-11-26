@@ -19,7 +19,7 @@ import "react-multi-carousel/lib/styles.css";
 // import SwipeableTextMobileStepper from './swipeableview';
 
 export default function GlassCarousel({slides}) {
-    console.log(slides)
+    console.log('slides', slides)
     // const {data,loading,error} = useBannerData('https://localhost:4000');
 
     const parseSliderData = (sliderData, identifier) => {

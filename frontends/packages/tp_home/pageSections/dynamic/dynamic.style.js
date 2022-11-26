@@ -65,7 +65,7 @@ export const DynamicPageSectionStyles = {
             width: '100%',
             borderCollapse: 'collapse',
             minWidth: '720px',
-            'tr:nth-child(even)': {
+            'tr:nth-of-type(even)': {
                 backgroundColor: '#f2f2f2',
             },
             'tr:hover': {
@@ -91,19 +91,27 @@ export const DynamicPageSectionStyles = {
             textAlign: 'center',
             padding: '5px'
         },
-        'ol:is(ol)': {
-            listStyleType: 'custom-counter-style !important',
-            counterReset: 'editorjs-viewer-listitem',
-        },
-        'ol > ol': {
+        'ol > li': {
             counterIncrement: 'editorjs-viewer-listitem',
-            '&::before': {
+            '&::marker': {
                 display: 'inline-block',
                 content: 'counters(editorjs-viewer-listitem, ".") ". "'
             }
         },
-        'oembed': {
-            width: '100%'
+        'ol:is(ol)': {
+            listStyleType: 'none !important',
+            counterReset: 'editorjs-viewer-listitem',
+        },
+        '.media': {
+            width: '100%',
+            height: '100%'
+        },
+        'embed': {
+            width: '100%',
+            height: '100%',
+            maxWidth: '600px',
+            maxHeight: '400px',
+            minHeight: '300px'
         }
     },
     parsedSectionContainer: {
