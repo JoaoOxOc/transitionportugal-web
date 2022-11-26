@@ -1,0 +1,1 @@
+{"version":3,"file":"timeline.js","sourceRoot":"","sources":["../../../../../../src/consts/Translations/pt/home/Components/timeline.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,UAAU,MAAM,aAAa,CAAC;AAE1C,MAAM,CAAC,IAAM,qBAAqB,GAAG,UAAU,CAAC;IAC5C,QAAQ,EAAE;QACN,eAAe,EAAE,iBAAiB;QAClC,QAAQ,EAAE,4BAA4B;KACzC;IACD,aAAa,EAAE;QACX,KAAK,EAAE,qCAAqC;KAC/C;CACK,CAAC,CAAC"}

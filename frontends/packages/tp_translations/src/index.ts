@@ -9,6 +9,7 @@ export * from './home/i18nAbout';
 export * from './home/i18nPartner';
 export * from './home/i18nStaff';
 export * from './home/i18nActions';
+export * from './home/i18nTimeline';
 
 export * from './backoffice/i18nSidemenu';
 export * from './backoffice/auth/i18nLoginForm';
