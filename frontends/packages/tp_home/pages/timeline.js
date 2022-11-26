@@ -31,12 +31,16 @@ export default function TimelinePage({timelinePageData}) {
     }
 
     const getComponentAttributesByIdentifier = (componentName, identifier) => {
-        let componentBlockArray = timelinePageDataAttributes.Blocks.filter((block) => {
-          if (block["__component"] === componentName && block["Identifier"] === identifier)
-            return block;
-        });
-        console.log(componentBlockArray);
-        return componentBlockArray[0];
+      let componentBlockArray = timelinePageDataAttributes.Blocks.filter((block) => {
+        let isRightBlock = block["__component"] === componentName;
+        if (identifier) {
+          isRightBlock = isRightBlock && block["Identifier"] === identifier;
+        }
+        if (isRightBlock)
+          return block;
+      });
+      console.log(componentBlockArray);
+      return componentBlockArray[0];
     }
 
     return (

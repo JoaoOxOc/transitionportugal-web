@@ -6,10 +6,11 @@ import dynamic from 'next/dynamic';
 import { TimelinePageSectionStyles as styles } from './timeline.style';
 
 export default function TimelinePageSection({timelineCardsContent}) {
+    console.log(timelineCardsContent)
 
     return (
         <Container sx={styles.timelinePageSectionContainer}>
-            
+
         </Container>
     );
 }
