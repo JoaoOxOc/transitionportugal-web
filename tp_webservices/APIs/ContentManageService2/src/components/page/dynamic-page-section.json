@@ -1,0 +1,20 @@
+{
+  "collectionName": "components_page_dynamic_page_sections",
+  "info": {
+    "displayName": "DynamicPageSection",
+    "icon": "pager",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "SectionIdentifier": {
+      "type": "string",
+      "required": true
+    },
+    "SectionContent": {
+      "type": "component",
+      "repeatable": true,
+      "component": "blocks.page-section"
+    }
+  }
+}

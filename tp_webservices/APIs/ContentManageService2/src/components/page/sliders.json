@@ -1,0 +1,20 @@
+{
+  "collectionName": "components_page_sliders",
+  "info": {
+    "displayName": "SlidersSection",
+    "icon": "images",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "SectionIdentifier": {
+      "type": "string",
+      "required": true
+    },
+    "Slide": {
+      "type": "component",
+      "repeatable": true,
+      "component": "blocks.slider"
+    }
+  }
+}

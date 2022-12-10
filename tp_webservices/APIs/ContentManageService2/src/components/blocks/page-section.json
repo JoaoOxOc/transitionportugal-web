@@ -2,7 +2,8 @@
   "collectionName": "components_page_page_sections",
   "info": {
     "displayName": "PageSection",
-    "icon": "th-list"
+    "icon": "th-list",
+    "description": ""
   },
   "options": {},
   "attributes": {

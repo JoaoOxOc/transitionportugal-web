@@ -10,12 +10,7 @@
     "PageSections": {
       "type": "component",
       "repeatable": true,
-      "component": "page.page-section"
-    },
-    "SlidersSections": {
-      "type": "component",
-      "repeatable": true,
-      "component": "blocks.slider"
+      "component": "blocks.page-section"
     }
   }
 }

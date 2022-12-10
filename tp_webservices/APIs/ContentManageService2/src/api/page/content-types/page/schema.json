@@ -56,6 +56,8 @@
         "blocks.header",
         "blocks.image-list",
         "blocks.section",
+        "page.sliders",
+        "page.dynamic-page-section",
         "page.dynamic-sections"
       ]
     },
