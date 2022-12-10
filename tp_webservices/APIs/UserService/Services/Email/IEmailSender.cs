@@ -1,4 +1,5 @@
 ﻿using UserService.Entities;
+using UserService.Models.Reports;
 
 namespace UserService.Services.Email
 {
@@ -13,5 +14,7 @@ namespace UserService.Services.Email
         Task<bool> SendBulkAssociationActivatedEmail(List<string> approvedEmails, string language, List<Association> associationsData, string loginEmailLink);
 
         Task<bool> SendBulkUserActivatedEmail(List<string> approvedEmails, string language, List<User> usersData, string loginEmailLink);
+
+        Task<bool> SendAdminNotificationEmail(AdminEmailNotificationModel emailNotificationData);
     }
 }

@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import Router from "next/router";
 import App from 'next/app'
 import PageChange from "../components/PageChange/PageChange.js";
+import { AuthConsumer, AuthProvider } from '../contexts/authContext';
 //import { initGA, logPageView } from '../analytics';
 
 // Load DM Sans typeface
@@ -39,7 +40,9 @@ const MyApp = ({ Component, pageProps }) => {
   }, []);
 
   return (
-    <Component {...pageProps} />
+    <AuthProvider>
+      <Component {...pageProps} />
+    </AuthProvider>
   )
 }
 

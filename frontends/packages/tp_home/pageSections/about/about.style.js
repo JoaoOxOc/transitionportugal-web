@@ -13,9 +13,9 @@ export const AboutStyles = {
         minWidth: 0,
         textAlign: 'center',
         maxWidth: '580px',
-        paddingTop: ['106px','106px','106px','106px','196px'],
+        paddingTop: ['106px','106px','106px','106px','106px','196px'],
         margin: '0 auto',
-        paddingBottom: ['0','0','0','0','80px'],
+        paddingBottom: ['0','0','0','0','0','80px'],
         'h2': {
             fontFamily: 'DM Sans',
             lineHeight: 1.5,
@@ -34,7 +34,7 @@ export const AboutStyles = {
         minWidth: 0,
         display: 'grid',
         gap: '60px',
-        gridTemplateColumns: ['repeat(1,1fr)','repeat(1,1fr)','repeat(1,1fr)','repeat(1,1fr)','repeat(2,1fr)']
+        gridTemplateColumns: ['repeat(1,1fr)','repeat(1,1fr)','repeat(1,1fr)','repeat(1,1fr)','repeat(1,1fr)','repeat(2,1fr)']
     },
     aboutTopicsGrid: {
         boxSizing: 'border-box',
@@ -68,8 +68,22 @@ export const AboutStyles = {
             }
         }
     },
+    aboutCarousel: {
+        container: {
+            display: 'flex',
+        },
+        contentBox: {
+            width: ['100%', '100%', '100%', '100%', '100%', '100%'],
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'flex-start',
+            flexShrink: 0,
+            // pt: [0, null, null, null, null, null, 5, 7],
+            color: '#5AADB5',
+        },
+    },
     aboutGridImageBox: {
-        paddingTop: ['0','0','0','0','96px'],
+        paddingTop: ['0','0','0','0','0','96px'],
         paddingBottom: '40px'
     },
     aboutGridColumnText: {
@@ -160,12 +174,18 @@ export const AboutStyles = {
             height: '55px',
             objectFit: 'cover',
             borderRadius: '50%',
+        },
+        p: {
+            marginBottom: '0 !important'
         }
     },
     aboutBigBannerInlineDetails: {
         display: 'table-cell',
         verticalAlign: 'middle',
         h3: {
+        },
+        p: {
+            marginBottom: '0 !important'
         }
     }
 }

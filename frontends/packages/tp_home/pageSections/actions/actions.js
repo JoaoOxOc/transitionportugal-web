@@ -4,18 +4,20 @@ import { Container, Flex, Box, Heading, Text, Image, Button } from 'theme-ui';
 import React, { useState, useEffect } from 'react';
 import { i18nextActions } from "@transitionpt/translations";
 import { Slide, Fade } from "react-awesome-reveal";
+import parse from 'html-react-parser';
 import StaffTeam from '../../components/about/staffteam';
 import Partners from '../../components/about/partners';
+import { Link } from '../../components/generic/link';
 
 import useActionsData from '../../hooks/useActionsData';
 
 import { ActionsStyles as styles } from './actions.style';
 
-export default function Actions() {
+export default function Actions({registerComponentObject}) {
     const [currentLang, setLang] = useState("pt");
     i18nextActions.changeLanguage(currentLang);
 
-    const {data, loading, error} = useActionsData('');
+    // const {data, loading, error} = useActionsData('');
 
     useEffect(() => {
         const handleNewMessage = (event) => {
@@ -28,12 +30,12 @@ export default function Actions() {
     return (
         <section id="actions" sx={styles.actions}>
             <Flex sx={styles.actionsBigBanner}>
-                { data != null &&
+                { registerComponentObject != null &&
                     <Fade>
                         <div>
                             <div sx={styles.actionsBigBannerContainer}>
-                                <h3>{data.title}</h3>
-                                <p sx={styles.actionsBigBannerMessage}>{data.description}</p>
+                                {parse(registerComponentObject.SectionTitle)}
+                                <div sx={styles.actionsBigBannerMessage}>{parse(registerComponentObject.SectionParagraphs)}</div>
                             </div>
                         </div>
                     </Fade>
@@ -41,12 +43,18 @@ export default function Actions() {
                 <Box sx={styles.actionsCenterBox}>
                     <Slide direction='up'>
                         <div>
-                            <Button sx={styles.actionsCenterBox.actionsCenterContent} aria-label={i18nextActions.t('ACTIONS.regist_button')}>{i18nextActions.t('ACTIONS.regist_button')}</Button>
+                            <Link
+                                path={process.env.NEXT_PUBLIC_HOME_BASE_URL + "/admin/auth/register/wizard"}
+                                aria-label={ i18nextActions.t('ACTIONS.regist_button') }
+                                style={{color: 'inherit', cursor: 'pointer', textDecoration: 'none', padding: 0, display: 'inline-block'}}
+                                >
+                                <Button sx={styles.actionsCenterBox.actionsCenterContent} aria-label={i18nextActions.t('ACTIONS.regist_button')}>{i18nextActions.t('ACTIONS.regist_button')}</Button>
+                            </Link>
                         </div>
                     </Slide>
                 </Box>
             </Flex>
-            <Flex sx={styles.actionsBigBanner}>
+            {/* todo: uncomment when donations logic is applied <Flex sx={styles.actionsBigBanner}>
                 { data != null &&
                     <Fade>
                         <div>
@@ -64,8 +72,8 @@ export default function Actions() {
                         </div>
                     </Slide>
                 </Box>
-            </Flex>
-            <StaffTeam/>
+            </Flex> */}
+            {/* TODO: uncomment to display the staff <StaffTeam/> */}
             <Partners/>
         </section>
     );

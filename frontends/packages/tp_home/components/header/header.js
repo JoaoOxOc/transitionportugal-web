@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import MainMenu from '../menu/mainmenu';
 import Logo from '../logo';
 import UserBanner from '../user/UserBanner';
+import BreadcrumbsComponent from '../breadcrumbs/breadcrumbs';
 
 import { DrawerProvider } from '../../contexts/drawer/drawer.provider';
 import ResponsiveDrawer from '../menu/sidemenu';
@@ -33,15 +34,16 @@ export default function Header({className}) {
 
     return (
         <DrawerProvider>
+            <>
             <header sx={styles.header} className={className} id="header">
-                <div sx={styles.topLine}/>
+                <div sx={className === 'sticky' ? styles.topLineSticky : styles.topLine}/>
                 <Container sx={styles.container}>
                     {className === 'sticky' 
                       ? <Logo sx={styles.stickyLogo} src={LogoDark} path={'home'}/>
                       : <></>
                     }
                     <Flex as="nav" sx={styles.nav}>
-                        <MainMenu displayType={'displayBlock'}/>
+                        <MainMenu displayType={'displayBlock'} baseTabIndex={10}/>
                     </Flex>
                     <ResponsiveDrawer/>
                     {className === 'sticky' && windowSize > 1219
@@ -49,8 +51,10 @@ export default function Header({className}) {
                       : <></>
                     }
                 </Container>
-                <div sx={styles.bottomLine}/>
+                <div sx={className === 'sticky' ? styles.bottomLineSticky : styles.bottomLine}/>
             </header>
+            <BreadcrumbsComponent/>
+            </>
         </DrawerProvider>
     )
 }

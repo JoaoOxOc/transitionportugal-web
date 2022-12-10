@@ -17,6 +17,36 @@ export const SidemenuStyles = makeStyles(theme => ({
     appBar: {
       zIndex: theme.zIndex.drawer + 1,
     },
+    appsMenuContainer: {
+      marginRight: '12px',
+    },
+    appsMenuButton: {
+      marginRight: theme.spacing(2),
+        // color: '#000',
+        // cursor: 'pointer',
+        // textDecoration: 'none',
+        // backgroundPosition: '-64px -29px',
+        // borderRadius: '50%',
+        // // padding: '12px',
+        // display: 'inline-block',
+        // verticalAlign: 'middle',
+        // boxSizing: 'border-box',
+        // // height: '40px',
+        // // width: '40px',
+        // '&::hover': {
+        //     backgroundColor: 'rgba(60,64,67,.08)',
+        //     outline: 'none'
+        // },
+        // '&::focus': {
+        //     opacity: 1
+        // }
+    },
+    appsMenuIcon: {
+        width: '25px',
+        // color: '#5f6368',
+        opacity: 1,
+        fill: 'currentColor'
+    },
     menuButton: {
       marginRight: theme.spacing(2),
       // [theme.breakpoints.up('sm')]: {

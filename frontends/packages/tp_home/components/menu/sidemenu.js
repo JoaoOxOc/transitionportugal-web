@@ -5,6 +5,7 @@ import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import AppsIcon from '@material-ui/icons/Apps';
 import CloseIcon from '@material-ui/icons/Close';
 import { useTheme } from '@material-ui/core/styles';
 
@@ -21,6 +22,8 @@ import SocialLinkBar from '../social/linkbar';
 
 //import images and icons
 import UserLogoDark from '../../public/user_icon.svg';
+
+import { i18nextHeader } from "@transitionpt/translations";
 
 function ResponsiveDrawer() {
     const classes = useStyles();
@@ -56,7 +59,7 @@ function ResponsiveDrawer() {
                     <UserBanner src={UserLogoDark} className={ 'sidemenu' }/>
                     { windowSize < 1024 &&
                         <div className={classes.sidemenuSection}>
-                            <MainMenu displayType={'displayGrid'} isMobile={true}/>
+                            <MainMenu displayType={'displayGrid'} isMobile={true} baseTabIndex={10}/>
                             <div className={classes.sidemenuLanguage}>
                                 <Language/>
                             </div>
@@ -74,16 +77,26 @@ function ResponsiveDrawer() {
     );
 
     return (
-        <div className={classes.root}>
+        <div className={classes.root} style={{display: 'inline-flex'}}>
             <CssBaseline />
             <IconButton
                     color="inherit"
-                    aria-label="Open drawer"
+                    aria-label={i18nextHeader.t('Header.MENU.sidemenuButton')}
+                    title={i18nextHeader.t('Header.MENU.sidemenuButton')}
                     edge="start"
                     onClick={handleDrawerToggle}
                     className={classes.menuButton}
                 >
                 <MenuIcon />
+            </IconButton>
+            <IconButton
+                    color="inherit"
+                    aria-label={i18nextHeader.t('Header.MENU.appsMenuButton')}
+                    title={i18nextHeader.t('Header.MENU.appsMenuButton')}
+                    edge="start"
+                    className={classes.appsMenuButton}
+                >
+                <AppsIcon />
             </IconButton>
         
             {/* The implementation can be swapped with js to avoid SEO duplication of links. */}

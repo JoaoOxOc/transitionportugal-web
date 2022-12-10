@@ -54,7 +54,7 @@ const menuItems = [
       {
         name: i18nextSidemenu.t('SIDEMENU_CONTENT.contentManagement'),
         icon: BackupTableTwoToneIcon,
-        link: process.env.NEXT_PUBLIC_CMS_BASE_URL ? process.env.NEXT_PUBLIC_CMS_BASE_URL : "https://cms.transicaoportugal.org" + "/admin",
+        link: "https://cms.transicaoportugal.org" + "/admin",
         linkType: "new_tab",
         roles: ["Admin", "User"],
         scopes: ["cms.write"],

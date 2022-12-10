@@ -1,3 +1,26 @@
+export const CarouselResponsive = {
+  television: {
+    breakpoint: { min: 1920 },
+    items: 1,
+    slidesToSlide: 1 // optional, default to 1.
+  },
+  desktop: {
+    breakpoint: { max: 1920, min: 1024 },
+    items: 1,
+    slidesToSlide: 1 // optional, default to 1.
+  },
+  tablet: {
+    breakpoint: { max: 1024, min: 480 },
+    items: 1,
+    slidesToSlide: 1 // optional, default to 1.
+  },
+  mobile: {
+    breakpoint: { max: 480, min: 0 },
+    items: 1,
+    slidesToSlide: 1 // optional, default to 1.
+  }
+};
+
 export const bannerStyles = {
     banner: {
       // overflow: ['hidden', 'initial', null, 'hidden'],
@@ -8,9 +31,9 @@ export const bannerStyles = {
       //backgroundAttachment: 'fixed',
       backgroundSize: 'auto',
       //borderBottomRightRadius: [100, 150, null, null, null, 200],
-      paddingTop: '140px',
-      minHeight: '600px',
-      height: ['100vh','100vh', '100vh', '100vh','calc(100vh - 70px)'],
+      paddingTop: ['85px','85px','85px','85px','8px'],
+      // minHeight: '600px',
+      height: ['300px','450px', '100vh', '100vh','calc(100vh - 70px)'],
       // pt: ['150px', null, null, null, null, null, '140px', '118px'],
       // pb: ['100px', null, null, '110px', null, 10, '150px'],
       backgroundColor: '#EFFAFC',
@@ -40,6 +63,24 @@ export const bannerStyles = {
       p: {
         width: '100%',
         marginBottom: '10px'
+      },
+    },
+    bannerCarousel: {
+      height: ['300px','450px', '100vh', '100vh','calc(100vh - 70px)'],
+      figure: {
+        display: 'grid',
+        height: '100%'
+      },
+      img: {
+        height: ['300px','450px', '100vh', '100vh','calc(100vh)'],
+        width: '100%',
+        maxHeight: '100vh'
+      },
+      textOverlay: {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)'
       }
     },
     sponsorTitle: {

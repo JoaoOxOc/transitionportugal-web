@@ -10,6 +10,7 @@ export const COLORS = {
       secondary: '#E9C261', // secondary color - can be used for hover states
       muted: '#7B8188', // muted color
       accent: '#609', // a contrast color for emphasizing UI
+      logo_color: '#008C99',
       yellow: '#F6C416',
       topbar_bg_color: '#EFFAFC',
       topbar_text_color: '#111',

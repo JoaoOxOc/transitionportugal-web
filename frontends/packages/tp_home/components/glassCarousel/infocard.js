@@ -2,27 +2,28 @@
 
 import { Container, Flex, Box, Heading, Typography, Image, Button } from 'theme-ui';
 import React, { useState } from 'react';
+import parse from 'html-react-parser';
 
 import { InfoCardStyles as styles } from './infocard.style';
 
 export default function InfoCard({
     label,
     paragraphs,
-    imgPath
+    imgElement
 }) {
 
     const renderImageWrapper = () => {
         return (
             (paragraphs != null && paragraphs != undefined)
             ? <Box sx={styles.thumbnail}>
-                { imgPath != null &&
-                    <Image src={imgPath} alt={label} />
+                { imgElement != null &&
+                    parse(imgElement[0])
                 }
                 {renderTextWrapper()}
             </Box>
             : <Box sx={styles.thumbnailonly}>
-                { imgPath != null &&
-                    <Image src={imgPath} alt={label} />
+                { imgElement != null &&
+                    parse(imgElement[0])
                 }
             </Box>
         );
@@ -30,12 +31,18 @@ export default function InfoCard({
     
     const renderTextWrapper = () => {
         const paragArray = paragraphs.map((paragraph, i) => 
-            <p key={i}>{paragraph}</p>);
+            parse(paragraph, {
+                replace: ({ attribs }) => attribs && (attribs.key = i)
+            })
+        );
+        console.log(paragArray);
         return (
                 <Box sx={styles.infoCardContent}>
-                    <Heading sx={styles.infoCardContent.title}>
-                        {label}
-                    </Heading>
+                    <div sx={styles.infoCardContent.title}>
+                    { label != null &&
+                        parse(label[0])
+                    }
+                    </div>
     
                     <Flex sx={styles.infoCardParagraphs}>
                         {paragArray}
