@@ -43,7 +43,7 @@ metadata:
   name: tp-rabbitmq-ingress-nginx-controller
   annotations:
       kubernetes.io/ingress.class: nginx
-      cert-manager.io/cluster-issuer: letsencrypt-prod
+      cert-manager.io/issuer: tp-issuer-letsencrypt
       service.beta.kubernetes.io/do-loadbalancer-protocol: https
       service.beta.kubernetes.io/do-loadbalancer-tls-passthrough: "true"
 spec:
@@ -70,7 +70,7 @@ metadata:
   name: tp-gatewayapi-ingress-nginx-controller
   annotations:
       kubernetes.io/ingress.class: nginx
-      cert-manager.io/cluster-issuer: letsencrypt-prod
+      cert-manager.io/issuer: tp-issuer-letsencrypt
       service.kubernetes.io/do-loadbalancer-protocol: https
       service.kubernetes.io/do-loadbalancer-tls-passthrough: "true"
 spec:
@@ -96,7 +96,7 @@ metadata:
   name: tp-cms-ingress-nginx-controller
   annotations:
       kubernetes.io/ingress.class: nginx
-      cert-manager.io/cluster-issuer: letsencrypt-prod
+      cert-manager.io/issuer: tp-issuer-letsencrypt
       service.kubernetes.io/do-loadbalancer-protocol: https
       service.kubernetes.io/do-loadbalancer-tls-passthrough: "true"
 spec:
