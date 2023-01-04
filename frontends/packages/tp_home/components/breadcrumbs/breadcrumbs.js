@@ -29,15 +29,17 @@ export default function BreadcrumbsComponent() {
 
     const getPathLabel = (subpath) => {
         let pathData = {};
-
-        pathData = menuItems.filter((item) => {
+        const menuItemsClone = menuItems.map(item => Array.isArray(item) ? clone(item) : {...item});//JSON.parse(JSON.stringify(menuItems));
+        console.log(menuItemsClone)
+        pathData = menuItemsClone.filter((item) => {
             item.label = i18nextHeader.t(item.label);
             if (item.submenu && item.submenu.length > 0) {
                 const submenuPathData = item.submenu.filter((submenuitem) => {
                     submenuitem.label = i18nextHeader.t(submenuitem.label);
                     return submenuitem.path === subpath;
                 });
-                if (submenuPathData) {
+                console.log(submenuPathData)
+                if (submenuPathData && submenuPathData[0]) {
                     item.ariaLabel = submenuPathData[0].ariaLabel;
                     item.display = submenuPathData[0].display;
                     item.icon = submenuPathData[0].icon;
