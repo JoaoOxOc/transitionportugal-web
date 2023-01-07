@@ -1,6 +1,6 @@
 /** @jsxImportSource theme-ui */
 import { Container } from 'theme-ui';
-import parse from 'html-react-parser';
+import DynamicSectionContent from './section';
 import { Slide } from "react-awesome-reveal";
 import dynamic from 'next/dynamic';
 const GlassCarouselDynamic = dynamic(() => import("../../components/glassCarousel/glasscarousel"));
@@ -28,10 +28,6 @@ export default function DynamicPageSection({dynamicContent}) {
     console.log("aqui!!!!", dynamicContent);
 
     const parseDynamicSection = (dynamicSectionData, index, contentType) => {
-        console.log("aqui!!!!", dynamicSectionData)
-        if(contentType === 'sliders') {
-            console.log(dynamicSectionData)
-        }
         const options = {
             replace: domNode => {
               if (domNode.attribs && domNode.attribs.href) {
@@ -48,8 +44,10 @@ export default function DynamicPageSection({dynamicContent}) {
                     {contentType === 'sliders' ? (
                         <GlassCarouselDynamic slides={dynamicSectionData.Slide} fullWidth={true} customHeight={'inherit !important'}/>
                     ) : (
-                        dynamicSectionData.SectionContent.map((element,index) => (
-                            <div key={''+index+element.SectionIdentifier} sx={styles.sectionCard}>{parse(element.DynamicContent, options)}</div>
+                        dynamicSectionData.SectionContent.map((element,elementIndex) => (
+                            <div key={''+elementIndex+element.SectionIdentifier} sx={styles.sectionCard}>
+                                <DynamicSectionContent sectionContent={element.DynamicContent} sectionIndex={elementIndex}/>
+                            </div>
                         ))
                     )}
                 </div>
@@ -59,7 +57,7 @@ export default function DynamicPageSection({dynamicContent}) {
     return (
             <Container sx={styles.dynamicPageSectionContainer}>
                 {dynamicContent && dynamicContent.map((section, index) => (
-                    parseDynamicSection(section,index, section.SectionContent ? 'text' : 'sliders')
+                    parseDynamicSection(section, index, section.SectionContent ? 'text' : 'sliders')
                 ))}
             </Container>
     );
