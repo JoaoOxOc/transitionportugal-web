@@ -52,11 +52,11 @@ export default function TopBar({className}) {
                     </Box>
                     <Box sx={Object.assign({}, styles.gridBox, styles.moveNegativeLeft, styles.moveNegativeRight)}>
                         <Grid columns={[2, null, 0]}  sx={Object.assign({}, styles.subGrid)}>
-                            <Box sx={Object.assign({}, styles.subGridBox)}>
+                            {/* todo: activate language change after setting nextJS lang routing<Box sx={Object.assign({}, styles.subGridBox)}>
                                 <div sx={Object.assign({}, styles.smallboxRight)}>
                                     <Language/>
                                 </div>
-                            </Box>
+                            </Box> */}
                             <Box sx={styles.subGridBox}>
                                 <div sx={Object.assign({}, styles.loginBox)}>
                                     <UserBanner src={UserLogoDark} className={ 'block' }/>
