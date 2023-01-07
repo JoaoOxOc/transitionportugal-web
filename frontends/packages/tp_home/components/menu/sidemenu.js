@@ -60,9 +60,9 @@ function ResponsiveDrawer() {
                     { windowSize < 1024 &&
                         <div className={classes.sidemenuSection}>
                             <MainMenu displayType={'displayGrid'} isMobile={true} baseTabIndex={10}/>
-                            <div className={classes.sidemenuLanguage}>
+                            {/* todo: activate language change after setting nextJS lang routing<div className={classes.sidemenuLanguage}>
                                 <Language/>
-                            </div>
+                            </div> */}
                         </div>
                     }
                     <SubMenu displayType={'displayGrid'}/>
