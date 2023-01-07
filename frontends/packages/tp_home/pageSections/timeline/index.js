@@ -6,8 +6,41 @@ import DynamicSectionContent from '../../pageSections/dynamic/section';
 
 import { TimelinePageSectionStyles as styles } from './timeline.style';
 
+import { i18nextTimeline } from "@transitionpt/translations";
+
 export default function TimelinePageSection({timelineCardsContent}) {
     const items = [];
+
+    // TODO: put this method in a global plugin
+    const parseDate = (dateString) => {
+      const [part1, part2, part3] = dateString.split(/[\/|\\|-]/);
+      let year, month, day = '';
+      if (part1) {
+        switch (part1.length) {
+          case 4: year = part1; break;
+          case 2: !part3 ? (month = Number(part1) - 1) : day = part1; break;
+          default: year = '1990';
+        }
+      }
+      if (part2) {
+        switch (part2.length) {
+          case 4: year = part2; break;
+          case 2: month = Number(part2) - 1; break;
+          default: month = '01';
+        }
+      }
+      if (part3) {
+        switch (part3.length) {
+          case 4: year = part3; break;
+          case 2: day = part3; break;
+          default: day = '01';
+        }
+      }
+      else {
+        day = '01';
+      }
+      return new Date(year, month, day);
+    }
 
     const sortElements = (elements, sortKey, sortDirection) => {
       elements.sort((a, b) => {
@@ -17,12 +50,10 @@ export default function TimelinePageSection({timelineCardsContent}) {
         if (Number(a[sortKey]) > Number(b[sortKey])) {
             return 1;
         }
-        const [month, day, year] = a[sortKey].split(/[\/|\\|-]/);
-        console.log(new Date(a[sortKey]),Date.parse(a[sortKey]), Date.parse(b[sortKey]))
-        if (Date.parse(a[sortKey]) < Date.parse(b[sortKey])) {
+        if (parseDate(a[sortKey]) < parseDate(b[sortKey])) {
             return -1;
         }
-        if (Date.parse(a[sortKey]) > Date.parse(b[sortKey])) {
+        if (parseDate(a[sortKey]) > parseDate(b[sortKey])) {
             return 1;
         }
         if (a[sortKey] < b[sortKey]) {
@@ -37,7 +68,6 @@ export default function TimelinePageSection({timelineCardsContent}) {
       return elements;
     }
     sortElements(timelineCardsContent, 'SectionIdentifier', 'asc');
-    console.log(timelineCardsContent)
 
     const buildTimelineTitles = (elements) => {
       elements.forEach((element, index) => {
@@ -101,13 +131,15 @@ export default function TimelinePageSection({timelineCardsContent}) {
                 useReadMore={true}
                 classNames={{
                   card: 'timeline-glasscard',
-                  title: 'timeline-title'
+                  title: 'timeline-title',
+                  controls: 'timeline-controls'
                 }}
                 buttonTexts={{
-                    first: 'Jump to First',
-                    last: 'Jump to Last',
-                    next: 'Next',
-                    previous: 'Previous',
+                    first: i18nextTimeline.t("TIMELINE_NAV.first"),
+                    last: i18nextTimeline.t("TIMELINE_NAV.last"),
+                    next: i18nextTimeline.t("TIMELINE_NAV.next"),
+                    play: i18nextTimeline.t("TIMELINE_NAV.play"),
+                    previous: i18nextTimeline.t("TIMELINE_NAV.previous"),
                 }}
                 theme={{
                     primary: '#0F52BA',
@@ -119,11 +151,11 @@ export default function TimelinePageSection({timelineCardsContent}) {
                 }}
                 >
                   {timelineCardsContent && timelineCardsContent.map((section, index) => {
-                     sortElements(section.SectionContent, 'SectionIdentifier', 'asc');
-                     return section.SectionContent.map((content, contentIndex) => (
-                      <DynamicSectionContent sectionContent={content.DynamicContent} sectionIndex={contentIndex}/>
-                    ))
-                  }
+                      sortElements(section.SectionContent, 'SectionIdentifier', 'asc');
+                      return section.SectionContent.map((content, contentIndex) => (
+                        <DynamicSectionContent sectionContent={content.DynamicContent} sectionIndex={contentIndex}/>
+                      ))
+                    }
                   )}
                 </Chrono>
             </div>

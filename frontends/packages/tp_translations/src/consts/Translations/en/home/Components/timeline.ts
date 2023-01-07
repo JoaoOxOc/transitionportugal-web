@@ -7,5 +7,12 @@ export const TIMELINE_TRANSLATIONS = deepFreeze({
     },
     TIMELINE_PAGE: {
         title: "Transição Portugal - timeline"
+    },
+    TIMELINE_NAV: {
+        first: "Jump to Start",
+        last: "Jump to Last",
+        next: "Next",
+        play: "Play",
+        previous: "Previous"
     }
 } as const);
