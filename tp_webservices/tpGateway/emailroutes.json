@@ -118,6 +118,19 @@
         "AuthenticationProviderKey": "TpAuthKey",
         "AllowedScopes": [ "email.admin" ]
       }
+    },
+    {
+      "DownstreamPathTemplate": "/api/email/send",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tpemailservice",
+          "Port": 3010
+        }
+      ],
+      "UpstreamPathTemplate": "/emailservice/send",
+      "UpstreamHttpMethod": [ "Post" ],
+      "SwaggerKey": "EmailService"
     }
   ],
   "SwaggerEndPoints": [
