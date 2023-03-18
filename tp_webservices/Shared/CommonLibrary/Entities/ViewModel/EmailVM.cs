@@ -14,6 +14,8 @@ namespace CommonLibrary.Entities.ViewModel
 
         public List<Tuple<string, string>>? TokensToReplace_Subject { get; set; }
         public List<Tuple<string, string>>? TokensToReplace_Body { get; set; }
+        public string? FromName { get; set; }
+        public string? From { get; set; }
         public string? Subject { get; set; }
         public string? Body { get; set; }
     }

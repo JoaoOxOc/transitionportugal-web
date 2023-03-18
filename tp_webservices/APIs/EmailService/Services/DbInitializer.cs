@@ -202,6 +202,32 @@ namespace EmailService.Services
             adminEmailNotificationEmail.BodyParameters = BsonDocument.Parse(System.Text.Json.JsonSerializer.Serialize(new { message = "{{message}}", uriLink = "{{uriLink}}", userEmail = "{{userEmail}}" }));
             emailTemplates.Add(adminEmailNotificationEmail);
 
+            EmailTemplate webContactEmailUS = new EmailTemplate();
+            webContactEmailUS.Key = EmailTemplatesEnum.WebContactNotification.ToString();
+            webContactEmailUS.Description = "Inglês - Envio de notificação de contacto";
+            webContactEmailUS.Language = "en-US";
+            webContactEmailUS.Subject = "Transição Portugal - you have a new message";
+            webContactEmailUS.BodyHtml = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional //EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">Dear {{messageRecipientName}},<br/><br/>A new message was sent from the platform Transição Portugal to you:<br/><br/> - <b>Contact Email:</b> {{emailFrom}}<br/><br/> - <b>Contact Name:</b> {{contactName}}<br/><br/> - <b>Subject:</b> {{contactSubject}}<br/><br/> - <b>Message:</b> {{contactMessage}}<br/><br/><br/>Use the contact email and subject to answer. <br/><br/>Please don't reply to this email.";
+            webContactEmailUS.CreatedAt = DateTime.UtcNow;
+            webContactEmailUS.CreatedBy = null;
+            webContactEmailUS.UpdatedBy = null;
+            webContactEmailUS.BodyJson = BsonDocument.Parse("{}");
+            webContactEmailUS.BodyParameters = BsonDocument.Parse(System.Text.Json.JsonSerializer.Serialize(new { messageRecipientName = "{{messageRecipientName}}", emailFrom = "{{emailFrom}}", contactName = "{{contactName}}", contactSubject = "{{contactSubject}}", contactMessage = "{{contactMessage}}" }));
+            emailTemplates.Add(webContactEmailUS);
+
+            EmailTemplate webContactEmailPT = new EmailTemplate();
+            webContactEmailPT.Key = EmailTemplatesEnum.WebContactNotification.ToString();
+            webContactEmailPT.Description = "Português - Envio de notificação de contacto";
+            webContactEmailPT.Language = "pt-PT";
+            webContactEmailPT.Subject = "Transição Portugal - tem uma nova mensagem";
+            webContactEmailPT.BodyHtml = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional //EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">Caro(a) {{messageRecipientName}},<br/><br/>Uma nova mensagem foi enviada a partir da plataforma Transição Portugal para você:<br/><br/> - <b>Email de Contacto:</b> {{emailFrom}}<br/><br/> - <b>Nome de Contacto:</b> {{contactName}}<br/><br/> - <b>Assunto:</b> {{contactSubject}}<br/><br/>Mensagem:</b> {{contactMessage}}<br/><br/><br/>Para responder, use o email e nome de contacto bem como o assunto. <br/><br/>Por favor não responda a este email.";
+            webContactEmailPT.CreatedAt = DateTime.UtcNow;
+            webContactEmailPT.CreatedBy = null;
+            webContactEmailPT.UpdatedBy = null;
+            webContactEmailPT.BodyJson = BsonDocument.Parse("{}");
+            webContactEmailPT.BodyParameters = BsonDocument.Parse(System.Text.Json.JsonSerializer.Serialize(new { messageRecipientName = "{{messageRecipientName}}", emailFrom = "{{emailFrom}}", contactName = "{{contactName}}", contactSubject = "{{contactSubject}}", contactMessage = "{{contactMessage}}" }));
+            emailTemplates.Add(webContactEmailPT);
+
             foreach (EmailTemplate obj in emailTemplates)
             {
                 if (!templatesRepository.GetFiltered(obj.Key, obj.Language, null, null, string.Empty, "asc").Any())

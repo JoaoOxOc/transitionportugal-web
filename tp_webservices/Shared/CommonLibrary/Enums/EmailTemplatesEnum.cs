@@ -8,6 +8,7 @@
         NewAssociationVerified,
         UserAccountPasswordRecovery,
         AdminErrorNotification,
-        AdminEmailNotification
+        AdminEmailNotification,
+        WebContactNotification
     }
 }
