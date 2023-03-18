@@ -12,6 +12,7 @@ import { i18nextTimeline } from "@transitionpt/translations";
 import SEO from '../components/seo';
 import PageTitle from "../components/pageTitle";
 import TimelinePageSection from "../pageSections/timeline";
+const ContactDynamic = dynamic(() => import("../pageSections/contact/contact"));
 const FooterDynamic = dynamic(() => import("../pageSections/footer/footer"),{ ssr: false });
 
 export default function TimelinePage({timelinePageData}) {
@@ -50,6 +51,7 @@ export default function TimelinePage({timelinePageData}) {
             <SEO metaDataObject={getComponentAttributes("seo")}/>
             <PageTitle pageTitle={i18nextTimeline.t("TIMELINE_PAGE.title")}/>
             <TimelinePageSection timelineCardsContent={getComponentAttributesByIdentifiers(["page.dynamic-page-section","page.sliders"], "")}/>
+            <ContactDynamic/>
             <FooterDynamic/>
           </Layout>
         </StickyProvider>

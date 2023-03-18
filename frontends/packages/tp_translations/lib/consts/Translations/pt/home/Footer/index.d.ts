@@ -3,6 +3,7 @@ export declare const TRANSLATIONS: {
         readonly PRIVACY_MENU: {
             readonly policy: "Política de Privacidade";
             readonly sitemap: "Mapa do Site";
+            readonly contactUs: "Contacte-nos";
         };
         readonly MENU: {
             readonly about: "Sobre o Movimento";
