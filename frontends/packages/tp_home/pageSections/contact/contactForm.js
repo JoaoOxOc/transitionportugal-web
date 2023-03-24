@@ -111,12 +111,6 @@ export default function ContactForm({contactComponentObject}) {
 
     return (
       <>
-      {messageSentError && messageSentError != '' && 
-        messageSendError(messageSentError)
-      }
-      {messageSent && 
-        messageSentLabel()
-      }
         <form key="contactUsFormElement" onSubmit={formik.handleSubmit} method="POST">
           
           <TextField
@@ -194,10 +188,12 @@ export default function ContactForm({contactComponentObject}) {
             value={formik.values.messageBody}
             variant="outlined"
           />
-
-          {Boolean(formik.touched.terms && formik.errors.terms) && (
-            <FormHelperText error>{formik.errors.terms}</FormHelperText>
-          )}
+          {messageSentError && messageSentError != '' && 
+            messageSendError(messageSentError)
+          }
+          {messageSent && 
+            messageSentLabel()
+          }
 
           <Button
             sx={{
