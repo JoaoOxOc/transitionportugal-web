@@ -18,8 +18,8 @@ import "react-multi-carousel/lib/styles.css";
 
 // import SwipeableTextMobileStepper from './swipeableview';
 
-export default function GlassCarousel({slides}) {
-    console.log('slides', slides)
+export default function GlassCarousel({slides, fullWidth, customHeight}) {
+    console.log('slides', slides, fullWidth, customHeight)
     // const {data,loading,error} = useBannerData('https://localhost:4000');
 
     const parseSliderData = (sliderData, identifier) => {
@@ -46,7 +46,7 @@ export default function GlassCarousel({slides}) {
     }
 
     return (
-        <div sx={styles.carouselCard}>
+        <div sx={{...(fullWidth ? styles.carouselCardFullWidth : styles.carouselCardDynamicWidth), ...(customHeight? styles.carouselCardInheritHeight : styles.carouselCardDefaultHeight), ...styles.carouselCard}}>
             <Box sx={styles.carouselBox}>
                 { slides != null &&
                 <Carousel sx={styles.carouselList}

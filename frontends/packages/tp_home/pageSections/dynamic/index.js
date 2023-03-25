@@ -1,6 +1,6 @@
 /** @jsxImportSource theme-ui */
 import { Container } from 'theme-ui';
-import parse from 'html-react-parser';
+import DynamicSectionContent from './section';
 import { Slide } from "react-awesome-reveal";
 import dynamic from 'next/dynamic';
 const GlassCarouselDynamic = dynamic(() => import("../../components/glassCarousel/glasscarousel"));
@@ -9,13 +9,13 @@ import { DynamicPageSectionStyles as styles } from './dynamic.style';
 
 export default function DynamicPageSection({dynamicContent}) {
     let finalContentSections = [];
-    if (dynamicContent && dynamicContent.PageSections && dynamicContent.SlidersSections) {
-        finalContentSections = dynamicContent.PageSections.concat(dynamicContent.SlidersSections);
-    }
-    else {
-        finalContentSections = dynamicContent.PageSections;
-    }
-    finalContentSections.sort((a, b) => {
+    // if (dynamicContent) {
+    //     finalContentSections = dynamicContent.PageSections.concat(dynamicContent.SlidersSections);
+    // }
+    // else {
+    //     finalContentSections = dynamicContent.PageSections;
+    // }
+    dynamicContent.sort((a, b) => {
         if (Number(a.SectionIdentifier) < Number(b.SectionIdentifier)) {
             return -1;
           }
@@ -25,12 +25,9 @@ export default function DynamicPageSection({dynamicContent}) {
           // a must be equal to b
           return 0;
     });
+    console.log("aqui!!!!", dynamicContent);
 
     const parseDynamicSection = (dynamicSectionData, index, contentType) => {
-        console.log(contentType)
-        if(contentType === 'sliders') {
-            console.log(dynamicSectionData)
-        }
         const options = {
             replace: domNode => {
               if (domNode.attribs && domNode.attribs.href) {
@@ -45,10 +42,13 @@ export default function DynamicPageSection({dynamicContent}) {
         return (
                 <div key={index} sx={styles.parsedSectionContainer}>
                     {contentType === 'sliders' ? (
-                        <></>
-                        // <GlassCarouselDynamic slides={dynamicSectionData}/>
+                        <GlassCarouselDynamic slides={dynamicSectionData.Slide} fullWidth={true} customHeight={'inherit !important'}/>
                     ) : (
-                        <div sx={styles.sectionCard}>{parse(dynamicSectionData, options)}</div>
+                        dynamicSectionData.SectionContent.map((element,elementIndex) => (
+                            <div key={''+elementIndex+element.SectionIdentifier} sx={styles.sectionCard}>
+                                <DynamicSectionContent sectionContent={element.DynamicContent} sectionIndex={elementIndex}/>
+                            </div>
+                        ))
                     )}
                 </div>
         );
@@ -56,8 +56,8 @@ export default function DynamicPageSection({dynamicContent}) {
 
     return (
             <Container sx={styles.dynamicPageSectionContainer}>
-                {finalContentSections && finalContentSections.map((section, index) => (
-                    parseDynamicSection(section.DynamicContent ? section.DynamicContent : section.sliderData,index, section.DynamicContent ? 'text' : 'sliders')
+                {dynamicContent && dynamicContent.map((section, index) => (
+                    parseDynamicSection(section, index, section.SectionContent ? 'text' : 'sliders')
                 ))}
             </Container>
     );

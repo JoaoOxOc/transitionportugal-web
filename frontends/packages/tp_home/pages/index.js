@@ -14,6 +14,7 @@ const DonationDynamic = dynamic(() => import("../pageSections/sidebars/donations
 const NewsDynamic = dynamic(() => import("../pageSections/sidebars/news"));
 const BannerDynamic = dynamic(() => import("../pageSections/banner/banner"));
 const AboutDynamic = dynamic(() => import("../pageSections/about/about"));
+const ContactDynamic = dynamic(() => import("../pageSections/contact/contact"));
 const EventsDynamic = dynamic(() => import("../pageSections/events/events"));
 const ActionsDynamic = dynamic(() => import("../pageSections/actions/actions"));
 const FooterDynamic = dynamic(() => import("../pageSections/footer/footer"));
@@ -57,6 +58,7 @@ export default function Home({homepageData}) {
           <AboutDynamic aboutComponentObject={getComponentAttributesByIdentifier("blocks.section", "about")}/>
           <EventsDynamic/>
           <ActionsDynamic registerComponentObject={getComponentAttributesByIdentifier("blocks.section", "action_register")}/>
+          <ContactDynamic/>
           <FooterDynamic/>
         </Layout>
       </StickyProvider>

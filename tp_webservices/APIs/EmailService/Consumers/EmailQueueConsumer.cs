@@ -28,7 +28,15 @@ namespace EmailService.Consumers
         public async Task Consume(ConsumeContext<EmailVM> context)
         {
             var mailData = EmailTemplateReplacer.ProcessEmailTemplate(_emailTemplateRepo, context.Message);
-            List<string> emailTo = mailData.To != null && mailData.To.Count > 0 ? mailData.To : getAdminEmails();
+            if (mailData != null)
+            {
+                this.SendEmail(mailData);
+            }
+        }
+
+        public async Task SendEmail(EmailVM mailData)
+        {
+            List<string> emailTo = mailData.To != null && mailData.To.Count > 0 ? mailData.To : EmailSettingsManager.getAdminEmails(this._settingsRepository);
             bool sent = _emailService.SendMail(emailTo, mailData.Subject, mailData.Body);
             if (!sent)
             {
@@ -42,18 +50,6 @@ namespace EmailService.Consumers
 
                 bool success = await _rabbitSender.PublishExceptionMessage(exceptionModel);
             }
-        }
-
-        private List<string> getAdminEmails()
-        {
-            List<string> adminEmails = new List<string>();
-            Setting adminEmailSetting = this._settingsRepository.GetFiltered(SettingCode.Administration_Email.ToString(), null, null, string.Empty, string.Empty).FirstOrDefault();
-            
-            if (adminEmailSetting != null)
-            {
-                adminEmails.Add(adminEmailSetting.Value);
-            }
-            return adminEmails;
         }
     }
 }

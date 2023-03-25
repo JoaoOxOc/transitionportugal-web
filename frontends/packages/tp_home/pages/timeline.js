@@ -12,6 +12,7 @@ import { i18nextTimeline } from "@transitionpt/translations";
 import SEO from '../components/seo';
 import PageTitle from "../components/pageTitle";
 import TimelinePageSection from "../pageSections/timeline";
+const ContactDynamic = dynamic(() => import("../pageSections/contact/contact"));
 const FooterDynamic = dynamic(() => import("../pageSections/footer/footer"),{ ssr: false });
 
 export default function TimelinePage({timelinePageData}) {
@@ -30,9 +31,9 @@ export default function TimelinePage({timelinePageData}) {
         return timelinePageDataAttributes[componentName];
     }
 
-    const getComponentAttributesByIdentifier = (componentName, identifier) => {
+    const getComponentAttributesByIdentifiers = (componentNamesArray, identifier) => {
       let componentBlockArray = timelinePageDataAttributes.Blocks.filter((block) => {
-        let isRightBlock = block["__component"] === componentName;
+        let isRightBlock = componentNamesArray.includes(block["__component"]);
         if (identifier) {
           isRightBlock = isRightBlock && block["Identifier"] === identifier;
         }
@@ -40,8 +41,8 @@ export default function TimelinePage({timelinePageData}) {
           return block;
       });
       console.log(componentBlockArray);
-      return componentBlockArray[0];
-    }
+      return componentBlockArray;
+  }
 
     return (
       <ThemeProvider theme={theme}>
@@ -49,7 +50,8 @@ export default function TimelinePage({timelinePageData}) {
           <Layout>
             <SEO metaDataObject={getComponentAttributes("seo")}/>
             <PageTitle pageTitle={i18nextTimeline.t("TIMELINE_PAGE.title")}/>
-            <TimelinePageSection timelineCardsContent={getComponentAttributesByIdentifier("page.dynamic-sections", "")}/>
+            <TimelinePageSection timelineCardsContent={getComponentAttributesByIdentifiers(["page.dynamic-page-section","page.sliders"], "")}/>
+            <ContactDynamic/>
             <FooterDynamic/>
           </Layout>
         </StickyProvider>

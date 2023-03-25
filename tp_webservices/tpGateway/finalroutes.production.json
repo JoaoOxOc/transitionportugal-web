@@ -1084,6 +1084,19 @@
       }
     },
     {
+      "DownstreamPathTemplate": "/api/email/send",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 3010
+        }
+      ],
+      "UpstreamPathTemplate": "/emailservice/send",
+      "UpstreamHttpMethod": [ "Post" ],
+      "SwaggerKey": "EmailService"
+    },
+    {
       "DownstreamPathTemplate": "/api/settings/edit",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [

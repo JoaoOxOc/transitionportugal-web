@@ -53,5 +53,45 @@ export const SubMenuStyles = {
     },
     displayBlock: {
         display: 'block'
-    }
+    },
+    bottomLink: {
+        fontSize: [1, '15px'],
+        color: 'text',
+        fontWeight: '400',
+        mb: 2,
+        cursor: 'pointer',
+        transition: 'all 0.35s',
+        display: 'block',
+        textDecoration: 'none',
+        lineHeight: [1.5, null, 1.8],
+        paddingLeft: '25px',
+        paddingRight: '25px',
+        ':hover': {
+          color: '#0F5137',
+          transition: 'all 0.35s',
+          span: {
+            '&::before': {
+              opacity: '1',
+              bottom: '-1px',
+              // backgroundColor: colors.nav_hover,
+            },
+          }
+        },
+        span: {
+          position: 'relative',
+          svg: {
+            marginTop: '-5px'
+          },
+          '&::before': {
+            content: '""',
+            position: 'absolute',
+            bottom: '-5px',
+            opacity: '0',
+            width: '100%',
+            height: '1px',
+            backgroundColor: colors.nav_menu_underline_bg_color,
+            transition: '.25s',
+          },
+        }
+      },
 }

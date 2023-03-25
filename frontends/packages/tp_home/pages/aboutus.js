@@ -12,6 +12,7 @@ import { i18nextAbout } from "@transitionpt/translations";
 import SEO from '../components/seo';
 import PageTitle from "../components/pageTitle";
 import DynamicPageSection from "../pageSections/dynamic";
+const ContactDynamic = dynamic(() => import("../pageSections/contact/contact"));
 const FooterDynamic = dynamic(() => import("../pageSections/footer/footer"),{ ssr: false });
 
 export default function AboutUsPage({aboutusPageData}) {
@@ -30,9 +31,9 @@ export default function AboutUsPage({aboutusPageData}) {
         return aboutusPageDataAttributes[componentName];
     }
 
-    const getComponentAttributesByIdentifier = (componentName, identifier) => {
+    const getComponentAttributesByIdentifiers = (componentNamesArray, identifier) => {
         let componentBlockArray = aboutusPageDataAttributes.Blocks.filter((block) => {
-          let isRightBlock = block["__component"] === componentName;
+          let isRightBlock = componentNamesArray.includes(block["__component"]);
           if (identifier) {
             isRightBlock = isRightBlock && block["Identifier"] === identifier;
           }
@@ -40,7 +41,7 @@ export default function AboutUsPage({aboutusPageData}) {
             return block;
         });
         console.log(componentBlockArray);
-        return componentBlockArray[0];
+        return componentBlockArray;
     }
 
     return (
@@ -49,7 +50,8 @@ export default function AboutUsPage({aboutusPageData}) {
           <Layout>
             <SEO metaDataObject={getComponentAttributes("seo")}/>
             <PageTitle pageTitle={i18nextAbout.t("ABOUT_PAGE.title")}/>
-            <DynamicPageSection dynamicContent={getComponentAttributesByIdentifier("page.dynamic-sections", "")}/>
+            <DynamicPageSection dynamicContent={getComponentAttributesByIdentifiers(["page.dynamic-page-section","page.sliders"], "")}/>
+            <ContactDynamic/>
             <FooterDynamic/>
           </Layout>
         </StickyProvider>

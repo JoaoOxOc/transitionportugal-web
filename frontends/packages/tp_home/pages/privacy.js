@@ -13,6 +13,7 @@ import { GetPublicTerms } from '../services/terms';
 import TermsPageSection from '../pageSections/terms';
 import { i18nextTermsDetails } from "@transitionpt/translations";
 import PageTitle from "../components/pageTitle";
+const ContactDynamic = dynamic(() => import("../pageSections/contact/contact"));
 const FooterDynamic = dynamic(() => import("../pageSections/footer/footer"),{ ssr: false });
 
 export default function PrivacyPage({privacyPageData, termsProps}) {
@@ -48,6 +49,7 @@ export default function PrivacyPage({privacyPageData, termsProps}) {
             <SEO metaDataObject={getComponentAttributes("seo")}/>
             <PageTitle pageTitle={t("READING.termsAndConditions")}/>
             <TermsPageSection termsContent={termsProps.terms.termsLanguages}/>
+            <ContactDynamic/>
             <FooterDynamic/>
           </Layout>
         </StickyProvider>
