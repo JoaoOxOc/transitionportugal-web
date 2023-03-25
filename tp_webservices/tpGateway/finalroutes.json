@@ -1088,7 +1088,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "tpemailservice",
+          "Host": "localhost",
           "Port": 3010
         }
       ],
