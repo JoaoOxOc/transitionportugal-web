@@ -96,7 +96,7 @@ export default function UserBanner({ src, className, ...rest }) {
                 <div sx={styles.userContainer.userImage}>
                     <Image src={src} alt="User" />
                 </div>
-                <div style={{margin: '0 110px'}}>
+                <div>
                     {renderUsernameContent(true, true)}
                 </div>
             </>

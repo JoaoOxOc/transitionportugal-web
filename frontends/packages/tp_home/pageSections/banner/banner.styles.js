@@ -33,7 +33,7 @@ export const bannerStyles = {
       //borderBottomRightRadius: [100, 150, null, null, null, 200],
       paddingTop: ['85px','85px','85px','85px','8px'],
       // minHeight: '600px',
-      height: ['300px','450px', '100vh', '100vh','calc(100vh - 70px)'],
+      height: ['300px','525px', 'calc(100vh + 70px)', 'calc(100vh + 70px)','calc(100vh - 60px)'],
       // pt: ['150px', null, null, null, null, null, '140px', '118px'],
       // pb: ['100px', null, null, '110px', null, 10, '150px'],
       backgroundColor: '#EFFAFC',
@@ -66,15 +66,30 @@ export const bannerStyles = {
       },
     },
     bannerCarousel: {
-      height: ['300px','450px', '100vh', '100vh','calc(100vh - 70px)'],
+      '.react-multiple-carousel__arrow': {
+        zIndex: '100'
+      },
+      '.react-multiple-carousel__arrow--right': {
+        right: 'calc(1% + 1px)'
+      },
+      '.react-multiple-carousel__arrow--left': {
+        left: 'calc(1% + 1px)'
+      },
+      height: ['300px','450px', '100vh', '100vh','calc(100vh - 60px)'],
       figure: {
         display: 'grid',
         height: '100%'
       },
       img: {
-        height: ['300px','450px', '100vh', '100vh','calc(100vh)'],
+        height: ['300px','450px', 'calc(100vh - 15px)', 'calc(100vh - 15px)','calc(100vh - 60px)'],
         width: '100%',
         maxHeight: '100vh'
+      },
+      textOverlayContainer: {
+        position: 'absolute',
+        height: ['300px','450px', 'calc(100vh - 15px)', 'calc(100vh - 15px)','calc(100vh - 140px)'],
+        width: '100%',
+        top: ['0','0', '0', '0','80px'],
       },
       textOverlay: {
         position: 'absolute',

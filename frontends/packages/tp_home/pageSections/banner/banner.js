@@ -46,8 +46,10 @@ export default function Banner({sliderComponentObject}) {
       <div key={id}>
         {parse(figureElement[0])}
         {slideText && slideText.length > 1 &&
-          <div sx={styles.bannerCarousel.textOverlay}>
-            {parse(slideText[1])}
+          <div sx={styles.bannerCarousel.textOverlayContainer}>
+            <div sx={styles.bannerCarousel.textOverlay}>
+              {parse(slideText[1])}
+            </div>
           </div>
         }
       </div>
@@ -59,20 +61,21 @@ export default function Banner({sliderComponentObject}) {
         "url(" + bannerData.bannerData.bannerImage + ")",
     }} id="home">
       <Carousel sx={styles.bannerCarousel}
-                        swipeable={true}
-                        draggable={true}
+                        // swipeable={true}
+                        // draggable={true}
                         showDots={false}
-                        arrows={false}
-                        ssr={true} // means to render carousel on server-side.
+                        // arrows={false}
+                        // removeArrowOnDeviceType={["tablet", "mobile"]}
+                        // ssr={true} // means to render carousel on server-side.
                         infinite={true}
                         responsive={responsive}
-                        additionalTransfrom={0}
+                        // additionalTransfrom={0}
                         autoPlay={true}
                         autoPlaySpeed={10000}
                         centerMode={false}
                         keyBoardControl={true}
-                        customTransition="transform 1000ms ease-in-out 1s"
-                        transitionDuration={1000}
+                        // customTransition="transform 1000ms ease-in-out 1s"
+                        // transitionDuration={1000}
                         // removeArrowOnDeviceType={["tablet", "mobile"]}
                         // deviceType={this.props.deviceType}
                         dotListClass="custom-dot-list-style"
@@ -128,7 +131,8 @@ export default function Banner({sliderComponentObject}) {
         {/* </Box>
       </Container> */}
 
-      <EcoMap />
+      {/* TODO: uncomment for circular economy infographic */}
+      {/* <EcoMap /> */}
     </section>
   );
 }
