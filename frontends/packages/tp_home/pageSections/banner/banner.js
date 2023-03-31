@@ -64,7 +64,7 @@ export default function Banner({sliderComponentObject}) {
                         // swipeable={true}
                         // draggable={true}
                         showDots={false}
-                        // arrows={false}
+                        arrows={sliderComponentObject && sliderComponentObject.Sliders && sliderComponentObject.Sliders.length > 1 ? true : false}
                         // removeArrowOnDeviceType={["tablet", "mobile"]}
                         // ssr={true} // means to render carousel on server-side.
                         infinite={true}

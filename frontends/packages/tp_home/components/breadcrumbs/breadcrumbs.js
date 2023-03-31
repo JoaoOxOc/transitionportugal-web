@@ -8,6 +8,7 @@ import { Link } from '../generic/link';
 import { Container, Flex } from 'theme-ui';
 import { useRouter } from 'next/router';
 import {GiThreeLeaves} from 'react-icons/gi';
+import {IoCalendarOutline} from 'react-icons/io5';
 import menuItems from '../menu/mainmenu.data';
 import footerMenuItems from '../../pageSections/footer/footer.data';
 import {breadcrumbStyles as styles } from './breadcrumbs.style';
@@ -82,11 +83,26 @@ export default function BreadcrumbsComponent() {
           const href = "/" + asPathNestedRoutes.slice(0, idx + 1).join("/");
           // The title will just be the route string for now
           const title = subpath;
-          return { href, linkData: getPathLabel(subpath) }; 
+          if (href.includes('/eventos/')) {
+            const splittedPath = href.split('/');
+            return { href, linkData: {label: splittedPath[2], icon: <IoCalendarOutline/>} }; 
+          }
+          else if (href.includes('/eventos')) {
+            return null;
+          }
+          else {
+            return { href, linkData: getPathLabel(subpath) }; 
+          }
         })
+
+        console.log(crumblist.filter(elements => {
+            return elements !== null;
+           }));
     
         // Add in a default "Home" crumb for the top-level
-        return [{ href: "/", linkData: {label: "Home", icon: <GiThreeLeaves/>} }, ...crumblist];
+        return [{ href: "/", linkData: {label: "Home", icon: <GiThreeLeaves/>} }, ...crumblist.filter(elements => {
+            return elements !== null;
+           })];
     }, [router.asPath]);
 
     return (
@@ -116,14 +132,18 @@ function Crumb({ linkData, href, last=false }) {
   
     // All other crumbs will be rendered as links that can be visited 
     return (
-        <Link
-            path={href}
-            aria-label={ linkData.label }
-            underline="hover"
-            color="inherit"
-            style={{padding: '0px', display: 'inline-block'}}
-        >
-            <span sx={styles.breadcrumbLink}>{linkData.icon} {linkData.label}</span>
-        </Link>
+        <>
+        {linkData &&
+            <Link
+                path={href}
+                aria-label={ linkData.label }
+                underline="hover"
+                color="inherit"
+                style={{padding: '0px', display: 'inline-block'}}
+            >
+                <span sx={styles.breadcrumbLink}>{linkData.icon} {linkData.label}</span>
+            </Link>
+        }
+        </>
     );
 }
