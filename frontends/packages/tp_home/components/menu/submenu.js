@@ -23,7 +23,7 @@ export default function SubMenu({displayType, sitemapLayout}) {
                 key={i}
                 aria-label={ i18nextFooter.t(label) }
                 sx={styles.bottomLink}
-                style={{padding: '10px', color: 'inherit', textDecoration: 'none'}}
+                style={{padding: '10px', color: 'inherit', textDecoration: 'none', paddingLeft: '25px'}}
             >
                 <span>{icon} { i18nextFooter.t(label) }</span>
             </CustomLink>

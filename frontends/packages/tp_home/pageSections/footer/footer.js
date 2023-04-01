@@ -45,7 +45,7 @@ export default function Footer() {
                   key={i}
                   aria-label={ i18nextFooter.t(label) }
                   sx={styles.footer.link}
-                  style={{color: 'inherit', textDecoration: 'none'}}
+                  style={{color: 'inherit', textDecoration: 'none', paddingLeft: '25px', paddingRight: '25px'}}
               >
                   <span>{icon} { i18nextFooter.t(label) }</span>
               </CustomLink>
@@ -62,6 +62,7 @@ export default function Footer() {
               key={i}
               sx={styles.footer.link}
               aria-label={ i18nextFooter.t(label) }
+              style={{color: 'inherit', textDecoration: 'none', paddingLeft: '25px', paddingRight: '25px'}}
             >
               <span>{icon} { i18nextFooter.t(label) }</span>
             </ScrollLink>

@@ -48,15 +48,16 @@ export default function Events() {
                         customButtonGroup={<SwipeButtonGroup />}
                         minimumTouchDrag={80}
                     >
-                    { data.map(({id, title, picture, orgName, date, tag, place},i) => (
+                    { data.map(({id, title, picture, orgName, date, endDate, slug, tag, place},i) => (
                             <EventCard
                                 key={i}
                                 src={picture}
                                 alt={title}
-                                postLink={'/event/'+id}
+                                postLink={'/eventos/'+slug}
                                 title={title}
                                 orgName={orgName}
                                 date={date}
+                                endDate={endDate}
                                 tag={tag}
                                 place={place}
                             />

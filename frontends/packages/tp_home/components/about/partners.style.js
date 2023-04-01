@@ -29,6 +29,12 @@ export const PartnersStyles = {
         width: '100%',
         display: 'grid',
         gap: '60px',
-        gridTemplateColumns: ['repeat(1,1fr)','repeat(2,1fr)','repeat(3,1fr)','repeat(3,1fr)','repeat(4,1fr)']
+        gridTemplateColumns: ['repeat(1,1fr)','repeat(2,1fr)','repeat(3,1fr)','repeat(3,1fr)','repeat(4,1fr)'],
+        alignItems: 'center',
+        justifyContent: 'space-around'
     },
+    partnerColumn: {
+        alignSelf: 'center',
+        justifySelf: 'center'
+    }
 }
