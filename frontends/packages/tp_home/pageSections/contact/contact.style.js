@@ -4,7 +4,7 @@ export const ContactStyles = {
         padding: '20px',
         paddingTop: '100px',
         paddingBottom: '100px',
-        backgroundColor: '#DBE4C6'
+        backgroundColor: '#FEFCF3'
     },
     contactUsContainer: {
         position: 'relative',

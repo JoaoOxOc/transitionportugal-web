@@ -1,0 +1,1 @@
+{"version":3,"file":"events.js","sourceRoot":"","sources":["../../../../../../src/consts/Translations/en/home/Components/events.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,UAAU,MAAM,aAAa,CAAC;AAE1C,MAAM,CAAC,IAAM,mBAAmB,GAAG,UAAU,CAAC;IAC1C,MAAM,EAAE;QACJ,aAAa,EAAE,eAAe;QAC9B,aAAa,EAAE,gBAAgB;KAClC;IACD,MAAM,EAAE;QACJ,YAAY,EAAE,cAAc;KAC/B;CACK,CAAC,CAAC"}

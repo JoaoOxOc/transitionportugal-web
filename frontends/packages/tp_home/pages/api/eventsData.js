@@ -2,8 +2,15 @@
 
 export default async function eventsData(req, res) {
     try {
+      const {slug} = req.query;
       console.log('cms url',process.env.SSR_CMS_BASE_URL);
-      const apiUrl = process.env.SSR_CMS_BASE_URL+'/api/event-pages?locale=pt-PT&populate=deep';
+      let requestParams='';
+      if (slug && slug != 'undefined') {
+        requestParams = 'filters[slug][$eq]='+slug + '&';
+      }
+      requestParams += 'locale=pt-PT&populate=deep';
+      const apiUrl = process.env.SSR_CMS_BASE_URL+'/api/event-pages?'+requestParams;
+      console.log('apiUrl: ',apiUrl);
       const response = await fetch(apiUrl, {
         method: 'GET',
         headers: {

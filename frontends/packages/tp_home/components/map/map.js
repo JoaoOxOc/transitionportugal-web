@@ -12,11 +12,9 @@ import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import markerShadow from 'leaflet/dist/images/marker-shadow.png';
 
-import usePartnerData from '../../hooks/usePartnerData';
-
-export default function Map() {
-    const {data, loading, error} = usePartnerData('');
-    const centerPos = [39.88471155936208, -8.313099356151904];
+export default function Map({markersData, useSearch, zoom}) {
+    console.log('map markersData: ', markersData);
+    const centerPos = markersData && markersData.length == 1 ? [markersData[0].lat, markersData[0].long] : [39.88471155936208, -8.313099356151904];
 
     const createMarkerIcon = function(iconSrc) {
         return (
@@ -26,25 +24,25 @@ export default function Map() {
 
     return (
         <div sx={styles.map}>
-            <MapContainer center={centerPos} zoom={7} scrollWheelZoom={true} sx={styles.mapContainer}>
-                
-            <SearchField/>
-                        <TileLayer
-                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                        />
-                        <LayerGroup>
-                            { data && data.map((data, i) => (
-                            <Marker key={i} position={[data.lat,data.long]} icon={createMarkerIcon('/leaflet/dist/images/marker-icon.png')}>
-                                <Popup>
-                                    <MarkerPopup/>
-                                </Popup>
-                            </Marker>
-
-                            ))
-                                
-                            }
-                        </LayerGroup>
+            <MapContainer center={centerPos} zoom={zoom} scrollWheelZoom={true} sx={styles.mapContainer}>
+                {useSearch && useSearch == true &&
+                    <SearchField/>
+                }
+                <TileLayer
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+                <LayerGroup>
+                    { markersData && markersData.map((data, i) => (
+                        <Marker key={i} position={[data.lat,data.long]} icon={createMarkerIcon('/leaflet/dist/images/marker-icon.png')}>
+                            <Popup>
+                                <MarkerPopup title={data.title}/>
+                            </Popup>
+                        </Marker>
+                    ))
+                        
+                    }
+                </LayerGroup>
             </MapContainer>
         </div>
     );
