@@ -5,6 +5,8 @@ export declare const EVENTS_TRANSLATIONS: {
     };
     readonly LABELS: {
         readonly presentation: "Apresentação";
+        readonly eventFrom: "de";
+        readonly eventTo: "a";
     };
 };
 //# sourceMappingURL=events.d.ts.map

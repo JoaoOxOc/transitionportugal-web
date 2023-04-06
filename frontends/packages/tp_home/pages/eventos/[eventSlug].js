@@ -94,8 +94,8 @@ function EventDetails() {
                             alt={i18nextEvents.t('EVENTS.eventImageAlt')}
                         />
                     </div>
-                    <PageTitle pageTitle={currentEvent.attributes.Title}/>
                     <EventDetailsSection details={currentEvent.attributes}/>
+                    <PageTitle pageTitle={currentEvent.attributes.Title}/>
                     <DynamicPageSection dynamicContent={getComponentAttributesByIdentifiers(["page.dynamic-page-section","page.sliders"], "")}/>
                     <PageTitle pageTitle={i18nextEvents.t('EVENTS.eventLocation')}/>
                     <MapDynamic markersData={[{lat: currentEvent.attributes.Latitude, long: currentEvent.attributes.Longitude, title: currentEvent.attributes.EventTitle}]} useSearch={false} zoom={14}/>

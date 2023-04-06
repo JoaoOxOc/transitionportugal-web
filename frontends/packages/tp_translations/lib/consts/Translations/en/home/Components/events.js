@@ -5,7 +5,9 @@ export var EVENTS_TRANSLATIONS = deepFreeze({
         eventLocation: "Event Location"
     },
     LABELS: {
-        presentation: "Presentation"
+        presentation: "Presentation",
+        eventFrom: "from",
+        eventTo: "to"
     }
 });
 //# sourceMappingURL=events.js.map

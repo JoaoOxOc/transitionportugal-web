@@ -7,6 +7,7 @@ const withPlugins = require("next-compose-plugins");
 const withTM = require("next-transpile-modules")(["@transitionpt/translations"], { setExternals: true });
 
 module.exports = withPlugins([optimizedImages, withTM], {
+    basePath: '',
     reactStrictMode: true,
     swcMinify: true,
     images: {

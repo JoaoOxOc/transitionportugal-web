@@ -7,7 +7,6 @@ export const EventDetailsStyles = {
     },
     parsedSectionContainer: {
         position: 'relative',
-        marginBottom: '40px',
         paddingTop: '20px',
         '&::before': {
             content: '""',
@@ -46,4 +45,23 @@ export const EventDetailsStyles = {
         border: '1px solid rgba(90, 173, 181, 0.3)',
         padding: '20px',
     },
+    eventInfoGrid: {
+        boxSizing: 'border-box',
+        margin: 0,
+        minWidth: 0,
+        display: 'grid',
+        gap: ['10px','10px','10px','60px','60px','60px'],
+        gridTemplateColumns: ['repeat(1,1fr)','repeat(1,1fr)','repeat(2,1fr)','repeat(3,1fr)','repeat(3,1fr)','repeat(3,1fr)'],
+        fontSize: '16px',
+        fontWeight: '600',
+        px: 25
+    },
+    eventDateRangeItem: {
+        display: 'flex',
+        'grid-column-start': '3',
+        'grid-column-end': 'span 2'
+    },
+    eventInfoIcon: {
+        marginTop: '-2px'
+    }
 };

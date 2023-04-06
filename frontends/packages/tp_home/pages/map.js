@@ -6,12 +6,14 @@ import { StickyProvider } from '../contexts/app/app.provider';
 import Layout from '../layouts/AppModernLayout';
 import dynamic from "next/dynamic";
 
-import usePartnerData from '../../hooks/usePartnerData';
+import usePartnerData from '../hooks/usePartnerData';
 
 import SEO from '../components/seo';
 
 // page sections
+import UnderConstructionSection from "../pageSections/underConstruction";
 import MapSection from "../pageSections/map/map";
+const ContactDynamic = dynamic(() => import("../pageSections/contact/contact"));
 const FooterDynamic = dynamic(() => import("../pageSections/footer/footer"),{ ssr: false });
 
 export default function Map() {
@@ -21,7 +23,9 @@ export default function Map() {
       <ThemeProvider theme={theme}>
         <StickyProvider>
           <Layout>
-            <MapSection markersData={data}/>
+            <UnderConstructionSection/>
+            {/* <MapSection markersData={data}/> */}
+            <ContactDynamic/>
             <FooterDynamic/>
           </Layout>
         </StickyProvider>

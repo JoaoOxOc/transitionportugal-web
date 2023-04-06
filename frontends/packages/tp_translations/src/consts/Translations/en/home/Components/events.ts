@@ -6,6 +6,8 @@ export const EVENTS_TRANSLATIONS = deepFreeze({
         eventLocation: "Event Location"
     },
     LABELS: {
-        presentation: "Presentation"
+        presentation: "Presentation",
+        eventFrom: "from",
+        eventTo: "to"
     }
 } as const);

@@ -91,7 +91,7 @@ export default function BreadcrumbsComponent() {
             return null;
           }
           else {
-            return { href, linkData: getPathLabel(subpath) }; 
+            return { href, linkData: getPathLabel(href) }; 
           }
         })
 

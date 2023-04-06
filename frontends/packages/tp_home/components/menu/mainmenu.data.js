@@ -29,7 +29,7 @@ export default [
       {
         type: 'page',
         display: 'all',
-        path: 'aboutus',
+        path: '/aboutus',
         label: 'Header.MENU.about',
         ariaLabel: 'Header.ARIA.about',
         icon: <FcVoicePresentation/>
@@ -37,7 +37,7 @@ export default [
       {
         type: 'page',
         display: 'all',
-        path: 'timeline',
+        path: '/timeline',
         label: 'Header.MENU.history',
         ariaLabel: 'Header.ARIA.history',
         icon: <FcTimeline/>
@@ -47,7 +47,7 @@ export default [
   {
     type: 'page',
     display: 'all',
-    path: 'map',
+    path: '/map',
     label: 'Header.MENU.map',
     ariaLabel: 'Header.ARIA.map',
     icon: <RiRoadMapLine/>
@@ -63,7 +63,7 @@ export default [
   {
     type: 'page',
     display: 'all',
-    path: 'news',
+    path: '/news',
     label: 'Header.MENU.news',
     ariaLabel: 'Header.ARIA.news',
     icon: <GiNewspaper/>
@@ -71,7 +71,7 @@ export default [
   {
     type: 'page',
     display: 'bottom',
-    path: 'aboutus',
+    path: '/aboutus',
     label: 'Header.MENU.about',
     ariaLabel: 'Header.ARIA.about',
     icon: <FcVoicePresentation/>
