@@ -17,7 +17,7 @@ import { useSnackbar } from 'notistack';
 import { i18nextBannersList } from "@transitionpt/translations";
 import { useErrorHandler } from 'react-error-boundary';
 import { useSession } from "next-auth/react";
-import { ActivateBanners, InactivateBanners, DeleteBanners } from '../../../services/cms/banners';
+import { DeleteBanners } from '../../../services/cms/banners';
 
 import CheckTwoToneIcon from '@mui/icons-material/CheckTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
@@ -79,39 +79,39 @@ function BulkActions({isSingleRecord, recordId, recordIsVerified, recordIsActiva
     menuOpen(false);
   };
 
-  const activationAction = async(isActive) => {
-    const ids = isSingleRecord == true ? [recordId] : selectedBanners;
-    const result = await ActivateBanners(process.env.NEXT_PUBLIC_API_BASE_URL + '/banner/activate',{bannerIds: ids, isActive: isActive}, session.accessToken);
-    if (isMountedRef()) {
-      if (result.status) {
-        if (result.status === 404) {
-          enqueueSnackbar(t('MESSAGES.bannersNotFound'), {
-            variant: 'error',
-            anchorOrigin: {
-              vertical: 'top',
-              horizontal: 'center'
-            },
-            autoHideDuration: 2000,
-            TransitionComponent: Slide
-          });
-        }
-        else {
-          setActionsError(result);
-        }
-      }
-      else {
-        enqueueSnackbar((isActive == true ? t('MESSAGES.bannersActivated') : t('MESSAGES.bannersDeactivated')), {
-            variant: 'success',
-            anchorOrigin: {
-              vertical: 'top',
-              horizontal: 'center'
-            },
-            autoHideDuration: 2000,
-            TransitionComponent: Slide
-        });
-      }
-    }
-  }
+  // const activationAction = async(isActive) => {
+  //   const ids = isSingleRecord == true ? [recordId] : selectedBanners;
+  //   const result = await ActivateBanners(process.env.NEXT_PUBLIC_API_BASE_URL + '/banner/activate',{bannerIds: ids, isActive: isActive}, session.accessToken);
+  //   if (isMountedRef()) {
+  //     if (result.status) {
+  //       if (result.status === 404) {
+  //         enqueueSnackbar(t('MESSAGES.bannersNotFound'), {
+  //           variant: 'error',
+  //           anchorOrigin: {
+  //             vertical: 'top',
+  //             horizontal: 'center'
+  //           },
+  //           autoHideDuration: 2000,
+  //           TransitionComponent: Slide
+  //         });
+  //       }
+  //       else {
+  //         setActionsError(result);
+  //       }
+  //     }
+  //     else {
+  //       enqueueSnackbar((isActive == true ? t('MESSAGES.bannersActivated') : t('MESSAGES.bannersDeactivated')), {
+  //           variant: 'success',
+  //           anchorOrigin: {
+  //             vertical: 'top',
+  //             horizontal: 'center'
+  //           },
+  //           autoHideDuration: 2000,
+  //           TransitionComponent: Slide
+  //       });
+  //     }
+  //   }
+  // }
 
   const deleteBanner = async() => {
     const ids = isSingleRecord == true ? [recordId] : selectedBanners;
@@ -154,7 +154,7 @@ function BulkActions({isSingleRecord, recordId, recordIsVerified, recordIsActiva
           <Typography variant="h5" color="text.secondary">
             {t('LABELS.actions')}:
           </Typography>
-          { !recordIsActivated &&
+          {/* { !recordIsActivated &&
             <ButtonSuccess
               sx={{
                 ml: 1
@@ -175,7 +175,7 @@ function BulkActions({isSingleRecord, recordId, recordIsVerified, recordIsActiva
               variant="contained">
                 {isSingleRecord == true ? t('ACTIONS.deactivateBannerSingle') : t('ACTIONS.deactivateBanners')}
             </ButtonWarning>
-          }
+          } */}
         </Box>
         <IconButton
           color="primary"
