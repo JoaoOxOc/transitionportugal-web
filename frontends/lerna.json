@@ -12,6 +12,13 @@
       "logLevel": "error",
       "templateDockerfileName": "Dockerfile.template",
       "hoist": true
+    },
+    "command": {
+      "bootstrap": {
+          "npmClientArgs": [
+              "--legacy-peer-deps"
+          ]
+      }
     }
   }
   
