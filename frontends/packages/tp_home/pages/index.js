@@ -73,7 +73,7 @@ export async function getServerSideProps() {
   // Call an external API endpoint to get posts.
   // You can use any data fetching library
   // TODO: process nextjs selected language
-  const res = await fetch(process.env.SSR_CMS_BASE_URL+'/api/pages?filters[slug][$eq]=&locale=pt-PT&populate=deep', {
+  const res = await fetch(process.env.SSR_CMS_BASE_URL+'/api/pages?filters[slug][$eq]= &locale=pt-PT&populate=deep', {
     method: 'GET',
     headers: {
       Authorization:
