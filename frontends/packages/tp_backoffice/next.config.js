@@ -1,6 +1,6 @@
-module.exports = {
-  presets: ['@next/babel'],
-};
+// module.exports = {
+//   presets: ['@next/babel'],
+// };
 
 const optimizedImages = require('next-optimized-images');
 const withPlugins = require("next-compose-plugins");
