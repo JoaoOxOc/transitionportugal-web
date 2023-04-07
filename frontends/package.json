@@ -22,11 +22,19 @@
         "@mui/material": "^5.8.1",
         "@mui/styles": "5.2.1",
         "@mui/x-date-pickers": "^5.0.0-beta.1",
+        "date-fns": "^2.29.3",
+        "formik": "2.2.9",
+        "formik-mui": "4.0.0-alpha.3",
+        "formik-mui-lab": "1.0.0-alpha.3",
+        "html-react-parser": "^3.0.4",
         "leaflet": "1.7.1",
         "leaflet-geosearch": "3.6.0",
-        "next-auth": "^4.3.4",
+        "next-auth": "^4.19.1",
+        "react-cookie-consent": "^8.0.1",
         "react-imask": "^6.4.2",
-        "react-leaflet": "3.2.5"
+        "react-leaflet": "3.2.5",
+        "ua-parser-js": "^2.0.0-alpha.1",
+        "yup": "0.32.11"
     },
     "scripts": {
         "bootstrap": "lerna bootstrap --hoist",

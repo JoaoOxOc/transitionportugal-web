@@ -10,6 +10,7 @@ import SEO from '../components/seo';
 
 // page sections
 import UnderConstructionSection from "../pageSections/underConstruction";
+const ContactDynamic = dynamic(() => import("../pageSections/contact/contact"));
 const FooterDynamic = dynamic(() => import("../pageSections/footer/footer"),{ ssr: false });
 
 export default function NewsPage() {
@@ -19,6 +20,7 @@ export default function NewsPage() {
         <StickyProvider>
           <Layout>
             <UnderConstructionSection/>
+            <ContactDynamic/>
             <FooterDynamic/>
           </Layout>
         </StickyProvider>

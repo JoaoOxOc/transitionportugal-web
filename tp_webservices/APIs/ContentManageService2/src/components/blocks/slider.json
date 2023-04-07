@@ -2,12 +2,17 @@
   "collectionName": "components_blocks_sliders",
   "info": {
     "displayName": "slider",
-    "icon": "swimmer"
+    "icon": "swimmer",
+    "description": ""
   },
   "options": {},
   "attributes": {
     "sliderData": {
       "type": "richtext",
+      "required": true
+    },
+    "SectionIdentifier": {
+      "type": "string",
       "required": true
     }
   }

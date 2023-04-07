@@ -6,19 +6,26 @@ import { StickyProvider } from '../contexts/app/app.provider';
 import Layout from '../layouts/AppModernLayout';
 import dynamic from "next/dynamic";
 
+import usePartnerData from '../hooks/usePartnerData';
+
 import SEO from '../components/seo';
 
 // page sections
+import UnderConstructionSection from "../pageSections/underConstruction";
 import MapSection from "../pageSections/map/map";
+const ContactDynamic = dynamic(() => import("../pageSections/contact/contact"));
 const FooterDynamic = dynamic(() => import("../pageSections/footer/footer"),{ ssr: false });
 
 export default function Map() {
+  const {data, loading, error} = usePartnerData('');
 
     return (
       <ThemeProvider theme={theme}>
         <StickyProvider>
           <Layout>
-            <MapSection/>
+            <UnderConstructionSection/>
+            {/* <MapSection markersData={data}/> */}
+            <ContactDynamic/>
             <FooterDynamic/>
           </Layout>
         </StickyProvider>

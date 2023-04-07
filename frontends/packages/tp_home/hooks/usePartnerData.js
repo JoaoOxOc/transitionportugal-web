@@ -15,20 +15,11 @@ export default function usePartnerData(url) {
                     //setData(response.data)
                     const response = [
                               {
-                                id: '1',
-                                name: 'Transition Network',
-                                picture: '/tn-logo.svg',
-                                link: 'https://transitionnetwork.org',
-                                description: 'Movimento raíz do Transição Portugal',
-                                lat: 40.21270083837954,
-                                long: -8.411976302535853,
-                              },
-                              {
                                 id: '2',
-                                name: 'Transition Network',
-                                picture: '/tn-logo.svg',
-                                link: 'https://transitionnetwork.org',
-                                description: 'Movimento raíz do Transição Portugal',
+                                name: 'Projecto Origens',
+                                picture: 'https://www.projeto-origens.com/images/imagem%20capa_origens_2x.jpg',
+                                link: 'https://www.projeto-origens.com',
+                                description: 'Projecto regenerativo em Viseu',
                                 lat: 39.75814185749746,
                                 long: -8.812977251759657,
                               },

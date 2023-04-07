@@ -35,8 +35,19 @@ export default function Partners() {
             </Box>
             <Container sx={styles.partnerContainer}>
                     <Box sx={styles.partnerContainerRow}>
+                        <Box sx={styles.partnerColumn} key='tnetwork'>
+                            <Slide direction='right'>
+                                <PartnerCard
+                                    src='/tn-logo.svg'
+                                    alt='Transition Network'
+                                    name='Transition Network'
+                                    link='https://transitionnetwork.org'
+                                    description='Movimento raíz da Transição Portugal'
+                                />
+                            </Slide>
+                        </Box>
                         { data != null && data.map(({id, name, picture, link, description},i) => (
-                            <Box key={i}>
+                            <Box sx={styles.partnerColumn} key={i}>
                                 <Slide direction='right'>
                                     <PartnerCard
                                         src={picture}

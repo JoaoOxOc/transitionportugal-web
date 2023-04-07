@@ -15,6 +15,7 @@ export default [
     display: 'header',
     path: 'transitionmovement',
     label: 'Header.MENU.transitionMovement',
+    ariaLabel: 'Header.ARIA.transitionMovement',
     icon: <GiThreeLeaves/>,
     submenu: [
       {
@@ -22,20 +23,23 @@ export default [
         display: 'all',
         path: 'about',
         label: 'Header.MENU.presentation',
+        ariaLabel: 'Header.ARIA.presentation',
         icon: <FcBusinessContact/>
       },
       {
         type: 'page',
         display: 'all',
-        path: 'aboutus',
+        path: '/aboutus',
         label: 'Header.MENU.about',
+        ariaLabel: 'Header.ARIA.about',
         icon: <FcVoicePresentation/>
       },
       {
         type: 'page',
         display: 'all',
-        path: 'timeline',
+        path: '/timeline',
         label: 'Header.MENU.history',
+        ariaLabel: 'Header.ARIA.history',
         icon: <FcTimeline/>
       }
     ]
@@ -43,8 +47,9 @@ export default [
   {
     type: 'page',
     display: 'all',
-    path: 'map',
+    path: '/map',
     label: 'Header.MENU.map',
+    ariaLabel: 'Header.ARIA.map',
     icon: <RiRoadMapLine/>
   },
   {
@@ -52,20 +57,31 @@ export default [
     display: 'all',
     path: 'events',
     label: 'Header.MENU.events',
+    ariaLabel: 'Header.ARIA.events',
     icon: <IoCalendarOutline/>
   },
   {
     type: 'page',
     display: 'all',
-    path: 'news',
+    path: '/news',
     label: 'Header.MENU.news',
+    ariaLabel: 'Header.ARIA.news',
     icon: <GiNewspaper/>
   },
   {
-    type: 'component',
+    type: 'page',
     display: 'bottom',
-    path: 'actions',
-    label: 'Header.MENU.staff',
-    icon: <AiOutlineTeam/>
+    path: '/aboutus',
+    label: 'Header.MENU.about',
+    ariaLabel: 'Header.ARIA.about',
+    icon: <FcVoicePresentation/>
   },
+  // {
+  //   type: 'component',
+  //   display: 'bottom',
+  //   path: 'actions',
+  //   label: 'Header.MENU.staff',
+  //   ariaLabel: 'Header.ARIA.staff',
+  //   icon: <AiOutlineTeam/>
+  // },
 ];

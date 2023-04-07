@@ -44,8 +44,8 @@ export default function Footer() {
                   path={"/#" + path}
                   key={i}
                   aria-label={ i18nextFooter.t(label) }
-                  sx={styles.footer.bottomLink}
-                  style={{padding: '10px', color: 'inherit', textDecoration: 'none'}}
+                  sx={styles.footer.link}
+                  style={{color: 'inherit', textDecoration: 'none', paddingLeft: '25px', paddingRight: '25px'}}
               >
                   <span>{icon} { i18nextFooter.t(label) }</span>
               </CustomLink>
@@ -60,8 +60,9 @@ export default function Footer() {
               offset={-70}
               duration={500}
               key={i}
-              sx={styles.footer.bottomLink}
+              sx={styles.footer.link}
               aria-label={ i18nextFooter.t(label) }
+              style={{color: 'inherit', textDecoration: 'none', paddingLeft: '25px', paddingRight: '25px'}}
             >
               <span>{icon} { i18nextFooter.t(label) }</span>
             </ScrollLink>
@@ -118,7 +119,8 @@ export default function Footer() {
                 <Flex sx={styles.footer.navWrapper}>
                   <Slide direction='right'>
                     <nav>
-                      {items.map(({ path, label, icon }, i) => (
+                      {items.map(({ path, label, icon, type, display }, i) => (
+                        type === 'page' ? (
                         <Link
                           path={path}
                           key={i}
@@ -126,7 +128,8 @@ export default function Footer() {
                           sx={styles.footer.link}
                         >
                           <span>{icon} { i18nextFooter.t(label) }</span>
-                        </Link>
+                        </Link>)
+                        : (renderScrollLink(path, label, type, display, icon, i))
                       ))}
                     </nav>
                   </Slide>
@@ -146,7 +149,7 @@ export default function Footer() {
                 <nav>
                   {bottomMenuItems.map(({ path, label, icon, type, display }, i) => (
                     display != 'header' && (
-                    type === 'page' ?
+                    type === 'page' && display != 'submenu' ?
                       <Link
                         path={path}
                         key={i}
@@ -155,7 +158,7 @@ export default function Footer() {
                       >
                       <span>{icon} { i18nextFooter.t(label) }</span>
                       </Link>
-                    : renderScrollLink(path, label, type, display, icon, i)
+                    : (display != 'submenu' ? renderScrollLink(path, label, type, display, icon, i) : <></>)
                     )
                   ))}
                 </nav>

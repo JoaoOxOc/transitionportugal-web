@@ -25,7 +25,7 @@
       },
       "required": true
     },
-    "Slug": {
+    "slug": {
       "type": "string",
       "pluginOptions": {
         "i18n": {
@@ -55,7 +55,10 @@
         "blocks.carousel",
         "blocks.header",
         "blocks.image-list",
-        "blocks.section"
+        "blocks.section",
+        "page.sliders",
+        "page.dynamic-page-section",
+        "page.dynamic-sections"
       ]
     },
     "publishAt": {

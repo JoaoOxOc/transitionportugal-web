@@ -14,6 +14,7 @@ using UserService.Services.TermsManager;
 using System.Linq.Expressions;
 using CommonLibrary.Enums;
 using UserService.Services.Database;
+using UserService.Models.Reports;
 
 namespace UserService.Controllers
 {
@@ -202,6 +203,13 @@ namespace UserService.Controllers
             var associationEmailLink = _configuration["ApplicationSettings:RecoverPasswordBaseUrl"] + _configuration["ApplicationSettings:ConfirmEmailUri"] + "?t=" + associationTokenData.Token;
             bool associationEmailSuccess = await _emailSender.SendActivateAssociationEmail(association.Email, "pt-PT", association, associationEmailLink);
 
+            AdminEmailNotificationModel adminEmailNotification = new AdminEmailNotificationModel();
+            adminEmailNotification.Subject = "Novo registo de associação/iniciativa";
+            adminEmailNotification.Message = "Uma nova associação/iniciativa registou-se na plataforma Transição Portugal.<br/> Deverá validar a mesma, bem como o respectivo utilizador principal da mesma. Para tal, aceda ao registo da associação/iniciativa para validar os dados preenchidos pela mesma, bem como validar o utilizador associado, através do seguinte link: ";
+            adminEmailNotification.UriPath = _configuration["ApplicationSettings:RecoverPasswordBaseUrl"] + "/admin/management/associations/single/";
+            adminEmailNotification.UriId = result.Value != null && result.Value.Id.HasValue ? result.Value.Id.Value.ToString() : "";
+            bool adminEmailNotificationSuccess = await _emailSender.SendAdminNotificationEmail(adminEmailNotification);
+
             if (!userEmailSuccess)
             {
                 CommonLibrary.Entities.ViewModel.ExceptionModel exceptionModel = new CommonLibrary.Entities.ViewModel.ExceptionModel();
@@ -231,6 +239,21 @@ namespace UserService.Controllers
                 bool success = await _rabbitSender.PublishExceptionMessage(exceptionModel);
 
                 throw new AppException("Association Email send error");
+            }
+            if (!adminEmailNotificationSuccess)
+            {
+                CommonLibrary.Entities.ViewModel.ExceptionModel exceptionModel = new CommonLibrary.Entities.ViewModel.ExceptionModel();
+                exceptionModel.Message = "admin Email send error";
+                exceptionModel.StackTrace = "AuthenticateController.Register()";
+                exceptionModel.DateLogging = DateTime.UtcNow;
+                exceptionModel.AdminRole = "Admin";
+                exceptionModel.InnerException = null;
+                exceptionModel.InputDataJson = JsonSerializer.Serialize(model);
+                exceptionModel.UserId = result.Key.Id;
+
+                bool success = await _rabbitSender.PublishExceptionMessage(exceptionModel);
+
+                throw new AppException("admin Email send error");
             }
 
             return Ok(new Response { Status = "Success", Message = "User created successfully!" });

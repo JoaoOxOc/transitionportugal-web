@@ -9,6 +9,8 @@ export * from './home/i18nAbout';
 export * from './home/i18nPartner';
 export * from './home/i18nStaff';
 export * from './home/i18nActions';
+export * from './home/i18nTimeline';
+export * from './home/i18nEvents';
 
 export * from './backoffice/i18nSidemenu';
 export * from './backoffice/auth/i18nLoginForm';
@@ -18,6 +20,7 @@ export * from './backoffice/auth/i18nRegisterForm';
 export * from './backoffice/auth/i18nRecover';
 export * from './backoffice/auth/i18nReset';
 export * from './backoffice/auth/i18nConfirmEmail';
+export * from './backoffice/auth/i18nLogout';
 export * from './backoffice/i18nPage403';
 export * from './backoffice/settings/i18nSettingsList';
 export * from './backoffice/settings/i18nSettingDetails';

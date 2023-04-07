@@ -1,13 +1,15 @@
 /** @jsxImportSource theme-ui */
 import { Image, Box, Heading, Text, Flex, Link } from 'theme-ui';
+import NextLink from 'next/link';
 
 export default function EventCard({
   src,
   alt,
-  eventLink,
+  postLink,
   title,
   orgName,
   date,
+  endDate,
   tag,
   place,
 }) {
@@ -27,9 +29,9 @@ export default function EventCard({
 
       <Flex sx={styles.postContent}>
         <Heading sx={styles.title}>
-          <Link href={eventLink} variant="blog">
-            {title}
-          </Link>
+          <NextLink href={postLink}>
+              {title}
+          </NextLink>
         </Heading>
 
         <Flex sx={styles.postFooter}>

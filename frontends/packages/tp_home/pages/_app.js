@@ -3,7 +3,9 @@ import ReactDOM from "react-dom";
 import Router from "next/router";
 import App from 'next/app'
 import PageChange from "../components/PageChange/PageChange.js";
+import { AuthConsumer, AuthProvider } from '../contexts/authContext';
 //import { initGA, logPageView } from '../analytics';
+import CookieConsent from "react-cookie-consent";
 
 // Load DM Sans typeface
 import 'typeface-dm-sans';
@@ -39,7 +41,12 @@ const MyApp = ({ Component, pageProps }) => {
   }, []);
 
   return (
-    <Component {...pageProps} />
+    <AuthProvider>
+      <CookieConsent buttonText="Compreendi" cookieName="TpAcceptedCookies" location="top">
+        Apenas utilizamos cookies básicos para gestão de autenticação. Não realizamos qualquer tipo de rastreamento da sua actividade.
+      </CookieConsent>
+      <Component {...pageProps} />
+    </AuthProvider>
   )
 }
 

@@ -6,6 +6,8 @@ export var HEADER_TRANSLATIONS = deepFreeze({
         notsigned: "Do you already belong here?",
         loginLinkInfo: "Link to login page",
         login: "Sign in",
+        enterLinkInfo: "Link to login/register page",
+        enter: "Enter",
         registerLinkInfo: "Link to register page",
         register: "Register",
         userProfileInfo: "Button to access your User Area",
@@ -18,10 +20,23 @@ export var HEADER_TRANSLATIONS = deepFreeze({
         history: "History",
         presentation: "Presentation",
         about: "About the Movement",
+        timeline: 'Timeline',
         map: "Find Groups",
         events: "Events",
         news: "News",
-        staff: "Team"
+        staff: "Team",
+        appsMenuButton: "Transição Portugal Apps",
+        sidemenuButton: "Transição Portugal - more options"
+    },
+    ARIA: {
+        sitemapTitle: "Transição Portugal - Website Map",
+        transitionMovement: "About the Transition Movement - more options",
+        history: "History of Transição Portugal",
+        presentation: "Presentation of Transição Portugal",
+        about: "About the Transition Movement",
+        timeline: 'Our Constitution Timeline',
+        map: "Find Groups",
+        events: "Events",
     }
 });
 //# sourceMappingURL=header.js.map

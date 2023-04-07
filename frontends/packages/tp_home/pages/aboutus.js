@@ -6,22 +6,76 @@ import { StickyProvider } from '../contexts/app/app.provider';
 import Layout from '../layouts/AppModernLayout';
 import dynamic from "next/dynamic";
 
-import SEO from '../components/seo';
+import { i18nextAbout } from "@transitionpt/translations";
 
 // page sections
-import UnderConstructionSection from "../pageSections/underConstruction";
+import SEO from '../components/seo';
+import PageTitle from "../components/pageTitle";
+import DynamicPageSection from "../pageSections/dynamic";
+const ContactDynamic = dynamic(() => import("../pageSections/contact/contact"));
 const FooterDynamic = dynamic(() => import("../pageSections/footer/footer"),{ ssr: false });
 
-export default function AboutUsPage() {
+export default function AboutUsPage({aboutusPageData}) {
+    const [currentLang, setLang] = useState("pt");
+    useEffect(() => {
+      const handleNewMessage = (event) => {
+        setLang(event.detail);
+      };
+            
+      window.addEventListener('newLang', handleNewMessage);
+    }, []);
+    const aboutusPageDataAttributes = aboutusPageData.data && aboutusPageData.data[0] ? aboutusPageData.data[0].attributes : {};
+
+    console.log(aboutusPageDataAttributes);
+    const getComponentAttributes = (componentName) => {
+        return aboutusPageDataAttributes[componentName];
+    }
+
+    const getComponentAttributesByIdentifiers = (componentNamesArray, identifier) => {
+        let componentBlockArray = aboutusPageDataAttributes.Blocks.filter((block) => {
+          let isRightBlock = componentNamesArray.includes(block["__component"]);
+          if (identifier) {
+            isRightBlock = isRightBlock && block["Identifier"] === identifier;
+          }
+          if (isRightBlock)
+            return block;
+        });
+        console.log(componentBlockArray);
+        return componentBlockArray;
+    }
 
     return (
       <ThemeProvider theme={theme}>
         <StickyProvider>
           <Layout>
-            <UnderConstructionSection/>
+            <SEO metaDataObject={getComponentAttributes("seo")}/>
+            <PageTitle pageTitle={i18nextAbout.t("ABOUT_PAGE.title")}/>
+            <DynamicPageSection dynamicContent={getComponentAttributesByIdentifiers(["page.dynamic-page-section","page.sliders"], "")}/>
+            <ContactDynamic/>
             <FooterDynamic/>
           </Layout>
         </StickyProvider>
       </ThemeProvider>
     )
+}
+
+// This function gets called at run time on server-side.
+// It won't be called on client-side, so you can even do
+// direct database queries.
+export async function getServerSideProps() {
+  // TODO: process nextjs selected language
+  const res = await fetch(process.env.SSR_CMS_BASE_URL+'/api/pages?filters[slug][$eq]=aboutus&locale=pt-PT&populate=deep', {
+    method: 'GET',
+    headers: {
+      Authorization:
+        'Bearer ' + process.env.CMS_API_TOKEN,
+    }}
+    );
+  const aboutusPageData = await res.json();
+
+  return {
+    props: {
+      aboutusPageData,
+    },
   }
+}

@@ -155,7 +155,7 @@ const [termsConsented, setTermsConsented] = useState(false);
         helpers.setStatus({ success: false });
         helpers.setErrors({ submit: res.error });
       } else {
-        helpers.setStatus({ success: false });
+        helpers.setStatus({ success: true });
         helpers.setErrors({ submit: null });
       }
       if (res.error) {

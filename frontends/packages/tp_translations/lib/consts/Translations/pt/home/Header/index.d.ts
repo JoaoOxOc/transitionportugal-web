@@ -6,6 +6,8 @@ export declare const TRANSLATIONS: {
             readonly notsigned: "Já pertence ao nosso grupo?";
             readonly loginLinkInfo: "Link para a página de autenticação";
             readonly login: "Autentique-se";
+            readonly enterLinkInfo: "Link para a página de autenticação/registo";
+            readonly enter: "Entrar";
             readonly registerLinkInfo: "Link para a página de registo";
             readonly register: "Registe-se";
             readonly userProfileInfo: "Botão para aceder à sua Área de Utilizador";
@@ -18,10 +20,23 @@ export declare const TRANSLATIONS: {
             readonly history: "História";
             readonly presentation: "Apresentação";
             readonly about: "Sobre o Movimento";
+            readonly timeline: "Linha do Tempo";
             readonly map: "Encontrar Grupos";
             readonly events: "Eventos";
             readonly news: "Notícias";
             readonly staff: "Equipa";
+            readonly appsMenuButton: "Aplicações Transição Portugal";
+            readonly sidemenuButton: "Transição Portugal - mais opções";
+        };
+        readonly ARIA: {
+            readonly sitemapTitle: "Transição Portugal - Mapa do Website";
+            readonly transitionMovement: "Sobre o Movimento Transição - mais opções";
+            readonly history: "História da Transição Portugal";
+            readonly presentation: "Apresentação da Transição Portugal";
+            readonly about: "Sobre o Movimento Transição";
+            readonly timeline: "A Linha do Tempo da Nossa Constituição";
+            readonly map: "Encontrar Grupos";
+            readonly events: "Eventos";
         };
     };
 };

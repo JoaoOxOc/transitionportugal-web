@@ -10,15 +10,15 @@
     "strapi": "strapi"
   },
   "dependencies": {
-    "@_sh/strapi-plugin-ckeditor": "^1.1.0",
-    "@faker-js/faker": "^7.3.0",
-    "@strapi/plugin-i18n": "4.2.2",
-    "@strapi/plugin-users-permissions": "4.2.2",
-    "@strapi/provider-email-sendgrid": "^4.2.2",
-    "@strapi/strapi": "4.2.2",
-    "better-sqlite3": "7.4.6",
-    "pg": "^8.7.3",
-    "strapi-plugin-populate-deep": "^0.1.2"
+    "@_sh/strapi-plugin-ckeditor": "^1.1.2",
+    "@faker-js/faker": "^7.6.0",
+    "@strapi/plugin-i18n": "4.5.3",
+    "@strapi/plugin-users-permissions": "4.5.3",
+    "@strapi/provider-email-sendgrid": "^4.5.3",
+    "@strapi/strapi": "4.5.3",
+    "better-sqlite3": "7.6.2",
+    "pg": "^8.8.0",
+    "strapi-plugin-populate-deep": "^1.1.2"
   },
   "author": {
     "name": "João Almeida"

@@ -4,24 +4,11 @@ import Head from 'next/head';
 export default function SEO({
   metaDataObject,
 }) {
-  console.log(metaDataObject);
   let metaData = [
     {
       name: `description`,
       content: metaDataObject.metaDescription,
-    },
-    {
-      name: `twitter:card`,
-      content: `summary`,
-    },
-    {
-      name: `twitter:title`,
-      content: metaDataObject.metaTitle,
-    },
-    {
-      name: `twitter:description`,
-      content: metaDataObject.metaDescription,
-    },
+    }
   ]
   if (metaDataObject && metaDataObject.meta) {
     metaData = metaData.concat(metaDataObject.meta);

@@ -3,11 +3,14 @@
 import { Container, Flex, Box, Heading, Text, Image, Button } from 'theme-ui';
 import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
+import parse from 'html-react-parser';
+import Carousel from "react-multi-carousel";
 //const ModalVideo = dynamic(() => import('react-modal-video'), { ssr: false });
 import { Link } from '../../components/generic/link';
 //import { FaPlayCircle } from 'react-icons/fa';
 
 import {bannerStyles as styles } from './banner.styles';
+import { CarouselResponsive as responsive } from './banner.styles';
 
 import { BannerDataAction } from '../../contexts/banner/banner.provider';
 
@@ -16,8 +19,9 @@ import { i18nextCommon } from "@transitionpt/translations";
 import EcoMap from '../../components/bannerInteraction/ecomap';
 
 const GlassCarouselDynamic = dynamic(() => import("../../components/glassCarousel/glasscarousel"));
+import "react-multi-carousel/lib/styles.css";
 
-export default function Banner() {
+export default function Banner({sliderComponentObject}) {
 //   const { t } = useTranslation('header');
 //   console.log('translations ',t('description'));
   const [videoOpen, setVideoOpen] = useState(false);
@@ -25,26 +29,75 @@ export default function Banner() {
     'https://hn.algolia.com/api/v1/search?query=redux',
     { hits: [] },
   );
+
   const handleClick = (e) => {
     e.preventDefault();
     setVideoOpen(true);
   };
+
+  const parseSliderData = (id,slider) => {
+    let figureElement = "";
+    if (slider.includes("<figure")) {
+      figureElement = slider.match(new RegExp("<figure" + "(.*)" + "figure>"));
+    }
+    const slideText = slider.match(new RegExp("</figure>" + "(.*)"));
+    
+    return (
+      <div key={id}>
+        {parse(figureElement[0])}
+        {slideText && slideText.length > 1 &&
+          <div sx={styles.bannerCarousel.textOverlayContainer}>
+            <div sx={styles.bannerCarousel.textOverlay}>
+              {parse(slideText[1])}
+            </div>
+          </div>
+        }
+      </div>
+    )
+  }
   return (
     <section sx={styles.banner} style={{
       backgroundImage:
         "url(" + bannerData.bannerData.bannerImage + ")",
     }} id="home">
-      <Container sx={styles.banner.container}>
-        <Box sx={styles.banner.contentBox}>
+      <Carousel sx={styles.bannerCarousel}
+                        // swipeable={true}
+                        // draggable={true}
+                        showDots={false}
+                        arrows={sliderComponentObject && sliderComponentObject.Sliders && sliderComponentObject.Sliders.length > 1 ? true : false}
+                        // removeArrowOnDeviceType={["tablet", "mobile"]}
+                        // ssr={true} // means to render carousel on server-side.
+                        infinite={true}
+                        responsive={responsive}
+                        // additionalTransfrom={0}
+                        autoPlay={true}
+                        autoPlaySpeed={10000}
+                        centerMode={false}
+                        keyBoardControl={true}
+                        // customTransition="transform 1000ms ease-in-out 1s"
+                        // transitionDuration={1000}
+                        // removeArrowOnDeviceType={["tablet", "mobile"]}
+                        // deviceType={this.props.deviceType}
+                        dotListClass="custom-dot-list-style"
+                        // renderButtonGroupOutside
+                        // customButtonGroup={<SwipeButtonGroup />}
+                        minimumTouchDrag={80}
+                    >
+                        { sliderComponentObject && sliderComponentObject.Sliders && sliderComponentObject.Sliders.map(({id, sliderData},i) => (
+                            parseSliderData(id,sliderData)
+                        ))}
+                </Carousel>
+      {/* <Container sx={styles.banner.container}>
+        <Box sx={styles.banner.contentBox}> */}
           {/* <Heading as="h1" variant="tpPrimary">
             Interaja com este espaço e descubra a transição
           </Heading> */}
           {/* <Text as="p" variant="tpSecondary">
             Interaja com este espaço e descubra a transição
           </Text> */}
-          <Flex style={{width: '100%'}}>
+          {/* <Flex style={{width: '100%'}}>
             <GlassCarouselDynamic/>
-          </Flex>
+          </Flex> */}
           {/* <Flex> */}
             {/* <Button variant="whiteButton" aria-label="Get Started">
               Get Started
@@ -75,10 +128,11 @@ export default function Banner() {
               ))}
             </Box>
           </Flex> */}
-        </Box>
-      </Container>
+        {/* </Box>
+      </Container> */}
 
-      <EcoMap />
+      {/* TODO: uncomment for circular economy infographic */}
+      {/* <EcoMap /> */}
     </section>
   );
 }

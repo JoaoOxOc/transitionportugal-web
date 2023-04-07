@@ -14,15 +14,38 @@ const DonationDynamic = dynamic(() => import("../pageSections/sidebars/donations
 const NewsDynamic = dynamic(() => import("../pageSections/sidebars/news"));
 const BannerDynamic = dynamic(() => import("../pageSections/banner/banner"));
 const AboutDynamic = dynamic(() => import("../pageSections/about/about"));
+const ContactDynamic = dynamic(() => import("../pageSections/contact/contact"));
 const EventsDynamic = dynamic(() => import("../pageSections/events/events"));
 const ActionsDynamic = dynamic(() => import("../pageSections/actions/actions"));
 const FooterDynamic = dynamic(() => import("../pageSections/footer/footer"));
 
 export default function Home({homepageData}) {
+  const [currentLang, setLang] = useState("pt");
+  useEffect(() => {
+    const handleNewMessage = (event) => {
+      setLang(event.detail);
+    };
+          
+    window.addEventListener('newLang', handleNewMessage);
+  }, []);
   const homepageDataAttributes = homepageData.data && homepageData.data[0] ? homepageData.data[0].attributes : {};
+  console.log(homepageDataAttributes);
+
   const getComponentAttributes = (componentName) => {
     return homepageDataAttributes[componentName];
   }
+
+  const getComponentAttributesByIdentifier = (componentName, identifier) => {
+    if (!homepageDataAttributes || !homepageDataAttributes.Blocks) {
+      return {};
+    }
+    let componentBlockArray = homepageDataAttributes.Blocks.filter((block) => {
+      if (block["__component"] === componentName && block["Identifier"] === identifier)
+        return block;
+    });
+    return componentBlockArray[0];
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <StickyProvider>
@@ -31,10 +54,11 @@ export default function Home({homepageData}) {
           {/* <AccessibilityDynamic posRight={'0px'} posTop={'170px'}/>
           <DonationDynamic posRight={'0px'} posTop={'250px'}/>
           <NewsDynamic posRight={'0px'} posTop={'320px'}/> */}
-          <BannerDynamic/>
-          <AboutDynamic/>
+          <BannerDynamic sliderComponentObject={getComponentAttributesByIdentifier("blocks.carousel", "main_homepage_slider")}/>
+          <AboutDynamic aboutComponentObject={getComponentAttributesByIdentifier("blocks.section", "about")}/>
           <EventsDynamic/>
-          <ActionsDynamic/>
+          <ActionsDynamic registerComponentObject={getComponentAttributesByIdentifier("blocks.section", "action_register")}/>
+          <ContactDynamic/>
           <FooterDynamic/>
         </Layout>
       </StickyProvider>
@@ -48,7 +72,8 @@ export default function Home({homepageData}) {
 export async function getServerSideProps() {
   // Call an external API endpoint to get posts.
   // You can use any data fetching library
-  const res = await fetch(process.env.SSR_CMS_BASE_URL+'/api/pages?populate=deep&slug=&locale=pt-PT', {
+  // TODO: process nextjs selected language
+  const res = await fetch(process.env.SSR_CMS_BASE_URL+'/api/pages?filters[slug][$eq]=&locale=pt-PT&populate=deep', {
     method: 'GET',
     headers: {
       Authorization:
@@ -57,8 +82,6 @@ export async function getServerSideProps() {
     );
   const homepageData = await res.json();
 
-  // By returning { props: { posts } }, the Blog component
-  // will receive `posts` as a prop at build time
   return {
     props: {
       homepageData,

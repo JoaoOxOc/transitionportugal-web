@@ -7,11 +7,13 @@ const withPlugins = require("next-compose-plugins");
 const withTM = require("next-transpile-modules")(["@transitionpt/translations"], { setExternals: true });
 
 module.exports = withPlugins([optimizedImages, withTM], {
+    basePath: '',
     reactStrictMode: true,
+    swcMinify: true,
     images: {
       disableStaticImages: true
     },
-    experimental: {
+    compiler: {
       // Enables the styled-components SWC transform
       styledComponents: true
     }

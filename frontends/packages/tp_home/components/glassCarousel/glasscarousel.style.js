@@ -23,9 +23,19 @@ export const CarouselResponsive = {
   };
 
 export const GlassCarouselStyles = {
+    carouselCardFullWidth: {
+      width: '100%',
+    },
+    carouselCardDynamicWidth: {
+      width: ['calc(100vw - 100px)','calc(100vw - 100px)','calc(100vw - 150px)','600px','600px', '550px', '600px'],
+    },
+    carouselCardDefaultHeight: {
+      height: '320px',
+    },
+    carouselCardInheritHeight: {
+      height: 'inherit',
+    },
     carouselCard: {
-        height: '320px',
-        width: ['100%','100%','400px','500px','600px'],
         bottom: 0,
         //right: 0,
         margin: '0 auto',
@@ -56,7 +66,7 @@ export const GlassCarouselStyles = {
       width: '100%',
         height: '100%',
         marginLeft: 'auto',
-        maxWidth: 'calc(50% + 865px)',
+        // maxWidth: 'calc(50% + 865px)',
         overflow: 'hidden !important',
     }
 }

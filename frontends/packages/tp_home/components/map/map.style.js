@@ -2,8 +2,7 @@ export const MapStyles = {
     map: {
         position: 'relative',
         width: '100%',
-        height: '100%',
-        padding: ['50px 0 50px 0','50px 0 50px 0','50px 50px 50px 50px']
+        height: '100%'
     },
     mapContainer: {
         width: '100%',
