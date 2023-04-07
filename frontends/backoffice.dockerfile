@@ -1,13 +1,12 @@
 FROM node:16 as base
 WORKDIR /app/
-ENV PATH /app/node_modules/.bin:$PATH
+#ENV PATH /app/node_modules/.bin:$PATH
 #COPY ./package.json ./
 #COPY ./lerna.json ./
 
 COPY ./package.json /app/
+RUN npm install --legacy-peer-deps
 COPY ./lerna.json /app/
-
-RUN npm install --force
 
 
 
@@ -49,7 +48,8 @@ COPY  packages/tp_backoffice/ /app/packages/tp_backoffice/
 
 #RUN npm config set legacy-peer-deps true
 #RUN true
-RUN npx lerna bootstrap --scope=@transitionpt/backoffice --no-ci --includeDependencies
+RUN npx lerna bootstrap --scope=@transitionpt/backoffice --includeDependencies 
+#--no-ci 
 #WORKDIR /app/packages/tp_backoffice/
 #RUN npm install --force
 #RUN ls -l /app/packages/tp_backoffice/node_modules
@@ -82,9 +82,9 @@ copy --from=transitionpt_backoffice-build /app/packages/tp_geolocation /app/pack
 copy --from=transitionpt_backoffice-build /app/packages/tp_components /app/packages/tp_backoffice/node_modules/@transitionpt/components/
 
 WORKDIR /app/packages/tp_backoffice
-RUN npm config set legacy-peer-deps true
-RUN npm install --loglevel verbose
-RUN ls -l /app/packages/tp_backoffice/node_modules
+#RUN npm config set legacy-peer-deps true
+#RUN npm install --loglevel verbose
+#RUN ls -l /app/packages/tp_backoffice/node_modules
 
 ARG NEXT_PUBLIC_API_BASE_URL
 ENV NEXT_PUBLIC_API_BASE_URL=$NEXT_PUBLIC_API_BASE_URL
