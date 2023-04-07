@@ -2,12 +2,6 @@ import React, { useEffect, useState } from "react";
 
 import { ThemeProvider, Container } from 'theme-ui';
 import theme from '../theme';
-import {
-    Box,
-    Grid,
-    Typography,
-    Divider
-  } from '@material-ui/core';
 import { StickyProvider } from '../contexts/app/app.provider';
 import Layout from '../layouts/AppModernLayout';
 import dynamic from "next/dynamic";
@@ -15,7 +9,6 @@ import dynamic from "next/dynamic";
 import SEO from '../components/seo';
 
 import { i18nextHeader } from "@transitionpt/translations";
-import { i18nextFooter } from "@transitionpt/translations";
 
 // page sections
 import PageTitle from "../components/pageTitle";
