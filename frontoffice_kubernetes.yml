@@ -50,6 +50,21 @@ spec:
              secretKeyRef:
                name: transfrontoffice-data
                key: cms-auth-api-token
+        - name: HOME_API_BASE_URL
+          valueFrom:
+             secretKeyRef:
+               name: transfrontoffice-data
+               key: api-base-url
+        - name: HOME_API_CLIENT_ID
+          valueFrom:
+             secretKeyRef:
+               name: transfrontoffice-data
+               key: api-client-id
+        - name: HOME_API_CLIENT_SECRET
+          valueFrom:
+             secretKeyRef:
+               name: transfrontoffice-data
+               key: api-client-secret
       imagePullSecrets:
       - name: do-photos-registry-secret
 ---
