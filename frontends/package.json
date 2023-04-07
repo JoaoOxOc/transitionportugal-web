@@ -30,6 +30,7 @@
         "leaflet": "1.7.1",
         "leaflet-geosearch": "3.6.0",
         "next-auth": "^4.19.1",
+        "react-cookie-consent": "^8.0.1",
         "react-imask": "^6.4.2",
         "react-leaflet": "3.2.5",
         "ua-parser-js": "^2.0.0-alpha.1",

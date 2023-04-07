@@ -19,7 +19,8 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import useScrollTop from '../hooks/useScrollTop';
 import { SnackbarProvider } from 'notistack';
 import { AuthConsumer, AuthProvider } from '../contexts/JWTAuthContext';
-import { SessionProvider, Provider } from "next-auth/react"
+import { SessionProvider, Provider } from "next-auth/react";
+import CookieConsent from "react-cookie-consent";
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -63,6 +64,9 @@ function MyApp(props) {
                               
                               getLayout(
                                 <ErrorBoundary FallbackComponent={ErrorBoundaryFallback} onError={myErrorHandler}>
+                                    <CookieConsent buttonText="Compreendi" cookieName="TpAcceptedCookies" location="top">
+                                      Apenas utilizamos cookies básicos para gestão de autenticação. Não realizamos qualquer tipo de rastreamento da sua actividade.
+                                    </CookieConsent>
                                     <Component {...pageProps} />
                                 </ErrorBoundary>
                               )

@@ -5,13 +5,14 @@ import {FaRegUserCircle} from 'react-icons/fa';
 import {MdPlace} from 'react-icons/md';
 import {GoCalendar} from 'react-icons/go';
 import { format } from 'date-fns';
+import { CustomLink } from '../../components/generic/link';
 
 import { EventDetailsStyles as styles } from './eventDetails.style';
 import { i18nextEvents } from "@transitionpt/translations";
 
 import "react-multi-carousel/lib/styles.css";
 
-export default function EventDetailsSection({details}) {
+export default function EventDetailsSection({details, slug}) {
 
     return (
         <Container sx={styles.eventDetailsSectionContainer}>
@@ -21,8 +22,16 @@ export default function EventDetailsSection({details}) {
                         <Box px={2} >
                             <span><FaRegUserCircle sx={styles.eventInfoIcon}/></span> Por: Transição Portugal
                         </Box>
-                        <Box px={2} >
-                            <span><MdPlace sx={styles.eventInfoIcon}/></span> {details.EventPlace}
+                        <Box px={2}>
+                            <CustomLink 
+                                    path={"/eventos/" + slug + "/#eventLocation"}
+                                    key={1}
+                                    tabIndex={10}
+                                    aria-label={ i18nextEvents.t('LABELS.eventLocationHelpText') }
+                                    style={{padding: '10px', color: 'inherit', textDecoration: 'none'}}
+                            >
+                                <span><MdPlace sx={styles.eventInfoIcon}/></span> {details.EventPlace}
+                            </CustomLink>
                         </Box>
                         { details.EventEndDate && details.EventEndDate != '' && 
                             <Box px={2}>
