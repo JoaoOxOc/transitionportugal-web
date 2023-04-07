@@ -9,7 +9,7 @@ export default [
         {
           type: 'page',
           display: 'all',
-          path: 'privacy',
+          path: '/privacy',
           label: 'Header.PRIVACY_MENU.policy',
           ariaLabel: 'Header.PRIVACY_ARIA.policy',
           icon: <MdOutlinePrivacyTip/>
@@ -17,7 +17,7 @@ export default [
         {
           type: 'page',
           display: 'all',
-          path: 'sitemap',
+          path: '/sitemap',
           label: 'Header.PRIVACY_MENU.sitemap',
           ariaLabel: 'Header.PRIVACY_ARIA.sitemap',
           icon: <BiSitemap/>
