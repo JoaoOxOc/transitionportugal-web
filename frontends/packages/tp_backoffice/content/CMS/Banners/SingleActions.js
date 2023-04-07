@@ -13,7 +13,7 @@ import {
     styled
   } from '@mui/material';
 
-  import {CloneBanner, ChangeStatusBanners} from '../../../services/cms/banners';
+  import {ChangeStatusBanners} from '../../../services/cms/banners';
   import { useSession } from "next-auth/react";
   import { useSnackbar } from 'notistack';
 import CloseIcon from '@mui/icons-material/Close';
@@ -91,7 +91,7 @@ export default function SingleActions({bannerIsDraft, bannerId, bannerPageKey, b
                 activateBannerAction();
             } break;
             case "CLONE": {
-                cloneBannerAction();
+                // cloneBannerAction();
             } break;
         }
         handleCloseDialog();
@@ -124,33 +124,33 @@ export default function SingleActions({bannerIsDraft, bannerId, bannerPageKey, b
         refreshData(true);
     }
 
-    const cloneBannerAction = async() => {
-        const cloneResult = await CloneBanner(process.env.NEXT_PUBLIC_API_BASE_URL + "/cms/banner/clone", {id: bannerId}, session.accessToken);
-        if (cloneResult.bannerId) {
-            enqueueSnackbar(t('MESSAGES.bannerCloned', {bannerIdentification: cloneResult.pageKey + "|" + cloneResult.componentKey + "|level:" + cloneResult.orderPosition}), {
-                variant: 'success',
-                anchorOrigin: {
-                  vertical: 'top',
-                  horizontal: 'center'
-                },
-                autoHideDuration: 2000,
-                TransitionComponent: Slide
-            });
-        }
-        else {
-            enqueueSnackbar(t('MESSAGES.bannerCloningError', {bannerIdentification: bannerPageKey + "|" + bannerComponentKey + "|level:" + bannerOrderPosition}), {
-                variant: 'error',
-                anchorOrigin: {
-                  vertical: 'top',
-                  horizontal: 'center'
-                },
-                autoHideDuration: 2000,
-                TransitionComponent: Slide
-              });
-        }
-        refreshData(true);
+    // const cloneBannerAction = async() => {
+    //     const cloneResult = await CloneBanner(process.env.NEXT_PUBLIC_API_BASE_URL + "/cms/banner/clone", {id: bannerId}, session.accessToken);
+    //     if (cloneResult.bannerId) {
+    //         enqueueSnackbar(t('MESSAGES.bannerCloned', {bannerIdentification: cloneResult.pageKey + "|" + cloneResult.componentKey + "|level:" + cloneResult.orderPosition}), {
+    //             variant: 'success',
+    //             anchorOrigin: {
+    //               vertical: 'top',
+    //               horizontal: 'center'
+    //             },
+    //             autoHideDuration: 2000,
+    //             TransitionComponent: Slide
+    //         });
+    //     }
+    //     else {
+    //         enqueueSnackbar(t('MESSAGES.bannerCloningError', {bannerIdentification: bannerPageKey + "|" + bannerComponentKey + "|level:" + bannerOrderPosition}), {
+    //             variant: 'error',
+    //             anchorOrigin: {
+    //               vertical: 'top',
+    //               horizontal: 'center'
+    //             },
+    //             autoHideDuration: 2000,
+    //             TransitionComponent: Slide
+    //           });
+    //     }
+    //     refreshData(true);
 
-    }
+    // }
 
     return (
         <>
