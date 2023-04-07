@@ -1,6 +1,6 @@
 FROM node:14 as base
 COPY ./package.json ./
-RUN npm install
+RUN npm install --legacy-peer-deps
 COPY ./lerna.json ./
 # Package @transitionpt/backoffice
 FROM base as transitionpt_backoffice-build
