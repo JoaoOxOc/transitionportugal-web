@@ -145,9 +145,10 @@ function ManagementUsersView() {
 
 ManagementUsersView.getLayout = (page) => {
   const { props } = page;
+  const pageChildren = props.children.length > 1 ? props.children[1] : props.children;
   return (
-    <Authenticated session={props.children.props.session}>
-      <Authorized session={props.children.props.session} scopes={["users.write", "user.write"]}>
+    <Authenticated session={pageChildren.props.session}>
+      <Authorized session={pageChildren.props.session} scopes={["users.write", "user.write"]}>
         <AccentHeaderLayout>{page}</AccentHeaderLayout>
       </Authorized>
     </Authenticated>
