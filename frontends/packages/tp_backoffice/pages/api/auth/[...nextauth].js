@@ -152,7 +152,6 @@ import Credentials from 'next-auth/providers/credentials'
           if (!credentials.username || !credentials.password) {
             throw new Error("CredentialsEmptyLoginError");
           }
-          console.log('next auth req: ', req, credentials);
           const apiUrl = process.env.AUTH_API_URL+"/user/login";
           const res = await fetch(apiUrl, {
             method: 'POST',
@@ -173,6 +172,7 @@ import Credentials from 'next-auth/providers/credentials'
           // The Credentials provider can only be used if JSON Web Tokens are enabled for sessions.
           // Users authenticated with the Credentials provider are not persisted in the database.
           const user = await res.json();
+          console.log('next auth response/parsed response: ', res, user);
     
           // If no error and we have user data, return it
           if (res.ok && user) {
@@ -223,6 +223,7 @@ import Credentials from 'next-auth/providers/credentials'
       //     headers: { "Content-Type": "application/json" }
       // })
       // const resData = await res.json()
+      console.log('next auth session(): ',session);
       return session
     },
     async jwt({token, user, account, profile, isNewUser}) {
@@ -243,7 +244,7 @@ import Credentials from 'next-auth/providers/credentials'
       //     headers: { "Content-Type": "application/json" }
       // })
       // const resData = await res.json()
-      console.log(account, user)
+      console.log('next auth jwt() account and user: ',account, user);
       // Initial sign in
       if (account && user) {
         const userData = await getUserProfile(user.token);

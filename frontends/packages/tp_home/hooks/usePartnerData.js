@@ -22,16 +22,7 @@ export default function usePartnerData(url) {
                                 description: 'Projecto regenerativo em Viseu',
                                 lat: 39.75814185749746,
                                 long: -8.812977251759657,
-                              },
-                              {
-                                id: '3',
-                                name: 'Transition Network',
-                                picture: '/tn-logo.svg',
-                                link: 'https://transitionnetwork.org',
-                                description: 'Movimento raíz do Transição Portugal',
-                                lat: 38.65360930777786,
-                                long: -8.216968999476505,
-                              },
+                              }
                           ];
                     setData(response)
                 }catch(err){
