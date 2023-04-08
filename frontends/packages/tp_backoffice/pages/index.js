@@ -26,8 +26,9 @@ function DashboardReports() {
 DashboardReports.getLayout = (page) => {
   console.log('DashboardReports getLayout page: ', page);
   const { props } = page;
+  const pageChildren = props.children.length > 1 ? props.children[1] : props.children;
     return (
-      <Authenticated session={props.children.props.session}>
+      <Authenticated session={pageChildren.props.session}>
         <AccentHeaderLayout>{page}</AccentHeaderLayout>
     </Authenticated>
     );
