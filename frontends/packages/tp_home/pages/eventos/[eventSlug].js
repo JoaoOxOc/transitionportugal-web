@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 import { useRouter } from 'next/router';
 
@@ -20,28 +20,10 @@ const ContactDynamic = dynamic(() => import("../../pageSections/contact/contact"
 const FooterDynamic = dynamic(() => import("../../pageSections/footer/footer"),{ ssr: false });
 const MapDynamic = dynamic(() => import("../../components/map/map"), {ssr: false});
 
-function EventDetails() {
+function EventDetails({eventDetailData}) {
     const router = useRouter();
     const [currentLang, setLang] = useState("pt");
     i18nextEvents.changeLanguage(currentLang);
-    const [currentEvent, setCurrentEvent] = useState({});
-
-    console.log('event slug: ', router.query.eventSlug);
-
-    const getEventData = useCallback(async () => {
-        try {
-            const response = await fetch("/api/eventsData?slug="+router.query.eventSlug, {
-                method: 'GET',
-            })
-            const responseData = await response.json();
-            responseData.data.forEach(element => {
-              setCurrentEvent(element);
-            });
-          } catch (err) {
-            setCurrentEvent({});
-            console.error(err);
-          }
-    }, [router.query.eventSlug]);
 
     useEffect(() => {
         const handleNewMessage = (event) => {
@@ -49,20 +31,20 @@ function EventDetails() {
         };
               
         window.addEventListener('newLang', handleNewMessage);
-        getEventData();
-    }, [getEventData]);
+    }, []);
+    const eventDetailDataAttributes = eventDetailData.data && eventDetailData.data[0] ? eventDetailData.data[0].attributes : {};
+    console.log('evento Attributes: ', eventDetailDataAttributes);
 
-    console.log('evento: ', currentEvent.attributes);
     const getComponentAttributes = (componentName) => {
-        if (currentEvent && currentEvent.attributes) {
-            return currentEvent.attributes[componentName];
+        if (eventDetailDataAttributes) {
+            return eventDetailDataAttributes[componentName];
         }
         return {};
     }
 
     const getComponentAttributesByIdentifiers = (componentNamesArray, identifier) => {
-        if (currentEvent && currentEvent.attributes) {
-            let componentBlockArray = currentEvent.attributes.Blocks.filter((block) => {
+        if (eventDetailDataAttributes) {
+            let componentBlockArray = eventDetailDataAttributes.Blocks.filter((block) => {
             let isRightBlock = componentNamesArray.includes(block["__component"]);
             if (identifier) {
                 isRightBlock = isRightBlock && block["Identifier"] === identifier;
@@ -85,21 +67,21 @@ function EventDetails() {
             <StickyProvider>
             <Layout>
                 <SEO metaDataObject={getComponentAttributes("seo")}/>
-                {currentEvent && currentEvent.attributes &&
+                {eventDetailDataAttributes &&
                 <>
                     <div style={{width: '100%', maxWidth: '1280px', margin: '0 auto'}}>
                         <img
                             style={{width: '100%'}}
-                            src={currentEvent.attributes.EventImageUrl}
+                            src={eventDetailDataAttributes.EventImageUrl}
                             alt={i18nextEvents.t('EVENTS.eventImageAlt')}
                         />
                     </div>
-                    <EventDetailsSection details={currentEvent.attributes} slug={router.query.eventSlug}/>
-                    <PageTitle pageTitle={currentEvent.attributes.Title}/>
+                    <EventDetailsSection details={eventDetailDataAttributes} slug={router.query.eventSlug}/>
+                    <PageTitle pageTitle={eventDetailDataAttributes.Title}/>
                     <DynamicPageSection dynamicContent={getComponentAttributesByIdentifiers(["page.dynamic-page-section","page.sliders"], "")}/>
                     <section id="eventLocation">
                         <PageTitle pageTitle={i18nextEvents.t('EVENTS.eventLocation')}/>
-                        <MapDynamic markersData={[{lat: currentEvent.attributes.Latitude, long: currentEvent.attributes.Longitude, title: currentEvent.attributes.EventTitle}]} useSearch={false} zoom={14}/>
+                        <MapDynamic markersData={[{lat: eventDetailDataAttributes.Latitude, long: eventDetailDataAttributes.Longitude, title: eventDetailDataAttributes.EventTitle}]} useSearch={false} zoom={14}/>
                     </section>
                 </>
                 }
@@ -109,6 +91,26 @@ function EventDetails() {
             </StickyProvider>
         </ThemeProvider>
     );
+}
+
+// This function gets called at run time on server-side.
+export async function getServerSideProps(context) {
+    console.log("eventos router params: ", context.params);
+    const res = await fetch(process.env.SSR_CMS_BASE_URL+'/api/event-pages?filters[slug][$eq]=' + context.params.eventSlug + '&locale=pt-PT&populate=deep', {
+        method: 'GET',
+        headers: {
+        Authorization:
+            'Bearer ' + process.env.CMS_API_TOKEN,
+        }}
+    );
+    const eventDetailData = await res.json();
+    console.log("eventos server eventDetailData: ", eventDetailData);
+
+    return {
+        props: {
+        eventDetailData,
+        },
+    }
 }
 
 export default EventDetails;
