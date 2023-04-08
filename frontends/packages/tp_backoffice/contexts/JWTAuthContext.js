@@ -143,12 +143,13 @@ export const AuthProvider = (props) => {
       //const accessToken = await login({ email, password });
       //console.log(accessToken);
       const responseFingerprint = await genericFetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/user/fingerprint", "GET", null,null);
-      console.log(responseFingerprint);
+      console.log('JWTAuthContext responseFingerprint: ', responseFingerprint);
       const response = await genericFetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/user/login", "POST", null,{
             username: email,
             password: password
           }
       );
+      console.log('JWTAuthContext login response: ', response);
       if (response.token) {
         const userProfileResponse = await genericFetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/user/profile", "GET", response.token,{});
         if (userProfileResponse.userProfile) {
@@ -157,6 +158,7 @@ export const AuthProvider = (props) => {
     
           localStorage.setItem('accessToken', response.token);
           localStorage.setItem('refreshToken', response.refreshToken);
+          console.log('JWTAuthContext userProfile response: ', userProfileResponse);
 
           dispatch({
             type: 'LOGIN',

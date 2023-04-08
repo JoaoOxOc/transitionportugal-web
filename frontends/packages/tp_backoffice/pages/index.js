@@ -12,7 +12,7 @@ import DashboardReportsContent from '../content/DashboardPages/reports';
 // https://stackoverflow.com/questions/70717224/how-to-define-a-custom-base-path-when-nextauth-url-doesnt-work
 // https://next-auth.js.org/tutorials/refresh-token-rotation
 function DashboardReports() {
-  console.log(process.env.NEXT_PUBLIC_CMS_BASE_URL);
+  console.log('DashboardReports CMS URL: ', process.env.NEXT_PUBLIC_CMS_BASE_URL);
   return (
     <>
       <Head>
@@ -24,6 +24,7 @@ function DashboardReports() {
 }
 
 DashboardReports.getLayout = (page) => {
+  console.log('DashboardReports getLayout page: ', page);
   const { props } = page;
     return (
       <Authenticated session={props.children.props.session}>
@@ -36,6 +37,7 @@ DashboardReports.getLayout = (page) => {
 export const getServerSideProps = async ({req}) => {
   // get the session
   const session = await getSession({ req });
+  console.log('DashboardReports getSession: ', session);
 
   // // passing the session object to the page  
   return { props: {session: session} };
