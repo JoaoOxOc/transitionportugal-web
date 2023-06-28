@@ -39,6 +39,7 @@ const MyApp = ({ Component, pageProps }) => {
       document.body.classList.remove("body-page-transition");
     });
     window.history.scrollRestoration = 'manual';
+    window.scrollTo(0, 0);
   }, []);
 
   return (
