@@ -38,6 +38,7 @@ const MyApp = ({ Component, pageProps }) => {
       ReactDOM.unmountComponentAtNode(document.getElementById("page-transition"));
       document.body.classList.remove("body-page-transition");
     });
+    window.history.scrollRestoration = 'manual';
   }, []);
 
   return (
