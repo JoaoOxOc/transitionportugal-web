@@ -37,6 +37,8 @@ msbuild.wrn
 /frontends/packages/node_modules
 /frontends/packages/microthings_frontcontainer/node_modules
 /frontends/packages/microthings_home/node_modules
+/frontends/transitionmap/node_modules
+/frontends/transitionmap/.next
 
 # IDEs and editors
 /.idea

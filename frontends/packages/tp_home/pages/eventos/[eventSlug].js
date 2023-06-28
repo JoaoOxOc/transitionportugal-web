@@ -69,16 +69,18 @@ function EventDetails({eventDetailData}) {
                 <SEO metaDataObject={getComponentAttributes("seo")}/>
                 {eventDetailDataAttributes &&
                 <>
-                    <div style={{width: '100%', maxWidth: '1280px', margin: '0 auto'}}>
-                        <img
-                            style={{width: '100%'}}
-                            src={eventDetailDataAttributes.EventImageUrl}
-                            alt={i18nextEvents.t('EVENTS.eventImageAlt')}
-                        />
-                    </div>
-                    <EventDetailsSection details={eventDetailDataAttributes} slug={router.query.eventSlug}/>
-                    <PageTitle pageTitle={eventDetailDataAttributes.Title}/>
-                    <DynamicPageSection dynamicContent={getComponentAttributesByIdentifiers(["page.dynamic-page-section","page.sliders"], "")}/>
+                    <section section id="eventDynamicSection">
+                        <div style={{width: '100%', maxWidth: '1280px', margin: '0 auto'}}>
+                            <img
+                                style={{width: '100%'}}
+                                src={eventDetailDataAttributes.EventImageUrl}
+                                alt={i18nextEvents.t('EVENTS.eventImageAlt')}
+                            />
+                        </div>
+                        <EventDetailsSection details={eventDetailDataAttributes} slug={router.query.eventSlug}/>
+                        <PageTitle pageTitle={eventDetailDataAttributes.Title}/>
+                        <DynamicPageSection dynamicContent={getComponentAttributesByIdentifiers(["page.dynamic-page-section","page.sliders"], "")}/>
+                    </section>
                     <section id="eventLocation">
                         <PageTitle pageTitle={i18nextEvents.t('EVENTS.eventLocation')}/>
                         <MapDynamic markersData={[{lat: eventDetailDataAttributes.Latitude, long: eventDetailDataAttributes.Longitude, title: eventDetailDataAttributes.EventTitle}]} useSearch={false} zoom={14}/>
