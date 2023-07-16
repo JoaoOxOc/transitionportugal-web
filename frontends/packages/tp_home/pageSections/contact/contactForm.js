@@ -130,7 +130,6 @@ export default function ContactForm({contactComponentObject}) {
             error={Boolean(formik.touched.fromEmail && formik.errors.fromEmail)}
             fullWidth
             margin="normal"
-            autoFocus
             helperText={formik.touched.fromEmail && formik.errors.fromEmail}
             label={t('FORMS.emailFrom')}
             aria-labelledby={ t('FORMS.emailFrom') }
