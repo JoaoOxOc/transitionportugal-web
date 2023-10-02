@@ -30,7 +30,7 @@ spec:
       hostname: tpapispod
       containers:
       - name: tpmongo
-        image: mongo:latest
+        image: mongo:6
         ports:
         - containerPort: 27017
         volumeMounts:
